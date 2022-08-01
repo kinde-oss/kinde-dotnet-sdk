@@ -62,7 +62,8 @@ namespace Kinde.Authorization.Flows
             parameters.Add("client_id", internalConfiguration.ClientId);
             parameters.Add("client_secret", internalConfiguration.ClientSecret);
             parameters.Add("scope", internalConfiguration.Scope);
-            parameters.Add("code_challenge", code); 
+            parameters.Add("code_challenge", code);
+            parameters.Add("code_challenge_method", "plain");
             var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
             var tokenString = await response.Content.ReadAsStringAsync();
             Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);

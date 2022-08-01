@@ -3,6 +3,7 @@
 
 using Kinde.Authorization.Flows;
 using Kinde.Authorization.Models;
+using Kinde.Authorization.Models.Configuration;
 
 Console.WriteLine("Hello, World!");
 var client = new Kinde.KindeClient(new ClientConfiguration("https://testauth.kinde.com", "https://test.akno.one/callback"), new KindeHttpClient());
