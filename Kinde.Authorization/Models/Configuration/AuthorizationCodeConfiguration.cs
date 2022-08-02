@@ -12,9 +12,17 @@ namespace Kinde.Authorization.Models.Configuration
     {
         public string State { get; set; }
 
-        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string state) : base(clientId, clientSecret, GrantTypes.Code, scope)
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, clientSecret, GrantTypes.Code, scope)
         {
-            State = state;
+            if(state == null)
+            {
+                State = Guid.NewGuid().ToString("N");
+            }
+            else
+            {
+                State = state;
+            }
+            
         }
 
         public override IAuthorizationFlow CreateAuthorizationFlow(IClientConfiguration clientConfiguration)

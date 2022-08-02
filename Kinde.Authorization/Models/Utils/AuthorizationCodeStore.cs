@@ -25,7 +25,7 @@ namespace Kinde.Authorization.Models.Utils
 
         public void Add(TKey key, TValue value)
         {
-            _dictionary.Add(key, value);
+            _dictionary[key] =  value;
             ItemAdded?.Invoke(this, new ItemAddedEventArgs<TKey, TValue>() { Key = key, Value = value });
         }
         

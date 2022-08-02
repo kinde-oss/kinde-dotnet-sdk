@@ -11,63 +11,73 @@ using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Flows
 {
-    public class AuthorizationCodeFlow : BaseAuthorizationFlow, IAuthorizationFlow, ICodeFlow
+    public class AuthorizationCodeFlow : BaseAuthorizationFlow<AuthorizationCodeConfiguration>, IAuthorizationFlow, ICodeFlow
     {
-        private AuthorizationCodeConfiguration internalConfiguration { get { return (AuthorizationCodeConfiguration)Configuration; } }
+        public override IUserActionResolver UserActionsResolver { get; init; } = new AuthorizationCodeUserActionResolver();
 
-        public IUserActionResolver UserActionsResolver => new AuthorizationCodeUserActionResolver();
-
-        public AuthorizationCodeFlow(IClientConfiguration clientConfiguration, IAuthorizationConfiguration configuration) : base(clientConfiguration, configuration)
+        public AuthorizationCodeFlow(IClientConfiguration clientConfiguration, AuthorizationCodeConfiguration configuration) : base(clientConfiguration, configuration)
         {
 
         }
-        public async Task<AuthotizationStates> Authorize(HttpClient httpClient)
+        public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
         {
             var parameters = new Dictionary<string, string>();
             parameters.Add("response_type", "code");
             parameters.Add("grant_type", "authorization_code");
-            parameters.Add("client_id", internalConfiguration.ClientId);
+            parameters.Add("client_id", Configuration.ClientId);
             parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
-            parameters.Add("scope", internalConfiguration.Scope);
-            parameters.Add("state", internalConfiguration.State);
-            parameters.Add("client_secret", internalConfiguration.ClientSecret);
-            var resposne =  await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
-            await UserActionsResolver.SetLoginUrl(ClientConfiguration.Domain+ resposne.Headers.Location.ToString(), internalConfiguration.State);
-            KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;   
-            return AuthotizationStates.UserActionsNeeded;
+            parameters.Add("scope", Configuration.Scope);
+            parameters.Add("state", Configuration.State);
+           
+            parameters.Add("client_secret", Configuration.ClientSecret);
+            var response =  await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
+            if (response.Headers.Location !=null)
+            {
+                
+                await UserActionsResolver.SetLoginUrl(ClientConfiguration.Domain + response.Headers.Location.ToString(), Configuration.State);
+                KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
+                AuthotizationState = AuthotizationStates.UserActionsNeeded;
+                return AuthotizationState;
+            }
+            else
+            {
+                throw new ApplicationException(await response.Content.ReadAsStringAsync());
+            }
+   
         }
 
         private async void CodeStore_ItemAdded(object? sender, Models.Utils.ItemAddedEventArgs<string, string> e)
         {
-            if (e.Key != internalConfiguration.State) return;
+            if (e.Key != Configuration.State) return;
             await OnCodeRecieved(e.Key, e.Value);
         }
 
-        public Task Logout(HttpClient httpClient)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Renew(HttpClient httpClient)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task OnCodeRecieved( string state, string code)
+        public async Task OnCodeRecieved(string state, string code)
         {
             var httpClient = new Kinde.Authorization.Models.KindeHttpClient();
             var parameters = new Dictionary<string, string>();
 
-            parameters.Add("grant_type", "code");
-            parameters.Add("client_id", internalConfiguration.ClientId);
-            parameters.Add("client_secret", internalConfiguration.ClientSecret);
-            parameters.Add("scope", internalConfiguration.Scope);
-            parameters.Add("code_challenge", code);
-            parameters.Add("code_challenge_method", "plain");
+            parameters.Add("grant_type", "authorization_code");
+            parameters.Add("client_id", Configuration.ClientId);
+            parameters.Add("client_secret", Configuration.ClientSecret);
+            parameters.Add("scope", Configuration.Scope);
+            parameters.Add("code", code);
+            parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
+       
             var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
-            var tokenString = await response.Content.ReadAsStringAsync();
-            Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
+            if ((int)response.StatusCode < 400)
+            {
+                var tokenString = await response.Content.ReadAsStringAsync();
+                Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
+                AuthotizationState = AuthotizationStates.Authorized;
+            }
+            else
+            {
+                throw new ApplicationException(await response.Content.ReadAsStringAsync());
+            }
 
+          
+            
         }
     }
 }

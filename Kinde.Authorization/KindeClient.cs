@@ -8,13 +8,12 @@ namespace Kinde
 {
     public partial class KindeClient
     {
-        public static AuthorizationCodeStore<string, string> CodeStore;
-        public AuthotizationStates AuthotizationState { get; set; }
+        public static AuthorizationCodeStore<string, string> CodeStore =  new AuthorizationCodeStore<string, string>();
+        public AuthotizationStates AuthotizationState { get { return authorizationFlow.AuthotizationState; } }
         protected IAuthorizationFlow authorizationFlow { get; set; } 
         public IClientConfiguration ClientConfiguration { get; set; }
         public KindeClient(IClientConfiguration clientConfiguration, HttpClient httpClient) : this(httpClient)
-        {
-            AuthotizationState = AuthotizationStates.None;
+        {          
             ClientConfiguration = clientConfiguration;
             var businessName = GetSubDomain(clientConfiguration.Domain);
             BaseUrl = BaseUrl.Replace("{businessName}", businessName);
@@ -29,7 +28,10 @@ namespace Kinde
             authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(ClientConfiguration);
             await authorizationFlow.Authorize(_httpClient);
         }
-
+        public async Task<string> GetRedirectionUrl(string state)
+        {
+            return await authorizationFlow.UserActionsResolver.GetLoginUrl(state);
+        }
         public static void OnCodeRecieved(string code, string state)
         {
             lock(CodeStore)

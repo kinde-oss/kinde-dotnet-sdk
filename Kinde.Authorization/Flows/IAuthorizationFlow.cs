@@ -10,8 +10,8 @@ namespace Kinde.Authorization.Flows
 {
     public interface IAuthorizationFlow
     {
-       
-        IUserActionResolver UserActionsResolver { get; } 
+        AuthotizationStates AuthotizationState { get; set; }
+        IUserActionResolver UserActionsResolver { get; init; } 
         Task<AuthotizationStates> Authorize(HttpClient httpClient);
         Task Logout(HttpClient httpClient);
         Task Renew(HttpClient httpClient);

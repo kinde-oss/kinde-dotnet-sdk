@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinde.Authorization", "Kinde.Authorization\Kinde.Authorization.csproj", "{0602FB0E-DA2A-48E0-BCC2-67BE2CC8917E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.Authorization", "Kinde.Authorization\Kinde.Authorization.csproj", "{0602FB0E-DA2A-48E0-BCC2-67BE2CC8917E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinde.Demo", "Kinde.Demo\Kinde.Demo.csproj", "{D9BF2507-ABFD-4898-8C1B-AF60C2D4AC9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinde.WebExtensions", "Kinde.WebExtensions\Kinde.WebExtensions.csproj", "{7964C4E9-1E05-4779-B802-1B12D7CDC449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinde.DemoMVC", "Kinde.DemoMVC\Kinde.DemoMVC.csproj", "{4AFA86DF-D249-48D9-A924-90629DA92753}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9BF2507-ABFD-4898-8C1B-AF60C2D4AC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9BF2507-ABFD-4898-8C1B-AF60C2D4AC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9BF2507-ABFD-4898-8C1B-AF60C2D4AC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9BF2507-ABFD-4898-8C1B-AF60C2D4AC9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFA86DF-D249-48D9-A924-90629DA92753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFA86DF-D249-48D9-A924-90629DA92753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFA86DF-D249-48D9-A924-90629DA92753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFA86DF-D249-48D9-A924-90629DA92753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

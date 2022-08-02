@@ -1,5 +1,7 @@
-﻿using Kinde.Authorization.Models.Configuration;
+﻿using Kinde.Authorization.Enums;
+using Kinde.Authorization.Models.Configuration;
 using Kinde.Authorization.Models.Tokens;
+using Kinde.Authorization.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +11,22 @@ using System.Web;
 
 namespace Kinde.Authorization.Flows
 {
-    public abstract class BaseAuthorizationFlow
+    public abstract class BaseAuthorizationFlow<TConfig>:IAuthorizationFlow where TConfig : IAuthorizationConfiguration
     {
-        public IAuthorizationConfiguration Configuration { get; private set; }
+        public AuthotizationStates AuthotizationState { get; set; }
+        public TConfig Configuration { get; private set; }
         public IClientConfiguration ClientConfiguration { get; private set; }
-        protected OauthToken Token { get; set; }
-        public BaseAuthorizationFlow(IClientConfiguration clientConfiguration, IAuthorizationConfiguration configuration)
+        protected OauthToken Token { get; set; } = null!;
+
+        public virtual IUserActionResolver UserActionsResolver { get; init; } = new DefaultUserActionResolver();
+
+        public BaseAuthorizationFlow(IClientConfiguration clientConfiguration, TConfig configuration)
         {
             Configuration = configuration;
             ClientConfiguration = clientConfiguration;
         }
+        
+
         protected virtual string BuildUrl(string baseUrl, Dictionary<string, string> parameters)
         {
             return baseUrl + "?" + string.Join("&", parameters.Select(x => HttpUtility.UrlEncode( x.Key) + "="+ HttpUtility.UrlEncode(x.Value)));
@@ -39,6 +47,20 @@ namespace Kinde.Authorization.Flows
             }
 
         }
-       
+
+        public virtual Task<AuthotizationStates> Authorize(HttpClient httpClient)
+        {
+            throw new NotImplementedException("This method MUST be overriden in derived class");
+        }
+
+        public virtual async Task Logout(HttpClient httpClient)
+        {
+            Token = null;
+        }
+
+        public async virtual Task Renew(HttpClient httpClient)
+        {
+            await Authorize(httpClient);
+        }
     }
 }

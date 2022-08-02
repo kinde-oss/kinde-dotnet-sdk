@@ -15,7 +15,7 @@ servers:
               description: Business Name created in the Kinde Console
               default: app
 security:
-   - openId: []
+   - oauth2Sample: []
 tags:
     - name: Users
       description: Everything about your end-users
@@ -146,21 +146,19 @@ components:
                 code:
                     type: string
     securitySchemes:
-        oauth:
+        oauth2Sample:
             type: oauth2
             scheme: bearer
             flows:
-                 implicit:
+                 clientCredentials:
                     authorizationUrl: https://example.com/api/oauth/dialog
                     scopes:
-                        write:pets: modify pets in your account
-                        read:pets: read your pets
+                        openid: openid
                  authorizationCode:
                     authorizationUrl: https://example.com/api/oauth/dialog
                     tokenUrl: https://example.com/api/oauth/token
                     scopes:
-                        write:pets: modify pets in your account
-                        read:pets: read your pets 
+                        openid: openid
         openId:
             type: openIdConnect
             scheme: bearer

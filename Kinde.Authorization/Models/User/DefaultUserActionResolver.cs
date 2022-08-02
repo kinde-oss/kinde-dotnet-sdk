@@ -8,10 +8,10 @@ namespace Kinde.Authorization.Models.User
 {
     public class DefaultUserActionResolver : IUserActionResolver
     {
-        public event EventHandler<EventArgs> OnUserActionsNeeded;
-        public event EventHandler<EventArgs> OnUserActionsCompleted;
+        public virtual event EventHandler<EventArgs> UserActionsNeeded;
+        public virtual event EventHandler<EventArgs> UserActionsCompleted;
 
-      
+
         public Task<string> GetCode(string state)
         {
             return null;
@@ -30,6 +30,15 @@ namespace Kinde.Authorization.Models.User
         public async virtual Task SetLoginUrl(string url, string state)
         {
 
+        }
+        protected void OnUserActionsCompleted(string code, string state)
+        {
+            UserActionsCompleted?.Invoke(this, new UserActionsCompletedEventArgs() { Code = code, State = state });
+        }
+
+        protected void OnUserActionsNeeded(string url, string state)
+        {
+            UserActionsNeeded?.Invoke(this, new UserActionsNeededEventArgs() { RedirectUrl = url, State = state });
         }
     }
 }
