@@ -2,6 +2,7 @@
 using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.WebExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Kinde.DemoMVC.Authorization
@@ -20,23 +21,51 @@ namespace Kinde.DemoMVC.Authorization
         {
             GrantType = type;
         }
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var config = new ConfigurationManager();
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("KindeSettings");
+            
+            
             var domain = config.GetValue<string>("Domain");
             var callbackUrl = config.GetValue<string>("CallbackUrl");
             var client = KindeClientFactory.Instance.GetOrCreate(context.HttpContext.Session.Id, new ClientConfiguration(domain, callbackUrl));
-            await client.Authorize(Mocks[GrantType]);
-            if (client.AuthotizationState == AuthotizationStates.Authorized)
+            if(client.AuthotizationState == AuthotizationStates.NonAuthorized || client.AuthotizationState == AuthotizationStates.None)
             {
-                //bla bla bla
+                context.HttpContext.Session.SetString("KindeCorrelationId", Guid.NewGuid().ToString());
+                client.Authorize(Mocks[GrantType]).Wait();
+                if (client.AuthotizationState == AuthotizationStates.UserActionsNeeded)
+                {
+                    var url = ExecyteSync(client.GetRedirectionUrl(((AuthorizationCodeConfiguration)Mocks[GrantType]).State));
+                  
+                    context.Result = new RedirectResult(url);
+                    return;
+                }
             }
             if (client.AuthotizationState == AuthotizationStates.UserActionsNeeded)
             {
-                context.HttpContext.Response.Clear();
-                context.HttpContext.Response.Redirect(await client.GetRedirectionUrl(((AuthorizationCodeConfiguration)Mocks[GrantType]).State));
-
+                if (callbackUrl.Contains(context.HttpContext.Request.Host.Value)&& callbackUrl.Contains(context.HttpContext.Request.Path.Value))
+                {
+                    var code = context.HttpContext.Request.Query["code"];
+                    var state = context.HttpContext.Request.Query["state"];
+                    KindeClient.OnCodeRecieved(code, state);
+                }
             }
+            if (client.AuthotizationState == AuthotizationStates.Authorized)
+            {
+                context.HttpContext.User = new System.Security.Claims.ClaimsPrincipal( new ClaimsI)
+                //var user = ExecyteSync(client.GetUserAsync());
+            }
+            
+
         }
+        protected TResult ExecyteSync<TResult>(Task<TResult> task)
+        {
+            task.Wait();
+            if (task.IsFaulted)
+            {
+                throw task.Exception;
+            }
+            return task.Result;
+        } 
     }
 }

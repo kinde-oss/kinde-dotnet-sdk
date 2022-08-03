@@ -8,6 +8,6 @@ namespace Kinde.Authorization.Enums
 {
     public enum GrantTypes
     {
-        Code, PKCE, ClientCredentials
+        Any,Code, PKCE, ClientCredentials
     }
 }

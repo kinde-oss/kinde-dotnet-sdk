@@ -1,4 +1,5 @@
 using Kinde.DemoMVC.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSession();
 var app = builder.Build();
-
+app.UseSession();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -32,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 

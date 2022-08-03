@@ -9,7 +9,7 @@ namespace Kinde
     public partial class KindeClient
     {
         public static AuthorizationCodeStore<string, string> CodeStore =  new AuthorizationCodeStore<string, string>();
-        public AuthotizationStates AuthotizationState { get { return authorizationFlow.AuthotizationState; } }
+        public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
         protected IAuthorizationFlow authorizationFlow { get; set; } 
         public IClientConfiguration ClientConfiguration { get; set; }
         public KindeClient(IClientConfiguration clientConfiguration, HttpClient httpClient) : this(httpClient)
