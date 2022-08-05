@@ -10,6 +10,7 @@ namespace Kinde.Authorization.Flows
 {
     public interface IAuthorizationFlow
     {
+        public bool RequiresRedirection { get; }
         AuthotizationStates AuthotizationState { get; set; }
         IUserActionResolver UserActionsResolver { get; init; } 
         Task<AuthotizationStates> Authorize(HttpClient httpClient);

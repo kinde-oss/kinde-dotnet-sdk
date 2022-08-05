@@ -14,8 +14,7 @@ namespace Kinde.Authorization.Flows
 {
     public class ClientCredentialsFlow : BaseAuthorizationFlow<ClientCredentialsConfiguration>, IAuthorizationFlow
     {
-       
-
+        public override bool RequiresRedirection => false; 
         public override IUserActionResolver UserActionsResolver => new DefaultUserActionResolver();
 
         public ClientCredentialsFlow(IClientConfiguration clientConfiguration, ClientCredentialsConfiguration configuration):base(clientConfiguration, configuration)
@@ -24,13 +23,9 @@ namespace Kinde.Authorization.Flows
         }
         public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
         {
-            var parameters = new Dictionary<string, string>();
+            var parameters = CreateBaseRequestParameters();
 
             parameters.Add("grant_type", "client_credentials");
-            parameters.Add("client_id", Configuration.ClientId);
-            parameters.Add("client_secret", Configuration.ClientSecret);
-            parameters.Add("scope", Configuration.Scope);
-        
             var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
             
             var tokenString = await response.Content.ReadAsStringAsync();

@@ -11,7 +11,7 @@ namespace Kinde.Authorization.Models.Configuration
     public class ClientCredentialsConfiguration : BaseAuthorizationConfiguration
     {
 
-        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret) : base(clientId, clientSecret, GrantTypes.ClientCredentials, scope)
+        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret) : base(clientId, clientSecret, "ClientCredentials", scope)
         {
 
         }

@@ -11,8 +11,19 @@ namespace Kinde.Authorization.Models.Configuration
     public class AuthorizationCodeConfiguration : BaseAuthorizationConfiguration
     {
         public string State { get; set; }
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state,string grantType) : base(clientId, clientSecret,grantType, scope)
+        {
+            if (state == null)
+            {
+                State = Guid.NewGuid().ToString("N");
+            }
+            else
+            {
+                State = state;
+            }
+        }
 
-        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, clientSecret, GrantTypes.Code, scope)
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, clientSecret, "AuthorizationCode", scope)
         {
             if(state == null)
             {

@@ -39,6 +39,13 @@ namespace Kinde
                 CodeStore.Add(state, code);
             }
         }
+        public static void OnCodeConsumed(string code, string state)
+        {
+            lock (CodeStore)
+            {
+                CodeStore.Remove(state);
+            }
+        }
         private string GetSubDomain(string _url)
         {
             var url = new Uri(_url);

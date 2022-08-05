@@ -20,12 +20,21 @@ namespace Kinde.Authorization.Flows
 
         public virtual IUserActionResolver UserActionsResolver { get; init; } = new DefaultUserActionResolver();
 
+        public virtual bool RequiresRedirection => true;
+
         public BaseAuthorizationFlow(IClientConfiguration clientConfiguration, TConfig configuration)
         {
             Configuration = configuration;
             ClientConfiguration = clientConfiguration;
         }
-        
+        protected virtual Dictionary<string,string> CreateBaseRequestParameters()
+        {
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("client_id", Configuration.ClientId);
+            parameters.Add("client_secret", Configuration.ClientSecret);
+            parameters.Add("scope", Configuration.Scope);
+            return parameters;
+        }
 
         protected virtual string BuildUrl(string baseUrl, Dictionary<string, string> parameters)
         {

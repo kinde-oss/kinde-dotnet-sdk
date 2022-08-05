@@ -10,16 +10,16 @@ namespace Kinde.DemoMVC.Authorization
     public class KindeAuthorize : Attribute, IAuthorizationFilter
     {
 
-        public static Dictionary<GrantTypes, IAuthorizationConfiguration> Mocks = new Dictionary<GrantTypes, IAuthorizationConfiguration>()
+        public static Dictionary<string, IAuthorizationConfiguration> Mocks = new Dictionary<string, IAuthorizationConfiguration>()
         {
-            {GrantTypes.ClientCredentials, new ClientCredentialsConfiguration("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO") },
-            {GrantTypes.Code, new AuthorizationCodeConfiguration("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", Guid.NewGuid().ToString()) },
-            {GrantTypes.PKCE, new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", Guid.NewGuid().ToString()) },
+            {"ClientCredentials", new ClientCredentialsConfiguration("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO") },
+            {"AuthorizationCode", new AuthorizationCodeConfiguration("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", Guid.NewGuid().ToString()) },
+            { "PKCE", new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid","1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", Guid.NewGuid().ToString()) },
         };
-        public GrantTypes GrantType;
-        public KindeAuthorize(GrantTypes type)
+        public string GrantType;
+        public KindeAuthorize(string grantType)
         {
-            GrantType = type;
+            GrantType = grantType;
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -52,7 +52,7 @@ namespace Kinde.DemoMVC.Authorization
             }
             if (client.AuthotizationState == AuthotizationStates.Authorized)
             {
-                context.HttpContext.User = new System.Security.Claims.ClaimsPrincipal( new ClaimsI)
+                //context.HttpContext.User = new System.Security.Claims.ClaimsPrincipal( new ClaimsI)
                 //var user = ExecyteSync(client.GetUserAsync());
             }
             

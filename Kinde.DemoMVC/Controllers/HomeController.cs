@@ -19,25 +19,25 @@ namespace Kinde.DemoMVC.Controllers
         public IActionResult Index()
         {
             var client = KindeClientFactory.Instance.Get(HttpContext.Session.Id);
-            return View(client.);
+            return View();
         }
-        [KindeAuthorize(GrantTypes.Any)]
+        [KindeAuthorize("Any")]
         public IActionResult Callback()
         {
             return RedirectToAction("Index");
         }
   
-        [KindeAuthorize(GrantTypes.PKCE)]
+        [KindeAuthorize("PKCE")]
         public IActionResult SignInPKCE()
         {
             return RedirectToAction("Index");
         }
-        [KindeAuthorize(GrantTypes.ClientCredentials)]
+        [KindeAuthorize("ClientCredentials")]
         public IActionResult SigninClientCredentials()
         {
             return RedirectToAction("Index");
         }
-        [KindeAuthorize(GrantTypes.Code)]
+        [KindeAuthorize("AuthorizationCode")]
         public IActionResult SignInCode()
         {
             return RedirectToAction("Index");

@@ -11,7 +11,7 @@ namespace Kinde.Authorization.Models.Configuration
     public abstract class BaseAuthorizationConfiguration : IAuthorizationConfiguration 
     {
 
-        public BaseAuthorizationConfiguration(string clientId, string clientSecret, GrantTypes grantType, string scope)
+        public BaseAuthorizationConfiguration(string clientId, string clientSecret, string grantType, string scope)
         {
             ClientId = clientId;
             GrantType = grantType;
@@ -23,7 +23,7 @@ namespace Kinde.Authorization.Models.Configuration
 
         public string ClientSecret { get; set; }
         public string Scope { get; set; }
-        public GrantTypes GrantType { get; set; }
+        public string GrantType { get; set; }
 
         public abstract IAuthorizationFlow CreateAuthorizationFlow(IClientConfiguration clientConfiguration);
 
