@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Configuration
 {
-    public class AuthorizationCodeConfiguration : BaseAuthorizationConfiguration
+    public class AuthorizationCodeConfiguration : BaseAuthorizationConfiguration, IRedirectAuthorizationConfiguration
     {
         public string State { get; set; }
         public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state,string grantType) : base(clientId, clientSecret,grantType, scope)

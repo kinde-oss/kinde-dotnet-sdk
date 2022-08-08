@@ -8,6 +8,6 @@ namespace Kinde.Authorization.Flows
 {
     public interface ICodeFlow
     {
-        public Task OnCodeRecieved( string state,string code);
+        public void OnCodeRecieved( string state,string code);
     }
 }

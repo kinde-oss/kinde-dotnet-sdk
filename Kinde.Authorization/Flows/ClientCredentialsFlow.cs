@@ -24,16 +24,13 @@ namespace Kinde.Authorization.Flows
         public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
         {
             var parameters = CreateBaseRequestParameters();
-
             parameters.Add("grant_type", "client_credentials");
-            var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
-            
-            var tokenString = await response.Content.ReadAsStringAsync();
-           // if (!response.IsSuccessStatusCode) throw new ApplicationException($"Failed to retrieve token: Code: {response.StatusCode}, Content: ", );
-            Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
-            return AuthotizationStates.Authorized;
+            return await SendRequest(httpClient, parameters);
         }
-     
-       
+
+        public override void OnCodeRecieved(string key, string value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

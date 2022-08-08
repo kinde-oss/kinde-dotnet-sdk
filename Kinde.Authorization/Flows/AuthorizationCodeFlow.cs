@@ -21,38 +21,14 @@ namespace Kinde.Authorization.Flows
         }
         public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
         {
-            var parameters = new Dictionary<string, string>();
+            var parameters = CreateBaseRequestParameters();
             parameters.Add("response_type", "code");
             parameters.Add("grant_type", "authorization_code");
-            parameters.Add("client_id", Configuration.ClientId);
-            parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
-            parameters.Add("scope", Configuration.Scope);
             parameters.Add("state", Configuration.State);
-           
-            parameters.Add("client_secret", Configuration.ClientSecret);
-            var response =  await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
-            if (response.Headers.Location !=null)
-            {
-                
-                await UserActionsResolver.SetLoginUrl(ClientConfiguration.Domain + response.Headers.Location.ToString(), Configuration.State);
-                KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
-                AuthotizationState = AuthotizationStates.UserActionsNeeded;
-                return AuthotizationState;
-            }
-            else
-            {
-                throw new ApplicationException(await response.Content.ReadAsStringAsync());
-            }
-   
-        }
+            return await base.SendRequest(httpClient, parameters);
 
-        private async void CodeStore_ItemAdded(object? sender, Models.Utils.ItemAddedEventArgs<string, string> e)
-        {
-            if (e.Key != Configuration.State) return;
-            await OnCodeRecieved(e.Key, e.Value);
         }
-
-        public async Task OnCodeRecieved(string state, string code)
+        public override void OnCodeRecieved(string state, string code)
         {
             var httpClient = new Kinde.Authorization.Models.KindeHttpClient();
             var parameters = new Dictionary<string, string>();
@@ -63,21 +39,19 @@ namespace Kinde.Authorization.Flows
             parameters.Add("scope", Configuration.Scope);
             parameters.Add("code", code);
             parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
-       
-            var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
-            if ((int)response.StatusCode < 400)
-            {
-                var tokenString = await response.Content.ReadAsStringAsync();
-                Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
-                AuthotizationState = AuthotizationStates.Authorized;
-            }
-            else
-            {
-                throw new ApplicationException(await response.Content.ReadAsStringAsync());
-            }
 
-          
-            
+
+            SendCode(httpClient, parameters);
+
+
+
         }
+
+        //public async override Task OnCodeRecieved(string state, string code)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
     }
 }

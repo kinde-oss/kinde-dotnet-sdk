@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Utils
 {
-    public class AuthorizationCodeStore<TKey, TValue>
+    public class AuthorizationCodeStore<TKey, TValue> where TKey : IEquatable<TKey>
     {
         protected IDictionary<TKey, TValue> _dictionary;
 
-        public event  EventHandler<ItemAddedEventArgs<TKey, TValue>> ItemAdded;
+        public event  EventHandler<ItemAddedEventArgs<TKey, TValue>> ItemAdded = null!;
         public AuthorizationCodeStore()
         {
             _dictionary = new ConcurrentDictionary<TKey, TValue>();

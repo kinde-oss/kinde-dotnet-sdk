@@ -2,6 +2,7 @@
 using Kinde.Authorization.Enums;
 using Kinde.Authorization.Flows;
 using Kinde.Authorization.Models.Configuration;
+using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.Utils;
 
 namespace Kinde

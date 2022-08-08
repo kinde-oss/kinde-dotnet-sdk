@@ -1,3 +1,6 @@
+using Kinde.Authorization.Hashing;
+using Kinde.Authorization.Models.Configuration;
+using Kinde.DemoMVC.Authorization;
 using Kinde.DemoMVC.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -16,10 +19,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 var app = builder.Build();
 app.UseSession();
+app.UseMiddleware<KindeAuthorizationMiddleware>(new DefaultConfigurationProvider(new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null)));
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -37,8 +42,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseCookiePolicy();
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

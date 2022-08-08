@@ -3,6 +3,7 @@ using Kinde.Authorization.Models.Configuration;
 using Kinde.DemoMVC.Authorization;
 using Kinde.DemoMVC.Models;
 using Kinde.WebExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -16,18 +17,18 @@ namespace Kinde.DemoMVC.Controllers
         {
             _logger = logger;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            var client = KindeClientFactory.Instance.Get(HttpContext.Session.Id);
+            
             return View();
         }
-        [KindeAuthorize("Any")]
+     
         public IActionResult Callback()
         {
             return RedirectToAction("Index");
         }
   
-        [KindeAuthorize("PKCE")]
         public IActionResult SignInPKCE()
         {
             return RedirectToAction("Index");
