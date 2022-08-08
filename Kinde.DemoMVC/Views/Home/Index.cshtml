@@ -1,8 +1,14 @@
-﻿@{
+﻿@using Kinde.Authorization.Models.Tokens
+@{
     ViewData["Title"] = "Home Page";
 }
-
+@model OauthToken
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<dl style="max-width:800px">
+      <dd>Remaining time</dd>
+     <dt>@Html.DisplayFor(model=>model.Duration)</dt>
+    <dd >@Html.LabelFor(model=>model.AccessToken)</dd>
+     <dt style="word-break:break-all; word-wrap: break-word;">@Html.DisplayFor(model=>model.AccessToken)</dt>
+   
+</dl>
 </div>

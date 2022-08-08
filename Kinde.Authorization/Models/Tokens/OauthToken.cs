@@ -21,5 +21,6 @@ namespace Kinde.Authorization.Models.Tokens
         public string IdToken { get; set; }
         public DateTime Recieved { get; init; } = DateTime.Now;
         public bool IsExpired { get {  return Recieved.AddSeconds(ExpiresIn-5)<DateTime.Now; } }
+        public TimeSpan Duration { get { return Recieved.AddSeconds(ExpiresIn).Subtract(DateTime.Now); } }
     }
 }

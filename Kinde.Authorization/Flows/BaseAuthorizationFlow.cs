@@ -18,7 +18,7 @@ namespace Kinde.Authorization.Flows
         public AuthotizationStates AuthotizationState { get; set; }
         public TConfig Configuration { get; private set; }
         public IClientConfiguration ClientConfiguration { get; private set; }
-        protected OauthToken Token { get; set; } = null!;
+        public OauthToken Token { get; private set; } = null!;
 
         public virtual IUserActionResolver UserActionsResolver { get; init; } = new DefaultUserActionResolver();
 

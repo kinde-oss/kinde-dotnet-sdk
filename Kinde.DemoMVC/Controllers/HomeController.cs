@@ -20,7 +20,11 @@ namespace Kinde.DemoMVC.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            
+            if (HttpContext.Session.GetString("KindeCorrelationId") != null)
+            {
+                var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
+                return View(model);
+            }
             return View();
         }
      
