@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kinde.Authorization\Kinde.Authorization.csproj" />
+    <ProjectReference Include="..\Kinde.Authorization\Kinde.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,11 +13,11 @@ namespace Kinde
         public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
         protected IAuthorizationFlow authorizationFlow { get; set; } 
         public OauthToken Token { get { return authorizationFlow.Token; } }
-        public IClientConfiguration ClientConfiguration { get; set; }
-        public KindeClient(IClientConfiguration clientConfiguration, HttpClient httpClient) : this(httpClient)
-        {          
-            ClientConfiguration = clientConfiguration;
-            var businessName = GetSubDomain(clientConfiguration.Domain);
+        public IIdentityProviderConfiguration IdentityProviderConfiguration { get; set; }
+        public KindeClient(IIdentityProviderConfiguration identityProviderConfiguration, HttpClient httpClient) : this(httpClient)
+        {
+            IdentityProviderConfiguration = identityProviderConfiguration;
+            var businessName = GetSubDomain(IdentityProviderConfiguration.Domain);
             BaseUrl = BaseUrl.Replace("{businessName}", businessName);
             CodeStore = new AuthorizationCodeStore<string, string>();
         }
@@ -27,10 +27,13 @@ namespace Kinde
         }
         public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration)
         {
-            authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(ClientConfiguration);
+            authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(IdentityProviderConfiguration);
            
             var state = await authorizationFlow.Authorize(_httpClient);
-            
+            if(state  == AuthotizationStates.NonAuthorized)
+            {
+                throw new ApplicationException("Authorization failed");
+            }
         }
         public async Task<string> GetRedirectionUrl(string state)
         {

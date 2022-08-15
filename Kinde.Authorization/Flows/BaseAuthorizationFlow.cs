@@ -19,17 +19,17 @@ namespace Kinde.Authorization.Flows
         protected HttpClient _httpClient;
         public AuthotizationStates AuthotizationState { get; set; }
         public TConfig Configuration { get; private set; }
-        public IClientConfiguration ClientConfiguration { get; private set; }
+        public IIdentityProviderConfiguration IdentityProviderConfiguration { get; private set; }
         public OauthToken Token { get; private set; } = null!;
 
         public virtual IUserActionResolver UserActionsResolver { get; init; } = new DefaultUserActionResolver();
 
         public virtual bool RequiresRedirection => true;
 
-        public BaseAuthorizationFlow(IClientConfiguration clientConfiguration, TConfig configuration)
+        public BaseAuthorizationFlow(IIdentityProviderConfiguration identityProviderConfiguration, TConfig configuration)
         {
             Configuration = configuration;
-            ClientConfiguration = clientConfiguration;
+            IdentityProviderConfiguration = identityProviderConfiguration;
         }
         protected virtual Dictionary<string, string> CreateBaseRequestParameters()
         {
@@ -37,7 +37,7 @@ namespace Kinde.Authorization.Flows
             parameters.Add("client_id", Configuration.ClientId);
             parameters.Add("client_secret", Configuration.ClientSecret);
             parameters.Add("scope", Configuration.Scope);
-            if (RequiresRedirection) parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
+            if (RequiresRedirection) parameters.Add("redirect_uri", IdentityProviderConfiguration.ReplyUrl);
             return parameters;
         }
 
@@ -45,10 +45,10 @@ namespace Kinde.Authorization.Flows
         {
             if (RequiresRedirection)
             {
-                var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
+                var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
                 if (response.Headers.Location != null)
                 {
-                    await UserActionsResolver.SetLoginUrl(ClientConfiguration.Domain + response.Headers.Location.ToString(), ((IRedirectAuthorizationConfiguration)Configuration).State);
+                    await UserActionsResolver.SetLoginUrl(IdentityProviderConfiguration.Domain + response.Headers.Location.ToString(), ((IRedirectAuthorizationConfiguration)Configuration).State);
                     _httpClient = httpClient;
                     KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
                     AuthotizationState = AuthotizationStates.UserActionsNeeded;
@@ -61,10 +61,11 @@ namespace Kinde.Authorization.Flows
             }
             else
             {
-                var response = await httpClient.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
+                var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
                 var tokenString = await response.Content.ReadAsStringAsync();
                 Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
-                return AuthotizationStates.Authorized;
+                AuthotizationState = AuthotizationStates.Authorized;
+                return AuthotizationState;
             }
         }
 
@@ -78,7 +79,7 @@ namespace Kinde.Authorization.Flows
 
         }
 
-        public abstract void OnCodeRecieved(HttpClient httpClient,string key, string value);
+        public abstract void OnCodeRecieved(HttpClient httpClient, string key, string value);
         protected virtual string BuildUrl(string baseUrl, Dictionary<string, string> parameters)
         {
             return baseUrl + "?" + string.Join("&", parameters.Select(x => HttpUtility.UrlEncode(x.Key) + "=" + HttpUtility.UrlEncode(x.Value)));
@@ -107,6 +108,7 @@ namespace Kinde.Authorization.Flows
 
         public virtual async Task Logout(HttpClient httpClient)
         {
+            AuthotizationState = AuthotizationStates.NonAuthorized;
             Token = null;
         }
 
@@ -118,7 +120,7 @@ namespace Kinde.Authorization.Flows
         protected void SendCode(HttpClient client, Dictionary<string, string> parameters)
         {
 
-            var response = ExecuteSync(client.PostAsync(ClientConfiguration.Domain + "/oauth2/token", BuildContent(parameters)));
+            var response = ExecuteSync(client.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters)));
             var content = ExecuteSync(response.Content.ReadAsStringAsync());
             if ((int)response.StatusCode < 400)
             {
@@ -149,14 +151,23 @@ namespace Kinde.Authorization.Flows
         }
         protected virtual void AddHeader(HttpClient httpClient, OauthToken token)
         {
-          
+
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token?.AccessToken);
         }
         public virtual async Task<object> GetUserProfile(HttpClient httpClient)
         {
 
-            var response = await _httpClient.GetAsync(ClientConfiguration.Domain + "/oauth2/user_profile");
-            return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+            var response = await _httpClient.GetAsync(IdentityProviderConfiguration.Domain + "/oauth2/user_profile");
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject(content);
+            }
+            else
+            {
+                throw new ApplicationException(content);
+            }
+
         }
     }
 }

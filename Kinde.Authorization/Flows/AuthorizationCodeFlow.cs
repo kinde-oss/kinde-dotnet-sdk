@@ -15,7 +15,7 @@ namespace Kinde.Authorization.Flows
     {
         public override IUserActionResolver UserActionsResolver { get; init; } = new AuthorizationCodeUserActionResolver();
 
-        public AuthorizationCodeFlow(IClientConfiguration clientConfiguration, AuthorizationCodeConfiguration configuration) : base(clientConfiguration, configuration)
+        public AuthorizationCodeFlow(IIdentityProviderConfiguration identityProviderConfiguration, AuthorizationCodeConfiguration configuration) : base(identityProviderConfiguration, configuration)
         {
 
         }
@@ -38,7 +38,7 @@ namespace Kinde.Authorization.Flows
             parameters.Add("client_secret", Configuration.ClientSecret);
             parameters.Add("scope", Configuration.Scope);
             parameters.Add("code", code);
-            parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
+            parameters.Add("redirect_uri", IdentityProviderConfiguration.ReplyUrl);
             SendCode(httpClient, parameters);
 
         }

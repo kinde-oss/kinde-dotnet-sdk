@@ -15,6 +15,6 @@ namespace Kinde.Authorization.Models.Configuration
         public string Scope { get; set; }
         public string GrantType { get; set; }
 
-        public IAuthorizationFlow CreateAuthorizationFlow(IClientConfiguration clientConfiguration);
+        public IAuthorizationFlow CreateAuthorizationFlow(IIdentityProviderConfiguration clientConfiguration);
     }
 }

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kinde.Authorization\Kinde.Authorization.csproj" />
+    <ProjectReference Include="..\Kinde.Authorization\Kinde.Api.csproj" />
     <ProjectReference Include="..\Kinde.WebExtensions\Kinde.WebExtensions.csproj" />
   </ItemGroup>
 

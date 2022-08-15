@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kinde.Authorization.Hashing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,22 @@ namespace Kinde.Authorization.Models.Configuration
         public IAuthorizationConfiguration Get()
         {
             return Configuration;
+        }
+
+        public IAuthorizationConfiguration Get(object identifier)
+        {
+            var name = identifier.ToString();
+            switch (name)
+            {
+                case "PKCE":
+                    return new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null);
+                case "Code":
+                    return new AuthorizationCodeConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null);
+                default:
+                    return new ClientCredentialsConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO");
+                
+
+            }
         }
     }
 }

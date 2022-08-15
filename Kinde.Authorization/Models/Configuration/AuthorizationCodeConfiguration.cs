@@ -36,9 +36,9 @@ namespace Kinde.Authorization.Models.Configuration
             
         }
 
-        public override IAuthorizationFlow CreateAuthorizationFlow(IClientConfiguration clientConfiguration)
+        public override IAuthorizationFlow CreateAuthorizationFlow(IIdentityProviderConfiguration identityProviderConfiguration)
         {
-            return new AuthorizationCodeFlow(clientConfiguration, this);
+            return new AuthorizationCodeFlow(identityProviderConfiguration, this);
         }
     }
 }

@@ -26,13 +26,13 @@ namespace Kinde.WebExtensions
         /// <param name="instanceId"></param>
         /// <param name="clientConfiguration"></param>
         /// <returns></returns>
-        public KindeClient GetOrCreate(string instanceId, IClientConfiguration clientConfiguration)
+        public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration)
         {
             if (_dictionary.TryGetValue(instanceId, out var cached))
             {
                 return cached;
             }
-            var client = new Kinde.KindeClient(clientConfiguration, new KindeHttpClient());
+            var client = new Kinde.KindeClient(identityProviderConfiguration, new KindeHttpClient());
             _dictionary.Add(instanceId, client);
             return Get(instanceId);
         }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Configuration
 {
-    public class ClientConfiguration : IClientConfiguration
+    public class IdentityProviderConfiguration : IIdentityProviderConfiguration
     {
         public string Domain { get; set; }
         public string ReplyUrl { get; set; }
 
-        public ClientConfiguration(string domain, string replyUrl)
+        public IdentityProviderConfiguration(string domain, string replyUrl)
         {
             Domain = domain;
             ReplyUrl = replyUrl;

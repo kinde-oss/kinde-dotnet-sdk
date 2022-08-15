@@ -17,39 +17,55 @@ namespace Kinde.DemoMVC.Controllers
         {
             _logger = logger;
         }
-        [AllowAnonymous]
+       
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("KindeCorrelationId") != null)
             {
                 var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
-                return View(model);
+
+                return View("Index", model);
             }
-            return View();
+            return View("Index");
         }
      
         public IActionResult Callback()
         {
             return RedirectToAction("Index");
         }
-  
+        public IActionResult Login()
+        {
+            HttpContext.Session.Remove("SkipAuth");
+            return RedirectToAction("Privacy");
+        }
         public IActionResult SignInPKCE()
         {
-            return RedirectToAction("Index");
+
+           
+            HttpContext.Session.SetString("Flow", "PKCE");
+            return RedirectToAction("Login");
         }
-        [KindeAuthorize("ClientCredentials")]
+        
         public IActionResult SigninClientCredentials()
         {
-            return RedirectToAction("Index");
+            HttpContext.Session.SetString("Flow", "ClientCredentials");
+            return RedirectToAction("Login");
         }
-        [KindeAuthorize("AuthorizationCode")]
+       
         public IActionResult SignInCode()
         {
-            return RedirectToAction("Index");
+            HttpContext.Session.SetString("Flow", "Code");
+            return RedirectToAction("Login");
         }
         public IActionResult Privacy()
         {
-            return View();
+            if (HttpContext.Session.GetString("KindeCorrelationId") != null)
+            {
+                var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
+              
+                return View("Index",model);
+            }
+            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

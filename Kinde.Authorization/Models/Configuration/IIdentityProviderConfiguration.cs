@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Configuration
 {
-    public interface IClientConfiguration
+    public interface IIdentityProviderConfiguration
     {
         public string Domain { get; set; }
         public string ReplyUrl { get; set; }

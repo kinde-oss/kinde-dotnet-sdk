@@ -15,7 +15,7 @@ namespace Kinde.Authorization.Flows
 {
     public class PKCESFlow : BaseAuthorizationFlow<PKCEConfiguration<SHA256CodeVerifier>>, IAuthorizationFlow
     {
-        public PKCESFlow(IClientConfiguration clientConfiguration, PKCEConfiguration<SHA256CodeVerifier> configuration) : base(clientConfiguration, configuration)
+        public PKCESFlow(IIdentityProviderConfiguration identityProviderConfiguration, PKCEConfiguration<SHA256CodeVerifier> configuration) : base(identityProviderConfiguration, configuration)
         {
         }
 
@@ -43,7 +43,7 @@ namespace Kinde.Authorization.Flows
             parameters.Add("scope", Configuration.Scope);
             parameters.Add("code", code);
             parameters.Add("code_verifier", state);
-            parameters.Add("redirect_uri", ClientConfiguration.ReplyUrl);
+            parameters.Add("redirect_uri", IdentityProviderConfiguration.ReplyUrl);
 
             SendCode(httpClient, parameters);
 

@@ -11,6 +11,7 @@ namespace Kinde.DemoMVC.Authorization
     {
         private readonly RequestDelegate _next;
         private readonly IAuthorizationConfigurationProvider _configurationProvider;
+        private  IAuthorizationConfiguration _configuration;
         public KindeAuthorizationMiddleware(RequestDelegate next, IAuthorizationConfigurationProvider configurationProvider)
         {
             _next = next;
@@ -21,31 +22,35 @@ namespace Kinde.DemoMVC.Authorization
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("KindeSettings");
             var domain = config.GetValue<string>("Domain");
             var callbackUrl = config.GetValue<string>("CallbackUrl");
-            string correlationId = string.Empty;
-            if (string.IsNullOrEmpty(context.Session.GetString("KindeCorrelationId")))
+            string correlationId = context.Session?.GetString("KindeCorrelationId");
+            if (string.IsNullOrEmpty(correlationId))
             {
                 correlationId = Guid.NewGuid().ToString();
                 context.Session.SetString("KindeCorrelationId", correlationId);
             }
-            else
-            {
-                correlationId = context.Session.GetString("KindeCorrelationId");
-            }
-
-
-            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, new ClientConfiguration(domain, callbackUrl));
+            _configuration = _configurationProvider.Get();
+            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, new IdentityProviderConfiguration(domain, callbackUrl));
             if (client.AuthotizationState == AuthotizationStates.Authorized)
             {
                 //congrats, all is good, chcck if identity exists and return
+                //var id = await client.GetUserProfile();
+                context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
                 await _next(context);
+                return;
             }
             if (client.AuthotizationState == AuthotizationStates.None)
             {
                 //means we didn't even started auth flow
-                await client.Authorize(_configurationProvider.Get());
+                await client.Authorize(_configuration);
                 if (client.AuthotizationState == AuthotizationStates.UserActionsNeeded)
                 {
                     context.Response.Redirect(await client.GetRedirectionUrl(correlationId));
+                    return;
+                }
+                else if(client.AuthotizationState == AuthotizationStates.Authorized)
+                {
+                    context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
+                    await _next(context);
                     return;
                 }
 

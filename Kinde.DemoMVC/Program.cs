@@ -24,7 +24,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 var app = builder.Build();
 app.UseSession();
-app.UseMiddleware<KindeAuthorizationMiddleware>(new DefaultConfigurationProvider(new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null)));
+//app.UseMiddleware<KindeAuthorizationMiddleware>(new DefaultConfigurationProvider(new PKCEConfiguration<SHA256CodeVerifier>("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null)));
+//app.UseMiddleware<KindeAuthorizationMiddleware>(new DefaultConfigurationProvider(new AuthorizationCodeConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null)));
+app.UseMiddleware<KindeAuthorizationMiddleware>(new DefaultConfigurationProvider(new ClientCredentialsConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO")));
+
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -17,7 +17,7 @@ namespace Kinde.Authorization.Flows
         public override bool RequiresRedirection => false; 
         public override IUserActionResolver UserActionsResolver => new DefaultUserActionResolver();
 
-        public ClientCredentialsFlow(IClientConfiguration clientConfiguration, ClientCredentialsConfiguration configuration):base(clientConfiguration, configuration)
+        public ClientCredentialsFlow(IIdentityProviderConfiguration identityProviderConfiguration, ClientCredentialsConfiguration configuration):base(identityProviderConfiguration, configuration)
         {
           
         }
