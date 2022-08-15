@@ -32,9 +32,9 @@ namespace Kinde.Authorization.Flows
         }
 
 
-        public override  void OnCodeRecieved(string state, string code)
+        public override  void OnCodeRecieved(HttpClient httpClient,string state, string code)
         {
-            var httpClient = new Kinde.Authorization.Models.KindeHttpClient();
+          
             var parameters = new Dictionary<string, string>();
 
             parameters.Add("grant_type", "authorization_code");

@@ -1,4 +1,5 @@
 ﻿using Kinde.Authorization.Enums;
+using Kinde.Authorization.Models;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.User;
@@ -15,6 +16,7 @@ namespace Kinde.Authorization.Flows
 {
     public abstract class BaseAuthorizationFlow<TConfig> : IAuthorizationFlow where TConfig : IAuthorizationConfiguration
     {
+        protected HttpClient _httpClient;
         public AuthotizationStates AuthotizationState { get; set; }
         public TConfig Configuration { get; private set; }
         public IClientConfiguration ClientConfiguration { get; private set; }
@@ -47,6 +49,7 @@ namespace Kinde.Authorization.Flows
                 if (response.Headers.Location != null)
                 {
                     await UserActionsResolver.SetLoginUrl(ClientConfiguration.Domain + response.Headers.Location.ToString(), ((IRedirectAuthorizationConfiguration)Configuration).State);
+                    _httpClient = httpClient;
                     KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
                     AuthotizationState = AuthotizationStates.UserActionsNeeded;
                     return AuthotizationState;
@@ -65,17 +68,17 @@ namespace Kinde.Authorization.Flows
             }
         }
 
-        protected  void CodeStore_ItemAdded(object? sender, Models.Utils.ItemAddedEventArgs<string, string> e)
+        protected void CodeStore_ItemAdded(object? sender, Models.Utils.ItemAddedEventArgs<string, string> e)
         {
             if (Configuration is IRedirectAuthorizationConfiguration)
             {
                 if (e.Key != ((IRedirectAuthorizationConfiguration)Configuration).State) return;
-                OnCodeRecieved(e.Key, e.Value);
+                OnCodeRecieved(_httpClient, e.Key, e.Value);
             }
 
         }
 
-        public abstract void OnCodeRecieved(string key, string value);
+        public abstract void OnCodeRecieved(HttpClient httpClient,string key, string value);
         protected virtual string BuildUrl(string baseUrl, Dictionary<string, string> parameters)
         {
             return baseUrl + "?" + string.Join("&", parameters.Select(x => HttpUtility.UrlEncode(x.Key) + "=" + HttpUtility.UrlEncode(x.Value)));
@@ -120,7 +123,12 @@ namespace Kinde.Authorization.Flows
             if ((int)response.StatusCode < 400)
             {
                 Token = JsonConvert.DeserializeObject<OauthToken>(content);
-                AuthotizationState = AuthotizationStates.Authorized;
+                if (Token != null)
+                {
+                    AuthotizationState = AuthotizationStates.Authorized;
+                    AddHeader(client, Token);
+                }
+
             }
             else
             {
@@ -138,6 +146,17 @@ namespace Kinde.Authorization.Flows
             {
                 throw task.Exception;
             }
+        }
+        protected virtual void AddHeader(HttpClient httpClient, OauthToken token)
+        {
+          
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token?.AccessToken);
+        }
+        public virtual async Task<object> GetUserProfile(HttpClient httpClient)
+        {
+
+            var response = await _httpClient.GetAsync(ClientConfiguration.Domain + "/oauth2/user_profile");
+            return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
         }
     }
 }

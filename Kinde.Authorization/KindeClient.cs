@@ -28,7 +28,9 @@ namespace Kinde
         public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration)
         {
             authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(ClientConfiguration);
-            await authorizationFlow.Authorize(_httpClient);
+           
+            var state = await authorizationFlow.Authorize(_httpClient);
+            
         }
         public async Task<string> GetRedirectionUrl(string state)
         {
@@ -65,5 +67,9 @@ namespace Kinde
 
         }
 
+        public async Task<object> GetUserProfile()
+        {
+            return await authorizationFlow.GetUserProfile(_httpClient);
+        }
     }
 }

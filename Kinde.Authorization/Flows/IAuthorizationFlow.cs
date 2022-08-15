@@ -19,5 +19,6 @@ namespace Kinde.Authorization.Flows
         Task Logout(HttpClient httpClient);
         Task Renew(HttpClient httpClient);
         Task AuthorizeRequest(HttpRequestMessage httpRequestMessage);
+        Task<object> GetUserProfile(HttpClient httpClient);
     }
 }

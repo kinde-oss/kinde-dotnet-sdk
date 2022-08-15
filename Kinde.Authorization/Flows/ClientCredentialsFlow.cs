@@ -28,9 +28,13 @@ namespace Kinde.Authorization.Flows
             return await SendRequest(httpClient, parameters);
         }
 
-        public override void OnCodeRecieved(string key, string value)
+        public override void OnCodeRecieved(HttpClient httpClient, string key, string value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Code is not applicable for this flow");
+        }
+        public override Task<object> GetUserProfile(HttpClient httpClient)
+        {
+            throw new NotImplementedException("User profile is not applicable for this flow");
         }
     }
 }

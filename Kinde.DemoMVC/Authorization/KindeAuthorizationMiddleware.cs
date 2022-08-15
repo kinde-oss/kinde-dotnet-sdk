@@ -3,6 +3,7 @@ using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.WebExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace Kinde.DemoMVC.Authorization
 {
@@ -58,7 +59,8 @@ namespace Kinde.DemoMVC.Authorization
                     KindeClient.OnCodeRecieved(code, state);
                     if(client.AuthotizationState == AuthotizationStates.Authorized)
                     {
-                       // var id = await client.GetUserAsync();
+                        var id = await client.GetUserProfile();
+                        context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(id, Formatting.Indented));
                         await _next(context);
                     }
                     else

@@ -9,6 +9,7 @@
      <dt>@Html.DisplayFor(model=>model.Duration)</dt>
     <dd >@Html.LabelFor(model=>model.AccessToken)</dd>
      <dt style="word-break:break-all; word-wrap: break-word;">@Html.DisplayFor(model=>model.AccessToken)</dt>
-   
+    <dd>Identity</dd>
+     <dt>@Context.Session.GetString("KindeProfile")</dt>
 </dl>
 </div>
