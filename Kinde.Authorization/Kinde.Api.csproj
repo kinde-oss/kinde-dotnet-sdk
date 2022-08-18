@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Kinde api client, extended with authorization attribute</Description>
+    <Description>Kinde api client, extended with authorization </Description>
     <Copyright>Kinde</Copyright>
     <PackageProjectUrl>https://kinde.com</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>

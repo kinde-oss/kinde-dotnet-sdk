@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.Api", "Kinde.Authoriz
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.WebExtensions", "Kinde.WebExtensions\Kinde.WebExtensions.csproj", "{7964C4E9-1E05-4779-B802-1B12D7CDC449}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.DemoMVC", "Kinde.DemoMVC\Kinde.DemoMVC.csproj", "{4AFA86DF-D249-48D9-A924-90629DA92753}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{EBC0E7CA-B727-4163-A575-5EF1369A59BC}"
@@ -27,10 +25,6 @@ Global
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F125123-E34F-4F11-92D7-FA34CE2E1D2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7964C4E9-1E05-4779-B802-1B12D7CDC449}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Release|Any CPU.ActiveCfg = Release|Any CPU
