@@ -1,7 +1,7 @@
 ﻿using Kinde.Authorization.Enums;
 using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
-using Kinde.WebExtensions;
+using Kinde;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 

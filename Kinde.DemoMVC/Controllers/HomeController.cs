@@ -2,7 +2,7 @@
 using Kinde.Authorization.Models.Configuration;
 using Kinde.DemoMVC.Authorization;
 using Kinde.DemoMVC.Models;
-using Kinde.WebExtensions;
+using Kinde;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
