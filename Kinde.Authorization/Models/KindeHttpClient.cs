@@ -31,6 +31,7 @@ namespace Kinde.Authorization.Models
             request.Headers.TryAddWithoutValidation("cache-control", "no-cache");
             request.Headers.TryAddWithoutValidation("User-Agent", "PostmanRuntime/7.29.2");
             if (Token != null) request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + Token.AccessToken);
+            
             return base.SendAsync(request, cancellationToken);
         }
         public override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -38,6 +39,7 @@ namespace Kinde.Authorization.Models
             request.Headers.TryAddWithoutValidation("cache-control", "no-cache");
             request.Headers.TryAddWithoutValidation("User-Agent", "PostmanRuntime/7.29.2");
             if (Token != null) request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + Token.AccessToken);
+          
             return base.Send(request, cancellationToken);
         }
 

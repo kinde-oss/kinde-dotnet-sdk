@@ -22,6 +22,7 @@ namespace Kinde.Authorization.Models.Configuration
 
         public IAuthorizationConfiguration Get(object identifier)
         {
+            return Configuration;
             var name = identifier.ToString();
             switch (name)
             {

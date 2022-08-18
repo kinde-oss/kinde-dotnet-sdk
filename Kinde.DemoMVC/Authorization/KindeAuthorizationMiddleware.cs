@@ -34,7 +34,11 @@ namespace Kinde.DemoMVC.Authorization
             {
                 //congrats, all is good, chcck if identity exists and return
                 //var id = await client.GetUserProfile();
-                context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
+                if(context.Session.GetString("KindeProfile") == null)
+                {
+                    context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
+                }
+               
                 await _next(context);
                 return;
             }
@@ -70,9 +74,14 @@ namespace Kinde.DemoMVC.Authorization
                     }
                     else
                     {
-                        return;
+                        throw new ApplicationException("User was not authenticated");
+                        
                     }
-                  
+
+                }
+                else
+                {
+                    throw new ApplicationException($"Wrong request: expected call to {callbackUrl}, requested {context.Request.Host.Value}{context.Request.Path.Value} instead");
                 }
 
             }

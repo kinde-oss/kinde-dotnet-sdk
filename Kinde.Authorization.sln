@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.WebExtensions", "Kind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.DemoMVC", "Kinde.DemoMVC\Kinde.DemoMVC.csproj", "{4AFA86DF-D249-48D9-A924-90629DA92753}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{EBC0E7CA-B727-4163-A575-5EF1369A59BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AFA86DF-D249-48D9-A924-90629DA92753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

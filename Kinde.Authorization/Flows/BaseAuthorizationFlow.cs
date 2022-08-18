@@ -63,6 +63,7 @@ namespace Kinde.Authorization.Flows
             {
                 var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
                 var tokenString = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(tokenString)) throw new ApplicationException("Invalid response from server: No token recieved");
                 Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
                 AuthotizationState = AuthotizationStates.Authorized;
                 return AuthotizationState;
