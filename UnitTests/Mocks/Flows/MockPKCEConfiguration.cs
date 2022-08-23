@@ -1,5 +1,5 @@
-﻿using Kinde.Authorization.Hashing;
-using Kinde.Authorization.Models.Configuration;
+﻿using Kinde.Api.Hashing;
+using Kinde.Api.Models.Configuration;
 
 namespace UnitTests.Mocks.Flows
 {

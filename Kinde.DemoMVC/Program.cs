@@ -1,4 +1,4 @@
-using Kinde.Authorization.Models.Configuration;
+using Kinde.Api.Models.Configuration;
 using Kinde.DemoMVC.Authorization;
 using Kinde.DemoMVC.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;

@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using Kinde.Authorization.Models;
-using Kinde.Authorization.Models.Configuration;
+using Kinde.Api.Models;
+using Kinde.Api.Models.Configuration;
 
 Console.WriteLine("Hello, World!");
 var client = new Kinde.KindeClient(new IdentityProviderConfiguration("https://testauth.kinde.com", "https://test.akno.one/callback"), new KindeHttpClient());

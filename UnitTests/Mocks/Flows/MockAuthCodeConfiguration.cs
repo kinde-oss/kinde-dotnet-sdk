@@ -1,4 +1,4 @@
-﻿using Kinde.Authorization.Models.Configuration;
+﻿using Kinde.Api.Models.Configuration;
 
 namespace UnitTests.Mocks.Flows
 {

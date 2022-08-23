@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kinde.Api\Kinde.Api.csproj" />
     <ProjectReference Include="..\Kinde.Authorization\Kinde.Api.csproj" />
   </ItemGroup>
 

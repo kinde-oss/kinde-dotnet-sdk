@@ -1,6 +1,6 @@
 using Kinde;
-using Kinde.Authorization.Models.Configuration;
-using Kinde.Authorization.Models.Tokens;
+using Kinde.Api.Models.Configuration;
+using Kinde.Api.Models.Tokens;
 using Newtonsoft.Json;
 using UnitTests.Mocks;
 using UnitTests.Mocks.Flows;
@@ -26,7 +26,7 @@ namespace UnitTests
                 response.Content = new StringContent(Token);
             }
             var client = new MockHttpClient(response);
-            var apiClient = new Kinde.KindeClient(new MockIdentityProviderConfiguration(), client);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(typeof(MockClientConfiguration));
             //Act
@@ -38,7 +38,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Authorization.Enums.AuthotizationStates.Authorized, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.Authorized, apiClient.AuthotizationState);
             Assert.IsNotNull(apiClient.Token);
         }
         [TestMethod]
@@ -54,7 +54,7 @@ namespace UnitTests
                 response.Headers.Location = new Uri("https://test.com/go/here");
             }
             var client = new MockHttpClient(response);
-            var apiClient = new Kinde.KindeClient(new MockIdentityProviderConfiguration(), client);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(typeof(MockAuthCodeConfiguration));
             //Act
@@ -66,7 +66,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Authorization.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
             Assert.IsNull(apiClient.Token);
         }
         [TestMethod]
@@ -82,7 +82,7 @@ namespace UnitTests
                 response.Headers.Location = new Uri("https://test.com/go/here");
             }
             var client = new MockHttpClient(response);
-            var apiClient = new Kinde.KindeClient(new MockIdentityProviderConfiguration(), client);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             MockPKCEConfiguration authConfig = (MockPKCEConfiguration)Activator.CreateInstance(typeof(MockPKCEConfiguration));
             //Act
@@ -94,7 +94,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Authorization.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
             Assert.IsNull(apiClient.Token);
             Assert.ThrowsException<KeyNotFoundException>(() => { KindeClient.CodeStore.Get(authConfig.State); });
             

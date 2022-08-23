@@ -1,5 +1,5 @@
-﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Models.Configuration;
+﻿using Kinde.Api.Enums;
+using Kinde.Api.Models.Configuration;
 using Newtonsoft.Json;
 
 namespace Kinde.DemoMVC.Authorization

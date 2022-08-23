@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kinde.Api\Kinde.Api.csproj" />
     <ProjectReference Include="..\Kinde.Authorization\Kinde.Api.csproj" />
   </ItemGroup>
 
