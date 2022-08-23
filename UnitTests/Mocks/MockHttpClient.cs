@@ -1,8 +1,8 @@
 ﻿namespace UnitTests.Mocks
 {
-    internal class MockHttpClient : HttpClient
+    public class MockHttpClient : HttpClient
     {
-        protected HttpResponseMessage Result;
+        public HttpResponseMessage Result;
         public MockHttpClient(HttpResponseMessage result) : base()
         {
             Result = result;

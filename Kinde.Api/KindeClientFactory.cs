@@ -29,15 +29,18 @@ namespace Kinde
         /// <returns></returns>
         public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration)
         {
+            return GetOrCreate(instanceId, identityProviderConfiguration, new KindeHttpClient());
+        }
+        public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration, HttpClient httpClient)
+        {
             if (_dictionary.TryGetValue(instanceId, out var cached))
             {
                 return cached;
             }
-            var client = new Kinde.KindeClient(identityProviderConfiguration, new KindeHttpClient());
+            var client = new KindeClient(identityProviderConfiguration, httpClient);
             _dictionary.Add(instanceId, client);
             return Get(instanceId);
         }
-
 
     }
 }
