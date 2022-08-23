@@ -69,7 +69,7 @@ namespace Kinde.Api.Flows
             {
                 if (e.Key != ((IRedirectAuthorizationConfiguration)Configuration).State) return;
                 OnCodeRecieved(_httpClient, e.Key, e.Value);
-                KindeClient.OnCodeConsumed(e.Key, e.Value);
+               
             }
 
         }

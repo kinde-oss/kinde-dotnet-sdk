@@ -48,10 +48,8 @@ namespace Kinde
         }
         public static void OnCodeRecieved(string code, string state)
         {
-            lock (CodeStore)
-            {
-                CodeStore.Add(state, code);
-            }
+            CodeStore.Add(state, code);
+            OnCodeConsumed(code, state);
         }
         public static void OnCodeConsumed(string code, string state)
         {
