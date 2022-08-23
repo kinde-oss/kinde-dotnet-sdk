@@ -9,11 +9,11 @@ namespace UnitTests
 {
     [TestClass]
     public class Authentication
-    { 
-        protected static  string Token { get { return JsonConvert.SerializeObject(new OauthToken() { AccessToken = Guid.NewGuid().ToString(), ExpiresIn = 3600 }); } }
+    {
+        protected static string Token { get { return JsonConvert.SerializeObject(new OauthToken() { AccessToken = Guid.NewGuid().ToString(), ExpiresIn = 3600 }); } }
 
         [TestMethod]
-        [DataRow(System.Net.HttpStatusCode.Forbidden, null,  true)]
+        [DataRow(System.Net.HttpStatusCode.Forbidden, null, true)]
         [DataRow(System.Net.HttpStatusCode.Redirect, null, true)]
         [DataRow(System.Net.HttpStatusCode.OK, null, true)]
         [DataRow(System.Net.HttpStatusCode.OK, "Token", false)]
@@ -96,7 +96,8 @@ namespace UnitTests
             //Assert
             Assert.AreEqual(Kinde.Authorization.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
             Assert.IsNull(apiClient.Token);
-            Assert.ThrowsException<KeyNotFoundException>(()=> { KindeClient.CodeStore.Get(authConfig.State); });
+            Assert.ThrowsException<KeyNotFoundException>(() => { KindeClient.CodeStore.Get(authConfig.State); });
+            
         }
 
     }

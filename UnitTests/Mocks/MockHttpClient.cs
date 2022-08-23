@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UnitTests.Mocks
+﻿namespace UnitTests.Mocks
 {
-    internal class MockHttpClient:HttpClient
+    internal class MockHttpClient : HttpClient
     {
         protected HttpResponseMessage Result;
-        public MockHttpClient(HttpResponseMessage result):base() 
+        public MockHttpClient(HttpResponseMessage result) : base()
         {
             Result = result;
 

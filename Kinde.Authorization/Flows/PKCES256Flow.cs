@@ -1,15 +1,7 @@
 ﻿using Kinde.Authorization.Enums;
 using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
-using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.User;
-using Kinde.Authorization.Models.Utils;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Flows
 {
@@ -25,16 +17,16 @@ namespace Kinde.Authorization.Flows
         {
             var parameters = CreateBaseRequestParameters();
             parameters.Add("response_type", "code");
-            parameters.Add("grant_type", "authorization_code");       
+            parameters.Add("grant_type", "authorization_code");
             parameters.Add("code_challenge", await Configuration.CodeVerifier.Compute(Configuration.State));
             parameters.Add("code_challenge_method", "S256");
             return await base.SendRequest(httpClient, parameters);
         }
 
 
-        public override  void OnCodeRecieved(HttpClient httpClient,string state, string code)
+        public override void OnCodeRecieved(HttpClient httpClient, string state, string code)
         {
-          
+
             var parameters = new Dictionary<string, string>();
 
             parameters.Add("grant_type", "authorization_code");

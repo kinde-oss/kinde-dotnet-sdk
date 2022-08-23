@@ -1,13 +1,6 @@
 ﻿using Kinde.Authorization.Enums;
 using Kinde.Authorization.Models.Configuration;
-using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.User;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Flows
 {
@@ -28,9 +21,9 @@ namespace Kinde.Authorization.Flows
             return await base.SendRequest(httpClient, parameters);
 
         }
-        public override void OnCodeRecieved(HttpClient httpClient,string state, string code)
+        public override void OnCodeRecieved(HttpClient httpClient, string state, string code)
         {
-          
+
             var parameters = new Dictionary<string, string>();
 
             parameters.Add("grant_type", "authorization_code");

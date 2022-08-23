@@ -1,4 +1,3 @@
-using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.DemoMVC.Authorization;
 using Kinde.DemoMVC.Data;

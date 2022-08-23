@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
 
 namespace Kinde.Authorization.Hashing
 {
@@ -18,8 +14,8 @@ namespace Kinde.Authorization.Hashing
 
         public async Task<string> Compute(string code)
         {
-            
-            return  Convert.ToBase64String( hasher.ComputeHash(Encoding.UTF8.GetBytes(code)))
+
+            return Convert.ToBase64String(hasher.ComputeHash(Encoding.UTF8.GetBytes(code)))
                 .TrimEnd('=').Replace('+', '-').Replace('/', '_');
         }
 

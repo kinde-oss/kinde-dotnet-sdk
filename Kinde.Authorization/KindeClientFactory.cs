@@ -21,11 +21,11 @@ namespace Kinde
                 return factory;
             }
         }/// <summary>
-        /// Use session Id for instance to persist users authentication
-        /// </summary>
-        /// <param name="instanceId"></param>
-        /// <param name="clientConfiguration"></param>
-        /// <returns></returns>
+         /// Use session Id for instance to persist users authentication
+         /// </summary>
+         /// <param name="instanceId"></param>
+         /// <param name="clientConfiguration"></param>
+         /// <returns></returns>
         public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration)
         {
             if (_dictionary.TryGetValue(instanceId, out var cached))

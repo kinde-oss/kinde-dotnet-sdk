@@ -1,8 +1,5 @@
 ﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Hashing;
 using Kinde.Authorization.Models.Configuration;
-using Kinde;
-using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
 namespace Kinde.DemoMVC.Authorization
@@ -11,7 +8,7 @@ namespace Kinde.DemoMVC.Authorization
     {
         private readonly RequestDelegate _next;
         private readonly IAuthorizationConfigurationProvider _configurationProvider;
-        private  IAuthorizationConfiguration _configuration;
+        private IAuthorizationConfiguration _configuration;
         public KindeAuthorizationMiddleware(RequestDelegate next, IAuthorizationConfigurationProvider configurationProvider)
         {
             _next = next;
@@ -34,11 +31,11 @@ namespace Kinde.DemoMVC.Authorization
             {
                 //congrats, all is good, chcck if identity exists and return
                 //var id = await client.GetUserProfile();
-                if(context.Session.GetString("KindeProfile") == null)
+                if (context.Session.GetString("KindeProfile") == null)
                 {
                     context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
                 }
-               
+
                 await _next(context);
                 return;
             }
@@ -51,7 +48,7 @@ namespace Kinde.DemoMVC.Authorization
                     context.Response.Redirect(await client.GetRedirectionUrl(correlationId));
                     return;
                 }
-                else if(client.AuthotizationState == AuthotizationStates.Authorized)
+                else if (client.AuthotizationState == AuthotizationStates.Authorized)
                 {
                     context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(new object(), Formatting.Indented));
                     await _next(context);
@@ -66,7 +63,7 @@ namespace Kinde.DemoMVC.Authorization
                     var code = context.Request.Query["code"];
                     var state = context.Request.Query["state"];
                     KindeClient.OnCodeRecieved(code, state);
-                    if(client.AuthotizationState == AuthotizationStates.Authorized)
+                    if (client.AuthotizationState == AuthotizationStates.Authorized)
                     {
                         var id = await client.GetUserProfile();
                         context.Session.SetString("KindeProfile", JsonConvert.SerializeObject(id, Formatting.Indented));
@@ -75,7 +72,7 @@ namespace Kinde.DemoMVC.Authorization
                     else
                     {
                         throw new ApplicationException("User was not authenticated");
-                        
+
                     }
 
                 }

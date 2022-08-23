@@ -1,17 +1,11 @@
-﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Flows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kinde.Authorization.Flows;
 
 namespace Kinde.Authorization.Models.Configuration
 {
     public class AuthorizationCodeConfiguration : BaseAuthorizationConfiguration, IRedirectAuthorizationConfiguration
     {
         public string State { get; set; }
-        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state,string grantType) : base(clientId, clientSecret,grantType, scope)
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state, string grantType) : base(clientId, clientSecret, grantType, scope)
         {
             if (state == null)
             {
@@ -25,7 +19,7 @@ namespace Kinde.Authorization.Models.Configuration
 
         public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, clientSecret, "AuthorizationCode", scope)
         {
-            if(state == null)
+            if (state == null)
             {
                 State = Guid.NewGuid().ToString("N");
             }
@@ -33,7 +27,7 @@ namespace Kinde.Authorization.Models.Configuration
             {
                 State = state;
             }
-            
+
         }
 
         public override IAuthorizationFlow CreateAuthorizationFlow(IIdentityProviderConfiguration identityProviderConfiguration)

@@ -1,5 +1,4 @@
-﻿using Kinde;
-using Kinde.Authorization.Enums;
+﻿using Kinde.Authorization.Enums;
 using Kinde.Authorization.Flows;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.Authorization.Models.Tokens;
@@ -9,9 +8,9 @@ namespace Kinde
 {
     public partial class KindeClient
     {
-        public static AuthorizationCodeStore<string, string> CodeStore =  new AuthorizationCodeStore<string, string>();
+        public static AuthorizationCodeStore<string, string> CodeStore = new AuthorizationCodeStore<string, string>();
         public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
-        protected IAuthorizationFlow authorizationFlow { get; set; } 
+        protected IAuthorizationFlow authorizationFlow { get; set; }
         public OauthToken Token { get { return authorizationFlow.Token; } }
         public IIdentityProviderConfiguration IdentityProviderConfiguration { get; set; }
         public KindeClient(IIdentityProviderConfiguration identityProviderConfiguration, HttpClient httpClient) : this(httpClient)
@@ -27,10 +26,18 @@ namespace Kinde
         }
         public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration)
         {
+            if (IdentityProviderConfiguration == null)
+            {
+                throw new ArgumentNullException("Identity provider configuration missing");
+            }
+            if (authorizationConfiguration == null)
+            {
+                throw new ArgumentNullException("Authorization flow configuration missing");
+            }
             authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(IdentityProviderConfiguration);
-           
+
             var state = await authorizationFlow.Authorize(_httpClient);
-            if(state  == AuthotizationStates.NonAuthorized)
+            if (state == AuthotizationStates.NonAuthorized)
             {
                 throw new ApplicationException("Authorization failed");
             }
@@ -41,7 +48,7 @@ namespace Kinde
         }
         public static void OnCodeRecieved(string code, string state)
         {
-            lock(CodeStore)
+            lock (CodeStore)
             {
                 CodeStore.Add(state, code);
             }

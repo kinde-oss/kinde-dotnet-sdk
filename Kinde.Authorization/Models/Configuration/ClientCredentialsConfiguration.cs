@@ -1,10 +1,4 @@
-﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Flows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kinde.Authorization.Flows;
 
 namespace Kinde.Authorization.Models.Configuration
 {

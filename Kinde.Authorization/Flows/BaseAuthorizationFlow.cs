@@ -1,15 +1,8 @@
 ﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Models;
 using Kinde.Authorization.Models.Configuration;
 using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.User;
-using Kinde.Authorization.Models.Utils;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Kinde.Authorization.Flows

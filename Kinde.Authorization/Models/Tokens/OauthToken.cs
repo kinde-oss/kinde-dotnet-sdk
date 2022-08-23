@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Tokens
 {
@@ -20,7 +15,7 @@ namespace Kinde.Authorization.Models.Tokens
         [JsonProperty("id_token")]
         public string IdToken { get; set; }
         public DateTime Recieved { get; init; } = DateTime.Now;
-        public bool IsExpired { get {  return Recieved.AddSeconds(ExpiresIn-5)<DateTime.Now; } }
+        public bool IsExpired { get { return Recieved.AddSeconds(ExpiresIn - 5) < DateTime.Now; } }
         public TimeSpan Duration { get { return Recieved.AddSeconds(ExpiresIn).Subtract(DateTime.Now); } }
     }
 }

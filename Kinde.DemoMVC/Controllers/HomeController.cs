@@ -1,9 +1,4 @@
-﻿using Kinde.Authorization.Enums;
-using Kinde.Authorization.Models.Configuration;
-using Kinde.DemoMVC.Authorization;
-using Kinde.DemoMVC.Models;
-using Kinde;
-using Microsoft.AspNetCore.Authorization;
+﻿using Kinde.DemoMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -17,7 +12,7 @@ namespace Kinde.DemoMVC.Controllers
         {
             _logger = logger;
         }
-       
+
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("KindeCorrelationId") != null)
@@ -28,7 +23,7 @@ namespace Kinde.DemoMVC.Controllers
             }
             return View("Index");
         }
-     
+
         public IActionResult Callback()
         {
             return RedirectToAction("Index");
@@ -41,17 +36,17 @@ namespace Kinde.DemoMVC.Controllers
         public IActionResult SignInPKCE()
         {
 
-           
+
             HttpContext.Session.SetString("Flow", "PKCE");
             return RedirectToAction("Login");
         }
-        
+
         public IActionResult SigninClientCredentials()
         {
             HttpContext.Session.SetString("Flow", "ClientCredentials");
             return RedirectToAction("Login");
         }
-       
+
         public IActionResult SignInCode()
         {
             HttpContext.Session.SetString("Flow", "Code");
@@ -62,8 +57,8 @@ namespace Kinde.DemoMVC.Controllers
             if (HttpContext.Session.GetString("KindeCorrelationId") != null)
             {
                 var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
-              
-                return View("Index",model);
+
+                return View("Index", model);
             }
             return View("Index");
         }

@@ -1,25 +1,17 @@
 ﻿using Kinde.Authorization.Enums;
 using Kinde.Authorization.Models.Configuration;
-using Kinde.Authorization.Models.Tokens;
 using Kinde.Authorization.Models.User;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace Kinde.Authorization.Flows
 {
     public class ClientCredentialsFlow : BaseAuthorizationFlow<ClientCredentialsConfiguration>, IAuthorizationFlow
     {
-        public override bool RequiresRedirection => false; 
+        public override bool RequiresRedirection => false;
         public override IUserActionResolver UserActionsResolver => new DefaultUserActionResolver();
 
-        public ClientCredentialsFlow(IIdentityProviderConfiguration identityProviderConfiguration, ClientCredentialsConfiguration configuration):base(identityProviderConfiguration, configuration)
+        public ClientCredentialsFlow(IIdentityProviderConfiguration identityProviderConfiguration, ClientCredentialsConfiguration configuration) : base(identityProviderConfiguration, configuration)
         {
-          
+
         }
         public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
         {

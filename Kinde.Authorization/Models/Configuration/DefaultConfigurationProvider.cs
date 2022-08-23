@@ -1,9 +1,4 @@
 ﻿using Kinde.Authorization.Hashing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kinde.Authorization.Models.Configuration
 {
@@ -32,7 +27,7 @@ namespace Kinde.Authorization.Models.Configuration
                     return new AuthorizationCodeConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null);
                 default:
                     return new ClientCredentialsConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO");
-                
+
 
             }
         }
