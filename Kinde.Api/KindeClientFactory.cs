@@ -27,11 +27,11 @@ namespace Kinde
         /// <param name="instanceId"></param>
         /// <param name="identityProviderConfiguration"></param>
         /// <returns></returns>
-        public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration)
+        public KindeClient GetOrCreate(string instanceId, IApplicationConfiguration identityProviderConfiguration)
         {
             return GetOrCreate(instanceId, identityProviderConfiguration, new KindeHttpClient());
         }
-        public KindeClient GetOrCreate(string instanceId, IIdentityProviderConfiguration identityProviderConfiguration, HttpClient httpClient)
+        public KindeClient GetOrCreate(string instanceId, IApplicationConfiguration identityProviderConfiguration, HttpClient httpClient)
         {
             if (_dictionary.TryGetValue(instanceId, out var cached))
             {

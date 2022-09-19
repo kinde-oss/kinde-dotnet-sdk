@@ -1,67 +1,100 @@
-﻿using Kinde.DemoMVC.Models;
+﻿using Kinde.Api.Models.Configuration;
+using Kinde.DemoMVC.Authorization;
+using Kinde.DemoMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Kinde.DemoMVC.Controllers
 {
+    //[TypeFilter(typeof(KindeAuthorizationFilter))]
     public class HomeController : Controller
     {
+        private readonly IAuthorizationConfigurationProvider _authConfigurationProvider;
+        private readonly IApplicationConfigurationProvider _appConfigurationProvider;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IAuthorizationConfigurationProvider authConfigurationProvider, IApplicationConfigurationProvider appConfigurationProvider)
         {
             _logger = logger;
-        }
 
-        public IActionResult Index()
+            _authConfigurationProvider = authConfigurationProvider;
+            _appConfigurationProvider = appConfigurationProvider;
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString("KindeCorrelationId") != null)
             {
-                var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
+                var client = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId"));
+                if(client.AuthotizationState == Kinde.Api.Enums.AuthotizationStates.Authorized)
+                {
+                    var model = await client.GetUserProfile();
 
-                return View("Index", model);
+                    return View("Index", model);
+                }
+              
             }
             return View("Index");
         }
 
-        public IActionResult Callback()
+        public IActionResult Callback(string code, string state)
         {
+            Kinde.KindeClient.OnCodeRecieved(code, state);
             return RedirectToAction("Index");
         }
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
-            HttpContext.Session.Remove("SkipAuth");
-            return RedirectToAction("Privacy");
-        }
-        public IActionResult SignInPKCE()
-        {
-
-
-            HttpContext.Session.SetString("Flow", "PKCE");
-            return RedirectToAction("Login");
-        }
-
-        public IActionResult SigninClientCredentials()
-        {
-            HttpContext.Session.SetString("Flow", "ClientCredentials");
-            return RedirectToAction("Login");
-        }
-
-        public IActionResult SignInCode()
-        {
-            HttpContext.Session.SetString("Flow", "Code");
-            return RedirectToAction("Login");
-        }
-        public IActionResult Privacy()
-        {
-            if (HttpContext.Session.GetString("KindeCorrelationId") != null)
+            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+            if (string.IsNullOrEmpty(correlationId))
             {
-                var model = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId")).Token;
-
-                return View("Index", model);
+                correlationId = Guid.NewGuid().ToString();
+                HttpContext.Session.SetString("KindeCorrelationId", correlationId);
             }
-            return View("Index");
+            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+             await client.Authorize(_authConfigurationProvider.Get());
+            if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+            {
+                return Redirect(await client.GetRedirectionUrl(correlationId));
+            }
+            return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Renew()
+        {
+            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+
+            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+            await client.Renew();
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Logout()
+        {
+            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+          
+            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+           var url = await client.Logout();
+            
+            return Redirect(url);
+        }
+        public async Task<IActionResult> SignUp()
+        {
+            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+            if (string.IsNullOrEmpty(correlationId))
+            {
+                correlationId = Guid.NewGuid().ToString();
+                HttpContext.Session.SetString("KindeCorrelationId", correlationId);
+            }
+            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+            await client.Authorize(_authConfigurationProvider.Get(), true);
+            if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+            {
+                return Redirect(await client.GetRedirectionUrl(correlationId));
+            }
+            return RedirectToAction("Index");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

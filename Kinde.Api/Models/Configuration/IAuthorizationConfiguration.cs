@@ -9,6 +9,6 @@ namespace Kinde.Api.Models.Configuration
         public string Scope { get; set; }
         public string GrantType { get; set; }
 
-        public IAuthorizationFlow CreateAuthorizationFlow(IIdentityProviderConfiguration clientConfiguration);
+        public IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration clientConfiguration);
     }
 }

@@ -12,8 +12,8 @@ namespace Kinde
         public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
         protected IAuthorizationFlow authorizationFlow { get; set; }
         public OauthToken Token { get { return authorizationFlow.Token; } }
-        public IIdentityProviderConfiguration IdentityProviderConfiguration { get; set; }
-        public KindeClient(IIdentityProviderConfiguration identityProviderConfiguration, HttpClient httpClient) : this(httpClient)
+        public IApplicationConfiguration IdentityProviderConfiguration { get; set; }
+        public KindeClient(IApplicationConfiguration identityProviderConfiguration, HttpClient httpClient) : this(httpClient)
         {
             IdentityProviderConfiguration = identityProviderConfiguration;
             var businessName = GetSubDomain(IdentityProviderConfiguration.Domain);
@@ -24,7 +24,7 @@ namespace Kinde
         {
             authorizationFlow.AuthorizeRequest(request);
         }
-        public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration)
+        public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration, bool register = false)
         {
             if (IdentityProviderConfiguration == null)
             {
@@ -36,7 +36,7 @@ namespace Kinde
             }
             authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(IdentityProviderConfiguration);
 
-            var state = await authorizationFlow.Authorize(_httpClient);
+            var state = await authorizationFlow.Authorize(_httpClient, register);
             if (state == AuthotizationStates.NonAuthorized)
             {
                 throw new ApplicationException("Authorization failed");
@@ -78,6 +78,16 @@ namespace Kinde
         public async Task<object> GetUserProfile()
         {
             return await authorizationFlow.GetUserProfile(_httpClient);
+        }
+
+        public async Task<string> Logout()
+        {
+             await authorizationFlow.Logout(_httpClient);
+            return IdentityProviderConfiguration.LogoutUrl;
+        }
+        public async Task Renew()
+        {
+            await authorizationFlow.Renew(_httpClient);
         }
     }
 }

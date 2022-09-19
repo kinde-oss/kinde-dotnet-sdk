@@ -4,6 +4,10 @@ namespace Kinde.Api.Models.Configuration
 {
     public class AuthorizationCodeConfiguration : BaseAuthorizationConfiguration, IRedirectAuthorizationConfiguration
     {
+        public AuthorizationCodeConfiguration()
+        {
+
+        }
         public string State { get; set; }
         public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state, string grantType) : base(clientId, clientSecret, grantType, scope)
         {
@@ -30,8 +34,13 @@ namespace Kinde.Api.Models.Configuration
 
         }
 
-        public override IAuthorizationFlow CreateAuthorizationFlow(IIdentityProviderConfiguration identityProviderConfiguration)
+        public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)
         {
+            if (!IsStateValid(State))
+            {
+                State = Guid.NewGuid().ToString("N");
+            }
+           
             return new AuthorizationCodeFlow(identityProviderConfiguration, this);
         }
     }

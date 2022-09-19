@@ -1,4 +1,5 @@
 ﻿using Kinde.Api.Enums;
+using Kinde.Api.Models;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
@@ -12,24 +13,25 @@ namespace Kinde.Api.Flows
         protected HttpClient _httpClient;
         public AuthotizationStates AuthotizationState { get; set; }
         public TConfig Configuration { get; private set; }
-        public IIdentityProviderConfiguration IdentityProviderConfiguration { get; private set; }
+        public IApplicationConfiguration IdentityProviderConfiguration { get; private set; }
         public OauthToken? Token { get; private set; } = null!;
 
         public virtual IUserActionResolver UserActionsResolver { get; init; } = new DefaultUserActionResolver();
 
         public virtual bool RequiresRedirection => true;
-
-        public BaseAuthorizationFlow(IIdentityProviderConfiguration identityProviderConfiguration, TConfig configuration)
+        protected CancellationTokenSource CancellationTokenSorce = new CancellationTokenSource();
+        public BaseAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration, TConfig configuration)
         {
             Configuration = configuration;
             IdentityProviderConfiguration = identityProviderConfiguration;
         }
-        protected virtual Dictionary<string, string> CreateBaseRequestParameters()
+        protected virtual Dictionary<string, string> CreateBaseRequestParameters(bool register = false)
         {
             var parameters = new Dictionary<string, string>();
             parameters.Add("client_id", Configuration.ClientId);
             parameters.Add("client_secret", Configuration.ClientSecret);
             parameters.Add("scope", Configuration.Scope);
+            if (register) parameters.Add("start_page", "registration");
             if (RequiresRedirection) parameters.Add("redirect_uri", IdentityProviderConfiguration.ReplyUrl);
             return parameters;
         }
@@ -69,7 +71,7 @@ namespace Kinde.Api.Flows
             {
                 if (e.Key != ((IRedirectAuthorizationConfiguration)Configuration).State) return;
                 OnCodeRecieved(_httpClient, e.Key, e.Value);
-               
+
             }
 
         }
@@ -96,7 +98,7 @@ namespace Kinde.Api.Flows
 
         }
 
-        public virtual Task<AuthotizationStates> Authorize(HttpClient httpClient)
+        public virtual Task<AuthotizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
             throw new NotImplementedException("This method MUST be overriden in derived class");
         }
@@ -105,11 +107,52 @@ namespace Kinde.Api.Flows
         {
             AuthotizationState = AuthotizationStates.NonAuthorized;
             Token = null;
+            if(httpClient is KindeHttpClient)
+            {
+                ((KindeHttpClient)httpClient).Token = null;
+               // httpClient.DefaultRequestHeaders.Remove()
+            }
+           
+        }
+        protected async Task RunRenew(HttpClient client, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay((Token.ExpiresIn - 100) * 1000);
+                await RenewInternal(client);
+            }
+        }
+
+        protected async virtual Task RenewInternal(HttpClient client)
+        {
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("client_id",Configuration.ClientId);
+            parameters.Add("grant_type", "refresh_token");
+            parameters.Add("refresh_token", Token.RefreshToken);
+            parameters.Add("client_secret", Configuration.ClientSecret);
+            var response = await _httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                Token = JsonConvert.DeserializeObject<OauthToken>(content);
+            }
+            else
+            {
+                throw new ApplicationException(content);
+            }
         }
 
         public async virtual Task Renew(HttpClient httpClient)
         {
-            await Authorize(httpClient);
+            if (Token == null)
+            {
+                await Authorize(httpClient);
+            }
+            else
+            {
+               await RenewInternal(httpClient);
+            }
+
         }
 
         protected void SendCode(HttpClient client, Dictionary<string, string> parameters)
@@ -124,6 +167,7 @@ namespace Kinde.Api.Flows
                 {
                     AuthotizationState = AuthotizationStates.Authorized;
                     AddHeader(client, Token);
+                    RunRenew(client, CancellationTokenSorce.Token);
                 }
 
             }
@@ -146,7 +190,6 @@ namespace Kinde.Api.Flows
         }
         protected virtual void AddHeader(HttpClient httpClient, OauthToken token)
         {
-
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token?.AccessToken);
         }
         public virtual async Task<object> GetUserProfile(HttpClient httpClient)

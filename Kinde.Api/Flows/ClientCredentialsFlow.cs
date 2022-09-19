@@ -9,13 +9,13 @@ namespace Kinde.Api.Flows
         public override bool RequiresRedirection => false;
         public override IUserActionResolver UserActionsResolver => new DefaultUserActionResolver();
 
-        public ClientCredentialsFlow(IIdentityProviderConfiguration identityProviderConfiguration, ClientCredentialsConfiguration configuration) : base(identityProviderConfiguration, configuration)
+        public ClientCredentialsFlow(IApplicationConfiguration identityProviderConfiguration, ClientCredentialsConfiguration configuration) : base(identityProviderConfiguration, configuration)
         {
 
         }
-        public override async Task<AuthotizationStates> Authorize(HttpClient httpClient)
+        public override async Task<AuthotizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
-            var parameters = CreateBaseRequestParameters();
+            var parameters = CreateBaseRequestParameters(register);
             parameters.Add("grant_type", "client_credentials");
             return await SendRequest(httpClient, parameters);
         }

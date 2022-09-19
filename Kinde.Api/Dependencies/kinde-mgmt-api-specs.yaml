@@ -106,6 +106,30 @@ paths:
                                 $ref: #/components/schemas/organization_code
                 500:
                     description: Could not create organization
+    /create-another-organization:
+        get:
+            tags:
+                - Another Organizations
+            operationId: createAnotherOrganization
+            description: |
+                Create an organization given the organization name.
+            summary: Returns the created organization's code.
+            parameters:
+                - name: name
+                  in: query
+                  description: The name of the organization to be created.
+                  schema:
+                      type: string
+                      nullable: true
+            responses:
+                200:
+                    description: A successfull response with the created organization's code
+                    content:
+                        application/json:
+                            schema:
+                                $ref: #/components/schemas/organization_code
+                500:
+                    description: Could not create organization
 components:
     schemas:
         users:

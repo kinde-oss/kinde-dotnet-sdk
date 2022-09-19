@@ -1,8 +1,7 @@
 ﻿namespace Kinde.Api.Models.Configuration
 {
-    public interface IAuthorizationConfigurationProvider
+    public interface IAuthorizationConfigurationProvider:IConfigurationProvider<IAuthorizationConfiguration>
     {
-        IAuthorizationConfiguration Get();
-        IAuthorizationConfiguration Get(object identifier);
+      
     }
 }
