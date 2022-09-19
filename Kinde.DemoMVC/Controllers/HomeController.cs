@@ -52,7 +52,7 @@ namespace Kinde.DemoMVC.Controllers
                 HttpContext.Session.SetString("KindeCorrelationId", correlationId);
             }
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-             await client.Authorize(_authConfigurationProvider.Get());
+            await client.Authorize(_authConfigurationProvider.Get());
             if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
             {
                 return Redirect(await client.GetRedirectionUrl(correlationId));

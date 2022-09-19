@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Kinde.Api.Models.Configuration
 {
-    public class PKCES256Configutation : PKCEConfiguration<SHA256CodeVerifier>
+    public class PKCES256Configuration : PKCEConfiguration<SHA256CodeVerifier>
     {
-        public PKCES256Configutation()
+        public PKCES256Configuration()
         {
             CodeVerifier = new SHA256CodeVerifier();
         }
-        public PKCES256Configutation(string clientId, string scope, string clientSecret, string? state) : base(clientId, scope, clientSecret, state)
+        public PKCES256Configuration(string clientId, string scope, string clientSecret, string? state) : base(clientId, scope, clientSecret, state)
         {
         }
         public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)
