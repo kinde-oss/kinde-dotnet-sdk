@@ -83,7 +83,7 @@ namespace Kinde
         public async Task<string> Logout()
         {
              await authorizationFlow.Logout(_httpClient);
-            return IdentityProviderConfiguration.LogoutUrl;
+            return IdentityProviderConfiguration.Domain +   "/logout?redirect=" + IdentityProviderConfiguration.LogoutUrl;
         }
         public async Task Renew()
         {
