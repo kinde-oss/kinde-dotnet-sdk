@@ -7,6 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Kinde api client, extended with authorization </Description>
     <Copyright>Kinde</Copyright>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://kinde.com</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
@@ -19,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
     <EmbeddedResource Include="Dependencies\favicon-3.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
