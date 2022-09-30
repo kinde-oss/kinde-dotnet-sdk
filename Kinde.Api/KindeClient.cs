@@ -75,9 +75,17 @@ namespace Kinde
 
         }
 
-        public async Task<object> GetUserProfile()
+        public async Task<object?> GetUserProfile()
         {
-            return await authorizationFlow.GetUserProfile(_httpClient);
+            if (authorizationFlow.RequiresRedirection)
+            {
+                return await authorizationFlow.GetUserProfile(_httpClient);
+            }
+            else
+            {
+                return null;
+            }
+           
         }
 
         public async Task<string> Logout()

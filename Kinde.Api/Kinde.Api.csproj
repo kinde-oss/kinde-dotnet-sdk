@@ -9,6 +9,9 @@
     <Copyright>Kinde</Copyright>
     <PackageProjectUrl>https://kinde.com</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

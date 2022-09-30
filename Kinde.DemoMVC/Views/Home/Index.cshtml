@@ -1,6 +1,6 @@
 ﻿@using Kinde.Api.Models.Tokens
 @{
- Layout = null;
+    Layout = null;
 }
 @model Newtonsoft.Json.Linq.JObject
 <!DOCTYPE html>
@@ -10,62 +10,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinde - .NET Starter kit</title>
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, user-scalable=no"
-    />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no" />
     <style>
         [hidden] {
             display: none;
         }
     </style>
     <link rel="stylesheet" href="/css/index.css">
-    </head>
+</head>
 <body>
 
-<header>
+    <header>
         <nav class="nav container">
-          <h1 class="text-display-3">KindeAuth</h1>
-          @if(Model==null){
-  <div class="js-logged-out-view">
-               @Html.ActionLink("Sign in","Login", "Home",null, new {@class="btn btn-ghost sign-in-btn"}) 
-            @Html.ActionLink("Sign up","Signup", "Home",null, new {@class="btn btn-dark"}) 
-    
-          </div>
-          }else{
-            
-            <div class="profile-blob">
-            <div class="js-user-avatar avatar"></div>
-            <div>
-              <p class="js-user-name text-heading-2">@(Model["first_name"]) @(Model["last_name"]) </p>
-  @Html.ActionLink("Sign out","Logout", "Home",null, new {@class="text-subtle"}) 
-   @Html.ActionLink("Renew token","Renew", "Home",null, new {@class="text-subtle"}) 
-            </div>
-          </div>
-         
-          }
-        
-          
-         
-        </nav>
-      </header>
+            <h1 class="text-display-3">KindeAuth</h1>
+            @if (ViewBag.Authorized == null|| !(bool)ViewBag.Authorized)
+            {
+                <div class="js-logged-out-view">
+                    @Html.ActionLink("Sign in","Login", "Home",null, new {@class="btn btn-ghost sign-in-btn"})
+                    @Html.ActionLink("Sign up","Signup", "Home",null, new {@class="btn btn-dark"})
 
-      <main>
+                </div>
+            }
+            else
+            {
+
+                <div class="profile-blob">
+                    <div class="js-user-avatar avatar"></div>
+                    <div>
+                        @if(Model!=null){
+                            <p class="js-user-name text-heading-2">@(Model["first_name"]) @(Model["last_name"]) </p>
+                        }
+                      
+                        @Html.ActionLink("Sign out","Logout", "Home",null, new {@class="text-subtle"})
+                        @Html.ActionLink("Renew token","Renew", "Home",null, new {@class="text-subtle"})
+                    </div>
+                </div>
+
+            }
+
+
+
+        </nav>
+    </header>
+
+    <main>
         <div class="container">
 
             <div class="js-logged-out-view">
                 <div class="card hero">
                     <p class="text-display-1 hero-title">
-                    Let's start authenticating <br /> with KindeAuth
+                        Let's start authenticating <br /> with KindeAuth
                     </p>
                     <p class="text-body-1 hero-tagline">Configure your app</p>
 
-                    <a
-                        href="https://kinde.com/docs/sdks/javascript-sdk"
-                        target="_blank"
-                        rel="noreferrer"
-                        class="btn btn-light btn-big"
-                        >
+                    <a href="https://kinde.com/docs/sdks/javascript-sdk"
+                       target="_blank"
+                       rel="noreferrer"
+                       class="btn btn-light btn-big">
                         Go to docs
                     </a>
 
@@ -76,9 +78,9 @@
                 <div class="card start-hero">
                     <p class="text-body-2 start-hero-intro">Woohoo!</p>
                     <p class="text-display-2">
-                    Your authentication is all sorted.
-                    <br />
-                    Build the important stuff.
+                        Your authentication is all sorted.
+                        <br />
+                        Build the important stuff.
                     </p>
                 </div>
                 <section class="next-steps-section">
@@ -86,23 +88,23 @@
                 </section>
             </div>
         </div>
-      </main>
+    </main>
 
-      <footer class="footer">
+    <footer class="footer">
         <div class="container">
-          <strong class="text-heading-2">KindeAuth</strong>
-          <p class="footer-tagline text-body-3">
-            Visit our
-            <a class="link" href="https://kinde.com/docs">
-              help center
-            </a>
-          </p>
+            <strong class="text-heading-2">KindeAuth</strong>
+            <p class="footer-tagline text-body-3">
+                Visit our
+                <a class="link" href="https://kinde.com/docs">
+                    help center
+                </a>
+            </p>
 
-          <small class="text-subtle">
-            © 2022 KindeAuth, Inc. All rights reserved
-          </small>
+            <small class="text-subtle">
+                © 2022 KindeAuth, Inc. All rights reserved
+            </small>
         </div>
-      </footer>
+    </footer>
 
 </body>
 </html>
@@ -115,7 +117,7 @@
     </div>
 }else{
 <div class="text-center">
-   
+
     <dl style="max-width:800px">
         <dd>Remaining time</dd>
         <dt>@Html.DisplayFor(model=>model.Duration)</dt>

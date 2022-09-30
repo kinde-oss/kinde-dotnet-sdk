@@ -29,8 +29,9 @@ namespace Kinde.DemoMVC.Controllers
                 var client = KindeClientFactory.Instance.Get(HttpContext.Session.GetString("KindeCorrelationId"));
                 if(client.AuthotizationState == Kinde.Api.Enums.AuthotizationStates.Authorized)
                 {
+                    ViewBag.Authorized = true;
                     var model = await client.GetUserProfile();
-
+                    
                     return View("Index", model);
                 }
               
@@ -73,7 +74,7 @@ namespace Kinde.DemoMVC.Controllers
             string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
           
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-           var url = await client.Logout();
+             var url = await client.Logout();
             
             return Redirect(url);
         }

@@ -130,7 +130,7 @@ namespace Kinde.Api.Flows
             parameters.Add("grant_type", "refresh_token");
             parameters.Add("refresh_token", Token.RefreshToken);
             parameters.Add("client_secret", Configuration.ClientSecret);
-            var response = await _httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
+            var response = await client.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
