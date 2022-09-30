@@ -4,7 +4,10 @@ namespace Kinde.Api.Models.Configuration
 {
     public class ClientCredentialsConfiguration : BaseAuthorizationConfiguration
     {
+        public ClientCredentialsConfiguration()
+        {
 
+        }
         public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret) : base(clientId, clientSecret, "ClientCredentials", scope)
         {
 
