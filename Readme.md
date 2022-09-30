@@ -41,15 +41,23 @@ Configuration example:
     }
   },
 ```
-
-Anyway, you should register configuration providers using .net DI:
+Also, you should register configuration providers using .net DI:
 ```csharp
 builder.Services.AddTransient<IAuthorizationConfigurationProvider, DefaultAuthorizationConfigurationProvider>();
 builder.Services.AddTransient<IApplicationConfigurationProvider, DefaultApplicationConfigurationProvider>();
 ```
+PKCES256Configutation is most complicated configuration and contains all necessary properties. Configuration for Authentication code is same and for Client credentials State is not applicable. But it is not mandatory to remove it.
+All availiable types are:
+1. Kinde.Api.Models.Configuration.PKCES256Configutation
+2. Kinde.Api.Models.Configuration.AuthorizationCodeConfiguration
+3. Kinde.Api.Models.Configuration.ClientCredentialsConfiguration
 
-#### 1. Login for NOT web application
+Besides configuration, all code approach is quite similar. Only difference is if authorization flow requires user redirection or not.
+For Client configuration ```Authorize()``` call is enough for authoriztion.
+For others (PKCE and Authorization code) you should handle redirection to Kinde (as IdP) and handle callback to end authorization.
 
+
+#### 1. Login with no redirection, using Client credentials flow
 For not web application only client credentials flow can be used. Because other flows requires user interaction via browser. 
 Example: <br>
 ```csharp
@@ -64,7 +72,7 @@ var myOrganization  = client.CreateOrganizationAsync("My new best organization")
 
 After this you can call any api methods on this instance.
 
-#### 2. Login for web applications
+#### 2. Login with redirection, using PKCE256 flow or Authorization code
 
 For web applications api clients should be connected to user session. To keep them sync use <code>KindeClientFactory</code>. I t has thread safe dictionary to save client instances. It is highly recommended to use Session Id or something like this as a key for instance.
 
