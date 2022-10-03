@@ -13,6 +13,7 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/kinde-oss/kinde-auth-dotnet</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="Dependencies\favicon-3.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
