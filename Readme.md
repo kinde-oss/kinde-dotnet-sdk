@@ -167,7 +167,31 @@ public async Task<IActionResult> Renew()
             return RedirectToAction("Index");
         }
 ```
+## Usage
+### Calling API
+```csharp
+ // Don't forget to add "using Kinde;", all data objects models located in this namespace 
+ var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+ Users users = (Users)await client.GetUsersAsync(sort: Sort.Name_asc, page_size: 20, user_id: null, next_token: "next", cancellationToken: CancellationToken.None );
+ foreach(User user in users){
+    Console.WriteLine(user.Full_name + " is awesome!");
+ }
+```
 
+### User profile
+
+Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
+```csharp
+                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+                 user = client.User;
+                var id = user.Id; // get user id
+                var gName = user.GivenName; // get given name
+                var fName = user.FamilyName;// get family name
+                var email = user.Email;// get email
+                var claim = user.GetClaim("sub"); // get claim 
+                var org = user.GetOrganisation(); // get primary organisation
+                var orgs = user.GetOrganisations(); // get all avaliable organisations for user
+```
 
 More usage examples can be found in Kinde.DemoMvc project.
 

@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="Dependencies\kinde-mgmt-api-specs.yaml" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient" Link="OpenAPIs\kinde-mgmt-api-specs.yaml" />
+    <OpenApiReference Include="Dependencies\kinde-mgmt-api-specs.yaml" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient" Link="Dependencies\kinde-mgmt-api-specs.yaml">
+		   <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
+    </OpenApiReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +54,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="OpenAPIs\" />
   </ItemGroup>
 
 </Project>
