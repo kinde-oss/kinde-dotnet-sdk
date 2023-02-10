@@ -22,11 +22,11 @@ namespace Kinde.Api.Models.User
             var handler = new JwtSecurityTokenHandler();
 
             var user = new KindeSSOUser();
-            if (!string.IsNullOrEmpty(token.AccessToken))
+            if (!string.IsNullOrEmpty(token.AccessToken) && handler.CanReadToken(token.AccessToken))
             {
                 user.AccessToken = handler.ReadJwtToken(token.AccessToken);
             }
-            if (!string.IsNullOrEmpty(token.IdToken))
+            if (!string.IsNullOrEmpty(token.IdToken) && handler.CanReadToken(token.IdToken))
             {
                 Debug.WriteLine("Id token is empty, so user profile will be unavaliable");
                 user.IdToken = handler.ReadJwtToken(token.IdToken);
