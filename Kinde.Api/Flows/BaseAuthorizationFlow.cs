@@ -54,7 +54,7 @@ namespace Kinde.Api.Flows
             if (RequiresRedirection)
             {
                 var url = BuildUrl(IdentityProviderConfiguration.Domain + "/oauth2/auth", parameters);
-              //  var response = await httpClient.GetAsync();
+             
                 await UserActionsResolver
                        .SetLoginUrl(url
                        , ((IRedirectAuthorizationConfiguration)Configuration).State);
@@ -62,7 +62,7 @@ namespace Kinde.Api.Flows
                 KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
                 AuthotizationState = AuthotizationStates.UserActionsNeeded;
                 return AuthotizationState;
-                // var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/auth", BuildContent(parameters));
+              
              
             }
             else
@@ -207,7 +207,7 @@ namespace Kinde.Api.Flows
         public virtual async Task<object> GetUserProfile(HttpClient httpClient)
         {
 
-            var response = await _httpClient.GetAsync(IdentityProviderConfiguration.Domain + "/oauth2/user_profile");
+            var response = await _httpClient.GetAsync(IdentityProviderConfiguration.Domain + "/oauth2/v2/user_profile");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

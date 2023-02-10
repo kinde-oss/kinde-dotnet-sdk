@@ -104,7 +104,7 @@ This code won't authenticate user complletely. We should wait for data on callba
             var client = KindeClientFactory.Instance.Get(correlationId); //already authorized instance
             // Api call
             //   vvv
-            var myOrganization  = client.CreateOrganizationAsync("My new best organization");
+            var myOrganization  = client.GetUserAsync();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +121,7 @@ User registration is same as authorization. With one tiny difference:
                 HttpContext.Session.SetString("KindeCorrelationId", correlationId);
             }
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-            await client.Authorize(_authConfigurationProvider.Get(), true); //<--- Pass true to register user
+            await client.Register(_authConfigurationProvider.Get()); //<--- Pass true to register user
             if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
             {
                 return Redirect(await client.GetRedirectionUrl(correlationId));
