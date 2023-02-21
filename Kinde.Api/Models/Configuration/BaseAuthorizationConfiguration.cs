@@ -15,9 +15,10 @@ namespace Kinde.Api.Models.Configuration
             Scope = scope;
             ClientSecret = clientSecret; 
         }
-
+        public bool IsCreateOrganisation { get; set; }
+        public string OrganisationId { get; set; }
         public string ClientId { get; set; }
-
+        public string Audience { get; set; }
         public string ClientSecret { get; set; }
         public string Scope { get; set; }
         public string GrantType { get; set; }

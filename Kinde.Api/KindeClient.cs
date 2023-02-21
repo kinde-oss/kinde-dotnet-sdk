@@ -2,16 +2,21 @@
 using Kinde.Api.Flows;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
+using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
+using static Kinde.Api.Models.User.KindeSSOUser;
 
 namespace Kinde
 {
     public partial class KindeClient
     {
+
         public static AuthorizationCodeStore<string, string> CodeStore = new AuthorizationCodeStore<string, string>();
+        public KindeSSOUser User { get { return authorizationFlow?.User; } }
         public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
         protected IAuthorizationFlow authorizationFlow { get; set; }
         public OauthToken Token { get { return authorizationFlow.Token; } }
+        public bool IsAuthenticated { get { return Token != null && !Token.IsExpired; } }
         public IApplicationConfiguration IdentityProviderConfiguration { get; set; }
         public KindeClient(IApplicationConfiguration identityProviderConfiguration, HttpClient httpClient) : this(httpClient)
         {
@@ -24,7 +29,15 @@ namespace Kinde
         {
             authorizationFlow.AuthorizeRequest(request);
         }
-        public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration, bool register = false)
+        public async Task Authorize(IAuthorizationConfiguration authorizationConfiguration)
+        {
+            await Authorize(authorizationConfiguration, false);
+        }
+        public async Task Register(IAuthorizationConfiguration authorizationConfiguration)
+        {
+            await Authorize(authorizationConfiguration, true);
+        }
+        protected async Task Authorize(IAuthorizationConfiguration authorizationConfiguration, bool register)
         {
             if (IdentityProviderConfiguration == null)
             {
@@ -42,6 +55,7 @@ namespace Kinde
                 throw new ApplicationException("Authorization failed");
             }
         }
+
         public async Task<string> GetRedirectionUrl(string state)
         {
             return await authorizationFlow.UserActionsResolver.GetLoginUrl(state);
@@ -77,25 +91,48 @@ namespace Kinde
 
         public async Task<object?> GetUserProfile()
         {
-            if (authorizationFlow.RequiresRedirection)
-            {
-                return await authorizationFlow.GetUserProfile(_httpClient);
-            }
-            else
-            {
-                return null;
-            }
-           
+            return await authorizationFlow.GetUserProfile(_httpClient);
+
         }
 
         public async Task<string> Logout()
         {
              await authorizationFlow.Logout(_httpClient);
-            return IdentityProviderConfiguration.Domain +   "/logout?redirect=" + IdentityProviderConfiguration.LogoutUrl;
+             return IdentityProviderConfiguration.Domain +   "/logout?redirect=" + IdentityProviderConfiguration.LogoutUrl;
         }
         public async Task Renew()
         {
             await authorizationFlow.Renew(_httpClient);
         }
+
+        #region User profile methods
+
+        public KindeSSOUser? GetUserDetails()
+        {
+            return User;
+        }
+
+        public object? GetClaim(string key)
+        {
+            return User?.GetClaim(key);
+        }
+        public OrganisationPermissionsCollection? GetPermissions()
+        {
+            return User?.GetPermissions();
+
+        }
+        public OrganisationPermission? GetPermission(string key)
+        {
+            return User?.GetPermission(key);
+        }
+        public string? GetOrganisation()
+        {
+            return User.GetOrganisation();
+        }
+        public string[]? GetOrganisations()
+        {
+            return User.GetOrganisations();
+        }
+        #endregion
     }
 }

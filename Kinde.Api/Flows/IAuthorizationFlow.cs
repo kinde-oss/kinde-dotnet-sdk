@@ -6,6 +6,8 @@ namespace Kinde.Api.Flows
 {
     public interface IAuthorizationFlow
     {
+
+        public KindeSSOUser User { get; }
         public bool RequiresRedirection { get; }
         AuthotizationStates AuthotizationState { get; set; }
         IUserActionResolver UserActionsResolver { get; init; }
