@@ -17,9 +17,9 @@ namespace UnitTests
         public const string NoIdToken = "{\"access_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc1OmIyOjU5OjQ4OjdkOjEwOjg1OjQzOmY4OjkxOjUyOjJlOmFkOjllOmZhOjJhIiwidHlwIjoiSldUIn0.eyJhdWQiOltdLCJhenAiOiJyZWdAbGl2ZSIsImV4cCI6MTY3MzA5MjkxNCwiaWF0IjoxNjczMDA2NTE0LCJpc3MiOiJodHRwczovL3Rlc3RhdXRoLmtpbmRlLmNvbSIsImp0aSI6ImYxNGEzMmU1LTNjNmYtNDAwZS04MjdjLTQyZDMwNmUyYmQ1MSIsIm9yZ19jb2RlIjoib3JnXzRkYTBiOTE4ZjZiIiwicGVybWlzc2lvbnMiOm51bGwsInNjcCI6WyJvcGVuaWQiLCJvZmZsaW5lIiwicHJvZmlsZSIsImVtYWlsIl0sInN1YiI6ImtwOmI0MzVhODkyZTMzODRhZWFhYzJlYmFiNTJhYWY1MjZlIn0.Sg--HghqbB7HQgvH1FmUASqy_HetAoFCyqT9g3igg61oAP0uWChsDgWcg0GHjPZqJleSHw9309UV34MN3RyjjxB91g56l-WlJhDJaOz6sMR2q2siE8Rg7oQ_pACQixC6m_i6SNVfcKxcvlCCWsKzcID3Syy6N1rBsgThq4dHv-MT8awz7Ze5prEIej_5MjvqKo9wVer9kZEWy6EuCq38YbVzIaRwQAixBq997fgzmL9Yr33G1xnmQg9VzfZwJMReWIujcUelaG_P8GI3ZsTIekM6u8rkBplRXCAWIJteIhKbC5_RSNg8zBuKiIdYOg4eX10jbSQUa6vM0bZ4IHUzZw\",\"expires_in\": 86399,\"refresh_token\": \"5olDoXlsMgXLtsZ7hWGApw4JPV7gwOtNW2hgYhI9Ncg.Cb_inZRu1X57sPhA1SL24D838MSmQXVJ1K1yyOTAS_A\",\"scope\": \"openid offline profile email\",\"token_type\": \"bearer\"}";
        
         [TestMethod]
-        [DataRow(FullToken)]
-        [DataRow(NoIdToken)]
-        public async Task ProfileNullReferencesTest(string token)
+        [DataRow(FullToken, true)]
+        [DataRow(NoIdToken, false)]
+        public async Task ProfileNullReferencesTest(string token, bool shouldHaveValue)
         {
             //Arrange
             var oauthToken = JsonConvert.DeserializeObject<OauthToken>(token);
@@ -43,7 +43,19 @@ namespace UnitTests
                 var email = user.Email;
                 var claim = user.GetClaim("sub");
                 var anotherClaim = user.GetClaim("iat");
+                var organisations = user.GetOrganisations();
                 var unknownClaim = user.GetClaim("something");
+                if(shouldHaveValue)
+                {
+                    Assert.IsNotNull(id);
+                    Assert.IsNotNull(gName);
+                    Assert.IsNotNull(fName);
+                    Assert.IsNotNull(claim);
+                    Assert.IsNotNull(email);
+                    Assert.IsNotNull(anotherClaim);
+                    Assert.IsNotNull(organisations);
+                     
+                }
             }
             catch(Exception ex)
             {
