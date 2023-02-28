@@ -89,7 +89,7 @@ namespace Kinde
 
         }
 
-        public async Task<object?> GetUserProfile()
+        public async Task<object?> GetUserDetails()
         {
             return await authorizationFlow.GetUserProfile(_httpClient);
 
@@ -107,10 +107,7 @@ namespace Kinde
 
         #region User profile methods
 
-        public KindeSSOUser? GetUserDetails()
-        {
-            return User;
-        }
+    
 
         public object? GetClaim(string key)
         {
