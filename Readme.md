@@ -48,7 +48,7 @@ builder.Services.AddTransient<IApplicationConfigurationProvider, DefaultApplicat
 ```
 PKCES256Configutation is most complicated configuration and contains all necessary properties. Configuration for Authentication code is same and for Client credentials State is not applicable. But it is not mandatory to remove it.
 All availiable types are:
-1. Kinde.Api.Models.Configuration.PKCES256Configutation
+1. Kinde.Api.Models.Configuration.PKCES256Configuration
 2. Kinde.Api.Models.Configuration.AuthorizationCodeConfiguration
 3. Kinde.Api.Models.Configuration.ClientCredentialsConfiguration
 
@@ -102,7 +102,7 @@ Example:<br>
    }
 ```
 
-This code won't authenticate user complletely. We should wait for data on callback endpoint and execute this: <br>
+This code won't authenticate user completely. We should wait for data on callback endpoint and execute this: <br>
 ```csharp
         public IActionResult Callback(string code, string state)
         {
@@ -128,8 +128,9 @@ User registration is same as authorization. With one tiny difference:
                 HttpContext.Session.SetString("KindeCorrelationId", correlationId);
             }
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-            await client.Authorize(_authConfigurationProvider.Get(), true); //<--- Pass true to register user
-            if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+             await client.Register(_authConfigurationProvider.Get()) //<--- Register, if needed
+            await client.Authorize(_authConfigurationProvider.Get()); 
+            if (client.AuthorizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
             {
                 return Redirect(await client.GetRedirectionUrl(correlationId));
             }
@@ -183,14 +184,11 @@ public async Task<IActionResult> Renew()
 Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
 ```csharp
                 var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-                 user = client.User;
-                var id = user.Id; // get user id
-                var gName = user.GivenName; // get given name
-                var fName = user.FamilyName;// get family name
-                var email = user.Email;// get email
-                var claim = user.GetClaim("sub"); // get claim 
-                var org = user.GetOrganisation(); // get primary organisation
-                var orgs = user.GetOrganisations(); // get all avaliable organisations for user
+                var claim = client.GetClaim("sub"); //get claim
+                var organisations = client.GetOrganisations(); ; //get avaliable organisations
+                var organisation = client.GetOrganisation();  //get single organisation
+                var permissions = client.GetPermissions(); //get all permissions
+                var permission = client.GetPermission("something"); //get permission
 ```
 
 More usage examples can be found in Kinde.DemoMvc project.
