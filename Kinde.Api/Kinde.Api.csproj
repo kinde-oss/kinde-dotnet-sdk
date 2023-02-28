@@ -15,7 +15,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-auth-dotnet</RepositoryUrl>
   </PropertyGroup>
-
+<PropertyGroup>
+ <OpenApiGenerateCodeOnBuild>true</OpenApiGenerateCodeOnBuild>
+    <OpenApiGenerateCodeAtDesignTime>false</OpenApiGenerateCodeAtDesignTime>
+</PropertyGroup>
   <ItemGroup>
     <None Remove="Dependencies\favicon-3.png" />
   </ItemGroup>
@@ -26,12 +29,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <OpenApiReference Include="Dependencies\kinde-mgmt-api-specs.yaml" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient" Link="Dependencies\kinde-mgmt-api-specs.yaml">
-		   <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
-    </OpenApiReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -57,7 +54,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="OpenAPIs\" />
+    <OpenApiReference Include="OpenAPIs\kinde-mgmt-api-specs.yaml" OpenApiGenerateCodeOnBuild="true" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient">
+      <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
+	 
+    </OpenApiReference>
   </ItemGroup>
-
+	
+ <!--<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
+	 <Exec
+	   ConsoleToMSBuild="true"
+	   ContinueOnError="true"
+	   Command="$(NSwagExe) openapi2csclient  /input:https://kinde.com/api/kinde-mgmt-api-specs.yaml
+                       /classname:KindeClient 
+                       /namespace:Kinde
+                       /output:kinde-mgmt-api-specsClient.cs">
+		 <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
+		 <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput" />
+	 </Exec> <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)\kinde-mgmt-api-specsClient.cs" />
+    </ItemGroup>
+  </Target>-->
 </Project>

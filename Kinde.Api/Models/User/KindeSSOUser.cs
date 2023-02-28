@@ -68,7 +68,8 @@ namespace Kinde.Api.Models.User
         }
         public OrganisationPermission GetPermission(string key)
         {
-            if (GetClaim<string[]>("permissions").Any(x => x == key))
+            var permissions = GetClaim<string[]>("permissions");
+            if (permissions!=null && permissions.Any(x => x == key))
             {
                 return new OrganisationPermission() { Id = key, OrganisationId = GetOrganisation(), Granted = true };
             }
@@ -83,11 +84,11 @@ namespace Kinde.Api.Models.User
             var jObject = default(object?);
             if (AccessToken?.Payload != null && AccessToken.Payload.TryGetValue(key, out var accessTokenVal))
             {
-                jObject = accessTokenVal.ToString();
+                jObject = accessTokenVal;
             }
             if (IdToken?.Payload != null && IdToken.Payload.TryGetValue(key, out var idTokenVal))
             {
-                jObject = idTokenVal.ToString();
+                jObject = idTokenVal;
             }
             if (jObject != null)
             {

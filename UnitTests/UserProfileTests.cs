@@ -45,7 +45,8 @@ namespace UnitTests
                 var anotherClaim = user.GetClaim("iat");
                 var organisations = user.GetOrganisations();
                 var unknownClaim = user.GetClaim("something");
-                if(shouldHaveValue)
+                var permissions = user.GetPermission("something");
+                if (shouldHaveValue)
                 {
                     Assert.IsNotNull(id);
                     Assert.IsNotNull(gName);
