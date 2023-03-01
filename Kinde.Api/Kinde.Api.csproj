@@ -48,6 +48,14 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+ 
+	<PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+</PropertyGroup>
+
+<ItemGroup>
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
+</ItemGroup>
 	<PropertyGroup>
 		<OpenApiGenerateCodeOnBuild>false</OpenApiGenerateCodeOnBuild>
 		<OpenApiGenerateCodeAtDesignTime>false</OpenApiGenerateCodeAtDesignTime>
@@ -57,6 +65,7 @@
       <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
 	 
     </OpenApiReference>
+
   </ItemGroup>
 	
 	<Target Name="BuildBuildTasks" BeforeTargets="DownloadMetadata">
@@ -64,7 +73,7 @@
 		<Exec Command="dotnet publish $(SolutionDir)Kinde.BuildTasks\Kinde.BuildTasks.csproj --output $(SolutionDir)Temp"/>
            </Target>
 	<UsingTask TaskName="Kinde.BuildTasks.DownloadFileWithUserAgent" TaskFactory="TaskHostFactory"
-			   AssemblyFile="$(SolutionDir)Dependencies\Kinde.BuildTasks.dll"/>
+			   AssemblyFile="$(SolutionDir)Temp\Kinde.BuildTasks.dll"/>
 	<Target Name="DownloadMetadata" BeforeTargets="CoreCompile;PrepareResource">
 		<DownloadFileWithUserAgent 
 			SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml"
