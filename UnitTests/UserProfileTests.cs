@@ -41,11 +41,14 @@ namespace UnitTests
                 var gName = user.GivenName;
                 var fName = user.FamilyName;
                 var email = user.Email;
-                var claim = user.GetClaim("sub");
                 var anotherClaim = user.GetClaim("iat");
-                var organisations = user.GetOrganisations();
+                var claim = user.GetClaim("sub"); //get claim
+                var organisations = user.GetOrganisations(); ; //get avaliable organisations
+                var organisation = user.GetOrganisation();  //get single organisation
+                var permissions = user.GetPermissions(); //get all permissions
+                var permission = user.GetPermission("something"); //get permission
                 var unknownClaim = user.GetClaim("something");
-                var permissions = user.GetPermission("something");
+          
                 if (shouldHaveValue)
                 {
                     Assert.IsNotNull(id);

@@ -1,6 +1,6 @@
 ﻿namespace Kinde.Api.Enums
 {
-    public enum AuthotizationStates
+    public enum AuthorizationStates
     {
         None,
         NonAuthorized,

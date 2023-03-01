@@ -15,10 +15,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-auth-dotnet</RepositoryUrl>
   </PropertyGroup>
-<PropertyGroup>
- <OpenApiGenerateCodeOnBuild>true</OpenApiGenerateCodeOnBuild>
-    <OpenApiGenerateCodeAtDesignTime>false</OpenApiGenerateCodeAtDesignTime>
-</PropertyGroup>
   <ItemGroup>
     <None Remove="Dependencies\favicon-3.png" />
   </ItemGroup>
@@ -52,7 +48,10 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+	<PropertyGroup>
+		<OpenApiGenerateCodeOnBuild>false</OpenApiGenerateCodeOnBuild>
+		<OpenApiGenerateCodeAtDesignTime>false</OpenApiGenerateCodeAtDesignTime>
+	</PropertyGroup>
   <ItemGroup>
     <OpenApiReference Include="OpenAPIs\kinde-mgmt-api-specs.yaml" OpenApiGenerateCodeOnBuild="true" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient">
       <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
@@ -60,18 +59,26 @@
     </OpenApiReference>
   </ItemGroup>
 	
- <!--<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
+	<Target Name="BuildBuildTasks" BeforeTargets="DownloadMetadata">
+	
+		<Exec Command="dotnet publish $(SolutionDir)Kinde.BuildTasks\Kinde.BuildTasks.csproj --output $(SolutionDir)Temp"/>
+           </Target>
+	<UsingTask TaskName="Kinde.BuildTasks.DownloadFileWithUserAgent" TaskFactory="TaskHostFactory"
+			   AssemblyFile="$(SolutionDir)Dependencies\Kinde.BuildTasks.dll"/>
+	<Target Name="DownloadMetadata" BeforeTargets="CoreCompile;PrepareResource">
+		<DownloadFileWithUserAgent 
+			SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml"
+			DestinationPath="$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml"></DownloadFileWithUserAgent>
+	</Target>
+	<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
 	 <Exec
 	   ConsoleToMSBuild="true"
 	   ContinueOnError="true"
-	   Command="$(NSwagExe) openapi2csclient  /input:https://kinde.com/api/kinde-mgmt-api-specs.yaml
-                       /classname:KindeClient 
-                       /namespace:Kinde
-                       /output:kinde-mgmt-api-specsClient.cs">
+	   Command="$(NSwagExe) openapi2csclient  /input:$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml /classname:KindeClient /namespace:Kinde /output:$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs">
 		 <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
 		 <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput" />
 	 </Exec> <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)\kinde-mgmt-api-specsClient.cs" />
+      <Compile Include="$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs" />
     </ItemGroup>
-  </Target>-->
+  </Target>
 </Project>

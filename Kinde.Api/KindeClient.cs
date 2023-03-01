@@ -13,7 +13,7 @@ namespace Kinde
         public static int test = 0;
         public static AuthorizationCodeStore<string, string> CodeStore = new AuthorizationCodeStore<string, string>();
         public KindeSSOUser User { get { return authorizationFlow?.User; } }
-        public AuthotizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthotizationStates.None; } }
+        public AuthorizationStates AuthotizationState { get { return authorizationFlow?.AuthotizationState ?? AuthorizationStates.None; } }
         protected IAuthorizationFlow authorizationFlow { get; set; }
         public OauthToken Token { get { return authorizationFlow.Token; } }
         public bool IsAuthenticated { get { return Token != null && !Token.IsExpired; } }
@@ -50,7 +50,7 @@ namespace Kinde
             authorizationFlow = authorizationConfiguration.CreateAuthorizationFlow(IdentityProviderConfiguration);
 
             var state = await authorizationFlow.Authorize(_httpClient, register);
-            if (state == AuthotizationStates.NonAuthorized)
+            if (state == AuthorizationStates.NonAuthorized)
             {
                 throw new ApplicationException("Authorization failed");
             }

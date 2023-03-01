@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32602.291
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kinde.Api", "Kinde.Api\Kinde.Api.csproj", "{0602FB0E-DA2A-48E0-BCC2-67BE2CC8917E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{EBC0E7CA-B727-4163-A575-5EF1369A59BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinde.BuildTasks", "Kinde.BuildTasks\Kinde.BuildTasks.csproj", "{B4993154-E61C-4425-9F68-82549DBD1054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBC0E7CA-B727-4163-A575-5EF1369A59BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4993154-E61C-4425-9F68-82549DBD1054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4993154-E61C-4425-9F68-82549DBD1054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4993154-E61C-4425-9F68-82549DBD1054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4993154-E61C-4425-9F68-82549DBD1054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

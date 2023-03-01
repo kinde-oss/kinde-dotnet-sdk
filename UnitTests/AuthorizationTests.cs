@@ -38,7 +38,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.Authorized, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthorizationStates.Authorized, apiClient.AuthotizationState);
             Assert.IsNotNull(apiClient.Token);
         }
         [TestMethod]
@@ -66,7 +66,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthorizationStates.UserActionsNeeded, apiClient.AuthotizationState);
             Assert.IsNull(apiClient.Token);
         }
         [TestMethod]
@@ -94,7 +94,7 @@ namespace UnitTests
             var task = apiClient.Authorize(authConfig);
             task.Wait();
             //Assert
-            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.UserActionsNeeded, apiClient.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthorizationStates.UserActionsNeeded, apiClient.AuthotizationState);
             Assert.IsNull(apiClient.Token);
             Assert.ThrowsException<KeyNotFoundException>(() => { KindeClient.CodeStore.Get(authConfig.State); });
             

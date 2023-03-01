@@ -42,7 +42,7 @@ namespace UnitTests
            
             KindeClient.OnCodeRecieved("here_is_code", authConfig.State);
             Assert.AreEqual(client, KindeClientFactory.Instance.Get("123"));
-            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.Authorized, client.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthorizationStates.Authorized, client.AuthotizationState);
             Assert.ThrowsException<KeyNotFoundException>(()=> { KindeClient.CodeStore.Get("123"); });
 
             KindeClientFactory.Instance.Remove("123");
