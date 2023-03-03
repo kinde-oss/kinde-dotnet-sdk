@@ -1,6 +1,6 @@
 ### Overview
 
-This project should help users to access Kinde api with oauth authentication. It contains 3 pre-built OAuth flows: client credentials, authorization code and authorization code with PKCE code verifier. After build it produces nuget package, which should be published to nuget repository.
+This project should help users to access Kinde api with oauth authentication. It contains 3 pre-built OAuth flows: client credentials, authorization code and authorization code with PKCE code verifier. After build it produces nuget package, which should be published to nuget repository.  
 
 ### Build
 
@@ -169,7 +169,11 @@ public async Task<IActionResult> Renew()
         }
 ```
 ## Usage
+
+
 ### Calling API
+
+
 ```csharp
  // Don't forget to add "using Kinde;", all data objects models located in this namespace 
  var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
@@ -178,6 +182,7 @@ public async Task<IActionResult> Renew()
     Console.WriteLine(user.Full_name + " is awesome!");
  }
 ```
+Full API Documentation can be found [here](https://kinde.com/api/docs/#kinde-management-api).
 
 ### User profile
 
