@@ -1,19 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>Kinde.SDK</PackageId>
+    <Version>0.0.1</Version>
+    <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
+    <Description>
+      The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.
+    </Description>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Kinde api client, extended with authorization </Description>
     <Copyright>Kinde</Copyright>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://kinde.com/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryUrl>https://github.com/kinde-oss/kinde-auth-dotnet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
+    <Company>Kinde</Company>
+    <Product>Kinde Platform</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Dependencies\favicon-3.png" />
