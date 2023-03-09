@@ -86,6 +86,9 @@
 		<DownloadFileWithUserAgent 
 			SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml"
 			DestinationPath="$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml"></DownloadFileWithUserAgent>
+			<DownloadFileWithUserAgent 
+			SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml"
+			DestinationPath="$(SolutionDir)Kinde.Api\OpenAPIs\kinde-mgmt-api-specs.yaml"></DownloadFileWithUserAgent>
 	</Target>
 	<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
 	 <Exec

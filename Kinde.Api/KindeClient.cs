@@ -91,7 +91,7 @@ namespace Kinde
 
         public async Task<object?> GetUserDetails()
         {
-            return await authorizationFlow.GetUserProfile(_httpClient);
+            return await this.GetUserProfileV2Async();
 
         }
 

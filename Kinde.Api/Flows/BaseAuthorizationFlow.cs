@@ -30,7 +30,6 @@ namespace Kinde.Api.Flows
             var parameters = new Dictionary<string, string>
             {
                 { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret },
                 { "scope", Configuration.Scope },
                 { "is_create_org", Configuration.IsCreateOrganisation.ToString()}
             };
