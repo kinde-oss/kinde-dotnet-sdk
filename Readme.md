@@ -12,7 +12,7 @@ There is no need to install any dependencies, nuget manager will restore automat
 
 ### Getting Started
 
-### Kinde configuration
+#### Kinde configuration
 
 Before working with SDK it is necessary to [create api](https://kinde.com/docs/developer-tools/register-an-api/) and [create application](https://kinde.com/docs/developer-tools/add-a-m2m-application-for-api-access/) using Kinde admin panel.
 
