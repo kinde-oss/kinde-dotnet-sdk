@@ -6,7 +6,7 @@ This project should help users to access Kinde api with oauth authentication. It
 
 VS automaticaly recreates access client using yaml metadata on build. Right now it references to static file, but it can be re-targeted to some web published file to get latest one for each build. in this case nuget will be built with latest api version. Nuget package will be built automaticaly too. But publishing to nuget.org requires additional setup. 
 
-### Usage
+### Configuration
 
 ##### Don't use constructor without <code>IIdentityProviderConfiguration</code> parameter. This will throw exceptions.
 
@@ -56,6 +56,7 @@ Besides configuration, all code approach is quite similar. Only difference is if
 For Client configuration ```Authorize()``` call is enough for authoriztion.
 For others (PKCE and Authorization code) you should handle redirection to Kinde (as IdP) and handle callback to end authorization.
 
+### Authentication
 
 #### 1. Login with no redirection, using Client credentials flow
 For not web application only client credentials flow can be used. Because other flows requires user interaction via browser. 
