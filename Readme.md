@@ -6,13 +6,21 @@ This project should help users to access Kinde api with oauth authentication. It
 
 VS automaticaly recreates access client using yaml metadata on build. Right now it references to static file, but it can be re-targeted to some web published file to get latest one for each build. in this case nuget will be built with latest api version. Nuget package will be built automaticaly too. But publishing to nuget.org requires additional setup. 
 
+### Installing dependencies
+
+There is no need to install any dependencies, nuget manager will restore automatically on build.
+
 ### Getting Started
+
+### Kinde configuration
+
+Before working with SDK it is necessary to [create api](https://kinde.com/docs/developer-tools/register-an-api/) and [create application](https://kinde.com/docs/developer-tools/add-a-m2m-application-for-api-access/) using Kinde admin panel.
 
 #### Configuration
 
 ##### Don't use constructor without <code>IIdentityProviderConfiguration</code> parameter. This will throw exceptions.
 
-Identity provider configuration contains these parameters:
+Environment settings locatedi in <code>IIdentityProviderConfiguration</code>. These are common settings for any user in application scope. Identity provider configuration contains these parameters:
 - Domain. Base domain used for authorization. must be subdomain of kinde.com. F.E. testauth.kinde.com
 - ReplyUrl. Unused for client credentials, but used as callback url for other flows. May be null for client credentials
 - LogoutUrl. Url for redirection after logout.
@@ -57,6 +65,10 @@ All availiable types are:
 Besides configuration, all code approach is quite similar. Only difference is if authorization flow requires user redirection or not.
 For Client configuration ```Authorize()``` call is enough for authoriztion.
 For others (PKCE and Authorization code) you should handle redirection to Kinde (as IdP) and handle callback to end authorization.
+
+### Integration to your application
+
+Main instrument for integration is ```KindeClientFactory``` class. It provides thread safe instances creating and retreiving. It is not mandatory to use it, you can create your own solution for web app to control access for list of users.
 
 #### Authentication
 
@@ -171,8 +183,16 @@ public async Task<IActionResult> Renew()
             return RedirectToAction("Index");
         }
 ```
-
 #### Getting user information
+
+There is a method ```GetUserDetails``` to get user profile. 
+
+```csharp
+                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+                var claim = client.GetUserDetails(); //returns user profile
+```
+
+#### Getting token details
 
 Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
 ```csharp
