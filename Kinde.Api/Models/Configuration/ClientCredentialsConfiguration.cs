@@ -8,7 +8,7 @@ namespace Kinde.Api.Models.Configuration
         {
 
         }
-        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret) : base(clientId, clientSecret, "ClientCredentials", scope)
+        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret, string audience) : base(clientId, clientSecret, "ClientCredentials", scope,audience)
         {
 
         }

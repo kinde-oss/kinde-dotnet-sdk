@@ -13,12 +13,12 @@ servers:
     variables:
       businessName:
         default: app
-        description: Business Name created in the Kinde Console
+        description: Business name created in the Kinde admin area.
 security:
   - kindeBearerAuth: []
 tags:
   - name: Users
-    description: Everything about your end-users
+    description: Everything about your end-users.
 paths:
   /oauth2/user_profile:
     get:
@@ -26,11 +26,11 @@ paths:
         - OAuth
       operationId: getUser
       description: |
-        Contains the id, names and email of the currently logged in user
+        Contains the id, names and email of the currently logged in user.
       summary: Returns the details of the currently logged in user
       responses:
         '200':
-          description: Details of logged in user V1
+          description: Details of logged in user V1.
           content:
             application/json:
               schema:
@@ -43,11 +43,11 @@ paths:
         - OAuth
       operationId: getUserProfileV2
       description: |
-        Contains the id, names, profile picture URL and email of the currently logged in user
+        Contains the id, names, profile picture URL and email of the currently logged in user.
       summary: Returns the details of the currently logged in user
       responses:
         '200':
-          description: Details of logged in user V2
+          description: Details of logged in user V2.
           content:
             application/json:
               schema:
@@ -96,7 +96,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Response code.
+                  message:
+                    type: string
+                    description: Response message.
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+                  next_token:
+                    type: string
+                    description: Pagination token.
         '403':
           description: Invalid credentials.
   /api/v1/user:
@@ -105,7 +119,7 @@ paths:
         - Users
       operationId: getUserData
       description: |
-        Retrieve a user record
+        Retrieve a user record.
       summary: Get User
       parameters:
         - name: id
@@ -122,11 +136,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
         '400':
-          description: Id is not provided.
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: User not found.
     post:
       tags:
         - Users
@@ -144,32 +160,32 @@ paths:
               type: object
               properties:
                 profile:
-                  description: Basic information required to create a user
+                  description: Basic information required to create a user.
                   type: object
                   properties:
                     given_name:
                       type: string
-                      description: User's first name
+                      description: User's first name.
                     family_name:
                       type: string
-                      description: User's last name
+                      description: User's last name.
                 identities:
                   type: array
                   description: Array of identities to assign to the created user
                   items:
                     type: object
-                    description: The result of the user creation operation
+                    description: The result of the user creation operation.
                     properties:
                       'type':
                         type: string
-                        description: The type of identity to create, for e.g. email
+                        description: The type of identity to create, for e.g. email.
                       details:
                         type: object
-                        description: Additional details required to create the user
+                        description: Additional details required to create the user.
                         properties:
                           email:
                             type: string
-                            description: The email address of the user
+                            description: The email address of the user.
       responses:
         '200':
           description: User successfully created.
@@ -179,15 +195,21 @@ paths:
                 type: object
                 properties:
                   id:
-                    description: Unique id of the user in Kinde
+                    description: Unique id of the user in Kinde.
                     type: string
                   created:
-                    description: True if the user was successfully created
+                    description: True if the user was successfully created.
                     type: boolean
                   identities:
                     type: array
                     items:
                       $ref: '#/components/schemas/user_identity'
+        '400':
+          description: Error creating user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
     patch:
@@ -195,7 +217,7 @@ paths:
         - Users
       operationId: updateUser
       description: |
-        Update a user record
+        Update a user record.
       summary: Update User
       parameters:
         - name: id
@@ -214,10 +236,10 @@ paths:
               properties:
                 given_name:
                   type: string
-                  description: User's first name
+                  description: User's first name.
                 family_name:
                   type: string
-                  description: User's last name
+                  description: User's last name.
       responses:
         '200':
           description: User successfully updated.
@@ -226,17 +248,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
         '400':
-          description: Id is not provided.
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: User not found.
     delete:
       tags:
         - Users
       operationId: deleteuser
       description: |
-        Delete a user record
+        Delete a user record.
       summary: Delete User
       parameters:
         - name: id
@@ -246,14 +270,20 @@ paths:
             type: string
             nullable: false
       responses:
-        '204':
+        '200':
           description: User successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
-          description: Id is not provided.
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: User not found.
   /api/v1/organization:
     get:
       tags:
@@ -277,11 +307,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/organization'
         '400':
-          description: Invalid request query string. Code is not provided.
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: Organization not found.
     post:
       tags:
         - Organizations
@@ -311,8 +343,12 @@ paths:
           description: Organization successfully created.
         '403':
           description: Invalid credentials.
-        '404':
-          description: Invalid request body. Name is not provided.
+        '400':
+          description: Error creating user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '500':
           description: Could not create organization.
   /api/v1/organizations:
@@ -345,11 +381,25 @@ paths:
             nullable: true
       responses:
         '200':
-          description: A succesful response with a list of organizations or an empty list
+          description: A successful response with a list of organizations or an empty list.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organizations'
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Response code.
+                  message:
+                    type: string
+                    description: Response message.
+                  organizations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/organization'
+                  next_token:
+                    description: Pagination token.
+                    type: string
         '403':
           description: Invalid credentials.
   /api/v1/organization/users:
@@ -386,13 +436,38 @@ paths:
           schema:
             type: string
             nullable: false
+        - name: permissions
+          in: query
+          description: Filter by user permissions
+          schema:
+            type: string
       responses:
         '200':
-          description: A succesful response with a list of organization users or an empty list
+          description: A succesful response with a list of organization users or an empty list.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organization_user'
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Response code.
+                  message:
+                    type: string
+                    description: Response message.
+                  organization_users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/organization_user'
+                  next_token:
+                    type: string
+                    description: Pagination token.
+        '400':
+          description: Error creating user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
     post:
@@ -429,20 +504,26 @@ paths:
               schema:
                 type: object
                 properties:
+                  code:
+                    type: string
+                    description: Response code.
                   message:
                     type: string
-                  users_add:
+                    description: Response message.
+                  users_added:
                     type: array
                     items:
                       type: string
         '204':
           description: No users added.
         '400':
-          description: Invalid request query string. Code is not provided.
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: No organization with that code.
     patch:
       tags:
         - Organizations
@@ -483,20 +564,20 @@ paths:
                     type: array
                     items:
                       type: string
-        '204':
-          description: No users removed.
         '400':
-          description: Invalid request query string. Code is not provided.
+          description: Error creating user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
-        '404':
-          description: No organization with that code.
   /api/v1/connected_apps/auth_url:
     get:
       tags:
         - Connected Apps
       operationId: GetConnectedAppAuthUrl
-      description: Get a URL that authenticates and authorizes a user to a third-party connected app
+      description: Get a URL that authenticates and authorizes a user to a third-party connected app.
       summary: Get Connected App URL
       parameters:
         - name: key_code_ref
@@ -527,7 +608,7 @@ paths:
       tags:
         - Connected Apps
       operationId: GetConnectedAppToken
-      description: Get an access token that can be used to call the third-party provider linked to the connected app
+      description: Get an access token that can be used to call the third-party provider linked to the connected app.
       summary: Get Connected App Token
       parameters:
         - name: session_id
@@ -545,7 +626,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/connected_apps_access_token'
         '400':
-          description: The session id provided points to an invalid session
+          description: The session id provided points to an invalid session.
         '403':
           description: Invalid credentials.
   /api/v1/connected_apps/revoke:
@@ -553,7 +634,7 @@ paths:
       tags:
         - Connected Apps
       operationId: RevokeConnectedAppToken
-      description: Revoke the tokens linked to the connected app session
+      description: Revoke the tokens linked to the connected app session.
       summary: Revoke Connected App Token
       parameters:
         - name: session_id
@@ -571,7 +652,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/api_result'
         '400':
-          description: The
+          description: Bad request.
           content:
             application/json:
               schema:
@@ -583,7 +664,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/api_result'
         '405':
-          description: Invalid HTTP method used
+          description: Invalid HTTP method used.
           content:
             application/json:
               schema:
@@ -593,33 +674,33 @@ paths:
       tags:
         - Feature Flags
       operationId: CreateFeatureFlag
-      description: Create feature flag
+      description: Create feature flag.
       summary: Create a new feature flag
       parameters:
         - name: name
           in: query
-          description: The name of the flag
+          description: The name of the flag.
           schema:
             type: string
             nullable: false
           required: true
         - name: description
           in: query
-          description: Description of the flag purpose
+          description: Description of the flag purpose.
           schema:
             type: string
             nullable: false
           required: true
         - name: key
           in: query
-          description: The flag identifier to use in code
+          description: The flag identifier to use in code.
           schema:
             type: string
             nullable: false
           required: true
         - name: type
           in: query
-          description: The variable type
+          description: The variable type.
           schema:
             type: string
             enum: [str, int, bool]
@@ -627,7 +708,7 @@ paths:
           required: true
         - name: allow_override_level
           in: query
-          description: Allow the flag to be overridden at a different level
+          description: Allow the flag to be overridden at a different level.
           schema:
             type: string
             enum: [env, org]
@@ -635,7 +716,7 @@ paths:
           required: true
         - name: default_value
           in: query
-          description: Default value for the flag used by environments and organizations
+          description: Default value for the flag used by environments and organizations.
           schema:
             type: string
             nullable: false
@@ -665,13 +746,13 @@ paths:
       parameters:
         - name: feature_flag_key
           in: path
-          description: The identifier for the feature flag
+          description: The identifier for the feature flag.
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Feature flag successfully updated
+          description: Feature flag successfully updated.
           content:
             application/json:
               schema:
@@ -688,32 +769,32 @@ paths:
       tags:
         - Feature Flags
       operationId: UpdateFeatureFlag
-      description: Update feature flag
+      description: Update feature flag.
       summary: Update a feature flag
       parameters:
         - name: feature_flag_key
           in: path
-          description: The identifier for the feature flag
+          description: The identifier for the feature flag.
           required: true
           schema:
             type: string
         - name: name
           in: query
-          description: The name of the flag
+          description: The name of the flag.
           schema:
             type: string
             nullable: false
           required: true
         - name: description
           in: query
-          description: Description of the flag purpose
+          description: Description of the flag purpose.
           schema:
             type: string
             nullable: false
           required: true
         - name: key
           in: query
-          description: The flag identifier to use in code
+          description: The flag identifier to use in code.
           schema:
             type: string
             nullable: false
@@ -728,7 +809,7 @@ paths:
           required: true
         - name: allow_override_level
           in: query
-          description: Allow the flag to be overridden at a different level
+          description: Allow the flag to be overridden at a different level.
           schema:
             type: string
             enum: [env, org]
@@ -736,14 +817,14 @@ paths:
           required: true
         - name: default_value
           in: query
-          description: Default value for the flag used by environments and organizations
+          description: Default value for the flag used by environments and organizations.
           schema:
             type: string
             nullable: false
           required: true
       responses:
         '200':
-          description: Feature flag successfully updated
+          description: Feature flag successfully updated.
           content:
             application/json:
               schema:
@@ -761,18 +842,18 @@ paths:
       tags:
         - Organizations
       operationId: DeleteOrganizationFeatureFlagOverrides
-      description: Delete all organization feature flag overrides
+      description: Delete all organization feature flag overrides.
       summary: Delete all organization feature flag overrides
       parameters:
         - name: org_code
           in: path
-          description: The identifier for the organization
+          description: The identifier for the organization.
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Feature flag overrides successfully deleted
+          description: Feature flag overrides successfully deleted.
           content:
             application/json:
               schema:
@@ -790,24 +871,24 @@ paths:
       tags:
         - Organizations
       operationId: DeleteOrganizationFeatureFlagOverride
-      description: Delete organization feature flag override
+      description: Delete organization feature flag override.
       summary: Delete organization feature flag override
       parameters:
         - name: org_code
           in: path
-          description: The identifier for the organization
+          description: The identifier for the organization.
           required: true
           schema:
             type: string
         - name: feature_flag_key
           in: path
-          description: The identifier for the feature flag
+          description: The identifier for the feature flag.
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Feature flag override successfully deleted
+          description: Feature flag override successfully deleted.
           content:
             application/json:
               schema:
@@ -824,7 +905,7 @@ paths:
       tags:
         - Organizations
       operationId: UpdateOrganizationFeatureFlagOverride
-      description: Update organization feature flag override
+      description: Update organization feature flag override.
       summary: Update organization feature flag override
       parameters:
         - name: org_code
@@ -847,7 +928,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Feature flag override successfully updated
+          description: Feature flag override successfully updated.
           content:
             application/json:
               schema:
@@ -865,11 +946,11 @@ paths:
       tags:
         - Environments
       operationId: DeleteEnvironementFeatureFlagOverrides
-      description: Delete all environment feature flag overrides
+      description: Delete all environment feature flag overrides.
       summary: Delete all environment feature flag overrides
       responses:
         '200':
-          description: Feature flag overrides deleted successfully
+          description: Feature flag overrides deleted successfully.
           content:
             application/json:
               schema:
@@ -887,18 +968,18 @@ paths:
       tags:
         - Environments
       operationId: DeleteEnvironementFeatureFlagOverride
-      description: Delete environment feature flag override
+      description: Delete environment feature flag override.
       summary: Delete environment feature flag override
       parameters:
         - name: feature_flag_key
           in: path
-          description: The identifier for the feature flag
+          description: The identifier for the feature flag.
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Feature flag deleted successfully
+          description: Feature flag deleted successfully.
           content:
             application/json:
               schema:
@@ -915,18 +996,18 @@ paths:
       tags:
         - Environments
       operationId: UpdateEnvironementFeatureFlagOverride
-      description: Update environment feature flag override
+      description: Update environment feature flag override.
       summary: Update environment feature flag override
       parameters:
         - name: feature_flag_key
           in: path
-          description: The identifier for the feature flag
+          description: The identifier for the feature flag.
           required: true
           schema:
             type: string
         - name: value
           in: query
-          description: The override value for the feature flag
+          description: The override value for the feature flag.
           required: true
           schema:
             type: string
@@ -959,10 +1040,10 @@ components:
       properties:
         code:
           type: string
-          description: Error code
+          description: Error code.
         message:
           type: string
-          description: Error message
+          description: Error message.
     error_response:
       type: object
       properties:
@@ -975,25 +1056,26 @@ components:
       properties:
         id:
           type: string
-          description: Unique id of the user in Kinde
+          description: Unique id of the user in Kinde.
         email:
           type: string
-          description: Default email address of the user in Kinde
+          description: Default email address of the user in Kinde.
         last_name:
           type: string
-          description: User's last name
+          description: User's last name.
         first_name:
           type: string
-          description: User's first name
+          description: User's first name.
         is_suspended:
           type: boolean
-          description: Whether the user is currently suspended or not
+          description: Whether the user is currently suspended or not.
         picture:
           type: string
-          description: User's profile picture URL
+          description: User's profile picture URL.
+          nullable: true
     users:
       type: array
-      description: Array of users
+      description: Array of users.
       items:
         $ref: '#/components/schemas/user'
     user_identity:
@@ -1001,61 +1083,61 @@ components:
       properties:
         'type':
           type: string
-          description: The type of identity object created
+          description: The type of identity object created.
         result:
           type: object
-          description: The result of the user creation operation
+          description: The result of the user creation operation.
           properties:
             created:
               type: boolean
-              description: True if the user identity was successfully created
+              description: True if the user identity was successfully created.
             identity_id:
               type: integer
-              description: Unique id of the user's identity in Kinde
+              description: Unique id of the user's identity in Kinde.
     user_profile:
       type: object
       properties:
         id:
           type: string
-          description: Unique id of the user in Kinde
+          description: Unique id of the user in Kinde.
         preferred_email:
           type: string
-          description: Default email address of the user in Kinde
+          description: Default email address of the user in Kinde.
         provided_id:
           type: string
-          description: Value of the user's id in a third-party system when the user is imported into Kinde
+          description: Value of the user's id in a third-party system when the user is imported into Kinde.
           nullable: true
         last_name:
           type: string
-          description: User's last name
+          description: User's last name.
         first_name:
           type: string
-          description: User's first name
+          description: User's first name.
     user_profile_v2:
       type: object
       properties:
         id:
           type: string
-          description: Unique id of the user in Kinde
+          description: Unique id of the user in Kinde.
         provided_id:
           type: string
-          description: Value of the user's id in a third-party system when the user is imported into Kinde
+          description: Value of the user's id in a third-party system when the user is imported into Kinde.
           nullable: true
         name:
           type: string
-          description: Users's first and last name separated by a space
+          description: Users's first and last name separated by a space.
         given_name:
           type: string
-          description: User's first name
+          description: User's first name.
         family_name:
           type: string
-          description: User's last name
+          description: User's last name.
         updated_at:
           type: integer
-          description: Date the user was last updated at (In Unix time)
+          description: Date the user was last updated at (In Unix time).
         email:
           type: string
-          description: User's email address if available
+          description: User's email address if available.
     organization:
       type: object
       properties:
@@ -1091,25 +1173,25 @@ components:
       properties:
         url:
           type: string
-          description: A URL that is used to authenticate an end-user against a connected app
+          description: A URL that is used to authenticate an end-user against a connected app.
         session_id:
           type: string
-          description: A unique identifier for the login session
+          description: A unique identifier for the login session.
     connected_apps_access_token:
       type: object
       properties:
         access_token:
           type: string
-          description: The access token to access a third-party provider
+          description: The access token to access a third-party provider.
         access_token_expiry:
           type: string
-          description: The date and time that the access token expires
+          description: The date and time that the access token expires.
     api_result:
       type: object
       properties:
         result:
           type: string
-          description: The result of the api operation
+          description: The result of the api operation.
   securitySchemes:
     kindeBearerAuth:
       description: |

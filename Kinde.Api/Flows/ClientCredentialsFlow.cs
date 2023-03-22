@@ -19,6 +19,7 @@ namespace Kinde.Api.Flows
         public override async Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
             var parameters = CreateBaseRequestParameters(register);
+            parameters.Add("client_secret", Configuration.ClientSecret);
             parameters.Add("grant_type", "client_credentials");
             return await SendRequest(httpClient, parameters);
         }

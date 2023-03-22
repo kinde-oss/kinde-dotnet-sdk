@@ -8,8 +8,9 @@ namespace Kinde.Api.Models.Configuration
         {
 
         }
-        public BaseAuthorizationConfiguration(string clientId, string clientSecret, string grantType, string scope)
+        public BaseAuthorizationConfiguration(string clientId, string clientSecret, string grantType, string scope, string audience)
         {
+            Audience= audience;
             ClientId = clientId;
             GrantType = grantType;
             Scope = scope;

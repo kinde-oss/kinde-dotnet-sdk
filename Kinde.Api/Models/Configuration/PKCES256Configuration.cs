@@ -14,7 +14,7 @@ namespace Kinde.Api.Models.Configuration
         {
             CodeVerifier = new SHA256CodeVerifier();
         }
-        public PKCES256Configuration(string clientId, string scope, string clientSecret, string? state) : base(clientId, scope, clientSecret, state)
+        public PKCES256Configuration(string clientId, string scope, string clientSecret, string? state, string audience) : base(clientId, scope, clientSecret, state, audience)
         {
         }
         public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)

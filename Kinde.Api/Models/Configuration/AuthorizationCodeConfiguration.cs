@@ -9,7 +9,7 @@ namespace Kinde.Api.Models.Configuration
 
         }
         public string State { get; set; }
-        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state, string grantType) : base(clientId, clientSecret, grantType, scope)
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state, string grantType,string audience) : base(clientId, clientSecret, grantType, scope,audience)
         {
             if (state == null)
             {
@@ -21,7 +21,7 @@ namespace Kinde.Api.Models.Configuration
             }
         }
 
-        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, clientSecret, "AuthorizationCode", scope)
+        public AuthorizationCodeConfiguration(string clientId, string scope, string clientSecret, string? state, string audience) : base(clientId, clientSecret, "AuthorizationCode", scope,audience)
         {
             if (state == null)
             {
