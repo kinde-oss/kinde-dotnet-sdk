@@ -23,7 +23,7 @@ namespace Kinde.Api.Models.Configuration
         {
             var section = _configurationSource.GetRequiredSection(identifier.ToString());
             var config = section.Get<AuthorizationConfigurationWrapper>();
-            var type = Type.GetType(config.ConfigurationType);
+            var type = System.Type.GetType(config.ConfigurationType);
             var _authorizationConfiguration = (IAuthorizationConfiguration)section.GetSection("Configuration").Get(type);
             return _authorizationConfiguration;
         }

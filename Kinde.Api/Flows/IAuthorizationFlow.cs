@@ -9,10 +9,10 @@ namespace Kinde.Api.Flows
 
         public KindeSSOUser User { get; }
         public bool RequiresRedirection { get; }
-        AuthotizationStates AuthotizationState { get; set; }
+        AuthorizationStates AuthotizationState { get; set; }
         IUserActionResolver UserActionsResolver { get; init; }
         OauthToken Token { get; }
-        Task<AuthotizationStates> Authorize(HttpClient httpClient, bool register = false);
+        Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register = false);
         Task Logout(HttpClient httpClient);
         Task Renew(HttpClient httpClient);
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kinde;
+﻿using Kinde;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
 using Newtonsoft.Json;
@@ -24,7 +19,7 @@ namespace UnitTests
         [TestMethod]
         [DataRow(typeof(MockAuthCodeConfiguration))]
         [DataRow(typeof(MockPKCEConfiguration))]
-        public async Task CodeRecieveTest(Type authType)
+        public async Task CodeRecieveTest(System.Type authType)
         {
             IRedirectAuthorizationConfiguration authConfig = (IRedirectAuthorizationConfiguration)Activator.CreateInstance(authType);
 
@@ -42,7 +37,7 @@ namespace UnitTests
            
             KindeClient.OnCodeRecieved("here_is_code", authConfig.State);
             Assert.AreEqual(client, KindeClientFactory.Instance.Get("123"));
-            Assert.AreEqual(Kinde.Api.Enums.AuthotizationStates.Authorized, client.AuthotizationState);
+            Assert.AreEqual(Kinde.Api.Enums.AuthorizationStates.Authorized, client.AuthotizationState);
             Assert.ThrowsException<KeyNotFoundException>(()=> { KindeClient.CodeStore.Get("123"); });
 
             KindeClientFactory.Instance.Remove("123");

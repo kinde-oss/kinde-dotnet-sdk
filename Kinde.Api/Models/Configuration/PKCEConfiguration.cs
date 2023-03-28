@@ -10,7 +10,7 @@ namespace Kinde.Api.Models.Configuration
         
         }
         public ICodeVerifier<HashAlgorithm> CodeVerifier { get; init; }
-        public PKCEConfiguration(string clientId, string scope, string clientSecret, string? state) : base(clientId, scope, clientSecret, state, "PKCE")
+        public PKCEConfiguration(string clientId, string scope, string clientSecret, string? state,string audience) : base(clientId, scope, clientSecret, state, "PKCE",audience)
         {
             CodeVerifier = new T();
         }

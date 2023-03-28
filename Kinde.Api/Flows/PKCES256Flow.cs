@@ -14,7 +14,7 @@ namespace Kinde.Api.Flows
 
         public override IUserActionResolver UserActionsResolver { get; init; }
 
-        public override async Task<AuthotizationStates> Authorize(HttpClient httpClient, bool register = false)
+        public override async Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
             var parameters = CreateBaseRequestParameters(register);
             parameters.Add("response_type", "code");

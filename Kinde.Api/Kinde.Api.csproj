@@ -13,17 +13,16 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Copyright>Kinde</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/kinde-oss/kinde-auth-dotnet</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryUrl>https://github.com/kinde-oss/kinde-auth-dotnet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <Company>Kinde</Company>
     <Product>Kinde Platform</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Dependencies\favicon-3.png" />
   </ItemGroup>
@@ -34,12 +33,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <OpenApiReference Include="Dependencies\kinde-mgmt-api-specs.yaml" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient" Link="Dependencies\kinde-mgmt-api-specs.yaml">
-		   <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
-    </OpenApiReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -63,9 +56,42 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+ 
+	<PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+</PropertyGroup>
 
+<ItemGroup>
+	<Compile Include="$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+</ItemGroup>
+	<PropertyGroup>
+		<OpenApiGenerateCodeOnBuild>false</OpenApiGenerateCodeOnBuild>
+		<OpenApiGenerateCodeAtDesignTime>false</OpenApiGenerateCodeAtDesignTime>
+	</PropertyGroup>
   <ItemGroup>
-    <Folder Include="OpenAPIs\" />
-  </ItemGroup>
+    <OpenApiReference Include="OpenAPIs\kinde-mgmt-api-specs.yaml" OpenApiGenerateCodeOnBuild="true" CodeGenerator="NSwagCSharp" Namespace="Kinde" ClassName="KindeClient">
+      <SourceUri>https://kinde.com/api/kinde-mgmt-api-specs.yaml</SourceUri>
+	 
+    </OpenApiReference>
 
+  </ItemGroup>
+	
+	<Target Name="BuildBuildTasks" BeforeTargets="DownloadMetadata">
+	
+		<Exec Command="dotnet publish $(SolutionDir)Kinde.BuildTasks\Kinde.BuildTasks.csproj --output $(SolutionDir)Temp" />
+           </Target>
+	<UsingTask TaskName="Kinde.BuildTasks.DownloadFileWithUserAgent" TaskFactory="TaskHostFactory" AssemblyFile="$(SolutionDir)Temp\Kinde.BuildTasks.dll" />
+	<Target Name="DownloadMetadata" BeforeTargets="GenerateApiClientSourceCode">
+		<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml"></DownloadFileWithUserAgent>
+			<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="$(SolutionDir)Kinde.Api\OpenAPIs\kinde-mgmt-api-specs.yaml"></DownloadFileWithUserAgent>
+	</Target>
+	<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
+	 <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe) openapi2csclient  /input:$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml /classname:KindeClient /namespace:Kinde /output:$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs">
+		 <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode" />
+		 <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput" />
+	 </Exec> <ItemGroup>
+     
+    </ItemGroup>
+  </Target>
 </Project>

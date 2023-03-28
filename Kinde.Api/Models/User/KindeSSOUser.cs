@@ -1,5 +1,6 @@
 ﻿using Kinde.Api.Models.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,7 +68,8 @@ namespace Kinde.Api.Models.User
         }
         public OrganisationPermission GetPermission(string key)
         {
-            if (GetClaim<string[]>("permissions").Any(x => x == key))
+            var permissions = GetClaim<string[]>("permissions");
+            if (permissions!=null && permissions.Any(x => x == key))
             {
                 return new OrganisationPermission() { Id = key, OrganisationId = GetOrganisation(), Granted = true };
             }
@@ -79,15 +81,24 @@ namespace Kinde.Api.Models.User
         }
         protected T? GetClaim<T>(string key)
         {
-            if(AccessToken?.Payload!=null &&    AccessToken.Payload.TryGetValue(key, out var accessTokenVal))
+            var jObject = default(object?);
+            if (AccessToken?.Payload != null && AccessToken.Payload.TryGetValue(key, out var accessTokenVal))
             {
-                return (T)accessTokenVal;
+                jObject = accessTokenVal;
             }
-            if (IdToken?.Payload !=null && IdToken.Payload.TryGetValue(key, out var idTokenVal))
+            if (IdToken?.Payload != null && IdToken.Payload.TryGetValue(key, out var idTokenVal))
             {
-                return (T)idTokenVal;
+                jObject = idTokenVal;
+            }
+            if (jObject != null)
+            {
+                // As JWT JObjects are internal, there is a cheat via deserialisation of value
+                if (typeof(T).IsArray) return JArray.Parse(jObject.ToString()).ToObject<T>();
+                if (typeof(T).IsByRef) return JObject.Parse(jObject.ToString()).ToObject<T>();
+                return (T)jObject;
             }
             return default(T);
+        
         }
 
         public class OrganisationPermission

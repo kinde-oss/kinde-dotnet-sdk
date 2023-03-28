@@ -1,16 +1,26 @@
 ### Overview
 
-This project should help users to access Kinde api with oauth authentication. It contains 3 pre-built OAuth flows: client credentials, authorization code and authorization code with PKCE code verifier. After build it produces nuget package, which should be published to nuget repository.
+This project should help users to access Kinde api with oauth authentication. It contains 3 pre-built OAuth flows: client credentials, authorization code and authorization code with PKCE code verifier. After build it produces nuget package, which should be published to nuget repository.  
 
 ### Build
 
 VS automaticaly recreates access client using yaml metadata on build. Right now it references to static file, but it can be re-targeted to some web published file to get latest one for each build. in this case nuget will be built with latest api version. Nuget package will be built automaticaly too. But publishing to nuget.org requires additional setup. 
 
-### Usage
+### Installing dependencies
+
+There is no need to install any dependencies, nuget manager will restore automatically on build.
+
+### Getting Started
+
+#### Kinde configuration
+
+Before working with SDK it is necessary to [create api](https://kinde.com/docs/developer-tools/register-an-api/) and [create application](https://kinde.com/docs/developer-tools/add-a-m2m-application-for-api-access/) using Kinde admin panel.
+
+#### Configuration
 
 ##### Don't use constructor without <code>IIdentityProviderConfiguration</code> parameter. This will throw exceptions.
 
-Identity provider configuration contains these parameters:
+Environment settings locatedi in <code>IIdentityProviderConfiguration</code>. These are common settings for any user in application scope. Identity provider configuration contains these parameters:
 - Domain. Base domain used for authorization. must be subdomain of kinde.com. F.E. testauth.kinde.com
 - ReplyUrl. Unused for client credentials, but used as callback url for other flows. May be null for client credentials
 - LogoutUrl. Url for redirection after logout.
@@ -48,7 +58,7 @@ builder.Services.AddTransient<IApplicationConfigurationProvider, DefaultApplicat
 ```
 PKCES256Configutation is most complicated configuration and contains all necessary properties. Configuration for Authentication code is same and for Client credentials State is not applicable. But it is not mandatory to remove it.
 All availiable types are:
-1. Kinde.Api.Models.Configuration.PKCES256Configutation
+1. Kinde.Api.Models.Configuration.PKCES256Configuration
 2. Kinde.Api.Models.Configuration.AuthorizationCodeConfiguration
 3. Kinde.Api.Models.Configuration.ClientCredentialsConfiguration
 
@@ -56,6 +66,11 @@ Besides configuration, all code approach is quite similar. Only difference is if
 For Client configuration ```Authorize()``` call is enough for authoriztion.
 For others (PKCE and Authorization code) you should handle redirection to Kinde (as IdP) and handle callback to end authorization.
 
+### Integration to your application
+
+Main instrument for integration is ```KindeClientFactory``` class. It provides thread safe instances creating and retreiving. It is not mandatory to use it, you can create your own solution for web app to control access for list of users.
+
+#### Authentication
 
 #### 1. Login with no redirection, using Client credentials flow
 For not web application only client credentials flow can be used. Because other flows requires user interaction via browser. 
@@ -102,7 +117,7 @@ Example:<br>
    }
 ```
 
-This code won't authenticate user complletely. We should wait for data on callback endpoint and execute this: <br>
+This code won't authenticate user completely. We should wait for data on callback endpoint and execute this: <br>
 ```csharp
         public IActionResult Callback(string code, string state)
         {
@@ -128,8 +143,9 @@ User registration is same as authorization. With one tiny difference:
                 HttpContext.Session.SetString("KindeCorrelationId", correlationId);
             }
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-            await client.Authorize(_authConfigurationProvider.Get(), true); //<--- Pass true to register user
-            if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+             await client.Register(_authConfigurationProvider.Get()) //<--- Register, if needed
+            await client.Authorize(_authConfigurationProvider.Get()); 
+            if (client.AuthorizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
             {
                 return Redirect(await client.GetRedirectionUrl(correlationId));
             }
@@ -167,8 +183,32 @@ public async Task<IActionResult> Renew()
             return RedirectToAction("Index");
         }
 ```
+#### Getting user information
+
+There is a method ```GetUserDetails``` to get user profile. 
+
+```csharp
+                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+                var claim = client.GetUserDetails(); //returns user profile
+```
+
+#### Getting token details
+
+Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
+```csharp
+                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+                var claim = client.GetClaim("sub"); //get claim
+                var organisations = client.GetOrganisations(); ; //get avaliable organisations
+                var organisation = client.GetOrganisation();  //get single organisation
+                var permissions = client.GetPermissions(); //get all permissions
+                var permission = client.GetPermission("something"); //get permission
+```
 ## Usage
+
+
 ### Calling API
+
+
 ```csharp
  // Don't forget to add "using Kinde;", all data objects models located in this namespace 
  var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
@@ -177,21 +217,9 @@ public async Task<IActionResult> Renew()
     Console.WriteLine(user.Full_name + " is awesome!");
  }
 ```
+Full API Documentation can be found [here](https://kinde.com/api/docs/#kinde-management-api).
 
-### User profile
 
-Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
-```csharp
-                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-                 user = client.User;
-                var id = user.Id; // get user id
-                var gName = user.GivenName; // get given name
-                var fName = user.FamilyName;// get family name
-                var email = user.Email;// get email
-                var claim = user.GetClaim("sub"); // get claim 
-                var org = user.GetOrganisation(); // get primary organisation
-                var orgs = user.GetOrganisations(); // get all avaliable organisations for user
-```
 
 More usage examples can be found in Kinde.DemoMvc project.
 

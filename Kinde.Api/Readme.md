@@ -86,7 +86,7 @@ Example:<br>
         // ...and authorize it
         await client.Authorize(_authConfigurationProvider.Get());
         // if auth flow is not ClientCredentials flow, we need to redirect user to another page
-        if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+        if (client.AuthotizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
         {
             // redirect user to login page
             return Redirect(await client.GetRedirectionUrl(correlationId));
@@ -122,7 +122,7 @@ User registration is same as authorization. With one tiny difference:
             }
             var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
             await client.Register(_authConfigurationProvider.Get()); //<--- Pass true to register user
-            if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+            if (client.AuthotizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
             {
                 return Redirect(await client.GetRedirectionUrl(correlationId));
             }

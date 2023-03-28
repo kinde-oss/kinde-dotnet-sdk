@@ -11,7 +11,7 @@ namespace Kinde.Api.Flows
     public abstract class BaseAuthorizationFlow<TConfig> : IAuthorizationFlow where TConfig : IAuthorizationConfiguration
     {
         protected HttpClient _httpClient;
-        public AuthotizationStates AuthotizationState { get; set; }
+        public AuthorizationStates AuthotizationState { get; set; }
         public TConfig Configuration { get; private set; }
         public IApplicationConfiguration IdentityProviderConfiguration { get; private set; }
         public OauthToken? Token { get; protected set; } = null!;
@@ -30,7 +30,6 @@ namespace Kinde.Api.Flows
             var parameters = new Dictionary<string, string>
             {
                 { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret },
                 { "scope", Configuration.Scope },
                 { "is_create_org", Configuration.IsCreateOrganisation.ToString()}
             };
@@ -49,7 +48,7 @@ namespace Kinde.Api.Flows
             return parameters;
         }
 
-        protected async virtual Task<AuthotizationStates> SendRequest(HttpClient httpClient, Dictionary<string, string> parameters)
+        protected async virtual Task<AuthorizationStates> SendRequest(HttpClient httpClient, Dictionary<string, string> parameters)
         {
             if (RequiresRedirection)
             {
@@ -60,7 +59,7 @@ namespace Kinde.Api.Flows
                        , ((IRedirectAuthorizationConfiguration)Configuration).State);
                 _httpClient = httpClient;
                 KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
-                AuthotizationState = AuthotizationStates.UserActionsNeeded;
+                AuthotizationState = AuthorizationStates.UserActionsNeeded;
                 return AuthotizationState;
               
              
@@ -69,9 +68,9 @@ namespace Kinde.Api.Flows
             {
                 var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", BuildContent(parameters));// BuildContent(parameters) );
                 var tokenString = await response.Content.ReadAsStringAsync();
-                if (string.IsNullOrEmpty(tokenString)) throw new ApplicationException("Invalid response from server: No token recieved");
+                if (string.IsNullOrEmpty(tokenString) || !response.IsSuccessStatusCode) throw new ApplicationException("Invalid response from server: No token recieved");
                 Token = JsonConvert.DeserializeObject<OauthToken>(tokenString);
-                AuthotizationState = AuthotizationStates.Authorized;
+                AuthotizationState = AuthorizationStates.Authorized;
                 return AuthotizationState;
             }
         }
@@ -109,14 +108,14 @@ namespace Kinde.Api.Flows
 
         }
 
-        public virtual Task<AuthotizationStates> Authorize(HttpClient httpClient, bool register = false)
+        public virtual Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
             throw new NotImplementedException("This method MUST be overriden in derived class");
         }
 
         public virtual async Task Logout(HttpClient httpClient)
         {
-            AuthotizationState = AuthotizationStates.NonAuthorized;
+            AuthotizationState = AuthorizationStates.NonAuthorized;
             Token = null;
             if (httpClient is KindeHttpClient)
             {
@@ -175,7 +174,7 @@ namespace Kinde.Api.Flows
                 Token = JsonConvert.DeserializeObject<OauthToken>(content);
                 if (Token != null)
                 {
-                    AuthotizationState = AuthotizationStates.Authorized;
+                    AuthotizationState = AuthorizationStates.Authorized;
                     AddHeader(client, Token);
                     User = KindeSSOUser.FromToken(this.Token);
                     RunRenew(client, CancellationTokenSorce.Token);
