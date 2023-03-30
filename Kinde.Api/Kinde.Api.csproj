@@ -21,7 +21,6 @@
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <Company>Kinde</Company>
     <Product>Kinde Platform</Product>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Dependencies\favicon-3.png" />
@@ -57,9 +56,7 @@
     </None>
   </ItemGroup>
  
-	<PropertyGroup>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-</PropertyGroup>
+	<PropertyGroup />
 
 <ItemGroup>
 	<Compile Include="$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs" />
