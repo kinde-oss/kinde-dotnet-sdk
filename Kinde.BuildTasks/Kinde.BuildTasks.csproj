@@ -8,5 +8,8 @@
     <PackageReference Include="Microsoft.Build.Framework" Version="17.5.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.5.0" />
   </ItemGroup>
-
+<PropertyGroup>   
+     <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
+     <GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
+</PropertyGroup>
 </Project>
