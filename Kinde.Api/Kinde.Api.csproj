@@ -4,8 +4,8 @@
 		<Version>0.0.1</Version>
 		<PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
 		<Description>
-      The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.
-    </Description>
+			The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.
+		</Description>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -32,18 +32,18 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.16">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.0.5">
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0"/>
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Dependencies\favicon.ico">
@@ -54,7 +54,7 @@
 	<PropertyGroup/>
 	<ItemGroup>
 		<Compile Include="$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs"/>
-		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
+		<None Include="../LICENSE" Pack="true" PackagePath=""/>
 	</ItemGroup>
 	<PropertyGroup>
 		<OpenApiGenerateCodeOnBuild>false</OpenApiGenerateCodeOnBuild>
@@ -66,22 +66,26 @@
 		</OpenApiReference>
 	</ItemGroup>
 	<Target Name="BuildBuildTasks" BeforeTargets="DownloadMetadata">
-		<Exec Command="dotnet publish $(SolutionDir)Kinde.BuildTasks\Kinde.BuildTasks.csproj --output $(SolutionDir)Temp"/>
+		<Exec Command="dotnet build ../Kinde.BuildTasks/Kinde.BuildTasks.csproj --output ../Temp" />
 	</Target>
-	<UsingTask TaskName="Kinde.BuildTasks.DownloadFileWithUserAgent" TaskFactory="TaskHostFactory" AssemblyFile="$(SolutionDir)Temp\Kinde.BuildTasks.dll"/>
+	<UsingTask TaskName="Kinde.BuildTasks.DownloadFileWithUserAgent"
+	 AssemblyFile="../Temp/Kinde.BuildTasks.dll"/>
 	<Target Name="DownloadMetadata" BeforeTargets="GenerateApiClientSourceCode">
-		<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml"/>
-		<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="$(SolutionDir)Kinde.Api\OpenAPIs\kinde-mgmt-api-specs.yaml"/>
+		<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="..\Temp\kinde-mgmt-api-specs.yaml"/>
+		<DownloadFileWithUserAgent SourceUrl="https://kinde.com/api/kinde-mgmt-api-specs.yaml" DestinationPath="..\Kinde.Api\OpenAPIs\kinde-mgmt-api-specs.yaml"/>
 	</Target>
 	<Target Name="GenerateApiClientSourceCode" BeforeTargets="CoreCompile;PrepareResource">
-		<Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe) openapi2csclient  /input:$(SolutionDir)Temp\kinde-mgmt-api-specs.yaml /classname:KindeClient /namespace:Kinde /output:$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs">
+		<Exec ConsoleToMSBuild="true"  Condition=" '$(OS)' != 'Windows_NT' " ContinueOnError="false" Command="dotnet '$(NSwagDir_NET60)dotnet-nswag.dll' openapi2csclient  /input:../Temp/kinde-mgmt-api-specs.yaml /classname:KindeClient /namespace:Kinde /output:$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs">
 			<Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
 			<Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
 		</Exec>
-
-  </Target>
-  		<PropertyGroup>
-			<GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
-			<GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
-		</PropertyGroup>
+		<Exec ConsoleToMSBuild="true"  Condition=" '$(OS)' == 'Windows_NT' " ContinueOnError="false" Command="$(NSwagExe) openapi2csclient  /input:../Temp/kinde-mgmt-api-specs.yaml /classname:KindeClient /namespace:Kinde /output:$(IntermediateOutputPath)kinde-mgmt-api-specsClient.cs">
+			<Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
+			<Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
+		</Exec>
+	</Target>
+	<PropertyGroup>
+		<GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
+		<GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
+	</PropertyGroup>
 </Project>
