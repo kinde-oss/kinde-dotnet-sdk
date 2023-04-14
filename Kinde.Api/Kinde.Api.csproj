@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<PackageId>Kinde.SDK</PackageId>
-		<Version>0.0.1</Version>
+		<Version>1.1.0</Version>
 		<PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
 		<Description>
 			The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.

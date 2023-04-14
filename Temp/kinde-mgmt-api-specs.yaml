@@ -3,11 +3,11 @@ info:
   version: '1'
   title: Kinde Management API
   description: Provides endpoints to manage your Kinde Businesses
-  termsOfService: https://kinde.com/docs/important-information/terms-of-service
+  termsOfService: https://kinde.com/docs/important-information/terms-of-service/
   contact:
     name: Kinde Support Team
     email: support@kinde.com
-    url: https://kinde.com/docs
+    url: https://kinde.com/docs/
 servers:
   - url: https://{businessName}.kinde.com/
     variables:
@@ -96,21 +96,10 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Response code.
-                  message:
-                    type: string
-                    description: Response message.
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/user'
-                  next_token:
-                    type: string
-                    description: Pagination token.
+                $ref: '#/components/schemas/users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/users_response'
         '403':
           description: Invalid credentials.
   /api/v1/user:
@@ -135,10 +124,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '400':
           description: Bad request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -192,22 +187,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    description: Unique id of the user in Kinde.
-                    type: string
-                  created:
-                    description: True if the user was successfully created.
-                    type: boolean
-                  identities:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/user_identity'
+                $ref: '#/components/schemas/create_user_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_user_response'
         '400':
           description: Error creating user.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -250,10 +240,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/user'
         '400':
           description: Bad request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -279,10 +275,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Bad request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -309,10 +311,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/organization'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/organization'
         '400':
           description: Bad request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -352,6 +360,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '500':
           description: Could not create organization.
   /api/v1/organizations:
@@ -388,21 +399,10 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Response code.
-                  message:
-                    type: string
-                    description: Response message.
-                  organizations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/organization'
-                  next_token:
-                    description: Pagination token.
-                    type: string
+                $ref: '#/components/schemas/get_organizations_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_response'
         '403':
           description: Invalid credentials.
   /api/v1/organization/users:
@@ -446,29 +446,21 @@ paths:
             type: string
       responses:
         '200':
-          description: A succesful response with a list of organization users or an empty list.
+          description: A successful response with a list of organization users or an empty list.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Response code.
-                  message:
-                    type: string
-                    description: Response message.
-                  organization_users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/organization_user'
-                  next_token:
-                    type: string
-                    description: Pagination token.
+                $ref: '#/components/schemas/get_organizations_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_users_response'
         '400':
           description: Error creating user
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -505,24 +497,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Response code.
-                  message:
-                    type: string
-                    description: Response message.
-                  users_added:
-                    type: array
-                    items:
-                      type: string
+                $ref: '#/components/schemas/add_organization_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/add_organization_users_response'
         '204':
           description: No users added.
         '400':
           description: Bad request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -559,18 +546,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  users_added:
-                    type: array
-                    items:
-                      type: string
+                $ref: '#/components/schemas/remove_organization_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/remove_organization_users_response'
         '400':
           description: Error creating user.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -594,7 +580,7 @@ paths:
           in: query
           description: The id of the user that needs to authenticate to the third-party connected app.
           schema:
-            type: integer
+            type: string
             nullable: false
           required: true
       responses:
@@ -604,6 +590,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/connected_apps_auth_url'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_auth_url'
+        '400':
+          description: Error retrieving connected app auth url.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '404':
+          description: Error retrieving connected app auth url.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
   /api/v1/connected_apps/token:
@@ -628,10 +635,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/connected_apps_access_token'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_access_token'
         '400':
           description: The session id provided points to an invalid session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
   /api/v1/connected_apps/revoke:
     post:
       tags:
@@ -653,25 +677,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/api_result'
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/api_result'
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '403':
           description: Invalid credentials.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/api_result'
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
         '405':
           description: Invalid HTTP method used.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/api_result'
   /api/v1/feature_flags:
     post:
       tags:
@@ -731,10 +760,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -760,10 +795,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -832,10 +873,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -861,10 +908,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -896,10 +949,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -936,10 +995,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -958,10 +1023,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -987,10 +1058,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -1021,10 +1098,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
         '400':
           description: Invalid request.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
         '403':
@@ -1081,6 +1164,35 @@ components:
       description: Array of users.
       items:
         $ref: '#/components/schemas/user'
+    users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/user'
+        next_token:
+          type: string
+          description: Pagination token.
+    create_user_response:
+      type: object
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        created:
+          description: True if the user was successfully created.
+          type: boolean
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/user_identity'
     user_identity:
       type: object
       properties:
@@ -1171,6 +1283,60 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/organization_user'
+    get_organizations_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization'
+        next_token:
+          description: Pagination token.
+          type: string
+    get_organizations_users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        organization_users:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_user'
+        next_token:
+          type: string
+          description: Pagination token.
+    add_organization_users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        users_added:
+          type: array
+          items:
+            type: string
+    remove_organization_users_response:
+      type: object
+      properties:
+        message:
+          type: string
+        users_added:
+          type: array
+          items:
+            type: string
     connected_apps_auth_url:
       type: object
       properties:
