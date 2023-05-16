@@ -2,24 +2,41 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Kinde.Api</AssemblyName>
-    <PackageId>Kinde.Api</PackageId>
+    <PackageId>Kinde.SDK</PackageId>
     <OutputType>Library</OutputType>
-    <Authors>OpenAPI</Authors>
-    <Company>OpenAPI</Company>
-    <AssemblyTitle>OpenAPI Library</AssemblyTitle>
-    <Description>A library generated from a OpenAPI doc</Description>
-    <Copyright>No Copyright</Copyright>
-    <RootNamespace>Kinde.Api</RootNamespace>
+    <Authors>Kinde</Authors>
+    <Company>Kinde</Company>
+		<Product>Kinde Platform</Product>
+    <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
+    <Copyright>Kinde</Copyright>
     <Version>1.2.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
-    <RepositoryUrl>https://github.com/GIT_USER_ID/GIT_REPO_ID.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
+    <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <Nullable>annotations</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</PackageProjectUrl>
+    <PackageIcon>favicon-3.png</PackageIcon>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+		<None Remove="Dependencies\favicon-3.png"/>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<EmbeddedResource Include="Dependencies\favicon-3.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</EmbeddedResource>
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />

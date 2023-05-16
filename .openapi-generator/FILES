@@ -69,6 +69,7 @@ Kinde.Api/Client/OpenAPIDateConverter.cs
 Kinde.Api/Client/RequestOptions.cs
 Kinde.Api/Client/RetryConfiguration.cs
 Kinde.Api/Client/WebRequestPathBuilder.cs
+Kinde.Api/Dependencies/favicon-3.png
 Kinde.Api/Enums/AuthorizationStates.cs
 Kinde.Api/Flows/AuthorizationCodeFlow.cs
 Kinde.Api/Flows/BaseAuthorizationFlow.cs
@@ -141,6 +142,7 @@ Kinde.Api/Models/User/UserActionsCompletedEventArgs.cs
 Kinde.Api/Models/User/UserActionsNeededEventArgs.cs
 Kinde.Api/Models/Utils/AuthorizationCodeStore.cs
 Kinde.Api/Models/Utils/ItemAddedEventArgs.cs
+Kinde.Api/README.md
 LICENSE
 README.md
 api/openapi.yaml
