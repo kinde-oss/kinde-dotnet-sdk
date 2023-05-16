@@ -4,6 +4,7 @@
     {
         public virtual event EventHandler<EventArgs> UserActionsNeeded;
         public virtual event EventHandler<EventArgs> UserActionsCompleted;
+
         public Task<string> GetCode(string state)
         {
             return null;
@@ -23,6 +24,7 @@
         {
 
         }
+
         protected void OnUserActionsCompleted(string code, string state)
         {
             UserActionsCompleted?.Invoke(this, new UserActionsCompletedEventArgs() { Code = code, State = state });

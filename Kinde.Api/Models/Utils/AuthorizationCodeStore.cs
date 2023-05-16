@@ -5,12 +5,13 @@ namespace Kinde.Api.Models.Utils
     public class AuthorizationCodeStore<TKey, TValue> where TKey : IEquatable<TKey>
     {
         protected IDictionary<TKey, TValue> _dictionary;
-
         public event EventHandler<ItemAddedEventArgs<TKey, TValue>> ItemAdded = null!;
+
         public AuthorizationCodeStore()
         {
             _dictionary = new ConcurrentDictionary<TKey, TValue>();
         }
+
         public AuthorizationCodeStore(IDictionary<TKey, TValue> dictionary)
         {
             _dictionary = dictionary;
@@ -26,6 +27,7 @@ namespace Kinde.Api.Models.Utils
         {
             return _dictionary[key];
         }
+
         public void Remove(TKey key)
         {
             _dictionary.Remove(key);

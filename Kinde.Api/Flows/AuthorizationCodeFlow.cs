@@ -1,7 +1,6 @@
 ﻿using Kinde.Api.Enums;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.User;
-using System.Net.Http;
 
 namespace Kinde.Api.Flows
 {
@@ -13,19 +12,19 @@ namespace Kinde.Api.Flows
         {
             UserActionsResolver = new AuthorizationCodeUserActionResolver(identityProviderConfiguration.ReplyUrl, configuration.State);
         }
-        public override async Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register =false)
+
+        public override async Task<AuthorizationStates> Authorize(HttpClient httpClient, bool register = false)
         {
             var parameters = CreateBaseRequestParameters(register);
             parameters.Add("response_type", "code");
             parameters.Add("grant_type", "authorization_code");
             parameters.Add("state", Configuration.State);
             return await base.SendRequest(httpClient, parameters);
-
         }
-        public override void OnCodeRecieved(HttpClient httpClient, string state, string code)
+
+        public override void OnCodeReceived(HttpClient httpClient, string state, string code)
         {
             var parameters = new Dictionary<string, string>();
-
             parameters.Add("grant_type", "authorization_code");
             parameters.Add("client_id", Configuration.ClientId);
             parameters.Add("client_secret", Configuration.ClientSecret);
@@ -33,9 +32,6 @@ namespace Kinde.Api.Flows
             parameters.Add("code", code);
             parameters.Add("redirect_uri", IdentityProviderConfiguration.ReplyUrl);
             SendCode(httpClient, parameters);
-
         }
-
-
     }
 }

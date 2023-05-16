@@ -38,7 +38,7 @@ The SDK supports configuring from values defined in the `appsetings.json` file. 
 
 Configuration example:
 ```json
-"ApplicationConfiguration": {
+  "ApplicationConfiguration": {
     "Domain": "https://testauth.kinde.com",
     "ReplyUrl": "https://localhost:7165/home/callback",
     "LogoutUrl":  "https://localhost:7165/home"
@@ -83,13 +83,14 @@ In trusted environments, such as a backend app, the client credentials grant can
 
 Example: <br>
 ```csharp
-var client = new Kinde.KindeClient(
+var client = new KindeClient(
     new IdentityProviderConfiguration("https://testauth.kinde.com", "https://test.domain.com/callback", "https://test.domain.com/logout"), 
     new KindeHttpClient());
-await client.Authorize(new ClientCredentialsConfiguration("clientId_here","openid offline any_other_scope", "client secret here"));
+await client.Authorize(new ClientCredentialsConfiguration("clientId_here", "openid offline any_other_scope", "client secret here"));
 
 // Api call
-var myOrganization  = client.CreateOrganizationAsync("My new best organization");
+var oauthApi = new OAuthApi(client);
+var user = await oauthApi.GetUserProfileV2Async();
 ```
 
 After the authorization is complete, you can use the client to call any management API methods.
@@ -100,128 +101,157 @@ For front-end applications, or applications running in an untrusted environment,
 
 Example:<br>
 ```csharp
-   public async Task<IActionResult> Login()
-   {
+    public async Task<IActionResult> Login()
+    {
         // We need some artificial id to correlate user session to client instance
-        //NOTE: Session.Id will be always random, we need to add something to session to make it persistent. 
+        // NOTE: Session.Id will be always random, we need to add something to session to make it persistent. 
+        var correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        if (string.IsNullOrEmpty(correlationId))
+        {
+            correlationId = Guid.NewGuid().ToString();
+            HttpContext.Session?.SetString("KindeCorrelationId", correlationId);
+        }
+
+        // Get client's instance...
+        var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+
+        // ...and authorize it
+        await client.Authorize(_authConfigurationProvider.Get());
+
+        // if auth flow is not ClientCredentials flow, we need to redirect user to another page
+        if (client.AuthorizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
+        {
+            // redirect user to login page
+            return Redirect(await client.GetRedirectionUrl(correlationId));
+        }
+
+        return RedirectToAction("Index");
+    }
+```
+
+This code won't authenticate the user completely. We should wait for data on callback endpoint and execute this: <br>
+```csharp
+    public IActionResult Callback(string code, string state)
+    {
+        KindeClient.OnCodeReceived(code, state);
+        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        var client = KindeClientFactory.Instance.Get(correlationId); //already authorized instance
+        // Api call
+        //   ...
+        var myOrganization  = client.CreateOrganizationAsync("My new best organization");
+        return RedirectToAction("Index");
+    }
+
+```
+#### Register user
+User registration is same as authorization. With one small difference:
+```csharp
+    public async Task<IActionResult> SignUp()
+    {
         string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
         if (string.IsNullOrEmpty(correlationId))
         {
             correlationId = Guid.NewGuid().ToString();
             HttpContext.Session.SetString("KindeCorrelationId", correlationId);
         }
-        // Get client's instance...
+
         var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-        // ...and authorize it
-        await client.Authorize(_authConfigurationProvider.Get());
-        // if auth flow is not ClientCredentials flow, we need to redirect user to another page
-        if (client.AuthotizationState == Api.Enums.AuthotizationStates.UserActionsNeeded)
+        await client.Register(_authConfigurationProvider.Get()) //<--- Register, if needed
+        if (client.AuthorizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
         {
-            // redirect user to login page
             return Redirect(await client.GetRedirectionUrl(correlationId));
         }
+
         return RedirectToAction("Index");
-   }
-```
-
-This code won't authenticate the user completely. We should wait for data on callback endpoint and execute this: <br>
-```csharp
-        public IActionResult Callback(string code, string state)
-        {
-            Kinde.KindeClient.OnCodeRecieved(code, state);
-            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
-            var client = KindeClientFactory.Instance.Get(correlationId); //already authorized instance
-            // Api call
-            //   ...
-            var myOrganization  = client.CreateOrganizationAsync("My new best organization");
-            return RedirectToAction("Index");
-        }
-
-```
-#### Register user
-User registration is same as authorization. With one small difference:
-```csharp
-     public async Task<IActionResult> SignUp()
-        {
-            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
-            if (string.IsNullOrEmpty(correlationId))
-            {
-                correlationId = Guid.NewGuid().ToString();
-                HttpContext.Session.SetString("KindeCorrelationId", correlationId);
-            }
-            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-             await client.Register(_authConfigurationProvider.Get()) //<--- Register, if needed
-            await client.Authorize(_authConfigurationProvider.Get()); 
-            if (client.AuthorizationState == Api.Enums.AuthorizationStates.UserActionsNeeded)
-            {
-                return Redirect(await client.GetRedirectionUrl(correlationId));
-            }
-            return RedirectToAction("Index");
-        }
+    }
 ```
 
 #### Logout
 
-Logout has two steps: local cache cleanup and token revocation on Kinde side. Call the client.Logout() method. This method returns the redirect url setup for logout. The sser should be redirected to it.
+Logout has two steps: local cache cleanup and token revocation on Kinde side. Call the client.Logout() method. This method returns the redirect url setup for logout. The user should be redirected to it.
 
 Logout example:
 ```csharp
-  public async Task<IActionResult> Logout()
-        {
-            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
-          
-            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-             var url = await client.Logout();
-            
-            return Redirect(url);
-        }
+    public async Task<IActionResult> Logout()
+    {
+        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        
+        var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+        var url = await client.Logout();
+        
+        return Redirect(url);
+    }
 ```
+
+#### Access token
+
+There is a method ```GetToken``` to return the access token with auto-refresh mechanism. 
+
+```csharp
+    var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+    var accessToken = client.GetToken(); //returns raw access token
+```
+
 #### Token renewal
 Token will renew automatically in the background. If you want to do it manually, you can call the Renew method.
 Example:
 ```csharp
-public async Task<IActionResult> Renew()
-        {
-            string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+    public async Task<IActionResult> Renew()
+    {
+        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
 
-            var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-            await client.Renew();
+        var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+        await client.Renew();
 
-            return RedirectToAction("Index");
-        }
+        return RedirectToAction("Index");
+    }
 ```
 #### Getting user information
 
 There is a method ```GetUserDetails``` to get user profile. 
 
 ```csharp
-                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-                var claim = client.GetUserDetails(); //returns user profile
+    var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+    var claim = client.GetUserDetails(); //returns user profile
 ```
 
 #### Getting token details
 
 Note, that some of claims and properties will be unavaliable if scope 'profile' wasn't used while authorizing. In this case null will be returned.
 ```csharp
-                var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
-                var claim = client.GetClaim("sub"); //get claim
-                var organisations = client.GetOrganisations(); ; //get avaliable organisations
-                var organisation = client.GetOrganisation();  //get single organisation
-                var permissions = client.GetPermissions(); //get all permissions
-                var permission = client.GetPermission("something"); //get permission
+    var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+    var claim = client.GetClaim("sub", "id_token"); //get claim
+    var organisations = client.GetOrganisations(); ; //get available organisations
+    var organisation = client.GetOrganisation();  //get single organisation
+    var permissions = client.GetPermissions(); //get all permissions
+    var permission = client.GetPermission("something"); //get permission
 ```
+
+#### Feature Flags - Helper methods
+Feature flags are found in the feature_flags claim of the access token.
+
+```csharp
+    var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+    var featureFlag = client.GetFlag("feature_flag_code");
+    var stringFlag = client.GetStringFlag("theme");
+    var booleanFlag = client.GetBooleanFlag("is_dark_mode");
+    var intFlag = client.GetIntegerFlag("competitions_limit");
+```
+
 ## Additional Usage
 
 ### Calling APIs
 
 
 ```csharp
- // Don't forget to add "using Kinde;", all data objects models located in this namespace 
- var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
- Users users = (Users)await client.GetUsersAsync(sort: Sort.Name_asc, page_size: 20, user_id: null, next_token: "next", cancellationToken: CancellationToken.None );
- foreach(User user in users){
-    Console.WriteLine(user.Full_name + " is awesome!");
- }
+    // Don't forget to add "using Kinde;", all data objects models located in this namespace 
+    var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
+    var userApi = new UsersApi(client);
+    var users = await userApi.GetUsersAsync(sort: "name_asc", pageSize: 20, userId: null, nextToken: "next", cancellationToken: CancellationToken.None);
+    foreach (User user in users.Users)
+    {
+        Console.WriteLine($"{user.FirstName} {user.LastName} is awesome!");
+    }
 ```
 The Full API Documentation can be found [here](https://kinde.com/api/docs/#kinde-management-api).
 

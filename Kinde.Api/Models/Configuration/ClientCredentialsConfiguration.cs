@@ -6,11 +6,10 @@ namespace Kinde.Api.Models.Configuration
     {
         public ClientCredentialsConfiguration()
         {
-
         }
-        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret, string audience) : base(clientId, clientSecret, "ClientCredentials", scope,audience)
-        {
 
+        public ClientCredentialsConfiguration(string clientId, string scope, string clientSecret, string audience) : base(clientId, clientSecret, "ClientCredentials", scope, audience)
+        {
         }
 
         public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)

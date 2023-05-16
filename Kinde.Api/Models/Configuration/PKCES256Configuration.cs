@@ -1,10 +1,5 @@
 ﻿using Kinde.Api.Flows;
 using Kinde.Api.Hashing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kinde.Api.Models.Configuration
 {
@@ -14,9 +9,11 @@ namespace Kinde.Api.Models.Configuration
         {
             CodeVerifier = new SHA256CodeVerifier();
         }
+
         public PKCES256Configuration(string clientId, string scope, string clientSecret, string? state, string audience) : base(clientId, scope, clientSecret, state, audience)
         {
         }
+
         public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)
         {
             if (!IsStateValid(State))
@@ -25,7 +22,6 @@ namespace Kinde.Api.Models.Configuration
                 {
                     State += Guid.NewGuid().ToString("N");
                 }
-               
             }
 
             return new PKCESFlow(identityProviderConfiguration, this);
