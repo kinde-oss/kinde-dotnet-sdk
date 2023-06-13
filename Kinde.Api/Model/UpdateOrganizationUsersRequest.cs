@@ -28,49 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// UpdateOrganizationUsersRequest
     /// </summary>
-    [DataContract(Name = "createUser_request_identities_inner")]
-    public partial class CreateUserRequestIdentitiesInner : IEquatable<CreateUserRequestIdentitiesInner>, IValidatableObject
+    [DataContract(Name = "UpdateOrganizationUsers_request")]
+    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>, IValidatableObject
     {
         /// <summary>
-        /// The type of identity to create, for e.g. email.
+        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequest" /> class.
         /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum TypeEnum
+        /// <param name="users">Users to be added to the organization..</param>
+        public UpdateOrganizationUsersRequest(List<UpdateOrganizationUsersRequestUsersInner> users = default(List<UpdateOrganizationUsersRequestUsersInner>))
         {
-            /// <summary>
-            /// Enum Email for value: email
-            /// </summary>
-            [EnumMember(Value = "email")]
-            Email = 1
-
-        }
-
-
-        /// <summary>
-        /// The type of identity to create, for e.g. email.
-        /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInner" /> class.
-        /// </summary>
-        /// <param name="type">The type of identity to create, for e.g. email..</param>
-        /// <param name="details">details.</param>
-        public CreateUserRequestIdentitiesInner(TypeEnum? type = default(TypeEnum?), CreateUserRequestIdentitiesInnerDetails details = default(CreateUserRequestIdentitiesInnerDetails))
-        {
-            this.Type = type;
-            this.Details = details;
+            this.Users = users;
         }
 
         /// <summary>
-        /// Gets or Sets Details
+        /// Users to be added to the organization.
         /// </summary>
-        [DataMember(Name = "details", EmitDefaultValue = false)]
-        public CreateUserRequestIdentitiesInnerDetails Details { get; set; }
+        /// <value>Users to be added to the organization.</value>
+        [DataMember(Name = "users", EmitDefaultValue = false)]
+        public List<UpdateOrganizationUsersRequestUsersInner> Users { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,9 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateUserRequestIdentitiesInner {\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  Details: ").Append(Details).Append("\n");
+            sb.Append("class UpdateOrganizationUsersRequest {\n");
+            sb.Append("  Users: ").Append(Users).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -102,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateUserRequestIdentitiesInner);
+            return this.Equals(input as UpdateOrganizationUsersRequest);
         }
 
         /// <summary>
-        /// Returns true if CreateUserRequestIdentitiesInner instances are equal
+        /// Returns true if UpdateOrganizationUsersRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserRequestIdentitiesInner to be compared</param>
+        /// <param name="input">Instance of UpdateOrganizationUsersRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateUserRequestIdentitiesInner input)
+        public bool Equals(UpdateOrganizationUsersRequest input)
         {
             if (input == null)
             {
@@ -118,13 +94,10 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Type == input.Type ||
-                    this.Type.Equals(input.Type)
-                ) && 
-                (
-                    this.Details == input.Details ||
-                    (this.Details != null &&
-                    this.Details.Equals(input.Details))
+                    this.Users == input.Users ||
+                    this.Users != null &&
+                    input.Users != null &&
+                    this.Users.SequenceEqual(input.Users)
                 );
         }
 
@@ -137,10 +110,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                if (this.Details != null)
+                if (this.Users != null)
                 {
-                    hashCode = (hashCode * 59) + this.Details.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Users.GetHashCode();
                 }
                 return hashCode;
             }

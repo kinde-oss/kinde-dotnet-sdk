@@ -61,9 +61,9 @@ namespace Kinde.Api.Test.Api
         public void AddOrganizationUsersTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? code = null;
+            //string orgCode = null;
             //AddOrganizationUsersRequest? addOrganizationUsersRequest = null;
-            //var response = instance.AddOrganizationUsers(code, addOrganizationUsersRequest);
+            //var response = instance.AddOrganizationUsers(orgCode, addOrganizationUsersRequest);
             //Assert.IsType<AddOrganizationUsersResponse>(response);
         }
 
@@ -123,12 +123,12 @@ namespace Kinde.Api.Test.Api
         public void GetOrganizationUsersTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
             //string? sort = null;
             //int? pageSize = null;
             //string? nextToken = null;
-            //string? code = null;
             //string? permissions = null;
-            //var response = instance.GetOrganizationUsers(sort, pageSize, nextToken, code, permissions);
+            //var response = instance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions);
             //Assert.IsType<GetOrganizationsUsersResponse>(response);
         }
 
@@ -147,16 +147,16 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
-        /// Test RemoveOrganizationUsers
+        /// Test RemoveOrganizationUser
         /// </summary>
         [Fact]
-        public void RemoveOrganizationUsersTest()
+        public void RemoveOrganizationUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? code = null;
-            //RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = null;
-            //var response = instance.RemoveOrganizationUsers(code, removeOrganizationUsersRequest);
-            //Assert.IsType<RemoveOrganizationUsersResponse>(response);
+            //string orgCode = null;
+            //string userId = null;
+            //var response = instance.RemoveOrganizationUser(orgCode, userId);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>
@@ -183,6 +183,19 @@ namespace Kinde.Api.Test.Api
             //string value = null;
             //var response = instance.UpdateOrganizationFeatureFlagOverride(orgCode, featureFlagKey, value);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateOrganizationUsers
+        /// </summary>
+        [Fact]
+        public void UpdateOrganizationUsersTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null;
+            //var response = instance.UpdateOrganizationUsers(orgCode, updateOrganizationUsersRequest);
+            //Assert.IsType<RemoveOrganizationUsersResponse>(response);
         }
     }
 }

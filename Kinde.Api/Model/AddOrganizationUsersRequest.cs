@@ -36,18 +36,18 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AddOrganizationUsersRequest" /> class.
         /// </summary>
-        /// <param name="users">List of user ids to be added to the organization..</param>
-        public AddOrganizationUsersRequest(List<string> users = default(List<string>))
+        /// <param name="users">Users to be added to the organization..</param>
+        public AddOrganizationUsersRequest(List<AddOrganizationUsersRequestUsersInner> users = default(List<AddOrganizationUsersRequestUsersInner>))
         {
             this.Users = users;
         }
 
         /// <summary>
-        /// List of user ids to be added to the organization.
+        /// Users to be added to the organization.
         /// </summary>
-        /// <value>List of user ids to be added to the organization.</value>
+        /// <value>Users to be added to the organization.</value>
         [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<string> Users { get; set; }
+        public List<AddOrganizationUsersRequestUsersInner> Users { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

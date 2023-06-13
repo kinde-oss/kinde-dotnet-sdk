@@ -28,49 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// GetRedirectCallbackUrlsResponse
     /// </summary>
-    [DataContract(Name = "createUser_request_identities_inner")]
-    public partial class CreateUserRequestIdentitiesInner : IEquatable<CreateUserRequestIdentitiesInner>, IValidatableObject
+    [DataContract(Name = "get_redirect_callback_urls_response")]
+    public partial class GetRedirectCallbackUrlsResponse : IEquatable<GetRedirectCallbackUrlsResponse>, IValidatableObject
     {
         /// <summary>
-        /// The type of identity to create, for e.g. email.
+        /// Initializes a new instance of the <see cref="GetRedirectCallbackUrlsResponse" /> class.
         /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum TypeEnum
+        /// <param name="redirectUrls">An application&#39;s redirect callback URLs..</param>
+        public GetRedirectCallbackUrlsResponse(List<RedirectCallbackUrls> redirectUrls = default(List<RedirectCallbackUrls>))
         {
-            /// <summary>
-            /// Enum Email for value: email
-            /// </summary>
-            [EnumMember(Value = "email")]
-            Email = 1
-
-        }
-
-
-        /// <summary>
-        /// The type of identity to create, for e.g. email.
-        /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInner" /> class.
-        /// </summary>
-        /// <param name="type">The type of identity to create, for e.g. email..</param>
-        /// <param name="details">details.</param>
-        public CreateUserRequestIdentitiesInner(TypeEnum? type = default(TypeEnum?), CreateUserRequestIdentitiesInnerDetails details = default(CreateUserRequestIdentitiesInnerDetails))
-        {
-            this.Type = type;
-            this.Details = details;
+            this.RedirectUrls = redirectUrls;
         }
 
         /// <summary>
-        /// Gets or Sets Details
+        /// An application&#39;s redirect callback URLs.
         /// </summary>
-        [DataMember(Name = "details", EmitDefaultValue = false)]
-        public CreateUserRequestIdentitiesInnerDetails Details { get; set; }
+        /// <value>An application&#39;s redirect callback URLs.</value>
+        [DataMember(Name = "redirect_urls", EmitDefaultValue = false)]
+        public List<RedirectCallbackUrls> RedirectUrls { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,9 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateUserRequestIdentitiesInner {\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  Details: ").Append(Details).Append("\n");
+            sb.Append("class GetRedirectCallbackUrlsResponse {\n");
+            sb.Append("  RedirectUrls: ").Append(RedirectUrls).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -102,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateUserRequestIdentitiesInner);
+            return this.Equals(input as GetRedirectCallbackUrlsResponse);
         }
 
         /// <summary>
-        /// Returns true if CreateUserRequestIdentitiesInner instances are equal
+        /// Returns true if GetRedirectCallbackUrlsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserRequestIdentitiesInner to be compared</param>
+        /// <param name="input">Instance of GetRedirectCallbackUrlsResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateUserRequestIdentitiesInner input)
+        public bool Equals(GetRedirectCallbackUrlsResponse input)
         {
             if (input == null)
             {
@@ -118,13 +94,10 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Type == input.Type ||
-                    this.Type.Equals(input.Type)
-                ) && 
-                (
-                    this.Details == input.Details ||
-                    (this.Details != null &&
-                    this.Details.Equals(input.Details))
+                    this.RedirectUrls == input.RedirectUrls ||
+                    this.RedirectUrls != null &&
+                    input.RedirectUrls != null &&
+                    this.RedirectUrls.SequenceEqual(input.RedirectUrls)
                 );
         }
 
@@ -137,10 +110,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                if (this.Details != null)
+                if (this.RedirectUrls != null)
                 {
-                    hashCode = (hashCode * 59) + this.Details.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RedirectUrls.GetHashCode();
                 }
                 return hashCode;
             }

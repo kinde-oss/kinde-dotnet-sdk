@@ -67,14 +67,14 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
-        /// Test Deleteuser
+        /// Test DeleteUser
         /// </summary>
         [Fact]
-        public void DeleteuserTest()
+        public void DeleteUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string? id = null;
-            //var response = instance.Deleteuser(id);
+            //var response = instance.DeleteUser(id);
             //Assert.IsType<SuccessResponse>(response);
         }
 
@@ -85,7 +85,7 @@ namespace Kinde.Api.Test.Api
         public void GetUserDataTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? id = null;
+            //string id = null;
             //var response = instance.GetUserData(id);
             //Assert.IsType<User>(response);
         }
@@ -101,7 +101,8 @@ namespace Kinde.Api.Test.Api
             //int? pageSize = null;
             //string? userId = null;
             //string? nextToken = null;
-            //var response = instance.GetUsers(sort, pageSize, userId, nextToken);
+            //string? email = null;
+            //var response = instance.GetUsers(sort, pageSize, userId, nextToken, email);
             //Assert.IsType<UsersResponse>(response);
         }
 

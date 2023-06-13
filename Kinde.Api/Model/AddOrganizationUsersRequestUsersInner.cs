@@ -28,41 +28,44 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationResponse
+    /// AddOrganizationUsersRequestUsersInner
     /// </summary>
-    [DataContract(Name = "create_organization_response")]
-    public partial class CreateOrganizationResponse : IEquatable<CreateOrganizationResponse>, IValidatableObject
+    [DataContract(Name = "AddOrganizationUsers_request_users_inner")]
+    public partial class AddOrganizationUsersRequestUsersInner : IEquatable<AddOrganizationUsersRequestUsersInner>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
+        /// Initializes a new instance of the <see cref="AddOrganizationUsersRequestUsersInner" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="code">code.</param>
-        /// <param name="organization">organization.</param>
-        public CreateOrganizationResponse(string message = default(string), string code = default(string), CreateOrganizationResponseOrganization organization = default(CreateOrganizationResponseOrganization))
+        /// <param name="id">The users id..</param>
+        /// <param name="roles">Role keys to assign to the user..</param>
+        /// <param name="permissions">Permission keys to assign to the user..</param>
+        public AddOrganizationUsersRequestUsersInner(string id = default(string), List<string> roles = default(List<string>), List<string> permissions = default(List<string>))
         {
-            this.Message = message;
-            this.Code = code;
-            this.Organization = organization;
+            this.Id = id;
+            this.Roles = roles;
+            this.Permissions = permissions;
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// The users id.
         /// </summary>
-        [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
+        /// <value>The users id.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// Role keys to assign to the user.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        /// <value>Role keys to assign to the user.</value>
+        [DataMember(Name = "roles", EmitDefaultValue = false)]
+        public List<string> Roles { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organization
+        /// Permission keys to assign to the user.
         /// </summary>
-        [DataMember(Name = "organization", EmitDefaultValue = false)]
-        public CreateOrganizationResponseOrganization Organization { get; set; }
+        /// <value>Permission keys to assign to the user.</value>
+        [DataMember(Name = "permissions", EmitDefaultValue = false)]
+        public List<string> Permissions { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,10 +74,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateOrganizationResponse {\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Organization: ").Append(Organization).Append("\n");
+            sb.Append("class AddOrganizationUsersRequestUsersInner {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
+            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -95,15 +98,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateOrganizationResponse);
+            return this.Equals(input as AddOrganizationUsersRequestUsersInner);
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationResponse instances are equal
+        /// Returns true if AddOrganizationUsersRequestUsersInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationResponse to be compared</param>
+        /// <param name="input">Instance of AddOrganizationUsersRequestUsersInner to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateOrganizationResponse input)
+        public bool Equals(AddOrganizationUsersRequestUsersInner input)
         {
             if (input == null)
             {
@@ -111,19 +114,21 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Roles == input.Roles ||
+                    this.Roles != null &&
+                    input.Roles != null &&
+                    this.Roles.SequenceEqual(input.Roles)
                 ) && 
                 (
-                    this.Organization == input.Organization ||
-                    (this.Organization != null &&
-                    this.Organization.Equals(input.Organization))
+                    this.Permissions == input.Permissions ||
+                    this.Permissions != null &&
+                    input.Permissions != null &&
+                    this.Permissions.SequenceEqual(input.Permissions)
                 );
         }
 
@@ -136,17 +141,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Message != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
-                if (this.Code != null)
+                if (this.Roles != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Roles.GetHashCode();
                 }
-                if (this.Organization != null)
+                if (this.Permissions != null)
                 {
-                    hashCode = (hashCode * 59) + this.Organization.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Permissions.GetHashCode();
                 }
                 return hashCode;
             }

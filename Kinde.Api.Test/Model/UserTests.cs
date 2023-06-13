@@ -65,6 +65,14 @@ namespace Kinde.Api.Test.Model
             // TODO unit test for the property 'Id'
         }
         /// <summary>
+        /// Test the property 'ProvidedId'
+        /// </summary>
+        [Fact]
+        public void ProvidedIdTest()
+        {
+            // TODO unit test for the property 'ProvidedId'
+        }
+        /// <summary>
         /// Test the property 'Email'
         /// </summary>
         [Fact]
@@ -89,6 +97,14 @@ namespace Kinde.Api.Test.Model
             // TODO unit test for the property 'FirstName'
         }
         /// <summary>
+        /// Test the property 'FullName'
+        /// </summary>
+        [Fact]
+        public void FullNameTest()
+        {
+            // TODO unit test for the property 'FullName'
+        }
+        /// <summary>
         /// Test the property 'IsSuspended'
         /// </summary>
         [Fact]
@@ -103,6 +119,38 @@ namespace Kinde.Api.Test.Model
         public void PictureTest()
         {
             // TODO unit test for the property 'Picture'
+        }
+        /// <summary>
+        /// Test the property 'TotalSignIns'
+        /// </summary>
+        [Fact]
+        public void TotalSignInsTest()
+        {
+            // TODO unit test for the property 'TotalSignIns'
+        }
+        /// <summary>
+        /// Test the property 'FailedSignIns'
+        /// </summary>
+        [Fact]
+        public void FailedSignInsTest()
+        {
+            // TODO unit test for the property 'FailedSignIns'
+        }
+        /// <summary>
+        /// Test the property 'LastSignedIn'
+        /// </summary>
+        [Fact]
+        public void LastSignedInTest()
+        {
+            // TODO unit test for the property 'LastSignedIn'
+        }
+        /// <summary>
+        /// Test the property 'CreatedOn'
+        /// </summary>
+        [Fact]
+        public void CreatedOnTest()
+        {
+            // TODO unit test for the property 'CreatedOn'
         }
 
     }

@@ -28,41 +28,44 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationResponse
+    /// Roles
     /// </summary>
-    [DataContract(Name = "create_organization_response")]
-    public partial class CreateOrganizationResponse : IEquatable<CreateOrganizationResponse>, IValidatableObject
+    [DataContract(Name = "roles")]
+    public partial class Roles : IEquatable<Roles>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
+        /// Initializes a new instance of the <see cref="Roles" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="code">code.</param>
-        /// <param name="organization">organization.</param>
-        public CreateOrganizationResponse(string message = default(string), string code = default(string), CreateOrganizationResponseOrganization organization = default(CreateOrganizationResponseOrganization))
+        /// <param name="key">The role identifier to use in code..</param>
+        /// <param name="name">The role&#39;s name..</param>
+        /// <param name="description">The role&#39;s description..</param>
+        public Roles(string key = default(string), string name = default(string), string description = default(string))
         {
-            this.Message = message;
-            this.Code = code;
-            this.Organization = organization;
+            this.Key = key;
+            this.Name = name;
+            this.Description = description;
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// The role identifier to use in code.
         /// </summary>
-        [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
+        /// <value>The role identifier to use in code.</value>
+        [DataMember(Name = "key", EmitDefaultValue = false)]
+        public string Key { get; set; }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// The role&#39;s name.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        /// <value>The role&#39;s name.</value>
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organization
+        /// The role&#39;s description.
         /// </summary>
-        [DataMember(Name = "organization", EmitDefaultValue = false)]
-        public CreateOrganizationResponseOrganization Organization { get; set; }
+        /// <value>The role&#39;s description.</value>
+        [DataMember(Name = "description", EmitDefaultValue = false)]
+        public string Description { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,10 +74,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateOrganizationResponse {\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Organization: ").Append(Organization).Append("\n");
+            sb.Append("class Roles {\n");
+            sb.Append("  Key: ").Append(Key).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -95,15 +98,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateOrganizationResponse);
+            return this.Equals(input as Roles);
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationResponse instances are equal
+        /// Returns true if Roles instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationResponse to be compared</param>
+        /// <param name="input">Instance of Roles to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateOrganizationResponse input)
+        public bool Equals(Roles input)
         {
             if (input == null)
             {
@@ -111,19 +114,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
+                    this.Key == input.Key ||
+                    (this.Key != null &&
+                    this.Key.Equals(input.Key))
                 ) && 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.Organization == input.Organization ||
-                    (this.Organization != null &&
-                    this.Organization.Equals(input.Organization))
+                    this.Description == input.Description ||
+                    (this.Description != null &&
+                    this.Description.Equals(input.Description))
                 );
         }
 
@@ -136,17 +139,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Message != null)
+                if (this.Key != null)
                 {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
-                if (this.Code != null)
+                if (this.Name != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                if (this.Organization != null)
+                if (this.Description != null)
                 {
-                    hashCode = (hashCode * 59) + this.Organization.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
                 return hashCode;
             }

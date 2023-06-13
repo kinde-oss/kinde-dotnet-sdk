@@ -28,41 +28,52 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationResponse
+    /// GetApplicationsResponse
     /// </summary>
-    [DataContract(Name = "create_organization_response")]
-    public partial class CreateOrganizationResponse : IEquatable<CreateOrganizationResponse>, IValidatableObject
+    [DataContract(Name = "get_applications_response")]
+    public partial class GetApplicationsResponse : IEquatable<GetApplicationsResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
+        /// Initializes a new instance of the <see cref="GetApplicationsResponse" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="code">code.</param>
-        /// <param name="organization">organization.</param>
-        public CreateOrganizationResponse(string message = default(string), string code = default(string), CreateOrganizationResponseOrganization organization = default(CreateOrganizationResponseOrganization))
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="organizations">organizations.</param>
+        /// <param name="nextToken">Pagination token..</param>
+        public GetApplicationsResponse(string code = default(string), string message = default(string), List<Application> organizations = default(List<Application>), string nextToken = default(string))
         {
-            this.Message = message;
             this.Code = code;
-            this.Organization = organization;
+            this.Message = message;
+            this.Organizations = organizations;
+            this.NextToken = nextToken;
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// Response code.
         /// </summary>
-        [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Code
-        /// </summary>
+        /// <value>Response code.</value>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organization
+        /// Response message.
         /// </summary>
-        [DataMember(Name = "organization", EmitDefaultValue = false)]
-        public CreateOrganizationResponseOrganization Organization { get; set; }
+        /// <value>Response message.</value>
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Organizations
+        /// </summary>
+        [DataMember(Name = "organizations", EmitDefaultValue = false)]
+        public List<Application> Organizations { get; set; }
+
+        /// <summary>
+        /// Pagination token.
+        /// </summary>
+        /// <value>Pagination token.</value>
+        [DataMember(Name = "next_token", EmitDefaultValue = false)]
+        public string NextToken { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,10 +82,11 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateOrganizationResponse {\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("class GetApplicationsResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Organization: ").Append(Organization).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Organizations: ").Append(Organizations).Append("\n");
+            sb.Append("  NextToken: ").Append(NextToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -95,15 +107,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateOrganizationResponse);
+            return this.Equals(input as GetApplicationsResponse);
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationResponse instances are equal
+        /// Returns true if GetApplicationsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationResponse to be compared</param>
+        /// <param name="input">Instance of GetApplicationsResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateOrganizationResponse input)
+        public bool Equals(GetApplicationsResponse input)
         {
             if (input == null)
             {
@@ -111,19 +123,25 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
-                ) && 
-                (
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
                 ) && 
                 (
-                    this.Organization == input.Organization ||
-                    (this.Organization != null &&
-                    this.Organization.Equals(input.Organization))
+                    this.Message == input.Message ||
+                    (this.Message != null &&
+                    this.Message.Equals(input.Message))
+                ) && 
+                (
+                    this.Organizations == input.Organizations ||
+                    this.Organizations != null &&
+                    input.Organizations != null &&
+                    this.Organizations.SequenceEqual(input.Organizations)
+                ) && 
+                (
+                    this.NextToken == input.NextToken ||
+                    (this.NextToken != null &&
+                    this.NextToken.Equals(input.NextToken))
                 );
         }
 
@@ -136,17 +154,21 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Message != null)
-                {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
-                }
                 if (this.Code != null)
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 }
-                if (this.Organization != null)
+                if (this.Message != null)
                 {
-                    hashCode = (hashCode * 59) + this.Organization.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
+                if (this.Organizations != null)
+                {
+                    hashCode = (hashCode * 59) + this.Organizations.GetHashCode();
+                }
+                if (this.NextToken != null)
+                {
+                    hashCode = (hashCode * 59) + this.NextToken.GetHashCode();
                 }
                 return hashCode;
             }

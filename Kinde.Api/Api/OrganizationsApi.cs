@@ -29,28 +29,28 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Assign Users to an Organization
+        /// Add organization users
         /// </summary>
         /// <remarks>
         /// Add existing users to an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <returns>AddOrganizationUsersResponse</returns>
-        AddOrganizationUsersResponse AddOrganizationUsers(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?));
+        AddOrganizationUsersResponse AddOrganizationUsers(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?));
 
         /// <summary>
-        /// Assign Users to an Organization
+        /// Add organization users
         /// </summary>
         /// <remarks>
         /// Add existing users to an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <returns>ApiResponse of AddOrganizationUsersResponse</returns>
-        ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?));
+        ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?));
         /// <summary>
         /// Create Organization
         /// </summary>
@@ -144,13 +144,13 @@ namespace Kinde.Api.Api
         /// Get users in an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <returns>GetOrganizationsUsersResponse</returns>
-        GetOrganizationsUsersResponse GetOrganizationUsers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?));
+        GetOrganizationsUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
 
         /// <summary>
         /// List Organization Users
@@ -159,13 +159,13 @@ namespace Kinde.Api.Api
         /// Get users in an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <returns>ApiResponse of GetOrganizationsUsersResponse</returns>
-        ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?));
+        ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
         /// <summary>
         /// List Organizations
         /// </summary>
@@ -192,28 +192,28 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsResponse</returns>
         ApiResponse<GetOrganizationsResponse> GetOrganizationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
-        /// Remove Users from an Organization
+        /// Remove organization user
         /// </summary>
         /// <remarks>
-        /// Remove existing users from an organization.
+        /// Remove user from an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
-        /// <returns>RemoveOrganizationUsersResponse</returns>
-        RemoveOrganizationUsersResponse RemoveOrganizationUsers(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?));
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RemoveOrganizationUser(string orgCode, string userId);
 
         /// <summary>
-        /// Remove Users from an Organization
+        /// Remove organization user
         /// </summary>
         /// <remarks>
-        /// Remove existing users from an organization.
+        /// Remove user from an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
-        /// <returns>ApiResponse of RemoveOrganizationUsersResponse</returns>
-        ApiResponse<RemoveOrganizationUsersResponse> RemoveOrganizationUsersWithHttpInfo(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?));
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RemoveOrganizationUserWithHttpInfo(string orgCode, string userId);
         /// <summary>
         /// Update Organization
         /// </summary>
@@ -262,6 +262,29 @@ namespace Kinde.Api.Api
         /// <param name="value">Override value</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value);
+        /// <summary>
+        /// Update organization users
+        /// </summary>
+        /// <remarks>
+        /// Update users that belong to an organization.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <returns>RemoveOrganizationUsersResponse</returns>
+        RemoveOrganizationUsersResponse UpdateOrganizationUsers(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?));
+
+        /// <summary>
+        /// Update organization users
+        /// </summary>
+        /// <remarks>
+        /// Update users that belong to an organization.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <returns>ApiResponse of RemoveOrganizationUsersResponse</returns>
+        ApiResponse<RemoveOrganizationUsersResponse> UpdateOrganizationUsersWithHttpInfo(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?));
         #endregion Synchronous Operations
     }
 
@@ -272,30 +295,30 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Assign Users to an Organization
+        /// Add organization users
         /// </summary>
         /// <remarks>
         /// Add existing users to an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of AddOrganizationUsersResponse</returns>
-        System.Threading.Tasks.Task<AddOrganizationUsersResponse> AddOrganizationUsersAsync(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<AddOrganizationUsersResponse> AddOrganizationUsersAsync(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Assign Users to an Organization
+        /// Add organization users
         /// </summary>
         /// <remarks>
         /// Add existing users to an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (AddOrganizationUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<AddOrganizationUsersResponse>> AddOrganizationUsersWithHttpInfoAsync(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<AddOrganizationUsersResponse>> AddOrganizationUsersWithHttpInfoAsync(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Create Organization
         /// </summary>
@@ -397,14 +420,14 @@ namespace Kinde.Api.Api
         /// Get users in an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationsUsersResponse</returns>
-        System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Organization Users
@@ -413,14 +436,14 @@ namespace Kinde.Api.Api
         /// Get users in an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationsUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Organizations
         /// </summary>
@@ -449,30 +472,30 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationsResponse>> GetOrganizationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Remove Users from an Organization
+        /// Remove organization user
         /// </summary>
         /// <remarks>
-        /// Remove existing users from an organization.
+        /// Remove user from an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of RemoveOrganizationUsersResponse</returns>
-        System.Threading.Tasks.Task<RemoveOrganizationUsersResponse> RemoveOrganizationUsersAsync(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RemoveOrganizationUserAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Remove Users from an Organization
+        /// Remove organization user
         /// </summary>
         /// <remarks>
-        /// Remove existing users from an organization.
+        /// Remove user from an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (RemoveOrganizationUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<RemoveOrganizationUsersResponse>> RemoveOrganizationUsersWithHttpInfoAsync(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RemoveOrganizationUserWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Organization
         /// </summary>
@@ -525,6 +548,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update organization users
+        /// </summary>
+        /// <remarks>
+        /// Update users that belong to an organization.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RemoveOrganizationUsersResponse</returns>
+        System.Threading.Tasks.Task<RemoveOrganizationUsersResponse> UpdateOrganizationUsersAsync(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization users
+        /// </summary>
+        /// <remarks>
+        /// Update users that belong to an organization.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RemoveOrganizationUsersResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RemoveOrganizationUsersResponse>> UpdateOrganizationUsersWithHttpInfoAsync(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -755,27 +803,31 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Assign Users to an Organization Add existing users to an organization.
+        /// Add organization users Add existing users to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <returns>AddOrganizationUsersResponse</returns>
-        public AddOrganizationUsersResponse AddOrganizationUsers(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?))
+        public AddOrganizationUsersResponse AddOrganizationUsers(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?))
         {
-            Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> localVarResponse = AddOrganizationUsersWithHttpInfo(code, addOrganizationUsersRequest);
+            Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> localVarResponse = AddOrganizationUsersWithHttpInfo(orgCode, addOrganizationUsersRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Assign Users to an Organization Add existing users to an organization.
+        /// Add organization users Add existing users to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <returns>ApiResponse of AddOrganizationUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?))
+        public Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?))
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUsers");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -794,10 +846,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
             localVarRequestOptions.Data = addOrganizationUsersRequest;
 
             // authentication (kindeBearerAuth) required
@@ -808,7 +857,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<AddOrganizationUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<AddOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -820,29 +869,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Assign Users to an Organization Add existing users to an organization.
+        /// Add organization users Add existing users to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of AddOrganizationUsersResponse</returns>
-        public async System.Threading.Tasks.Task<AddOrganizationUsersResponse> AddOrganizationUsersAsync(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<AddOrganizationUsersResponse> AddOrganizationUsersAsync(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> localVarResponse = await AddOrganizationUsersWithHttpInfoAsync(code, addOrganizationUsersRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> localVarResponse = await AddOrganizationUsersWithHttpInfoAsync(orgCode, addOrganizationUsersRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Assign Users to an Organization Add existing users to an organization.
+        /// Add organization users Add existing users to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="addOrganizationUsersRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (AddOrganizationUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse>> AddOrganizationUsersWithHttpInfoAsync(string? code = default(string?), AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse>> AddOrganizationUsersWithHttpInfoAsync(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUsers");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -863,10 +916,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
             localVarRequestOptions.Data = addOrganizationUsersRequest;
 
             // authentication (kindeBearerAuth) required
@@ -878,7 +928,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<AddOrganizationUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<AddOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1415,15 +1465,15 @@ namespace Kinde.Api.Api
         /// List Organization Users Get users in an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <returns>GetOrganizationsUsersResponse</returns>
-        public GetOrganizationsUsersResponse GetOrganizationUsers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?))
+        public GetOrganizationsUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = GetOrganizationUsersWithHttpInfo(sort, pageSize, nextToken, code, permissions);
+            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions);
             return localVarResponse.Data;
         }
 
@@ -1431,14 +1481,18 @@ namespace Kinde.Api.Api
         /// List Organization Users Get users in an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <returns>ApiResponse of GetOrganizationsUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUsers");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1456,6 +1510,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
             if (sort != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
@@ -1467,10 +1522,6 @@ namespace Kinde.Api.Api
             if (nextToken != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
             }
             if (permissions != null)
             {
@@ -1485,7 +1536,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationsUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetOrganizationsUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1500,16 +1551,16 @@ namespace Kinde.Api.Api
         /// List Organization Users Get users in an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationsUsersResponse</returns>
-        public async System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = await GetOrganizationUsersWithHttpInfoAsync(sort, pageSize, nextToken, code, permissions, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = await GetOrganizationUsersWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, permissions, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1517,15 +1568,19 @@ namespace Kinde.Api.Api
         /// List Organization Users Get users in an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationsUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? code = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUsers");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -1545,6 +1600,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
             if (sort != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
@@ -1556,10 +1612,6 @@ namespace Kinde.Api.Api
             if (nextToken != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
             }
             if (permissions != null)
             {
@@ -1575,7 +1627,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1738,31 +1790,38 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Users from an Organization Remove existing users from an organization.
+        /// Remove organization user Remove user from an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
-        /// <returns>RemoveOrganizationUsersResponse</returns>
-        public RemoveOrganizationUsersResponse RemoveOrganizationUsers(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?))
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RemoveOrganizationUser(string orgCode, string userId)
         {
-            Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> localVarResponse = RemoveOrganizationUsersWithHttpInfo(code, removeOrganizationUsersRequest);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RemoveOrganizationUserWithHttpInfo(orgCode, userId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Remove Users from an Organization Remove existing users from an organization.
+        /// Remove organization user Remove user from an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
-        /// <returns>ApiResponse of RemoveOrganizationUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> RemoveOrganizationUsersWithHttpInfo(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?))
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveOrganizationUserWithHttpInfo(string orgCode, string userId)
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->RemoveOrganizationUser");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->RemoveOrganizationUser");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
-                "application/json"
             };
 
             // to determine the Accept header
@@ -1777,11 +1836,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
-            localVarRequestOptions.Data = removeOrganizationUsersRequest;
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1791,11 +1847,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<RemoveOrganizationUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("RemoveOrganizationUsers", localVarResponse);
+                Exception _exception = this.ExceptionFactory("RemoveOrganizationUser", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1803,34 +1859,41 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Users from an Organization Remove existing users from an organization.
+        /// Remove organization user Remove user from an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of RemoveOrganizationUsersResponse</returns>
-        public async System.Threading.Tasks.Task<RemoveOrganizationUsersResponse> RemoveOrganizationUsersAsync(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RemoveOrganizationUserAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> localVarResponse = await RemoveOrganizationUsersWithHttpInfoAsync(code, removeOrganizationUsersRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RemoveOrganizationUserWithHttpInfoAsync(orgCode, userId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Remove Users from an Organization Remove existing users from an organization.
+        /// Remove organization user Remove user from an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <param name="removeOrganizationUsersRequest"> (optional)</param>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="userId">The user&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (RemoveOrganizationUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse>> RemoveOrganizationUsersWithHttpInfoAsync(string? code = default(string?), RemoveOrganizationUsersRequest? removeOrganizationUsersRequest = default(RemoveOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RemoveOrganizationUserWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->RemoveOrganizationUser");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->RemoveOrganizationUser");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
-                "application/json"
             };
 
             // to determine the Accept header
@@ -1846,11 +1909,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
-            localVarRequestOptions.Data = removeOrganizationUsersRequest;
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1861,11 +1921,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<RemoveOrganizationUsersResponse>("/api/v1/organization/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("RemoveOrganizationUsers", localVarResponse);
+                Exception _exception = this.ExceptionFactory("RemoveOrganizationUser", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -2158,6 +2218,143 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateOrganizationFeatureFlagOverride", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization users Update users that belong to an organization.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <returns>RemoveOrganizationUsersResponse</returns>
+        public RemoveOrganizationUsersResponse UpdateOrganizationUsers(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?))
+        {
+            Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> localVarResponse = UpdateOrganizationUsersWithHttpInfo(orgCode, updateOrganizationUsersRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization users Update users that belong to an organization.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <returns>ApiResponse of RemoveOrganizationUsersResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> UpdateOrganizationUsersWithHttpInfo(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationUsers");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationUsersRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<RemoveOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationUsers", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization users Update users that belong to an organization.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RemoveOrganizationUsersResponse</returns>
+        public async System.Threading.Tasks.Task<RemoveOrganizationUsersResponse> UpdateOrganizationUsersAsync(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse> localVarResponse = await UpdateOrganizationUsersWithHttpInfoAsync(orgCode, updateOrganizationUsersRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization users Update users that belong to an organization.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationUsersRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RemoveOrganizationUsersResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RemoveOrganizationUsersResponse>> UpdateOrganizationUsersWithHttpInfoAsync(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationUsers");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationUsersRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<RemoveOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationUsers", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

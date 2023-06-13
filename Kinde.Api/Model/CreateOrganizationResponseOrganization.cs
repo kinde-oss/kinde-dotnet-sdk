@@ -28,41 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationResponse
+    /// CreateOrganizationResponseOrganization
     /// </summary>
-    [DataContract(Name = "create_organization_response")]
-    public partial class CreateOrganizationResponse : IEquatable<CreateOrganizationResponse>, IValidatableObject
+    [DataContract(Name = "create_organization_response_organization")]
+    public partial class CreateOrganizationResponseOrganization : IEquatable<CreateOrganizationResponseOrganization>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
+        /// Initializes a new instance of the <see cref="CreateOrganizationResponseOrganization" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="code">code.</param>
-        /// <param name="organization">organization.</param>
-        public CreateOrganizationResponse(string message = default(string), string code = default(string), CreateOrganizationResponseOrganization organization = default(CreateOrganizationResponseOrganization))
+        /// <param name="code">The organization&#39;s code..</param>
+        public CreateOrganizationResponseOrganization(string code = default(string))
         {
-            this.Message = message;
             this.Code = code;
-            this.Organization = organization;
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// The organization&#39;s code.
         /// </summary>
-        [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Code
-        /// </summary>
+        /// <value>The organization&#39;s code.</value>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Organization
-        /// </summary>
-        [DataMember(Name = "organization", EmitDefaultValue = false)]
-        public CreateOrganizationResponseOrganization Organization { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,10 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateOrganizationResponse {\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("class CreateOrganizationResponseOrganization {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Organization: ").Append(Organization).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -95,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateOrganizationResponse);
+            return this.Equals(input as CreateOrganizationResponseOrganization);
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationResponse instances are equal
+        /// Returns true if CreateOrganizationResponseOrganization instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationResponse to be compared</param>
+        /// <param name="input">Instance of CreateOrganizationResponseOrganization to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateOrganizationResponse input)
+        public bool Equals(CreateOrganizationResponseOrganization input)
         {
             if (input == null)
             {
@@ -111,19 +94,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
-                ) && 
-                (
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
-                ) && 
-                (
-                    this.Organization == input.Organization ||
-                    (this.Organization != null &&
-                    this.Organization.Equals(input.Organization))
                 );
         }
 
@@ -136,17 +109,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Message != null)
-                {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
-                }
                 if (this.Code != null)
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                }
-                if (this.Organization != null)
-                {
-                    hashCode = (hashCode * 59) + this.Organization.GetHashCode();
                 }
                 return hashCode;
             }

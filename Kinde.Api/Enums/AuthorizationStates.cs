@@ -1,4 +1,6 @@
-﻿namespace Kinde.Api.Enums
+﻿using System.ComponentModel;
+
+namespace Kinde.Api.Enums
 {
     public enum AuthorizationStates
     {
