@@ -28,26 +28,59 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// GetOrganizationFeatureFlagsResponseFeatureFlagsValue
     /// </summary>
-    [DataContract(Name = "user_identity_result")]
-    public partial class UserIdentityResult : IEquatable<UserIdentityResult>, IValidatableObject
+    [DataContract(Name = "get_organization_feature_flags_response_feature_flags_value")]
+    public partial class GetOrganizationFeatureFlagsResponseFeatureFlagsValue : IEquatable<GetOrganizationFeatureFlagsResponseFeatureFlagsValue>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
+        /// Defines Type
         /// </summary>
-        /// <param name="created">True if the user identity was successfully created..</param>
-        public UserIdentityResult(bool created = default(bool))
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TypeEnum
         {
-            this.Created = created;
+            /// <summary>
+            /// Enum Str for value: str
+            /// </summary>
+            [EnumMember(Value = "str")]
+            Str = 1,
+
+            /// <summary>
+            /// Enum Int for value: int
+            /// </summary>
+            [EnumMember(Value = "int")]
+            Int = 2,
+
+            /// <summary>
+            /// Enum Bool for value: bool
+            /// </summary>
+            [EnumMember(Value = "bool")]
+            Bool = 3
+
+        }
+
+
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public TypeEnum? Type { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" /> class.
+        /// </summary>
+        /// <param name="type">type.</param>
+        /// <param name="value">value.</param>
+        public GetOrganizationFeatureFlagsResponseFeatureFlagsValue(TypeEnum? type = default(TypeEnum?), string value = default(string))
+        {
+            this.Type = type;
+            this.Value = value;
         }
 
         /// <summary>
-        /// True if the user identity was successfully created.
+        /// Gets or Sets Value
         /// </summary>
-        /// <value>True if the user identity was successfully created.</value>
-        [DataMember(Name = "created", EmitDefaultValue = true)]
-        public bool Created { get; set; }
+        [DataMember(Name = "value", EmitDefaultValue = false)]
+        public string Value { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +89,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UserIdentityResult {\n");
-            sb.Append("  Created: ").Append(Created).Append("\n");
+            sb.Append("class GetOrganizationFeatureFlagsResponseFeatureFlagsValue {\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Value: ").Append(Value).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +112,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UserIdentityResult);
+            return this.Equals(input as GetOrganizationFeatureFlagsResponseFeatureFlagsValue);
         }
 
         /// <summary>
-        /// Returns true if UserIdentityResult instances are equal
+        /// Returns true if GetOrganizationFeatureFlagsResponseFeatureFlagsValue instances are equal
         /// </summary>
-        /// <param name="input">Instance of UserIdentityResult to be compared</param>
+        /// <param name="input">Instance of GetOrganizationFeatureFlagsResponseFeatureFlagsValue to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserIdentityResult input)
+        public bool Equals(GetOrganizationFeatureFlagsResponseFeatureFlagsValue input)
         {
             if (input == null)
             {
@@ -94,8 +128,13 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Created == input.Created ||
-                    this.Created.Equals(input.Created)
+                    this.Type == input.Type ||
+                    this.Type.Equals(input.Type)
+                ) && 
+                (
+                    this.Value == input.Value ||
+                    (this.Value != null &&
+                    this.Value.Equals(input.Value))
                 );
         }
 
@@ -108,7 +147,11 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Created.GetHashCode();
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

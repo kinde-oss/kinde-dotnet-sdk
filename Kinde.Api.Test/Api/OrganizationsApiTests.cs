@@ -80,6 +80,20 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test CreateOrganizationUserRole
+        /// </summary>
+        [Fact]
+        public void CreateOrganizationUserRoleTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest = null;
+            //var response = instance.CreateOrganizationUserRole(orgCode, userId, createOrganizationUserRoleRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test DeleteOrganizationFeatureFlagOverride
         /// </summary>
         [Fact]
@@ -105,6 +119,20 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteOrganizationUserRole
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationUserRoleTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string roleId = null;
+            //var response = instance.DeleteOrganizationUserRole(orgCode, userId, roleId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetOrganization
         /// </summary>
         [Fact]
@@ -114,6 +142,31 @@ namespace Kinde.Api.Test.Api
             //string? code = null;
             //var response = instance.GetOrganization(code);
             //Assert.IsType<Organization>(response);
+        }
+
+        /// <summary>
+        /// Test GetOrganizationFeatureFlags
+        /// </summary>
+        [Fact]
+        public void GetOrganizationFeatureFlagsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //var response = instance.GetOrganizationFeatureFlags(orgCode);
+            //Assert.IsType<GetOrganizationFeatureFlagsResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetOrganizationUserRoles
+        /// </summary>
+        [Fact]
+        public void GetOrganizationUserRolesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //var response = instance.GetOrganizationUserRoles(orgCode, userId);
+            //Assert.IsType<GetOrganizationsUserRolesResponse>(response);
         }
 
         /// <summary>
@@ -195,7 +248,7 @@ namespace Kinde.Api.Test.Api
             //string orgCode = null;
             //UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null;
             //var response = instance.UpdateOrganizationUsers(orgCode, updateOrganizationUsersRequest);
-            //Assert.IsType<RemoveOrganizationUsersResponse>(response);
+            //Assert.IsType<UpdateOrganizationUsersResponse>(response);
         }
     }
 }

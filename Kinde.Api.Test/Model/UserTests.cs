@@ -121,6 +121,14 @@ namespace Kinde.Api.Test.Model
             // TODO unit test for the property 'Picture'
         }
         /// <summary>
+        /// Test the property 'IsPasswordResetRequested'
+        /// </summary>
+        [Fact]
+        public void IsPasswordResetRequestedTest()
+        {
+            // TODO unit test for the property 'IsPasswordResetRequested'
+        }
+        /// <summary>
         /// Test the property 'TotalSignIns'
         /// </summary>
         [Fact]

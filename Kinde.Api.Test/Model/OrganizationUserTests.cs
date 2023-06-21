@@ -96,6 +96,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FirstName'
         }
+        /// <summary>
+        /// Test the property 'Roles'
+        /// </summary>
+        [Fact]
+        public void RolesTest()
+        {
+            // TODO unit test for the property 'Roles'
+        }
 
     }
 

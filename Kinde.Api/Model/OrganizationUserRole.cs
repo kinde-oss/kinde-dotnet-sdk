@@ -28,26 +28,41 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// OrganizationUserRole
     /// </summary>
-    [DataContract(Name = "user_identity_result")]
-    public partial class UserIdentityResult : IEquatable<UserIdentityResult>, IValidatableObject
+    [DataContract(Name = "organization_user_role")]
+    public partial class OrganizationUserRole : IEquatable<OrganizationUserRole>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
+        /// Initializes a new instance of the <see cref="OrganizationUserRole" /> class.
         /// </summary>
-        /// <param name="created">True if the user identity was successfully created..</param>
-        public UserIdentityResult(bool created = default(bool))
+        /// <param name="id">id.</param>
+        /// <param name="key">key.</param>
+        /// <param name="name">name.</param>
+        public OrganizationUserRole(string id = default(string), string key = default(string), string name = default(string))
         {
-            this.Created = created;
+            this.Id = id;
+            this.Key = key;
+            this.Name = name;
         }
 
         /// <summary>
-        /// True if the user identity was successfully created.
+        /// Gets or Sets Id
         /// </summary>
-        /// <value>True if the user identity was successfully created.</value>
-        [DataMember(Name = "created", EmitDefaultValue = true)]
-        public bool Created { get; set; }
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Key
+        /// </summary>
+        [DataMember(Name = "key", EmitDefaultValue = false)]
+        public string Key { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +71,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UserIdentityResult {\n");
-            sb.Append("  Created: ").Append(Created).Append("\n");
+            sb.Append("class OrganizationUserRole {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Key: ").Append(Key).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +95,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UserIdentityResult);
+            return this.Equals(input as OrganizationUserRole);
         }
 
         /// <summary>
-        /// Returns true if UserIdentityResult instances are equal
+        /// Returns true if OrganizationUserRole instances are equal
         /// </summary>
-        /// <param name="input">Instance of UserIdentityResult to be compared</param>
+        /// <param name="input">Instance of OrganizationUserRole to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserIdentityResult input)
+        public bool Equals(OrganizationUserRole input)
         {
             if (input == null)
             {
@@ -94,8 +111,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Created == input.Created ||
-                    this.Created.Equals(input.Created)
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
+                    this.Key == input.Key ||
+                    (this.Key != null &&
+                    this.Key.Equals(input.Key))
+                ) && 
+                (
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 );
         }
 
@@ -108,7 +136,18 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Created.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.Key != null)
+                {
+                    hashCode = (hashCode * 59) + this.Key.GetHashCode();
+                }
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 return hashCode;
             }
         }

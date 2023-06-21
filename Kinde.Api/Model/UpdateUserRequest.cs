@@ -39,11 +39,13 @@ namespace Kinde.Api.Model
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
-        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), bool isSuspended = default(bool))
+        /// <param name="isPasswordResetRequested">Prompt the user to change their password on next sign in..</param>
+        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), bool isSuspended = default(bool), bool isPasswordResetRequested = default(bool))
         {
             this.GivenName = givenName;
             this.FamilyName = familyName;
             this.IsSuspended = isSuspended;
+            this.IsPasswordResetRequested = isPasswordResetRequested;
         }
 
         /// <summary>
@@ -68,6 +70,13 @@ namespace Kinde.Api.Model
         public bool IsSuspended { get; set; }
 
         /// <summary>
+        /// Prompt the user to change their password on next sign in.
+        /// </summary>
+        /// <value>Prompt the user to change their password on next sign in.</value>
+        [DataMember(Name = "is_password_reset_requested", EmitDefaultValue = true)]
+        public bool IsPasswordResetRequested { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -78,6 +87,7 @@ namespace Kinde.Api.Model
             sb.Append("  GivenName: ").Append(GivenName).Append("\n");
             sb.Append("  FamilyName: ").Append(FamilyName).Append("\n");
             sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
+            sb.Append("  IsPasswordResetRequested: ").Append(IsPasswordResetRequested).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -126,6 +136,10 @@ namespace Kinde.Api.Model
                 (
                     this.IsSuspended == input.IsSuspended ||
                     this.IsSuspended.Equals(input.IsSuspended)
+                ) && 
+                (
+                    this.IsPasswordResetRequested == input.IsPasswordResetRequested ||
+                    this.IsPasswordResetRequested.Equals(input.IsPasswordResetRequested)
                 );
         }
 
@@ -147,6 +161,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.FamilyName.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsPasswordResetRequested.GetHashCode();
                 return hashCode;
             }
         }

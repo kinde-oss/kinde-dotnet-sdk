@@ -78,6 +78,17 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetEnvironementFeatureFlags
+        /// </summary>
+        [Fact]
+        public void GetEnvironementFeatureFlagsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.GetEnvironementFeatureFlags();
+            //Assert.IsType<GetEnvironmentFeatureFlagsResponse>(response);
+        }
+
+        /// <summary>
         /// Test UpdateEnvironementFeatureFlagOverride
         /// </summary>
         [Fact]

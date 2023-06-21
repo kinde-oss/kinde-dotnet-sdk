@@ -87,15 +87,14 @@ namespace Kinde.Api.Api
         /// Update feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateFeatureFlag(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue);
+        SuccessResponse UpdateFeatureFlag(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue);
 
         /// <summary>
         /// Update a feature flag
@@ -104,15 +103,14 @@ namespace Kinde.Api.Api
         /// Update feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateFeatureFlagWithHttpInfo(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue);
+        ApiResponse<SuccessResponse> UpdateFeatureFlagWithHttpInfo(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue);
         #endregion Synchronous Operations
     }
 
@@ -185,16 +183,15 @@ namespace Kinde.Api.Api
         /// Update feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateFeatureFlagAsync(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdateFeatureFlagAsync(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update a feature flag
@@ -203,16 +200,15 @@ namespace Kinde.Api.Api
         /// Update feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateFeatureFlagWithHttpInfoAsync(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateFeatureFlagWithHttpInfoAsync(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -774,17 +770,16 @@ namespace Kinde.Api.Api
         /// Update a feature flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateFeatureFlag(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+        public SuccessResponse UpdateFeatureFlag(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateFeatureFlagWithHttpInfo(featureFlagKey, name, description, key, type, allowOverrideLevel, defaultValue);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateFeatureFlagWithHttpInfo(featureFlagKey, name, description, type, allowOverrideLevel, defaultValue);
             return localVarResponse.Data;
         }
 
@@ -792,15 +787,14 @@ namespace Kinde.Api.Api
         /// Update a feature flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateFeatureFlagWithHttpInfo(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateFeatureFlagWithHttpInfo(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue)
         {
             // verify the required parameter 'featureFlagKey' is set
             if (featureFlagKey == null)
@@ -813,10 +807,6 @@ namespace Kinde.Api.Api
             // verify the required parameter 'description' is set
             if (description == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'description' when calling FeatureFlagsApi->UpdateFeatureFlag");
-
-            // verify the required parameter 'key' is set
-            if (key == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'key' when calling FeatureFlagsApi->UpdateFeatureFlag");
 
             // verify the required parameter 'type' is set
             if (type == null)
@@ -850,7 +840,6 @@ namespace Kinde.Api.Api
             localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "description", description));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key", key));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "type", type));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "allow_override_level", allowOverrideLevel));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "default_value", defaultValue));
@@ -878,18 +867,17 @@ namespace Kinde.Api.Api
         /// Update a feature flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateFeatureFlagAsync(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateFeatureFlagAsync(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateFeatureFlagWithHttpInfoAsync(featureFlagKey, name, description, key, type, allowOverrideLevel, defaultValue, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateFeatureFlagWithHttpInfoAsync(featureFlagKey, name, description, type, allowOverrideLevel, defaultValue, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -897,16 +885,15 @@ namespace Kinde.Api.Api
         /// Update a feature flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
         /// <param name="name">The name of the flag.</param>
         /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type</param>
         /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateFeatureFlagWithHttpInfoAsync(string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateFeatureFlagWithHttpInfoAsync(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'featureFlagKey' is set
             if (featureFlagKey == null)
@@ -919,10 +906,6 @@ namespace Kinde.Api.Api
             // verify the required parameter 'description' is set
             if (description == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'description' when calling FeatureFlagsApi->UpdateFeatureFlag");
-
-            // verify the required parameter 'key' is set
-            if (key == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'key' when calling FeatureFlagsApi->UpdateFeatureFlag");
 
             // verify the required parameter 'type' is set
             if (type == null)
@@ -958,7 +941,6 @@ namespace Kinde.Api.Api
             localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "description", description));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key", key));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "type", type));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "allow_override_level", allowOverrideLevel));
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "default_value", defaultValue));

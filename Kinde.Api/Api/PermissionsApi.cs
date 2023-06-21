@@ -25,197 +25,169 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IEnvironmentsApiSync : IApiAccessor
+    public interface IPermissionsApiSync : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
-        /// Delete environment feature flag override
+        /// Create a new permission
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Create permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse DeleteEnvironementFeatureFlagOverride(string featureFlagKey);
+        SuccessResponse CreatePermission(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
 
         /// <summary>
-        /// Delete environment feature flag override
+        /// Create a new permission
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Create permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey);
+        ApiResponse<SuccessResponse> CreatePermissionWithHttpInfo(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// List Permissions
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse DeleteEnvironementFeatureFlagOverrides();
+        SuccessResponse GetPermissions(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// List Permissions
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverridesWithHttpInfo();
+        ApiResponse<SuccessResponse> GetPermissionsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
-        /// List environment feature flags
+        /// Update a permission
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Update permission
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>GetEnvironmentFeatureFlagsResponse</returns>
-        GetEnvironmentFeatureFlagsResponse GetEnvironementFeatureFlags();
-
-        /// <summary>
-        /// List environment feature flags
-        /// </summary>
-        /// <remarks>
-        /// Get environment feature flags.
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
-        ApiResponse<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsWithHttpInfo();
-        /// <summary>
-        /// Update environment feature flag override
-        /// </summary>
-        /// <remarks>
-        /// Update environment feature flag override.
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, string value);
+        SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
 
         /// <summary>
-        /// Update environment feature flag override
+        /// Update a permission
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update permission
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, string value);
+        ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
         #endregion Synchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IEnvironmentsApiAsync : IApiAccessor
+    public interface IPermissionsApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Delete environment feature flag override
+        /// Create a new permission
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Create permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverrideAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> CreatePermissionAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete environment feature flag override
+        /// Create a new permission
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Create permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreatePermissionWithHttpInfoAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// List Permissions
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverridesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> GetPermissionsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// List Permissions
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetPermissionsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List environment feature flags
+        /// Update a permission
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Update permission
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetEnvironmentFeatureFlagsResponse</returns>
-        System.Threading.Tasks.Task<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
-        /// <summary>
-        /// List environment feature flags
-        /// </summary>
-        /// <remarks>
-        /// Get environment feature flags.
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        /// <summary>
-        /// Update environment feature flag override
-        /// </summary>
-        /// <remarks>
-        /// Update environment feature flag override.
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update environment feature flag override
+        /// Update a permission
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update permission
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IEnvironmentsApi : IEnvironmentsApiSync, IEnvironmentsApiAsync
+    public interface IPermissionsApi : IPermissionsApiSync, IPermissionsApiAsync
     {
 
     }
@@ -223,29 +195,29 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class EnvironmentsApi : IDisposable, IEnvironmentsApi
+    public partial class PermissionsApi : IDisposable, IPermissionsApi
     {
         private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
-        public EnvironmentsApi() : this((string)null)
+        public PermissionsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public EnvironmentsApi(string basePath)
+        public PermissionsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
                 Kinde.Api.Client.GlobalConfiguration.Instance,
@@ -258,14 +230,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class using Configuration object.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public EnvironmentsApi(Kinde.Api.Client.Configuration configuration)
+        public PermissionsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -280,7 +252,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
@@ -290,12 +262,12 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public EnvironmentsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
+        public PermissionsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
@@ -307,7 +279,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public EnvironmentsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
+        public PermissionsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -322,7 +294,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
@@ -333,7 +305,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public EnvironmentsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
+        public PermissionsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
             if (client == null) throw new ArgumentNullException("client");
@@ -349,14 +321,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public EnvironmentsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
+        public PermissionsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
             if (asyncClient == null) throw new ArgumentNullException("asyncClient");
@@ -369,12 +341,12 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class
+        /// Initializes a new instance of the <see cref="PermissionsApi"/> class
         /// using a client instance.
         /// </summary>
         /// <param name="client">The client API</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public EnvironmentsApi(Kinde.Api.Client.ApiClient client)
+        public PermissionsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -439,37 +411,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Create a new permission Create permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse DeleteEnvironementFeatureFlagOverride(string featureFlagKey)
+        public SuccessResponse CreatePermission(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteEnvironementFeatureFlagOverrideWithHttpInfo(featureFlagKey);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = CreatePermissionWithHttpInfo(createPermissionRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Create a new permission Create permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> CreatePermissionWithHttpInfo(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->DeleteEnvironementFeatureFlagOverride");
-
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -479,7 +447,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
+            localVarRequestOptions.Data = createPermissionRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -489,11 +457,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverride", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreatePermission", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -501,40 +469,36 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Create a new permission Create permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverrideAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> CreatePermissionAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteEnvironementFeatureFlagOverrideWithHttpInfoAsync(featureFlagKey, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await CreatePermissionWithHttpInfoAsync(createPermissionRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Create a new permission Create permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> CreatePermissionWithHttpInfoAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->DeleteEnvironementFeatureFlagOverride");
-
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -545,7 +509,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
+            localVarRequestOptions.Data = createPermissionRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -556,11 +520,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverride", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreatePermission", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -568,22 +532,28 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse DeleteEnvironementFeatureFlagOverrides()
+        public SuccessResponse GetPermissions(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteEnvironementFeatureFlagOverridesWithHttpInfo();
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetPermissionsWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverridesWithHttpInfo()
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetPermissionsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -592,7 +562,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -602,6 +571,18 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -611,11 +592,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverrides", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetPermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -623,24 +604,30 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverridesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> GetPermissionsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetPermissionsWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetPermissionsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -650,7 +637,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -661,6 +647,18 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -671,11 +669,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverrides", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetPermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -683,158 +681,35 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List environment feature flags Get environment feature flags.
+        /// Update a permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>GetEnvironmentFeatureFlagsResponse</returns>
-        public GetEnvironmentFeatureFlagsResponse GetEnvironementFeatureFlags()
-        {
-            Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse> localVarResponse = GetEnvironementFeatureFlagsWithHttpInfo();
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// List environment feature flags Get environment feature flags.
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsWithHttpInfo()
-        {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetEnvironmentFeatureFlagsResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetEnvironementFeatureFlags", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// List environment feature flags Get environment feature flags.
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetEnvironmentFeatureFlagsResponse</returns>
-        public async System.Threading.Tasks.Task<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse> localVarResponse = await GetEnvironementFeatureFlagsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// List environment feature flags Get environment feature flags.
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentFeatureFlagsResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetEnvironementFeatureFlags", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, string value)
+        public SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateEnvironementFeatureFlagOverrideWithHttpInfo(featureFlagKey, value);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdatePermissionsWithHttpInfo(permissionId, createPermissionRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update a permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, string value)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
-
-            // verify the required parameter 'value' is set
-            if (value == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
-
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -844,8 +719,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
+            localVarRequestOptions.Data = createPermissionRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -855,11 +730,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UpdateEnvironementFeatureFlagOverride", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdatePermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -867,46 +742,38 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update a permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(featureFlagKey, value, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdatePermissionsWithHttpInfoAsync(permissionId, createPermissionRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update a permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
-
-            // verify the required parameter 'value' is set
-            if (value == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
-
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -917,8 +784,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
+            localVarRequestOptions.Data = createPermissionRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -929,11 +796,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UpdateEnvironementFeatureFlagOverride", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdatePermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

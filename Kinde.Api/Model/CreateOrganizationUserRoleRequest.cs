@@ -28,26 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// CreateOrganizationUserRoleRequest
     /// </summary>
-    [DataContract(Name = "user_identity_result")]
-    public partial class UserIdentityResult : IEquatable<UserIdentityResult>, IValidatableObject
+    [DataContract(Name = "CreateOrganizationUserRole_request")]
+    public partial class CreateOrganizationUserRoleRequest : IEquatable<CreateOrganizationUserRoleRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
+        /// Initializes a new instance of the <see cref="CreateOrganizationUserRoleRequest" /> class.
         /// </summary>
-        /// <param name="created">True if the user identity was successfully created..</param>
-        public UserIdentityResult(bool created = default(bool))
+        /// <param name="roleId">The role id..</param>
+        public CreateOrganizationUserRoleRequest(string roleId = default(string))
         {
-            this.Created = created;
+            this.RoleId = roleId;
         }
 
         /// <summary>
-        /// True if the user identity was successfully created.
+        /// The role id.
         /// </summary>
-        /// <value>True if the user identity was successfully created.</value>
-        [DataMember(Name = "created", EmitDefaultValue = true)]
-        public bool Created { get; set; }
+        /// <value>The role id.</value>
+        [DataMember(Name = "role_id", EmitDefaultValue = false)]
+        public string RoleId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UserIdentityResult {\n");
-            sb.Append("  Created: ").Append(Created).Append("\n");
+            sb.Append("class CreateOrganizationUserRoleRequest {\n");
+            sb.Append("  RoleId: ").Append(RoleId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UserIdentityResult);
+            return this.Equals(input as CreateOrganizationUserRoleRequest);
         }
 
         /// <summary>
-        /// Returns true if UserIdentityResult instances are equal
+        /// Returns true if CreateOrganizationUserRoleRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UserIdentityResult to be compared</param>
+        /// <param name="input">Instance of CreateOrganizationUserRoleRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserIdentityResult input)
+        public bool Equals(CreateOrganizationUserRoleRequest input)
         {
             if (input == null)
             {
@@ -94,8 +94,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Created == input.Created ||
-                    this.Created.Equals(input.Created)
+                    this.RoleId == input.RoleId ||
+                    (this.RoleId != null &&
+                    this.RoleId.Equals(input.RoleId))
                 );
         }
 
@@ -108,7 +109,10 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Created.GetHashCode();
+                if (this.RoleId != null)
+                {
+                    hashCode = (hashCode * 59) + this.RoleId.GetHashCode();
+                }
                 return hashCode;
             }
         }

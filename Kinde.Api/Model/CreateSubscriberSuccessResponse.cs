@@ -28,26 +28,25 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// CreateSubscriberSuccessResponse
     /// </summary>
-    [DataContract(Name = "user_identity_result")]
-    public partial class UserIdentityResult : IEquatable<UserIdentityResult>, IValidatableObject
+    [DataContract(Name = "create_subscriber_success_response")]
+    public partial class CreateSubscriberSuccessResponse : IEquatable<CreateSubscriberSuccessResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
+        /// Initializes a new instance of the <see cref="CreateSubscriberSuccessResponse" /> class.
         /// </summary>
-        /// <param name="created">True if the user identity was successfully created..</param>
-        public UserIdentityResult(bool created = default(bool))
+        /// <param name="subscriber">subscriber.</param>
+        public CreateSubscriberSuccessResponse(CreateSubscriberSuccessResponseSubscriber subscriber = default(CreateSubscriberSuccessResponseSubscriber))
         {
-            this.Created = created;
+            this.Subscriber = subscriber;
         }
 
         /// <summary>
-        /// True if the user identity was successfully created.
+        /// Gets or Sets Subscriber
         /// </summary>
-        /// <value>True if the user identity was successfully created.</value>
-        [DataMember(Name = "created", EmitDefaultValue = true)]
-        public bool Created { get; set; }
+        [DataMember(Name = "subscriber", EmitDefaultValue = false)]
+        public CreateSubscriberSuccessResponseSubscriber Subscriber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +55,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UserIdentityResult {\n");
-            sb.Append("  Created: ").Append(Created).Append("\n");
+            sb.Append("class CreateSubscriberSuccessResponse {\n");
+            sb.Append("  Subscriber: ").Append(Subscriber).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +77,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UserIdentityResult);
+            return this.Equals(input as CreateSubscriberSuccessResponse);
         }
 
         /// <summary>
-        /// Returns true if UserIdentityResult instances are equal
+        /// Returns true if CreateSubscriberSuccessResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of UserIdentityResult to be compared</param>
+        /// <param name="input">Instance of CreateSubscriberSuccessResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserIdentityResult input)
+        public bool Equals(CreateSubscriberSuccessResponse input)
         {
             if (input == null)
             {
@@ -94,8 +93,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Created == input.Created ||
-                    this.Created.Equals(input.Created)
+                    this.Subscriber == input.Subscriber ||
+                    (this.Subscriber != null &&
+                    this.Subscriber.Equals(input.Subscriber))
                 );
         }
 
@@ -108,7 +108,10 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Created.GetHashCode();
+                if (this.Subscriber != null)
+                {
+                    hashCode = (hashCode * 59) + this.Subscriber.GetHashCode();
+                }
                 return hashCode;
             }
         }

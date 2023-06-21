@@ -80,6 +80,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsSuspended'
         }
+        /// <summary>
+        /// Test the property 'IsPasswordResetRequested'
+        /// </summary>
+        [Fact]
+        public void IsPasswordResetRequestedTest()
+        {
+            // TODO unit test for the property 'IsPasswordResetRequested'
+        }
 
     }
 

@@ -28,26 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The result of the user creation operation.
+    /// CreateSubscriberSuccessResponseSubscriber
     /// </summary>
-    [DataContract(Name = "user_identity_result")]
-    public partial class UserIdentityResult : IEquatable<UserIdentityResult>, IValidatableObject
+    [DataContract(Name = "create_subscriber_success_response_subscriber")]
+    public partial class CreateSubscriberSuccessResponseSubscriber : IEquatable<CreateSubscriberSuccessResponseSubscriber>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
+        /// Initializes a new instance of the <see cref="CreateSubscriberSuccessResponseSubscriber" /> class.
         /// </summary>
-        /// <param name="created">True if the user identity was successfully created..</param>
-        public UserIdentityResult(bool created = default(bool))
+        /// <param name="subscriberId">A unique identifier for the subscriber..</param>
+        public CreateSubscriberSuccessResponseSubscriber(string subscriberId = default(string))
         {
-            this.Created = created;
+            this.SubscriberId = subscriberId;
         }
 
         /// <summary>
-        /// True if the user identity was successfully created.
+        /// A unique identifier for the subscriber.
         /// </summary>
-        /// <value>True if the user identity was successfully created.</value>
-        [DataMember(Name = "created", EmitDefaultValue = true)]
-        public bool Created { get; set; }
+        /// <value>A unique identifier for the subscriber.</value>
+        [DataMember(Name = "subscriber_id", EmitDefaultValue = false)]
+        public string SubscriberId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UserIdentityResult {\n");
-            sb.Append("  Created: ").Append(Created).Append("\n");
+            sb.Append("class CreateSubscriberSuccessResponseSubscriber {\n");
+            sb.Append("  SubscriberId: ").Append(SubscriberId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UserIdentityResult);
+            return this.Equals(input as CreateSubscriberSuccessResponseSubscriber);
         }
 
         /// <summary>
-        /// Returns true if UserIdentityResult instances are equal
+        /// Returns true if CreateSubscriberSuccessResponseSubscriber instances are equal
         /// </summary>
-        /// <param name="input">Instance of UserIdentityResult to be compared</param>
+        /// <param name="input">Instance of CreateSubscriberSuccessResponseSubscriber to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserIdentityResult input)
+        public bool Equals(CreateSubscriberSuccessResponseSubscriber input)
         {
             if (input == null)
             {
@@ -94,8 +94,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Created == input.Created ||
-                    this.Created.Equals(input.Created)
+                    this.SubscriberId == input.SubscriberId ||
+                    (this.SubscriberId != null &&
+                    this.SubscriberId.Equals(input.SubscriberId))
                 );
         }
 
@@ -108,7 +109,10 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Created.GetHashCode();
+                if (this.SubscriberId != null)
+                {
+                    hashCode = (hashCode * 59) + this.SubscriberId.GetHashCode();
+                }
                 return hashCode;
             }
         }

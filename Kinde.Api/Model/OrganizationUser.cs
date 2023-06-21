@@ -41,13 +41,15 @@ namespace Kinde.Api.Model
         /// <param name="fullName">fullName.</param>
         /// <param name="lastName">lastName.</param>
         /// <param name="firstName">firstName.</param>
-        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string))
+        /// <param name="roles">roles.</param>
+        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), List<string> roles = default(List<string>))
         {
             this.Id = id;
             this.Email = email;
             this.FullName = fullName;
             this.LastName = lastName;
             this.FirstName = firstName;
+            this.Roles = roles;
         }
 
         /// <summary>
@@ -81,6 +83,12 @@ namespace Kinde.Api.Model
         public string FirstName { get; set; }
 
         /// <summary>
+        /// Gets or Sets Roles
+        /// </summary>
+        [DataMember(Name = "roles", EmitDefaultValue = false)]
+        public List<string> Roles { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -93,6 +101,7 @@ namespace Kinde.Api.Model
             sb.Append("  FullName: ").Append(FullName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -152,6 +161,12 @@ namespace Kinde.Api.Model
                     this.FirstName == input.FirstName ||
                     (this.FirstName != null &&
                     this.FirstName.Equals(input.FirstName))
+                ) && 
+                (
+                    this.Roles == input.Roles ||
+                    this.Roles != null &&
+                    input.Roles != null &&
+                    this.Roles.SequenceEqual(input.Roles)
                 );
         }
 
@@ -183,6 +198,10 @@ namespace Kinde.Api.Model
                 if (this.FirstName != null)
                 {
                     hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                }
+                if (this.Roles != null)
+                {
+                    hashCode = (hashCode * 59) + this.Roles.GetHashCode();
                 }
                 return hashCode;
             }
