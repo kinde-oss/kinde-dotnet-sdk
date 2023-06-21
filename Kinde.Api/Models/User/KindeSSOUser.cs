@@ -117,7 +117,7 @@ namespace Kinde.Api.Models.User
             {
                 // As JWT JObjects are internal, there is a cheat via deserialisation of value
                 if (typeof(T).IsArray) return JArray.Parse(jObject.ToString()).ToObject<T>();
-                if (typeof(T).IsByRef) return JObject.Parse(jObject.ToString()).ToObject<T>();
+                if (typeof(T).IsByRef || jObject.GetType().Name == "JObject") return JObject.Parse(jObject.ToString()).ToObject<T>();
                 return (T)jObject;
             }
             return default;
