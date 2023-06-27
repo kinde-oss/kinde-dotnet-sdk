@@ -10,6 +10,7 @@ namespace Kinde.Api.Models.Configuration
         }
 
         public IAuthorizationConfiguration Configuration { get; set; }
+
         public IAuthorizationConfiguration Get()
         {
             return Configuration;
@@ -26,8 +27,6 @@ namespace Kinde.Api.Models.Configuration
                     return new AuthorizationCodeConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", null, "https://testauth.kinde.com");
                 default:
                     return new ClientCredentialsConfiguration("reg@live", "openid", "1QsRoIgEwY5cIuYO16yRecWVundBHSwF5MylLHDkSenOA3FiwqO", "https://testauth.kinde.com");
-
-
             }
         }
     }

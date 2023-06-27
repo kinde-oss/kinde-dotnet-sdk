@@ -6,7 +6,6 @@ namespace Kinde.Api.Hashing
     {
         public SHA256CodeVerifier() : base(SHA256.Create())
         {
-
         }
     }
 }

@@ -1,0 +1,1744 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: support@kinde.com
+    name: Kinde Support Team
+    url: https://kinde.com/docs/
+  description: Provides endpoints to manage your Kinde Businesses
+  termsOfService: https://kinde.com/docs/important-information/terms-of-service/
+  title: Kinde Management API
+  version: "1"
+servers:
+- url: "https://{businessName}.kinde.com/"
+  variables:
+    businessName:
+      default: app
+      description: Business name created in the Kinde admin area.
+security:
+- kindeBearerAuth: []
+tags:
+- description: Everything about your end-users.
+  name: Users
+paths:
+  /oauth2/user_profile:
+    get:
+      description: |
+        Contains the id, names and email of the currently logged in user.
+      operationId: getUser
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_profile'
+          description: Details of logged in user V1.
+        "403":
+          description: Invalid credentials.
+      summary: Returns the details of the currently logged in user
+      tags:
+      - OAuth
+  /oauth2/v2/user_profile:
+    get:
+      description: |
+        Contains the id, names, profile picture URL and email of the currently logged in user.
+      operationId: getUserProfileV2
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_profile_v2'
+          description: Details of logged in user V2.
+        "403":
+          description: Invalid credentials.
+      summary: Returns the details of the currently logged in user
+      tags:
+      - OAuth
+  /api/v1/users:
+    get:
+      description: |
+        The returned list can be sorted by full name or email address
+        in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query
+        string parameter.
+      operationId: getUsers
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - email_asc
+          - email_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: ID of the user to filter by.
+        explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/users_response'
+          description: Users successfully retrieved.
+        "403":
+          description: Invalid credentials.
+      summary: List Users
+      tags:
+      - Users
+  /api/v1/user:
+    delete:
+      description: |
+        Delete a user record.
+      operationId: deleteuser
+      parameters:
+      - description: The user's id.
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete User
+      tags:
+      - Users
+    get:
+      description: |
+        Retrieve a user record.
+      operationId: getUserData
+      parameters:
+      - description: The user's id.
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: User successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+      summary: Get User
+      tags:
+      - Users
+    patch:
+      description: |
+        Update a user record.
+      operationId: updateUser
+      parameters:
+      - description: The user's id.
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateUser_request'
+        description: The user to update.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: User successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+      summary: Update User
+      tags:
+      - Users
+    post:
+      description: |
+        Creates a user record and optionally zero or more identities for the user. An example identity could be the email
+        address of the user.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser_request'
+        description: The details of the user to create.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_user_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_user_response'
+          description: User successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+      summary: Create User
+      tags:
+      - Users
+  /api/v1/organization:
+    get:
+      description: |
+        Gets an organization given the organization's code.
+      operationId: getOrganization
+      parameters:
+      - description: The organization's code.
+        explode: true
+        in: query
+        name: code
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/organization'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/organization'
+          description: Organization successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+      summary: Get Organization
+      tags:
+      - Organizations
+    post:
+      description: Create an organization.
+      operationId: createOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOrganization_request'
+        description: Organization details.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_organization_response'
+          description: Organization successfully created.
+        "403":
+          description: Invalid credentials.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "500":
+          description: Could not create organization.
+      summary: Create Organization
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}:
+    patch:
+      description: Update an organization.
+      operationId: updateOrganization
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOrganization_request'
+        description: Organization details.
+        required: false
+      responses:
+        "201":
+          description: Organization successfully updated.
+        "403":
+          description: Invalid credentials.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error updating organization.
+      summary: Update Organization
+      tags:
+      - Organizations
+  /api/v1/organizations:
+    get:
+      description: |
+        Get a list of organizations.
+      operationId: getOrganizations
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - email_asc
+          - email_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_organizations_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_response'
+          description: A successful response with a list of organizations or an empty
+            list.
+        "403":
+          description: Invalid credentials.
+      summary: List Organizations
+      tags:
+      - Organizations
+  /api/v1/organization/users:
+    get:
+      description: Get users in an organization.
+      operationId: GetOrganizationUsers
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - email_asc
+          - email_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The organization's code.
+        explode: true
+        in: query
+        name: code
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Filter by user permissions
+        explode: true
+        in: query
+        name: permissions
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_organizations_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_users_response'
+          description: A successful response with a list of organization users or
+            an empty list.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user
+        "403":
+          description: Invalid credentials.
+      summary: List Organization Users
+      tags:
+      - Organizations
+    patch:
+      description: Remove existing users from an organization.
+      operationId: RemoveOrganizationUsers
+      parameters:
+      - description: The organization's code.
+        explode: true
+        in: query
+        name: code
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveOrganizationUsers_request'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/remove_organization_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/remove_organization_users_response'
+          description: Users successfully removed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+      summary: Remove Users from an Organization
+      tags:
+      - Organizations
+    post:
+      description: Add existing users to an organization.
+      operationId: AddOrganizationUsers
+      parameters:
+      - description: The organization's code.
+        explode: true
+        in: query
+        name: code
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddOrganizationUsers_request'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/add_organization_users_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/add_organization_users_response'
+          description: Users successfully added.
+        "204":
+          description: No users added.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+      summary: Assign Users to an Organization
+      tags:
+      - Organizations
+  /api/v1/connected_apps/auth_url:
+    get:
+      description: Get a URL that authenticates and authorizes a user to a third-party
+        connected app.
+      operationId: GetConnectedAppAuthUrl
+      parameters:
+      - description: The unique key code reference of the connected app to authenticate
+          against.
+        explode: true
+        in: query
+        name: key_code_ref
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The id of the user that needs to authenticate to the third-party
+          connected app.
+        explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connected_apps_auth_url'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_auth_url'
+          description: A URL that can be used to authenticate and a session id to
+            identify this authentication session.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error retrieving connected app auth url.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error retrieving connected app auth url.
+        "403":
+          description: Invalid credentials.
+      summary: Get Connected App URL
+      tags:
+      - Connected Apps
+  /api/v1/connected_apps/token:
+    get:
+      description: Get an access token that can be used to call the third-party provider
+        linked to the connected app.
+      operationId: GetConnectedAppToken
+      parameters:
+      - description: The unique sesssion id reprensenting the login session of a user.
+        explode: true
+        in: query
+        name: session_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connected_apps_access_token'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_access_token'
+          description: "An access token that can be used to query a third-party provider,\
+            \ as well as the token's expiry time."
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: The session id provided points to an invalid session.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Get Connected App Token
+      tags:
+      - Connected Apps
+  /api/v1/connected_apps/revoke:
+    post:
+      description: Revoke the tokens linked to the connected app session.
+      operationId: RevokeConnectedAppToken
+      parameters:
+      - description: The unique sesssion id reprensenting the login session of a user.
+        explode: true
+        in: query
+        name: session_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: "An access token that can be used to query a third-party provider,\
+            \ as well as the token's expiry time."
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "405":
+          description: Invalid HTTP method used.
+      summary: Revoke Connected App Token
+      tags:
+      - Connected Apps
+  /api/v1/feature_flags:
+    post:
+      description: Create feature flag.
+      operationId: CreateFeatureFlag
+      parameters:
+      - description: The name of the flag.
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Description of the flag purpose.
+        explode: true
+        in: query
+        name: description
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The flag identifier to use in code.
+        explode: true
+        in: query
+        name: key
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The variable type.
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          enum:
+          - str
+          - int
+          - bool
+          nullable: false
+          type: string
+        style: form
+      - description: Allow the flag to be overridden at a different level.
+        explode: true
+        in: query
+        name: allow_override_level
+        required: true
+        schema:
+          enum:
+          - env
+          - org
+          nullable: false
+          type: string
+        style: form
+      - description: Default value for the flag used by environments and organizations.
+        explode: true
+        in: query
+        name: default_value
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag successfully created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Create a new feature flag
+      tags:
+      - Feature Flags
+  /api/v1/feature_flags/{feature_flag_key}:
+    delete:
+      description: Delete feature flag
+      operationId: DeleteFeatureFlag
+      parameters:
+      - description: The identifier for the feature flag.
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete a feature flag
+      tags:
+      - Feature Flags
+    put:
+      description: Update feature flag.
+      operationId: UpdateFeatureFlag
+      parameters:
+      - description: The identifier for the feature flag.
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The name of the flag.
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Description of the flag purpose.
+        explode: true
+        in: query
+        name: description
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The flag identifier to use in code.
+        explode: true
+        in: query
+        name: key
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The variable type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          enum:
+          - str
+          - int
+          - bool
+          nullable: false
+          type: string
+        style: form
+      - description: Allow the flag to be overridden at a different level.
+        explode: true
+        in: query
+        name: allow_override_level
+        required: true
+        schema:
+          enum:
+          - env
+          - org
+          nullable: false
+          type: string
+        style: form
+      - description: Default value for the flag used by environments and organizations.
+        explode: true
+        in: query
+        name: default_value
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Update a feature flag
+      tags:
+      - Feature Flags
+  /api/v1/organizations/{org_code}/feature_flags:
+    delete:
+      description: Delete all organization feature flag overrides.
+      operationId: DeleteOrganizationFeatureFlagOverrides
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag overrides successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete all organization feature flag overrides
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}:
+    delete:
+      description: Delete organization feature flag override.
+      operationId: DeleteOrganizationFeatureFlagOverride
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The identifier for the feature flag.
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag override successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete organization feature flag override
+      tags:
+      - Organizations
+    patch:
+      description: Update organization feature flag override.
+      operationId: UpdateOrganizationFeatureFlagOverride
+      parameters:
+      - description: The identifier for the organization
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The identifier for the feature flag
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Override value
+        explode: true
+        in: query
+        name: value
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag override successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Update organization feature flag override
+      tags:
+      - Organizations
+  /api/v1/environment/feature_flags/:
+    delete:
+      description: Delete all environment feature flag overrides.
+      operationId: DeleteEnvironementFeatureFlagOverrides
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag overrides deleted successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete all environment feature flag overrides
+      tags:
+      - Environments
+  /api/v1/environment/feature_flags/{feature_flag_key}:
+    delete:
+      description: Delete environment feature flag override.
+      operationId: DeleteEnvironementFeatureFlagOverride
+      parameters:
+      - description: The identifier for the feature flag.
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag deleted successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Delete environment feature flag override
+      tags:
+      - Environments
+    patch:
+      description: Update environment feature flag override.
+      operationId: UpdateEnvironementFeatureFlagOverride
+      parameters:
+      - description: The identifier for the feature flag.
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The override value for the feature flag.
+        explode: true
+        in: query
+        name: value
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag override successful
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Update environment feature flag override
+      tags:
+      - Environments
+components:
+  schemas:
+    success_response:
+      example:
+        code: code
+        message: message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+      type: object
+    error:
+      properties:
+        code:
+          description: Error code.
+          type: string
+        message:
+          description: Error message.
+          type: string
+      type: object
+    error_response:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/error'
+          type: array
+      type: object
+    user:
+      example:
+        last_name: last_name
+        is_suspended: true
+        id: id
+        first_name: first_name
+        email: email
+        picture: picture
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        email:
+          description: Default email address of the user in Kinde.
+          type: string
+        last_name:
+          description: User's last name.
+          type: string
+        first_name:
+          description: User's first name.
+          type: string
+        is_suspended:
+          description: Whether the user is currently suspended or not.
+          type: boolean
+        picture:
+          description: User's profile picture URL.
+          nullable: true
+          type: string
+      type: object
+    users:
+      description: Array of users.
+      items:
+        $ref: '#/components/schemas/user'
+      type: array
+    users_response:
+      example:
+        code: code
+        message: message
+        next_token: next_token
+        users:
+        - last_name: last_name
+          is_suspended: true
+          id: id
+          first_name: first_name
+          email: email
+          picture: picture
+        - last_name: last_name
+          is_suspended: true
+          id: id
+          first_name: first_name
+          email: email
+          picture: picture
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/user'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    create_user_response:
+      example:
+        identities:
+        - result:
+            identity_id: 0
+            created: true
+          type: type
+        - result:
+            identity_id: 0
+            created: true
+          type: type
+        created: true
+        id: id
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        created:
+          description: True if the user was successfully created.
+          type: boolean
+        identities:
+          items:
+            $ref: '#/components/schemas/user_identity'
+          type: array
+      type: object
+    create_organization_response:
+      example:
+        code: code
+      properties:
+        code:
+          description: The organization's code.
+          type: string
+      type: object
+    user_identity:
+      example:
+        result:
+          identity_id: 0
+          created: true
+        type: type
+      properties:
+        type:
+          description: The type of identity object created.
+          type: string
+        result:
+          $ref: '#/components/schemas/user_identity_result'
+      type: object
+    user_profile:
+      example:
+        preferred_email: preferred_email
+        last_name: last_name
+        id: id
+        provided_id: provided_id
+        first_name: first_name
+        picture: picture
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        preferred_email:
+          description: Default email address of the user in Kinde.
+          type: string
+        provided_id:
+          description: Value of the user's id in a third-party system when the user
+            is imported into Kinde.
+          nullable: true
+          type: string
+        last_name:
+          description: User's last name.
+          type: string
+        first_name:
+          description: User's first name.
+          type: string
+        picture:
+          description: URL that point's to the user's picture or avatar
+          type: string
+      type: object
+    user_profile_v2:
+      example:
+        sub: sub
+        updated_at: 0
+        name: name
+        id: id
+        given_name: given_name
+        provided_id: provided_id
+        family_name: family_name
+        email: email
+        picture: picture
+      properties:
+        id:
+          description: Unique id of the user in Kinde (deprecated).
+          type: string
+        sub:
+          description: Unique id of the user in Kinde.
+          type: string
+        provided_id:
+          description: Value of the user's id in a third-party system when the user
+            is imported into Kinde.
+          nullable: true
+          type: string
+        name:
+          description: Users's first and last name separated by a space.
+          type: string
+        given_name:
+          description: User's first name.
+          type: string
+        family_name:
+          description: User's last name.
+          type: string
+        updated_at:
+          description: Date the user was last updated at (In Unix time).
+          type: integer
+        email:
+          description: User's email address if available.
+          type: string
+        picture:
+          description: URL that point's to the user's picture or avatar
+          type: string
+      type: object
+    organization:
+      example:
+        code: code
+        name: name
+        is_default: true
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        is_default:
+          type: boolean
+      type: object
+    organizations:
+      items:
+        $ref: '#/components/schemas/organization'
+      type: array
+    organization_user:
+      example:
+        full_name: full_name
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        full_name:
+          type: string
+        last_name:
+          type: string
+        first_name:
+          type: string
+      type: object
+    organization_users:
+      items:
+        $ref: '#/components/schemas/organization_user'
+      type: array
+    get_organizations_response:
+      example:
+        code: code
+        organizations:
+        - code: code
+          name: name
+          is_default: true
+        - code: code
+          name: name
+          is_default: true
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        organizations:
+          items:
+            $ref: '#/components/schemas/organization'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    get_organizations_users_response:
+      example:
+        code: code
+        organization_users:
+        - full_name: full_name
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+        - full_name: full_name
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        organization_users:
+          items:
+            $ref: '#/components/schemas/organization_user'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    add_organization_users_response:
+      example:
+        users_added:
+        - users_added
+        - users_added
+        code: code
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        users_added:
+          items:
+            type: string
+          type: array
+      type: object
+    remove_organization_users_response:
+      example:
+        users_added:
+        - users_added
+        - users_added
+        message: message
+      properties:
+        message:
+          type: string
+        users_added:
+          items:
+            type: string
+          type: array
+      type: object
+    connected_apps_auth_url:
+      example:
+        session_id: session_id
+        url: url
+      properties:
+        url:
+          description: A URL that is used to authenticate an end-user against a connected
+            app.
+          type: string
+        session_id:
+          description: A unique identifier for the login session.
+          type: string
+      type: object
+    connected_apps_access_token:
+      example:
+        access_token: access_token
+        access_token_expiry: access_token_expiry
+      properties:
+        access_token:
+          description: The access token to access a third-party provider.
+          type: string
+        access_token_expiry:
+          description: The date and time that the access token expires.
+          type: string
+      type: object
+    api_result:
+      properties:
+        result:
+          description: The result of the api operation.
+          type: string
+      type: object
+    createUser_request_profile:
+      description: Basic information required to create a user.
+      properties:
+        given_name:
+          description: User's first name.
+          type: string
+        family_name:
+          description: User's last name.
+          type: string
+      type: object
+    createUser_request_identities_inner_details:
+      description: Additional details required to create the user.
+      properties:
+        email:
+          description: The email address of the user.
+          type: string
+      type: object
+    createUser_request_identities_inner:
+      description: The result of the user creation operation.
+      properties:
+        type:
+          description: "The type of identity to create, for e.g. email."
+          type: string
+        details:
+          $ref: '#/components/schemas/createUser_request_identities_inner_details'
+      type: object
+    createUser_request:
+      properties:
+        profile:
+          $ref: '#/components/schemas/createUser_request_profile'
+        identities:
+          description: Array of identities to assign to the created user
+          items:
+            $ref: '#/components/schemas/createUser_request_identities_inner'
+          type: array
+      type: object
+    updateUser_request:
+      properties:
+        given_name:
+          description: User's first name.
+          type: string
+        family_name:
+          description: User's last name.
+          type: string
+        is_suspended:
+          description: Whether the user is currently suspended or not.
+          type: boolean
+      type: object
+    createOrganization_request:
+      properties:
+        name:
+          description: The organization's name.
+          type: string
+        feature_flags:
+          additionalProperties:
+            description: Value of the feature flag.
+            enum:
+            - str
+            - int
+            - bool
+            type: string
+          description: The organization's feature flag settings.
+          type: object
+        external_id:
+          description: The organization's ID.
+          type: string
+        background_color:
+          description: The organization's brand settings - background color.
+          type: string
+        button_color:
+          description: The organization's brand settings - button color.
+          type: string
+        button_text_color:
+          description: The organization's brand settings - button text color.
+          type: string
+        link_color:
+          description: The organization's brand settings - link color.
+          type: string
+      type: object
+    updateOrganization_request:
+      properties:
+        name:
+          description: The organization's name.
+          type: string
+        external_id:
+          description: The organization's ID.
+          type: string
+        background_color:
+          description: The organization's brand settings - background color.
+          type: string
+        button_color:
+          description: The organization's brand settings - button color.
+          type: string
+        button_text_color:
+          description: The organization's brand settings - button text color.
+          type: string
+        link_color:
+          description: The organization's brand settings - link color.
+          type: string
+      type: object
+    AddOrganizationUsers_request:
+      properties:
+        users:
+          description: List of user ids to be added to the organization.
+          items:
+            type: string
+          type: array
+      type: object
+    RemoveOrganizationUsers_request:
+      properties:
+        users:
+          description: List of user ids to be removed from the organization.
+          items:
+            type: string
+          type: array
+      type: object
+    user_identity_result:
+      description: The result of the user creation operation.
+      example:
+        identity_id: 0
+        created: true
+      properties:
+        created:
+          description: True if the user identity was successfully created.
+          type: boolean
+        identity_id:
+          description: Unique id of the user's identity in Kinde.
+          type: integer
+      type: object
+  securitySchemes:
+    kindeBearerAuth:
+      bearerFormat: JWT
+      description: |
+        Accessing the API requires obtaining an access token when login in through Kinde. However, management functions (for e.g. user management) requires an access token
+        obtained using the client_credentials flow.
+      in: header
+      scheme: bearer
+      type: http
+

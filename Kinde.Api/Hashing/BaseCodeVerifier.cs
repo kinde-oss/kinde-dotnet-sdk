@@ -14,7 +14,6 @@ namespace Kinde.Api.Hashing
 
         public async Task<string> Compute(string code)
         {
-
             return Convert.ToBase64String(hasher.ComputeHash(Encoding.UTF8.GetBytes(code)))
                 .TrimEnd('=').Replace('+', '-').Replace('/', '_');
         }
