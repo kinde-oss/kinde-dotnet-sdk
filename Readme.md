@@ -220,8 +220,8 @@ Note, that some of claims and properties will be unavailable if scope 'profile' 
 ```csharp
     var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
     var claim = client.GetClaim("sub", "id_token"); //get claim
-    var organisations = client.GetOrganisations(); ; //get available organisations
-    var organisation = client.GetOrganisation();  //get single organisation
+    var organizations = client.GetOrganizations(); ; //get available organizations
+    var organization = client.GetOrganization();  //get single organization
     var permissions = client.GetPermissions(); //get all permissions
     var permission = client.GetPermission("something"); //get permission
 ```
@@ -240,7 +240,6 @@ Feature flags are found in the feature_flags claim of the access token.
 ## Additional Usage
 
 ### Calling APIs
-
 
 ```csharp
     // Don't forget to add "using Kinde;", all data objects models located in this namespace 

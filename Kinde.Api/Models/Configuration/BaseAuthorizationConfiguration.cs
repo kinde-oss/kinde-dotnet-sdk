@@ -18,9 +18,9 @@ namespace Kinde.Api.Models.Configuration
             ClientSecret = clientSecret;
         }
 
-        public bool IsCreateOrganisation { get; set; }
+        public bool IsCreateOrganization { get; set; }
 
-        public string OrganisationId { get; set; }
+        public string OrganizationId { get; set; }
 
         public string ClientId { get; set; }
 

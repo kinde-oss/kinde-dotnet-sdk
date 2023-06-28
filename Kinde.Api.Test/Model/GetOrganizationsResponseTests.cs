@@ -73,12 +73,12 @@ namespace Kinde.Api.Test.Model
             // TODO unit test for the property 'Message'
         }
         /// <summary>
-        /// Test the property 'Organizations'
+        /// Test the property 'Roles'
         /// </summary>
         [Fact]
-        public void OrganizationsTest()
+        public void RolesTest()
         {
-            // TODO unit test for the property 'Organizations'
+            // TODO unit test for the property 'Roles'
         }
         /// <summary>
         /// Test the property 'NextToken'

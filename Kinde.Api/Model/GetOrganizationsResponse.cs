@@ -38,13 +38,13 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
-        /// <param name="organizations">organizations.</param>
+        /// <param name="roles">roles.</param>
         /// <param name="nextToken">Pagination token..</param>
-        public GetOrganizationsResponse(string code = default(string), string message = default(string), List<Organization> organizations = default(List<Organization>), string nextToken = default(string))
+        public GetOrganizationsResponse(string code = default(string), string message = default(string), List<Role> roles = default(List<Role>), string nextToken = default(string))
         {
             this.Code = code;
             this.Message = message;
-            this.Organizations = organizations;
+            this.Roles = roles;
             this.NextToken = nextToken;
         }
 
@@ -63,10 +63,10 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organizations
+        /// Gets or Sets Roles
         /// </summary>
-        [DataMember(Name = "organizations", EmitDefaultValue = false)]
-        public List<Organization> Organizations { get; set; }
+        [DataMember(Name = "roles", EmitDefaultValue = false)]
+        public List<Role> Roles { get; set; }
 
         /// <summary>
         /// Pagination token.
@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
             sb.Append("class GetOrganizationsResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  Organizations: ").Append(Organizations).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("  NextToken: ").Append(NextToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -133,10 +133,10 @@ namespace Kinde.Api.Model
                     this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.Organizations == input.Organizations ||
-                    this.Organizations != null &&
-                    input.Organizations != null &&
-                    this.Organizations.SequenceEqual(input.Organizations)
+                    this.Roles == input.Roles ||
+                    this.Roles != null &&
+                    input.Roles != null &&
+                    this.Roles.SequenceEqual(input.Roles)
                 ) && 
                 (
                     this.NextToken == input.NextToken ||
@@ -162,9 +162,9 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.Organizations != null)
+                if (this.Roles != null)
                 {
-                    hashCode = (hashCode * 59) + this.Organizations.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Roles.GetHashCode();
                 }
                 if (this.NextToken != null)
                 {

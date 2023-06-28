@@ -29,10 +29,10 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create a new permission
+        /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create permission.
+        /// Create a new permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -40,10 +40,10 @@ namespace Kinde.Api.Api
         SuccessResponse CreatePermission(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
 
         /// <summary>
-        /// Create a new permission
+        /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create permission.
+        /// Create a new permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -75,7 +75,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> GetPermissionsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
-        /// Update a permission
+        /// Update Permission
         /// </summary>
         /// <remarks>
         /// Update permission
@@ -87,7 +87,7 @@ namespace Kinde.Api.Api
         SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
 
         /// <summary>
-        /// Update a permission
+        /// Update Permission
         /// </summary>
         /// <remarks>
         /// Update permission
@@ -107,10 +107,10 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create a new permission
+        /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create permission.
+        /// Create a new permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -119,10 +119,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> CreatePermissionAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create a new permission
+        /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create permission.
+        /// Create a new permission.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -157,7 +157,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetPermissionsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update a permission
+        /// Update Permission
         /// </summary>
         /// <remarks>
         /// Update permission
@@ -170,7 +170,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update a permission
+        /// Update Permission
         /// </summary>
         /// <remarks>
         /// Update permission
@@ -411,7 +411,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new permission Create permission.
+        /// Create Permission Create a new permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -423,7 +423,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new permission Create permission.
+        /// Create Permission Create a new permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -469,7 +469,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new permission Create permission.
+        /// Create Permission Create a new permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -482,7 +482,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new permission Create permission.
+        /// Create Permission Create a new permission.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -681,7 +681,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a permission Update permission
+        /// Update Permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -694,7 +694,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a permission Update permission
+        /// Update Permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -742,7 +742,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a permission Update permission
+        /// Update Permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -756,7 +756,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a permission Update permission
+        /// Update Permission Update permission
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>

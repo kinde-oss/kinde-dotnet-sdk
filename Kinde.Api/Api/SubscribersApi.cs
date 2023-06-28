@@ -29,7 +29,7 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create a new subscriber
+        /// Create Subscriber
         /// </summary>
         /// <remarks>
         /// Create subscriber.
@@ -42,7 +42,7 @@ namespace Kinde.Api.Api
         CreateSubscriberSuccessResponse CreateSubscriber(string firstName, string lastName, string email);
 
         /// <summary>
-        /// Create a new subscriber
+        /// Create Subscriber
         /// </summary>
         /// <remarks>
         /// Create subscriber.
@@ -61,8 +61,8 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetSubscriber(string subscriberId);
+        /// <returns>GetSubscriberResponse</returns>
+        GetSubscriberResponse GetSubscriber(string subscriberId);
 
         /// <summary>
         /// Get Subscriber
@@ -72,8 +72,8 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetSubscriberWithHttpInfo(string subscriberId);
+        /// <returns>ApiResponse of GetSubscriberResponse</returns>
+        ApiResponse<GetSubscriberResponse> GetSubscriberWithHttpInfo(string subscriberId);
         /// <summary>
         /// List Subscribers
         /// </summary>
@@ -83,10 +83,9 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?));
+        /// <returns>GetSubscribersResponse</returns>
+        GetSubscribersResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
         /// List Subscribers
@@ -97,10 +96,9 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?));
+        /// <returns>ApiResponse of GetSubscribersResponse</returns>
+        ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         #endregion Synchronous Operations
     }
 
@@ -111,7 +109,7 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create a new subscriber
+        /// Create Subscriber
         /// </summary>
         /// <remarks>
         /// Create subscriber.
@@ -125,7 +123,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<CreateSubscriberSuccessResponse> CreateSubscriberAsync(string firstName, string lastName, string email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create a new subscriber
+        /// Create Subscriber
         /// </summary>
         /// <remarks>
         /// Create subscriber.
@@ -146,8 +144,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetSubscriberAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetSubscriberResponse</returns>
+        System.Threading.Tasks.Task<GetSubscriberResponse> GetSubscriberAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get Subscriber
@@ -158,8 +156,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetSubscriberWithHttpInfoAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetSubscriberResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetSubscriberResponse>> GetSubscriberWithHttpInfoAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Subscribers
         /// </summary>
@@ -169,11 +167,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetSubscribersResponse</returns>
+        System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Subscribers
@@ -184,11 +181,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetSubscribersResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -419,7 +415,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -433,7 +429,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -494,7 +490,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -509,7 +505,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -578,10 +574,10 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetSubscriber(string subscriberId)
+        /// <returns>GetSubscriberResponse</returns>
+        public GetSubscriberResponse GetSubscriber(string subscriberId)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetSubscriberWithHttpInfo(subscriberId);
+            Kinde.Api.Client.ApiResponse<GetSubscriberResponse> localVarResponse = GetSubscriberWithHttpInfo(subscriberId);
             return localVarResponse.Data;
         }
 
@@ -590,8 +586,8 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetSubscriberWithHttpInfo(string subscriberId)
+        /// <returns>ApiResponse of GetSubscriberResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetSubscriberResponse> GetSubscriberWithHttpInfo(string subscriberId)
         {
             // verify the required parameter 'subscriberId' is set
             if (subscriberId == null)
@@ -623,7 +619,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/subscribers/{subscriber_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetSubscriberResponse>("/api/v1/subscribers/{subscriber_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -640,10 +636,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetSubscriberAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetSubscriberResponse</returns>
+        public async System.Threading.Tasks.Task<GetSubscriberResponse> GetSubscriberAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetSubscriberWithHttpInfoAsync(subscriberId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetSubscriberResponse> localVarResponse = await GetSubscriberWithHttpInfoAsync(subscriberId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -653,8 +649,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetSubscriberWithHttpInfoAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetSubscriberResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetSubscriberResponse>> GetSubscriberWithHttpInfoAsync(string subscriberId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'subscriberId' is set
             if (subscriberId == null)
@@ -689,7 +685,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/subscribers/{subscriber_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetSubscriberResponse>("/api/v1/subscribers/{subscriber_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -706,12 +702,11 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?))
+        /// <returns>GetSubscribersResponse</returns>
+        public GetSubscribersResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetSubscribersWithHttpInfo(sort, pageSize, subscriberId, nextToken);
+            Kinde.Api.Client.ApiResponse<GetSubscribersResponse> localVarResponse = GetSubscribersWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
         }
 
@@ -721,10 +716,9 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?))
+        /// <returns>ApiResponse of GetSubscribersResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -750,10 +744,6 @@ namespace Kinde.Api.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
             }
-            if (subscriberId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "subscriber_id", subscriberId));
-            }
             if (nextToken != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
@@ -767,7 +757,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/subscribers", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetSubscribersResponse>("/api/v1/subscribers", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -784,13 +774,12 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetSubscribersResponse</returns>
+        public async System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetSubscribersWithHttpInfoAsync(sort, pageSize, subscriberId, nextToken, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetSubscribersResponse> localVarResponse = await GetSubscribersWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -800,11 +789,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
-        /// <param name="subscriberId">ID of the subscriber to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), int? subscriberId = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetSubscribersResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -832,10 +820,6 @@ namespace Kinde.Api.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
             }
-            if (subscriberId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "subscriber_id", subscriberId));
-            }
             if (nextToken != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
@@ -850,7 +834,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/subscribers", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetSubscribersResponse>("/api/v1/subscribers", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

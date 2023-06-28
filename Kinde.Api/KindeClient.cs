@@ -190,8 +190,8 @@ namespace Kinde.Api.Client
         /// <summary>
         /// Returns all permissions for the current user for the organization they are logged into	
         /// </summary>
-        /// <returns>OrganisationPermissionsCollection</returns>
-        public OrganisationPermissionsCollection? GetPermissions()
+        /// <returns>OrganizationPermissionsCollection</returns>
+        public OrganizationPermissionsCollection? GetPermissions()
         {
             return User?.GetPermissions();
         }
@@ -201,8 +201,8 @@ namespace Kinde.Api.Client
         /// And relevant org code (checking against claim org_code)
         /// </summary>
         /// <param name="key">The permission key.</param>
-        /// <returns>OrganisationPermissionsCollection</returns>
-        public OrganisationPermission? GetPermission(string key)
+        /// <returns>OrganizationPermissionsCollection</returns>
+        public OrganizationPermission? GetPermission(string key)
         {
             return User?.GetPermission(key);
         }
@@ -211,18 +211,18 @@ namespace Kinde.Api.Client
         /// Get details for the organization your user is logged into	
         /// </summary>
         /// <returns>The response is a orgCode</returns>
-        public string? GetOrganisation()
+        public string? GetOrganization()
         {
-            return User?.GetOrganisation();
+            return User?.GetOrganization();
         }
 
         /// <summary>
         /// Gets an array of all organizations the user has access to	
         /// </summary>
         /// <returns>The response is all orgCodes</returns>
-        public string[]? GetOrganisations()
+        public string[]? GetOrganizations()
         {
-            return User?.GetOrganisations();
+            return User?.GetOrganizations();
         }
 
         /// <summary>

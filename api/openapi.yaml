@@ -34,7 +34,7 @@ paths:
           description: Details of logged in user V1.
         "403":
           description: Invalid credentials.
-      summary: Returns the details of the currently logged in user
+      summary: Get User Profile
       tags:
       - OAuth
   /oauth2/v2/user_profile:
@@ -103,6 +103,16 @@ paths:
           nullable: true
           type: string
         style: form
+      - description: Filter the results by email address. The query string should
+          be comma separated and url encoded.
+        explode: true
+        in: query
+        name: email
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -122,7 +132,7 @@ paths:
     delete:
       description: |
         Delete a user record.
-      operationId: deleteuser
+      operationId: deleteUser
       parameters:
       - description: The user's id.
         explode: true
@@ -166,7 +176,7 @@ paths:
         explode: true
         in: query
         name: id
-        required: false
+        required: true
         schema:
           nullable: false
           type: string
@@ -179,7 +189,7 @@ paths:
                 $ref: '#/components/schemas/user'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/error_response'
+                $ref: '#/components/schemas/user'
           description: User successfully updated.
         "400":
           content:
@@ -276,6 +286,152 @@ paths:
       summary: Create User
       tags:
       - Users
+  /api/v1/subscribers:
+    get:
+      description: |
+        The returned list can be sorted by full name or email address
+        in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query
+        string parameter.
+      operationId: GetSubscribers
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - email_asc
+          - email_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_subscribers_response'
+          description: Subscriber successfully retrieved.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+      summary: List Subscribers
+      tags:
+      - Subscribers
+    post:
+      description: Create subscriber.
+      operationId: CreateSubscriber
+      parameters:
+      - description: Subscriber's first name.
+        explode: true
+        in: query
+        name: first_name
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Subscriber's last name.
+        explode: true
+        in: query
+        name: last_name
+        required: true
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The email address of the subscriber.
+        explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_subscriber_success_response'
+          description: Subscriber successfully created
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Create Subscriber
+      tags:
+      - Subscribers
+  /api/v1/subscribers/{subscriber_id}:
+    get:
+      description: |
+        Retrieve a subscriber record.
+      operationId: GetSubscriber
+      parameters:
+      - description: The subscriber's id.
+        explode: false
+        in: path
+        name: subscriber_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_subscriber_response'
+          description: Subscriber successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Get Subscriber
+      tags:
+      - Subscribers
   /api/v1/organization:
     get:
       description: |
@@ -348,7 +504,7 @@ paths:
       summary: Create Organization
       tags:
       - Organizations
-  /api/v1/organizations/{org_code}:
+  /api/v1/organization/{org_code}:
     patch:
       description: Update an organization.
       operationId: updateOrganization
@@ -369,7 +525,7 @@ paths:
         description: Organization details.
         required: false
       responses:
-        "201":
+        "200":
           description: Organization successfully updated.
         "403":
           description: Invalid credentials.
@@ -439,7 +595,7 @@ paths:
       summary: List Organizations
       tags:
       - Organizations
-  /api/v1/organization/users:
+  /api/v1/organizations/{org_code}/users:
     get:
       description: Get users in an organization.
       operationId: GetOrganizationUsers
@@ -477,14 +633,14 @@ paths:
           type: string
         style: form
       - description: The organization's code.
-        explode: true
-        in: query
-        name: code
-        required: false
+        explode: false
+        in: path
+        name: org_code
+        required: true
         schema:
           nullable: false
           type: string
-        style: form
+        style: simple
       - description: Filter by user permissions
         explode: true
         in: query
@@ -498,10 +654,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_organizations_users_response'
+                $ref: '#/components/schemas/get_organization_users_response'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/get_organizations_users_response'
+                $ref: '#/components/schemas/get_organization_users_response'
           description: A successful response with a list of organization users or
             an empty list.
         "400":
@@ -519,33 +675,33 @@ paths:
       tags:
       - Organizations
     patch:
-      description: Remove existing users from an organization.
-      operationId: RemoveOrganizationUsers
+      description: Update users that belong to an organization.
+      operationId: UpdateOrganizationUsers
       parameters:
       - description: The organization's code.
-        explode: true
-        in: query
-        name: code
-        required: false
+        explode: false
+        in: path
+        name: org_code
+        required: true
         schema:
           nullable: false
           type: string
-        style: form
+        style: simple
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RemoveOrganizationUsers_request'
+              $ref: '#/components/schemas/UpdateOrganizationUsers_request'
         required: false
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/remove_organization_users_response'
+                $ref: '#/components/schemas/update_organization_users_response'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/remove_organization_users_response'
+                $ref: '#/components/schemas/update_organization_users_response'
           description: Users successfully removed.
         "400":
           content:
@@ -558,7 +714,7 @@ paths:
           description: Error creating user.
         "403":
           description: Invalid credentials.
-      summary: Remove Users from an Organization
+      summary: Update Organization Users
       tags:
       - Organizations
     post:
@@ -566,14 +722,14 @@ paths:
       operationId: AddOrganizationUsers
       parameters:
       - description: The organization's code.
-        explode: true
-        in: query
-        name: code
-        required: false
+        explode: false
+        in: path
+        name: org_code
+        required: true
         schema:
           nullable: false
           type: string
-        style: form
+        style: simple
       requestBody:
         content:
           application/json:
@@ -603,7 +759,192 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
-      summary: Assign Users to an Organization
+      summary: Add Organization Users
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/roles:
+    get:
+      description: Get roles for an organization user.
+      operationId: GetOrganizationUserRoles
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_organizations_user_roles_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_user_roles_response'
+          description: A successful response with a list of user roles.
+        "403":
+          description: Invalid credentials.
+      summary: List Organization User Roles
+      tags:
+      - Organizations
+    post:
+      description: Add role to an organization user.
+      operationId: CreateOrganizationUserRole
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationUserRole_request'
+        description: Role details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully removed from
+        "403":
+          description: Invalid credentials.
+      summary: Add Organization User Role
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id}:
+    delete:
+      description: Delete role for an organization user.
+      operationId: DeleteOrganizationUserRole
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The role id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully removed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+      summary: Delete Organization User Role
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}:
+    delete:
+      description: Remove user from an organization.
+      operationId: RemoveOrganizationUser
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully removed from organization
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error removing user
+        "403":
+          description: Invalid credentials.
+      summary: Remove Organization User
       tags:
       - Organizations
   /api/v1/connected_apps/auth_url:
@@ -765,68 +1106,13 @@ paths:
     post:
       description: Create feature flag.
       operationId: CreateFeatureFlag
-      parameters:
-      - description: The name of the flag.
-        explode: true
-        in: query
-        name: name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFeatureFlag_request'
+        description: Flag details.
         required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Description of the flag purpose.
-        explode: true
-        in: query
-        name: description
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: The flag identifier to use in code.
-        explode: true
-        in: query
-        name: key
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: The variable type.
-        explode: true
-        in: query
-        name: type
-        required: true
-        schema:
-          enum:
-          - str
-          - int
-          - bool
-          nullable: false
-          type: string
-        style: form
-      - description: Allow the flag to be overridden at a different level.
-        explode: true
-        in: query
-        name: allow_override_level
-        required: true
-        schema:
-          enum:
-          - env
-          - org
-          nullable: false
-          type: string
-        style: form
-      - description: Default value for the flag used by environments and organizations.
-        explode: true
-        in: query
-        name: default_value
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
       responses:
         "201":
           content:
@@ -848,7 +1134,7 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Create a new feature flag
+      summary: Create Feature Flag
       tags:
       - Feature Flags
   /api/v1/feature_flags/{feature_flag_key}:
@@ -885,14 +1171,14 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Delete a feature flag
+      summary: Delete Feature Flag
       tags:
       - Feature Flags
     put:
       description: Update feature flag.
       operationId: UpdateFeatureFlag
       parameters:
-      - description: The identifier for the feature flag.
+      - description: The key identifier for the feature flag.
         explode: false
         in: path
         name: feature_flag_key
@@ -913,15 +1199,6 @@ paths:
         explode: true
         in: query
         name: description
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: The flag identifier to use in code.
-        explode: true
-        in: query
-        name: key
         required: true
         schema:
           nullable: false
@@ -982,7 +1259,7 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Update a feature flag
+      summary: Replace Feature Flag
       tags:
       - Feature Flags
   /api/v1/organizations/{org_code}/feature_flags:
@@ -1019,7 +1296,43 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Delete all organization feature flag overrides
+      summary: Delete Organization Feature Flag Overrides
+      tags:
+      - Organizations
+    get:
+      description: Get all organization feature flags.
+      operationId: GetOrganizationFeatureFlags
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_organization_feature_flags_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organization_feature_flags_response'
+          description: Feature flag overrides successfully returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: List Organization Feature Flags
       tags:
       - Organizations
   /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}:
@@ -1064,7 +1377,7 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Delete organization feature flag override
+      summary: Delete Organization Feature Flag Override
       tags:
       - Organizations
     patch:
@@ -1116,10 +1429,10 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Update organization feature flag override
+      summary: Update Organization Feature Flag Override
       tags:
       - Organizations
-  /api/v1/environment/feature_flags/:
+  /api/v1/environment/feature_flags:
     delete:
       description: Delete all environment feature flag overrides.
       operationId: DeleteEnvironementFeatureFlagOverrides
@@ -1144,7 +1457,34 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Delete all environment feature flag overrides
+      summary: Delete Environment Feature Flag Overrides
+      tags:
+      - Environments
+    get:
+      description: Get environment feature flags.
+      operationId: GetEnvironementFeatureFlags
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_feature_flags_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_environment_feature_flags_response'
+          description: Feature flags retrieved successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: List Environment Feature Flags
       tags:
       - Environments
   /api/v1/environment/feature_flags/{feature_flag_key}:
@@ -1181,7 +1521,7 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Delete environment feature flag override
+      summary: Delete Environment Feature Flag Override
       tags:
       - Environments
     patch:
@@ -1196,14 +1536,13 @@ paths:
         schema:
           type: string
         style: simple
-      - description: The override value for the feature flag.
-        explode: true
-        in: query
-        name: value
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEnvironementFeatureFlagOverride_request'
+        description: Flag details.
         required: true
-        schema:
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -1225,9 +1564,657 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
-      summary: Update environment feature flag override
+      summary: Update Environment Feature Flag Override
       tags:
       - Environments
+  /api/v1/permissions:
+    get:
+      description: |
+        The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+      operationId: GetPermissions
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - id_asc
+          - id_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Permissions successfully retrieved.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: List Permissions
+      tags:
+      - Permissions
+    post:
+      description: Create a new permission.
+      operationId: CreatePermission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePermission_request'
+        description: Permission details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Permission successfully created
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Create Permission
+      tags:
+      - Permissions
+  /api/v1/permissions/{permission_id}:
+    patch:
+      description: Update permission
+      operationId: UpdatePermissions
+      parameters:
+      - description: The identifier for the permission.
+        explode: false
+        in: path
+        name: permission_id
+        required: true
+        schema:
+          nullable: false
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePermission_request'
+        description: Permission details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Permission successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Update Permission
+      tags:
+      - Permissions
+  /api/v1/roles:
+    get:
+      description: |
+        The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+      operationId: GetRoles
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - id_asc
+          - id_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_roles_response'
+          description: Roles successfully retrieved.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: List Roles
+      tags:
+      - Roles
+  /api/v1/role:
+    post:
+      description: Create role.
+      operationId: CreateRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRole_request'
+        description: Role details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully created
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Create Role
+      tags:
+      - Roles
+  /api/v1/roles/{role_id}:
+    patch:
+      description: Update a role
+      operationId: UpdateRoles
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoles_request'
+        description: Role details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Update Role
+      tags:
+      - Roles
+  /api/v1/business:
+    get:
+      description: Get your business details.
+      operationId: getBusiness
+      parameters:
+      - description: Business code.
+        explode: true
+        in: query
+        name: code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Business name.
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Email associated with business.
+        explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Phone number associated with business.
+        explode: true
+        in: query
+        name: phone
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The industry your business is in.
+        explode: true
+        in: query
+        name: industry
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The timezone your business is in.
+        explode: true
+        in: query
+        name: timezone
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Your Privacy policy URL.
+        explode: true
+        in: query
+        name: privacy_url
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: Your Terms and Conditions URL.
+        explode: true
+        in: query
+        name: terms_url
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: A successful response with your business details.
+        "403":
+          description: Invalid credentials.
+      summary: List business details
+      tags:
+      - Business
+    patch:
+      description: Update business details.
+      operationId: updateBusiness
+      parameters:
+      - description: Business name.
+        explode: true
+        in: query
+        name: business_name
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Email associated with business.
+        explode: true
+        in: query
+        name: primary_email
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Phone number associated with business.
+        explode: true
+        in: query
+        name: primary_phone
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The key of the industry your business is in.
+        explode: true
+        in: query
+        name: industry_key
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The ID of the timezone your business is in.
+        explode: true
+        in: query
+        name: timezone_id
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: Your Privacy policy URL.
+        explode: true
+        in: query
+        name: privacy_url
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: Your Terms and Conditions URL.
+        explode: true
+        in: query
+        name: terms_url
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: "Display \"Powered by Kinde\" on your sign up, sign in, and subscription\
+          \ pages."
+        explode: true
+        in: query
+        name: is_show_kinde_branding
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: Show a policy acceptance checkbox on sign up.
+        explode: true
+        in: query
+        name: is_click_wrap
+        required: false
+        schema:
+          nullable: true
+          type: boolean
+        style: form
+      - description: Your Kinde Perk code.
+        explode: true
+        in: query
+        name: partner_code
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Business successfully updated.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+      summary: Update business details
+      tags:
+      - Business
+  /api/v1/industries:
+    get:
+      description: Get a list of industries and associated industry keys.
+      operationId: getIndustries
+      parameters:
+      - description: Industry Key.
+        explode: true
+        in: query
+        name: industry_key
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Industry name.
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: A successful response with a list of industries and industry
+            keys.
+        "403":
+          description: Invalid credentials.
+      summary: List industries and industry keys.
+      tags:
+      - Industries
+  /api/v1/timezones:
+    get:
+      description: Get a list of timezones and associated timezone keys.
+      operationId: getTimezones
+      parameters:
+      - description: Timezone Key.
+        explode: true
+        in: query
+        name: timezone_key
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Timezone.
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "201":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: A successful response with a list of timezones and timezone
+            keys.
+        "403":
+          description: Invalid credentials.
+      summary: List timezones and timezone IDs.
+      tags:
+      - Timezones
+  /api/v1/applications/{app_id}/auth_redirect_urls:
+    get:
+      description: |
+        Returns an application's redirect callback URLs.
+      operationId: getCallbackURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/redirect_callback_urls'
+          description: Callback URLs successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: List Callback URLs
+      tags:
+      - Callbacks
+    post:
+      description: |
+        Add additional redirect callback URLs.
+      operationId: addRedirectCallbackURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replaceRedirectCallbackURLs_request'
+        description: Callback details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Callbacks successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Add Redirect Callback URLs
+      tags:
+      - Callbacks
+    put:
+      description: |
+        Replace all redirect callback URLs.
+      operationId: replaceRedirectCallbackURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replaceRedirectCallbackURLs_request'
+        description: Callback details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Callbacks successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Replace Redirect Callback URLs
+      tags:
+      - Callbacks
 components:
   schemas:
     success_response:
@@ -1258,15 +2245,25 @@ components:
       type: object
     user:
       example:
+        failed_sign_ins: 6
         last_name: last_name
         is_suspended: true
+        last_signed_in: last_signed_in
+        is_password_reset_requested: true
+        total_sign_ins: 0
+        picture: picture
+        full_name: full_name
+        created_on: created_on
         id: id
+        provided_id: provided_id
         first_name: first_name
         email: email
-        picture: picture
       properties:
         id:
           description: Unique id of the user in Kinde.
+          type: string
+        provided_id:
+          description: External id for user.
           type: string
         email:
           description: Default email address of the user in Kinde.
@@ -1277,11 +2274,33 @@ components:
         first_name:
           description: User's first name.
           type: string
+        full_name:
+          description: User's full name.
+          type: string
         is_suspended:
           description: Whether the user is currently suspended or not.
           type: boolean
         picture:
           description: User's profile picture URL.
+          type: string
+        is_password_reset_requested:
+          description: Whether the user has been asked to reset their password.
+          nullable: true
+          type: boolean
+        total_sign_ins:
+          description: Total number of user sign ins.
+          nullable: true
+          type: integer
+        failed_sign_ins:
+          description: Number of consecutive failed user sign ins.
+          nullable: true
+          type: integer
+        last_signed_in:
+          description: Last sign in date in ISO 8601 format.
+          nullable: true
+          type: string
+        created_on:
+          description: Date of user creation in ISO 8601 format.
           nullable: true
           type: string
       type: object
@@ -1296,18 +2315,32 @@ components:
         message: message
         next_token: next_token
         users:
-        - last_name: last_name
+        - failed_sign_ins: 6
+          last_name: last_name
           is_suspended: true
+          last_signed_in: last_signed_in
+          is_password_reset_requested: true
+          total_sign_ins: 0
+          picture: picture
+          full_name: full_name
+          created_on: created_on
           id: id
+          provided_id: provided_id
           first_name: first_name
           email: email
-          picture: picture
-        - last_name: last_name
+        - failed_sign_ins: 6
+          last_name: last_name
           is_suspended: true
+          last_signed_in: last_signed_in
+          is_password_reset_requested: true
+          total_sign_ins: 0
+          picture: picture
+          full_name: full_name
+          created_on: created_on
           id: id
+          provided_id: provided_id
           first_name: first_name
           email: email
-          picture: picture
       properties:
         code:
           description: Response code.
@@ -1327,11 +2360,9 @@ components:
       example:
         identities:
         - result:
-            identity_id: 0
             created: true
           type: type
         - result:
-            identity_id: 0
             created: true
           type: type
         created: true
@@ -1351,15 +2382,20 @@ components:
     create_organization_response:
       example:
         code: code
+        organization:
+          code: code
+        message: message
       properties:
-        code:
-          description: The organization's code.
+        message:
           type: string
+        code:
+          type: string
+        organization:
+          $ref: '#/components/schemas/create_organization_response_organization'
       type: object
     user_identity:
       example:
         result:
-          identity_id: 0
           created: true
         type: type
       properties:
@@ -1461,6 +2497,9 @@ components:
     organization_user:
       example:
         full_name: full_name
+        roles:
+        - roles
+        - roles
         last_name: last_name
         id: id
         first_name: first_name
@@ -1476,21 +2515,118 @@ components:
           type: string
         first_name:
           type: string
+        roles:
+          items:
+            type: string
+          type: array
+      type: object
+    role:
+      example:
+        name: name
+        description: description
+        id: id
+        key: key
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    subscribers_subscriber:
+      example:
+        full_name: full_name
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        full_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+      type: object
+    subscriber:
+      example:
+        preferred_email: preferred_email
+        last_name: last_name
+        id: id
+        first_name: first_name
+      properties:
+        id:
+          type: string
+        preferred_email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+      type: object
+    organization_user_role:
+      example:
+        name: name
+        id: id
+        key: key
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
       type: object
     organization_users:
       items:
         $ref: '#/components/schemas/organization_user'
       type: array
-    get_organizations_response:
+    get_subscriber_response:
       example:
         code: code
-        organizations:
-        - code: code
-          name: name
-          is_default: true
-        - code: code
-          name: name
-          is_default: true
+        subscribers:
+        - preferred_email: preferred_email
+          last_name: last_name
+          id: id
+          first_name: first_name
+        - preferred_email: preferred_email
+          last_name: last_name
+          id: id
+          first_name: first_name
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        subscribers:
+          items:
+            $ref: '#/components/schemas/subscriber'
+          type: array
+      type: object
+    get_subscribers_response:
+      example:
+        code: code
+        subscribers:
+        - full_name: full_name
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+        - full_name: full_name
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
         message: message
         next_token: next_token
       properties:
@@ -1500,24 +2636,86 @@ components:
         message:
           description: Response message.
           type: string
-        organizations:
+        subscribers:
           items:
-            $ref: '#/components/schemas/organization'
+            $ref: '#/components/schemas/subscribers_subscriber'
           type: array
         next_token:
           description: Pagination token.
           type: string
       type: object
-    get_organizations_users_response:
+    get_roles_response:
+      example:
+        code: code
+        roles:
+        - name: name
+          description: description
+          key: key
+        - name: name
+          description: description
+          key: key
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/roles'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    get_organizations_response:
+      example:
+        code: code
+        roles:
+        - name: name
+          description: description
+          id: id
+          key: key
+        - name: name
+          description: description
+          id: id
+          key: key
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/role'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    get_organization_users_response:
       example:
         code: code
         organization_users:
         - full_name: full_name
+          roles:
+          - roles
+          - roles
           last_name: last_name
           id: id
           first_name: first_name
           email: email
         - full_name: full_name
+          roles:
+          - roles
+          - roles
           last_name: last_name
           id: id
           first_name: first_name
@@ -1535,6 +2733,79 @@ components:
           items:
             $ref: '#/components/schemas/organization_user'
           type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    get_organizations_user_roles_response:
+      example:
+        code: code
+        roles:
+        - name: name
+          id: id
+          key: key
+        - name: name
+          id: id
+          key: key
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/organization_user_role'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    get_organization_feature_flags_response:
+      example:
+        code: code
+        feature_flags:
+          key:
+            type: str
+            value: value
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        feature_flags:
+          additionalProperties:
+            $ref: '#/components/schemas/get_organization_feature_flags_response_feature_flags_value'
+          description: The environment's feature flag settings.
+          type: object
+      type: object
+    get_environment_feature_flags_response:
+      example:
+        code: code
+        feature_flags:
+          key:
+            type: str
+            value: value
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        feature_flags:
+          additionalProperties:
+            $ref: '#/components/schemas/get_organization_feature_flags_response_feature_flags_value'
+          description: The environment's feature flag settings.
+          type: object
         next_token:
           description: Pagination token.
           type: string
@@ -1558,16 +2829,30 @@ components:
             type: string
           type: array
       type: object
-    remove_organization_users_response:
+    update_organization_users_response:
       example:
         users_added:
         - users_added
         - users_added
+        users_updated:
+        - users_updated
+        - users_updated
+        users_removed:
+        - users_removed
+        - users_removed
         message: message
       properties:
         message:
           type: string
         users_added:
+          items:
+            type: string
+          type: array
+        users_updated:
+          items:
+            type: string
+          type: array
+        users_removed:
           items:
             type: string
           type: array
@@ -1585,6 +2870,14 @@ components:
           description: A unique identifier for the login session.
           type: string
       type: object
+    create_subscriber_success_response:
+      example:
+        subscriber:
+          subscriber_id: subscriber_id
+      properties:
+        subscriber:
+          $ref: '#/components/schemas/create_subscriber_success_response_subscriber'
+      type: object
     connected_apps_access_token:
       example:
         access_token: access_token
@@ -1601,6 +2894,77 @@ components:
       properties:
         result:
           description: The result of the api operation.
+          type: string
+      type: object
+    application:
+      properties:
+        app_id:
+          type: string
+        name:
+          type: string
+      type: object
+    get_applications_response:
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        organizations:
+          items:
+            $ref: '#/components/schemas/application'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
+    redirect_callback_urls:
+      example:
+        redirect_urls:
+        - redirect_urls
+        - redirect_urls
+      properties:
+        redirect_urls:
+          description: An application's redirect URLs.
+          items:
+            type: string
+          type: array
+      type: object
+    get_redirect_callback_urls_response:
+      properties:
+        redirect_urls:
+          description: An application's redirect callback URLs.
+          items:
+            $ref: '#/components/schemas/redirect_callback_urls'
+          type: array
+      type: object
+    permissions:
+      properties:
+        id:
+          description: The permission identifier to use in code.
+          type: string
+        name:
+          description: The permission's name.
+          type: string
+        description:
+          description: The permission's description.
+          type: string
+      type: object
+    roles:
+      example:
+        name: name
+        description: description
+        key: key
+      properties:
+        key:
+          description: The role identifier to use in code.
+          type: string
+        name:
+          description: The role's name.
+          type: string
+        description:
+          description: The role's description.
           type: string
       type: object
     createUser_request_profile:
@@ -1625,6 +2989,8 @@ components:
       properties:
         type:
           description: "The type of identity to create, for e.g. email."
+          enum:
+          - email
           type: string
         details:
           $ref: '#/components/schemas/createUser_request_identities_inner_details'
@@ -1649,6 +3015,9 @@ components:
           type: string
         is_suspended:
           description: Whether the user is currently suspended or not.
+          type: boolean
+        is_password_reset_requested:
+          description: Prompt the user to change their password on next sign in.
           type: boolean
       type: object
     createOrganization_request:
@@ -1703,34 +3072,203 @@ components:
           description: The organization's brand settings - link color.
           type: string
       type: object
-    AddOrganizationUsers_request:
+    AddOrganizationUsers_request_users_inner:
       properties:
-        users:
-          description: List of user ids to be added to the organization.
+        id:
+          description: The users id.
+          type: string
+        roles:
+          description: Role keys to assign to the user.
+          items:
+            type: string
+          type: array
+        permissions:
+          description: Permission keys to assign to the user.
           items:
             type: string
           type: array
       type: object
-    RemoveOrganizationUsers_request:
+    AddOrganizationUsers_request:
       properties:
         users:
-          description: List of user ids to be removed from the organization.
+          description: Users to be added to the organization.
+          items:
+            $ref: '#/components/schemas/AddOrganizationUsers_request_users_inner'
+          type: array
+      type: object
+    UpdateOrganizationUsers_request_users_inner:
+      properties:
+        id:
+          description: The users id.
+          type: string
+        operation:
+          description: "Optional operation, set to 'delete' to remove the user from\
+            \ the organization."
+          type: string
+        roles:
+          description: Role keys to assign to the user.
           items:
             type: string
           type: array
+        permissions:
+          description: Permission keys to assign to the user.
+          items:
+            type: string
+          type: array
+      type: object
+    UpdateOrganizationUsers_request:
+      properties:
+        users:
+          description: Users to be added to the organization.
+          items:
+            $ref: '#/components/schemas/UpdateOrganizationUsers_request_users_inner'
+          type: array
+      type: object
+    CreateOrganizationUserRole_request:
+      properties:
+        role_id:
+          description: The role id.
+          type: string
+      type: object
+    CreateFeatureFlag_request:
+      properties:
+        name:
+          description: The name of the flag.
+          nullable: false
+          type: string
+        description:
+          description: Description of the flag purpose.
+          nullable: false
+          type: string
+        key:
+          description: The flag identifier to use in code.
+          nullable: false
+          type: string
+        type:
+          description: The variable type.
+          enum:
+          - str
+          - int
+          - bool
+          nullable: false
+          type: string
+        allow_override_level:
+          description: Allow the flag to be overridden at a different level.
+          enum:
+          - env
+          - org
+          nullable: false
+          type: string
+        default_value:
+          description: Default value for the flag used by environments and organizations.
+          nullable: false
+          type: string
+      required:
+      - default_value
+      - key
+      - name
+      - type
+      type: object
+    UpdateEnvironementFeatureFlagOverride_request:
+      properties:
+        value:
+          description: The flag override value.
+          nullable: false
+          type: string
+      required:
+      - value
+      type: object
+    CreatePermission_request:
+      properties:
+        name:
+          description: The permission's name.
+          type: string
+        description:
+          description: The permission's description.
+          type: string
+        key:
+          description: The permission identifier to use in code.
+          type: string
+      type: object
+    CreateRole_request:
+      properties:
+        name:
+          description: The role's name.
+          type: string
+        description:
+          description: The role's description.
+          type: string
+        key:
+          description: The role identifier to use in code.
+          type: string
+        is_default_role:
+          description: Set role as default for new users.
+          type: boolean
+      type: object
+    UpdateRoles_request:
+      properties:
+        name:
+          description: The role's name.
+          type: string
+        description:
+          description: The role's description.
+          type: string
+        key:
+          description: The role identifier to use in code.
+          type: string
+        is_default_role:
+          description: Set role as default for new users.
+          type: boolean
+      required:
+      - key
+      - name
+      type: object
+    replaceRedirectCallbackURLs_request:
+      properties:
+        urls:
+          description: Array of callback urls.
+          items:
+            type: string
+          type: array
+      type: object
+    create_organization_response_organization:
+      example:
+        code: code
+      properties:
+        code:
+          description: The organization's code.
+          type: string
       type: object
     user_identity_result:
       description: The result of the user creation operation.
       example:
-        identity_id: 0
         created: true
       properties:
         created:
           description: True if the user identity was successfully created.
           type: boolean
-        identity_id:
-          description: Unique id of the user's identity in Kinde.
-          type: integer
+      type: object
+    get_organization_feature_flags_response_feature_flags_value:
+      example:
+        type: str
+        value: value
+      properties:
+        type:
+          enum:
+          - str
+          - int
+          - bool
+          type: string
+        value:
+          type: string
+      type: object
+    create_subscriber_success_response_subscriber:
+      example:
+        subscriber_id: subscriber_id
+      properties:
+        subscriber_id:
+          description: A unique identifier for the subscriber.
+          type: string
       type: object
   securitySchemes:
     kindeBearerAuth:
@@ -1738,7 +3276,6 @@ components:
       description: |
         Accessing the API requires obtaining an access token when login in through Kinde. However, management functions (for e.g. user management) requires an access token
         obtained using the client_credentials flow.
-      in: header
       scheme: bearer
       type: http
 

@@ -29,38 +29,28 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create a new feature flag
+        /// Create Feature Flag
         /// </summary>
         /// <remarks>
         /// Create feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse CreateFeatureFlag(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue);
+        SuccessResponse CreateFeatureFlag(CreateFeatureFlagRequest createFeatureFlagRequest);
 
         /// <summary>
-        /// Create a new feature flag
+        /// Create Feature Flag
         /// </summary>
         /// <remarks>
         /// Create feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> CreateFeatureFlagWithHttpInfo(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue);
+        ApiResponse<SuccessResponse> CreateFeatureFlagWithHttpInfo(CreateFeatureFlagRequest createFeatureFlagRequest);
         /// <summary>
-        /// Delete a feature flag
+        /// Delete Feature Flag
         /// </summary>
         /// <remarks>
         /// Delete feature flag
@@ -71,7 +61,7 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteFeatureFlag(string featureFlagKey);
 
         /// <summary>
-        /// Delete a feature flag
+        /// Delete Feature Flag
         /// </summary>
         /// <remarks>
         /// Delete feature flag
@@ -81,7 +71,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteFeatureFlagWithHttpInfo(string featureFlagKey);
         /// <summary>
-        /// Update a feature flag
+        /// Replace Feature Flag
         /// </summary>
         /// <remarks>
         /// Update feature flag.
@@ -97,7 +87,7 @@ namespace Kinde.Api.Api
         SuccessResponse UpdateFeatureFlag(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue);
 
         /// <summary>
-        /// Update a feature flag
+        /// Replace Feature Flag
         /// </summary>
         /// <remarks>
         /// Update feature flag.
@@ -121,40 +111,30 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create a new feature flag
+        /// Create Feature Flag
         /// </summary>
         /// <remarks>
         /// Create feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> CreateFeatureFlagAsync(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> CreateFeatureFlagAsync(CreateFeatureFlagRequest createFeatureFlagRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create a new feature flag
+        /// Create Feature Flag
         /// </summary>
         /// <remarks>
         /// Create feature flag.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateFeatureFlagWithHttpInfoAsync(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateFeatureFlagWithHttpInfoAsync(CreateFeatureFlagRequest createFeatureFlagRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete a feature flag
+        /// Delete Feature Flag
         /// </summary>
         /// <remarks>
         /// Delete feature flag
@@ -166,7 +146,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteFeatureFlagAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete a feature flag
+        /// Delete Feature Flag
         /// </summary>
         /// <remarks>
         /// Delete feature flag
@@ -177,7 +157,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteFeatureFlagWithHttpInfoAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update a feature flag
+        /// Replace Feature Flag
         /// </summary>
         /// <remarks>
         /// Update feature flag.
@@ -194,7 +174,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> UpdateFeatureFlagAsync(string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update a feature flag
+        /// Replace Feature Flag
         /// </summary>
         /// <remarks>
         /// Update feature flag.
@@ -439,62 +419,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new feature flag Create feature flag.
+        /// Create Feature Flag Create feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse CreateFeatureFlag(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+        public SuccessResponse CreateFeatureFlag(CreateFeatureFlagRequest createFeatureFlagRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = CreateFeatureFlagWithHttpInfo(name, description, key, type, allowOverrideLevel, defaultValue);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = CreateFeatureFlagWithHttpInfo(createFeatureFlagRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Create a new feature flag Create feature flag.
+        /// Create Feature Flag Create feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> CreateFeatureFlagWithHttpInfo(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> CreateFeatureFlagWithHttpInfo(CreateFeatureFlagRequest createFeatureFlagRequest)
         {
-            // verify the required parameter 'name' is set
-            if (name == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'name' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'description' is set
-            if (description == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'description' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'key' is set
-            if (key == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'key' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'type' is set
-            if (type == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'allowOverrideLevel' is set
-            if (allowOverrideLevel == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'allowOverrideLevel' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'defaultValue' is set
-            if (defaultValue == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'defaultValue' when calling FeatureFlagsApi->CreateFeatureFlag");
+            // verify the required parameter 'createFeatureFlagRequest' is set
+            if (createFeatureFlagRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createFeatureFlagRequest' when calling FeatureFlagsApi->CreateFeatureFlag");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -509,12 +460,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "description", description));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key", key));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "type", type));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "allow_override_level", allowOverrideLevel));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "default_value", defaultValue));
+            localVarRequestOptions.Data = createFeatureFlagRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -536,65 +482,36 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new feature flag Create feature flag.
+        /// Create Feature Flag Create feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> CreateFeatureFlagAsync(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> CreateFeatureFlagAsync(CreateFeatureFlagRequest createFeatureFlagRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await CreateFeatureFlagWithHttpInfoAsync(name, description, key, type, allowOverrideLevel, defaultValue, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await CreateFeatureFlagWithHttpInfoAsync(createFeatureFlagRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Create a new feature flag Create feature flag.
+        /// Create Feature Flag Create feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="name">The name of the flag.</param>
-        /// <param name="description">Description of the flag purpose.</param>
-        /// <param name="key">The flag identifier to use in code.</param>
-        /// <param name="type">The variable type.</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
-        /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
+        /// <param name="createFeatureFlagRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> CreateFeatureFlagWithHttpInfoAsync(string name, string description, string key, string type, string allowOverrideLevel, string defaultValue, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> CreateFeatureFlagWithHttpInfoAsync(CreateFeatureFlagRequest createFeatureFlagRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'name' is set
-            if (name == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'name' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'description' is set
-            if (description == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'description' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'key' is set
-            if (key == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'key' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'type' is set
-            if (type == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'allowOverrideLevel' is set
-            if (allowOverrideLevel == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'allowOverrideLevel' when calling FeatureFlagsApi->CreateFeatureFlag");
-
-            // verify the required parameter 'defaultValue' is set
-            if (defaultValue == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'defaultValue' when calling FeatureFlagsApi->CreateFeatureFlag");
+            // verify the required parameter 'createFeatureFlagRequest' is set
+            if (createFeatureFlagRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createFeatureFlagRequest' when calling FeatureFlagsApi->CreateFeatureFlag");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -610,12 +527,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "description", description));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key", key));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "type", type));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "allow_override_level", allowOverrideLevel));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "default_value", defaultValue));
+            localVarRequestOptions.Data = createFeatureFlagRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -638,7 +550,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete a feature flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -650,7 +562,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete a feature flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -700,7 +612,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete a feature flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -713,7 +625,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete a feature flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -767,7 +679,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a feature flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -784,7 +696,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a feature flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -864,7 +776,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a feature flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -882,7 +794,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a feature flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>

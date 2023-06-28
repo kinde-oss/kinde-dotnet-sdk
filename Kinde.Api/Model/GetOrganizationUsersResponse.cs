@@ -28,19 +28,19 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationsUsersResponse
+    /// GetOrganizationUsersResponse
     /// </summary>
-    [DataContract(Name = "get_organizations_users_response")]
-    public partial class GetOrganizationsUsersResponse : IEquatable<GetOrganizationsUsersResponse>, IValidatableObject
+    [DataContract(Name = "get_organization_users_response")]
+    public partial class GetOrganizationUsersResponse : IEquatable<GetOrganizationUsersResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationsUsersResponse" /> class.
+        /// Initializes a new instance of the <see cref="GetOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
         /// <param name="organizationUsers">organizationUsers.</param>
         /// <param name="nextToken">Pagination token..</param>
-        public GetOrganizationsUsersResponse(string code = default(string), string message = default(string), List<OrganizationUser> organizationUsers = default(List<OrganizationUser>), string nextToken = default(string))
+        public GetOrganizationUsersResponse(string code = default(string), string message = default(string), List<OrganizationUser> organizationUsers = default(List<OrganizationUser>), string nextToken = default(string))
         {
             this.Code = code;
             this.Message = message;
@@ -82,7 +82,7 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetOrganizationsUsersResponse {\n");
+            sb.Append("class GetOrganizationUsersResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  OrganizationUsers: ").Append(OrganizationUsers).Append("\n");
@@ -107,15 +107,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetOrganizationsUsersResponse);
+            return this.Equals(input as GetOrganizationUsersResponse);
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationsUsersResponse instances are equal
+        /// Returns true if GetOrganizationUsersResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationsUsersResponse to be compared</param>
+        /// <param name="input">Instance of GetOrganizationUsersResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetOrganizationsUsersResponse input)
+        public bool Equals(GetOrganizationUsersResponse input)
         {
             if (input == null)
             {

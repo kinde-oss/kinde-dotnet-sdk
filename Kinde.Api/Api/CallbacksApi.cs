@@ -36,9 +36,9 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns></returns>
-        void AddRedirectCallbackURLs(string appId, List<string> urls);
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse AddRedirectCallbackURLs(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest);
 
         /// <summary>
         /// Add Redirect Callback URLs
@@ -48,9 +48,9 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddRedirectCallbackURLsWithHttpInfo(string appId, List<string> urls);
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> AddRedirectCallbackURLsWithHttpInfo(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest);
         /// <summary>
         /// List Callback URLs
         /// </summary>
@@ -73,28 +73,28 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of RedirectCallbackUrls</returns>
         ApiResponse<RedirectCallbackUrls> GetCallbackURLsWithHttpInfo(string appId);
         /// <summary>
-        /// Replace redirect callback URLs
+        /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
         /// Replace all redirect callback URLs. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns></returns>
-        void ReplaceRedirectCallbackURLs(string appId, List<string> urls);
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse ReplaceRedirectCallbackURLs(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest);
 
         /// <summary>
-        /// Replace redirect callback URLs
+        /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
         /// Replace all redirect callback URLs. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ReplaceRedirectCallbackURLsWithHttpInfo(string appId, List<string> urls);
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> ReplaceRedirectCallbackURLsWithHttpInfo(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest);
         #endregion Synchronous Operations
     }
 
@@ -112,10 +112,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task AddRedirectCallbackURLsAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> AddRedirectCallbackURLsAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Add Redirect Callback URLs
@@ -125,10 +125,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> AddRedirectCallbackURLsWithHttpInfoAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> AddRedirectCallbackURLsWithHttpInfoAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Callback URLs
         /// </summary>
@@ -153,30 +153,30 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (RedirectCallbackUrls)</returns>
         System.Threading.Tasks.Task<ApiResponse<RedirectCallbackUrls>> GetCallbackURLsWithHttpInfoAsync(string appId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Replace redirect callback URLs
+        /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
         /// Replace all redirect callback URLs. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ReplaceRedirectCallbackURLsAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> ReplaceRedirectCallbackURLsAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Replace redirect callback URLs
+        /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
         /// Replace all redirect callback URLs. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ReplaceRedirectCallbackURLsWithHttpInfoAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> ReplaceRedirectCallbackURLsWithHttpInfoAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -411,11 +411,12 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns></returns>
-        public void AddRedirectCallbackURLs(string appId, List<string> urls)
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse AddRedirectCallbackURLs(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest)
         {
-            AddRedirectCallbackURLsWithHttpInfo(appId, urls);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = AddRedirectCallbackURLsWithHttpInfo(appId, replaceRedirectCallbackURLsRequest);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -423,25 +424,27 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> AddRedirectCallbackURLsWithHttpInfo(string appId, List<string> urls)
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> AddRedirectCallbackURLsWithHttpInfo(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'appId' when calling CallbacksApi->AddRedirectCallbackURLs");
 
-            // verify the required parameter 'urls' is set
-            if (urls == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'urls' when calling CallbacksApi->AddRedirectCallbackURLs");
+            // verify the required parameter 'replaceRedirectCallbackURLsRequest' is set
+            if (replaceRedirectCallbackURLsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceRedirectCallbackURLsRequest' when calling CallbacksApi->AddRedirectCallbackURLs");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json; charset=utf-8"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -451,7 +454,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("app_id", Kinde.Api.Client.ClientUtils.ParameterToString(appId)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("multi", "urls", urls));
+            localVarRequestOptions.Data = replaceRedirectCallbackURLsRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -461,7 +464,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -477,12 +480,13 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task AddRedirectCallbackURLsAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> AddRedirectCallbackURLsAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await AddRedirectCallbackURLsWithHttpInfoAsync(appId, urls, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await AddRedirectCallbackURLsWithHttpInfoAsync(appId, replaceRedirectCallbackURLsRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -490,27 +494,29 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> AddRedirectCallbackURLsWithHttpInfoAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> AddRedirectCallbackURLsWithHttpInfoAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'appId' when calling CallbacksApi->AddRedirectCallbackURLs");
 
-            // verify the required parameter 'urls' is set
-            if (urls == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'urls' when calling CallbacksApi->AddRedirectCallbackURLs");
+            // verify the required parameter 'replaceRedirectCallbackURLsRequest' is set
+            if (replaceRedirectCallbackURLsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceRedirectCallbackURLsRequest' when calling CallbacksApi->AddRedirectCallbackURLs");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json; charset=utf-8"
             };
 
 
@@ -521,7 +527,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("app_id", Kinde.Api.Client.ClientUtils.ParameterToString(appId)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("multi", "urls", urls));
+            localVarRequestOptions.Data = replaceRedirectCallbackURLsRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -532,7 +538,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -671,41 +677,44 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace redirect callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns></returns>
-        public void ReplaceRedirectCallbackURLs(string appId, List<string> urls)
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse ReplaceRedirectCallbackURLs(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest)
         {
-            ReplaceRedirectCallbackURLsWithHttpInfo(appId, urls);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = ReplaceRedirectCallbackURLsWithHttpInfo(appId, replaceRedirectCallbackURLsRequest);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Replace redirect callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> ReplaceRedirectCallbackURLsWithHttpInfo(string appId, List<string> urls)
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> ReplaceRedirectCallbackURLsWithHttpInfo(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'appId' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
 
-            // verify the required parameter 'urls' is set
-            if (urls == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'urls' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
+            // verify the required parameter 'replaceRedirectCallbackURLsRequest' is set
+            if (replaceRedirectCallbackURLsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceRedirectCallbackURLsRequest' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json; charset=utf-8"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -715,7 +724,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("app_id", Kinde.Api.Client.ClientUtils.ParameterToString(appId)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("multi", "urls", urls));
+            localVarRequestOptions.Data = replaceRedirectCallbackURLsRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -725,7 +734,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -737,44 +746,47 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace redirect callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ReplaceRedirectCallbackURLsAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> ReplaceRedirectCallbackURLsAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await ReplaceRedirectCallbackURLsWithHttpInfoAsync(appId, urls, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await ReplaceRedirectCallbackURLsWithHttpInfoAsync(appId, replaceRedirectCallbackURLsRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Replace redirect callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
-        /// <param name="urls">Array of callback urls.</param>
+        /// <param name="replaceRedirectCallbackURLsRequest">Callback details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> ReplaceRedirectCallbackURLsWithHttpInfoAsync(string appId, List<string> urls, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> ReplaceRedirectCallbackURLsWithHttpInfoAsync(string appId, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'appId' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
 
-            // verify the required parameter 'urls' is set
-            if (urls == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'urls' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
+            // verify the required parameter 'replaceRedirectCallbackURLsRequest' is set
+            if (replaceRedirectCallbackURLsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceRedirectCallbackURLsRequest' when calling CallbacksApi->ReplaceRedirectCallbackURLs");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json; charset=utf-8"
             };
 
 
@@ -785,7 +797,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("app_id", Kinde.Api.Client.ClientUtils.ParameterToString(appId)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("multi", "urls", urls));
+            localVarRequestOptions.Data = replaceRedirectCallbackURLsRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -796,7 +808,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/applications/{app_id}/auth_redirect_urls", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

@@ -4,7 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** | The organization&#39;s code. | [optional] 
+**Message** | **string** |  | [optional] 
+**Code** | **string** |  | [optional] 
+**Organization** | [**CreateOrganizationResponseOrganization**](CreateOrganizationResponseOrganization.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

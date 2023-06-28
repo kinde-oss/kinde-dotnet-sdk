@@ -96,8 +96,8 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string featureFlagKey = null;
-            //string value = null;
-            //var response = instance.UpdateEnvironementFeatureFlagOverride(featureFlagKey, value);
+            //UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest = null;
+            //var response = instance.UpdateEnvironementFeatureFlagOverride(featureFlagKey, updateEnvironementFeatureFlagOverrideRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
     }

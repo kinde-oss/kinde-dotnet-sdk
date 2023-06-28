@@ -5,7 +5,7 @@ All URIs are relative to *https://app.kinde.com*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create User |
-| [**Deleteuser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete User |
+| [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete User |
 | [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get User |
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | List Users |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update User |
@@ -111,8 +111,8 @@ catch (ApiException e)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="deleteuser"></a>
-# **Deleteuser**
-> SuccessResponse Deleteuser (string? id = null)
+# **DeleteUser**
+> SuccessResponse DeleteUser (string? id = null)
 
 Delete User
 
@@ -129,7 +129,7 @@ using Kinde.Api.Model;
 
 namespace Example
 {
-    public class DeleteuserExample
+    public class DeleteUserExample
     {
         public static void Main()
         {
@@ -147,12 +147,12 @@ namespace Example
             try
             {
                 // Delete User
-                SuccessResponse result = apiInstance.Deleteuser(id);
+                SuccessResponse result = apiInstance.DeleteUser(id);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UsersApi.Deleteuser: " + e.Message);
+                Debug.Print("Exception when calling UsersApi.DeleteUser: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -161,21 +161,21 @@ namespace Example
 }
 ```
 
-#### Using the DeleteuserWithHttpInfo variant
+#### Using the DeleteUserWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Delete User
-    ApiResponse<SuccessResponse> response = apiInstance.DeleteuserWithHttpInfo(id);
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteUserWithHttpInfo(id);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling UsersApi.DeleteuserWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling UsersApi.DeleteUserWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -212,7 +212,7 @@ catch (ApiException e)
 
 <a name="getuserdata"></a>
 # **GetUserData**
-> User GetUserData (string? id = null)
+> User GetUserData (string id)
 
 Get User
 
@@ -242,7 +242,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
-            var id = "id_example";  // string? | The user's id. (optional) 
+            var id = "id_example";  // string | The user's id.
 
             try
             {
@@ -285,7 +285,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **id** | **string?** | The user&#39;s id. | [optional]  |
+| **id** | **string** | The user&#39;s id. |  |
 
 ### Return type
 
@@ -312,7 +312,7 @@ catch (ApiException e)
 
 <a name="getusers"></a>
 # **GetUsers**
-> UsersResponse GetUsers (string? sort = null, int? pageSize = null, string? userId = null, string? nextToken = null)
+> UsersResponse GetUsers (string? sort = null, int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null)
 
 List Users
 
@@ -346,11 +346,12 @@ namespace Example
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
             var userId = "userId_example";  // string? | ID of the user to filter by. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
 
             try
             {
                 // List Users
-                UsersResponse result = apiInstance.GetUsers(sort, pageSize, userId, nextToken);
+                UsersResponse result = apiInstance.GetUsers(sort, pageSize, userId, nextToken, email);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -371,7 +372,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List Users
-    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(sort, pageSize, userId, nextToken);
+    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(sort, pageSize, userId, nextToken, email);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -392,6 +393,7 @@ catch (ApiException e)
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
 | **userId** | **string?** | ID of the user to filter by. | [optional]  |
 | **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
 
 ### Return type
 

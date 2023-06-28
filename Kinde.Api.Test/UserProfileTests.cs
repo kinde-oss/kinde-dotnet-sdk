@@ -41,8 +41,8 @@ namespace Kinde.Api.Test
                 var picture = user.Picture;
                 var anotherClaim = user.GetClaim("iat");
                 var claim = user.GetClaim("sub", "id_token"); //get claim
-                var organisations = user.GetOrganisations(); ; //get avaliable organisations
-                var organisation = user.GetOrganisation();  //get single organisation
+                var organizations = user.GetOrganizations(); ; //get avaliable organizations
+                var organization = user.GetOrganization();  //get single organization
                 var permissions = user.GetPermissions(); //get all permissions
                 var permission = user.GetPermission("something"); //get permission
                 var unknownClaim = user.GetClaim("something");
@@ -55,7 +55,7 @@ namespace Kinde.Api.Test
                     Assert.NotNull(claim);
                     Assert.NotNull(email);
                     Assert.NotNull(anotherClaim);
-                    Assert.NotNull(organisations);
+                    Assert.NotNull(organizations);
                     Assert.NotNull(picture);
                 }
             }

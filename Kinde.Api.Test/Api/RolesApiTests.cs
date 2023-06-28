@@ -77,7 +77,7 @@ namespace Kinde.Api.Test.Api
             //int? pageSize = null;
             //string? nextToken = null;
             //var response = instance.GetRoles(sort, pageSize, nextToken);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<GetRolesResponse>(response);
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace Kinde.Api.Test.Api
         public void UpdateRolesTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //int roleId = null;
-            //CreateRoleRequest? createRoleRequest = null;
-            //var response = instance.UpdateRoles(roleId, createRoleRequest);
+            //string roleId = null;
+            //UpdateRolesRequest? updateRolesRequest = null;
+            //var response = instance.UpdateRoles(roleId, updateRolesRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
     }

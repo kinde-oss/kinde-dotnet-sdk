@@ -4,15 +4,15 @@ All URIs are relative to *https://app.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateFeatureFlag**](FeatureFlagsApi.md#createfeatureflag) | **POST** /api/v1/feature_flags | Create a new feature flag |
-| [**DeleteFeatureFlag**](FeatureFlagsApi.md#deletefeatureflag) | **DELETE** /api/v1/feature_flags/{feature_flag_key} | Delete a feature flag |
-| [**UpdateFeatureFlag**](FeatureFlagsApi.md#updatefeatureflag) | **PUT** /api/v1/feature_flags/{feature_flag_key} | Update a feature flag |
+| [**CreateFeatureFlag**](FeatureFlagsApi.md#createfeatureflag) | **POST** /api/v1/feature_flags | Create Feature Flag |
+| [**DeleteFeatureFlag**](FeatureFlagsApi.md#deletefeatureflag) | **DELETE** /api/v1/feature_flags/{feature_flag_key} | Delete Feature Flag |
+| [**UpdateFeatureFlag**](FeatureFlagsApi.md#updatefeatureflag) | **PUT** /api/v1/feature_flags/{feature_flag_key} | Replace Feature Flag |
 
 <a name="createfeatureflag"></a>
 # **CreateFeatureFlag**
-> SuccessResponse CreateFeatureFlag (string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+> SuccessResponse CreateFeatureFlag (CreateFeatureFlagRequest createFeatureFlagRequest)
 
-Create a new feature flag
+Create Feature Flag
 
 Create feature flag.
 
@@ -40,17 +40,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FeatureFlagsApi(httpClient, config, httpClientHandler);
-            var name = "name_example";  // string | The name of the flag.
-            var description = "description_example";  // string | Description of the flag purpose.
-            var key = "key_example";  // string | The flag identifier to use in code.
-            var type = "str";  // string | The variable type.
-            var allowOverrideLevel = "env";  // string | Allow the flag to be overridden at a different level.
-            var defaultValue = "defaultValue_example";  // string | Default value for the flag used by environments and organizations.
+            var createFeatureFlagRequest = new CreateFeatureFlagRequest(); // CreateFeatureFlagRequest | Flag details.
 
             try
             {
-                // Create a new feature flag
-                SuccessResponse result = apiInstance.CreateFeatureFlag(name, description, key, type, allowOverrideLevel, defaultValue);
+                // Create Feature Flag
+                SuccessResponse result = apiInstance.CreateFeatureFlag(createFeatureFlagRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -70,8 +65,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create a new feature flag
-    ApiResponse<SuccessResponse> response = apiInstance.CreateFeatureFlagWithHttpInfo(name, description, key, type, allowOverrideLevel, defaultValue);
+    // Create Feature Flag
+    ApiResponse<SuccessResponse> response = apiInstance.CreateFeatureFlagWithHttpInfo(createFeatureFlagRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -88,12 +83,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **name** | **string** | The name of the flag. |  |
-| **description** | **string** | Description of the flag purpose. |  |
-| **key** | **string** | The flag identifier to use in code. |  |
-| **type** | **string** | The variable type. |  |
-| **allowOverrideLevel** | **string** | Allow the flag to be overridden at a different level. |  |
-| **defaultValue** | **string** | Default value for the flag used by environments and organizations. |  |
+| **createFeatureFlagRequest** | [**CreateFeatureFlagRequest**](CreateFeatureFlagRequest.md) | Flag details. |  |
 
 ### Return type
 
@@ -105,7 +95,7 @@ catch (ApiException e)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/json; charset=utf-8
 
 
@@ -122,7 +112,7 @@ catch (ApiException e)
 # **DeleteFeatureFlag**
 > SuccessResponse DeleteFeatureFlag (string featureFlagKey)
 
-Delete a feature flag
+Delete Feature Flag
 
 Delete feature flag
 
@@ -154,7 +144,7 @@ namespace Example
 
             try
             {
-                // Delete a feature flag
+                // Delete Feature Flag
                 SuccessResponse result = apiInstance.DeleteFeatureFlag(featureFlagKey);
                 Debug.WriteLine(result);
             }
@@ -175,7 +165,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Delete a feature flag
+    // Delete Feature Flag
     ApiResponse<SuccessResponse> response = apiInstance.DeleteFeatureFlagWithHttpInfo(featureFlagKey);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -220,9 +210,9 @@ catch (ApiException e)
 
 <a name="updatefeatureflag"></a>
 # **UpdateFeatureFlag**
-> SuccessResponse UpdateFeatureFlag (string featureFlagKey, string name, string description, string key, string type, string allowOverrideLevel, string defaultValue)
+> SuccessResponse UpdateFeatureFlag (string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue)
 
-Update a feature flag
+Replace Feature Flag
 
 Update feature flag.
 
@@ -250,18 +240,17 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FeatureFlagsApi(httpClient, config, httpClientHandler);
-            var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag.
+            var featureFlagKey = "featureFlagKey_example";  // string | The key identifier for the feature flag.
             var name = "name_example";  // string | The name of the flag.
             var description = "description_example";  // string | Description of the flag purpose.
-            var key = "key_example";  // string | The flag identifier to use in code.
             var type = "str";  // string | The variable type
             var allowOverrideLevel = "env";  // string | Allow the flag to be overridden at a different level.
             var defaultValue = "defaultValue_example";  // string | Default value for the flag used by environments and organizations.
 
             try
             {
-                // Update a feature flag
-                SuccessResponse result = apiInstance.UpdateFeatureFlag(featureFlagKey, name, description, key, type, allowOverrideLevel, defaultValue);
+                // Replace Feature Flag
+                SuccessResponse result = apiInstance.UpdateFeatureFlag(featureFlagKey, name, description, type, allowOverrideLevel, defaultValue);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -281,8 +270,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update a feature flag
-    ApiResponse<SuccessResponse> response = apiInstance.UpdateFeatureFlagWithHttpInfo(featureFlagKey, name, description, key, type, allowOverrideLevel, defaultValue);
+    // Replace Feature Flag
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateFeatureFlagWithHttpInfo(featureFlagKey, name, description, type, allowOverrideLevel, defaultValue);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -299,10 +288,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **featureFlagKey** | **string** | The identifier for the feature flag. |  |
+| **featureFlagKey** | **string** | The key identifier for the feature flag. |  |
 | **name** | **string** | The name of the flag. |  |
 | **description** | **string** | Description of the flag purpose. |  |
-| **key** | **string** | The flag identifier to use in code. |  |
 | **type** | **string** | The variable type |  |
 | **allowOverrideLevel** | **string** | Allow the flag to be overridden at a different level. |  |
 | **defaultValue** | **string** | Default value for the flag used by environments and organizations. |  |

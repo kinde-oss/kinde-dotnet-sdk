@@ -29,7 +29,7 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create a new role
+        /// Create Role
         /// </summary>
         /// <remarks>
         /// Create role.
@@ -40,7 +40,7 @@ namespace Kinde.Api.Api
         SuccessResponse CreateRole(CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?));
 
         /// <summary>
-        /// Create a new role
+        /// Create Role
         /// </summary>
         /// <remarks>
         /// Create role.
@@ -59,8 +59,8 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetRoles(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>GetRolesResponse</returns>
+        GetRolesResponse GetRoles(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
         /// List Roles
@@ -72,31 +72,31 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetRolesWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>ApiResponse of GetRolesResponse</returns>
+        ApiResponse<GetRolesResponse> GetRolesWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
-        /// Update a role
+        /// Update Role
         /// </summary>
         /// <remarks>
-        /// Update role
+        /// Update a role
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateRoles(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?));
+        SuccessResponse UpdateRoles(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?));
 
         /// <summary>
-        /// Update a role
+        /// Update Role
         /// </summary>
         /// <remarks>
-        /// Update role
+        /// Update a role
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateRolesWithHttpInfo(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?));
+        ApiResponse<SuccessResponse> UpdateRolesWithHttpInfo(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?));
         #endregion Synchronous Operations
     }
 
@@ -107,7 +107,7 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create a new role
+        /// Create Role
         /// </summary>
         /// <remarks>
         /// Create role.
@@ -119,7 +119,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> CreateRoleAsync(CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create a new role
+        /// Create Role
         /// </summary>
         /// <remarks>
         /// Create role.
@@ -140,8 +140,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetRolesAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetRolesResponse</returns>
+        System.Threading.Tasks.Task<GetRolesResponse> GetRolesAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Roles
@@ -154,33 +154,33 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetRolesWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetRolesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetRolesResponse>> GetRolesWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update a role
+        /// Update Role
         /// </summary>
         /// <remarks>
-        /// Update role
+        /// Update a role
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateRolesAsync(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdateRolesAsync(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update a role
+        /// Update Role
         /// </summary>
         /// <remarks>
-        /// Update role
+        /// Update a role
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateRolesWithHttpInfoAsync(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateRolesWithHttpInfoAsync(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -411,7 +411,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new role Create role.
+        /// Create Role Create role.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createRoleRequest">Role details. (optional)</param>
@@ -423,7 +423,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new role Create role.
+        /// Create Role Create role.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createRoleRequest">Role details. (optional)</param>
@@ -469,7 +469,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new role Create role.
+        /// Create Role Create role.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createRoleRequest">Role details. (optional)</param>
@@ -482,7 +482,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a new role Create role.
+        /// Create Role Create role.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createRoleRequest">Role details. (optional)</param>
@@ -538,10 +538,10 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetRoles(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>GetRolesResponse</returns>
+        public GetRolesResponse GetRoles(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetRolesWithHttpInfo(sort, pageSize, nextToken);
+            Kinde.Api.Client.ApiResponse<GetRolesResponse> localVarResponse = GetRolesWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
         }
 
@@ -552,8 +552,8 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetRolesWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>ApiResponse of GetRolesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetRolesResponse> GetRolesWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -592,7 +592,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetRolesResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -611,10 +611,10 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetRolesAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetRolesResponse</returns>
+        public async System.Threading.Tasks.Task<GetRolesResponse> GetRolesAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetRolesWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetRolesResponse> localVarResponse = await GetRolesWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -626,8 +626,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetRolesWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetRolesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetRolesResponse>> GetRolesWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -669,7 +669,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetRolesResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -681,27 +681,31 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a role Update role
+        /// Update Role Update a role
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateRoles(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?))
+        public SuccessResponse UpdateRoles(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateRolesWithHttpInfo(roleId, createRoleRequest);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateRolesWithHttpInfo(roleId, updateRolesRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update a role Update role
+        /// Update Role Update a role
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateRolesWithHttpInfo(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?))
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateRolesWithHttpInfo(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?))
         {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->UpdateRoles");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -720,7 +724,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
-            localVarRequestOptions.Data = createRoleRequest;
+            localVarRequestOptions.Data = updateRolesRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -742,29 +746,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a role Update role
+        /// Update Role Update a role
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateRolesAsync(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateRolesAsync(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateRolesWithHttpInfoAsync(roleId, createRoleRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateRolesWithHttpInfoAsync(roleId, updateRolesRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update a role Update role
+        /// Update Role Update a role
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
-        /// <param name="createRoleRequest">Role details. (optional)</param>
+        /// <param name="updateRolesRequest">Role details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateRolesWithHttpInfoAsync(int roleId, CreateRoleRequest? createRoleRequest = default(CreateRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateRolesWithHttpInfoAsync(string roleId, UpdateRolesRequest? updateRolesRequest = default(UpdateRolesRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->UpdateRoles");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -785,7 +793,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
-            localVarRequestOptions.Data = createRoleRequest;
+            localVarRequestOptions.Data = updateRolesRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required

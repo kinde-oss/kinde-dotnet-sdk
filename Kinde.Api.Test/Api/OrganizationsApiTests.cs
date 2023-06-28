@@ -182,7 +182,7 @@ namespace Kinde.Api.Test.Api
             //string? nextToken = null;
             //string? permissions = null;
             //var response = instance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions);
-            //Assert.IsType<GetOrganizationsUsersResponse>(response);
+            //Assert.IsType<GetOrganizationUsersResponse>(response);
         }
 
         /// <summary>

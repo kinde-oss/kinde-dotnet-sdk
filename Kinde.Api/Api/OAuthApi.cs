@@ -29,7 +29,7 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get User Profile
         /// </summary>
         /// <remarks>
         /// Contains the id, names and email of the currently logged in user. 
@@ -39,7 +39,7 @@ namespace Kinde.Api.Api
         UserProfile GetUser();
 
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get User Profile
         /// </summary>
         /// <remarks>
         /// Contains the id, names and email of the currently logged in user. 
@@ -76,7 +76,7 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get User Profile
         /// </summary>
         /// <remarks>
         /// Contains the id, names and email of the currently logged in user. 
@@ -87,7 +87,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<UserProfile> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get User Profile
         /// </summary>
         /// <remarks>
         /// Contains the id, names and email of the currently logged in user. 
@@ -347,7 +347,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names and email of the currently logged in user. 
+        /// Get User Profile Contains the id, names and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>UserProfile</returns>
@@ -358,7 +358,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names and email of the currently logged in user. 
+        /// Get User Profile Contains the id, names and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of UserProfile</returns>
@@ -401,7 +401,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names and email of the currently logged in user. 
+        /// Get User Profile Contains the id, names and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -413,7 +413,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names and email of the currently logged in user. 
+        /// Get User Profile Contains the id, names and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>

@@ -98,7 +98,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> CreateOrganizationUserRoleWithHttpInfo(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest);
         /// <summary>
-        /// Delete organization feature flag override
+        /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete organization feature flag override.
@@ -110,7 +110,7 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteOrganizationFeatureFlagOverride(string orgCode, string featureFlagKey);
 
         /// <summary>
-        /// Delete organization feature flag override
+        /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete organization feature flag override.
@@ -121,7 +121,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey);
         /// <summary>
-        /// Delete all organization feature flag overrides
+        /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all organization feature flag overrides.
@@ -132,7 +132,7 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteOrganizationFeatureFlagOverrides(string orgCode);
 
         /// <summary>
-        /// Delete all organization feature flag overrides
+        /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all organization feature flag overrides.
@@ -188,7 +188,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Organization</returns>
         ApiResponse<Organization> GetOrganizationWithHttpInfo(string? code = default(string?));
         /// <summary>
-        /// List organization feature flags
+        /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
         /// Get all organization feature flags.
@@ -199,7 +199,7 @@ namespace Kinde.Api.Api
         GetOrganizationFeatureFlagsResponse GetOrganizationFeatureFlags(string orgCode);
 
         /// <summary>
-        /// List organization feature flags
+        /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
         /// Get all organization feature flags.
@@ -243,8 +243,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
-        /// <returns>GetOrganizationsUsersResponse</returns>
-        GetOrganizationsUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
+        /// <returns>GetOrganizationUsersResponse</returns>
+        GetOrganizationUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
 
         /// <summary>
         /// List Organization Users
@@ -258,8 +258,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
-        /// <returns>ApiResponse of GetOrganizationsUsersResponse</returns>
-        ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
+        /// <returns>ApiResponse of GetOrganizationUsersResponse</returns>
+        ApiResponse<GetOrganizationUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?));
         /// <summary>
         /// List Organizations
         /// </summary>
@@ -332,7 +332,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdateOrganizationWithHttpInfo(string orgCode, UpdateOrganizationRequest? updateOrganizationRequest = default(UpdateOrganizationRequest?));
         /// <summary>
-        /// Update organization feature flag override
+        /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update organization feature flag override.
@@ -345,7 +345,7 @@ namespace Kinde.Api.Api
         SuccessResponse UpdateOrganizationFeatureFlagOverride(string orgCode, string featureFlagKey, string value);
 
         /// <summary>
-        /// Update organization feature flag override
+        /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update organization feature flag override.
@@ -357,7 +357,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value);
         /// <summary>
-        /// Update organization users
+        /// Update Organization Users
         /// </summary>
         /// <remarks>
         /// Update users that belong to an organization.
@@ -369,7 +369,7 @@ namespace Kinde.Api.Api
         UpdateOrganizationUsersResponse UpdateOrganizationUsers(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?));
 
         /// <summary>
-        /// Update organization users
+        /// Update Organization Users
         /// </summary>
         /// <remarks>
         /// Update users that belong to an organization.
@@ -464,7 +464,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete organization feature flag override
+        /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete organization feature flag override.
@@ -477,7 +477,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationFeatureFlagOverrideAsync(string orgCode, string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete organization feature flag override
+        /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete organization feature flag override.
@@ -489,7 +489,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete all organization feature flag overrides
+        /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all organization feature flag overrides.
@@ -501,7 +501,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationFeatureFlagOverridesAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete all organization feature flag overrides
+        /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all organization feature flag overrides.
@@ -562,7 +562,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (Organization)</returns>
         System.Threading.Tasks.Task<ApiResponse<Organization>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List organization feature flags
+        /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
         /// Get all organization feature flags.
@@ -574,7 +574,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<GetOrganizationFeatureFlagsResponse> GetOrganizationFeatureFlagsAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List organization feature flags
+        /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
         /// Get all organization feature flags.
@@ -622,8 +622,8 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetOrganizationsUsersResponse</returns>
-        System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetOrganizationUsersResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Organization Users
@@ -638,8 +638,8 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetOrganizationsUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetOrganizationUsersResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Organizations
         /// </summary>
@@ -718,7 +718,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdateOrganizationWithHttpInfoAsync(string orgCode, UpdateOrganizationRequest? updateOrganizationRequest = default(UpdateOrganizationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update organization feature flag override
+        /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update organization feature flag override.
@@ -732,7 +732,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationFeatureFlagOverrideAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update organization feature flag override
+        /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update organization feature flag override.
@@ -745,7 +745,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update organization users
+        /// Update Organization Users
         /// </summary>
         /// <remarks>
         /// Update users that belong to an organization.
@@ -758,7 +758,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<UpdateOrganizationUsersResponse> UpdateOrganizationUsersAsync(string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = default(UpdateOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update organization users
+        /// Update Organization Users
         /// </summary>
         /// <remarks>
         /// Update users that belong to an organization.
@@ -1418,7 +1418,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization feature flag override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1431,7 +1431,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization feature flag override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1487,7 +1487,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization feature flag override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1501,7 +1501,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization feature flag override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1561,7 +1561,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all organization feature flag overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1573,7 +1573,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all organization feature flag overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1623,7 +1623,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all organization feature flag overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1636,7 +1636,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all organization feature flag overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1974,7 +1974,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List organization feature flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1986,7 +1986,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List organization feature flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2036,7 +2036,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List organization feature flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2049,7 +2049,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List organization feature flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2254,10 +2254,10 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
-        /// <returns>GetOrganizationsUsersResponse</returns>
-        public GetOrganizationsUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
+        /// <returns>GetOrganizationUsersResponse</returns>
+        public GetOrganizationUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions);
+            Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse> localVarResponse = GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions);
             return localVarResponse.Data;
         }
 
@@ -2270,8 +2270,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
-        /// <returns>ApiResponse of GetOrganizationsUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
+        /// <returns>ApiResponse of GetOrganizationUsersResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?))
         {
             // verify the required parameter 'orgCode' is set
             if (orgCode == null)
@@ -2320,7 +2320,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationsUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2341,10 +2341,10 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetOrganizationsUsersResponse</returns>
-        public async System.Threading.Tasks.Task<GetOrganizationsUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetOrganizationUsersResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse> localVarResponse = await GetOrganizationUsersWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, permissions, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse> localVarResponse = await GetOrganizationUsersWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, permissions, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2358,8 +2358,8 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="permissions">Filter by user permissions (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetOrganizationsUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationsUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetOrganizationUsersResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'orgCode' is set
             if (orgCode == null)
@@ -2411,7 +2411,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2852,7 +2852,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization feature flag override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -2866,7 +2866,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization feature flag override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -2928,7 +2928,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization feature flag override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -2943,7 +2943,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization feature flag override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -3009,7 +3009,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3022,7 +3022,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3075,7 +3075,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3089,7 +3089,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update organization users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>

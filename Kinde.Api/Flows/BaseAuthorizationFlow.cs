@@ -35,16 +35,16 @@ namespace Kinde.Api.Flows
             {
                 { "client_id", Configuration.ClientId },
                 { "scope", Configuration.Scope },
-                { "is_create_org", Configuration.IsCreateOrganisation.ToString()}
+                { "is_create_org", Configuration.IsCreateOrganization.ToString()}
             };
             if (!string.IsNullOrEmpty(Configuration.Audience))
             {
                 parameters.Add("audience", Configuration.Audience);
             }
 
-            if (!string.IsNullOrEmpty(Configuration.OrganisationId))
+            if (!string.IsNullOrEmpty(Configuration.OrganizationId))
             {
-                parameters.Add("org_code", Configuration.OrganisationId);
+                parameters.Add("org_code", Configuration.OrganizationId);
             }
 
             if (register)

@@ -28,33 +28,52 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// RemoveOrganizationUsersResponse
+    /// GetRolesResponse
     /// </summary>
-    [DataContract(Name = "remove_organization_users_response")]
-    public partial class RemoveOrganizationUsersResponse : IEquatable<RemoveOrganizationUsersResponse>, IValidatableObject
+    [DataContract(Name = "get_roles_response")]
+    public partial class GetRolesResponse : IEquatable<GetRolesResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveOrganizationUsersResponse" /> class.
+        /// Initializes a new instance of the <see cref="GetRolesResponse" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="usersAdded">usersAdded.</param>
-        public RemoveOrganizationUsersResponse(string message = default(string), List<string> usersAdded = default(List<string>))
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="roles">roles.</param>
+        /// <param name="nextToken">Pagination token..</param>
+        public GetRolesResponse(string code = default(string), string message = default(string), List<Roles> roles = default(List<Roles>), string nextToken = default(string))
         {
+            this.Code = code;
             this.Message = message;
-            this.UsersAdded = usersAdded;
+            this.Roles = roles;
+            this.NextToken = nextToken;
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// Response code.
         /// </summary>
+        /// <value>Response code.</value>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Response message.
+        /// </summary>
+        /// <value>Response message.</value>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets UsersAdded
+        /// Gets or Sets Roles
         /// </summary>
-        [DataMember(Name = "users_added", EmitDefaultValue = false)]
-        public List<string> UsersAdded { get; set; }
+        [DataMember(Name = "roles", EmitDefaultValue = false)]
+        public List<Roles> Roles { get; set; }
+
+        /// <summary>
+        /// Pagination token.
+        /// </summary>
+        /// <value>Pagination token.</value>
+        [DataMember(Name = "next_token", EmitDefaultValue = false)]
+        public string NextToken { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -63,9 +82,11 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class RemoveOrganizationUsersResponse {\n");
+            sb.Append("class GetRolesResponse {\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  UsersAdded: ").Append(UsersAdded).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
+            sb.Append("  NextToken: ").Append(NextToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -86,15 +107,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as RemoveOrganizationUsersResponse);
+            return this.Equals(input as GetRolesResponse);
         }
 
         /// <summary>
-        /// Returns true if RemoveOrganizationUsersResponse instances are equal
+        /// Returns true if GetRolesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of RemoveOrganizationUsersResponse to be compared</param>
+        /// <param name="input">Instance of GetRolesResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RemoveOrganizationUsersResponse input)
+        public bool Equals(GetRolesResponse input)
         {
             if (input == null)
             {
@@ -102,15 +123,25 @@ namespace Kinde.Api.Model
             }
             return 
                 (
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
+                ) && 
+                (
                     this.Message == input.Message ||
                     (this.Message != null &&
                     this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.UsersAdded == input.UsersAdded ||
-                    this.UsersAdded != null &&
-                    input.UsersAdded != null &&
-                    this.UsersAdded.SequenceEqual(input.UsersAdded)
+                    this.Roles == input.Roles ||
+                    this.Roles != null &&
+                    input.Roles != null &&
+                    this.Roles.SequenceEqual(input.Roles)
+                ) && 
+                (
+                    this.NextToken == input.NextToken ||
+                    (this.NextToken != null &&
+                    this.NextToken.Equals(input.NextToken))
                 );
         }
 
@@ -123,13 +154,21 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                if (this.Code != null)
+                {
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
                 if (this.Message != null)
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.UsersAdded != null)
+                if (this.Roles != null)
                 {
-                    hashCode = (hashCode * 59) + this.UsersAdded.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Roles.GetHashCode();
+                }
+                if (this.NextToken != null)
+                {
+                    hashCode = (hashCode * 59) + this.NextToken.GetHashCode();
                 }
                 return hashCode;
             }

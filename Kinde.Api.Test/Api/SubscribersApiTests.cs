@@ -77,7 +77,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string subscriberId = null;
             //var response = instance.GetSubscriber(subscriberId);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<GetSubscriberResponse>(response);
         }
 
         /// <summary>
@@ -89,10 +89,9 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string? sort = null;
             //int? pageSize = null;
-            //int? subscriberId = null;
             //string? nextToken = null;
-            //var response = instance.GetSubscribers(sort, pageSize, subscriberId, nextToken);
-            //Assert.IsType<SuccessResponse>(response);
+            //var response = instance.GetSubscribers(sort, pageSize, nextToken);
+            //Assert.IsType<GetSubscribersResponse>(response);
         }
     }
 }

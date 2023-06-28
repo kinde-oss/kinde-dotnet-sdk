@@ -1,6 +1,6 @@
 ### Overview
 
-The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform. The Kinde SDK is available on the Nuget package repository at https://www.nuget.org/packages/Kinde.SDK
+The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform. The Kinde SDK is available from the Nuget package repository at https://www.nuget.org/packages/Kinde.SDK
 
 It contains 3 pre-built OAuth2 grants: 
 - Client credentials
@@ -10,7 +10,6 @@ It contains 3 pre-built OAuth2 grants:
 ### Build
 
 Visual Studio automatically recreates the API access client using the [Kinde Management API specs](https://kinde.com/api/kinde-mgmt-api-specs.yaml) on build.
-
 
 ### Getting Started
 
@@ -48,7 +47,7 @@ Configuration example:
     "Configuration": {
       "State": null,
       "ClientId": "12354359asf123rasfaf",
-      "Scope": "openid offline",
+      "Scope": "openid offline profile",
       "GrantType": "code id_token token",
       "ClientSecret": "<my secret>"
     }
@@ -134,7 +133,7 @@ This code won't authenticate the user completely. We should wait for data on cal
     public IActionResult Callback(string code, string state)
     {
         KindeClient.OnCodeReceived(code, state);
-        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        var correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
         var client = KindeClientFactory.Instance.Get(correlationId); //already authorized instance
         // Api call
         //   ...
@@ -148,7 +147,7 @@ User registration is same as authorization. With one small difference:
 ```csharp
     public async Task<IActionResult> SignUp()
     {
-        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        var correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
         if (string.IsNullOrEmpty(correlationId))
         {
             correlationId = Guid.NewGuid().ToString();
@@ -174,7 +173,7 @@ Logout example:
 ```csharp
     public async Task<IActionResult> Logout()
     {
-        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        var correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
         
         var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
         var url = await client.Logout();
@@ -198,7 +197,7 @@ Example:
 ```csharp
     public async Task<IActionResult> Renew()
     {
-        string correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
+        var correlationId = HttpContext.Session?.GetString("KindeCorrelationId");
 
         var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
         await client.Renew();
@@ -221,8 +220,8 @@ Note, that some of claims and properties will be unavailable if scope 'profile' 
 ```csharp
     var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
     var claim = client.GetClaim("sub", "id_token"); //get claim
-    var organisations = client.GetOrganisations(); ; //get available organisations
-    var organisation = client.GetOrganisation();  //get single organisation
+    var organizations = client.GetOrganizations(); ; //get available organizations
+    var organization = client.GetOrganization();  //get single organization
     var permissions = client.GetPermissions(); //get all permissions
     var permission = client.GetPermission("something"); //get permission
 ```
@@ -242,7 +241,6 @@ Feature flags are found in the feature_flags claim of the access token.
 
 ### Calling APIs
 
-
 ```csharp
     // Don't forget to add "using Kinde;", all data objects models located in this namespace 
     var client = KindeClientFactory.Instance.GetOrCreate(correlationId, _appConfigurationProvider.Get());
@@ -254,6 +252,3 @@ Feature flags are found in the feature_flags claim of the access token.
     }
 ```
 The Full API Documentation can be found [here](https://kinde.com/api/docs/#kinde-management-api).
-
-More usage examples can be found in Kinde.DemoMvc project.
-

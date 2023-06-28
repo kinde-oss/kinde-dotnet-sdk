@@ -4,14 +4,14 @@ All URIs are relative to *https://app.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetUser**](OAuthApi.md#getuser) | **GET** /oauth2/user_profile | Returns the details of the currently logged in user |
+| [**GetUser**](OAuthApi.md#getuser) | **GET** /oauth2/user_profile | Get User Profile |
 | [**GetUserProfileV2**](OAuthApi.md#getuserprofilev2) | **GET** /oauth2/v2/user_profile | Returns the details of the currently logged in user |
 
 <a name="getuser"></a>
 # **GetUser**
 > UserProfile GetUser ()
 
-Returns the details of the currently logged in user
+Get User Profile
 
 Contains the id, names and email of the currently logged in user. 
 
@@ -42,7 +42,7 @@ namespace Example
 
             try
             {
-                // Returns the details of the currently logged in user
+                // Get User Profile
                 UserProfile result = apiInstance.GetUser();
                 Debug.WriteLine(result);
             }
@@ -63,7 +63,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Returns the details of the currently logged in user
+    // Get User Profile
     ApiResponse<UserProfile> response = apiInstance.GetUserWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);

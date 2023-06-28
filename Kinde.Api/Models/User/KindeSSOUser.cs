@@ -56,33 +56,33 @@ namespace Kinde.Api.Models.User
 
         public string Picture { get { return GetClaim<string>("picture", "id_token"); } }
 
-        public string? GetOrganisation()
+        public string? GetOrganization()
         {
             return GetClaim<string>("org_code");
         }
 
-        public string[]? GetOrganisations()
+        public string[]? GetOrganizations()
         {
             return GetClaim<string[]>("org_codes", "id_token");
         }
 
-        public OrganisationPermissionsCollection GetPermissions()
+        public OrganizationPermissionsCollection GetPermissions()
         {
-            return new OrganisationPermissionsCollection()
+            return new OrganizationPermissionsCollection()
             {
                 Permissions = GetClaim<string[]>("permissions")?.ToList() ?? new List<string>(),
-                OrganisationId = GetOrganisation()
+                OrganizationId = GetOrganization()
             };
         }
 
-        public OrganisationPermission GetPermission(string key)
+        public OrganizationPermission GetPermission(string key)
         {
             var permissions = GetClaim<string[]>("permissions");
             if (permissions != null && permissions.Any(x => x == key))
             {
-                return new OrganisationPermission() { Id = key, OrganisationId = GetOrganisation(), Granted = true };
+                return new OrganizationPermission() { Id = key, OrganizationId = GetOrganization(), Granted = true };
             }
-            return new OrganisationPermission() { Id = key, OrganisationId = GetOrganisation(), Granted = false };
+            return new OrganizationPermission() { Id = key, OrganizationId = GetOrganization(), Granted = false };
         }
 
         public KindeClaim? GetClaim(string key, string tokenType = "access_token")
@@ -160,16 +160,16 @@ namespace Kinde.Api.Models.User
         public int GetIntegerFlag(string code, int? defaultValue = null) => Convert.ToInt32(GetFlag(code, new FeatureFlagValue { DefaultValue = defaultValue }, "i").Value);
     }
 
-    public class OrganisationPermission
+    public class OrganizationPermission
     {
         public string Id { get; set; }
         public bool Granted { get; set; }
-        public string? OrganisationId { get; set; }
+        public string? OrganizationId { get; set; }
     }
 
-    public class OrganisationPermissionsCollection
+    public class OrganizationPermissionsCollection
     {
-        public string OrganisationId { get; set; }
+        public string OrganizationId { get; set; }
         public List<string> Permissions { get; set; }
     }
 

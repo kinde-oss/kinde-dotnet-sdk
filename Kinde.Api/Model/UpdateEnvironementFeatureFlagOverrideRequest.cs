@@ -28,26 +28,36 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// RemoveOrganizationUsersRequest
+    /// UpdateEnvironementFeatureFlagOverrideRequest
     /// </summary>
-    [DataContract(Name = "RemoveOrganizationUsers_request")]
-    public partial class RemoveOrganizationUsersRequest : IEquatable<RemoveOrganizationUsersRequest>, IValidatableObject
+    [DataContract(Name = "UpdateEnvironementFeatureFlagOverride_request")]
+    public partial class UpdateEnvironementFeatureFlagOverrideRequest : IEquatable<UpdateEnvironementFeatureFlagOverrideRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveOrganizationUsersRequest" /> class.
+        /// Initializes a new instance of the <see cref="UpdateEnvironementFeatureFlagOverrideRequest" /> class.
         /// </summary>
-        /// <param name="users">List of user ids to be removed from the organization..</param>
-        public RemoveOrganizationUsersRequest(List<string> users = default(List<string>))
+        [JsonConstructorAttribute]
+        protected UpdateEnvironementFeatureFlagOverrideRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateEnvironementFeatureFlagOverrideRequest" /> class.
+        /// </summary>
+        /// <param name="value">The flag override value. (required).</param>
+        public UpdateEnvironementFeatureFlagOverrideRequest(string value = default(string))
         {
-            this.Users = users;
+            // to ensure "value" is required (not null)
+            if (value == null)
+            {
+                throw new ArgumentNullException("value is a required property for UpdateEnvironementFeatureFlagOverrideRequest and cannot be null");
+            }
+            this.Value = value;
         }
 
         /// <summary>
-        /// List of user ids to be removed from the organization.
+        /// The flag override value.
         /// </summary>
-        /// <value>List of user ids to be removed from the organization.</value>
-        [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<string> Users { get; set; }
+        /// <value>The flag override value.</value>
+        [DataMember(Name = "value", IsRequired = true, EmitDefaultValue = true)]
+        public string Value { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +66,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class RemoveOrganizationUsersRequest {\n");
-            sb.Append("  Users: ").Append(Users).Append("\n");
+            sb.Append("class UpdateEnvironementFeatureFlagOverrideRequest {\n");
+            sb.Append("  Value: ").Append(Value).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +88,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as RemoveOrganizationUsersRequest);
+            return this.Equals(input as UpdateEnvironementFeatureFlagOverrideRequest);
         }
 
         /// <summary>
-        /// Returns true if RemoveOrganizationUsersRequest instances are equal
+        /// Returns true if UpdateEnvironementFeatureFlagOverrideRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of RemoveOrganizationUsersRequest to be compared</param>
+        /// <param name="input">Instance of UpdateEnvironementFeatureFlagOverrideRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RemoveOrganizationUsersRequest input)
+        public bool Equals(UpdateEnvironementFeatureFlagOverrideRequest input)
         {
             if (input == null)
             {
@@ -94,10 +104,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Users == input.Users ||
-                    this.Users != null &&
-                    input.Users != null &&
-                    this.Users.SequenceEqual(input.Users)
+                    this.Value == input.Value ||
+                    (this.Value != null &&
+                    this.Value.Equals(input.Value))
                 );
         }
 
@@ -110,9 +119,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Users != null)
+                if (this.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Users.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Value.GetHashCode();
                 }
                 return hashCode;
             }

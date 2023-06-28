@@ -29,7 +29,7 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Delete environment feature flag override
+        /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete environment feature flag override.
@@ -40,7 +40,7 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteEnvironementFeatureFlagOverride(string featureFlagKey);
 
         /// <summary>
-        /// Delete environment feature flag override
+        /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete environment feature flag override.
@@ -50,7 +50,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey);
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all environment feature flag overrides.
@@ -60,7 +60,7 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteEnvironementFeatureFlagOverrides();
 
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all environment feature flag overrides.
@@ -69,7 +69,7 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverridesWithHttpInfo();
         /// <summary>
-        /// List environment feature flags
+        /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
         /// Get environment feature flags.
@@ -79,7 +79,7 @@ namespace Kinde.Api.Api
         GetEnvironmentFeatureFlagsResponse GetEnvironementFeatureFlags();
 
         /// <summary>
-        /// List environment feature flags
+        /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
         /// Get environment feature flags.
@@ -88,28 +88,28 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
         ApiResponse<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsWithHttpInfo();
         /// <summary>
-        /// Update environment feature flag override
+        /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update environment feature flag override.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, string value);
+        SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest);
 
         /// <summary>
-        /// Update environment feature flag override
+        /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update environment feature flag override.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, string value);
+        ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest);
         #endregion Synchronous Operations
     }
 
@@ -120,7 +120,7 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Delete environment feature flag override
+        /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete environment feature flag override.
@@ -132,7 +132,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverrideAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete environment feature flag override
+        /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Delete environment feature flag override.
@@ -143,7 +143,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all environment feature flag overrides.
@@ -154,7 +154,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteEnvironementFeatureFlagOverridesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete all environment feature flag overrides
+        /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
         /// Delete all environment feature flag overrides.
@@ -164,7 +164,7 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List environment feature flags
+        /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
         /// Get environment feature flags.
@@ -175,7 +175,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List environment feature flags
+        /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
         /// Get environment feature flags.
@@ -185,30 +185,30 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update environment feature flag override
+        /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update environment feature flag override.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update environment feature flag override
+        /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
         /// Update environment feature flag override.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -439,7 +439,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -451,7 +451,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -501,7 +501,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -514,7 +514,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete environment feature flag override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -568,7 +568,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>SuccessResponse</returns>
@@ -579,7 +579,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of SuccessResponse</returns>
@@ -623,7 +623,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -635,7 +635,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete all environment feature flag overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -683,7 +683,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List environment feature flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEnvironmentFeatureFlagsResponse</returns>
@@ -694,7 +694,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List environment feature flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
@@ -738,7 +738,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List environment feature flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -750,7 +750,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List environment feature flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -798,38 +798,39 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, string value)
+        public SuccessResponse UpdateEnvironementFeatureFlagOverride(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateEnvironementFeatureFlagOverrideWithHttpInfo(featureFlagKey, value);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateEnvironementFeatureFlagOverrideWithHttpInfo(featureFlagKey, updateEnvironementFeatureFlagOverrideRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, string value)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest)
         {
             // verify the required parameter 'featureFlagKey' is set
             if (featureFlagKey == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
-            // verify the required parameter 'value' is set
-            if (value == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
+            // verify the required parameter 'updateEnvironementFeatureFlagOverrideRequest' is set
+            if (updateEnvironementFeatureFlagOverrideRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateEnvironementFeatureFlagOverrideRequest' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -845,7 +846,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+            localVarRequestOptions.Data = updateEnvironementFeatureFlagOverrideRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -867,41 +868,42 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateEnvironementFeatureFlagOverrideAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(featureFlagKey, value, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(featureFlagKey, updateEnvironementFeatureFlagOverrideRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update environment feature flag override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
-        /// <param name="value">The override value for the feature flag.</param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'featureFlagKey' is set
             if (featureFlagKey == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
-            // verify the required parameter 'value' is set
-            if (value == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
+            // verify the required parameter 'updateEnvironementFeatureFlagOverrideRequest' is set
+            if (updateEnvironementFeatureFlagOverrideRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateEnvironementFeatureFlagOverrideRequest' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -918,7 +920,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+            localVarRequestOptions.Data = updateEnvironementFeatureFlagOverrideRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required

@@ -62,8 +62,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string appId = null;
-            //List<string> urls = null;
-            //instance.AddRedirectCallbackURLs(appId, urls);
+            //ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest = null;
+            //var response = instance.AddRedirectCallbackURLs(appId, replaceRedirectCallbackURLsRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>
@@ -86,8 +87,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string appId = null;
-            //List<string> urls = null;
-            //instance.ReplaceRedirectCallbackURLs(appId, urls);
+            //ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest = null;
+            //var response = instance.ReplaceRedirectCallbackURLs(appId, replaceRedirectCallbackURLsRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
     }
 }

@@ -1,10 +1,11 @@
-# Kinde.Api.Model.RemoveOrganizationUsersRequest
+# Kinde.Api.Model.Application
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Users** | **List&lt;string&gt;** | List of user ids to be removed from the organization. | [optional] 
+**AppId** | **string** |  | [optional] 
+**Name** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

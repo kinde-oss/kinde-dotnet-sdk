@@ -61,13 +61,8 @@ namespace Kinde.Api.Test.Api
         public void CreateFeatureFlagTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string name = null;
-            //string description = null;
-            //string key = null;
-            //string type = null;
-            //string allowOverrideLevel = null;
-            //string defaultValue = null;
-            //var response = instance.CreateFeatureFlag(name, description, key, type, allowOverrideLevel, defaultValue);
+            //CreateFeatureFlagRequest createFeatureFlagRequest = null;
+            //var response = instance.CreateFeatureFlag(createFeatureFlagRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
 
