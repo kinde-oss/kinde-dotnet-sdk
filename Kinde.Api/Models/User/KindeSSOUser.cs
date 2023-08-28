@@ -120,6 +120,8 @@ namespace Kinde.Api.Models.User
                 if (typeof(T).IsByRef || jObject.GetType().Name == "JObject") return JObject.Parse(jObject.ToString()).ToObject<T>();
                 return (T)jObject;
             }
+            // Warning
+            Console.WriteLine($"The claimed value of \"{key}\" does not exist in your token");
             return default;
         }
 
