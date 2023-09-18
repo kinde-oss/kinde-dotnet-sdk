@@ -7,6 +7,8 @@ It contains 3 pre-built OAuth2 grants:
 - Authorization code 
 - Authorization code with PKCE
 
+You can also view the [.NET starter kit here](https://github.com/kinde-starter-kits/dotnet-starter-kit).
+
 ### Build
 
 Visual Studio automatically recreates the API access client using the [Kinde Management API specs](https://kinde.com/api/kinde-mgmt-api-specs.yaml) on build.
