@@ -28,52 +28,35 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApplicationsResponse
+    /// UpdateAPIApplicationsRequest
     /// </summary>
-    [DataContract(Name = "get_applications_response")]
-    public partial class GetApplicationsResponse : IEquatable<GetApplicationsResponse>, IValidatableObject
+    [DataContract(Name = "updateAPIApplications_request")]
+    public partial class UpdateAPIApplicationsRequest : IEquatable<UpdateAPIApplicationsRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApplicationsResponse" /> class.
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequest" /> class.
         /// </summary>
-        /// <param name="code">Response code..</param>
-        /// <param name="message">Response message..</param>
-        /// <param name="applications">applications.</param>
-        /// <param name="nextToken">Pagination token..</param>
-        public GetApplicationsResponse(string code = default(string), string message = default(string), List<Applications> applications = default(List<Applications>), string nextToken = default(string))
+        [JsonConstructorAttribute]
+        protected UpdateAPIApplicationsRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequest" /> class.
+        /// </summary>
+        /// <param name="applications">applications (required).</param>
+        public UpdateAPIApplicationsRequest(List<UpdateAPIApplicationsRequestApplicationsInner> applications = default(List<UpdateAPIApplicationsRequestApplicationsInner>))
         {
-            this.Code = code;
-            this.Message = message;
+            // to ensure "applications" is required (not null)
+            if (applications == null)
+            {
+                throw new ArgumentNullException("applications is a required property for UpdateAPIApplicationsRequest and cannot be null");
+            }
             this.Applications = applications;
-            this.NextToken = nextToken;
         }
-
-        /// <summary>
-        /// Response code.
-        /// </summary>
-        /// <value>Response code.</value>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
-
-        /// <summary>
-        /// Response message.
-        /// </summary>
-        /// <value>Response message.</value>
-        [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Applications
         /// </summary>
-        [DataMember(Name = "applications", EmitDefaultValue = false)]
-        public List<Applications> Applications { get; set; }
-
-        /// <summary>
-        /// Pagination token.
-        /// </summary>
-        /// <value>Pagination token.</value>
-        [DataMember(Name = "next_token", EmitDefaultValue = false)]
-        public string NextToken { get; set; }
+        [DataMember(Name = "applications", IsRequired = true, EmitDefaultValue = true)]
+        public List<UpdateAPIApplicationsRequestApplicationsInner> Applications { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -82,11 +65,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetApplicationsResponse {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("class UpdateAPIApplicationsRequest {\n");
             sb.Append("  Applications: ").Append(Applications).Append("\n");
-            sb.Append("  NextToken: ").Append(NextToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -107,15 +87,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetApplicationsResponse);
+            return this.Equals(input as UpdateAPIApplicationsRequest);
         }
 
         /// <summary>
-        /// Returns true if GetApplicationsResponse instances are equal
+        /// Returns true if UpdateAPIApplicationsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApplicationsResponse to be compared</param>
+        /// <param name="input">Instance of UpdateAPIApplicationsRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetApplicationsResponse input)
+        public bool Equals(UpdateAPIApplicationsRequest input)
         {
             if (input == null)
             {
@@ -123,25 +103,10 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
-                ) && 
-                (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
-                ) && 
-                (
                     this.Applications == input.Applications ||
                     this.Applications != null &&
                     input.Applications != null &&
                     this.Applications.SequenceEqual(input.Applications)
-                ) && 
-                (
-                    this.NextToken == input.NextToken ||
-                    (this.NextToken != null &&
-                    this.NextToken.Equals(input.NextToken))
                 );
         }
 
@@ -154,21 +119,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
-                {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                }
-                if (this.Message != null)
-                {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
-                }
                 if (this.Applications != null)
                 {
                     hashCode = (hashCode * 59) + this.Applications.GetHashCode();
-                }
-                if (this.NextToken != null)
-                {
-                    hashCode = (hashCode * 59) + this.NextToken.GetHashCode();
                 }
                 return hashCode;
             }

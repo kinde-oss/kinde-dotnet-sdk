@@ -28,49 +28,41 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// OrganizationUserRolePermissions
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "organization_user_role_permissions")]
+    public partial class OrganizationUserRolePermissions : IEquatable<OrganizationUserRolePermissions>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// Initializes a new instance of the <see cref="OrganizationUserRolePermissions" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
+        /// <param name="id">id.</param>
+        /// <param name="role">role.</param>
+        /// <param name="permissions">permissions.</param>
+        public OrganizationUserRolePermissions(string id = default(string), string role = default(string), OrganizationUserRolePermissionsPermissions permissions = default(OrganizationUserRolePermissionsPermissions))
         {
-            this.Code = code;
-            this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
+            this.Id = id;
+            this.Role = role;
+            this.Permissions = permissions;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Role
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        [DataMember(Name = "role", EmitDefaultValue = false)]
+        public string Role { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsDefault
+        /// Gets or Sets Permissions
         /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ExternalId
-        /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
+        [DataMember(Name = "permissions", EmitDefaultValue = false)]
+        public OrganizationUserRolePermissionsPermissions Permissions { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +71,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("class OrganizationUserRolePermissions {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +95,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as OrganizationUserRolePermissions);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if OrganizationUserRolePermissions instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of OrganizationUserRolePermissions to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(OrganizationUserRolePermissions input)
         {
             if (input == null)
             {
@@ -120,23 +111,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
+                    this.Role == input.Role ||
+                    (this.Role != null &&
+                    this.Role.Equals(input.Role))
                 ) && 
                 (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
-                ) && 
-                (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.Permissions == input.Permissions ||
+                    (this.Permissions != null &&
+                    this.Permissions.Equals(input.Permissions))
                 );
         }
 
@@ -149,18 +136,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
-                if (this.Name != null)
+                if (this.Role != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Role.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
+                if (this.Permissions != null)
                 {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Permissions.GetHashCode();
                 }
                 return hashCode;
             }

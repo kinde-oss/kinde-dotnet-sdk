@@ -28,26 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersRequest
+    /// LogoutRedirectUrls
     /// </summary>
-    [DataContract(Name = "UpdateOrganizationUsers_request")]
-    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>, IValidatableObject
+    [DataContract(Name = "logout_redirect_urls")]
+    public partial class LogoutRedirectUrls : IEquatable<LogoutRedirectUrls>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequest" /> class.
+        /// Initializes a new instance of the <see cref="LogoutRedirectUrls" /> class.
         /// </summary>
-        /// <param name="users">Users to add, update or remove from the organization..</param>
-        public UpdateOrganizationUsersRequest(List<UpdateOrganizationUsersRequestUsersInner> users = default(List<UpdateOrganizationUsersRequestUsersInner>))
+        /// <param name="redirectUrls">An application&#39;s logout URLs..</param>
+        public LogoutRedirectUrls(List<string> redirectUrls = default(List<string>))
         {
-            this.Users = users;
+            this.RedirectUrls = redirectUrls;
         }
 
         /// <summary>
-        /// Users to add, update or remove from the organization.
+        /// An application&#39;s logout URLs.
         /// </summary>
-        /// <value>Users to add, update or remove from the organization.</value>
-        [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<UpdateOrganizationUsersRequestUsersInner> Users { get; set; }
+        /// <value>An application&#39;s logout URLs.</value>
+        [DataMember(Name = "redirect_urls", EmitDefaultValue = false)]
+        public List<string> RedirectUrls { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UpdateOrganizationUsersRequest {\n");
-            sb.Append("  Users: ").Append(Users).Append("\n");
+            sb.Append("class LogoutRedirectUrls {\n");
+            sb.Append("  RedirectUrls: ").Append(RedirectUrls).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UpdateOrganizationUsersRequest);
+            return this.Equals(input as LogoutRedirectUrls);
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersRequest instances are equal
+        /// Returns true if LogoutRedirectUrls instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersRequest to be compared</param>
+        /// <param name="input">Instance of LogoutRedirectUrls to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UpdateOrganizationUsersRequest input)
+        public bool Equals(LogoutRedirectUrls input)
         {
             if (input == null)
             {
@@ -94,10 +94,10 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Users == input.Users ||
-                    this.Users != null &&
-                    input.Users != null &&
-                    this.Users.SequenceEqual(input.Users)
+                    this.RedirectUrls == input.RedirectUrls ||
+                    this.RedirectUrls != null &&
+                    input.RedirectUrls != null &&
+                    this.RedirectUrls.SequenceEqual(input.RedirectUrls)
                 );
         }
 
@@ -110,9 +110,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Users != null)
+                if (this.RedirectUrls != null)
                 {
-                    hashCode = (hashCode * 59) + this.Users.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RedirectUrls.GetHashCode();
                 }
                 return hashCode;
             }

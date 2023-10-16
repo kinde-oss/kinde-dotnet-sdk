@@ -28,49 +28,48 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// AddAPIsRequest
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "addAPIs_request")]
+    public partial class AddAPIsRequest : IEquatable<AddAPIsRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// Initializes a new instance of the <see cref="AddAPIsRequest" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
-        {
-            this.Code = code;
-            this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
-        }
-
+        [JsonConstructorAttribute]
+        protected AddAPIsRequest() { }
         /// <summary>
-        /// Gets or Sets Code
+        /// Initializes a new instance of the <see cref="AddAPIsRequest" /> class.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        /// <param name="name">name (required).</param>
+        /// <param name="audience">audience (required).</param>
+        public AddAPIsRequest(string name = default(string), string audience = default(string))
+        {
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new ArgumentNullException("name is a required property for AddAPIsRequest and cannot be null");
+            }
+            this.Name = name;
+            // to ensure "audience" is required (not null)
+            if (audience == null)
+            {
+                throw new ArgumentNullException("audience is a required property for AddAPIsRequest and cannot be null");
+            }
+            this.Audience = audience;
+        }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsDefault
+        /// Gets or Sets Audience
         /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ExternalId
-        /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
+        [DataMember(Name = "audience", IsRequired = true, EmitDefaultValue = true)]
+        public string Audience { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +78,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("class AddAPIsRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("  Audience: ").Append(Audience).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +101,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as AddAPIsRequest);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if AddAPIsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of AddAPIsRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(AddAPIsRequest input)
         {
             if (input == null)
             {
@@ -120,23 +117,14 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
-                ) && 
-                (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
-                ) && 
-                (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.Audience == input.Audience ||
+                    (this.Audience != null &&
+                    this.Audience.Equals(input.Audience))
                 );
         }
 
@@ -149,18 +137,13 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
-                {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
+                if (this.Audience != null)
                 {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Audience.GetHashCode();
                 }
                 return hashCode;
             }

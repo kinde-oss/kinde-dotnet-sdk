@@ -28,26 +28,33 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersRequest
+    /// OrganizationUserPermissionRolesInner
     /// </summary>
-    [DataContract(Name = "UpdateOrganizationUsers_request")]
-    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>, IValidatableObject
+    [DataContract(Name = "organization_user_permission_roles_inner")]
+    public partial class OrganizationUserPermissionRolesInner : IEquatable<OrganizationUserPermissionRolesInner>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequest" /> class.
+        /// Initializes a new instance of the <see cref="OrganizationUserPermissionRolesInner" /> class.
         /// </summary>
-        /// <param name="users">Users to add, update or remove from the organization..</param>
-        public UpdateOrganizationUsersRequest(List<UpdateOrganizationUsersRequestUsersInner> users = default(List<UpdateOrganizationUsersRequestUsersInner>))
+        /// <param name="id">id.</param>
+        /// <param name="key">key.</param>
+        public OrganizationUserPermissionRolesInner(string id = default(string), string key = default(string))
         {
-            this.Users = users;
+            this.Id = id;
+            this.Key = key;
         }
 
         /// <summary>
-        /// Users to add, update or remove from the organization.
+        /// Gets or Sets Id
         /// </summary>
-        /// <value>Users to add, update or remove from the organization.</value>
-        [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<UpdateOrganizationUsersRequestUsersInner> Users { get; set; }
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Key
+        /// </summary>
+        [DataMember(Name = "key", EmitDefaultValue = false)]
+        public string Key { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +63,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UpdateOrganizationUsersRequest {\n");
-            sb.Append("  Users: ").Append(Users).Append("\n");
+            sb.Append("class OrganizationUserPermissionRolesInner {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +86,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UpdateOrganizationUsersRequest);
+            return this.Equals(input as OrganizationUserPermissionRolesInner);
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersRequest instances are equal
+        /// Returns true if OrganizationUserPermissionRolesInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersRequest to be compared</param>
+        /// <param name="input">Instance of OrganizationUserPermissionRolesInner to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UpdateOrganizationUsersRequest input)
+        public bool Equals(OrganizationUserPermissionRolesInner input)
         {
             if (input == null)
             {
@@ -94,10 +102,14 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Users == input.Users ||
-                    this.Users != null &&
-                    input.Users != null &&
-                    this.Users.SequenceEqual(input.Users)
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
+                    this.Key == input.Key ||
+                    (this.Key != null &&
+                    this.Key.Equals(input.Key))
                 );
         }
 
@@ -110,9 +122,13 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Users != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Users.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.Key != null)
+                {
+                    hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
                 return hashCode;
             }
