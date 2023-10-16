@@ -25,213 +25,213 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPermissionsApiSync : IApiAccessor
+    public interface IApplicationsApiSync : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create Permission
+        /// Create Application
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse CreatePermission(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
+        /// <returns>CreateApplicationResponse</returns>
+        CreateApplicationResponse CreateApplication(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?));
 
         /// <summary>
-        /// Create Permission
+        /// Create Application
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> CreatePermissionWithHttpInfo(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
+        /// <returns>ApiResponse of CreateApplicationResponse</returns>
+        ApiResponse<CreateApplicationResponse> CreateApplicationWithHttpInfo(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?));
         /// <summary>
-        /// Delete Permission
+        /// Get Application
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Gets an application given the application&#39;s id. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse DeletePermission(string permissionId);
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <returns>GetApplicationResponse</returns>
+        GetApplicationResponse GetApplication(string applicationId);
 
         /// <summary>
-        /// Delete Permission
+        /// Get Application
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Gets an application given the application&#39;s id. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> DeletePermissionWithHttpInfo(string permissionId);
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <returns>ApiResponse of GetApplicationResponse</returns>
+        ApiResponse<GetApplicationResponse> GetApplicationWithHttpInfo(string applicationId);
         /// <summary>
-        /// List Permissions
+        /// List Applications
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get a list of applications. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetPermissions(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>GetApplicationsResponse</returns>
+        GetApplicationsResponse GetApplications(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
-        /// List Permissions
+        /// List Applications
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get a list of applications. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetPermissionsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>ApiResponse of GetApplicationsResponse</returns>
+        ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
-        /// Update Permission
+        /// Update Application
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <returns></returns>
+        void UpdateApplication(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?));
 
         /// <summary>
-        /// Update Permission
+        /// Update Application
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?));
         #endregion Synchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPermissionsApiAsync : IApiAccessor
+    public interface IApplicationsApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create Permission
+        /// Create Application
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> CreatePermissionAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of CreateApplicationResponse</returns>
+        System.Threading.Tasks.Task<CreateApplicationResponse> CreateApplicationAsync(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create Permission
+        /// Create Application
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreatePermissionWithHttpInfoAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (CreateApplicationResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateApplicationResponse>> CreateApplicationWithHttpInfoAsync(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete Permission
+        /// Get Application
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Gets an application given the application&#39;s id. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> DeletePermissionAsync(string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetApplicationResponse</returns>
+        System.Threading.Tasks.Task<GetApplicationResponse> GetApplicationAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete Permission
+        /// Get Application
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Gets an application given the application&#39;s id. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeletePermissionWithHttpInfoAsync(string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetApplicationResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApplicationResponse>> GetApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Permissions
+        /// List Applications
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get a list of applications. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetPermissionsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetApplicationsResponse</returns>
+        System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Permissions
+        /// List Applications
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get a list of applications. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetPermissionsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update Permission
+        /// Update Application
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update Permission
+        /// Update Application
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update an application.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPermissionsApi : IPermissionsApiSync, IPermissionsApiAsync
+    public interface IApplicationsApi : IApplicationsApiSync, IApplicationsApiAsync
     {
 
     }
@@ -239,29 +239,29 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class PermissionsApi : IDisposable, IPermissionsApi
+    public partial class ApplicationsApi : IDisposable, IApplicationsApi
     {
         private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
-        public PermissionsApi() : this((string)null)
+        public ApplicationsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public PermissionsApi(string basePath)
+        public ApplicationsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
                 Kinde.Api.Client.GlobalConfiguration.Instance,
@@ -274,14 +274,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class using Configuration object.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public PermissionsApi(Kinde.Api.Client.Configuration configuration)
+        public ApplicationsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -296,7 +296,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
@@ -306,12 +306,12 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public PermissionsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
+        public ApplicationsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
@@ -323,7 +323,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public PermissionsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
+        public ApplicationsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -338,7 +338,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
@@ -349,7 +349,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public PermissionsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
+        public ApplicationsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
             if (client == null) throw new ArgumentNullException("client");
@@ -365,14 +365,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PermissionsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
+        public ApplicationsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
             if (asyncClient == null) throw new ArgumentNullException("asyncClient");
@@ -385,12 +385,12 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionsApi"/> class
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
         /// using a client instance.
         /// </summary>
         /// <param name="client">The client API</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PermissionsApi(Kinde.Api.Client.ApiClient client)
+        public ApplicationsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -455,24 +455,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Application Create an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse CreatePermission(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
+        /// <returns>CreateApplicationResponse</returns>
+        public CreateApplicationResponse CreateApplication(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = CreatePermissionWithHttpInfo(createPermissionRequest);
+            Kinde.Api.Client.ApiResponse<CreateApplicationResponse> localVarResponse = CreateApplicationWithHttpInfo(createApplicationRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Application Create an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> CreatePermissionWithHttpInfo(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
+        /// <returns>ApiResponse of CreateApplicationResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateApplicationResponse> CreateApplicationWithHttpInfo(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -482,6 +482,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -491,7 +492,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = createPermissionRequest;
+            localVarRequestOptions.Data = createApplicationRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -501,11 +502,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<CreateApplicationResponse>("/api/v1/applications", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("CreatePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreateApplication", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -513,26 +514,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Application Create an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> CreatePermissionAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of CreateApplicationResponse</returns>
+        public async System.Threading.Tasks.Task<CreateApplicationResponse> CreateApplicationAsync(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await CreatePermissionWithHttpInfoAsync(createPermissionRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<CreateApplicationResponse> localVarResponse = await CreateApplicationWithHttpInfoAsync(createApplicationRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Application Create an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
+        /// <param name="createApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> CreatePermissionWithHttpInfoAsync(CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (CreateApplicationResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateApplicationResponse>> CreateApplicationWithHttpInfoAsync(CreateApplicationRequest? createApplicationRequest = default(CreateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -543,6 +544,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -553,7 +555,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = createPermissionRequest;
+            localVarRequestOptions.Data = createApplicationRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -564,11 +566,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateApplicationResponse>("/api/v1/applications", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("CreatePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreateApplication", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -576,28 +578,28 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Get Application Gets an application given the application&#39;s id. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse DeletePermission(string permissionId)
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <returns>GetApplicationResponse</returns>
+        public GetApplicationResponse GetApplication(string applicationId)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeletePermissionWithHttpInfo(permissionId);
+            Kinde.Api.Client.ApiResponse<GetApplicationResponse> localVarResponse = GetApplicationWithHttpInfo(applicationId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Get Application Gets an application given the application&#39;s id. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeletePermissionWithHttpInfo(string permissionId)
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <returns>ApiResponse of GetApplicationResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApplicationResponse> GetApplicationWithHttpInfo(string applicationId)
         {
-            // verify the required parameter 'permissionId' is set
-            if (permissionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling PermissionsApi->DeletePermission");
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplication");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -616,7 +618,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -626,11 +628,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetApplicationResponse>("/api/v1/applications/{application_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeletePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetApplication", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -638,30 +640,30 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Get Application Gets an application given the application&#39;s id. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> DeletePermissionAsync(string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetApplicationResponse</returns>
+        public async System.Threading.Tasks.Task<GetApplicationResponse> GetApplicationAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeletePermissionWithHttpInfoAsync(permissionId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetApplicationResponse> localVarResponse = await GetApplicationWithHttpInfoAsync(applicationId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Get Application Gets an application given the application&#39;s id. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
+        /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeletePermissionWithHttpInfoAsync(string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetApplicationResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationResponse>> GetApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'permissionId' is set
-            if (permissionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling PermissionsApi->DeletePermission");
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplication");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -682,7 +684,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -693,11 +695,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApplicationResponse>("/api/v1/applications/{application_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeletePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetApplication", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -705,28 +707,28 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Applications Get a list of applications. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetPermissions(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>GetApplicationsResponse</returns>
+        public GetApplicationsResponse GetApplications(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetPermissionsWithHttpInfo(sort, pageSize, nextToken);
+            Kinde.Api.Client.ApiResponse<GetApplicationsResponse> localVarResponse = GetApplicationsWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Applications Get a list of applications. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetPermissionsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>ApiResponse of GetApplicationsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -735,6 +737,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -765,11 +768,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetApplicationsResponse>("/api/v1/applications", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPermissions", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetApplications", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -777,30 +780,30 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Applications Get a list of applications. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetPermissionsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetApplicationsResponse</returns>
+        public async System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetPermissionsWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetApplicationsResponse> localVarResponse = await GetApplicationsWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Applications Get a list of applications. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetPermissionsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -810,6 +813,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -842,11 +846,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApplicationsResponse>("/api/v1/applications", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPermissions", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetApplications", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -854,90 +858,29 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Application Update an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <returns></returns>
+        public void UpdateApplication(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdatePermissionsWithHttpInfo(permissionId, createPermissionRequest);
-            return localVarResponse.Data;
+            UpdateApplicationWithHttpInfo(applicationId, updateApplicationRequest);
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Application Update an application.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
-            localVarRequestOptions.Data = createPermissionRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdatePermissions", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Update Permission Update permission
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdatePermissionsWithHttpInfoAsync(permissionId, createPermissionRequest, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Update Permission Update permission
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="permissionId">The identifier for the permission.</param>
-        /// <param name="createPermissionRequest">Permission details. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->UpdateApplication");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -947,6 +890,75 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.Data = updateApplicationRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<Object>("/api/v1/applications/{application_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateApplication", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Application Update an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await UpdateApplicationWithHttpInfoAsync(applicationId, updateApplicationRequest, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Update Application Update an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier for the application.</param>
+        /// <param name="updateApplicationRequest">Application details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->UpdateApplication");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -957,8 +969,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
-            localVarRequestOptions.Data = createPermissionRequest;
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.Data = updateApplicationRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -969,11 +981,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/permissions/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<Object>("/api/v1/applications/{application_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UpdatePermissions", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdateApplication", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

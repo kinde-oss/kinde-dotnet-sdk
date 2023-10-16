@@ -56,9 +56,10 @@ namespace Kinde.Api.Api
         /// Delete a user record. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse DeleteUser(string? id = default(string?));
+        SuccessResponse DeleteUser(string id, bool? isDeleteProfile = default(bool?));
 
         /// <summary>
         /// Delete User
@@ -67,9 +68,10 @@ namespace Kinde.Api.Api
         /// Delete a user record. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> DeleteUserWithHttpInfo(string? id = default(string?));
+        ApiResponse<SuccessResponse> DeleteUserWithHttpInfo(string id, bool? isDeleteProfile = default(bool?));
         /// <summary>
         /// Get User
         /// </summary>
@@ -78,8 +80,9 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>User</returns>
-        User GetUserData(string id);
+        User GetUserData(string id, string? expand = default(string?));
 
         /// <summary>
         /// Get User
@@ -89,8 +92,9 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of User</returns>
-        ApiResponse<User> GetUserDataWithHttpInfo(string id);
+        ApiResponse<User> GetUserDataWithHttpInfo(string id, string? expand = default(string?));
         /// <summary>
         /// List Users
         /// </summary>
@@ -103,8 +107,9 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>UsersResponse</returns>
-        UsersResponse GetUsers(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?));
+        UsersResponse GetUsers(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?));
 
         /// <summary>
         /// List Users
@@ -118,8 +123,30 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        ApiResponse<UsersResponse> GetUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?));
+        ApiResponse<UsersResponse> GetUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?));
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache
+        /// </summary>
+        /// <remarks>
+        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RefreshUserClaims(string userId);
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache
+        /// </summary>
+        /// <remarks>
+        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RefreshUserClaimsWithHttpInfo(string userId);
         /// <summary>
         /// Update User
         /// </summary>
@@ -182,10 +209,11 @@ namespace Kinde.Api.Api
         /// Delete a user record. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> DeleteUserAsync(string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> DeleteUserAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Delete User
@@ -194,10 +222,11 @@ namespace Kinde.Api.Api
         /// Delete a user record. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteUserWithHttpInfoAsync(string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteUserWithHttpInfoAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get User
         /// </summary>
@@ -206,9 +235,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
-        System.Threading.Tasks.Task<User> GetUserDataAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<User> GetUserDataAsync(string id, string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get User
@@ -218,9 +248,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        System.Threading.Tasks.Task<ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Users
         /// </summary>
@@ -233,9 +264,10 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Users
@@ -249,9 +281,33 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache
+        /// </summary>
+        /// <remarks>
+        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RefreshUserClaimsAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache
+        /// </summary>
+        /// <remarks>
+        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RefreshUserClaimsWithHttpInfoAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update User
         /// </summary>
@@ -633,11 +689,12 @@ namespace Kinde.Api.Api
         /// Delete User Delete a user record. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse DeleteUser(string? id = default(string?))
+        public SuccessResponse DeleteUser(string id, bool? isDeleteProfile = default(bool?))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteUserWithHttpInfo(id);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteUserWithHttpInfo(id, isDeleteProfile);
             return localVarResponse.Data;
         }
 
@@ -645,10 +702,15 @@ namespace Kinde.Api.Api
         /// Delete User Delete a user record. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteUserWithHttpInfo(string? id = default(string?))
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteUserWithHttpInfo(string id, bool? isDeleteProfile = default(bool?))
         {
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'id' when calling UsersApi->DeleteUser");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -666,9 +728,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (id != null)
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+            if (isDeleteProfile != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_delete_profile", isDeleteProfile));
             }
 
             // authentication (kindeBearerAuth) required
@@ -694,12 +757,13 @@ namespace Kinde.Api.Api
         /// Delete User Delete a user record. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> DeleteUserAsync(string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteUserAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteUserWithHttpInfoAsync(id, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteUserWithHttpInfoAsync(id, isDeleteProfile, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -707,11 +771,16 @@ namespace Kinde.Api.Api
         /// Delete User Delete a user record. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="id">The user&#39;s id. (optional)</param>
+        /// <param name="id">The user&#39;s id.</param>
+        /// <param name="isDeleteProfile">Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteUserWithHttpInfoAsync(string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteUserWithHttpInfoAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'id' when calling UsersApi->DeleteUser");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -731,9 +800,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (id != null)
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+            if (isDeleteProfile != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_delete_profile", isDeleteProfile));
             }
 
             // authentication (kindeBearerAuth) required
@@ -761,10 +831,11 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>User</returns>
-        public User GetUserData(string id)
+        public User GetUserData(string id, string? expand = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<User> localVarResponse = GetUserDataWithHttpInfo(id);
+            Kinde.Api.Client.ApiResponse<User> localVarResponse = GetUserDataWithHttpInfo(id, expand);
             return localVarResponse.Data;
         }
 
@@ -773,8 +844,9 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of User</returns>
-        public Kinde.Api.Client.ApiResponse<User> GetUserDataWithHttpInfo(string id)
+        public Kinde.Api.Client.ApiResponse<User> GetUserDataWithHttpInfo(string id, string? expand = default(string?))
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -798,6 +870,10 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -823,11 +899,12 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
-        public async System.Threading.Tasks.Task<User> GetUserDataAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<User> GetUserDataAsync(string id, string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<User> localVarResponse = await GetUserDataWithHttpInfoAsync(id, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<User> localVarResponse = await GetUserDataWithHttpInfoAsync(id, expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -836,9 +913,10 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -864,6 +942,10 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "id", id));
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -894,10 +976,11 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>UsersResponse</returns>
-        public UsersResponse GetUsers(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?))
+        public UsersResponse GetUsers(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(sort, pageSize, userId, nextToken, email);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(sort, pageSize, userId, nextToken, email, expand);
             return localVarResponse.Data;
         }
 
@@ -910,8 +993,9 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?))
+        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -949,6 +1033,10 @@ namespace Kinde.Api.Api
             if (email != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "email", email));
+            }
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
             }
 
             // authentication (kindeBearerAuth) required
@@ -979,11 +1067,12 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(sort, pageSize, userId, nextToken, email, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(sort, pageSize, userId, nextToken, email, expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -996,9 +1085,10 @@ namespace Kinde.Api.Api
         /// <param name="userId">ID of the user to filter by. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -1039,6 +1129,10 @@ namespace Kinde.Api.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "email", email));
             }
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1054,6 +1148,135 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetUsers", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RefreshUserClaims(string userId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RefreshUserClaimsWithHttpInfo(userId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RefreshUserClaimsWithHttpInfo(string userId)
+        {
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling UsersApi->RefreshUserClaims");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json; charset=utf-8",
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/users/{user_id}/refresh_claims", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RefreshUserClaims", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RefreshUserClaimsAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RefreshUserClaimsWithHttpInfoAsync(userId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The id of the user whose claims needs to be updated.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RefreshUserClaimsWithHttpInfoAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling UsersApi->RefreshUserClaims");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json; charset=utf-8",
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/users/{user_id}/refresh_claims", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RefreshUserClaims", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

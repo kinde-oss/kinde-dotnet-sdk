@@ -28,26 +28,26 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersRequest
+    /// UpdateRolePermissionsRequest
     /// </summary>
-    [DataContract(Name = "UpdateOrganizationUsers_request")]
-    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>, IValidatableObject
+    [DataContract(Name = "UpdateRolePermissions_request")]
+    public partial class UpdateRolePermissionsRequest : IEquatable<UpdateRolePermissionsRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequest" /> class.
+        /// Initializes a new instance of the <see cref="UpdateRolePermissionsRequest" /> class.
         /// </summary>
-        /// <param name="users">Users to add, update or remove from the organization..</param>
-        public UpdateOrganizationUsersRequest(List<UpdateOrganizationUsersRequestUsersInner> users = default(List<UpdateOrganizationUsersRequestUsersInner>))
+        /// <param name="permissions">Permissions to add or remove from the role..</param>
+        public UpdateRolePermissionsRequest(List<UpdateRolePermissionsRequestPermissionsInner> permissions = default(List<UpdateRolePermissionsRequestPermissionsInner>))
         {
-            this.Users = users;
+            this.Permissions = permissions;
         }
 
         /// <summary>
-        /// Users to add, update or remove from the organization.
+        /// Permissions to add or remove from the role.
         /// </summary>
-        /// <value>Users to add, update or remove from the organization.</value>
-        [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<UpdateOrganizationUsersRequestUsersInner> Users { get; set; }
+        /// <value>Permissions to add or remove from the role.</value>
+        [DataMember(Name = "permissions", EmitDefaultValue = false)]
+        public List<UpdateRolePermissionsRequestPermissionsInner> Permissions { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,8 +56,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UpdateOrganizationUsersRequest {\n");
-            sb.Append("  Users: ").Append(Users).Append("\n");
+            sb.Append("class UpdateRolePermissionsRequest {\n");
+            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,15 +78,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UpdateOrganizationUsersRequest);
+            return this.Equals(input as UpdateRolePermissionsRequest);
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersRequest instances are equal
+        /// Returns true if UpdateRolePermissionsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersRequest to be compared</param>
+        /// <param name="input">Instance of UpdateRolePermissionsRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UpdateOrganizationUsersRequest input)
+        public bool Equals(UpdateRolePermissionsRequest input)
         {
             if (input == null)
             {
@@ -94,10 +94,10 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Users == input.Users ||
-                    this.Users != null &&
-                    input.Users != null &&
-                    this.Users.SequenceEqual(input.Users)
+                    this.Permissions == input.Permissions ||
+                    this.Permissions != null &&
+                    input.Permissions != null &&
+                    this.Permissions.SequenceEqual(input.Permissions)
                 );
         }
 
@@ -110,9 +110,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Users != null)
+                if (this.Permissions != null)
                 {
-                    hashCode = (hashCode * 59) + this.Users.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Permissions.GetHashCode();
                 }
                 return hashCode;
             }

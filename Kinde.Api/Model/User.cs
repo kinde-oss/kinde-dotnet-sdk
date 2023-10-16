@@ -38,28 +38,24 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">Unique id of the user in Kinde..</param>
         /// <param name="providedId">External id for user..</param>
-        /// <param name="email">Default email address of the user in Kinde..</param>
+        /// <param name="preferredEmail">Default email address of the user in Kinde..</param>
         /// <param name="lastName">User&#39;s last name..</param>
         /// <param name="firstName">User&#39;s first name..</param>
-        /// <param name="fullName">User&#39;s full name..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="picture">User&#39;s profile picture URL..</param>
-        /// <param name="isPasswordResetRequested">Whether the user has been asked to reset their password..</param>
         /// <param name="totalSignIns">Total number of user sign ins..</param>
         /// <param name="failedSignIns">Number of consecutive failed user sign ins..</param>
         /// <param name="lastSignedIn">Last sign in date in ISO 8601 format..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
-        public User(string id = default(string), string providedId = default(string), string email = default(string), string lastName = default(string), string firstName = default(string), string fullName = default(string), bool isSuspended = default(bool), string picture = default(string), bool? isPasswordResetRequested = default(bool?), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string))
+        public User(string id = default(string), string providedId = default(string), string preferredEmail = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string))
         {
             this.Id = id;
             this.ProvidedId = providedId;
-            this.Email = email;
+            this.PreferredEmail = preferredEmail;
             this.LastName = lastName;
             this.FirstName = firstName;
-            this.FullName = fullName;
             this.IsSuspended = isSuspended;
             this.Picture = picture;
-            this.IsPasswordResetRequested = isPasswordResetRequested;
             this.TotalSignIns = totalSignIns;
             this.FailedSignIns = failedSignIns;
             this.LastSignedIn = lastSignedIn;
@@ -84,8 +80,8 @@ namespace Kinde.Api.Model
         /// Default email address of the user in Kinde.
         /// </summary>
         /// <value>Default email address of the user in Kinde.</value>
-        [DataMember(Name = "email", EmitDefaultValue = false)]
-        public string Email { get; set; }
+        [DataMember(Name = "preferred_email", EmitDefaultValue = false)]
+        public string PreferredEmail { get; set; }
 
         /// <summary>
         /// User&#39;s last name.
@@ -102,13 +98,6 @@ namespace Kinde.Api.Model
         public string FirstName { get; set; }
 
         /// <summary>
-        /// User&#39;s full name.
-        /// </summary>
-        /// <value>User&#39;s full name.</value>
-        [DataMember(Name = "full_name", EmitDefaultValue = false)]
-        public string FullName { get; set; }
-
-        /// <summary>
         /// Whether the user is currently suspended or not.
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
@@ -121,13 +110,6 @@ namespace Kinde.Api.Model
         /// <value>User&#39;s profile picture URL.</value>
         [DataMember(Name = "picture", EmitDefaultValue = false)]
         public string Picture { get; set; }
-
-        /// <summary>
-        /// Whether the user has been asked to reset their password.
-        /// </summary>
-        /// <value>Whether the user has been asked to reset their password.</value>
-        [DataMember(Name = "is_password_reset_requested", EmitDefaultValue = true)]
-        public bool? IsPasswordResetRequested { get; set; }
 
         /// <summary>
         /// Total number of user sign ins.
@@ -167,13 +149,11 @@ namespace Kinde.Api.Model
             sb.Append("class User {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  PreferredEmail: ").Append(PreferredEmail).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  FullName: ").Append(FullName).Append("\n");
             sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
             sb.Append("  Picture: ").Append(Picture).Append("\n");
-            sb.Append("  IsPasswordResetRequested: ").Append(IsPasswordResetRequested).Append("\n");
             sb.Append("  TotalSignIns: ").Append(TotalSignIns).Append("\n");
             sb.Append("  FailedSignIns: ").Append(FailedSignIns).Append("\n");
             sb.Append("  LastSignedIn: ").Append(LastSignedIn).Append("\n");
@@ -224,9 +204,9 @@ namespace Kinde.Api.Model
                     this.ProvidedId.Equals(input.ProvidedId))
                 ) && 
                 (
-                    this.Email == input.Email ||
-                    (this.Email != null &&
-                    this.Email.Equals(input.Email))
+                    this.PreferredEmail == input.PreferredEmail ||
+                    (this.PreferredEmail != null &&
+                    this.PreferredEmail.Equals(input.PreferredEmail))
                 ) && 
                 (
                     this.LastName == input.LastName ||
@@ -239,11 +219,6 @@ namespace Kinde.Api.Model
                     this.FirstName.Equals(input.FirstName))
                 ) && 
                 (
-                    this.FullName == input.FullName ||
-                    (this.FullName != null &&
-                    this.FullName.Equals(input.FullName))
-                ) && 
-                (
                     this.IsSuspended == input.IsSuspended ||
                     this.IsSuspended.Equals(input.IsSuspended)
                 ) && 
@@ -251,11 +226,6 @@ namespace Kinde.Api.Model
                     this.Picture == input.Picture ||
                     (this.Picture != null &&
                     this.Picture.Equals(input.Picture))
-                ) && 
-                (
-                    this.IsPasswordResetRequested == input.IsPasswordResetRequested ||
-                    (this.IsPasswordResetRequested != null &&
-                    this.IsPasswordResetRequested.Equals(input.IsPasswordResetRequested))
                 ) && 
                 (
                     this.TotalSignIns == input.TotalSignIns ||
@@ -296,9 +266,9 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.ProvidedId.GetHashCode();
                 }
-                if (this.Email != null)
+                if (this.PreferredEmail != null)
                 {
-                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PreferredEmail.GetHashCode();
                 }
                 if (this.LastName != null)
                 {
@@ -308,18 +278,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
                 }
-                if (this.FullName != null)
-                {
-                    hashCode = (hashCode * 59) + this.FullName.GetHashCode();
-                }
                 hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
                 if (this.Picture != null)
                 {
                     hashCode = (hashCode * 59) + this.Picture.GetHashCode();
-                }
-                if (this.IsPasswordResetRequested != null)
-                {
-                    hashCode = (hashCode * 59) + this.IsPasswordResetRequested.GetHashCode();
                 }
                 if (this.TotalSignIns != null)
                 {

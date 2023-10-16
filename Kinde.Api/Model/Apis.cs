@@ -28,49 +28,53 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// Apis
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "apis")]
+    public partial class Apis : IEquatable<Apis>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// Initializes a new instance of the <see cref="Apis" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
+        /// <param name="id">Unique id of the API..</param>
+        /// <param name="name">The API&#39;s name..</param>
+        /// <param name="audience">The logical identifier for the API..</param>
+        /// <param name="isManagementApi">Whether it is the management API or not..</param>
+        public Apis(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool))
         {
-            this.Code = code;
+            this.Id = id;
             this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
+            this.Audience = audience;
+            this.IsManagementApi = isManagementApi;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// Unique id of the API.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        /// <value>Unique id of the API.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// The API&#39;s name.
         /// </summary>
+        /// <value>The API&#39;s name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsDefault
+        /// The logical identifier for the API.
         /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
+        /// <value>The logical identifier for the API.</value>
+        [DataMember(Name = "audience", EmitDefaultValue = false)]
+        public string Audience { get; set; }
 
         /// <summary>
-        /// Gets or Sets ExternalId
+        /// Whether it is the management API or not.
         /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
+        /// <value>Whether it is the management API or not.</value>
+        [DataMember(Name = "is_management_api", EmitDefaultValue = true)]
+        public bool IsManagementApi { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +83,11 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("class Apis {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("  Audience: ").Append(Audience).Append("\n");
+            sb.Append("  IsManagementApi: ").Append(IsManagementApi).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +108,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as Apis);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if Apis instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of Apis to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(Apis input)
         {
             if (input == null)
             {
@@ -120,9 +124,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
                     this.Name == input.Name ||
@@ -130,13 +134,13 @@ namespace Kinde.Api.Model
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
+                    this.Audience == input.Audience ||
+                    (this.Audience != null &&
+                    this.Audience.Equals(input.Audience))
                 ) && 
                 (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.IsManagementApi == input.IsManagementApi ||
+                    this.IsManagementApi.Equals(input.IsManagementApi)
                 );
         }
 
@@ -149,19 +153,19 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
+                if (this.Audience != null)
                 {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Audience.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsManagementApi.GetHashCode();
                 return hashCode;
             }
         }

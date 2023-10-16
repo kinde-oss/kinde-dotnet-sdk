@@ -28,31 +28,31 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// ApiApplicationsInner
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "api_applications_inner")]
+    public partial class ApiApplicationsInner : IEquatable<ApiApplicationsInner>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// Initializes a new instance of the <see cref="ApiApplicationsInner" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
+        /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
+        /// <param name="type">type.</param>
+        /// <param name="isActive">isActive.</param>
+        public ApiApplicationsInner(string id = default(string), string name = default(string), string type = default(string), bool isActive = default(bool))
         {
-            this.Code = code;
+            this.Id = id;
             this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
+            this.Type = type;
+            this.IsActive = isActive;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -61,16 +61,16 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsDefault
+        /// Gets or Sets Type
         /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public string Type { get; set; }
 
         /// <summary>
-        /// Gets or Sets ExternalId
+        /// Gets or Sets IsActive
         /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
+        [DataMember(Name = "is_active", EmitDefaultValue = true)]
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +79,11 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("class ApiApplicationsInner {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  IsActive: ").Append(IsActive).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +104,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as ApiApplicationsInner);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if ApiApplicationsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of ApiApplicationsInner to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(ApiApplicationsInner input)
         {
             if (input == null)
             {
@@ -120,9 +120,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
                     this.Name == input.Name ||
@@ -130,13 +130,13 @@ namespace Kinde.Api.Model
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
+                    this.Type == input.Type ||
+                    (this.Type != null &&
+                    this.Type.Equals(input.Type))
                 ) && 
                 (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.IsActive == input.IsActive ||
+                    this.IsActive.Equals(input.IsActive)
                 );
         }
 
@@ -149,19 +149,19 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
+                if (this.Type != null)
                 {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsActive.GetHashCode();
                 return hashCode;
             }
         }

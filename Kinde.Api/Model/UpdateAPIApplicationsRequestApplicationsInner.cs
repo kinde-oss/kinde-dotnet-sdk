@@ -28,49 +28,45 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// UpdateAPIApplicationsRequestApplicationsInner
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "updateAPIApplications_request_applications_inner")]
+    public partial class UpdateAPIApplicationsRequestApplicationsInner : IEquatable<UpdateAPIApplicationsRequestApplicationsInner>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
+        [JsonConstructorAttribute]
+        protected UpdateAPIApplicationsRequestApplicationsInner() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
+        /// </summary>
+        /// <param name="id">The application&#39;s id. (required).</param>
+        /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the user from the organization..</param>
+        public UpdateAPIApplicationsRequestApplicationsInner(string id = default(string), string operation = default(string))
         {
-            this.Code = code;
-            this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
+            // to ensure "id" is required (not null)
+            if (id == null)
+            {
+                throw new ArgumentNullException("id is a required property for UpdateAPIApplicationsRequestApplicationsInner and cannot be null");
+            }
+            this.Id = id;
+            this.Operation = operation;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// The application&#39;s id.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        /// <value>The application&#39;s id.</value>
+        [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Optional operation, set to &#39;delete&#39; to remove the user from the organization.
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or Sets IsDefault
-        /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ExternalId
-        /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
+        /// <value>Optional operation, set to &#39;delete&#39; to remove the user from the organization.</value>
+        [DataMember(Name = "operation", EmitDefaultValue = false)]
+        public string Operation { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +75,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("class UpdateAPIApplicationsRequestApplicationsInner {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Operation: ").Append(Operation).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +98,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as UpdateAPIApplicationsRequestApplicationsInner);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if UpdateAPIApplicationsRequestApplicationsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of UpdateAPIApplicationsRequestApplicationsInner to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(UpdateAPIApplicationsRequestApplicationsInner input)
         {
             if (input == null)
             {
@@ -120,23 +114,14 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
-                ) && 
-                (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
-                ) && 
-                (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.Operation == input.Operation ||
+                    (this.Operation != null &&
+                    this.Operation.Equals(input.Operation))
                 );
         }
 
@@ -149,18 +134,13 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
-                if (this.Name != null)
+                if (this.Operation != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
-                {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Operation.GetHashCode();
                 }
                 return hashCode;
             }

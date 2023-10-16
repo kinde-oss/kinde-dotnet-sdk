@@ -28,49 +28,62 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Organization
+    /// CreateApplicationRequest
     /// </summary>
-    [DataContract(Name = "organization")]
-    public partial class Organization : IEquatable<Organization>, IValidatableObject
+    [DataContract(Name = "createApplication_request")]
+    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Organization" /> class.
+        /// The application&#39;s type.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="name">name.</param>
-        /// <param name="isDefault">isDefault.</param>
-        /// <param name="externalId">externalId.</param>
-        public Organization(string code = default(string), string name = default(string), bool isDefault = default(bool), string externalId = default(string))
+        /// <value>The application&#39;s type.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TypeEnum
         {
-            this.Code = code;
+            /// <summary>
+            /// Enum Reg for value: reg
+            /// </summary>
+            [EnumMember(Value = "reg")]
+            Reg = 1,
+
+            /// <summary>
+            /// Enum Spa for value: spa
+            /// </summary>
+            [EnumMember(Value = "spa")]
+            Spa = 2,
+
+            /// <summary>
+            /// Enum M2m for value: m2m
+            /// </summary>
+            [EnumMember(Value = "m2m")]
+            M2m = 3
+
+        }
+
+
+        /// <summary>
+        /// The application&#39;s type.
+        /// </summary>
+        /// <value>The application&#39;s type.</value>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public TypeEnum? Type { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
+        /// </summary>
+        /// <param name="name">The application&#39;s name..</param>
+        /// <param name="type">The application&#39;s type..</param>
+        public CreateApplicationRequest(string name = default(string), TypeEnum? type = default(TypeEnum?))
+        {
             this.Name = name;
-            this.IsDefault = isDefault;
-            this.ExternalId = externalId;
+            this.Type = type;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// The application&#39;s name.
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
+        /// <value>The application&#39;s name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or Sets IsDefault
-        /// </summary>
-        [DataMember(Name = "is_default", EmitDefaultValue = true)]
-        public bool IsDefault { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ExternalId
-        /// </summary>
-        [DataMember(Name = "external_id", EmitDefaultValue = false)]
-        public string ExternalId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -79,11 +92,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Organization {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("class CreateApplicationRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
-            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,15 +115,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Organization);
+            return this.Equals(input as CreateApplicationRequest);
         }
 
         /// <summary>
-        /// Returns true if Organization instances are equal
+        /// Returns true if CreateApplicationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of Organization to be compared</param>
+        /// <param name="input">Instance of CreateApplicationRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Organization input)
+        public bool Equals(CreateApplicationRequest input)
         {
             if (input == null)
             {
@@ -120,23 +131,13 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    (this.Code != null &&
-                    this.Code.Equals(input.Code))
-                ) && 
-                (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.IsDefault == input.IsDefault ||
-                    this.IsDefault.Equals(input.IsDefault)
-                ) && 
-                (
-                    this.ExternalId == input.ExternalId ||
-                    (this.ExternalId != null &&
-                    this.ExternalId.Equals(input.ExternalId))
+                    this.Type == input.Type ||
+                    this.Type.Equals(input.Type)
                 );
         }
 
@@ -149,19 +150,11 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Code != null)
-                {
-                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
-                if (this.ExternalId != null)
-                {
-                    hashCode = (hashCode * 59) + this.ExternalId.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 return hashCode;
             }
         }

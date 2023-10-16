@@ -28,25 +28,36 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationsResponse
+    /// Api
     /// </summary>
-    [DataContract(Name = "get_organizations_response")]
-    public partial class GetOrganizationsResponse : IEquatable<GetOrganizationsResponse>, IValidatableObject
+    [DataContract(Name = "api")]
+    public partial class Api : IEquatable<Api>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationsResponse" /> class.
+        /// Initializes a new instance of the <see cref="Api" /> class.
         /// </summary>
+        /// <param name="id">The API&#39;s unique identifier..</param>
         /// <param name="code">Response code..</param>
+        /// <param name="name">The API&#39;s name..</param>
         /// <param name="message">Response message..</param>
-        /// <param name="organizations">organizations.</param>
-        /// <param name="nextToken">Pagination token..</param>
-        public GetOrganizationsResponse(string code = default(string), string message = default(string), List<Organization> organizations = default(List<Organization>), string nextToken = default(string))
+        /// <param name="audience">The API&#39;s audience..</param>
+        /// <param name="applications">applications.</param>
+        public Api(string id = default(string), string code = default(string), string name = default(string), string message = default(string), string audience = default(string), List<ApiApplicationsInner> applications = default(List<ApiApplicationsInner>))
         {
+            this.Id = id;
             this.Code = code;
+            this.Name = name;
             this.Message = message;
-            this.Organizations = organizations;
-            this.NextToken = nextToken;
+            this.Audience = audience;
+            this.Applications = applications;
         }
+
+        /// <summary>
+        /// The API&#39;s unique identifier.
+        /// </summary>
+        /// <value>The API&#39;s unique identifier.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
         /// Response code.
@@ -56,6 +67,13 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
+        /// The API&#39;s name.
+        /// </summary>
+        /// <value>The API&#39;s name.</value>
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Response message.
         /// </summary>
         /// <value>Response message.</value>
@@ -63,17 +81,17 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organizations
+        /// The API&#39;s audience.
         /// </summary>
-        [DataMember(Name = "organizations", EmitDefaultValue = false)]
-        public List<Organization> Organizations { get; set; }
+        /// <value>The API&#39;s audience.</value>
+        [DataMember(Name = "audience", EmitDefaultValue = false)]
+        public string Audience { get; set; }
 
         /// <summary>
-        /// Pagination token.
+        /// Gets or Sets Applications
         /// </summary>
-        /// <value>Pagination token.</value>
-        [DataMember(Name = "next_token", EmitDefaultValue = false)]
-        public string NextToken { get; set; }
+        [DataMember(Name = "applications", EmitDefaultValue = false)]
+        public List<ApiApplicationsInner> Applications { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -82,11 +100,13 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetOrganizationsResponse {\n");
+            sb.Append("class Api {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  Organizations: ").Append(Organizations).Append("\n");
-            sb.Append("  NextToken: ").Append(NextToken).Append("\n");
+            sb.Append("  Audience: ").Append(Audience).Append("\n");
+            sb.Append("  Applications: ").Append(Applications).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -107,15 +127,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetOrganizationsResponse);
+            return this.Equals(input as Api);
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationsResponse instances are equal
+        /// Returns true if Api instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationsResponse to be compared</param>
+        /// <param name="input">Instance of Api to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetOrganizationsResponse input)
+        public bool Equals(Api input)
         {
             if (input == null)
             {
@@ -123,9 +143,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
+                ) && 
+                (
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 ) && 
                 (
                     this.Message == input.Message ||
@@ -133,15 +163,15 @@ namespace Kinde.Api.Model
                     this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.Organizations == input.Organizations ||
-                    this.Organizations != null &&
-                    input.Organizations != null &&
-                    this.Organizations.SequenceEqual(input.Organizations)
+                    this.Audience == input.Audience ||
+                    (this.Audience != null &&
+                    this.Audience.Equals(input.Audience))
                 ) && 
                 (
-                    this.NextToken == input.NextToken ||
-                    (this.NextToken != null &&
-                    this.NextToken.Equals(input.NextToken))
+                    this.Applications == input.Applications ||
+                    this.Applications != null &&
+                    input.Applications != null &&
+                    this.Applications.SequenceEqual(input.Applications)
                 );
         }
 
@@ -154,21 +184,29 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.Code != null)
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
                 if (this.Message != null)
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.Organizations != null)
+                if (this.Audience != null)
                 {
-                    hashCode = (hashCode * 59) + this.Organizations.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Audience.GetHashCode();
                 }
-                if (this.NextToken != null)
+                if (this.Applications != null)
                 {
-                    hashCode = (hashCode * 59) + this.NextToken.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Applications.GetHashCode();
                 }
                 return hashCode;
             }
