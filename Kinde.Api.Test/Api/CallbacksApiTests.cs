@@ -55,6 +55,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test AddLogoutRedirectURLs
+        /// </summary>
+        [Fact]
+        public void AddLogoutRedirectURLsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string appId = null;
+            //ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest = null;
+            //var response = instance.AddLogoutRedirectURLs(appId, replaceLogoutRedirectURLsRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test AddRedirectCallbackURLs
         /// </summary>
         [Fact]
@@ -68,6 +81,32 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteCallbackURLs
+        /// </summary>
+        [Fact]
+        public void DeleteCallbackURLsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string appId = null;
+            //string urls = null;
+            //var response = instance.DeleteCallbackURLs(appId, urls);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteLogoutURLs
+        /// </summary>
+        [Fact]
+        public void DeleteLogoutURLsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string appId = null;
+            //string urls = null;
+            //var response = instance.DeleteLogoutURLs(appId, urls);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetCallbackURLs
         /// </summary>
         [Fact]
@@ -77,6 +116,31 @@ namespace Kinde.Api.Test.Api
             //string appId = null;
             //var response = instance.GetCallbackURLs(appId);
             //Assert.IsType<RedirectCallbackUrls>(response);
+        }
+
+        /// <summary>
+        /// Test GetLogoutURLs
+        /// </summary>
+        [Fact]
+        public void GetLogoutURLsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string appId = null;
+            //var response = instance.GetLogoutURLs(appId);
+            //Assert.IsType<LogoutRedirectUrls>(response);
+        }
+
+        /// <summary>
+        /// Test ReplaceLogoutRedirectURLs
+        /// </summary>
+        [Fact]
+        public void ReplaceLogoutRedirectURLsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string appId = null;
+            //ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest = null;
+            //var response = instance.ReplaceLogoutRedirectURLs(appId, replaceLogoutRedirectURLsRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>

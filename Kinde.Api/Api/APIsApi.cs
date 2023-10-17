@@ -78,8 +78,8 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>Api</returns>
-        Api GetAPI(string apiId);
+        /// <returns>ApiModel</returns>
+        ApiModel GetAPI(string apiId);
 
         /// <summary>
         /// List API details
@@ -89,8 +89,8 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of Api</returns>
-        ApiResponse<Api> GetAPIWithHttpInfo(string apiId);
+        /// <returns>ApiResponse of ApiModel</returns>
+        ApiResponse<ApiModel> GetAPIWithHttpInfo(string apiId);
         /// <summary>
         /// List APIs
         /// </summary>
@@ -197,8 +197,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Api</returns>
-        System.Threading.Tasks.Task<Api> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiModel</returns>
+        System.Threading.Tasks.Task<ApiModel> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List API details
@@ -209,8 +209,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Api)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Api>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (ApiModel)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ApiModel>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List APIs
         /// </summary>
@@ -751,10 +751,10 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>Api</returns>
-        public Api GetAPI(string apiId)
+        /// <returns>ApiModel</returns>
+        public ApiModel GetAPI(string apiId)
         {
-            Kinde.Api.Client.ApiResponse<Api> localVarResponse = GetAPIWithHttpInfo(apiId);
+            Kinde.Api.Client.ApiResponse<ApiModel> localVarResponse = GetAPIWithHttpInfo(apiId);
             return localVarResponse.Data;
         }
 
@@ -763,8 +763,8 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of Api</returns>
-        public Kinde.Api.Client.ApiResponse<Api> GetAPIWithHttpInfo(string apiId)
+        /// <returns>ApiResponse of ApiModel</returns>
+        public Kinde.Api.Client.ApiResponse<ApiModel> GetAPIWithHttpInfo(string apiId)
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -797,7 +797,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Api>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ApiModel>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -814,10 +814,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Api</returns>
-        public async System.Threading.Tasks.Task<Api> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiModel</returns>
+        public async System.Threading.Tasks.Task<ApiModel> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<Api> localVarResponse = await GetAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<ApiModel> localVarResponse = await GetAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -827,8 +827,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">The API&#39;s id.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Api)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Api>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (ApiModel)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ApiModel>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -864,7 +864,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Api>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ApiModel>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

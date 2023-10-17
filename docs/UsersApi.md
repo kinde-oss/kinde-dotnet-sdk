@@ -8,9 +8,10 @@ All URIs are relative to *https://app.kinde.com*
 | [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete User |
 | [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get User |
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | List Users |
+| [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update User |
 
-<a name="createuser"></a>
+<a id="createuser"></a>
 # **CreateUser**
 > CreateUserResponse CreateUser (CreateUserRequest? createUserRequest = null)
 
@@ -107,12 +108,13 @@ catch (ApiException e)
 | **200** | User successfully created. |  -  |
 | **400** | Error creating user. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteuser"></a>
+<a id="deleteuser"></a>
 # **DeleteUser**
-> SuccessResponse DeleteUser (string? id = null)
+> SuccessResponse DeleteUser (string id, bool? isDeleteProfile = null)
 
 Delete User
 
@@ -142,12 +144,13 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
-            var id = "id_example";  // string? | The user's id. (optional) 
+            var id = "id_example";  // string | The user's id.
+            var isDeleteProfile = true;  // bool? | Delete all data and remove the user's profile from all of Kinde, including the subscriber list (optional) 
 
             try
             {
                 // Delete User
-                SuccessResponse result = apiInstance.DeleteUser(id);
+                SuccessResponse result = apiInstance.DeleteUser(id, isDeleteProfile);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -168,7 +171,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Delete User
-    ApiResponse<SuccessResponse> response = apiInstance.DeleteUserWithHttpInfo(id);
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteUserWithHttpInfo(id, isDeleteProfile);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -185,7 +188,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **id** | **string?** | The user&#39;s id. | [optional]  |
+| **id** | **string** | The user&#39;s id. |  |
+| **isDeleteProfile** | **bool?** | Delete all data and remove the user&#39;s profile from all of Kinde, including the subscriber list | [optional]  |
 
 ### Return type
 
@@ -207,12 +211,13 @@ catch (ApiException e)
 | **200** | User successfully deleted. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getuserdata"></a>
+<a id="getuserdata"></a>
 # **GetUserData**
-> User GetUserData (string id)
+> User GetUserData (string id, string? expand = null)
 
 Get User
 
@@ -243,11 +248,12 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // string | The user's id.
+            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
 
             try
             {
                 // Get User
-                User result = apiInstance.GetUserData(id);
+                User result = apiInstance.GetUserData(id, expand);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -268,7 +274,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get User
-    ApiResponse<User> response = apiInstance.GetUserDataWithHttpInfo(id);
+    ApiResponse<User> response = apiInstance.GetUserDataWithHttpInfo(id, expand);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -286,6 +292,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | The user&#39;s id. |  |
+| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
 
 ### Return type
 
@@ -307,12 +314,13 @@ catch (ApiException e)
 | **200** | User successfully updated. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getusers"></a>
+<a id="getusers"></a>
 # **GetUsers**
-> UsersResponse GetUsers (string? sort = null, int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null)
+> UsersResponse GetUsers (string? sort = null, int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? expand = null)
 
 List Users
 
@@ -347,11 +355,12 @@ namespace Example
             var userId = "userId_example";  // string? | ID of the user to filter by. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
             var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
+            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
 
             try
             {
                 // List Users
-                UsersResponse result = apiInstance.GetUsers(sort, pageSize, userId, nextToken, email);
+                UsersResponse result = apiInstance.GetUsers(sort, pageSize, userId, nextToken, email, expand);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -372,7 +381,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List Users
-    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(sort, pageSize, userId, nextToken, email);
+    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(sort, pageSize, userId, nextToken, email, expand);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -394,6 +403,7 @@ catch (ApiException e)
 | **userId** | **string?** | ID of the user to filter by. | [optional]  |
 | **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 | **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
+| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
 
 ### Return type
 
@@ -414,12 +424,114 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Users successfully retrieved. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateuser"></a>
+<a id="refreshuserclaims"></a>
+# **RefreshUserClaims**
+> SuccessResponse RefreshUserClaims (string userId)
+
+Refresh User Claims and Invalidate Cache
+
+Refreshes the user's claims and invalidates the current cache. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class RefreshUserClaimsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = "userId_example";  // string | The id of the user whose claims needs to be updated.
+
+            try
+            {
+                // Refresh User Claims and Invalidate Cache
+                SuccessResponse result = apiInstance.RefreshUserClaims(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.RefreshUserClaims: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the RefreshUserClaimsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Refresh User Claims and Invalidate Cache
+    ApiResponse<SuccessResponse> response = apiInstance.RefreshUserClaimsWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.RefreshUserClaimsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The id of the user whose claims needs to be updated. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json; charset=utf-8, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Claims successfully refreshed. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Bad request. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateuser"></a>
 # **UpdateUser**
-> User UpdateUser (UpdateUserRequest updateUserRequest, string? id = null)
+> UpdateUserResponse UpdateUser (UpdateUserRequest updateUserRequest, string? id = null)
 
 Update User
 
@@ -455,7 +567,7 @@ namespace Example
             try
             {
                 // Update User
-                User result = apiInstance.UpdateUser(updateUserRequest, id);
+                UpdateUserResponse result = apiInstance.UpdateUser(updateUserRequest, id);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -476,7 +588,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update User
-    ApiResponse<User> response = apiInstance.UpdateUserWithHttpInfo(updateUserRequest, id);
+    ApiResponse<UpdateUserResponse> response = apiInstance.UpdateUserWithHttpInfo(updateUserRequest, id);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -498,7 +610,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**User**](User.md)
+[**UpdateUserResponse**](UpdateUserResponse.md)
 
 ### Authorization
 
@@ -516,6 +628,7 @@ catch (ApiException e)
 | **200** | User successfully updated. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

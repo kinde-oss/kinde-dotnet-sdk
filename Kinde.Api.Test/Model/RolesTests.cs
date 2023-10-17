@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<Roles>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Key'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Key'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'Description'
         /// </summary>
@@ -80,7 +81,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Description'
         }
-
     }
-
 }

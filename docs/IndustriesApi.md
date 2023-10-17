@@ -6,7 +6,7 @@ All URIs are relative to *https://app.kinde.com*
 |--------|--------------|-------------|
 | [**GetIndustries**](IndustriesApi.md#getindustries) | **GET** /api/v1/industries | List industries and industry keys. |
 
-<a name="getindustries"></a>
+<a id="getindustries"></a>
 # **GetIndustries**
 > SuccessResponse GetIndustries (string? industryKey = null, string? name = null)
 
@@ -104,6 +104,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | A successful response with a list of industries and industry keys. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

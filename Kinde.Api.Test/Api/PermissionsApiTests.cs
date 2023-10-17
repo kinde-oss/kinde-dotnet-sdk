@@ -67,6 +67,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeletePermission
+        /// </summary>
+        [Fact]
+        public void DeletePermissionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string permissionId = null;
+            //var response = instance.DeletePermission(permissionId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetPermissions
         /// </summary>
         [Fact]

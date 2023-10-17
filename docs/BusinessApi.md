@@ -7,7 +7,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**GetBusiness**](BusinessApi.md#getbusiness) | **GET** /api/v1/business | List business details |
 | [**UpdateBusiness**](BusinessApi.md#updatebusiness) | **PATCH** /api/v1/business | Update business details |
 
-<a name="getbusiness"></a>
+<a id="getbusiness"></a>
 # **GetBusiness**
 > SuccessResponse GetBusiness (string code, string name, string email, string? phone = null, string? industry = null, string? timezone = null, string? privacyUrl = null, string? termsUrl = null)
 
@@ -117,10 +117,11 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | A successful response with your business details. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatebusiness"></a>
+<a id="updatebusiness"></a>
 # **UpdateBusiness**
 > SuccessResponse UpdateBusiness (string businessName, string primaryEmail, string? primaryPhone = null, string? industryKey = null, string? timezoneId = null, string? privacyUrl = null, string? termsUrl = null, string? isShowKindeBranding = null, bool? isClickWrap = null, string? partnerCode = null)
 
@@ -235,6 +236,7 @@ catch (ApiException e)
 | **201** | Business successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

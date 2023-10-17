@@ -8,7 +8,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**DeleteFeatureFlag**](FeatureFlagsApi.md#deletefeatureflag) | **DELETE** /api/v1/feature_flags/{feature_flag_key} | Delete Feature Flag |
 | [**UpdateFeatureFlag**](FeatureFlagsApi.md#updatefeatureflag) | **PUT** /api/v1/feature_flags/{feature_flag_key} | Replace Feature Flag |
 
-<a name="createfeatureflag"></a>
+<a id="createfeatureflag"></a>
 # **CreateFeatureFlag**
 > SuccessResponse CreateFeatureFlag (CreateFeatureFlagRequest createFeatureFlagRequest)
 
@@ -105,10 +105,11 @@ catch (ApiException e)
 | **201** | Feature flag successfully created |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deletefeatureflag"></a>
+<a id="deletefeatureflag"></a>
 # **DeleteFeatureFlag**
 > SuccessResponse DeleteFeatureFlag (string featureFlagKey)
 
@@ -205,10 +206,11 @@ catch (ApiException e)
 | **200** | Feature flag successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatefeatureflag"></a>
+<a id="updatefeatureflag"></a>
 # **UpdateFeatureFlag**
 > SuccessResponse UpdateFeatureFlag (string featureFlagKey, string name, string description, string type, string allowOverrideLevel, string defaultValue)
 
@@ -315,6 +317,7 @@ catch (ApiException e)
 | **200** | Feature flag successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

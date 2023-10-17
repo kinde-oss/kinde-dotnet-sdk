@@ -8,7 +8,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**GetSubscriber**](SubscribersApi.md#getsubscriber) | **GET** /api/v1/subscribers/{subscriber_id} | Get Subscriber |
 | [**GetSubscribers**](SubscribersApi.md#getsubscribers) | **GET** /api/v1/subscribers | List Subscribers |
 
-<a name="createsubscriber"></a>
+<a id="createsubscriber"></a>
 # **CreateSubscriber**
 > CreateSubscriberSuccessResponse CreateSubscriber (string firstName, string lastName, string email)
 
@@ -109,10 +109,11 @@ catch (ApiException e)
 | **201** | Subscriber successfully created |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getsubscriber"></a>
+<a id="getsubscriber"></a>
 # **GetSubscriber**
 > GetSubscriberResponse GetSubscriber (string subscriberId)
 
@@ -209,10 +210,11 @@ catch (ApiException e)
 | **200** | Subscriber successfully retrieved. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getsubscribers"></a>
+<a id="getsubscribers"></a>
 # **GetSubscribers**
 > GetSubscribersResponse GetSubscribers (string? sort = null, int? pageSize = null, string? nextToken = null)
 
@@ -312,6 +314,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Subscriber successfully retrieved. |  -  |
 | **403** | Bad request. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<UpdateOrganizationRequest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'ExternalId'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ExternalId'
         }
+
         /// <summary>
         /// Test the property 'BackgroundColor'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'BackgroundColor'
         }
+
         /// <summary>
         /// Test the property 'ButtonColor'
         /// </summary>
@@ -88,6 +90,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ButtonColor'
         }
+
         /// <summary>
         /// Test the property 'ButtonTextColor'
         /// </summary>
@@ -96,6 +99,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ButtonTextColor'
         }
+
         /// <summary>
         /// Test the property 'LinkColor'
         /// </summary>
@@ -104,7 +108,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'LinkColor'
         }
-
     }
-
 }

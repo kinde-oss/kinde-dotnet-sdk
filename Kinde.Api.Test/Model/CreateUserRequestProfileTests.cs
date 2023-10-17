@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<CreateUserRequestProfile>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'GivenName'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'GivenName'
         }
+
         /// <summary>
         /// Test the property 'FamilyName'
         /// </summary>
@@ -72,7 +72,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FamilyName'
         }
-
     }
-
 }

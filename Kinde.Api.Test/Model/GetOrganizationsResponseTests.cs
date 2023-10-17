@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<GetOrganizationsResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Code'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Code'
         }
+
         /// <summary>
         /// Test the property 'Message'
         /// </summary>
@@ -72,14 +72,16 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Message'
         }
+
         /// <summary>
-        /// Test the property 'Roles'
+        /// Test the property 'Organizations'
         /// </summary>
         [Fact]
-        public void RolesTest()
+        public void OrganizationsTest()
         {
-            // TODO unit test for the property 'Roles'
+            // TODO unit test for the property 'Organizations'
         }
+
         /// <summary>
         /// Test the property 'NextToken'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'NextToken'
         }
-
     }
-
 }

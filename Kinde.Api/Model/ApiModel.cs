@@ -28,13 +28,13 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Api
+    /// ApiModel
     /// </summary>
     [DataContract(Name = "api")]
-    public partial class Api : IEquatable<Api>, IValidatableObject
+    public partial class ApiModel : IEquatable<ApiModel>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Api" /> class.
+        /// Initializes a new instance of the <see cref="ApiModel" /> class.
         /// </summary>
         /// <param name="id">The API&#39;s unique identifier..</param>
         /// <param name="code">Response code..</param>
@@ -42,7 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="message">Response message..</param>
         /// <param name="audience">The API&#39;s audience..</param>
         /// <param name="applications">applications.</param>
-        public Api(string id = default(string), string code = default(string), string name = default(string), string message = default(string), string audience = default(string), List<ApiApplicationsInner> applications = default(List<ApiApplicationsInner>))
+        public ApiModel(string id = default(string), string code = default(string), string name = default(string), string message = default(string), string audience = default(string), List<ApiApplicationsInner> applications = default(List<ApiApplicationsInner>))
         {
             this.Id = id;
             this.Code = code;
@@ -100,7 +100,7 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class Api {\n");
+            sb.Append("class ApiModel {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
@@ -127,15 +127,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Api);
+            return this.Equals(input as ApiModel);
         }
 
         /// <summary>
-        /// Returns true if Api instances are equal
+        /// Returns true if ApiModel instances are equal
         /// </summary>
-        /// <param name="input">Instance of Api to be compared</param>
+        /// <param name="input">Instance of ApiModel to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Api input)
+        public bool Equals(ApiModel input)
         {
             if (input == null)
             {
@@ -217,7 +217,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

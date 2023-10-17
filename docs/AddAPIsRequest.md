@@ -1,11 +1,11 @@
-# Kinde.Api.Model.Application
+# Kinde.Api.Model.AddAPIsRequest
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AppId** | **string** |  | [optional] 
-**Name** | **string** |  | [optional] 
+**Name** | **string** |  | 
+**Audience** | **string** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

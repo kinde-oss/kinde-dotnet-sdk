@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<User>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'ProvidedId'
         /// </summary>
@@ -72,14 +72,16 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ProvidedId'
         }
+
         /// <summary>
-        /// Test the property 'Email'
+        /// Test the property 'PreferredEmail'
         /// </summary>
         [Fact]
-        public void EmailTest()
+        public void PreferredEmailTest()
         {
-            // TODO unit test for the property 'Email'
+            // TODO unit test for the property 'PreferredEmail'
         }
+
         /// <summary>
         /// Test the property 'LastName'
         /// </summary>
@@ -88,6 +90,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'LastName'
         }
+
         /// <summary>
         /// Test the property 'FirstName'
         /// </summary>
@@ -96,14 +99,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FirstName'
         }
-        /// <summary>
-        /// Test the property 'FullName'
-        /// </summary>
-        [Fact]
-        public void FullNameTest()
-        {
-            // TODO unit test for the property 'FullName'
-        }
+
         /// <summary>
         /// Test the property 'IsSuspended'
         /// </summary>
@@ -112,6 +108,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsSuspended'
         }
+
         /// <summary>
         /// Test the property 'Picture'
         /// </summary>
@@ -120,14 +117,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Picture'
         }
-        /// <summary>
-        /// Test the property 'IsPasswordResetRequested'
-        /// </summary>
-        [Fact]
-        public void IsPasswordResetRequestedTest()
-        {
-            // TODO unit test for the property 'IsPasswordResetRequested'
-        }
+
         /// <summary>
         /// Test the property 'TotalSignIns'
         /// </summary>
@@ -136,6 +126,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'TotalSignIns'
         }
+
         /// <summary>
         /// Test the property 'FailedSignIns'
         /// </summary>
@@ -144,6 +135,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FailedSignIns'
         }
+
         /// <summary>
         /// Test the property 'LastSignedIn'
         /// </summary>
@@ -152,6 +144,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'LastSignedIn'
         }
+
         /// <summary>
         /// Test the property 'CreatedOn'
         /// </summary>
@@ -160,7 +153,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'CreatedOn'
         }
-
     }
-
 }

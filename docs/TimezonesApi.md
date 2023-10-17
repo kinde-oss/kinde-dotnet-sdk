@@ -6,7 +6,7 @@ All URIs are relative to *https://app.kinde.com*
 |--------|--------------|-------------|
 | [**GetTimezones**](TimezonesApi.md#gettimezones) | **GET** /api/v1/timezones | List timezones and timezone IDs. |
 
-<a name="gettimezones"></a>
+<a id="gettimezones"></a>
 # **GetTimezones**
 > SuccessResponse GetTimezones (string? timezoneKey = null, string? name = null)
 
@@ -104,6 +104,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | A successful response with a list of timezones and timezone keys. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

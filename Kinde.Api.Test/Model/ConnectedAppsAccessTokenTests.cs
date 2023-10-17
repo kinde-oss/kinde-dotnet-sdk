@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<ConnectedAppsAccessToken>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'AccessToken'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'AccessToken'
         }
+
         /// <summary>
         /// Test the property 'AccessTokenExpiry'
         /// </summary>
@@ -72,7 +72,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'AccessTokenExpiry'
         }
-
     }
-
 }

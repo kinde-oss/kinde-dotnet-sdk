@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<ApiResult>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Result'
         /// </summary>
@@ -64,7 +63,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Result'
         }
-
     }
-
 }

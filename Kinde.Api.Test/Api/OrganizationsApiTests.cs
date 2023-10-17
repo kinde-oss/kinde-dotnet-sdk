@@ -80,6 +80,20 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test CreateOrganizationUserPermission
+        /// </summary>
+        [Fact]
+        public void CreateOrganizationUserPermissionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest = null;
+            //var response = instance.CreateOrganizationUserPermission(orgCode, userId, createOrganizationUserPermissionRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test CreateOrganizationUserRole
         /// </summary>
         [Fact]
@@ -91,6 +105,17 @@ namespace Kinde.Api.Test.Api
             //CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest = null;
             //var response = instance.CreateOrganizationUserRole(orgCode, userId, createOrganizationUserRoleRequest);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteOrganization
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //instance.DeleteOrganization(orgCode);
         }
 
         /// <summary>
@@ -115,6 +140,20 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
             //var response = instance.DeleteOrganizationFeatureFlagOverrides(orgCode);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteOrganizationUserPermission
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationUserPermissionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string permissionId = null;
+            //var response = instance.DeleteOrganizationUserPermission(orgCode, userId, permissionId);
             //Assert.IsType<SuccessResponse>(response);
         }
 
@@ -157,6 +196,20 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetOrganizationUserPermissions
+        /// </summary>
+        [Fact]
+        public void GetOrganizationUserPermissionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string? expand = null;
+            //var response = instance.GetOrganizationUserPermissions(orgCode, userId, expand);
+            //Assert.IsType<GetOrganizationsUserPermissionsResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetOrganizationUserRoles
         /// </summary>
         [Fact]
@@ -181,7 +234,8 @@ namespace Kinde.Api.Test.Api
             //int? pageSize = null;
             //string? nextToken = null;
             //string? permissions = null;
-            //var response = instance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions);
+            //string? roles = null;
+            //var response = instance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions, roles);
             //Assert.IsType<GetOrganizationUsersResponse>(response);
         }
 
@@ -221,7 +275,8 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
             //UpdateOrganizationRequest? updateOrganizationRequest = null;
-            //instance.UpdateOrganization(orgCode, updateOrganizationRequest);
+            //var response = instance.UpdateOrganization(orgCode, updateOrganizationRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>

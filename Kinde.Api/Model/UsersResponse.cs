@@ -40,7 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="message">Response message..</param>
         /// <param name="users">users.</param>
         /// <param name="nextToken">Pagination token..</param>
-        public UsersResponse(string code = default(string), string message = default(string), List<User> users = default(List<User>), string nextToken = default(string))
+        public UsersResponse(string code = default(string), string message = default(string), List<UsersResponseUsersInner> users = default(List<UsersResponseUsersInner>), string nextToken = default(string))
         {
             this.Code = code;
             this.Message = message;
@@ -66,7 +66,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Users
         /// </summary>
         [DataMember(Name = "users", EmitDefaultValue = false)]
-        public List<User> Users { get; set; }
+        public List<UsersResponseUsersInner> Users { get; set; }
 
         /// <summary>
         /// Pagination token.
@@ -179,7 +179,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

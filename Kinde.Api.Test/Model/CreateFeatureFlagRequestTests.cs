@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<CreateFeatureFlagRequest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'Description'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Description'
         }
+
         /// <summary>
         /// Test the property 'Key'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Key'
         }
+
         /// <summary>
         /// Test the property 'Type'
         /// </summary>
@@ -88,6 +90,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Type'
         }
+
         /// <summary>
         /// Test the property 'AllowOverrideLevel'
         /// </summary>
@@ -96,6 +99,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'AllowOverrideLevel'
         }
+
         /// <summary>
         /// Test the property 'DefaultValue'
         /// </summary>
@@ -104,7 +108,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'DefaultValue'
         }
-
     }
-
 }

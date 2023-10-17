@@ -6,12 +6,16 @@ All URIs are relative to *https://app.kinde.com*
 |--------|--------------|-------------|
 | [**AddOrganizationUsers**](OrganizationsApi.md#addorganizationusers) | **POST** /api/v1/organizations/{org_code}/users | Add Organization Users |
 | [**CreateOrganization**](OrganizationsApi.md#createorganization) | **POST** /api/v1/organization | Create Organization |
+| [**CreateOrganizationUserPermission**](OrganizationsApi.md#createorganizationuserpermission) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/permissions | Add Organization User Permission |
 | [**CreateOrganizationUserRole**](OrganizationsApi.md#createorganizationuserrole) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/roles | Add Organization User Role |
+| [**DeleteOrganization**](OrganizationsApi.md#deleteorganization) | **DELETE** /api/v1/organization/{org_code} | Delete Organization |
 | [**DeleteOrganizationFeatureFlagOverride**](OrganizationsApi.md#deleteorganizationfeatureflagoverride) | **DELETE** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Delete Organization Feature Flag Override |
 | [**DeleteOrganizationFeatureFlagOverrides**](OrganizationsApi.md#deleteorganizationfeatureflagoverrides) | **DELETE** /api/v1/organizations/{org_code}/feature_flags | Delete Organization Feature Flag Overrides |
+| [**DeleteOrganizationUserPermission**](OrganizationsApi.md#deleteorganizationuserpermission) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id} | Delete Organization User Permission |
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
 | [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get Organization |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
+| [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | List Organization Users |
 | [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | List Organizations |
@@ -20,7 +24,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
 | [**UpdateOrganizationUsers**](OrganizationsApi.md#updateorganizationusers) | **PATCH** /api/v1/organizations/{org_code}/users | Update Organization Users |
 
-<a name="addorganizationusers"></a>
+<a id="addorganizationusers"></a>
 # **AddOrganizationUsers**
 > AddOrganizationUsersResponse AddOrganizationUsers (string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = null)
 
@@ -120,10 +124,11 @@ catch (ApiException e)
 | **204** | No users added. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createorganization"></a>
+<a id="createorganization"></a>
 # **CreateOrganization**
 > CreateOrganizationResponse CreateOrganization (CreateOrganizationRequest? createOrganizationRequest = null)
 
@@ -220,11 +225,116 @@ catch (ApiException e)
 | **200** | Organization successfully created. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **400** | Error creating user. |  -  |
+| **429** | Request was throttled. |  -  |
 | **500** | Could not create organization. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createorganizationuserrole"></a>
+<a id="createorganizationuserpermission"></a>
+# **CreateOrganizationUserPermission**
+> SuccessResponse CreateOrganizationUserPermission (string orgCode, string userId, CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest)
+
+Add Organization User Permission
+
+Add permission to an organization user.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateOrganizationUserPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var userId = "userId_example";  // string | The user's id.
+            var createOrganizationUserPermissionRequest = new CreateOrganizationUserPermissionRequest(); // CreateOrganizationUserPermissionRequest | Permission details.
+
+            try
+            {
+                // Add Organization User Permission
+                SuccessResponse result = apiInstance.CreateOrganizationUserPermission(orgCode, userId, createOrganizationUserPermissionRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationUserPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateOrganizationUserPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add Organization User Permission
+    ApiResponse<SuccessResponse> response = apiInstance.CreateOrganizationUserPermissionWithHttpInfo(orgCode, userId, createOrganizationUserPermissionRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationUserPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **userId** | **string** | The user&#39;s id. |  |
+| **createOrganizationUserPermissionRequest** | [**CreateOrganizationUserPermissionRequest**](CreateOrganizationUserPermissionRequest.md) | Permission details. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User permission successfully updated. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="createorganizationuserrole"></a>
 # **CreateOrganizationUserRole**
 > SuccessResponse CreateOrganizationUserRole (string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest)
 
@@ -322,12 +432,110 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | User successfully removed from |  -  |
+| **200** | Role successfully added. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteorganizationfeatureflagoverride"></a>
+<a id="deleteorganization"></a>
+# **DeleteOrganization**
+> void DeleteOrganization (string orgCode)
+
+Delete Organization
+
+Delete an organization.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization.
+
+            try
+            {
+                // Delete Organization
+                apiInstance.DeleteOrganization(orgCode);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganization: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete Organization
+    apiInstance.DeleteOrganizationWithHttpInfo(orgCode);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization successfully deleted. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **400** | Error deleting organization. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteorganizationfeatureflagoverride"></a>
 # **DeleteOrganizationFeatureFlagOverride**
 > SuccessResponse DeleteOrganizationFeatureFlagOverride (string orgCode, string featureFlagKey)
 
@@ -426,10 +634,11 @@ catch (ApiException e)
 | **200** | Feature flag override successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteorganizationfeatureflagoverrides"></a>
+<a id="deleteorganizationfeatureflagoverrides"></a>
 # **DeleteOrganizationFeatureFlagOverrides**
 > SuccessResponse DeleteOrganizationFeatureFlagOverrides (string orgCode)
 
@@ -526,10 +735,116 @@ catch (ApiException e)
 | **200** | Feature flag overrides successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteorganizationuserrole"></a>
+<a id="deleteorganizationuserpermission"></a>
+# **DeleteOrganizationUserPermission**
+> SuccessResponse DeleteOrganizationUserPermission (string orgCode, string userId, string permissionId)
+
+Delete Organization User Permission
+
+Delete permission for an organization user.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationUserPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var userId = "userId_example";  // string | The user's id.
+            var permissionId = "permissionId_example";  // string | The permission id.
+
+            try
+            {
+                // Delete Organization User Permission
+                SuccessResponse result = apiInstance.DeleteOrganizationUserPermission(orgCode, userId, permissionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationUserPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationUserPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete Organization User Permission
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationUserPermissionWithHttpInfo(orgCode, userId, permissionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationUserPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **userId** | **string** | The user&#39;s id. |  |
+| **permissionId** | **string** | The permission id. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User successfully removed. |  -  |
+| **400** | Error creating user. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteorganizationuserrole"></a>
 # **DeleteOrganizationUserRole**
 > SuccessResponse DeleteOrganizationUserRole (string orgCode, string userId, string roleId)
 
@@ -630,10 +945,11 @@ catch (ApiException e)
 | **200** | User successfully removed. |  -  |
 | **400** | Error creating user. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorganization"></a>
+<a id="getorganization"></a>
 # **GetOrganization**
 > Organization GetOrganization (string? code = null)
 
@@ -730,10 +1046,11 @@ catch (ApiException e)
 | **200** | Organization successfully retrieved. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorganizationfeatureflags"></a>
+<a id="getorganizationfeatureflags"></a>
 # **GetOrganizationFeatureFlags**
 > GetOrganizationFeatureFlagsResponse GetOrganizationFeatureFlags (string orgCode)
 
@@ -830,10 +1147,115 @@ catch (ApiException e)
 | **200** | Feature flag overrides successfully returned. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorganizationuserroles"></a>
+<a id="getorganizationuserpermissions"></a>
+# **GetOrganizationUserPermissions**
+> GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions (string orgCode, string userId, string? expand = null)
+
+List Organization User Permissions
+
+Get permissions for an organization user.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationUserPermissionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var userId = "userId_example";  // string | The user's id.
+            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"roles\". (optional) 
+
+            try
+            {
+                // List Organization User Permissions
+                GetOrganizationsUserPermissionsResponse result = apiInstance.GetOrganizationUserPermissions(orgCode, userId, expand);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationUserPermissions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationUserPermissionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List Organization User Permissions
+    ApiResponse<GetOrganizationsUserPermissionsResponse> response = apiInstance.GetOrganizationUserPermissionsWithHttpInfo(orgCode, userId, expand);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationUserPermissionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **userId** | **string** | The user&#39;s id. |  |
+| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;roles\&quot;. | [optional]  |
+
+### Return type
+
+[**GetOrganizationsUserPermissionsResponse**](GetOrganizationsUserPermissionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A successful response with a list of user permissions. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationuserroles"></a>
 # **GetOrganizationUserRoles**
 > GetOrganizationsUserRolesResponse GetOrganizationUserRoles (string orgCode, string userId)
 
@@ -931,12 +1353,13 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | A successful response with a list of user roles. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorganizationusers"></a>
+<a id="getorganizationusers"></a>
 # **GetOrganizationUsers**
-> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, string? permissions = null)
+> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, string? permissions = null, string? roles = null)
 
 List Organization Users
 
@@ -970,12 +1393,13 @@ namespace Example
             var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
-            var permissions = "permissions_example";  // string? | Filter by user permissions (optional) 
+            var permissions = "permissions_example";  // string? | Filter by user permissions comma separated (where all match) (optional) 
+            var roles = "roles_example";  // string? | Filter by user roles comma separated (where all match) (optional) 
 
             try
             {
                 // List Organization Users
-                GetOrganizationUsersResponse result = apiInstance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions);
+                GetOrganizationUsersResponse result = apiInstance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions, roles);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -996,7 +1420,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List Organization Users
-    ApiResponse<GetOrganizationUsersResponse> response = apiInstance.GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions);
+    ApiResponse<GetOrganizationUsersResponse> response = apiInstance.GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions, roles);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -1017,7 +1441,8 @@ catch (ApiException e)
 | **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
 | **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
-| **permissions** | **string?** | Filter by user permissions | [optional]  |
+| **permissions** | **string?** | Filter by user permissions comma separated (where all match) | [optional]  |
+| **roles** | **string?** | Filter by user roles comma separated (where all match) | [optional]  |
 
 ### Return type
 
@@ -1039,10 +1464,11 @@ catch (ApiException e)
 | **200** | A successful response with a list of organization users or an empty list. |  -  |
 | **400** | Error creating user |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorganizations"></a>
+<a id="getorganizations"></a>
 # **GetOrganizations**
 > GetOrganizationsResponse GetOrganizations (string? sort = null, int? pageSize = null, string? nextToken = null)
 
@@ -1142,10 +1568,11 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | A successful response with a list of organizations or an empty list. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="removeorganizationuser"></a>
+<a id="removeorganizationuser"></a>
 # **RemoveOrganizationUser**
 > SuccessResponse RemoveOrganizationUser (string orgCode, string userId)
 
@@ -1244,12 +1671,13 @@ catch (ApiException e)
 | **200** | User successfully removed from organization |  -  |
 | **400** | Error removing user |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateorganization"></a>
+<a id="updateorganization"></a>
 # **UpdateOrganization**
-> void UpdateOrganization (string orgCode, UpdateOrganizationRequest? updateOrganizationRequest = null)
+> SuccessResponse UpdateOrganization (string orgCode, UpdateOrganizationRequest? updateOrganizationRequest = null)
 
 Update Organization
 
@@ -1285,7 +1713,8 @@ namespace Example
             try
             {
                 // Update Organization
-                apiInstance.UpdateOrganization(orgCode, updateOrganizationRequest);
+                SuccessResponse result = apiInstance.UpdateOrganization(orgCode, updateOrganizationRequest);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -1305,7 +1734,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update Organization
-    apiInstance.UpdateOrganizationWithHttpInfo(orgCode, updateOrganizationRequest);
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationWithHttpInfo(orgCode, updateOrganizationRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -1324,7 +1756,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
@@ -1342,10 +1774,11 @@ void (empty response body)
 | **200** | Organization successfully updated. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **400** | Error updating organization. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateorganizationfeatureflagoverride"></a>
+<a id="updateorganizationfeatureflagoverride"></a>
 # **UpdateOrganizationFeatureFlagOverride**
 > SuccessResponse UpdateOrganizationFeatureFlagOverride (string orgCode, string featureFlagKey, string value)
 
@@ -1446,10 +1879,11 @@ catch (ApiException e)
 | **200** | Feature flag override successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateorganizationusers"></a>
+<a id="updateorganizationusers"></a>
 # **UpdateOrganizationUsers**
 > UpdateOrganizationUsersResponse UpdateOrganizationUsers (string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null)
 
@@ -1546,8 +1980,9 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Users successfully removed. |  -  |
-| **400** | Error creating user. |  -  |
+| **400** | Error updating organization user. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

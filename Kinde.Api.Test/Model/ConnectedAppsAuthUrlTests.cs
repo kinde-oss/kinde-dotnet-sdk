@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<ConnectedAppsAuthUrl>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Url'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Url'
         }
+
         /// <summary>
         /// Test the property 'SessionId'
         /// </summary>
@@ -72,7 +72,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'SessionId'
         }
-
     }
-
 }

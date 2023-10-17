@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<GetOrganizationFeatureFlagsResponseFeatureFlagsValue>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Type'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Type'
         }
+
         /// <summary>
         /// Test the property 'Value'
         /// </summary>
@@ -72,7 +72,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Value'
         }
-
     }
-
 }
