@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<AddOrganizationUsersRequestUsersInner>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'Roles'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Roles'
         }
+
         /// <summary>
         /// Test the property 'Permissions'
         /// </summary>
@@ -80,7 +81,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Permissions'
         }
-
     }
-
 }

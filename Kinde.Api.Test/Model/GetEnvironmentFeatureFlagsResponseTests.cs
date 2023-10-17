@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<GetEnvironmentFeatureFlagsResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Code'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Code'
         }
+
         /// <summary>
         /// Test the property 'Message'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Message'
         }
+
         /// <summary>
         /// Test the property 'FeatureFlags'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FeatureFlags'
         }
+
         /// <summary>
         /// Test the property 'NextToken'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'NextToken'
         }
-
     }
-
 }

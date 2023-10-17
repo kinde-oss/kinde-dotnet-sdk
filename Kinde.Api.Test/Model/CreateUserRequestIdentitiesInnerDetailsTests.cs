@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<CreateUserRequestIdentitiesInnerDetails>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Email'
         /// </summary>
@@ -64,7 +63,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Email'
         }
-
     }
-
 }

@@ -75,5 +75,31 @@ namespace Kinde.Api.Test.Api
             //var response = instance.GetUserProfileV2();
             //Assert.IsType<UserProfileV2>(response);
         }
+
+        /// <summary>
+        /// Test TokenIntrospection
+        /// </summary>
+        [Fact]
+        public void TokenIntrospectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string? token = null;
+            //string? tokenType = null;
+            //var response = instance.TokenIntrospection(token, tokenType);
+            //Assert.IsType<TokenIntrospect>(response);
+        }
+
+        /// <summary>
+        /// Test TokenRevocation
+        /// </summary>
+        [Fact]
+        public void TokenRevocationTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string? token = null;
+            //string? clientId = null;
+            //string? clientSecret = null;
+            //instance.TokenRevocation(token, clientId, clientSecret);
+        }
     }
 }

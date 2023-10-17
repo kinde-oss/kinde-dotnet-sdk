@@ -8,7 +8,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**GetConnectedAppToken**](ConnectedAppsApi.md#getconnectedapptoken) | **GET** /api/v1/connected_apps/token | Get Connected App Token |
 | [**RevokeConnectedAppToken**](ConnectedAppsApi.md#revokeconnectedapptoken) | **POST** /api/v1/connected_apps/revoke | Revoke Connected App Token |
 
-<a name="getconnectedappauthurl"></a>
+<a id="getconnectedappauthurl"></a>
 # **GetConnectedAppAuthUrl**
 > ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string userId)
 
@@ -108,10 +108,11 @@ catch (ApiException e)
 | **400** | Error retrieving connected app auth url. |  -  |
 | **404** | Error retrieving connected app auth url. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getconnectedapptoken"></a>
+<a id="getconnectedapptoken"></a>
 # **GetConnectedAppToken**
 > ConnectedAppsAccessToken GetConnectedAppToken (string sessionId)
 
@@ -208,10 +209,11 @@ catch (ApiException e)
 | **200** | An access token that can be used to query a third-party provider, as well as the token&#39;s expiry time. |  -  |
 | **400** | The session id provided points to an invalid session. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="revokeconnectedapptoken"></a>
+<a id="revokeconnectedapptoken"></a>
 # **RevokeConnectedAppToken**
 > SuccessResponse RevokeConnectedAppToken (string sessionId)
 
@@ -309,6 +311,7 @@ catch (ApiException e)
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **405** | Invalid HTTP method used. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<UpdateOrganizationUsersResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Message'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Message'
         }
+
         /// <summary>
         /// Test the property 'UsersAdded'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'UsersAdded'
         }
+
         /// <summary>
         /// Test the property 'UsersUpdated'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'UsersUpdated'
         }
+
         /// <summary>
         /// Test the property 'UsersRemoved'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'UsersRemoved'
         }
-
     }
-
 }

@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<UpdateOrganizationUsersRequest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Users'
         /// </summary>
@@ -64,7 +63,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Users'
         }
-
     }
-
 }

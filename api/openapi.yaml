@@ -37,6 +37,73 @@ paths:
       summary: Get User Profile
       tags:
       - OAuth
+  /oauth2/introspect:
+    post:
+      description: Retrieve information about the provided token.
+      operationId: tokenIntrospection
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/tokenIntrospection_request'
+        description: Token details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_introspect'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/token_introspect'
+          description: Details of the token.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Get token details
+      tags:
+      - OAuth
+  /oauth2/revoke:
+    post:
+      description: Revoke a previously issued token.
+      operationId: tokenRevocation
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/tokenRevocation_request'
+        description: Details of the token to be revoked.
+        required: true
+      responses:
+        "200":
+          description: Token successfully revoked.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Revoke token
+      tags:
+      - OAuth
   /oauth2/v2/user_profile:
     get:
       description: |
@@ -51,6 +118,8 @@ paths:
           description: Details of logged in user V2.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Returns the details of the currently logged in user
       tags:
       - OAuth
@@ -113,6 +182,16 @@ paths:
           nullable: true
           type: string
         style: form
+      - description: Specify additional data to retrieve. Use "organizations" and/or
+          "identities".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -125,7 +204,56 @@ paths:
           description: Users successfully retrieved.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Users
+      tags:
+      - Users
+  /api/v1/users/{user_id}/refresh_claims:
+    post:
+      description: |
+        Refreshes the user's claims and invalidates the current cache.
+      operationId: refreshUserClaims
+      parameters:
+      - description: The id of the user whose claims needs to be updated.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Claims successfully refreshed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "429":
+          description: Request was throttled.
+      summary: Refresh User Claims and Invalidate Cache
       tags:
       - Users
   /api/v1/user:
@@ -138,10 +266,20 @@ paths:
         explode: true
         in: query
         name: id
-        required: false
+        required: true
         schema:
           nullable: false
           type: string
+        style: form
+      - description: "Delete all data and remove the user's profile from all of Kinde,\
+          \ including the subscriber list"
+        explode: true
+        in: query
+        name: is_delete_profile
+        required: false
+        schema:
+          nullable: false
+          type: boolean
         style: form
       responses:
         "200":
@@ -164,6 +302,8 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete User
       tags:
       - Users
@@ -179,6 +319,16 @@ paths:
         required: true
         schema:
           nullable: false
+          type: string
+        style: form
+      - description: Specify additional data to retrieve. Use "organizations" and/or
+          "identities".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          nullable: true
           type: string
         style: form
       responses:
@@ -202,6 +352,8 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Get User
       tags:
       - Users
@@ -231,10 +383,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/update_user_response'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/update_user_response'
           description: User successfully updated.
         "400":
           content:
@@ -247,6 +399,8 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update User
       tags:
       - Users
@@ -283,6 +437,8 @@ paths:
           description: Error creating user.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Create User
       tags:
       - Users
@@ -339,6 +495,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Bad request.
+        "429":
+          description: Request was throttled.
       summary: List Subscribers
       tags:
       - Subscribers
@@ -392,6 +550,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Create Subscriber
       tags:
       - Subscribers
@@ -429,6 +589,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Get Subscriber
       tags:
       - Subscribers
@@ -468,6 +630,8 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Get Organization
       tags:
       - Organizations
@@ -499,12 +663,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Error creating user.
+        "429":
+          description: Request was throttled.
         "500":
           description: Could not create organization.
       summary: Create Organization
       tags:
       - Organizations
   /api/v1/organization/{org_code}:
+    delete:
+      description: Delete an organization.
+      operationId: deleteOrganization
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Organization successfully deleted.
+        "403":
+          description: Invalid credentials.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error deleting organization.
+        "429":
+          description: Request was throttled.
+      summary: Delete Organization
+      tags:
+      - Organizations
     patch:
       description: Update an organization.
       operationId: updateOrganization
@@ -526,6 +723,13 @@ paths:
         required: false
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
           description: Organization successfully updated.
         "403":
           description: Invalid credentials.
@@ -538,6 +742,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Error updating organization.
+        "429":
+          description: Request was throttled.
       summary: Update Organization
       tags:
       - Organizations
@@ -592,6 +798,8 @@ paths:
             list.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Organizations
       tags:
       - Organizations
@@ -641,10 +849,18 @@ paths:
           nullable: false
           type: string
         style: simple
-      - description: Filter by user permissions
+      - description: Filter by user permissions comma separated (where all match)
         explode: true
         in: query
         name: permissions
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by user roles comma separated (where all match)
+        explode: true
+        in: query
+        name: roles
         required: false
         schema:
           type: string
@@ -671,6 +887,8 @@ paths:
           description: Error creating user
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Organization Users
       tags:
       - Organizations
@@ -711,9 +929,11 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Error creating user.
+          description: Error updating organization user.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update Organization Users
       tags:
       - Organizations
@@ -759,6 +979,8 @@ paths:
           description: Bad request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Add Organization Users
       tags:
       - Organizations
@@ -797,6 +1019,8 @@ paths:
           description: A successful response with a list of user roles.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Organization User Roles
       tags:
       - Organizations
@@ -838,9 +1062,11 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/success_response'
-          description: User successfully removed from
+          description: Role successfully added.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Add Organization User Role
       tags:
       - Organizations
@@ -897,7 +1123,162 @@ paths:
           description: Error creating user.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Organization User Role
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/permissions:
+    get:
+      description: Get permissions for an organization user.
+      operationId: GetOrganizationUserPermissions
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: Specify additional data to retrieve. Use "roles".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_organizations_user_permissions_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_organizations_user_permissions_response'
+          description: A successful response with a list of user permissions.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: List Organization User Permissions
+      tags:
+      - Organizations
+    post:
+      description: Add permission to an organization user.
+      operationId: CreateOrganizationUserPermission
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationUserPermission_request'
+        description: Permission details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User permission successfully updated.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Add Organization User Permission
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id}:
+    delete:
+      description: Delete permission for an organization user.
+      operationId: DeleteOrganizationUserPermission
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The user's id.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The permission id.
+        explode: false
+        in: path
+        name: permission_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully removed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete Organization User Permission
       tags:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}:
@@ -944,6 +1325,8 @@ paths:
           description: Error removing user
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Remove Organization User
       tags:
       - Organizations
@@ -1004,6 +1387,8 @@ paths:
           description: Error retrieving connected app auth url.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Get Connected App URL
       tags:
       - Connected Apps
@@ -1051,6 +1436,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Get Connected App Token
       tags:
       - Connected Apps
@@ -1099,6 +1486,8 @@ paths:
           description: Invalid credentials.
         "405":
           description: Invalid HTTP method used.
+        "429":
+          description: Request was throttled.
       summary: Revoke Connected App Token
       tags:
       - Connected Apps
@@ -1134,6 +1523,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Create Feature Flag
       tags:
       - Feature Flags
@@ -1171,6 +1562,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Feature Flag
       tags:
       - Feature Flags
@@ -1259,6 +1652,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Replace Feature Flag
       tags:
       - Feature Flags
@@ -1296,6 +1691,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Organization Feature Flag Overrides
       tags:
       - Organizations
@@ -1332,6 +1729,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Organization Feature Flags
       tags:
       - Organizations
@@ -1377,6 +1776,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Organization Feature Flag Override
       tags:
       - Organizations
@@ -1429,6 +1830,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update Organization Feature Flag Override
       tags:
       - Organizations
@@ -1457,6 +1860,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Environment Feature Flag Overrides
       tags:
       - Environments
@@ -1484,6 +1889,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Environment Feature Flags
       tags:
       - Environments
@@ -1521,6 +1928,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Delete Environment Feature Flag Override
       tags:
       - Environments
@@ -1564,6 +1973,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update Environment Feature Flag Override
       tags:
       - Environments
@@ -1618,6 +2029,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Permissions
       tags:
       - Permissions
@@ -1650,10 +2063,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Create Permission
       tags:
       - Permissions
   /api/v1/permissions/{permission_id}:
+    delete:
+      description: Delete permission
+      operationId: DeletePermission
+      parameters:
+      - description: The identifier for the permission.
+        explode: false
+        in: path
+        name: permission_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: permission successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete Permission
+      tags:
+      - Permissions
     patch:
       description: Update permission
       operationId: UpdatePermissions
@@ -1693,6 +2146,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update Permission
       tags:
       - Permissions
@@ -1747,7 +2202,174 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Roles
+      tags:
+      - Roles
+  /api/v1/roles/{role_id}/permissions:
+    get:
+      description: Get permissions for a role.
+      operationId: GetRolePermission
+      parameters:
+      - description: The role's public id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          - id_asc
+          - id_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roles_permission_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/roles_permission_response'
+          description: A list of permissions for a role
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error removing user
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Get Role Permissions
+      tags:
+      - Roles
+    patch:
+      description: |
+        Update role permissions.
+      operationId: UpdateRolePermissions
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRolePermissions_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_role_permissions_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/update_role_permissions_response'
+          description: Permissions successfully updated.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Update Role Permissions
+      tags:
+      - Roles
+  /api/v1/roles/{role_id}/permission/{permission_id}:
+    delete:
+      description: Remove a permission from a role.
+      operationId: RemoveRolePermission
+      parameters:
+      - description: The role's public id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The permission's public id.
+        explode: false
+        in: path
+        name: permission_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Permission successfully removed from role
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error removing user
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Remove Role Permission
       tags:
       - Roles
   /api/v1/role:
@@ -1780,10 +2402,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Create Role
       tags:
       - Roles
   /api/v1/roles/{role_id}:
+    delete:
+      description: Delete role
+      operationId: DeleteRole
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete Role
+      tags:
+      - Roles
     patch:
       description: Update a role
       operationId: UpdateRoles
@@ -1822,6 +2484,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update Role
       tags:
       - Roles
@@ -1911,6 +2575,8 @@ paths:
           description: A successful response with your business details.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List business details
       tags:
       - Business
@@ -2024,6 +2690,8 @@ paths:
           description: Invalid request.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Update business details
       tags:
       - Business
@@ -2058,6 +2726,8 @@ paths:
             keys.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List industries and industry keys.
       tags:
       - Industries
@@ -2092,10 +2762,275 @@ paths:
             keys.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List timezones and timezone IDs.
       tags:
       - Timezones
+  /api/v1/applications:
+    get:
+      description: |
+        Get a list of applications.
+      operationId: getApplications
+      parameters:
+      - description: Field and order to sort the result by.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name_asc
+          - name_desc
+          nullable: true
+          type: string
+        style: form
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: A string to get the next page of results if there are more results.
+        explode: true
+        in: query
+        name: next_token
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_applications_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_applications_response'
+          description: A successful response with a list of applications or an empty
+            list.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: List Applications
+      tags:
+      - Applications
+    post:
+      description: Create an application.
+      operationId: createApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createApplication_request'
+        description: Application details.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_application_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_application_response'
+          description: Application successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Create Application
+      tags:
+      - Applications
+  /api/v1/applications/{application_id}:
+    delete:
+      description: |
+        Delete application.
+      operationId: deleteApplication
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Application successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete Application
+      tags:
+      - Applications
+    get:
+      description: |
+        Gets an application given the application's id.
+      operationId: getApplication
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_application_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_application_response'
+          description: Application successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Get Application
+      tags:
+      - Applications
+    patch:
+      description: Update an application.
+      operationId: updateApplication
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateApplication_request'
+        description: Application details.
+        required: false
+      responses:
+        "200":
+          description: Application successfully updated.
+        "403":
+          description: Invalid credentials.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "429":
+          description: Request was throttled.
+      summary: Update Application
+      tags:
+      - Applications
   /api/v1/applications/{app_id}/auth_redirect_urls:
+    delete:
+      description: |
+        Delete callback URLs.
+      operationId: deleteCallbackURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Urls to delete, comma separated and url encoded."
+        explode: true
+        in: query
+        name: urls
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Callback URLs successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete Callback URLs
+      tags:
+      - Callbacks
     get:
       description: |
         Returns an application's redirect callback URLs.
@@ -2112,22 +3047,26 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect_callback_urls'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/redirect_callback_urls'
           description: Callback URLs successfully retrieved.
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: List Callback URLs
       tags:
       - Callbacks
@@ -2170,6 +3109,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       summary: Add Redirect Callback URLs
       tags:
       - Callbacks
@@ -2207,14 +3148,418 @@ paths:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Replace Redirect Callback URLs
+      tags:
+      - Callbacks
+  /api/v1/applications/{app_id}/auth_logout_urls:
+    delete:
+      description: |
+        Delete logout URLs.
+      operationId: deleteLogoutURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Urls to delete, comma separated and url encoded."
+        explode: true
+        in: query
+        name: urls
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Logout URLs successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
-      summary: Replace Redirect Callback URLs
+        "429":
+          description: Request was throttled.
+      summary: Delete Logout URLs
       tags:
       - Callbacks
+    get:
+      description: |
+        Returns an application's logout redirect URLs.
+      operationId: getLogoutURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logout_redirect_urls'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/logout_redirect_urls'
+          description: Logout URLs successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: List Logout URLs
+      tags:
+      - Callbacks
+    post:
+      description: |
+        Add additional logout redirect URLs.
+      operationId: addLogoutRedirectURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replaceLogoutRedirectURLs_request'
+        description: Callback details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Logouts successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Add Logout Redirect URLs
+      tags:
+      - Callbacks
+    put:
+      description: |
+        Replace all logout redirect URLs.
+      operationId: replaceLogoutRedirectURLs
+      parameters:
+      - description: The identifier for the application.
+        explode: false
+        in: path
+        name: app_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replaceLogoutRedirectURLs_request'
+        description: Callback details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Logout URLs successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Replace Logout Redirect URLs
+      tags:
+      - Callbacks
+  /api/v1/apis:
+    get:
+      description: |
+        Returns a list of APIs.
+      operationId: getAPIs
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/apis'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apis'
+          description: APIs successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: List APIs
+      tags:
+      - APIs
+    post:
+      description: |
+        Add APIs.
+      operationId: addAPIs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addAPIs_request'
+        description: API details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: APIs successfully updated
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Add APIs
+      tags:
+      - APIs
+  /api/v1/apis/{api_id}:
+    delete:
+      description: |
+        Deletes API.
+      operationId: deleteAPI
+      parameters:
+      - description: The API's id.
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: API successfully deleted.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Delete API
+      tags:
+      - APIs
+    get:
+      description: |
+        Returns the details of the API.
+      operationId: getAPI
+      parameters:
+      - description: The API's id.
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/api'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api'
+          description: API successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: List API details
+      tags:
+      - APIs
+  /api/v1/apis/{api_id}/applications:
+    patch:
+      description: |
+        Update the applications under that API.
+      operationId: updateAPIApplications
+      parameters:
+      - description: The identifier for the API.
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateAPIApplications_request'
+        description: The applications you want to connect or disconnect.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: API applications updated.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Update API Applications
+      tags:
+      - APIs
 components:
   schemas:
     success_response:
@@ -2245,19 +3590,17 @@ components:
       type: object
     user:
       example:
+        created_on: created_on
+        preferred_email: preferred_email
         failed_sign_ins: 6
         last_name: last_name
         is_suspended: true
-        last_signed_in: last_signed_in
-        is_password_reset_requested: true
-        total_sign_ins: 0
-        picture: picture
-        full_name: full_name
-        created_on: created_on
         id: id
+        last_signed_in: last_signed_in
         provided_id: provided_id
         first_name: first_name
-        email: email
+        total_sign_ins: 0
+        picture: picture
       properties:
         id:
           description: Unique id of the user in Kinde.
@@ -2265,7 +3608,7 @@ components:
         provided_id:
           description: External id for user.
           type: string
-        email:
+        preferred_email:
           description: Default email address of the user in Kinde.
           type: string
         last_name:
@@ -2274,19 +3617,12 @@ components:
         first_name:
           description: User's first name.
           type: string
-        full_name:
-          description: User's full name.
-          type: string
         is_suspended:
           description: Whether the user is currently suspended or not.
           type: boolean
         picture:
           description: User's profile picture URL.
           type: string
-        is_password_reset_requested:
-          description: Whether the user has been asked to reset their password.
-          nullable: true
-          type: boolean
         total_sign_ins:
           description: Total number of user sign ins.
           nullable: true
@@ -2304,6 +3640,38 @@ components:
           nullable: true
           type: string
       type: object
+    update_user_response:
+      example:
+        is_suspended: true
+        id: id
+        given_name: given_name
+        is_password_reset_requested: true
+        family_name: family_name
+        email: email
+        picture: picture
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        given_name:
+          description: User's first name.
+          type: string
+        family_name:
+          description: User's last name.
+          type: string
+        email:
+          description: User's preferred email.
+          type: string
+        is_suspended:
+          description: Whether the user is currently suspended or not.
+          type: boolean
+        is_password_reset_requested:
+          description: Whether a password reset has been requested.
+          type: boolean
+        picture:
+          description: User's profile picture URL.
+          type: string
+      type: object
     users:
       description: Array of users.
       items:
@@ -2315,32 +3683,28 @@ components:
         message: message
         next_token: next_token
         users:
-        - failed_sign_ins: 6
+        - created_on: created_on
+          failed_sign_ins: 6
           last_name: last_name
           is_suspended: true
-          last_signed_in: last_signed_in
-          is_password_reset_requested: true
-          total_sign_ins: 0
-          picture: picture
-          full_name: full_name
-          created_on: created_on
           id: id
+          last_signed_in: last_signed_in
           provided_id: provided_id
           first_name: first_name
+          total_sign_ins: 0
           email: email
-        - failed_sign_ins: 6
+          picture: picture
+        - created_on: created_on
+          failed_sign_ins: 6
           last_name: last_name
           is_suspended: true
-          last_signed_in: last_signed_in
-          is_password_reset_requested: true
-          total_sign_ins: 0
-          picture: picture
-          full_name: full_name
-          created_on: created_on
           id: id
+          last_signed_in: last_signed_in
           provided_id: provided_id
           first_name: first_name
+          total_sign_ins: 0
           email: email
+          picture: picture
       properties:
         code:
           description: Response code.
@@ -2350,7 +3714,7 @@ components:
           type: string
         users:
           items:
-            $ref: '#/components/schemas/user'
+            $ref: '#/components/schemas/users_response_users_inner'
           type: array
         next_token:
           description: Pagination token.
@@ -2435,6 +3799,43 @@ components:
           description: URL that point's to the user's picture or avatar
           type: string
       type: object
+    token_introspect:
+      example:
+        aud:
+        - aud
+        - aud
+        active: true
+        exp: exp
+        iat: iat
+        client_id: client_id
+      properties:
+        active:
+          description: Indicates the status of the token.
+          type: boolean
+        aud:
+          description: Array of intended token recipients.
+          items:
+            type: string
+          type: array
+        client_id:
+          description: Identifier for the requesting client.
+          type: string
+        exp:
+          description: Token expiration timestamp.
+          type: string
+        iat:
+          description: Token issuance timestamp.
+          type: string
+      type: object
+    token_error_response:
+      properties:
+        error:
+          description: Error.
+          type: string
+        error_description:
+          description: The error description.
+          type: string
+      type: object
     user_profile_v2:
       example:
         sub: sub
@@ -2481,6 +3882,7 @@ components:
       example:
         code: code
         name: name
+        external_id: external_id
         is_default: true
       properties:
         code:
@@ -2489,11 +3891,9 @@ components:
           type: string
         is_default:
           type: boolean
+        external_id:
+          type: string
       type: object
-    organizations:
-      items:
-        $ref: '#/components/schemas/organization'
-      type: array
     organization_user:
       example:
         full_name: full_name
@@ -2521,11 +3921,6 @@ components:
           type: array
       type: object
     role:
-      example:
-        name: name
-        description: description
-        id: id
-        key: key
       properties:
         id:
           type: string
@@ -2583,6 +3978,40 @@ components:
           type: string
         name:
           type: string
+      type: object
+    organization_user_role_permissions:
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+        permissions:
+          $ref: '#/components/schemas/organization_user_role_permissions_permissions'
+      type: object
+    organization_user_permission:
+      example:
+        roles:
+        - id: id
+          key: key
+        - id: id
+          key: key
+        name: name
+        description: description
+        id: id
+        key: key
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/organization_user_permission_roles_inner'
+          type: array
       type: object
     organization_users:
       items:
@@ -2674,15 +4103,15 @@ components:
     get_organizations_response:
       example:
         code: code
-        roles:
-        - name: name
-          description: description
-          id: id
-          key: key
-        - name: name
-          description: description
-          id: id
-          key: key
+        organizations:
+        - code: code
+          name: name
+          external_id: external_id
+          is_default: true
+        - code: code
+          name: name
+          external_id: external_id
+          is_default: true
         message: message
         next_token: next_token
       properties:
@@ -2692,9 +4121,9 @@ components:
         message:
           description: Response message.
           type: string
-        roles:
+        organizations:
           items:
-            $ref: '#/components/schemas/role'
+            $ref: '#/components/schemas/organization'
           type: array
         next_token:
           description: Pagination token.
@@ -2764,6 +4193,41 @@ components:
           description: Pagination token.
           type: string
       type: object
+    get_organizations_user_permissions_response:
+      example:
+        code: code
+        permissions:
+        - roles:
+          - id: id
+            key: key
+          - id: id
+            key: key
+          name: name
+          description: description
+          id: id
+          key: key
+        - roles:
+          - id: id
+            key: key
+          - id: id
+            key: key
+          name: name
+          description: description
+          id: id
+          key: key
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        permissions:
+          items:
+            $ref: '#/components/schemas/organization_user_permission'
+          type: array
+      type: object
     get_organization_feature_flags_response:
       example:
         code: code
@@ -2825,6 +4289,30 @@ components:
           description: Response message.
           type: string
         users_added:
+          items:
+            type: string
+          type: array
+      type: object
+    update_role_permissions_response:
+      example:
+        permissions_added:
+        - permissions_added
+        - permissions_added
+        code: code
+        message: message
+        permissions_removed:
+        - permissions_removed
+        - permissions_removed
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        permissions_added:
+          items:
+            type: string
+          type: array
+        permissions_removed:
           items:
             type: string
           type: array
@@ -2896,14 +4384,14 @@ components:
           description: The result of the api operation.
           type: string
       type: object
-    application:
-      properties:
-        app_id:
-          type: string
-        name:
-          type: string
-      type: object
-    get_applications_response:
+    create_application_response:
+      example:
+        code: code
+        application:
+          id: id
+          client_secret: client_secret
+          client_id: client_id
+        message: message
       properties:
         code:
           description: Response code.
@@ -2911,9 +4399,64 @@ components:
         message:
           description: Response message.
           type: string
-        organizations:
+        application:
+          $ref: '#/components/schemas/create_application_response_application'
+      type: object
+    get_application_response:
+      example:
+        code: code
+        application:
+          name: name
+          id: id
+          client_secret: client_secret
+          type: type
+          client_id: client_id
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        application:
+          $ref: '#/components/schemas/get_application_response_application'
+      type: object
+    applications:
+      example:
+        name: name
+        id: id
+        type: type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+      type: object
+    get_applications_response:
+      example:
+        code: code
+        message: message
+        next_token: next_token
+        applications:
+        - name: name
+          id: id
+          type: type
+        - name: name
+          id: id
+          type: type
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        applications:
           items:
-            $ref: '#/components/schemas/application'
+            $ref: '#/components/schemas/applications'
           type: array
         next_token:
           description: Pagination token.
@@ -2937,6 +4480,18 @@ components:
           description: An application's redirect callback URLs.
           items:
             $ref: '#/components/schemas/redirect_callback_urls'
+          type: array
+      type: object
+    logout_redirect_urls:
+      example:
+        redirect_urls:
+        - redirect_urls
+        - redirect_urls
+      properties:
+        redirect_urls:
+          description: An application's logout URLs.
+          items:
+            type: string
           type: array
       type: object
     permissions:
@@ -2965,6 +4520,88 @@ components:
           type: string
         description:
           description: The role's description.
+          type: string
+      type: object
+    roles_permission_response:
+      items:
+        $ref: '#/components/schemas/roles_permission_response_inner'
+      type: array
+    apis:
+      example:
+        audience: audience
+        is_management_api: true
+        name: name
+        id: id
+      properties:
+        id:
+          description: Unique id of the API.
+          type: string
+        name:
+          description: The API's name.
+          type: string
+        audience:
+          description: The logical identifier for the API.
+          type: string
+        is_management_api:
+          description: Whether it is the management API or not.
+          type: boolean
+      type: object
+    api:
+      example:
+        audience: audience
+        code: code
+        name: name
+        id: id
+        message: message
+        applications:
+        - is_active: true
+          name: name
+          id: id
+          type: type
+        - is_active: true
+          name: name
+          id: id
+          type: type
+      properties:
+        id:
+          description: The API's unique identifier.
+          type: string
+        code:
+          description: Response code.
+          type: string
+        name:
+          description: The API's name.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        audience:
+          description: The API's audience.
+          type: string
+        applications:
+          items:
+            $ref: '#/components/schemas/api_applications_inner'
+          type: array
+      type: object
+    tokenIntrospection_request:
+      properties:
+        token:
+          description: The token to be introspected.
+          type: string
+        token_type:
+          description: The provided token's type.
+          type: string
+      type: object
+    tokenRevocation_request:
+      properties:
+        token:
+          description: The token to be revoked.
+          type: string
+        client_id:
+          description: The identifier for your client.
+          type: string
+        client_secret:
+          description: The secret associated with your client.
           type: string
       type: object
     createUser_request_profile:
@@ -3119,7 +4756,7 @@ components:
     UpdateOrganizationUsers_request:
       properties:
         users:
-          description: Users to be added to the organization.
+          description: "Users to add, update or remove from the organization."
           items:
             $ref: '#/components/schemas/UpdateOrganizationUsers_request_users_inner'
           type: array
@@ -3128,6 +4765,12 @@ components:
       properties:
         role_id:
           description: The role id.
+          type: string
+      type: object
+    CreateOrganizationUserPermission_request:
+      properties:
+        permission_id:
+          description: The permission id.
           type: string
       type: object
     CreateFeatureFlag_request:
@@ -3190,6 +4833,24 @@ components:
           description: The permission identifier to use in code.
           type: string
       type: object
+    UpdateRolePermissions_request_permissions_inner:
+      properties:
+        id:
+          description: The permission id.
+          type: string
+        operation:
+          description: "Optional operation, set to 'delete' to remove the permission\
+            \ from the role."
+          type: string
+      type: object
+    UpdateRolePermissions_request:
+      properties:
+        permissions:
+          description: Permissions to add or remove from the role.
+          items:
+            $ref: '#/components/schemas/UpdateRolePermissions_request_permissions_inner'
+          type: array
+      type: object
     CreateRole_request:
       properties:
         name:
@@ -3223,6 +4884,38 @@ components:
       - key
       - name
       type: object
+    createApplication_request:
+      properties:
+        name:
+          description: The application's name.
+          type: string
+        type:
+          description: The application's type.
+          enum:
+          - reg
+          - spa
+          - m2m
+          type: string
+      type: object
+    updateApplication_request:
+      properties:
+        name:
+          description: The application's name.
+          type: string
+        language_key:
+          description: The application's language key.
+          type: string
+        logout_uris:
+          description: The application's logout uris.
+          items:
+            type: string
+          type: array
+        redirect_uris:
+          description: The application's redirect uris.
+          items:
+            type: string
+          type: array
+      type: object
     replaceRedirectCallbackURLs_request:
       properties:
         urls:
@@ -3230,6 +4923,97 @@ components:
           items:
             type: string
           type: array
+      type: object
+    replaceLogoutRedirectURLs_request:
+      properties:
+        urls:
+          description: Array of logout urls.
+          items:
+            type: string
+          type: array
+      type: object
+    addAPIs_request:
+      properties:
+        name:
+          type: string
+        audience:
+          type: string
+      required:
+      - audience
+      - name
+      type: object
+    updateAPIApplications_request_applications_inner:
+      properties:
+        id:
+          description: The application's id.
+          type: string
+        operation:
+          description: "Optional operation, set to 'delete' to remove the user from\
+            \ the organization."
+          type: string
+      required:
+      - id
+      type: object
+    updateAPIApplications_request:
+      properties:
+        applications:
+          items:
+            $ref: '#/components/schemas/updateAPIApplications_request_applications_inner'
+          type: array
+      required:
+      - applications
+      type: object
+    users_response_users_inner:
+      example:
+        created_on: created_on
+        failed_sign_ins: 6
+        last_name: last_name
+        is_suspended: true
+        id: id
+        last_signed_in: last_signed_in
+        provided_id: provided_id
+        first_name: first_name
+        total_sign_ins: 0
+        email: email
+        picture: picture
+      properties:
+        id:
+          description: Unique id of the user in Kinde.
+          type: string
+        provided_id:
+          description: External id for user.
+          type: string
+        email:
+          description: Default email address of the user in Kinde.
+          type: string
+        last_name:
+          description: User's last name.
+          type: string
+        first_name:
+          description: User's first name.
+          type: string
+        is_suspended:
+          description: Whether the user is currently suspended or not.
+          type: boolean
+        picture:
+          description: User's profile picture URL.
+          type: string
+        total_sign_ins:
+          description: Total number of user sign ins.
+          nullable: true
+          type: integer
+        failed_sign_ins:
+          description: Number of consecutive failed user sign ins.
+          nullable: true
+          type: integer
+        last_signed_in:
+          description: Last sign in date in ISO 8601 format.
+          nullable: true
+          type: string
+        created_on:
+          description: Date of user creation in ISO 8601 format.
+          nullable: true
+          type: string
       type: object
     create_organization_response_organization:
       example:
@@ -3247,6 +5031,21 @@ components:
         created:
           description: True if the user identity was successfully created.
           type: boolean
+      type: object
+    organization_user_role_permissions_permissions:
+      properties:
+        key:
+          type: string
+      type: object
+    organization_user_permission_roles_inner:
+      example:
+        id: id
+        key: key
+      properties:
+        id:
+          type: string
+        key:
+          type: string
       type: object
     get_organization_feature_flags_response_feature_flags_value:
       example:
@@ -3269,6 +5068,78 @@ components:
         subscriber_id:
           description: A unique identifier for the subscriber.
           type: string
+      type: object
+    create_application_response_application:
+      example:
+        id: id
+        client_secret: client_secret
+        client_id: client_id
+      properties:
+        id:
+          description: The application's identifier.
+          type: string
+        client_id:
+          description: The application's client id.
+          type: string
+        client_secret:
+          description: The application's client secret.
+          type: string
+      type: object
+    get_application_response_application:
+      example:
+        name: name
+        id: id
+        client_secret: client_secret
+        type: type
+        client_id: client_id
+      properties:
+        id:
+          description: The application's identifier.
+          type: string
+        name:
+          description: The application's name.
+          type: string
+        type:
+          description: The application's type.
+          type: string
+        client_id:
+          description: The application's client id.
+          type: string
+        client_secret:
+          description: The application's client secret.
+          type: string
+      type: object
+    roles_permission_response_inner:
+      example:
+        name: name
+        description: description
+        id: id
+        key: key
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    api_applications_inner:
+      example:
+        is_active: true
+        name: name
+        id: id
+        type: type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        is_active:
+          type: boolean
       type: object
   securitySchemes:
     kindeBearerAuth:

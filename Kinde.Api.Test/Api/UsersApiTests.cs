@@ -73,8 +73,9 @@ namespace Kinde.Api.Test.Api
         public void DeleteUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? id = null;
-            //var response = instance.DeleteUser(id);
+            //string id = null;
+            //bool? isDeleteProfile = null;
+            //var response = instance.DeleteUser(id, isDeleteProfile);
             //Assert.IsType<SuccessResponse>(response);
         }
 
@@ -86,7 +87,8 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string id = null;
-            //var response = instance.GetUserData(id);
+            //string? expand = null;
+            //var response = instance.GetUserData(id, expand);
             //Assert.IsType<User>(response);
         }
 
@@ -102,8 +104,21 @@ namespace Kinde.Api.Test.Api
             //string? userId = null;
             //string? nextToken = null;
             //string? email = null;
-            //var response = instance.GetUsers(sort, pageSize, userId, nextToken, email);
+            //string? expand = null;
+            //var response = instance.GetUsers(sort, pageSize, userId, nextToken, email, expand);
             //Assert.IsType<UsersResponse>(response);
+        }
+
+        /// <summary>
+        /// Test RefreshUserClaims
+        /// </summary>
+        [Fact]
+        public void RefreshUserClaimsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.RefreshUserClaims(userId);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>
@@ -116,7 +131,7 @@ namespace Kinde.Api.Test.Api
             //UpdateUserRequest updateUserRequest = null;
             //string? id = null;
             //var response = instance.UpdateUser(updateUserRequest, id);
-            //Assert.IsType<User>(response);
+            //Assert.IsType<UpdateUserResponse>(response);
         }
     }
 }

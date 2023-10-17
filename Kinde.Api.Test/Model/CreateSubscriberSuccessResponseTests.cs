@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<CreateSubscriberSuccessResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Subscriber'
         /// </summary>
@@ -64,7 +63,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Subscriber'
         }
-
     }
-
 }

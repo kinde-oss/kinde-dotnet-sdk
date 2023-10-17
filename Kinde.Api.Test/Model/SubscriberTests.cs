@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<Subscriber>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'PreferredEmail'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'PreferredEmail'
         }
+
         /// <summary>
         /// Test the property 'FirstName'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FirstName'
         }
+
         /// <summary>
         /// Test the property 'LastName'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'LastName'
         }
-
     }
-
 }

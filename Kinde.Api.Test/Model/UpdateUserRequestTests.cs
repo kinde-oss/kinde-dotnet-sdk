@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<UpdateUserRequest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'GivenName'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'GivenName'
         }
+
         /// <summary>
         /// Test the property 'FamilyName'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FamilyName'
         }
+
         /// <summary>
         /// Test the property 'IsSuspended'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsSuspended'
         }
+
         /// <summary>
         /// Test the property 'IsPasswordResetRequested'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsPasswordResetRequested'
         }
-
     }
-
 }

@@ -9,7 +9,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**GetEnvironementFeatureFlags**](EnvironmentsApi.md#getenvironementfeatureflags) | **GET** /api/v1/environment/feature_flags | List Environment Feature Flags |
 | [**UpdateEnvironementFeatureFlagOverride**](EnvironmentsApi.md#updateenvironementfeatureflagoverride) | **PATCH** /api/v1/environment/feature_flags/{feature_flag_key} | Update Environment Feature Flag Override |
 
-<a name="deleteenvironementfeatureflagoverride"></a>
+<a id="deleteenvironementfeatureflagoverride"></a>
 # **DeleteEnvironementFeatureFlagOverride**
 > SuccessResponse DeleteEnvironementFeatureFlagOverride (string featureFlagKey)
 
@@ -106,10 +106,11 @@ catch (ApiException e)
 | **200** | Feature flag deleted successfully. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteenvironementfeatureflagoverrides"></a>
+<a id="deleteenvironementfeatureflagoverrides"></a>
 # **DeleteEnvironementFeatureFlagOverrides**
 > SuccessResponse DeleteEnvironementFeatureFlagOverrides ()
 
@@ -201,10 +202,11 @@ This endpoint does not need any parameter.
 | **200** | Feature flag overrides deleted successfully. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getenvironementfeatureflags"></a>
+<a id="getenvironementfeatureflags"></a>
 # **GetEnvironementFeatureFlags**
 > GetEnvironmentFeatureFlagsResponse GetEnvironementFeatureFlags ()
 
@@ -296,10 +298,11 @@ This endpoint does not need any parameter.
 | **200** | Feature flags retrieved successfully. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateenvironementfeatureflagoverride"></a>
+<a id="updateenvironementfeatureflagoverride"></a>
 # **UpdateEnvironementFeatureFlagOverride**
 > SuccessResponse UpdateEnvironementFeatureFlagOverride (string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest)
 
@@ -398,6 +401,7 @@ catch (ApiException e)
 | **200** | Feature flag override successful |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

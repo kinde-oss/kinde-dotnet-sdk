@@ -5,10 +5,11 @@ All URIs are relative to *https://app.kinde.com*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**CreatePermission**](PermissionsApi.md#createpermission) | **POST** /api/v1/permissions | Create Permission |
+| [**DeletePermission**](PermissionsApi.md#deletepermission) | **DELETE** /api/v1/permissions/{permission_id} | Delete Permission |
 | [**GetPermissions**](PermissionsApi.md#getpermissions) | **GET** /api/v1/permissions | List Permissions |
 | [**UpdatePermissions**](PermissionsApi.md#updatepermissions) | **PATCH** /api/v1/permissions/{permission_id} | Update Permission |
 
-<a name="createpermission"></a>
+<a id="createpermission"></a>
 # **CreatePermission**
 > SuccessResponse CreatePermission (CreatePermissionRequest? createPermissionRequest = null)
 
@@ -105,10 +106,112 @@ catch (ApiException e)
 | **201** | Permission successfully created |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getpermissions"></a>
+<a id="deletepermission"></a>
+# **DeletePermission**
+> SuccessResponse DeletePermission (string permissionId)
+
+Delete Permission
+
+Delete permission
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeletePermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
+            var permissionId = "permissionId_example";  // string | The identifier for the permission.
+
+            try
+            {
+                // Delete Permission
+                SuccessResponse result = apiInstance.DeletePermission(permissionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling PermissionsApi.DeletePermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeletePermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete Permission
+    ApiResponse<SuccessResponse> response = apiInstance.DeletePermissionWithHttpInfo(permissionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PermissionsApi.DeletePermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **permissionId** | **string** | The identifier for the permission. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | permission successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getpermissions"></a>
 # **GetPermissions**
 > SuccessResponse GetPermissions (string? sort = null, int? pageSize = null, string? nextToken = null)
 
@@ -208,10 +311,11 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Permissions successfully retrieved. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepermissions"></a>
+<a id="updatepermissions"></a>
 # **UpdatePermissions**
 > SuccessResponse UpdatePermissions (int permissionId, CreatePermissionRequest? createPermissionRequest = null)
 
@@ -310,6 +414,7 @@ catch (ApiException e)
 | **201** | Permission successfully updated |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<UserProfileV2>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'Sub'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Sub'
         }
+
         /// <summary>
         /// Test the property 'ProvidedId'
         /// </summary>
@@ -80,6 +81,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ProvidedId'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -88,6 +90,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'GivenName'
         /// </summary>
@@ -96,6 +99,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'GivenName'
         }
+
         /// <summary>
         /// Test the property 'FamilyName'
         /// </summary>
@@ -104,6 +108,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'FamilyName'
         }
+
         /// <summary>
         /// Test the property 'UpdatedAt'
         /// </summary>
@@ -112,6 +117,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'UpdatedAt'
         }
+
         /// <summary>
         /// Test the property 'Email'
         /// </summary>
@@ -120,6 +126,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Email'
         }
+
         /// <summary>
         /// Test the property 'Picture'
         /// </summary>
@@ -128,7 +135,5 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Picture'
         }
-
     }
-
 }

@@ -55,7 +55,6 @@ namespace Kinde.Api.Test.Model
             //Assert.IsType<Organization>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Code'
         /// </summary>
@@ -64,6 +63,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Code'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -72,6 +72,7 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'IsDefault'
         /// </summary>
@@ -81,6 +82,13 @@ namespace Kinde.Api.Test.Model
             // TODO unit test for the property 'IsDefault'
         }
 
+        /// <summary>
+        /// Test the property 'ExternalId'
+        /// </summary>
+        [Fact]
+        public void ExternalIdTest()
+        {
+            // TODO unit test for the property 'ExternalId'
+        }
     }
-
 }

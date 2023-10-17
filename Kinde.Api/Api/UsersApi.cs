@@ -156,8 +156,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
-        /// <returns>User</returns>
-        User UpdateUser(UpdateUserRequest updateUserRequest, string? id = default(string?));
+        /// <returns>UpdateUserResponse</returns>
+        UpdateUserResponse UpdateUser(UpdateUserRequest updateUserRequest, string? id = default(string?));
 
         /// <summary>
         /// Update User
@@ -168,8 +168,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
-        /// <returns>ApiResponse of User</returns>
-        ApiResponse<User> UpdateUserWithHttpInfo(UpdateUserRequest updateUserRequest, string? id = default(string?));
+        /// <returns>ApiResponse of UpdateUserResponse</returns>
+        ApiResponse<UpdateUserResponse> UpdateUserWithHttpInfo(UpdateUserRequest updateUserRequest, string? id = default(string?));
         #endregion Synchronous Operations
     }
 
@@ -318,8 +318,8 @@ namespace Kinde.Api.Api
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of User</returns>
-        System.Threading.Tasks.Task<User> UpdateUserAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of UpdateUserResponse</returns>
+        System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update User
@@ -331,8 +331,8 @@ namespace Kinde.Api.Api
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (User)</returns>
-        System.Threading.Tasks.Task<ApiResponse<User>> UpdateUserWithHttpInfoAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (UpdateUserResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdateUserResponse>> UpdateUserWithHttpInfoAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1289,10 +1289,10 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
-        /// <returns>User</returns>
-        public User UpdateUser(UpdateUserRequest updateUserRequest, string? id = default(string?))
+        /// <returns>UpdateUserResponse</returns>
+        public UpdateUserResponse UpdateUser(UpdateUserRequest updateUserRequest, string? id = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<User> localVarResponse = UpdateUserWithHttpInfo(updateUserRequest, id);
+            Kinde.Api.Client.ApiResponse<UpdateUserResponse> localVarResponse = UpdateUserWithHttpInfo(updateUserRequest, id);
             return localVarResponse.Data;
         }
 
@@ -1302,8 +1302,8 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
-        /// <returns>ApiResponse of User</returns>
-        public Kinde.Api.Client.ApiResponse<User> UpdateUserWithHttpInfo(UpdateUserRequest updateUserRequest, string? id = default(string?))
+        /// <returns>ApiResponse of UpdateUserResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdateUserResponse> UpdateUserWithHttpInfo(UpdateUserRequest updateUserRequest, string? id = default(string?))
         {
             // verify the required parameter 'updateUserRequest' is set
             if (updateUserRequest == null)
@@ -1341,7 +1341,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<User>("/api/v1/user", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<UpdateUserResponse>("/api/v1/user", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1359,10 +1359,10 @@ namespace Kinde.Api.Api
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of User</returns>
-        public async System.Threading.Tasks.Task<User> UpdateUserAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of UpdateUserResponse</returns>
+        public async System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<User> localVarResponse = await UpdateUserWithHttpInfoAsync(updateUserRequest, id, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UpdateUserResponse> localVarResponse = await UpdateUserWithHttpInfoAsync(updateUserRequest, id, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1373,8 +1373,8 @@ namespace Kinde.Api.Api
         /// <param name="updateUserRequest">The user to update.</param>
         /// <param name="id">The user&#39;s id. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (User)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<User>> UpdateUserWithHttpInfoAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (UpdateUserResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateUserResponse>> UpdateUserWithHttpInfoAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'updateUserRequest' is set
             if (updateUserRequest == null)
@@ -1415,7 +1415,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<User>("/api/v1/user", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateUserResponse>("/api/v1/user", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
