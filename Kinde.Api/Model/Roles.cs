@@ -36,15 +36,24 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Roles" /> class.
         /// </summary>
+        /// <param name="id">The role&#39;s id..</param>
         /// <param name="key">The role identifier to use in code..</param>
         /// <param name="name">The role&#39;s name..</param>
         /// <param name="description">The role&#39;s description..</param>
-        public Roles(string key = default(string), string name = default(string), string description = default(string))
+        public Roles(string id = default(string), string key = default(string), string name = default(string), string description = default(string))
         {
+            this.Id = id;
             this.Key = key;
             this.Name = name;
             this.Description = description;
         }
+
+        /// <summary>
+        /// The role&#39;s id.
+        /// </summary>
+        /// <value>The role&#39;s id.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
         /// The role identifier to use in code.
@@ -75,6 +84,7 @@ namespace Kinde.Api.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Roles {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
@@ -114,6 +124,11 @@ namespace Kinde.Api.Model
             }
             return 
                 (
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
                     this.Key == input.Key ||
                     (this.Key != null &&
                     this.Key.Equals(input.Key))
@@ -139,6 +154,10 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.Key != null)
                 {
                     hashCode = (hashCode * 59) + this.Key.GetHashCode();

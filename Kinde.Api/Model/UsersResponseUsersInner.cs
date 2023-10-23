@@ -47,7 +47,9 @@ namespace Kinde.Api.Model
         /// <param name="failedSignIns">Number of consecutive failed user sign ins..</param>
         /// <param name="lastSignedIn">Last sign in date in ISO 8601 format..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
-        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string))
+        /// <param name="organizations">Array of organizations a user belongs to..</param>
+        /// <param name="identities">Array of identities belonging to the user..</param>
+        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>))
         {
             this.Id = id;
             this.ProvidedId = providedId;
@@ -60,6 +62,8 @@ namespace Kinde.Api.Model
             this.FailedSignIns = failedSignIns;
             this.LastSignedIn = lastSignedIn;
             this.CreatedOn = createdOn;
+            this.Organizations = organizations;
+            this.Identities = identities;
         }
 
         /// <summary>
@@ -140,6 +144,20 @@ namespace Kinde.Api.Model
         public string CreatedOn { get; set; }
 
         /// <summary>
+        /// Array of organizations a user belongs to.
+        /// </summary>
+        /// <value>Array of organizations a user belongs to.</value>
+        [DataMember(Name = "organizations", EmitDefaultValue = false)]
+        public List<string> Organizations { get; set; }
+
+        /// <summary>
+        /// Array of identities belonging to the user.
+        /// </summary>
+        /// <value>Array of identities belonging to the user.</value>
+        [DataMember(Name = "identities", EmitDefaultValue = false)]
+        public List<UserIdentitiesInner> Identities { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -158,6 +176,8 @@ namespace Kinde.Api.Model
             sb.Append("  FailedSignIns: ").Append(FailedSignIns).Append("\n");
             sb.Append("  LastSignedIn: ").Append(LastSignedIn).Append("\n");
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
+            sb.Append("  Organizations: ").Append(Organizations).Append("\n");
+            sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -246,6 +266,18 @@ namespace Kinde.Api.Model
                     this.CreatedOn == input.CreatedOn ||
                     (this.CreatedOn != null &&
                     this.CreatedOn.Equals(input.CreatedOn))
+                ) && 
+                (
+                    this.Organizations == input.Organizations ||
+                    this.Organizations != null &&
+                    input.Organizations != null &&
+                    this.Organizations.SequenceEqual(input.Organizations)
+                ) && 
+                (
+                    this.Identities == input.Identities ||
+                    this.Identities != null &&
+                    input.Identities != null &&
+                    this.Identities.SequenceEqual(input.Identities)
                 );
         }
 
@@ -298,6 +330,14 @@ namespace Kinde.Api.Model
                 if (this.CreatedOn != null)
                 {
                     hashCode = (hashCode * 59) + this.CreatedOn.GetHashCode();
+                }
+                if (this.Organizations != null)
+                {
+                    hashCode = (hashCode * 59) + this.Organizations.GetHashCode();
+                }
+                if (this.Identities != null)
+                {
+                    hashCode = (hashCode * 59) + this.Identities.GetHashCode();
                 }
                 return hashCode;
             }

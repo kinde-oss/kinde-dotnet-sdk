@@ -64,6 +64,7 @@ Kinde.Api.Test/Model/GetOrganizationUsersResponseTests.cs
 Kinde.Api.Test/Model/GetOrganizationsResponseTests.cs
 Kinde.Api.Test/Model/GetOrganizationsUserPermissionsResponseTests.cs
 Kinde.Api.Test/Model/GetOrganizationsUserRolesResponseTests.cs
+Kinde.Api.Test/Model/GetPermissionsResponseTests.cs
 Kinde.Api.Test/Model/GetRedirectCallbackUrlsResponseTests.cs
 Kinde.Api.Test/Model/GetRolesResponseTests.cs
 Kinde.Api.Test/Model/GetSubscriberResponseTests.cs
@@ -102,6 +103,7 @@ Kinde.Api.Test/Model/UpdateRolePermissionsResponseTests.cs
 Kinde.Api.Test/Model/UpdateRolesRequestTests.cs
 Kinde.Api.Test/Model/UpdateUserRequestTests.cs
 Kinde.Api.Test/Model/UpdateUserResponseTests.cs
+Kinde.Api.Test/Model/UserIdentitiesInnerTests.cs
 Kinde.Api.Test/Model/UserIdentityResultTests.cs
 Kinde.Api.Test/Model/UserIdentityTests.cs
 Kinde.Api.Test/Model/UserProfileTests.cs
@@ -201,6 +203,7 @@ Kinde.Api/Model/GetOrganizationUsersResponse.cs
 Kinde.Api/Model/GetOrganizationsResponse.cs
 Kinde.Api/Model/GetOrganizationsUserPermissionsResponse.cs
 Kinde.Api/Model/GetOrganizationsUserRolesResponse.cs
+Kinde.Api/Model/GetPermissionsResponse.cs
 Kinde.Api/Model/GetRedirectCallbackUrlsResponse.cs
 Kinde.Api/Model/GetRolesResponse.cs
 Kinde.Api/Model/GetSubscriberResponse.cs
@@ -240,6 +243,7 @@ Kinde.Api/Model/UpdateRolesRequest.cs
 Kinde.Api/Model/UpdateUserRequest.cs
 Kinde.Api/Model/UpdateUserResponse.cs
 Kinde.Api/Model/User.cs
+Kinde.Api/Model/UserIdentitiesInner.cs
 Kinde.Api/Model/UserIdentity.cs
 Kinde.Api/Model/UserIdentityResult.cs
 Kinde.Api/Model/UserProfile.cs
@@ -327,6 +331,7 @@ docs/GetOrganizationUsersResponse.md
 docs/GetOrganizationsResponse.md
 docs/GetOrganizationsUserPermissionsResponse.md
 docs/GetOrganizationsUserRolesResponse.md
+docs/GetPermissionsResponse.md
 docs/GetRedirectCallbackUrlsResponse.md
 docs/GetRolesResponse.md
 docs/GetSubscriberResponse.md
@@ -373,6 +378,7 @@ docs/UpdateRolesRequest.md
 docs/UpdateUserRequest.md
 docs/UpdateUserResponse.md
 docs/User.md
+docs/UserIdentitiesInner.md
 docs/UserIdentity.md
 docs/UserIdentityResult.md
 docs/UserProfile.md

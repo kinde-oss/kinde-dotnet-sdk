@@ -89,7 +89,7 @@ namespace Kinde.Api.Test.Api
             //int? pageSize = null;
             //string? nextToken = null;
             //var response = instance.GetPermissions(sort, pageSize, nextToken);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<GetPermissionsResponse>(response);
         }
 
         /// <summary>

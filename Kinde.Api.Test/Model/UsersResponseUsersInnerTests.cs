@@ -153,5 +153,23 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'CreatedOn'
         }
+
+        /// <summary>
+        /// Test the property 'Organizations'
+        /// </summary>
+        [Fact]
+        public void OrganizationsTest()
+        {
+            // TODO unit test for the property 'Organizations'
+        }
+
+        /// <summary>
+        /// Test the property 'Identities'
+        /// </summary>
+        [Fact]
+        public void IdentitiesTest()
+        {
+            // TODO unit test for the property 'Identities'
+        }
     }
 }

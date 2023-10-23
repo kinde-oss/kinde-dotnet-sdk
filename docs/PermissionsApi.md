@@ -213,7 +213,7 @@ catch (ApiException e)
 
 <a id="getpermissions"></a>
 # **GetPermissions**
-> SuccessResponse GetPermissions (string? sort = null, int? pageSize = null, string? nextToken = null)
+> GetPermissionsResponse GetPermissions (string? sort = null, int? pageSize = null, string? nextToken = null)
 
 List Permissions
 
@@ -250,7 +250,7 @@ namespace Example
             try
             {
                 // List Permissions
-                SuccessResponse result = apiInstance.GetPermissions(sort, pageSize, nextToken);
+                GetPermissionsResponse result = apiInstance.GetPermissions(sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -271,7 +271,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List Permissions
-    ApiResponse<SuccessResponse> response = apiInstance.GetPermissionsWithHttpInfo(sort, pageSize, nextToken);
+    ApiResponse<GetPermissionsResponse> response = apiInstance.GetPermissionsWithHttpInfo(sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -294,7 +294,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**GetPermissionsResponse**](GetPermissionsResponse.md)
 
 ### Authorization
 
@@ -303,7 +303,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json, application/json; charset=utf-8
 
 
 ### HTTP response details

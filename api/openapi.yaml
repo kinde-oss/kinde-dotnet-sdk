@@ -2019,12 +2019,18 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_permissions_response'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/success_response'
+                $ref: '#/components/schemas/get_permissions_response'
           description: Permissions successfully retrieved.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -2192,12 +2198,18 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_roles_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/get_roles_response'
           description: Roles successfully retrieved.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -3590,17 +3602,25 @@ components:
       type: object
     user:
       example:
-        created_on: created_on
-        preferred_email: preferred_email
         failed_sign_ins: 6
         last_name: last_name
         is_suspended: true
-        id: id
         last_signed_in: last_signed_in
-        provided_id: provided_id
-        first_name: first_name
         total_sign_ins: 0
         picture: picture
+        identities:
+        - identity: identity
+          type: type
+        - identity: identity
+          type: type
+        created_on: created_on
+        preferred_email: preferred_email
+        organizations:
+        - organizations
+        - organizations
+        id: id
+        provided_id: provided_id
+        first_name: first_name
       properties:
         id:
           description: Unique id of the user in Kinde.
@@ -3639,6 +3659,16 @@ components:
           description: Date of user creation in ISO 8601 format.
           nullable: true
           type: string
+        organizations:
+          description: Array of organizations a user belongs to.
+          items:
+            type: string
+          type: array
+        identities:
+          description: Array of identities belonging to the user.
+          items:
+            $ref: '#/components/schemas/user_identities_inner'
+          type: array
       type: object
     update_user_response:
       example:
@@ -3683,28 +3713,44 @@ components:
         message: message
         next_token: next_token
         users:
-        - created_on: created_on
-          failed_sign_ins: 6
+        - failed_sign_ins: 6
           last_name: last_name
           is_suspended: true
-          id: id
           last_signed_in: last_signed_in
+          total_sign_ins: 0
+          picture: picture
+          identities:
+          - identity: identity
+            type: type
+          - identity: identity
+            type: type
+          created_on: created_on
+          organizations:
+          - organizations
+          - organizations
+          id: id
           provided_id: provided_id
           first_name: first_name
-          total_sign_ins: 0
           email: email
-          picture: picture
-        - created_on: created_on
-          failed_sign_ins: 6
+        - failed_sign_ins: 6
           last_name: last_name
           is_suspended: true
-          id: id
           last_signed_in: last_signed_in
+          total_sign_ins: 0
+          picture: picture
+          identities:
+          - identity: identity
+            type: type
+          - identity: identity
+            type: type
+          created_on: created_on
+          organizations:
+          - organizations
+          - organizations
+          id: id
           provided_id: provided_id
           first_name: first_name
-          total_sign_ins: 0
           email: email
-          picture: picture
       properties:
         code:
           description: Response code.
@@ -4079,9 +4125,11 @@ components:
         roles:
         - name: name
           description: description
+          id: id
           key: key
         - name: name
           description: description
+          id: id
           key: key
         message: message
         next_token: next_token
@@ -4494,7 +4542,38 @@ components:
             type: string
           type: array
       type: object
+    get_permissions_response:
+      example:
+        code: code
+        permissions:
+        - name: name
+          description: description
+          id: id
+        - name: name
+          description: description
+          id: id
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        permissions:
+          items:
+            $ref: '#/components/schemas/permissions'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
     permissions:
+      example:
+        name: name
+        description: description
+        id: id
       properties:
         id:
           description: The permission identifier to use in code.
@@ -4510,8 +4589,12 @@ components:
       example:
         name: name
         description: description
+        id: id
         key: key
       properties:
+        id:
+          description: The role's id.
+          type: string
         key:
           description: The role identifier to use in code.
           type: string
@@ -4963,19 +5046,37 @@ components:
       required:
       - applications
       type: object
+    user_identities_inner:
+      example:
+        identity: identity
+        type: type
+      properties:
+        type:
+          type: string
+        identity:
+          type: string
+      type: object
     users_response_users_inner:
       example:
-        created_on: created_on
         failed_sign_ins: 6
         last_name: last_name
         is_suspended: true
-        id: id
         last_signed_in: last_signed_in
+        total_sign_ins: 0
+        picture: picture
+        identities:
+        - identity: identity
+          type: type
+        - identity: identity
+          type: type
+        created_on: created_on
+        organizations:
+        - organizations
+        - organizations
+        id: id
         provided_id: provided_id
         first_name: first_name
-        total_sign_ins: 0
         email: email
-        picture: picture
       properties:
         id:
           description: Unique id of the user in Kinde.
@@ -5014,6 +5115,16 @@ components:
           description: Date of user creation in ISO 8601 format.
           nullable: true
           type: string
+        organizations:
+          description: Array of organizations a user belongs to.
+          items:
+            type: string
+          type: array
+        identities:
+          description: Array of identities belonging to the user.
+          items:
+            $ref: '#/components/schemas/user_identities_inner'
+          type: array
       type: object
     create_organization_response_organization:
       example:
