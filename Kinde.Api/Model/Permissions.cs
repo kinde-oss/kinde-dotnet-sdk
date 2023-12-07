@@ -36,22 +36,31 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Permissions" /> class.
         /// </summary>
-        /// <param name="id">The permission identifier to use in code..</param>
+        /// <param name="id">The permission&#39;s id..</param>
+        /// <param name="key">The permission identifier to use in code..</param>
         /// <param name="name">The permission&#39;s name..</param>
         /// <param name="description">The permission&#39;s description..</param>
-        public Permissions(string id = default(string), string name = default(string), string description = default(string))
+        public Permissions(string id = default(string), string key = default(string), string name = default(string), string description = default(string))
         {
             this.Id = id;
+            this.Key = key;
             this.Name = name;
             this.Description = description;
         }
 
         /// <summary>
+        /// The permission&#39;s id.
+        /// </summary>
+        /// <value>The permission&#39;s id.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
+
+        /// <summary>
         /// The permission identifier to use in code.
         /// </summary>
         /// <value>The permission identifier to use in code.</value>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id { get; set; }
+        [DataMember(Name = "key", EmitDefaultValue = false)]
+        public string Key { get; set; }
 
         /// <summary>
         /// The permission&#39;s name.
@@ -76,6 +85,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Permissions {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("}\n");
@@ -119,6 +129,11 @@ namespace Kinde.Api.Model
                     this.Id.Equals(input.Id))
                 ) && 
                 (
+                    this.Key == input.Key ||
+                    (this.Key != null &&
+                    this.Key.Equals(input.Key))
+                ) && 
+                (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
@@ -142,6 +157,10 @@ namespace Kinde.Api.Model
                 if (this.Id != null)
                 {
                     hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.Key != null)
+                {
+                    hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
                 if (this.Name != null)
                 {

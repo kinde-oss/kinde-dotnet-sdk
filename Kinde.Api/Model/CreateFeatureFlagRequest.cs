@@ -83,7 +83,13 @@ namespace Kinde.Api.Model
             /// Enum Org for value: org
             /// </summary>
             [EnumMember(Value = "org")]
-            Org = 2
+            Org = 2,
+
+            /// <summary>
+            /// Enum Usr for value: usr
+            /// </summary>
+            [EnumMember(Value = "usr")]
+            Usr = 3
         }
 
 

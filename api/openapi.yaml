@@ -442,6 +442,61 @@ paths:
       summary: Create User
       tags:
       - Users
+  /api/v1/users/{user_id}/feature_flags/{feature_flag_key}:
+    patch:
+      description: Update user feature flag override.
+      operationId: UpdateUserFeatureFlagOverride
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The identifier for the feature flag
+        explode: false
+        in: path
+        name: feature_flag_key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Override value
+        explode: true
+        in: query
+        name: value
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Feature flag override successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      summary: Update User Feature Flag Override
+      tags:
+      - Users
   /api/v1/subscribers:
     get:
       description: |
@@ -1351,7 +1406,17 @@ paths:
         explode: true
         in: query
         name: user_id
-        required: true
+        required: false
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The code of the Kinde organization that needs to authenticate
+          to the third-party connected app.
+        explode: true
+        in: query
+        name: org_code
+        required: false
         schema:
           nullable: false
           type: string
@@ -2335,7 +2400,7 @@ paths:
       summary: Update Role Permissions
       tags:
       - Roles
-  /api/v1/roles/{role_id}/permission/{permission_id}:
+  /api/v1/roles/{role_id}/permissions/{permission_id}:
     delete:
       description: Remove a permission from a role.
       operationId: RemoveRolePermission
@@ -2414,8 +2479,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid credentials.
-        "429":
-          description: Request was throttled.
       summary: Create Role
       tags:
       - Roles
@@ -4549,9 +4612,11 @@ components:
         - name: name
           description: description
           id: id
+          key: key
         - name: name
           description: description
           id: id
+          key: key
         message: message
         next_token: next_token
       properties:
@@ -4574,8 +4639,12 @@ components:
         name: name
         description: description
         id: id
+        key: key
       properties:
         id:
+          description: The permission's id.
+          type: string
+        key:
           description: The permission identifier to use in code.
           type: string
         name:
@@ -4770,6 +4839,9 @@ components:
         link_color:
           description: The organization's brand settings - link color.
           type: string
+        handle:
+          description: The organization's handle.
+          type: string
       type: object
     updateOrganization_request:
       properties:
@@ -4790,6 +4862,9 @@ components:
           type: string
         link_color:
           description: The organization's brand settings - link color.
+          type: string
+        handle:
+          description: The organization's handle.
           type: string
       type: object
     AddOrganizationUsers_request_users_inner:
@@ -4883,6 +4958,7 @@ components:
           enum:
           - env
           - org
+          - usr
           nullable: false
           type: string
         default_value:

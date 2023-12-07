@@ -133,5 +133,19 @@ namespace Kinde.Api.Test.Api
             //var response = instance.UpdateUser(updateUserRequest, id);
             //Assert.IsType<UpdateUserResponse>(response);
         }
+
+        /// <summary>
+        /// Test UpdateUserFeatureFlagOverride
+        /// </summary>
+        [Fact]
+        public void UpdateUserFeatureFlagOverrideTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //string featureFlagKey = null;
+            //string value = null;
+            //var response = instance.UpdateUserFeatureFlagOverride(userId, featureFlagKey, value);
+            //Assert.IsType<SuccessResponse>(response);
+        }
     }
 }

@@ -10,7 +10,7 @@ All URIs are relative to *https://app.kinde.com*
 
 <a id="getconnectedappauthurl"></a>
 # **GetConnectedAppAuthUrl**
-> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string userId)
+> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string? userId = null, string? orgCode = null)
 
 Get Connected App URL
 
@@ -41,12 +41,13 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
             var keyCodeRef = "keyCodeRef_example";  // string | The unique key code reference of the connected app to authenticate against.
-            var userId = "userId_example";  // string | The id of the user that needs to authenticate to the third-party connected app.
+            var userId = "userId_example";  // string? | The id of the user that needs to authenticate to the third-party connected app. (optional) 
+            var orgCode = "orgCode_example";  // string? | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
 
             try
             {
                 // Get Connected App URL
-                ConnectedAppsAuthUrl result = apiInstance.GetConnectedAppAuthUrl(keyCodeRef, userId);
+                ConnectedAppsAuthUrl result = apiInstance.GetConnectedAppAuthUrl(keyCodeRef, userId, orgCode);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -67,7 +68,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get Connected App URL
-    ApiResponse<ConnectedAppsAuthUrl> response = apiInstance.GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId);
+    ApiResponse<ConnectedAppsAuthUrl> response = apiInstance.GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId, orgCode);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -85,7 +86,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **keyCodeRef** | **string** | The unique key code reference of the connected app to authenticate against. |  |
-| **userId** | **string** | The id of the user that needs to authenticate to the third-party connected app. |  |
+| **userId** | **string?** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
+| **orgCode** | **string?** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
 
 ### Return type
 

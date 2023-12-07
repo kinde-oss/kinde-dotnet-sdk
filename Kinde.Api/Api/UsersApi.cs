@@ -170,6 +170,31 @@ namespace Kinde.Api.Api
         /// <param name="id">The user&#39;s id. (optional)</param>
         /// <returns>ApiResponse of UpdateUserResponse</returns>
         ApiResponse<UpdateUserResponse> UpdateUserWithHttpInfo(UpdateUserRequest updateUserRequest, string? id = default(string?));
+        /// <summary>
+        /// Update User Feature Flag Override
+        /// </summary>
+        /// <remarks>
+        /// Update user feature flag override.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateUserFeatureFlagOverride(string userId, string featureFlagKey, string value);
+
+        /// <summary>
+        /// Update User Feature Flag Override
+        /// </summary>
+        /// <remarks>
+        /// Update user feature flag override.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateUserFeatureFlagOverrideWithHttpInfo(string userId, string featureFlagKey, string value);
         #endregion Synchronous Operations
     }
 
@@ -333,6 +358,33 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UpdateUserResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<UpdateUserResponse>> UpdateUserWithHttpInfoAsync(UpdateUserRequest updateUserRequest, string? id = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update User Feature Flag Override
+        /// </summary>
+        /// <remarks>
+        /// Update user feature flag override.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateUserFeatureFlagOverrideAsync(string userId, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update User Feature Flag Override
+        /// </summary>
+        /// <remarks>
+        /// Update user feature flag override.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateUserFeatureFlagOverrideWithHttpInfoAsync(string userId, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1420,6 +1472,163 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateUser", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update User Feature Flag Override Update user feature flag override.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateUserFeatureFlagOverride(string userId, string featureFlagKey, string value)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateUserFeatureFlagOverrideWithHttpInfo(userId, featureFlagKey, value);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update User Feature Flag Override Update user feature flag override.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateUserFeatureFlagOverrideWithHttpInfo(string userId, string featureFlagKey, string value)
+        {
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+            // verify the required parameter 'featureFlagKey' is set
+            if (featureFlagKey == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+            // verify the required parameter 'value' is set
+            if (value == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/users/{user_id}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateUserFeatureFlagOverride", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update User Feature Flag Override Update user feature flag override.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateUserFeatureFlagOverrideAsync(string userId, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateUserFeatureFlagOverrideWithHttpInfoAsync(userId, featureFlagKey, value, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update User Feature Flag Override Update user feature flag override.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="featureFlagKey">The identifier for the feature flag</param>
+        /// <param name="value">Override value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateUserFeatureFlagOverrideWithHttpInfoAsync(string userId, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+            // verify the required parameter 'featureFlagKey' is set
+            if (featureFlagKey == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+            // verify the required parameter 'value' is set
+            if (value == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling UsersApi->UpdateUserFeatureFlagOverride");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/users/{user_id}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateUserFeatureFlagOverride", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

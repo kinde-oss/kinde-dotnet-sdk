@@ -10,6 +10,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | List Users |
 | [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update User |
+| [**UpdateUserFeatureFlagOverride**](UsersApi.md#updateuserfeatureflagoverride) | **PATCH** /api/v1/users/{user_id}/feature_flags/{feature_flag_key} | Update User Feature Flag Override |
 
 <a id="createuser"></a>
 # **CreateUser**
@@ -627,6 +628,111 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | User successfully updated. |  -  |
 | **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateuserfeatureflagoverride"></a>
+# **UpdateUserFeatureFlagOverride**
+> SuccessResponse UpdateUserFeatureFlagOverride (string userId, string featureFlagKey, string value)
+
+Update User Feature Flag Override
+
+Update user feature flag override.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateUserFeatureFlagOverrideExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = "userId_example";  // string | The identifier for the user
+            var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag
+            var value = "value_example";  // string | Override value
+
+            try
+            {
+                // Update User Feature Flag Override
+                SuccessResponse result = apiInstance.UpdateUserFeatureFlagOverride(userId, featureFlagKey, value);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.UpdateUserFeatureFlagOverride: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateUserFeatureFlagOverrideWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update User Feature Flag Override
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateUserFeatureFlagOverrideWithHttpInfo(userId, featureFlagKey, value);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.UpdateUserFeatureFlagOverrideWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+| **featureFlagKey** | **string** | The identifier for the feature flag |  |
+| **value** | **string** | Override value |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Feature flag override successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 

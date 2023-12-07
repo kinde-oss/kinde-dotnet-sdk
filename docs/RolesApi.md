@@ -8,7 +8,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**DeleteRole**](RolesApi.md#deleterole) | **DELETE** /api/v1/roles/{role_id} | Delete Role |
 | [**GetRolePermission**](RolesApi.md#getrolepermission) | **GET** /api/v1/roles/{role_id}/permissions | Get Role Permissions |
 | [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List Roles |
-| [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permission/{permission_id} | Remove Role Permission |
+| [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove Role Permission |
 | [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update Role Permissions |
 | [**UpdateRoles**](RolesApi.md#updateroles) | **PATCH** /api/v1/roles/{role_id} | Update Role |
 
@@ -109,7 +109,6 @@ catch (ApiException e)
 | **201** | Role successfully created |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

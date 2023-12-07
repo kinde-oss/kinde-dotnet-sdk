@@ -108,5 +108,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'LinkColor'
         }
+
+        /// <summary>
+        /// Test the property 'Handle'
+        /// </summary>
+        [Fact]
+        public void HandleTest()
+        {
+            // TODO unit test for the property 'Handle'
+        }
     }
 }

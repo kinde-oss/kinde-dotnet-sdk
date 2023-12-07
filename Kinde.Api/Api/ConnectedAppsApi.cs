@@ -36,9 +36,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <returns>ConnectedAppsAuthUrl</returns>
-        ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string userId);
+        ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?));
 
         /// <summary>
         /// Get Connected App URL
@@ -48,9 +49,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string userId);
+        ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?));
         /// <summary>
         /// Get Connected App Token
         /// </summary>
@@ -110,10 +112,11 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get Connected App URL
@@ -123,10 +126,11 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get Connected App Token
         /// </summary>
@@ -407,11 +411,12 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <returns>ConnectedAppsAuthUrl</returns>
-        public ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string userId)
+        public ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId);
+            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId, orgCode);
             return localVarResponse.Data;
         }
 
@@ -420,17 +425,14 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        public Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string userId)
+        public Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?))
         {
             // verify the required parameter 'keyCodeRef' is set
             if (keyCodeRef == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyCodeRef' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -450,7 +452,14 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key_code_ref", keyCodeRef));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
+            if (userId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
+            }
+            if (orgCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "org_code", orgCode));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -476,12 +485,13 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        public async System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = await GetConnectedAppAuthUrlWithHttpInfoAsync(keyCodeRef, userId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = await GetConnectedAppAuthUrlWithHttpInfoAsync(keyCodeRef, userId, orgCode, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -490,18 +500,15 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app.</param>
+        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
+        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'keyCodeRef' is set
             if (keyCodeRef == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyCodeRef' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -523,7 +530,14 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key_code_ref", keyCodeRef));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
+            if (userId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
+            }
+            if (orgCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "org_code", orgCode));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required

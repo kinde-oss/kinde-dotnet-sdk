@@ -1230,7 +1230,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/roles/{role_id}/permission/{permission_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/roles/{role_id}/permissions/{permission_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1304,7 +1304,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/roles/{role_id}/permission/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/roles/{role_id}/permissions/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

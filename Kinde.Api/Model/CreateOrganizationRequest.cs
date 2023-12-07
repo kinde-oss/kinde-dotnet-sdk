@@ -69,7 +69,8 @@ namespace Kinde.Api.Model
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
         /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color..</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color..</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string))
+        /// <param name="handle">The organization&#39;s handle..</param>
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string handle = default(string))
         {
             this.Name = name;
             this.FeatureFlags = featureFlags;
@@ -78,6 +79,7 @@ namespace Kinde.Api.Model
             this.ButtonColor = buttonColor;
             this.ButtonTextColor = buttonTextColor;
             this.LinkColor = linkColor;
+            this.Handle = handle;
         }
 
         /// <summary>
@@ -130,6 +132,13 @@ namespace Kinde.Api.Model
         public string LinkColor { get; set; }
 
         /// <summary>
+        /// The organization&#39;s handle.
+        /// </summary>
+        /// <value>The organization&#39;s handle.</value>
+        [DataMember(Name = "handle", EmitDefaultValue = false)]
+        public string Handle { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -144,6 +153,7 @@ namespace Kinde.Api.Model
             sb.Append("  ButtonColor: ").Append(ButtonColor).Append("\n");
             sb.Append("  ButtonTextColor: ").Append(ButtonTextColor).Append("\n");
             sb.Append("  LinkColor: ").Append(LinkColor).Append("\n");
+            sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -214,6 +224,11 @@ namespace Kinde.Api.Model
                     this.LinkColor == input.LinkColor ||
                     (this.LinkColor != null &&
                     this.LinkColor.Equals(input.LinkColor))
+                ) && 
+                (
+                    this.Handle == input.Handle ||
+                    (this.Handle != null &&
+                    this.Handle.Equals(input.Handle))
                 );
         }
 
@@ -253,6 +268,10 @@ namespace Kinde.Api.Model
                 if (this.LinkColor != null)
                 {
                     hashCode = (hashCode * 59) + this.LinkColor.GetHashCode();
+                }
+                if (this.Handle != null)
+                {
+                    hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 return hashCode;
             }
