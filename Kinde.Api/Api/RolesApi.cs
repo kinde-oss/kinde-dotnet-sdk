@@ -634,6 +634,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -653,7 +654,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/role", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -695,6 +696,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json",
                 "application/json; charset=utf-8"
             };
 
@@ -716,7 +718,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/role", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/roles", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

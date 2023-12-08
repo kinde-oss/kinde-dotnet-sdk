@@ -2284,6 +2284,47 @@ paths:
       summary: List Roles
       tags:
       - Roles
+    post:
+      description: Create role.
+      operationId: CreateRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRole_request'
+        description: Role details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+      summary: Create Role
+      tags:
+      - Roles
   /api/v1/roles/{role_id}/permissions:
     get:
       description: Get permissions for a role.
@@ -2447,39 +2488,6 @@ paths:
         "429":
           description: Request was throttled.
       summary: Remove Role Permission
-      tags:
-      - Roles
-  /api/v1/role:
-    post:
-      description: Create role.
-      operationId: CreateRole
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateRole_request'
-        description: Role details.
-        required: false
-      responses:
-        "201":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
-          description: Role successfully created
-        "400":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid request.
-        "403":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
-      summary: Create Role
       tags:
       - Roles
   /api/v1/roles/{role_id}:
@@ -4992,6 +5000,21 @@ components:
           description: The permission identifier to use in code.
           type: string
       type: object
+    CreateRole_request:
+      properties:
+        name:
+          description: The role's name.
+          type: string
+        description:
+          description: The role's description.
+          type: string
+        key:
+          description: The role identifier to use in code.
+          type: string
+        is_default_role:
+          description: Set role as default for new users.
+          type: boolean
+      type: object
     UpdateRolePermissions_request_permissions_inner:
       properties:
         id:
@@ -5009,21 +5032,6 @@ components:
           items:
             $ref: '#/components/schemas/UpdateRolePermissions_request_permissions_inner'
           type: array
-      type: object
-    CreateRole_request:
-      properties:
-        name:
-          description: The role's name.
-          type: string
-        description:
-          description: The role's description.
-          type: string
-        key:
-          description: The role identifier to use in code.
-          type: string
-        is_default_role:
-          description: Set role as default for new users.
-          type: boolean
       type: object
     UpdateRoles_request:
       properties:
