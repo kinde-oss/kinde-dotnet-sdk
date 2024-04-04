@@ -62,16 +62,32 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateOrganizationRequest" /> class.
         /// </summary>
-        /// <param name="name">The organization&#39;s name..</param>
+        [JsonConstructorAttribute]
+        protected CreateOrganizationRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateOrganizationRequest" /> class.
+        /// </summary>
+        /// <param name="name">The organization&#39;s name. (required).</param>
         /// <param name="featureFlags">The organization&#39;s feature flag settings..</param>
         /// <param name="externalId">The organization&#39;s ID..</param>
         /// <param name="backgroundColor">The organization&#39;s brand settings - background color..</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
         /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color..</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color..</param>
+        /// <param name="backgroundColorDark">The organization&#39;s brand settings - dark mode background color..</param>
+        /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color..</param>
+        /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color..</param>
+        /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
+        /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
         /// <param name="handle">The organization&#39;s handle..</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string handle = default(string))
+        /// <param name="isAllowRegistrations">Users can sign up to this organization..</param>
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool))
         {
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new ArgumentNullException("name is a required property for CreateOrganizationRequest and cannot be null");
+            }
             this.Name = name;
             this.FeatureFlags = featureFlags;
             this.ExternalId = externalId;
@@ -79,14 +95,20 @@ namespace Kinde.Api.Model
             this.ButtonColor = buttonColor;
             this.ButtonTextColor = buttonTextColor;
             this.LinkColor = linkColor;
+            this.BackgroundColorDark = backgroundColorDark;
+            this.ButtonColorDark = buttonColorDark;
+            this.ButtonTextColorDark = buttonTextColorDark;
+            this.LinkColorDark = linkColorDark;
+            this.ThemeCode = themeCode;
             this.Handle = handle;
+            this.IsAllowRegistrations = isAllowRegistrations;
         }
 
         /// <summary>
         /// The organization&#39;s name.
         /// </summary>
         /// <value>The organization&#39;s name.</value>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
@@ -132,11 +154,53 @@ namespace Kinde.Api.Model
         public string LinkColor { get; set; }
 
         /// <summary>
+        /// The organization&#39;s brand settings - dark mode background color.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - dark mode background color.</value>
+        [DataMember(Name = "background_color_dark", EmitDefaultValue = false)]
+        public string BackgroundColorDark { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s brand settings - dark mode button color.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - dark mode button color.</value>
+        [DataMember(Name = "button_color_dark", EmitDefaultValue = false)]
+        public string ButtonColorDark { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s brand settings - dark mode button text color.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
+        [DataMember(Name = "button_text_color_dark", EmitDefaultValue = false)]
+        public string ButtonTextColorDark { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s brand settings - dark mode link color.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - dark mode link color.</value>
+        [DataMember(Name = "link_color_dark", EmitDefaultValue = false)]
+        public string LinkColorDark { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.</value>
+        [DataMember(Name = "theme_code", EmitDefaultValue = false)]
+        public string ThemeCode { get; set; }
+
+        /// <summary>
         /// The organization&#39;s handle.
         /// </summary>
         /// <value>The organization&#39;s handle.</value>
         [DataMember(Name = "handle", EmitDefaultValue = false)]
         public string Handle { get; set; }
+
+        /// <summary>
+        /// Users can sign up to this organization.
+        /// </summary>
+        /// <value>Users can sign up to this organization.</value>
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        public bool IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -153,7 +217,13 @@ namespace Kinde.Api.Model
             sb.Append("  ButtonColor: ").Append(ButtonColor).Append("\n");
             sb.Append("  ButtonTextColor: ").Append(ButtonTextColor).Append("\n");
             sb.Append("  LinkColor: ").Append(LinkColor).Append("\n");
+            sb.Append("  BackgroundColorDark: ").Append(BackgroundColorDark).Append("\n");
+            sb.Append("  ButtonColorDark: ").Append(ButtonColorDark).Append("\n");
+            sb.Append("  ButtonTextColorDark: ").Append(ButtonTextColorDark).Append("\n");
+            sb.Append("  LinkColorDark: ").Append(LinkColorDark).Append("\n");
+            sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
+            sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -226,9 +296,38 @@ namespace Kinde.Api.Model
                     this.LinkColor.Equals(input.LinkColor))
                 ) && 
                 (
+                    this.BackgroundColorDark == input.BackgroundColorDark ||
+                    (this.BackgroundColorDark != null &&
+                    this.BackgroundColorDark.Equals(input.BackgroundColorDark))
+                ) && 
+                (
+                    this.ButtonColorDark == input.ButtonColorDark ||
+                    (this.ButtonColorDark != null &&
+                    this.ButtonColorDark.Equals(input.ButtonColorDark))
+                ) && 
+                (
+                    this.ButtonTextColorDark == input.ButtonTextColorDark ||
+                    (this.ButtonTextColorDark != null &&
+                    this.ButtonTextColorDark.Equals(input.ButtonTextColorDark))
+                ) && 
+                (
+                    this.LinkColorDark == input.LinkColorDark ||
+                    (this.LinkColorDark != null &&
+                    this.LinkColorDark.Equals(input.LinkColorDark))
+                ) && 
+                (
+                    this.ThemeCode == input.ThemeCode ||
+                    (this.ThemeCode != null &&
+                    this.ThemeCode.Equals(input.ThemeCode))
+                ) && 
+                (
                     this.Handle == input.Handle ||
                     (this.Handle != null &&
                     this.Handle.Equals(input.Handle))
+                ) && 
+                (
+                    this.IsAllowRegistrations == input.IsAllowRegistrations ||
+                    this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
                 );
         }
 
@@ -269,10 +368,31 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.LinkColor.GetHashCode();
                 }
+                if (this.BackgroundColorDark != null)
+                {
+                    hashCode = (hashCode * 59) + this.BackgroundColorDark.GetHashCode();
+                }
+                if (this.ButtonColorDark != null)
+                {
+                    hashCode = (hashCode * 59) + this.ButtonColorDark.GetHashCode();
+                }
+                if (this.ButtonTextColorDark != null)
+                {
+                    hashCode = (hashCode * 59) + this.ButtonTextColorDark.GetHashCode();
+                }
+                if (this.LinkColorDark != null)
+                {
+                    hashCode = (hashCode * 59) + this.LinkColorDark.GetHashCode();
+                }
+                if (this.ThemeCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.ThemeCode.GetHashCode();
+                }
                 if (this.Handle != null)
                 {
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
                 return hashCode;
             }
         }

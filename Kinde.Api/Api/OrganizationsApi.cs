@@ -58,9 +58,9 @@ namespace Kinde.Api.Api
         /// Create an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <returns>CreateOrganizationResponse</returns>
-        CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?));
+        CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest createOrganizationRequest);
 
         /// <summary>
         /// Create Organization
@@ -69,9 +69,9 @@ namespace Kinde.Api.Api
         /// Create an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <returns>ApiResponse of CreateOrganizationResponse</returns>
-        ApiResponse<CreateOrganizationResponse> CreateOrganizationWithHttpInfo(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?));
+        ApiResponse<CreateOrganizationResponse> CreateOrganizationWithHttpInfo(CreateOrganizationRequest createOrganizationRequest);
         /// <summary>
         /// Add Organization User Permission
         /// </summary>
@@ -280,6 +280,27 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationFeatureFlagsResponse</returns>
         ApiResponse<GetOrganizationFeatureFlagsResponse> GetOrganizationFeatureFlagsWithHttpInfo(string orgCode);
         /// <summary>
+        /// Get Organization Property Values
+        /// </summary>
+        /// <remarks>
+        /// Gets properties for an organization by org code. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetPropertyValuesResponse</returns>
+        GetPropertyValuesResponse GetOrganizationPropertyValues(string orgCode);
+
+        /// <summary>
+        /// Get Organization Property Values
+        /// </summary>
+        /// <remarks>
+        /// Gets properties for an organization by org code. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetPropertyValuesResponse</returns>
+        ApiResponse<GetPropertyValuesResponse> GetOrganizationPropertyValuesWithHttpInfo(string orgCode);
+        /// <summary>
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
@@ -455,6 +476,54 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value);
         /// <summary>
+        /// Update Organization Property values
+        /// </summary>
+        /// <remarks>
+        /// Update organization property values.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateOrganizationProperties(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest);
+
+        /// <summary>
+        /// Update Organization Property values
+        /// </summary>
+        /// <remarks>
+        /// Update organization property values.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateOrganizationPropertiesWithHttpInfo(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest);
+        /// <summary>
+        /// Update Organization Property value
+        /// </summary>
+        /// <remarks>
+        /// Update organization property value.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateOrganizationProperty(string orgCode, string propertyKey, string value);
+
+        /// <summary>
+        /// Update Organization Property value
+        /// </summary>
+        /// <remarks>
+        /// Update organization property value.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateOrganizationPropertyWithHttpInfo(string orgCode, string propertyKey, string value);
+        /// <summary>
         /// Update Organization Users
         /// </summary>
         /// <remarks>
@@ -518,10 +587,10 @@ namespace Kinde.Api.Api
         /// Create an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateOrganizationResponse</returns>
-        System.Threading.Tasks.Task<CreateOrganizationResponse> CreateOrganizationAsync(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<CreateOrganizationResponse> CreateOrganizationAsync(CreateOrganizationRequest createOrganizationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Create Organization
@@ -530,10 +599,10 @@ namespace Kinde.Api.Api
         /// Create an organization.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateOrganizationResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<CreateOrganizationResponse>> CreateOrganizationWithHttpInfoAsync(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<CreateOrganizationResponse>> CreateOrganizationWithHttpInfoAsync(CreateOrganizationRequest createOrganizationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Add Organization User Permission
         /// </summary>
@@ -760,6 +829,29 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationFeatureFlagsResponse>> GetOrganizationFeatureFlagsWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get Organization Property Values
+        /// </summary>
+        /// <remarks>
+        /// Gets properties for an organization by org code. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPropertyValuesResponse</returns>
+        System.Threading.Tasks.Task<GetPropertyValuesResponse> GetOrganizationPropertyValuesAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get Organization Property Values
+        /// </summary>
+        /// <remarks>
+        /// Gets properties for an organization by org code. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPropertyValuesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetPropertyValuesResponse>> GetOrganizationPropertyValuesWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
@@ -948,6 +1040,58 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update Organization Property values
+        /// </summary>
+        /// <remarks>
+        /// Update organization property values.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertiesAsync(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update Organization Property values
+        /// </summary>
+        /// <remarks>
+        /// Update organization property values.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationPropertiesWithHttpInfoAsync(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update Organization Property value
+        /// </summary>
+        /// <remarks>
+        /// Update organization property value.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertyAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update Organization Property value
+        /// </summary>
+        /// <remarks>
+        /// Update organization property value.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationPropertyWithHttpInfoAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Organization Users
         /// </summary>
@@ -1343,9 +1487,9 @@ namespace Kinde.Api.Api
         /// Create Organization Create an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <returns>CreateOrganizationResponse</returns>
-        public CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?))
+        public CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest createOrganizationRequest)
         {
             Kinde.Api.Client.ApiResponse<CreateOrganizationResponse> localVarResponse = CreateOrganizationWithHttpInfo(createOrganizationRequest);
             return localVarResponse.Data;
@@ -1355,10 +1499,14 @@ namespace Kinde.Api.Api
         /// Create Organization Create an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <returns>ApiResponse of CreateOrganizationResponse</returns>
-        public Kinde.Api.Client.ApiResponse<CreateOrganizationResponse> CreateOrganizationWithHttpInfo(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?))
+        public Kinde.Api.Client.ApiResponse<CreateOrganizationResponse> CreateOrganizationWithHttpInfo(CreateOrganizationRequest createOrganizationRequest)
         {
+            // verify the required parameter 'createOrganizationRequest' is set
+            if (createOrganizationRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationRequest' when calling OrganizationsApi->CreateOrganization");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1402,10 +1550,10 @@ namespace Kinde.Api.Api
         /// Create Organization Create an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateOrganizationResponse</returns>
-        public async System.Threading.Tasks.Task<CreateOrganizationResponse> CreateOrganizationAsync(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<CreateOrganizationResponse> CreateOrganizationAsync(CreateOrganizationRequest createOrganizationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<CreateOrganizationResponse> localVarResponse = await CreateOrganizationWithHttpInfoAsync(createOrganizationRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1415,11 +1563,15 @@ namespace Kinde.Api.Api
         /// Create Organization Create an organization.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="createOrganizationRequest">Organization details. (optional)</param>
+        /// <param name="createOrganizationRequest">Organization details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateOrganizationResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateOrganizationResponse>> CreateOrganizationWithHttpInfoAsync(CreateOrganizationRequest? createOrganizationRequest = default(CreateOrganizationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateOrganizationResponse>> CreateOrganizationWithHttpInfoAsync(CreateOrganizationRequest createOrganizationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'createOrganizationRequest' is set
+            if (createOrganizationRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationRequest' when calling OrganizationsApi->CreateOrganization");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -2750,6 +2902,135 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetPropertyValuesResponse</returns>
+        public GetPropertyValuesResponse GetOrganizationPropertyValues(string orgCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse> localVarResponse = GetOrganizationPropertyValuesWithHttpInfo(orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetPropertyValuesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse> GetOrganizationPropertyValuesWithHttpInfo(string orgCode)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPropertyValues");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetPropertyValuesResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationPropertyValues", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPropertyValuesResponse</returns>
+        public async System.Threading.Tasks.Task<GetPropertyValuesResponse> GetOrganizationPropertyValuesAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse> localVarResponse = await GetOrganizationPropertyValuesWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPropertyValuesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse>> GetOrganizationPropertyValuesWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPropertyValues");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetPropertyValuesResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationPropertyValues", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// List Organization User Permissions Get permissions for an organization user.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -3818,6 +4099,308 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateOrganizationFeatureFlagOverride", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationProperties(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationPropertiesWithHttpInfo(orgCode, updateOrganizationPropertiesRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPropertiesWithHttpInfo(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationProperties");
+
+            // verify the required parameter 'updateOrganizationPropertiesRequest' is set
+            if (updateOrganizationPropertiesRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPropertiesRequest' when calling OrganizationsApi->UpdateOrganizationProperties");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationPropertiesRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperties", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertiesAsync(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateOrganizationPropertiesWithHttpInfoAsync(orgCode, updateOrganizationPropertiesRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationPropertiesWithHttpInfoAsync(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationProperties");
+
+            // verify the required parameter 'updateOrganizationPropertiesRequest' is set
+            if (updateOrganizationPropertiesRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPropertiesRequest' when calling OrganizationsApi->UpdateOrganizationProperties");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationPropertiesRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperties", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property value Update organization property value.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationProperty(string orgCode, string propertyKey, string value)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationPropertyWithHttpInfo(orgCode, propertyKey, value);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update Organization Property value Update organization property value.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPropertyWithHttpInfo(string orgCode, string propertyKey, string value)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+            // verify the required parameter 'propertyKey' is set
+            if (propertyKey == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'propertyKey' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+            // verify the required parameter 'value' is set
+            if (value == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("property_key", Kinde.Api.Client.ClientUtils.ParameterToString(propertyKey)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/organizations/{org_code}/properties/{property_key}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperty", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property value Update organization property value.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertyAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateOrganizationPropertyWithHttpInfoAsync(orgCode, propertyKey, value, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update Organization Property value Update organization property value.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="propertyKey">The identifier for the property</param>
+        /// <param name="value">The new property value</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationPropertyWithHttpInfoAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+            // verify the required parameter 'propertyKey' is set
+            if (propertyKey == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'propertyKey' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+            // verify the required parameter 'value' is set
+            if (value == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling OrganizationsApi->UpdateOrganizationProperty");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("property_key", Kinde.Api.Client.ClientUtils.ParameterToString(propertyKey)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/organizations/{org_code}/properties/{property_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperty", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

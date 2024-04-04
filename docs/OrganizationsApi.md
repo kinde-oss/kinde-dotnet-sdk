@@ -15,6 +15,7 @@ All URIs are relative to *https://app.kinde.com*
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
 | [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get Organization |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
+| [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
 | [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | List Organization Users |
@@ -22,6 +23,8 @@ All URIs are relative to *https://app.kinde.com*
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
+| [**UpdateOrganizationProperties**](OrganizationsApi.md#updateorganizationproperties) | **PATCH** /api/v1/organizations/{org_code}/properties | Update Organization Property values |
+| [**UpdateOrganizationProperty**](OrganizationsApi.md#updateorganizationproperty) | **PUT** /api/v1/organizations/{org_code}/properties/{property_key} | Update Organization Property value |
 | [**UpdateOrganizationUsers**](OrganizationsApi.md#updateorganizationusers) | **PATCH** /api/v1/organizations/{org_code}/users | Update Organization Users |
 
 <a id="addorganizationusers"></a>
@@ -130,7 +133,7 @@ catch (ApiException e)
 
 <a id="createorganization"></a>
 # **CreateOrganization**
-> CreateOrganizationResponse CreateOrganization (CreateOrganizationRequest? createOrganizationRequest = null)
+> CreateOrganizationResponse CreateOrganization (CreateOrganizationRequest createOrganizationRequest)
 
 Create Organization
 
@@ -160,7 +163,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var createOrganizationRequest = new CreateOrganizationRequest?(); // CreateOrganizationRequest? | Organization details. (optional) 
+            var createOrganizationRequest = new CreateOrganizationRequest(); // CreateOrganizationRequest | Organization details.
 
             try
             {
@@ -203,7 +206,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createOrganizationRequest** | [**CreateOrganizationRequest?**](CreateOrganizationRequest?.md) | Organization details. | [optional]  |
+| **createOrganizationRequest** | [**CreateOrganizationRequest**](CreateOrganizationRequest.md) | Organization details. |  |
 
 ### Return type
 
@@ -223,8 +226,8 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully created. |  -  |
-| **403** | Invalid credentials. |  -  |
 | **400** | Error creating user. |  -  |
+| **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 | **500** | Could not create organization. |  -  |
 
@@ -529,8 +532,8 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully deleted. |  -  |
-| **403** | Invalid credentials. |  -  |
 | **400** | Error deleting organization. |  -  |
+| **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1146,6 +1149,107 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Feature flag overrides successfully returned. |  -  |
 | **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationpropertyvalues"></a>
+# **GetOrganizationPropertyValues**
+> GetPropertyValuesResponse GetOrganizationPropertyValues (string orgCode)
+
+Get Organization Property Values
+
+Gets properties for an organization by org code. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationPropertyValuesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+
+            try
+            {
+                // Get Organization Property Values
+                GetPropertyValuesResponse result = apiInstance.GetOrganizationPropertyValues(orgCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPropertyValues: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationPropertyValuesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get Organization Property Values
+    ApiResponse<GetPropertyValuesResponse> response = apiInstance.GetOrganizationPropertyValuesWithHttpInfo(orgCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPropertyValuesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+
+### Return type
+
+[**GetPropertyValuesResponse**](GetPropertyValuesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Properties successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
@@ -1772,8 +1876,8 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully updated. |  -  |
-| **403** | Invalid credentials. |  -  |
 | **400** | Error updating organization. |  -  |
+| **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1877,6 +1981,214 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Feature flag override successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateorganizationproperties"></a>
+# **UpdateOrganizationProperties**
+> SuccessResponse UpdateOrganizationProperties (string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+
+Update Organization Property values
+
+Update organization property values.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationPropertiesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization
+            var updateOrganizationPropertiesRequest = new UpdateOrganizationPropertiesRequest(); // UpdateOrganizationPropertiesRequest | Properties to update.
+
+            try
+            {
+                // Update Organization Property values
+                SuccessResponse result = apiInstance.UpdateOrganizationProperties(orgCode, updateOrganizationPropertiesRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationProperties: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationPropertiesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update Organization Property values
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationPropertiesWithHttpInfo(orgCode, updateOrganizationPropertiesRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPropertiesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization |  |
+| **updateOrganizationPropertiesRequest** | [**UpdateOrganizationPropertiesRequest**](UpdateOrganizationPropertiesRequest.md) | Properties to update. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Properties successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateorganizationproperty"></a>
+# **UpdateOrganizationProperty**
+> SuccessResponse UpdateOrganizationProperty (string orgCode, string propertyKey, string value)
+
+Update Organization Property value
+
+Update organization property value.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationPropertyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization
+            var propertyKey = "propertyKey_example";  // string | The identifier for the property
+            var value = "value_example";  // string | The new property value
+
+            try
+            {
+                // Update Organization Property value
+                SuccessResponse result = apiInstance.UpdateOrganizationProperty(orgCode, propertyKey, value);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationProperty: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationPropertyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update Organization Property value
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationPropertyWithHttpInfo(orgCode, propertyKey, value);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPropertyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization |  |
+| **propertyKey** | **string** | The identifier for the property |  |
+| **value** | **string** | The new property value |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Property successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |

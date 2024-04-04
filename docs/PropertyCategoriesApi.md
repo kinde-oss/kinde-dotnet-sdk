@@ -1,20 +1,20 @@
-# Kinde.Api.Api.ConnectedAppsApi
+# Kinde.Api.Api.PropertyCategoriesApi
 
 All URIs are relative to *https://app.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetConnectedAppAuthUrl**](ConnectedAppsApi.md#getconnectedappauthurl) | **GET** /api/v1/connected_apps/auth_url | Get Connected App URL |
-| [**GetConnectedAppToken**](ConnectedAppsApi.md#getconnectedapptoken) | **GET** /api/v1/connected_apps/token | Get Connected App Token |
-| [**RevokeConnectedAppToken**](ConnectedAppsApi.md#revokeconnectedapptoken) | **POST** /api/v1/connected_apps/revoke | Revoke Connected App Token |
+| [**CreateCategory**](PropertyCategoriesApi.md#createcategory) | **POST** /api/v1/property_categories | Create Category |
+| [**GetCategories**](PropertyCategoriesApi.md#getcategories) | **GET** /api/v1/property_categories | List categories |
+| [**UpdateCategory**](PropertyCategoriesApi.md#updatecategory) | **PUT** /api/v1/property_categories/{category_id} | Update Category |
 
-<a id="getconnectedappauthurl"></a>
-# **GetConnectedAppAuthUrl**
-> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string? userId = null, string? orgCode = null, string? overrideCallbackUrl = null)
+<a id="createcategory"></a>
+# **CreateCategory**
+> CreateCategoryResponse CreateCategory (CreateCategoryRequest createCategoryRequest)
 
-Get Connected App URL
+Create Category
 
-Get a URL that authenticates and authorizes a user to a third-party connected app.
+Create category.
 
 ### Example
 ```csharp
@@ -27,7 +27,7 @@ using Kinde.Api.Model;
 
 namespace Example
 {
-    public class GetConnectedAppAuthUrlExample
+    public class CreateCategoryExample
     {
         public static void Main()
         {
@@ -39,21 +39,18 @@ namespace Example
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
-            var keyCodeRef = "keyCodeRef_example";  // string | The unique key code reference of the connected app to authenticate against.
-            var userId = "userId_example";  // string? | The id of the user that needs to authenticate to the third-party connected app. (optional) 
-            var orgCode = "orgCode_example";  // string? | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
-            var overrideCallbackUrl = "overrideCallbackUrl_example";  // string? | A URL that overrides the default callback URL setup in your connected app configuration (optional) 
+            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var createCategoryRequest = new CreateCategoryRequest(); // CreateCategoryRequest | Category details.
 
             try
             {
-                // Get Connected App URL
-                ConnectedAppsAuthUrl result = apiInstance.GetConnectedAppAuthUrl(keyCodeRef, userId, orgCode, overrideCallbackUrl);
+                // Create Category
+                CreateCategoryResponse result = apiInstance.CreateCategory(createCategoryRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ConnectedAppsApi.GetConnectedAppAuthUrl: " + e.Message);
+                Debug.Print("Exception when calling PropertyCategoriesApi.CreateCategory: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -62,21 +59,21 @@ namespace Example
 }
 ```
 
-#### Using the GetConnectedAppAuthUrlWithHttpInfo variant
+#### Using the CreateCategoryWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
-    // Get Connected App URL
-    ApiResponse<ConnectedAppsAuthUrl> response = apiInstance.GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId, orgCode, overrideCallbackUrl);
+    // Create Category
+    ApiResponse<CreateCategoryResponse> response = apiInstance.CreateCategoryWithHttpInfo(createCategoryRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling ConnectedAppsApi.GetConnectedAppAuthUrlWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling PropertyCategoriesApi.CreateCategoryWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -86,14 +83,118 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **keyCodeRef** | **string** | The unique key code reference of the connected app to authenticate against. |  |
-| **userId** | **string?** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
-| **orgCode** | **string?** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
-| **overrideCallbackUrl** | **string?** | A URL that overrides the default callback URL setup in your connected app configuration | [optional]  |
+| **createCategoryRequest** | [**CreateCategoryRequest**](CreateCategoryRequest.md) | Category details. |  |
 
 ### Return type
 
-[**ConnectedAppsAuthUrl**](ConnectedAppsAuthUrl.md)
+[**CreateCategoryResponse**](CreateCategoryResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Category successfully created |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getcategories"></a>
+# **GetCategories**
+> GetCategoriesResponse GetCategories (int? pageSize = null, string? startingAfter = null, string? endingBefore = null, string? context = null)
+
+List categories
+
+Returns a list of categories. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetCategoriesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the category to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the category to end before. (optional) 
+            var context = "usr";  // string? | Filter the results by User or Organization context (optional) 
+
+            try
+            {
+                // List categories
+                GetCategoriesResponse result = apiInstance.GetCategories(pageSize, startingAfter, endingBefore, context);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling PropertyCategoriesApi.GetCategories: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetCategoriesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List categories
+    ApiResponse<GetCategoriesResponse> response = apiInstance.GetCategoriesWithHttpInfo(pageSize, startingAfter, endingBefore, context);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PropertyCategoriesApi.GetCategoriesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **startingAfter** | **string?** | The ID of the category to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the category to end before. | [optional]  |
+| **context** | **string?** | Filter the results by User or Organization context | [optional]  |
+
+### Return type
+
+[**GetCategoriesResponse**](GetCategoriesResponse.md)
 
 ### Authorization
 
@@ -102,27 +203,26 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json; charset=utf-8, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A URL that can be used to authenticate and a session id to identify this authentication session. |  -  |
-| **400** | Error retrieving connected app auth url. |  -  |
+| **200** | Categories successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
-| **404** | Error retrieving connected app auth url. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getconnectedapptoken"></a>
-# **GetConnectedAppToken**
-> ConnectedAppsAccessToken GetConnectedAppToken (string sessionId)
+<a id="updatecategory"></a>
+# **UpdateCategory**
+> SuccessResponse UpdateCategory (string categoryId, UpdateCategoryRequest updateCategoryRequest)
 
-Get Connected App Token
+Update Category
 
-Get an access token that can be used to call the third-party provider linked to the connected app.
+Update category.
 
 ### Example
 ```csharp
@@ -135,7 +235,7 @@ using Kinde.Api.Model;
 
 namespace Example
 {
-    public class GetConnectedAppTokenExample
+    public class UpdateCategoryExample
     {
         public static void Main()
         {
@@ -147,18 +247,19 @@ namespace Example
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
-            var sessionId = "sessionId_example";  // string | The unique sesssion id reprensenting the login session of a user.
+            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var categoryId = "categoryId_example";  // string | The unique identifier for the category.
+            var updateCategoryRequest = new UpdateCategoryRequest(); // UpdateCategoryRequest | The fields of the category to update.
 
             try
             {
-                // Get Connected App Token
-                ConnectedAppsAccessToken result = apiInstance.GetConnectedAppToken(sessionId);
+                // Update Category
+                SuccessResponse result = apiInstance.UpdateCategory(categoryId, updateCategoryRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ConnectedAppsApi.GetConnectedAppToken: " + e.Message);
+                Debug.Print("Exception when calling PropertyCategoriesApi.UpdateCategory: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -167,21 +268,21 @@ namespace Example
 }
 ```
 
-#### Using the GetConnectedAppTokenWithHttpInfo variant
+#### Using the UpdateCategoryWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
-    // Get Connected App Token
-    ApiResponse<ConnectedAppsAccessToken> response = apiInstance.GetConnectedAppTokenWithHttpInfo(sessionId);
+    // Update Category
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateCategoryWithHttpInfo(categoryId, updateCategoryRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling ConnectedAppsApi.GetConnectedAppTokenWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling PropertyCategoriesApi.UpdateCategoryWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -191,108 +292,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sessionId** | **string** | The unique sesssion id reprensenting the login session of a user. |  |
-
-### Return type
-
-[**ConnectedAppsAccessToken**](ConnectedAppsAccessToken.md)
-
-### Authorization
-
-[kindeBearerAuth](../README.md#kindeBearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | An access token that can be used to query a third-party provider, as well as the token&#39;s expiry time. |  -  |
-| **400** | The session id provided points to an invalid session. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a id="revokeconnectedapptoken"></a>
-# **RevokeConnectedAppToken**
-> SuccessResponse RevokeConnectedAppToken (string sessionId)
-
-Revoke Connected App Token
-
-Revoke the tokens linked to the connected app session.
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Kinde.Api.Api;
-using Kinde.Api.Client;
-using Kinde.Api.Model;
-
-namespace Example
-{
-    public class RevokeConnectedAppTokenExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
-            // Configure Bearer token for authorization: kindeBearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
-            var sessionId = "sessionId_example";  // string | The unique sesssion id reprensenting the login session of a user.
-
-            try
-            {
-                // Revoke Connected App Token
-                SuccessResponse result = apiInstance.RevokeConnectedAppToken(sessionId);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling ConnectedAppsApi.RevokeConnectedAppToken: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the RevokeConnectedAppTokenWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Revoke Connected App Token
-    ApiResponse<SuccessResponse> response = apiInstance.RevokeConnectedAppTokenWithHttpInfo(sessionId);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling ConnectedAppsApi.RevokeConnectedAppTokenWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **sessionId** | **string** | The unique sesssion id reprensenting the login session of a user. |  |
+| **categoryId** | **string** | The unique identifier for the category. |  |
+| **updateCategoryRequest** | [**UpdateCategoryRequest**](UpdateCategoryRequest.md) | The fields of the category to update. |  |
 
 ### Return type
 
@@ -304,17 +305,16 @@ catch (ApiException e)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json, application/json; charset=utf-8
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | An access token that can be used to query a third-party provider, as well as the token&#39;s expiry time. |  -  |
-| **400** | Bad request. |  -  |
+| **200** | category successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
-| **405** | Invalid HTTP method used. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
