@@ -510,8 +510,8 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application successfully updated. |  -  |
-| **403** | Invalid credentials. |  -  |
 | **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

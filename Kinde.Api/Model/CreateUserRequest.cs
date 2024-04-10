@@ -37,10 +37,12 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateUserRequest" /> class.
         /// </summary>
         /// <param name="profile">profile.</param>
+        /// <param name="organizationCode">The unique code associated with the organization you want the user to join..</param>
         /// <param name="identities">Array of identities to assign to the created user.</param>
-        public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
+        public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), string organizationCode = default(string), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
         {
             this.Profile = profile;
+            this.OrganizationCode = organizationCode;
             this.Identities = identities;
         }
 
@@ -49,6 +51,13 @@ namespace Kinde.Api.Model
         /// </summary>
         [DataMember(Name = "profile", EmitDefaultValue = false)]
         public CreateUserRequestProfile Profile { get; set; }
+
+        /// <summary>
+        /// The unique code associated with the organization you want the user to join.
+        /// </summary>
+        /// <value>The unique code associated with the organization you want the user to join.</value>
+        [DataMember(Name = "organization_code", EmitDefaultValue = false)]
+        public string OrganizationCode { get; set; }
 
         /// <summary>
         /// Array of identities to assign to the created user
@@ -66,6 +75,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class CreateUserRequest {\n");
             sb.Append("  Profile: ").Append(Profile).Append("\n");
+            sb.Append("  OrganizationCode: ").Append(OrganizationCode).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -108,6 +118,11 @@ namespace Kinde.Api.Model
                     this.Profile.Equals(input.Profile))
                 ) && 
                 (
+                    this.OrganizationCode == input.OrganizationCode ||
+                    (this.OrganizationCode != null &&
+                    this.OrganizationCode.Equals(input.OrganizationCode))
+                ) && 
+                (
                     this.Identities == input.Identities ||
                     this.Identities != null &&
                     input.Identities != null &&
@@ -127,6 +142,10 @@ namespace Kinde.Api.Model
                 if (this.Profile != null)
                 {
                     hashCode = (hashCode * 59) + this.Profile.GetHashCode();
+                }
+                if (this.OrganizationCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.OrganizationCode.GetHashCode();
                 }
                 if (this.Identities != null)
                 {

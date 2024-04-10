@@ -25,169 +25,173 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IConnectedAppsApiSync : IApiAccessor
+    public interface IPropertiesApiSync : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
-        /// Get Connected App URL
+        /// Create Property
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
-        /// <returns>ConnectedAppsAuthUrl</returns>
-        ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?));
+        /// <param name="createPropertyRequest">Property details.</param>
+        /// <returns>CreatePropertyResponse</returns>
+        CreatePropertyResponse CreateProperty(CreatePropertyRequest createPropertyRequest);
 
         /// <summary>
-        /// Get Connected App URL
+        /// Create Property
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
-        /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?));
+        /// <param name="createPropertyRequest">Property details.</param>
+        /// <returns>ApiResponse of CreatePropertyResponse</returns>
+        ApiResponse<CreatePropertyResponse> CreatePropertyWithHttpInfo(CreatePropertyRequest createPropertyRequest);
         /// <summary>
-        /// Get Connected App Token
+        /// List properties
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Returns a list of properties 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
-        /// <returns>ConnectedAppsAccessToken</returns>
-        ConnectedAppsAccessToken GetConnectedAppToken(string sessionId);
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <returns>GetPropertiesResponse</returns>
+        GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
 
         /// <summary>
-        /// Get Connected App Token
+        /// List properties
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Returns a list of properties 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
-        /// <returns>ApiResponse of ConnectedAppsAccessToken</returns>
-        ApiResponse<ConnectedAppsAccessToken> GetConnectedAppTokenWithHttpInfo(string sessionId);
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <returns>ApiResponse of GetPropertiesResponse</returns>
+        ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
         /// <summary>
-        /// Revoke Connected App Token
+        /// Update Property
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Update property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse RevokeConnectedAppToken(string sessionId);
+        SuccessResponse UpdateProperty(string propertyId, UpdatePropertyRequest updatePropertyRequest);
 
         /// <summary>
-        /// Revoke Connected App Token
+        /// Update Property
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Update property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> RevokeConnectedAppTokenWithHttpInfo(string sessionId);
+        ApiResponse<SuccessResponse> UpdatePropertyWithHttpInfo(string propertyId, UpdatePropertyRequest updatePropertyRequest);
         #endregion Synchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IConnectedAppsApiAsync : IApiAccessor
+    public interface IPropertiesApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Get Connected App URL
+        /// Create Property
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
+        /// <param name="createPropertyRequest">Property details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of CreatePropertyResponse</returns>
+        System.Threading.Tasks.Task<CreatePropertyResponse> CreatePropertyAsync(CreatePropertyRequest createPropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Get Connected App URL
+        /// Create Property
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
+        /// <param name="createPropertyRequest">Property details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (CreatePropertyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreatePropertyResponse>> CreatePropertyWithHttpInfoAsync(CreatePropertyRequest createPropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Get Connected App Token
+        /// List properties
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Returns a list of properties 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ConnectedAppsAccessToken</returns>
-        System.Threading.Tasks.Task<ConnectedAppsAccessToken> GetConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetPropertiesResponse</returns>
+        System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Get Connected App Token
+        /// List properties
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Returns a list of properties 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ConnectedAppsAccessToken)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAccessToken>> GetConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Revoke Connected App Token
+        /// Update Property
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Update property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> RevokeConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdatePropertyAsync(string propertyId, UpdatePropertyRequest updatePropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Revoke Connected App Token
+        /// Update Property
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Update property.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RevokeConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdatePropertyWithHttpInfoAsync(string propertyId, UpdatePropertyRequest updatePropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IConnectedAppsApi : IConnectedAppsApiSync, IConnectedAppsApiAsync
+    public interface IPropertiesApi : IPropertiesApiSync, IPropertiesApiAsync
     {
 
     }
@@ -195,29 +199,29 @@ namespace Kinde.Api.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class ConnectedAppsApi : IDisposable, IConnectedAppsApi
+    public partial class PropertiesApi : IDisposable, IPropertiesApi
     {
         private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
-        public ConnectedAppsApi() : this((string)null)
+        public PropertiesApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public ConnectedAppsApi(string basePath)
+        public PropertiesApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
                 Kinde.Api.Client.GlobalConfiguration.Instance,
@@ -230,14 +234,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class using Configuration object.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
         /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ConnectedAppsApi(Kinde.Api.Client.Configuration configuration)
+        public PropertiesApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -252,7 +256,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
@@ -262,12 +266,12 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ConnectedAppsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
+        public PropertiesApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
@@ -279,7 +283,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ConnectedAppsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
+        public PropertiesApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -294,7 +298,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
@@ -305,7 +309,7 @@ namespace Kinde.Api.Api
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ConnectedAppsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
+        public PropertiesApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
             if (client == null) throw new ArgumentNullException("client");
@@ -321,14 +325,14 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ConnectedAppsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
+        public PropertiesApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
             if (asyncClient == null) throw new ArgumentNullException("asyncClient");
@@ -341,12 +345,12 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsApi"/> class
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
         /// using a client instance.
         /// </summary>
         /// <param name="client">The client API</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ConnectedAppsApi(Kinde.Api.Client.ApiClient client)
+        public PropertiesApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -411,38 +415,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create Property Create property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
-        /// <returns>ConnectedAppsAuthUrl</returns>
-        public ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?))
+        /// <param name="createPropertyRequest">Property details.</param>
+        /// <returns>CreatePropertyResponse</returns>
+        public CreatePropertyResponse CreateProperty(CreatePropertyRequest createPropertyRequest)
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId, orgCode, overrideCallbackUrl);
+            Kinde.Api.Client.ApiResponse<CreatePropertyResponse> localVarResponse = CreatePropertyWithHttpInfo(createPropertyRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create Property Create property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
-        /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        public Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?))
+        /// <param name="createPropertyRequest">Property details.</param>
+        /// <returns>ApiResponse of CreatePropertyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreatePropertyResponse> CreatePropertyWithHttpInfo(CreatePropertyRequest createPropertyRequest)
         {
-            // verify the required parameter 'keyCodeRef' is set
-            if (keyCodeRef == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyCodeRef' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
+            // verify the required parameter 'createPropertyRequest' is set
+            if (createPropertyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createPropertyRequest' when calling PropertiesApi->CreateProperty");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -457,19 +456,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key_code_ref", keyCodeRef));
-            if (userId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
-            }
-            if (orgCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "org_code", orgCode));
-            }
-            if (overrideCallbackUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "override_callback_url", overrideCallbackUrl));
-            }
+            localVarRequestOptions.Data = createPropertyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -479,11 +466,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<ConnectedAppsAuthUrl>("/api/v1/connected_apps/auth_url", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<CreatePropertyResponse>("/api/v1/properties", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetConnectedAppAuthUrl", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreateProperty", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -491,41 +478,36 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create Property Create property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
+        /// <param name="createPropertyRequest">Property details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        public async System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of CreatePropertyResponse</returns>
+        public async System.Threading.Tasks.Task<CreatePropertyResponse> CreatePropertyAsync(CreatePropertyRequest createPropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = await GetConnectedAppAuthUrlWithHttpInfoAsync(keyCodeRef, userId, orgCode, overrideCallbackUrl, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<CreatePropertyResponse> localVarResponse = await CreatePropertyWithHttpInfoAsync(createPropertyRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Create Property Create property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
-        /// <param name="userId">The id of the user that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
-        /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
+        /// <param name="createPropertyRequest">Property details.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (CreatePropertyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreatePropertyResponse>> CreatePropertyWithHttpInfoAsync(CreatePropertyRequest createPropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'keyCodeRef' is set
-            if (keyCodeRef == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyCodeRef' when calling ConnectedAppsApi->GetConnectedAppAuthUrl");
+            // verify the required parameter 'createPropertyRequest' is set
+            if (createPropertyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createPropertyRequest' when calling PropertiesApi->CreateProperty");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -541,19 +523,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "key_code_ref", keyCodeRef));
-            if (userId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "user_id", userId));
-            }
-            if (orgCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "org_code", orgCode));
-            }
-            if (overrideCallbackUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "override_callback_url", overrideCallbackUrl));
-            }
+            localVarRequestOptions.Data = createPropertyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -564,11 +534,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ConnectedAppsAuthUrl>("/api/v1/connected_apps/auth_url", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<CreatePropertyResponse>("/api/v1/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetConnectedAppAuthUrl", localVarResponse);
+                Exception _exception = this.ExceptionFactory("CreateProperty", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -576,29 +546,31 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// List properties Returns a list of properties 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
-        /// <returns>ConnectedAppsAccessToken</returns>
-        public ConnectedAppsAccessToken GetConnectedAppToken(string sessionId)
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <returns>GetPropertiesResponse</returns>
+        public GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken> localVarResponse = GetConnectedAppTokenWithHttpInfo(sessionId);
+            Kinde.Api.Client.ApiResponse<GetPropertiesResponse> localVarResponse = GetPropertiesWithHttpInfo(pageSize, startingAfter, endingBefore, context);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// List properties Returns a list of properties 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
-        /// <returns>ApiResponse of ConnectedAppsAccessToken</returns>
-        public Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken> GetConnectedAppTokenWithHttpInfo(string sessionId)
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <returns>ApiResponse of GetPropertiesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
         {
-            // verify the required parameter 'sessionId' is set
-            if (sessionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'sessionId' when calling ConnectedAppsApi->GetConnectedAppToken");
-
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -606,8 +578,8 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json; charset=utf-8",
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -616,7 +588,22 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "session_id", sessionId));
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (endingBefore != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "ending_before", endingBefore));
+            }
+            if (context != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "context", context));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -626,11 +613,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<ConnectedAppsAccessToken>("/api/v1/connected_apps/token", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetPropertiesResponse>("/api/v1/properties", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetConnectedAppToken", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetProperties", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -638,31 +625,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// List properties Returns a list of properties 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ConnectedAppsAccessToken</returns>
-        public async System.Threading.Tasks.Task<ConnectedAppsAccessToken> GetConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetPropertiesResponse</returns>
+        public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken> localVarResponse = await GetConnectedAppTokenWithHttpInfoAsync(sessionId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetPropertiesResponse> localVarResponse = await GetPropertiesWithHttpInfoAsync(pageSize, startingAfter, endingBefore, context, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// List properties Returns a list of properties 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
+        /// <param name="context">Filter results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ConnectedAppsAccessToken)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken>> GetConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'sessionId' is set
-            if (sessionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'sessionId' when calling ConnectedAppsApi->GetConnectedAppToken");
-
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -671,8 +660,8 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json; charset=utf-8",
+                "application/json"
             };
 
 
@@ -682,7 +671,22 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "session_id", sessionId));
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (endingBefore != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "ending_before", endingBefore));
+            }
+            if (context != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "context", context));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -693,11 +697,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ConnectedAppsAccessToken>("/api/v1/connected_apps/token", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetPropertiesResponse>("/api/v1/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetConnectedAppToken", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetProperties", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -705,32 +709,39 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Update Property Update property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse RevokeConnectedAppToken(string sessionId)
+        public SuccessResponse UpdateProperty(string propertyId, UpdatePropertyRequest updatePropertyRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RevokeConnectedAppTokenWithHttpInfo(sessionId);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdatePropertyWithHttpInfo(propertyId, updatePropertyRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Update Property Update property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> RevokeConnectedAppTokenWithHttpInfo(string sessionId)
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdatePropertyWithHttpInfo(string propertyId, UpdatePropertyRequest updatePropertyRequest)
         {
-            // verify the required parameter 'sessionId' is set
-            if (sessionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'sessionId' when calling ConnectedAppsApi->RevokeConnectedAppToken");
+            // verify the required parameter 'propertyId' is set
+            if (propertyId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'propertyId' when calling PropertiesApi->UpdateProperty");
+
+            // verify the required parameter 'updatePropertyRequest' is set
+            if (updatePropertyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePropertyRequest' when calling PropertiesApi->UpdateProperty");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -745,7 +756,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "session_id", sessionId));
+            localVarRequestOptions.PathParameters.Add("property_id", Kinde.Api.Client.ClientUtils.ParameterToString(propertyId)); // path parameter
+            localVarRequestOptions.Data = updatePropertyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -755,11 +767,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/connected_apps/revoke", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/properties/{property_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("RevokeConnectedAppToken", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdateProperty", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -767,35 +779,42 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Update Property Update property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> RevokeConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdatePropertyAsync(string propertyId, UpdatePropertyRequest updatePropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RevokeConnectedAppTokenWithHttpInfoAsync(sessionId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdatePropertyWithHttpInfoAsync(propertyId, updatePropertyRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Update Property Update property.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="propertyId">The unique identifier for the property.</param>
+        /// <param name="updatePropertyRequest">The fields of the property to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RevokeConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdatePropertyWithHttpInfoAsync(string propertyId, UpdatePropertyRequest updatePropertyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'sessionId' is set
-            if (sessionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'sessionId' when calling ConnectedAppsApi->RevokeConnectedAppToken");
+            // verify the required parameter 'propertyId' is set
+            if (propertyId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'propertyId' when calling PropertiesApi->UpdateProperty");
+
+            // verify the required parameter 'updatePropertyRequest' is set
+            if (updatePropertyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePropertyRequest' when calling PropertiesApi->UpdateProperty");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -811,7 +830,8 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "session_id", sessionId));
+            localVarRequestOptions.PathParameters.Add("property_id", Kinde.Api.Client.ClientUtils.ParameterToString(propertyId)); // path parameter
+            localVarRequestOptions.Data = updatePropertyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -822,11 +842,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/connected_apps/revoke", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/properties/{property_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("RevokeConnectedAppToken", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdateProperty", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

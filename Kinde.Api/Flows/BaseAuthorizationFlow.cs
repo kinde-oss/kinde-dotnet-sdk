@@ -34,9 +34,14 @@ namespace Kinde.Api.Flows
             var parameters = new Dictionary<string, string>
             {
                 { "client_id", Configuration.ClientId },
-                { "scope", Configuration.Scope },
-                { "is_create_org", Configuration.IsCreateOrganization.ToString()}
+                { "scope", Configuration.Scope }
             };
+
+            if (Configuration.IsCreateOrganization)
+            {
+                parameters.Add("is_create_org", "true");
+            }
+
             if (!string.IsNullOrEmpty(Configuration.Audience))
             {
                 parameters.Add("audience", Configuration.Audience);
