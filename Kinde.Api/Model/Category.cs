@@ -38,7 +38,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public Category(string id = default(string), bool name = default(bool))
+        public Category(string id = default(string), string name = default(string))
         {
             this.Id = id;
             this.Name = name;
@@ -53,8 +53,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = true)]
-        public bool Name { get; set; }
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,7 +108,8 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.Name == input.Name ||
-                    this.Name.Equals(input.Name)
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 );
         }
 
@@ -125,7 +126,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 return hashCode;
             }
         }

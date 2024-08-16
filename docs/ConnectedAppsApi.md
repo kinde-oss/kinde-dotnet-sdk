@@ -148,7 +148,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
-            var sessionId = "sessionId_example";  // string | The unique sesssion id reprensenting the login session of a user.
+            var sessionId = "sessionId_example";  // string | The unique sesssion id representing the login session of a user.
 
             try
             {
@@ -191,7 +191,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sessionId** | **string** | The unique sesssion id reprensenting the login session of a user. |  |
+| **sessionId** | **string** | The unique sesssion id representing the login session of a user. |  |
 
 ### Return type
 
@@ -249,7 +249,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
-            var sessionId = "sessionId_example";  // string | The unique sesssion id reprensenting the login session of a user.
+            var sessionId = "sessionId_example";  // string | The unique sesssion id representing the login session of a user.
 
             try
             {
@@ -292,7 +292,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sessionId** | **string** | The unique sesssion id reprensenting the login session of a user. |  |
+| **sessionId** | **string** | The unique sesssion id representing the login session of a user. |  |
 
 ### Return type
 

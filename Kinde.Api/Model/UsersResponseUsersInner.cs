@@ -39,6 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="id">Unique id of the user in Kinde..</param>
         /// <param name="providedId">External id for user..</param>
         /// <param name="email">Default email address of the user in Kinde..</param>
+        /// <param name="username">Primary username of the user in Kinde..</param>
         /// <param name="lastName">User&#39;s last name..</param>
         /// <param name="firstName">User&#39;s first name..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
@@ -49,11 +50,12 @@ namespace Kinde.Api.Model
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
         /// <param name="organizations">Array of organizations a user belongs to..</param>
         /// <param name="identities">Array of identities belonging to the user..</param>
-        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>))
+        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>))
         {
             this.Id = id;
             this.ProvidedId = providedId;
             this.Email = email;
+            this.Username = username;
             this.LastName = lastName;
             this.FirstName = firstName;
             this.IsSuspended = isSuspended;
@@ -86,6 +88,13 @@ namespace Kinde.Api.Model
         /// <value>Default email address of the user in Kinde.</value>
         [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Primary username of the user in Kinde.
+        /// </summary>
+        /// <value>Primary username of the user in Kinde.</value>
+        [DataMember(Name = "username", EmitDefaultValue = false)]
+        public string Username { get; set; }
 
         /// <summary>
         /// User&#39;s last name.
@@ -168,6 +177,7 @@ namespace Kinde.Api.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  Username: ").Append(Username).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
@@ -227,6 +237,11 @@ namespace Kinde.Api.Model
                     this.Email == input.Email ||
                     (this.Email != null &&
                     this.Email.Equals(input.Email))
+                ) && 
+                (
+                    this.Username == input.Username ||
+                    (this.Username != null &&
+                    this.Username.Equals(input.Username))
                 ) && 
                 (
                     this.LastName == input.LastName ||
@@ -301,6 +316,10 @@ namespace Kinde.Api.Model
                 if (this.Email != null)
                 {
                     hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                }
+                if (this.Username != null)
+                {
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
                 }
                 if (this.LastName != null)
                 {

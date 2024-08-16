@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | [optional] 
 **Key** | **string** |  | [optional] 
-**Name** | **bool** |  | [optional] 
+**Name** | **string** |  | [optional] 
 **IsPrivate** | **bool** |  | [optional] 
 **Description** | **string** |  | [optional] 
 **IsKindeProperty** | **bool** |  | [optional] 

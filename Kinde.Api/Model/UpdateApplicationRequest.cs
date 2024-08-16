@@ -40,12 +40,16 @@ namespace Kinde.Api.Model
         /// <param name="languageKey">The application&#39;s language key..</param>
         /// <param name="logoutUris">The application&#39;s logout uris..</param>
         /// <param name="redirectUris">The application&#39;s redirect uris..</param>
-        public UpdateApplicationRequest(string name = default(string), string languageKey = default(string), List<string> logoutUris = default(List<string>), List<string> redirectUris = default(List<string>))
+        /// <param name="loginUri">The default login route for resolving session issues..</param>
+        /// <param name="homepageUri">The homepage link to your application..</param>
+        public UpdateApplicationRequest(string name = default(string), string languageKey = default(string), List<string> logoutUris = default(List<string>), List<string> redirectUris = default(List<string>), string loginUri = default(string), string homepageUri = default(string))
         {
             this.Name = name;
             this.LanguageKey = languageKey;
             this.LogoutUris = logoutUris;
             this.RedirectUris = redirectUris;
+            this.LoginUri = loginUri;
+            this.HomepageUri = homepageUri;
         }
 
         /// <summary>
@@ -77,6 +81,20 @@ namespace Kinde.Api.Model
         public List<string> RedirectUris { get; set; }
 
         /// <summary>
+        /// The default login route for resolving session issues.
+        /// </summary>
+        /// <value>The default login route for resolving session issues.</value>
+        [DataMember(Name = "login_uri", EmitDefaultValue = false)]
+        public string LoginUri { get; set; }
+
+        /// <summary>
+        /// The homepage link to your application.
+        /// </summary>
+        /// <value>The homepage link to your application.</value>
+        [DataMember(Name = "homepage_uri", EmitDefaultValue = false)]
+        public string HomepageUri { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -88,6 +106,8 @@ namespace Kinde.Api.Model
             sb.Append("  LanguageKey: ").Append(LanguageKey).Append("\n");
             sb.Append("  LogoutUris: ").Append(LogoutUris).Append("\n");
             sb.Append("  RedirectUris: ").Append(RedirectUris).Append("\n");
+            sb.Append("  LoginUri: ").Append(LoginUri).Append("\n");
+            sb.Append("  HomepageUri: ").Append(HomepageUri).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -144,6 +164,16 @@ namespace Kinde.Api.Model
                     this.RedirectUris != null &&
                     input.RedirectUris != null &&
                     this.RedirectUris.SequenceEqual(input.RedirectUris)
+                ) && 
+                (
+                    this.LoginUri == input.LoginUri ||
+                    (this.LoginUri != null &&
+                    this.LoginUri.Equals(input.LoginUri))
+                ) && 
+                (
+                    this.HomepageUri == input.HomepageUri ||
+                    (this.HomepageUri != null &&
+                    this.HomepageUri.Equals(input.HomepageUri))
                 );
         }
 
@@ -171,6 +201,14 @@ namespace Kinde.Api.Model
                 if (this.RedirectUris != null)
                 {
                     hashCode = (hashCode * 59) + this.RedirectUris.GetHashCode();
+                }
+                if (this.LoginUri != null)
+                {
+                    hashCode = (hashCode * 59) + this.LoginUri.GetHashCode();
+                }
+                if (this.HomepageUri != null)
+                {
+                    hashCode = (hashCode * 59) + this.HomepageUri.GetHashCode();
                 }
                 return hashCode;
             }

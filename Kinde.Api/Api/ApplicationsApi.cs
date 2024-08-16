@@ -71,6 +71,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteApplicationWithHttpInfo(string applicationId);
         /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns></returns>
+        void EnableConnection(string applicationId, string connectionId);
+
+        /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> EnableConnectionWithHttpInfo(string applicationId, string connectionId);
+        /// <summary>
         /// Get Application
         /// </summary>
         /// <remarks>
@@ -91,6 +114,27 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <returns>ApiResponse of GetApplicationResponse</returns>
         ApiResponse<GetApplicationResponse> GetApplicationWithHttpInfo(string applicationId);
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <returns>GetConnectionsResponse</returns>
+        GetConnectionsResponse GetApplicationConnections(string applicationId);
+
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <returns>ApiResponse of GetConnectionsResponse</returns>
+        ApiResponse<GetConnectionsResponse> GetApplicationConnectionsWithHttpInfo(string applicationId);
         /// <summary>
         /// List Applications
         /// </summary>
@@ -116,6 +160,29 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of GetApplicationsResponse</returns>
         ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an application
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RemoveConnection(string applicationId, string connectionId);
+
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an application
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RemoveConnectionWithHttpInfo(string applicationId, string connectionId);
         /// <summary>
         /// Update Application
         /// </summary>
@@ -195,6 +262,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task EnableConnectionAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> EnableConnectionWithHttpInfoAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get Application
         /// </summary>
         /// <remarks>
@@ -217,6 +309,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApplicationResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApplicationResponse>> GetApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetConnectionsResponse</returns>
+        System.Threading.Tasks.Task<GetConnectionsResponse> GetApplicationConnectionsAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an application.
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetApplicationConnectionsWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Applications
         /// </summary>
@@ -244,6 +359,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an application
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RemoveConnectionAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an application
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RemoveConnectionWithHttpInfoAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Application
         /// </summary>
@@ -751,6 +891,147 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Enable connection Enable an auth connection for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns></returns>
+        public void EnableConnection(string applicationId, string connectionId)
+        {
+            EnableConnectionWithHttpInfo(applicationId, connectionId);
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> EnableConnectionWithHttpInfo(string applicationId, string connectionId)
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->EnableConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ApplicationsApi->EnableConnection");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/api/v1/applications/{application_id}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("EnableConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task EnableConnectionAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await EnableConnectionWithHttpInfoAsync(applicationId, connectionId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> EnableConnectionWithHttpInfoAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->EnableConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ApplicationsApi->EnableConnection");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/applications/{application_id}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("EnableConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Get Application Gets an application given the application&#39;s id. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -873,6 +1154,135 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetApplication", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <returns>GetConnectionsResponse</returns>
+        public GetConnectionsResponse GetApplicationConnections(string applicationId)
+        {
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = GetApplicationConnectionsWithHttpInfo(applicationId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <returns>ApiResponse of GetConnectionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetApplicationConnectionsWithHttpInfo(string applicationId)
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplicationConnections");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetConnectionsResponse>("/api/v1/applications/{application_id}/connections", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetApplicationConnections", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetConnectionsResponse</returns>
+        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetApplicationConnectionsAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = await GetApplicationConnectionsWithHttpInfoAsync(applicationId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an application.
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetApplicationConnectionsWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplicationConnections");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetConnectionsResponse>("/api/v1/applications/{application_id}/connections", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetApplicationConnections", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1024,6 +1434,149 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetApplications", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an application
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RemoveConnection(string applicationId, string connectionId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RemoveConnectionWithHttpInfo(applicationId, connectionId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an application
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveConnectionWithHttpInfo(string applicationId, string connectionId)
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->RemoveConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ApplicationsApi->RemoveConnection");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/applications/{application_id}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RemoveConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an application
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RemoveConnectionAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RemoveConnectionWithHttpInfoAsync(applicationId, connectionId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an application
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RemoveConnectionWithHttpInfoAsync(string applicationId, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->RemoveConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ApplicationsApi->RemoveConnection");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/applications/{application_id}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RemoveConnection", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

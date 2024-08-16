@@ -36,21 +36,38 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdatePropertyRequest" /> class.
         /// </summary>
-        /// <param name="name">The name of the property..</param>
+        [JsonConstructorAttribute]
+        protected UpdatePropertyRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdatePropertyRequest" /> class.
+        /// </summary>
+        /// <param name="name">The name of the property. (required).</param>
         /// <param name="description">Description of the property purpose..</param>
-        /// <param name="isPrivate">Whether the property can be included in id and access tokens..</param>
-        public UpdatePropertyRequest(string name = default(string), string description = default(string), bool isPrivate = default(bool))
+        /// <param name="isPrivate">Whether the property can be included in id and access tokens. (required).</param>
+        /// <param name="categoryId">Which category the property belongs to. (required).</param>
+        public UpdatePropertyRequest(string name = default(string), string description = default(string), bool isPrivate = default(bool), string categoryId = default(string))
         {
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new ArgumentNullException("name is a required property for UpdatePropertyRequest and cannot be null");
+            }
             this.Name = name;
-            this.Description = description;
             this.IsPrivate = isPrivate;
+            // to ensure "categoryId" is required (not null)
+            if (categoryId == null)
+            {
+                throw new ArgumentNullException("categoryId is a required property for UpdatePropertyRequest and cannot be null");
+            }
+            this.CategoryId = categoryId;
+            this.Description = description;
         }
 
         /// <summary>
         /// The name of the property.
         /// </summary>
         /// <value>The name of the property.</value>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
@@ -64,8 +81,15 @@ namespace Kinde.Api.Model
         /// Whether the property can be included in id and access tokens.
         /// </summary>
         /// <value>Whether the property can be included in id and access tokens.</value>
-        [DataMember(Name = "is_private", EmitDefaultValue = true)]
+        [DataMember(Name = "is_private", IsRequired = true, EmitDefaultValue = true)]
         public bool IsPrivate { get; set; }
+
+        /// <summary>
+        /// Which category the property belongs to.
+        /// </summary>
+        /// <value>Which category the property belongs to.</value>
+        [DataMember(Name = "category_id", IsRequired = true, EmitDefaultValue = true)]
+        public string CategoryId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,6 +102,7 @@ namespace Kinde.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  IsPrivate: ").Append(IsPrivate).Append("\n");
+            sb.Append("  CategoryId: ").Append(CategoryId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -126,6 +151,11 @@ namespace Kinde.Api.Model
                 (
                     this.IsPrivate == input.IsPrivate ||
                     this.IsPrivate.Equals(input.IsPrivate)
+                ) && 
+                (
+                    this.CategoryId == input.CategoryId ||
+                    (this.CategoryId != null &&
+                    this.CategoryId.Equals(input.CategoryId))
                 );
         }
 
@@ -147,6 +177,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsPrivate.GetHashCode();
+                if (this.CategoryId != null)
+                {
+                    hashCode = (hashCode * 59) + this.CategoryId.GetHashCode();
+                }
                 return hashCode;
             }
         }

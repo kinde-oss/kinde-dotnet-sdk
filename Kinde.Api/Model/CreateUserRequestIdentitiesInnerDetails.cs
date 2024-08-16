@@ -37,9 +37,13 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInnerDetails" /> class.
         /// </summary>
         /// <param name="email">The email address of the user..</param>
-        public CreateUserRequestIdentitiesInnerDetails(string email = default(string))
+        /// <param name="phone">The phone number of the user..</param>
+        /// <param name="username">The username of the user..</param>
+        public CreateUserRequestIdentitiesInnerDetails(string email = default(string), string phone = default(string), string username = default(string))
         {
             this.Email = email;
+            this.Phone = phone;
+            this.Username = username;
         }
 
         /// <summary>
@@ -50,6 +54,20 @@ namespace Kinde.Api.Model
         public string Email { get; set; }
 
         /// <summary>
+        /// The phone number of the user.
+        /// </summary>
+        /// <value>The phone number of the user.</value>
+        [DataMember(Name = "phone", EmitDefaultValue = false)]
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// The username of the user.
+        /// </summary>
+        /// <value>The username of the user.</value>
+        [DataMember(Name = "username", EmitDefaultValue = false)]
+        public string Username { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -58,6 +76,8 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class CreateUserRequestIdentitiesInnerDetails {\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  Phone: ").Append(Phone).Append("\n");
+            sb.Append("  Username: ").Append(Username).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -97,6 +117,16 @@ namespace Kinde.Api.Model
                     this.Email == input.Email ||
                     (this.Email != null &&
                     this.Email.Equals(input.Email))
+                ) && 
+                (
+                    this.Phone == input.Phone ||
+                    (this.Phone != null &&
+                    this.Phone.Equals(input.Phone))
+                ) && 
+                (
+                    this.Username == input.Username ||
+                    (this.Username != null &&
+                    this.Username.Equals(input.Username))
                 );
         }
 
@@ -112,6 +142,14 @@ namespace Kinde.Api.Model
                 if (this.Email != null)
                 {
                     hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                }
+                if (this.Phone != null)
+                {
+                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                }
+                if (this.Username != null)
+                {
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
                 }
                 return hashCode;
             }

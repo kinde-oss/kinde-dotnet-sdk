@@ -44,7 +44,19 @@ namespace Kinde.Api.Model
             /// Enum Email for value: email
             /// </summary>
             [EnumMember(Value = "email")]
-            Email = 1
+            Email = 1,
+
+            /// <summary>
+            /// Enum Phone for value: phone
+            /// </summary>
+            [EnumMember(Value = "phone")]
+            Phone = 2,
+
+            /// <summary>
+            /// Enum Username for value: username
+            /// </summary>
+            [EnumMember(Value = "username")]
+            Username = 3
         }
 
 

@@ -62,7 +62,7 @@ namespace Kinde.Api.Api
         /// Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ConnectedAppsAccessToken</returns>
         ConnectedAppsAccessToken GetConnectedAppToken(string sessionId);
 
@@ -73,7 +73,7 @@ namespace Kinde.Api.Api
         /// Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ApiResponse of ConnectedAppsAccessToken</returns>
         ApiResponse<ConnectedAppsAccessToken> GetConnectedAppTokenWithHttpInfo(string sessionId);
         /// <summary>
@@ -83,7 +83,7 @@ namespace Kinde.Api.Api
         /// Revoke the tokens linked to the connected app session.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>SuccessResponse</returns>
         SuccessResponse RevokeConnectedAppToken(string sessionId);
 
@@ -94,7 +94,7 @@ namespace Kinde.Api.Api
         /// Revoke the tokens linked to the connected app session.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> RevokeConnectedAppTokenWithHttpInfo(string sessionId);
         #endregion Synchronous Operations
@@ -142,7 +142,7 @@ namespace Kinde.Api.Api
         /// Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAccessToken</returns>
         System.Threading.Tasks.Task<ConnectedAppsAccessToken> GetConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -154,7 +154,7 @@ namespace Kinde.Api.Api
         /// Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAccessToken)</returns>
         System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAccessToken>> GetConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -165,7 +165,7 @@ namespace Kinde.Api.Api
         /// Revoke the tokens linked to the connected app session.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         System.Threading.Tasks.Task<SuccessResponse> RevokeConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -177,7 +177,7 @@ namespace Kinde.Api.Api
         /// Revoke the tokens linked to the connected app session.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RevokeConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -579,7 +579,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ConnectedAppsAccessToken</returns>
         public ConnectedAppsAccessToken GetConnectedAppToken(string sessionId)
         {
@@ -591,7 +591,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ApiResponse of ConnectedAppsAccessToken</returns>
         public Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken> GetConnectedAppTokenWithHttpInfo(string sessionId)
         {
@@ -641,7 +641,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAccessToken</returns>
         public async System.Threading.Tasks.Task<ConnectedAppsAccessToken> GetConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -654,7 +654,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAccessToken)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAccessToken>> GetConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -708,7 +708,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>SuccessResponse</returns>
         public SuccessResponse RevokeConnectedAppToken(string sessionId)
         {
@@ -720,7 +720,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> RevokeConnectedAppTokenWithHttpInfo(string sessionId)
         {
@@ -770,7 +770,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         public async System.Threading.Tasks.Task<SuccessResponse> RevokeConnectedAppTokenAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -783,7 +783,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sessionId">The unique sesssion id reprensenting the login session of a user.</param>
+        /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RevokeConnectedAppTokenWithHttpInfoAsync(string sessionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))

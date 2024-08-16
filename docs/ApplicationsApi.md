@@ -6,8 +6,11 @@ All URIs are relative to *https://app.kinde.com*
 |--------|--------------|-------------|
 | [**CreateApplication**](ApplicationsApi.md#createapplication) | **POST** /api/v1/applications | Create Application |
 | [**DeleteApplication**](ApplicationsApi.md#deleteapplication) | **DELETE** /api/v1/applications/{application_id} | Delete Application |
+| [**EnableConnection**](ApplicationsApi.md#enableconnection) | **POST** /api/v1/applications/{application_id}/connections/{connection_id} | Enable connection |
 | [**GetApplication**](ApplicationsApi.md#getapplication) | **GET** /api/v1/applications/{application_id} | Get Application |
+| [**GetApplicationConnections**](ApplicationsApi.md#getapplicationconnections) | **GET** /api/v1/applications/{application_id}/connections | Get connections |
 | [**GetApplications**](ApplicationsApi.md#getapplications) | **GET** /api/v1/applications | List Applications |
+| [**RemoveConnection**](ApplicationsApi.md#removeconnection) | **DELETE** /api/v1/applications/{application_id}/connections/{connection_id} | Remove connection |
 | [**UpdateApplication**](ApplicationsApi.md#updateapplication) | **PATCH** /api/v1/applications/{application_id} | Update Application |
 
 <a id="createapplication"></a>
@@ -212,6 +215,105 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="enableconnection"></a>
+# **EnableConnection**
+> void EnableConnection (string applicationId, string connectionId)
+
+Enable connection
+
+Enable an auth connection for an application.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class EnableConnectionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
+            var connectionId = "connectionId_example";  // string | The identifier for the connection.
+
+            try
+            {
+                // Enable connection
+                apiInstance.EnableConnection(applicationId, connectionId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.EnableConnection: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the EnableConnectionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Enable connection
+    apiInstance.EnableConnectionWithHttpInfo(applicationId, connectionId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.EnableConnectionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The identifier/client ID for the application. |  |
+| **connectionId** | **string** | The identifier for the connection. |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Connection successfully enabled. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getapplication"></a>
 # **GetApplication**
 > GetApplicationResponse GetApplication (string applicationId)
@@ -307,6 +409,107 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getapplicationconnections"></a>
+# **GetApplicationConnections**
+> GetConnectionsResponse GetApplicationConnections (string applicationId)
+
+Get connections
+
+Gets all connections for an application.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetApplicationConnectionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
+
+            try
+            {
+                // Get connections
+                GetConnectionsResponse result = apiInstance.GetApplicationConnections(applicationId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.GetApplicationConnections: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetApplicationConnectionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get connections
+    ApiResponse<GetConnectionsResponse> response = apiInstance.GetApplicationConnectionsWithHttpInfo(applicationId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.GetApplicationConnectionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The identifier/client ID for the application. |  |
+
+### Return type
+
+[**GetConnectionsResponse**](GetConnectionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Application connections successfully retrieved. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
@@ -412,6 +615,109 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A successful response with a list of applications or an empty list. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="removeconnection"></a>
+# **RemoveConnection**
+> SuccessResponse RemoveConnection (string applicationId, string connectionId)
+
+Remove connection
+
+Turn off an auth connection for an application
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class RemoveConnectionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
+            var connectionId = "connectionId_example";  // string | The identifier for the connection.
+
+            try
+            {
+                // Remove connection
+                SuccessResponse result = apiInstance.RemoveConnection(applicationId, connectionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.RemoveConnection: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the RemoveConnectionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Remove connection
+    ApiResponse<SuccessResponse> response = apiInstance.RemoveConnectionWithHttpInfo(applicationId, connectionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.RemoveConnectionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The identifier/client ID for the application. |  |
+| **connectionId** | **string** | The identifier for the connection. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Connection successfully removed. |  -  |
+| **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 

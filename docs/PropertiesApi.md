@@ -5,6 +5,7 @@ All URIs are relative to *https://app.kinde.com*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**CreateProperty**](PropertiesApi.md#createproperty) | **POST** /api/v1/properties | Create Property |
+| [**DeleteProperty**](PropertiesApi.md#deleteproperty) | **DELETE** /api/v1/properties/{property_id} | Delete Property |
 | [**GetProperties**](PropertiesApi.md#getproperties) | **GET** /api/v1/properties | List properties |
 | [**UpdateProperty**](PropertiesApi.md#updateproperty) | **PUT** /api/v1/properties/{property_id} | Update Property |
 
@@ -103,6 +104,107 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **201** | Property successfully created |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteproperty"></a>
+# **DeleteProperty**
+> SuccessResponse DeleteProperty (string propertyId)
+
+Delete Property
+
+Delete property.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeletePropertyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PropertiesApi(httpClient, config, httpClientHandler);
+            var propertyId = "propertyId_example";  // string | The unique identifier for the property.
+
+            try
+            {
+                // Delete Property
+                SuccessResponse result = apiInstance.DeleteProperty(propertyId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling PropertiesApi.DeleteProperty: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeletePropertyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete Property
+    ApiResponse<SuccessResponse> response = apiInstance.DeletePropertyWithHttpInfo(propertyId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PropertiesApi.DeletePropertyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **propertyId** | **string** | The unique identifier for the property. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Property successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |

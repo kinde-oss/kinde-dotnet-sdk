@@ -42,7 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="isPrivate">isPrivate.</param>
         /// <param name="description">description.</param>
         /// <param name="isKindeProperty">isKindeProperty.</param>
-        public Property(string id = default(string), string key = default(string), bool name = default(bool), bool isPrivate = default(bool), string description = default(string), bool isKindeProperty = default(bool))
+        public Property(string id = default(string), string key = default(string), string name = default(string), bool isPrivate = default(bool), string description = default(string), bool isKindeProperty = default(bool))
         {
             this.Id = id;
             this.Key = key;
@@ -67,8 +67,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = true)]
-        public bool Name { get; set; }
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets IsPrivate
@@ -149,7 +149,8 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.Name == input.Name ||
-                    this.Name.Equals(input.Name)
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 ) && 
                 (
                     this.IsPrivate == input.IsPrivate ||
@@ -183,7 +184,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.IsPrivate.GetHashCode();
                 if (this.Description != null)
                 {

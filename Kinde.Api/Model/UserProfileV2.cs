@@ -39,7 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="id">Unique id of the user in Kinde (deprecated)..</param>
         /// <param name="sub">Unique id of the user in Kinde..</param>
         /// <param name="providedId">Value of the user&#39;s id in a third-party system when the user is imported into Kinde..</param>
-        /// <param name="name">Users&#39;s first and last name separated by a space..</param>
+        /// <param name="name">User&#39;s first and last name separated by a space..</param>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
         /// <param name="updatedAt">Date the user was last updated at (In Unix time)..</param>
@@ -80,9 +80,9 @@ namespace Kinde.Api.Model
         public string ProvidedId { get; set; }
 
         /// <summary>
-        /// Users&#39;s first and last name separated by a space.
+        /// User&#39;s first and last name separated by a space.
         /// </summary>
-        /// <value>Users&#39;s first and last name separated by a space.</value>
+        /// <value>User&#39;s first and last name separated by a space.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 

@@ -3,9 +3,9 @@ info:
   contact:
     email: support@kinde.com
     name: Kinde Support Team
-    url: https://kinde.com/docs/
+    url: https://docs.kinde.com
   description: Provides endpoints to manage your Kinde Businesses
-  termsOfService: https://kinde.com/docs/important-information/terms-of-service/
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
   title: Kinde Management API
   version: "1"
 servers:
@@ -31,10 +31,14 @@ tags:
   x-displayName: Callbacks
 - name: Connected Apps
   x-displayName: Connected Apps
+- name: Connections
+  x-displayName: Connections
 - name: Environments
   x-displayName: Environments
 - name: Feature Flags
   x-displayName: Feature Flags
+- name: Identities
+  x-displayName: Identities
 - name: Organizations
   x-displayName: Organizations
 - name: Permissions
@@ -49,6 +53,8 @@ tags:
   x-displayName: Subscribers
 - name: Users
   x-displayName: Users
+- name: Webhooks
+  x-displayName: Webhooks
 paths:
   /oauth2/user_profile:
     get:
@@ -622,6 +628,142 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Update Application
+      tags:
+      - Applications
+  /api/v1/applications/{application_id}/connections:
+    get:
+      description: Gets all connections for an application.
+      operationId: GetApplicationConnections
+      parameters:
+      - description: The identifier/client ID for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+          description: Application connections successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get connections
+      tags:
+      - Applications
+  /api/v1/applications/{application_id}/connections/{connection_id}:
+    delete:
+      description: Turn off an auth connection for an application
+      operationId: RemoveConnection
+      parameters:
+      - description: The identifier/client ID for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Connection successfully removed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Remove connection
+      tags:
+      - Applications
+    post:
+      description: Enable an auth connection for an application.
+      operationId: EnableConnection
+      parameters:
+      - description: The identifier/client ID for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Connection successfully enabled.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Enable connection
       tags:
       - Applications
   /api/v1/business:
@@ -1366,7 +1508,7 @@ paths:
         linked to the connected app.
       operationId: GetConnectedAppToken
       parameters:
-      - description: The unique sesssion id reprensenting the login session of a user.
+      - description: The unique sesssion id representing the login session of a user.
         explode: true
         in: query
         name: session_id
@@ -1416,7 +1558,7 @@ paths:
       description: Revoke the tokens linked to the connected app session.
       operationId: RevokeConnectedAppToken
       parameters:
-      - description: The unique sesssion id reprensenting the login session of a user.
+      - description: The unique sesssion id representing the login session of a user.
         explode: true
         in: query
         name: session_id
@@ -1463,6 +1605,245 @@ paths:
       summary: Revoke Connected App Token
       tags:
       - Connected Apps
+  /api/v1/connections:
+    get:
+      description: |
+        Returns a list of Connections
+      operationId: GetConnections
+      parameters:
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: The ID of the connection to start after.
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the connection to end before.
+        explode: true
+        in: query
+        name: ending_before
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+          description: Connections successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: List Connections
+      tags:
+      - Connections
+    post:
+      description: Create Connection.
+      operationId: CreateConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConnection_request'
+        description: Connection details.
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_connection_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_connection_response'
+          description: Connection successfully created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create Connection
+      tags:
+      - Connections
+  /api/v1/connections/{connection_id}:
+    delete:
+      description: |
+        Delete connection.
+      operationId: deleteConnection
+      parameters:
+      - description: The identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Connection deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete Connection
+      tags:
+      - Connections
+    get:
+      description: Get Connection.
+      operationId: GetConnection
+      parameters:
+      - description: The unique identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connection'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connection'
+          description: Connection successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get Connection
+      tags:
+      - Connections
+    patch:
+      description: Update Connection.
+      operationId: UpdateConnection
+      parameters:
+      - description: The unique identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConnection_request'
+        description: The fields of the connection to update.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Connection successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update Connection
+      tags:
+      - Connections
   /api/v1/environment/feature_flags:
     delete:
       description: Delete all environment feature flag overrides.
@@ -1786,6 +2167,142 @@ paths:
       summary: Replace Feature Flag
       tags:
       - Feature Flags
+  /api/v1/identities/{identity_id}:
+    delete:
+      description: Delete identity by ID.
+      operationId: DeleteIdentity
+      parameters:
+      - description: The unique identifier for the identity.
+        explode: false
+        in: path
+        name: identity_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Identity successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete identity
+      tags:
+      - Identities
+    get:
+      description: |
+        Returns an identity by ID
+      operationId: GetIdentity
+      parameters:
+      - description: The unique identifier for the identity.
+        explode: false
+        in: path
+        name: identity_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/identity'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/identity'
+          description: Identity successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get identity
+      tags:
+      - Identities
+    patch:
+      description: Update identity by ID.
+      operationId: UpdateIdentity
+      parameters:
+      - description: The unique identifier for the identity.
+        explode: false
+        in: path
+        name: identity_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdentity_request'
+        description: The fields of the identity to update.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Identity successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update identity
+      tags:
+      - Identities
   /api/v1/organization:
     get:
       description: |
@@ -2021,6 +2538,8 @@ paths:
           - name_desc
           - email_asc
           - email_desc
+          - id_asc
+          - id_desc
           nullable: true
           type: string
         style: form
@@ -2885,6 +3404,49 @@ paths:
       summary: Update Organization Property values
       tags:
       - Organizations
+  /api/v1/organization/{org_code}/handle:
+    delete:
+      description: |
+        Delete organization handle
+      operationId: DeleteOrganizationHandle
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Handle successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete organization handle
+      tags:
+      - Organizations
   /api/v1/permissions:
     get:
       description: |
@@ -3191,6 +3753,46 @@ paths:
       tags:
       - Properties
   /api/v1/properties/{property_id}:
+    delete:
+      description: Delete property.
+      operationId: DeleteProperty
+      parameters:
+      - description: The unique identifier for the property.
+        explode: false
+        in: path
+        name: property_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Property successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete Property
+      tags:
+      - Properties
     put:
       description: Update property.
       operationId: UpdateProperty
@@ -3969,6 +4571,16 @@ paths:
           nullable: true
           type: string
         style: form
+      - description: Filter the results by username. The query string should be comma
+          separated and url encoded.
+        explode: true
+        in: query
+        name: username
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
       - description: Specify additional data to retrieve. Use "organizations" and/or
           "identities".
         explode: true
@@ -3978,6 +4590,16 @@ paths:
         schema:
           nullable: true
           type: string
+        style: form
+      - description: Filter the results by if the user has at least one organization
+          assigned.
+        explode: true
+        in: query
+        name: has_organization
+        required: false
+        schema:
+          nullable: true
+          type: boolean
         style: form
       responses:
         "200":
@@ -4445,6 +5067,418 @@ paths:
       summary: Update Property values
       tags:
       - Users
+  /api/v1/users/{user_id}/password:
+    put:
+      description: Set user password.
+      operationId: SetUserPassword
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUserPassword_request'
+        description: Password details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating user.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Set User password
+      tags:
+      - Users
+  /api/v1/users/{user_id}/identities:
+    get:
+      description: |
+        Gets a list of identities for an user by ID.
+      operationId: GetUserIdentities
+      parameters:
+      - description: The user's ID.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_identities_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_identities_response'
+          description: Identities successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get identities
+      tags:
+      - Users
+    post:
+      description: |
+        Creates an identity for a user.
+      operationId: CreateUserIdentity
+      parameters:
+      - description: The user's ID.
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserIdentity_request'
+        description: The identity details.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_identity_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_identity_response'
+          description: Identity successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error creating identity.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create identity
+      tags:
+      - Users
+  /api/v1/events/{event_id}:
+    get:
+      description: |
+        Returns an event
+      operationId: GetEvent
+      parameters:
+      - description: The event id.
+        explode: false
+        in: path
+        name: event_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_event_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_event_response'
+          description: Event successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get Event
+      tags:
+      - Webhooks
+  /api/v1/event_types:
+    get:
+      description: |
+        Returns a list event type definitions
+      operationId: GetEventTypes
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_event_types_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_event_types_response'
+          description: Event types successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: List Event Types
+      tags:
+      - Webhooks
+  /api/v1/webhooks/{webhook_id}:
+    delete:
+      description: |
+        Delete webhook
+      operationId: DeleteWebHook
+      parameters:
+      - description: The webhook id.
+        explode: false
+        in: path
+        name: webhook_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/delete_webhook_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_webhook_response'
+          description: Webhook successfully deleted.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete Webhook
+      tags:
+      - Webhooks
+  /api/v1/webhooks:
+    get:
+      description: |
+        List webhooks
+      operationId: GetWebHooks
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_webhooks_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_webhooks_response'
+          description: Webhook list successfully returned.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: List Webhooks
+      tags:
+      - Webhooks
+    patch:
+      description: |
+        Update a webhook
+      operationId: UpdateWebHook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWebHook_request'
+        description: Update webhook request specification.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/update_webhook_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_webhook_response'
+          description: Webhook successfully updated.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update a Webhook
+      tags:
+      - Webhooks
+    post:
+      description: |
+        Create a webhook
+      operationId: CreateWebHook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebHook_request'
+        description: Webhook request specification.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_webhook_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_webhook_response'
+          description: Webhook successfully created.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create a Webhook
+      tags:
+      - Webhooks
 components:
   schemas:
     success_response:
@@ -4494,6 +5528,7 @@ components:
         id: id
         provided_id: provided_id
         first_name: first_name
+        username: username
       properties:
         id:
           description: Unique id of the user in Kinde.
@@ -4503,6 +5538,9 @@ components:
           type: string
         preferred_email:
           description: Default email address of the user in Kinde.
+          type: string
+        username:
+          description: Primary username of the user in Kinde.
           type: string
         last_name:
           description: User's last name.
@@ -4605,6 +5643,7 @@ components:
           provided_id: provided_id
           first_name: first_name
           email: email
+          username: username
         - failed_sign_ins: 6
           last_name: last_name
           is_suspended: true
@@ -4624,6 +5663,7 @@ components:
           provided_id: provided_id
           first_name: first_name
           email: email
+          username: username
       properties:
         code:
           description: Response code.
@@ -4696,12 +5736,16 @@ components:
         provided_id: provided_id
         first_name: first_name
         picture: picture
+        username: username
       properties:
         id:
           description: Unique id of the user in Kinde.
           type: string
         preferred_email:
           description: Default email address of the user in Kinde.
+          type: string
+        username:
+          description: Primary username of the user in Kinde.
           type: string
         provided_id:
           description: Value of the user's id in a third-party system when the user
@@ -4732,6 +5776,55 @@ components:
         property:
           $ref: '#/components/schemas/create_property_response_property'
       type: object
+    create_identity_response:
+      example:
+        code: code
+        identity:
+          id: id
+        message: message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        identity:
+          $ref: '#/components/schemas/create_identity_response_identity'
+      type: object
+    get_identities_response:
+      example:
+        code: code
+        has_more: true
+        message: message
+        properties:
+        - total_logins: 0
+          created_on: created_on
+          is_confirmed: true
+          name: name
+          id: id
+          type: type
+          last_login_on: last_login_on
+        - total_logins: 0
+          created_on: created_on
+          is_confirmed: true
+          name: name
+          id: id
+          type: type
+          last_login_on: last_login_on
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        properties:
+          items:
+            $ref: '#/components/schemas/identity'
+          type: array
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+      type: object
     get_properties_response:
       example:
         code: code
@@ -4739,13 +5832,13 @@ components:
         message: message
         properties:
         - is_private: true
-          name: true
+          name: name
           description: description
           id: id
           key: key
           is_kinde_property: true
         - is_private: true
-          name: true
+          name: name
           description: description
           id: id
           key: key
@@ -4814,9 +5907,9 @@ components:
       example:
         code: code
         categories:
-        - name: true
+        - name: name
           id: id
-        - name: true
+        - name: name
           id: id
         has_more: true
         message: message
@@ -4834,6 +5927,218 @@ components:
         has_more:
           description: Whether more records exist.
           type: boolean
+      type: object
+    get_event_response:
+      example:
+        code: code
+        message: message
+        event:
+          event_id: event_id
+          data: "{}"
+          source: source
+          type: type
+          timestamp: timestamp
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        event:
+          $ref: '#/components/schemas/get_event_response_event'
+      type: object
+    get_event_types_response:
+      example:
+        code: code
+        event_types:
+        - schema: "{}"
+          code: code
+          origin: origin
+          name: name
+          id: id
+        - schema: "{}"
+          code: code
+          origin: origin
+          name: name
+          id: id
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        event_types:
+          items:
+            $ref: '#/components/schemas/event_type'
+          type: array
+      type: object
+    get_webhooks_response:
+      example:
+        code: code
+        webhooks:
+        - endpoint: endpoint
+          event_types:
+          - event_types
+          - event_types
+          created_on: created_on
+          name: name
+          description: description
+          id: id
+        - endpoint: endpoint
+          event_types:
+          - event_types
+          - event_types
+          created_on: created_on
+          name: name
+          description: description
+          id: id
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        webhooks:
+          items:
+            $ref: '#/components/schemas/webhook'
+          type: array
+      type: object
+    webhook:
+      example:
+        endpoint: endpoint
+        event_types:
+        - event_types
+        - event_types
+        created_on: created_on
+        name: name
+        description: description
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        endpoint:
+          type: string
+        description:
+          type: string
+        event_types:
+          items:
+            type: string
+          type: array
+        created_on:
+          description: Created on date in ISO 8601 format.
+          type: string
+      type: object
+    create_webhook_response:
+      example:
+        code: code
+        webhook:
+          endpoint: endpoint
+          id: id
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        webhook:
+          $ref: '#/components/schemas/create_webhook_response_webhook'
+      type: object
+    update_webhook_response:
+      example:
+        code: code
+        webhook:
+          id: id
+        message: message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        webhook:
+          $ref: '#/components/schemas/update_webhook_response_webhook'
+      type: object
+    create_connection_response:
+      example:
+        code: code
+        connection:
+          id: id
+        message: message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        connection:
+          $ref: '#/components/schemas/create_connection_response_connection'
+      type: object
+    get_connections_response:
+      example:
+        code: code
+        has_more: true
+        message: message
+        connections:
+        - name: name
+          id: id
+          display_name: display_name
+          strategy: strategy
+        - name: name
+          id: id
+          display_name: display_name
+          strategy: strategy
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        connections:
+          items:
+            $ref: '#/components/schemas/connection'
+          type: array
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+      type: object
+    delete_webhook_response:
+      example:
+        code: code
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+      type: object
+    event_type:
+      example:
+        schema: "{}"
+        code: code
+        origin: origin
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        origin:
+          type: string
+        schema:
+          type: object
       type: object
     token_introspect:
       example:
@@ -4896,7 +6201,7 @@ components:
           nullable: true
           type: string
         name:
-          description: Users's first and last name separated by a space.
+          description: User's first and last name separated by a space.
           type: string
         given_name:
           description: User's first name.
@@ -4916,8 +6221,14 @@ components:
       type: object
     organization:
       example:
+        link_color: link_color
+        button_color: button_color
         code: code
+        background_color: background_color
+        button_text_color: button_text_color
         name: name
+        is_allow_registrations: true
+        logo: logo
         external_id: external_id
         is_default: true
       properties:
@@ -4929,6 +6240,18 @@ components:
           type: boolean
         external_id:
           type: string
+        logo:
+          type: string
+        link_color:
+          type: string
+        button_color:
+          type: string
+        background_color:
+          type: string
+        button_text_color:
+          type: string
+        is_allow_registrations:
+          type: boolean
       type: object
     organization_user:
       example:
@@ -4940,6 +6263,7 @@ components:
         id: id
         first_name: first_name
         email: email
+        picture: picture
       properties:
         id:
           type: string
@@ -4951,6 +6275,8 @@ components:
           type: string
         first_name:
           type: string
+        picture:
+          type: string
         roles:
           items:
             type: string
@@ -4958,18 +6284,61 @@ components:
       type: object
     category:
       example:
-        name: true
+        name: name
         id: id
       properties:
         id:
           type: string
         name:
+          type: string
+      type: object
+    connection:
+      example:
+        name: name
+        id: id
+        display_name: display_name
+        strategy: strategy
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        display_name:
+          type: string
+        strategy:
+          type: string
+      type: object
+    identity:
+      example:
+        total_logins: 0
+        created_on: created_on
+        is_confirmed: true
+        name: name
+        id: id
+        type: type
+        last_login_on: last_login_on
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        is_confirmed:
           type: boolean
+        created_on:
+          description: Date of user creation in ISO 8601 format.
+          type: string
+        last_login_on:
+          description: Date of user creation in ISO 8601 format.
+          type: string
+        total_logins:
+          type: integer
+        name:
+          type: string
       type: object
     property:
       example:
         is_private: true
-        name: true
+        name: name
         description: description
         id: id
         key: key
@@ -4980,7 +6349,7 @@ components:
         key:
           type: string
         name:
-          type: boolean
+          type: string
         is_private:
           type: boolean
         description:
@@ -5193,12 +6562,24 @@ components:
       example:
         code: code
         organizations:
-        - code: code
+        - link_color: link_color
+          button_color: button_color
+          code: code
+          background_color: background_color
+          button_text_color: button_text_color
           name: name
+          is_allow_registrations: true
+          logo: logo
           external_id: external_id
           is_default: true
-        - code: code
+        - link_color: link_color
+          button_color: button_color
+          code: code
+          background_color: background_color
+          button_text_color: button_text_color
           name: name
+          is_allow_registrations: true
+          logo: logo
           external_id: external_id
           is_default: true
         message: message
@@ -5230,6 +6611,7 @@ components:
           id: id
           first_name: first_name
           email: email
+          picture: picture
         - full_name: full_name
           roles:
           - roles
@@ -5238,6 +6620,7 @@ components:
           id: id
           first_name: first_name
           email: email
+          picture: picture
         message: message
         next_token: next_token
       properties:
@@ -5495,10 +6878,12 @@ components:
       example:
         code: code
         application:
+          homepage_uri: homepage_uri
           name: name
           id: id
           client_secret: client_secret
           type: type
+          login_uri: login_uri
           client_id: client_id
         message: message
       properties:
@@ -5796,6 +7181,12 @@ components:
           items:
             type: string
           type: array
+        login_uri:
+          description: The default login route for resolving session issues.
+          type: string
+        homepage_uri:
+          description: The homepage link to your application.
+          type: string
       type: object
     replaceRedirectCallbackURLs_request:
       properties:
@@ -5812,6 +7203,73 @@ components:
           items:
             type: string
           type: array
+      type: object
+    CreateConnection_request:
+      properties:
+        name:
+          description: The internal name of the connection.
+          nullable: false
+          type: string
+        display_name:
+          description: The public facing name of the connection.
+          nullable: false
+          type: string
+        strategy:
+          description: The identity provider identifier for the connection.
+          enum:
+          - oauth2:apple
+          - oauth2:azure_ad
+          - oauth2:bitbucket
+          - oauth2:discord
+          - oauth2:facebook
+          - oauth2:github
+          - oauth2:gitlab
+          - oauth2:google
+          - oauth2:linkedin
+          - oauth2:microsoft
+          - oauth2:patreon
+          - oauth2:slack
+          - oauth2:stripe
+          - oauth2:twitch
+          - oauth2:twitter
+          - oauth2:xero
+          - saml:custom
+          - wsfed:azure_ad
+          nullable: false
+          type: string
+        enabled_applications:
+          description: Client IDs of applications in which this connection is to be
+            enabled.
+          items:
+            type: string
+          type: array
+        options:
+          description: The connection's options (varies by strategy).
+          type: object
+      required:
+      - display_name
+      - name
+      - strategy
+      type: object
+    UpdateConnection_request:
+      properties:
+        name:
+          description: The internal name of the connection.
+          nullable: false
+          type: string
+        display_name:
+          description: The public facing name of the connection.
+          nullable: false
+          type: string
+        enabled_applications:
+          description: Client IDs of applications in which this connection is to be
+            enabled.
+          items:
+            type: string
+          type: array
+        options:
+          description: The connection's options (varies by strategy).
+          type: object
       type: object
     UpdateEnvironementFeatureFlagOverride_request:
       properties:
@@ -5861,6 +7319,13 @@ components:
       - key
       - name
       - type
+      type: object
+    UpdateIdentity_request:
+      properties:
+        is_primary:
+          description: Whether the identity is the primary for it's type
+          nullable: false
+          type: boolean
       type: object
     createOrganization_request:
       properties:
@@ -6101,6 +7566,14 @@ components:
         is_private:
           description: Whether the property can be included in id and access tokens.
           type: boolean
+        category_id:
+          description: Which category the property belongs to.
+          nullable: false
+          type: string
+      required:
+      - category_id
+      - is_private
+      - name
       type: object
     CreateCategory_request:
       properties:
@@ -6193,6 +7666,12 @@ components:
         email:
           description: The email address of the user.
           type: string
+        phone:
+          description: The phone number of the user.
+          type: string
+        username:
+          description: The username of the user.
+          type: string
       type: object
     createUser_request_identities_inner:
       description: The result of the user creation operation.
@@ -6201,6 +7680,8 @@ components:
           description: "The type of identity to create, for e.g. email."
           enum:
           - email
+          - phone
+          - username
           type: string
         details:
           $ref: '#/components/schemas/createUser_request_identities_inner_details'
@@ -6234,6 +7715,96 @@ components:
           description: Prompt the user to change their password on next sign in.
           type: boolean
       type: object
+    SetUserPassword_request:
+      properties:
+        hashed_password:
+          description: The hashed password.
+          type: string
+        hashing_method:
+          description: The hashing method or algorithm used to encrypt the user’s
+            password. Default is bcrypt.
+          enum:
+          - bcrypt
+          - crypt
+          - md5
+          - wordpress
+          type: string
+        salt:
+          description: Extra characters added to passwords to make them stronger.
+            Not required for bcrypt.
+          type: string
+        salt_position:
+          description: Position of salt in password string. Not required for bcrypt.
+          enum:
+          - prefix
+          - suffix
+          type: string
+        is_temporary_password:
+          description: The user will be prompted to set a new password after entering
+            this one.
+          type: boolean
+      required:
+      - hashed_password
+      type: object
+    CreateUserIdentity_request:
+      properties:
+        value:
+          description: "The email address, or username of the user."
+          type: string
+        type:
+          description: The identity type
+          enum:
+          - email
+          - username
+          - phone
+          type: string
+        phone_country_id:
+          description: "The country code for the phone number, only required when\
+            \ identity type is 'phone'."
+          type: string
+      type: object
+    CreateWebHook_request:
+      properties:
+        endpoint:
+          description: The webhook endpoint url
+          nullable: false
+          type: string
+        event_types:
+          description: Array of event type keys
+          items:
+            type: string
+          nullable: false
+          type: array
+        name:
+          description: The webhook name
+          nullable: false
+          type: string
+        description:
+          description: The webhook description
+          nullable: true
+          type: string
+      required:
+      - endpoint
+      - event_types
+      - name
+      type: object
+    UpdateWebHook_request:
+      properties:
+        event_types:
+          description: Array of event type keys
+          items:
+            type: string
+          nullable: false
+          type: array
+        name:
+          description: The webhook name
+          nullable: false
+          type: string
+        description:
+          description: The webhook description
+          nullable: true
+          type: string
+      type: object
     user_identities_inner:
       example:
         identity: identity
@@ -6265,6 +7836,7 @@ components:
         provided_id: provided_id
         first_name: first_name
         email: email
+        username: username
       properties:
         id:
           description: Unique id of the user in Kinde.
@@ -6274,6 +7846,9 @@ components:
           type: string
         email:
           description: Default email address of the user in Kinde.
+          type: string
+        username:
+          description: Primary username of the user in Kinde.
           type: string
         last_name:
           description: User's last name.
@@ -6339,12 +7914,66 @@ components:
           description: The property's ID.
           type: string
       type: object
+    create_identity_response_identity:
+      example:
+        id: id
+      properties:
+        id:
+          description: The identity's ID.
+          type: string
+      type: object
     create_category_response_category:
       example:
         id: id
       properties:
         id:
           description: The category's ID.
+          type: string
+      type: object
+    get_event_response_event:
+      example:
+        event_id: event_id
+        data: "{}"
+        source: source
+        type: type
+        timestamp: timestamp
+      properties:
+        type:
+          type: string
+        source:
+          type: string
+        event_id:
+          type: string
+        timestamp:
+          description: Timestamp in ISO 8601 format.
+          type: string
+        data:
+          description: Event specific data object.
+          type: object
+      type: object
+    create_webhook_response_webhook:
+      example:
+        endpoint: endpoint
+        id: id
+      properties:
+        id:
+          type: string
+        endpoint:
+          type: string
+      type: object
+    update_webhook_response_webhook:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      type: object
+    create_connection_response_connection:
+      example:
+        id: id
+      properties:
+        id:
+          description: The connection's ID.
           type: string
       type: object
     organization_user_role_permissions_permissions:
@@ -6402,10 +8031,12 @@ components:
       type: object
     get_application_response_application:
       example:
+        homepage_uri: homepage_uri
         name: name
         id: id
         client_secret: client_secret
         type: type
+        login_uri: login_uri
         client_id: client_id
       properties:
         id:
@@ -6422,6 +8053,12 @@ components:
           type: string
         client_secret:
           description: The application's client secret.
+          type: string
+        login_uri:
+          description: The default login route for resolving session issues.
+          type: string
+        homepage_uri:
+          description: The homepage link to your application.
           type: string
       type: object
     roles_permission_response_inner:
@@ -6483,12 +8120,18 @@ x-tagGroups:
 - name: Callbacks API
   tags:
   - Callbacks
+- name: Connections API
+  tags:
+  - Connections
 - name: Environment API
   tags:
   - Environments
 - name: Feature flags API
   tags:
   - Feature Flags
+- name: Identities API
+  tags:
+  - Identities
 - name: Organizations API
   tags:
   - Organizations
@@ -6510,4 +8153,7 @@ x-tagGroups:
 - name: Users API
   tags:
   - Users
+- name: Webhooks API
+  tags:
+  - Webhooks
 

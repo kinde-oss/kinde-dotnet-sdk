@@ -41,14 +41,16 @@ namespace Kinde.Api.Model
         /// <param name="fullName">fullName.</param>
         /// <param name="lastName">lastName.</param>
         /// <param name="firstName">firstName.</param>
+        /// <param name="picture">picture.</param>
         /// <param name="roles">roles.</param>
-        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), List<string> roles = default(List<string>))
+        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), List<string> roles = default(List<string>))
         {
             this.Id = id;
             this.Email = email;
             this.FullName = fullName;
             this.LastName = lastName;
             this.FirstName = firstName;
+            this.Picture = picture;
             this.Roles = roles;
         }
 
@@ -83,6 +85,12 @@ namespace Kinde.Api.Model
         public string FirstName { get; set; }
 
         /// <summary>
+        /// Gets or Sets Picture
+        /// </summary>
+        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        public string Picture { get; set; }
+
+        /// <summary>
         /// Gets or Sets Roles
         /// </summary>
         [DataMember(Name = "roles", EmitDefaultValue = false)]
@@ -101,6 +109,7 @@ namespace Kinde.Api.Model
             sb.Append("  FullName: ").Append(FullName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            sb.Append("  Picture: ").Append(Picture).Append("\n");
             sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -163,6 +172,11 @@ namespace Kinde.Api.Model
                     this.FirstName.Equals(input.FirstName))
                 ) && 
                 (
+                    this.Picture == input.Picture ||
+                    (this.Picture != null &&
+                    this.Picture.Equals(input.Picture))
+                ) && 
+                (
                     this.Roles == input.Roles ||
                     this.Roles != null &&
                     input.Roles != null &&
@@ -198,6 +212,10 @@ namespace Kinde.Api.Model
                 if (this.FirstName != null)
                 {
                     hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                }
+                if (this.Picture != null)
+                {
+                    hashCode = (hashCode * 59) + this.Picture.GetHashCode();
                 }
                 if (this.Roles != null)
                 {

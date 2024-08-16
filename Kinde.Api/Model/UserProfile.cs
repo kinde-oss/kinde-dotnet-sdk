@@ -38,14 +38,16 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">Unique id of the user in Kinde..</param>
         /// <param name="preferredEmail">Default email address of the user in Kinde..</param>
+        /// <param name="username">Primary username of the user in Kinde..</param>
         /// <param name="providedId">Value of the user&#39;s id in a third-party system when the user is imported into Kinde..</param>
         /// <param name="lastName">User&#39;s last name..</param>
         /// <param name="firstName">User&#39;s first name..</param>
         /// <param name="picture">URL that point&#39;s to the user&#39;s picture or avatar.</param>
-        public UserProfile(string id = default(string), string preferredEmail = default(string), string providedId = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string))
+        public UserProfile(string id = default(string), string preferredEmail = default(string), string username = default(string), string providedId = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string))
         {
             this.Id = id;
             this.PreferredEmail = preferredEmail;
+            this.Username = username;
             this.ProvidedId = providedId;
             this.LastName = lastName;
             this.FirstName = firstName;
@@ -65,6 +67,13 @@ namespace Kinde.Api.Model
         /// <value>Default email address of the user in Kinde.</value>
         [DataMember(Name = "preferred_email", EmitDefaultValue = false)]
         public string PreferredEmail { get; set; }
+
+        /// <summary>
+        /// Primary username of the user in Kinde.
+        /// </summary>
+        /// <value>Primary username of the user in Kinde.</value>
+        [DataMember(Name = "username", EmitDefaultValue = false)]
+        public string Username { get; set; }
 
         /// <summary>
         /// Value of the user&#39;s id in a third-party system when the user is imported into Kinde.
@@ -104,6 +113,7 @@ namespace Kinde.Api.Model
             sb.Append("class UserProfile {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  PreferredEmail: ").Append(PreferredEmail).Append("\n");
+            sb.Append("  Username: ").Append(Username).Append("\n");
             sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
@@ -154,6 +164,11 @@ namespace Kinde.Api.Model
                     this.PreferredEmail.Equals(input.PreferredEmail))
                 ) && 
                 (
+                    this.Username == input.Username ||
+                    (this.Username != null &&
+                    this.Username.Equals(input.Username))
+                ) && 
+                (
                     this.ProvidedId == input.ProvidedId ||
                     (this.ProvidedId != null &&
                     this.ProvidedId.Equals(input.ProvidedId))
@@ -191,6 +206,10 @@ namespace Kinde.Api.Model
                 if (this.PreferredEmail != null)
                 {
                     hashCode = (hashCode * 59) + this.PreferredEmail.GetHashCode();
+                }
+                if (this.Username != null)
+                {
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
                 }
                 if (this.ProvidedId != null)
                 {

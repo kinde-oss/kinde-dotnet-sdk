@@ -41,13 +41,17 @@ namespace Kinde.Api.Model
         /// <param name="type">The application&#39;s type..</param>
         /// <param name="clientId">The application&#39;s client id..</param>
         /// <param name="clientSecret">The application&#39;s client secret..</param>
-        public GetApplicationResponseApplication(string id = default(string), string name = default(string), string type = default(string), string clientId = default(string), string clientSecret = default(string))
+        /// <param name="loginUri">The default login route for resolving session issues..</param>
+        /// <param name="homepageUri">The homepage link to your application..</param>
+        public GetApplicationResponseApplication(string id = default(string), string name = default(string), string type = default(string), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string))
         {
             this.Id = id;
             this.Name = name;
             this.Type = type;
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
+            this.LoginUri = loginUri;
+            this.HomepageUri = homepageUri;
         }
 
         /// <summary>
@@ -86,6 +90,20 @@ namespace Kinde.Api.Model
         public string ClientSecret { get; set; }
 
         /// <summary>
+        /// The default login route for resolving session issues.
+        /// </summary>
+        /// <value>The default login route for resolving session issues.</value>
+        [DataMember(Name = "login_uri", EmitDefaultValue = false)]
+        public string LoginUri { get; set; }
+
+        /// <summary>
+        /// The homepage link to your application.
+        /// </summary>
+        /// <value>The homepage link to your application.</value>
+        [DataMember(Name = "homepage_uri", EmitDefaultValue = false)]
+        public string HomepageUri { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -98,6 +116,8 @@ namespace Kinde.Api.Model
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  ClientId: ").Append(ClientId).Append("\n");
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
+            sb.Append("  LoginUri: ").Append(LoginUri).Append("\n");
+            sb.Append("  HomepageUri: ").Append(HomepageUri).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -157,6 +177,16 @@ namespace Kinde.Api.Model
                     this.ClientSecret == input.ClientSecret ||
                     (this.ClientSecret != null &&
                     this.ClientSecret.Equals(input.ClientSecret))
+                ) && 
+                (
+                    this.LoginUri == input.LoginUri ||
+                    (this.LoginUri != null &&
+                    this.LoginUri.Equals(input.LoginUri))
+                ) && 
+                (
+                    this.HomepageUri == input.HomepageUri ||
+                    (this.HomepageUri != null &&
+                    this.HomepageUri.Equals(input.HomepageUri))
                 );
         }
 
@@ -188,6 +218,14 @@ namespace Kinde.Api.Model
                 if (this.ClientSecret != null)
                 {
                     hashCode = (hashCode * 59) + this.ClientSecret.GetHashCode();
+                }
+                if (this.LoginUri != null)
+                {
+                    hashCode = (hashCode * 59) + this.LoginUri.GetHashCode();
+                }
+                if (this.HomepageUri != null)
+                {
+                    hashCode = (hashCode * 59) + this.HomepageUri.GetHashCode();
                 }
                 return hashCode;
             }

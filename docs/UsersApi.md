@@ -5,11 +5,14 @@ All URIs are relative to *https://app.kinde.com*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create User |
+| [**CreateUserIdentity**](UsersApi.md#createuseridentity) | **POST** /api/v1/users/{user_id}/identities | Create identity |
 | [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete User |
 | [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get User |
+| [**GetUserIdentities**](UsersApi.md#getuseridentities) | **GET** /api/v1/users/{user_id}/identities | Get identities |
 | [**GetUserPropertyValues**](UsersApi.md#getuserpropertyvalues) | **GET** /api/v1/users/{user_id}/properties | Get property values |
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | List Users |
 | [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
+| [**SetUserPassword**](UsersApi.md#setuserpassword) | **PUT** /api/v1/users/{user_id}/password | Set User password |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update User |
 | [**UpdateUserFeatureFlagOverride**](UsersApi.md#updateuserfeatureflagoverride) | **PATCH** /api/v1/users/{user_id}/feature_flags/{feature_flag_key} | Update User Feature Flag Override |
 | [**UpdateUserProperties**](UsersApi.md#updateuserproperties) | **PATCH** /api/v1/users/{user_id}/properties | Update Property values |
@@ -111,6 +114,109 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | User successfully created. |  -  |
 | **400** | Error creating user. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="createuseridentity"></a>
+# **CreateUserIdentity**
+> CreateIdentityResponse CreateUserIdentity (string userId, CreateUserIdentityRequest? createUserIdentityRequest = null)
+
+Create identity
+
+Creates an identity for a user. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateUserIdentityExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = "userId_example";  // string | The user's ID.
+            var createUserIdentityRequest = new CreateUserIdentityRequest?(); // CreateUserIdentityRequest? | The identity details. (optional) 
+
+            try
+            {
+                // Create identity
+                CreateIdentityResponse result = apiInstance.CreateUserIdentity(userId, createUserIdentityRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.CreateUserIdentity: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateUserIdentityWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create identity
+    ApiResponse<CreateIdentityResponse> response = apiInstance.CreateUserIdentityWithHttpInfo(userId, createUserIdentityRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.CreateUserIdentityWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The user&#39;s ID. |  |
+| **createUserIdentityRequest** | [**CreateUserIdentityRequest?**](CreateUserIdentityRequest?.md) | The identity details. | [optional]  |
+
+### Return type
+
+[**CreateIdentityResponse**](CreateIdentityResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Identity successfully created. |  -  |
+| **400** | Error creating identity. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
@@ -322,6 +428,107 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getuseridentities"></a>
+# **GetUserIdentities**
+> GetIdentitiesResponse GetUserIdentities (string userId)
+
+Get identities
+
+Gets a list of identities for an user by ID. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetUserIdentitiesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = "userId_example";  // string | The user's ID.
+
+            try
+            {
+                // Get identities
+                GetIdentitiesResponse result = apiInstance.GetUserIdentities(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.GetUserIdentities: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetUserIdentitiesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get identities
+    ApiResponse<GetIdentitiesResponse> response = apiInstance.GetUserIdentitiesWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.GetUserIdentitiesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The user&#39;s ID. |  |
+
+### Return type
+
+[**GetIdentitiesResponse**](GetIdentitiesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Identities successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getuserpropertyvalues"></a>
 # **GetUserPropertyValues**
 > GetPropertyValuesResponse GetUserPropertyValues (string userId)
@@ -425,7 +632,7 @@ catch (ApiException e)
 
 <a id="getusers"></a>
 # **GetUsers**
-> UsersResponse GetUsers (int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? expand = null)
+> UsersResponse GetUsers (int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? username = null, string? expand = null, bool? hasOrganization = null)
 
 List Users
 
@@ -459,12 +666,14 @@ namespace Example
             var userId = "userId_example";  // string? | ID of the user to filter by. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
             var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
+            var username = "username_example";  // string? | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
             var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var hasOrganization = true;  // bool? | Filter the results by if the user has at least one organization assigned. (optional) 
 
             try
             {
                 // List Users
-                UsersResponse result = apiInstance.GetUsers(pageSize, userId, nextToken, email, expand);
+                UsersResponse result = apiInstance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -485,7 +694,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List Users
-    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(pageSize, userId, nextToken, email, expand);
+    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -506,7 +715,9 @@ catch (ApiException e)
 | **userId** | **string?** | ID of the user to filter by. | [optional]  |
 | **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 | **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
+| **username** | **string?** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
 | **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **hasOrganization** | **bool?** | Filter the results by if the user has at least one organization assigned. | [optional]  |
 
 ### Return type
 
@@ -628,6 +839,109 @@ catch (ApiException e)
 | **200** | Claims successfully refreshed. |  -  |
 | **400** | Bad request. |  -  |
 | **403** | Bad request. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="setuserpassword"></a>
+# **SetUserPassword**
+> SuccessResponse SetUserPassword (string userId, SetUserPasswordRequest setUserPasswordRequest)
+
+Set User password
+
+Set user password.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class SetUserPasswordExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://app.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = "userId_example";  // string | The identifier for the user
+            var setUserPasswordRequest = new SetUserPasswordRequest(); // SetUserPasswordRequest | Password details.
+
+            try
+            {
+                // Set User password
+                SuccessResponse result = apiInstance.SetUserPassword(userId, setUserPasswordRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.SetUserPassword: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the SetUserPasswordWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Set User password
+    ApiResponse<SuccessResponse> response = apiInstance.SetUserPasswordWithHttpInfo(userId, setUserPasswordRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.SetUserPasswordWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+| **setUserPasswordRequest** | [**SetUserPasswordRequest**](SetUserPasswordRequest.md) | Password details. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User successfully created. |  -  |
+| **400** | Error creating user. |  -  |
+| **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
