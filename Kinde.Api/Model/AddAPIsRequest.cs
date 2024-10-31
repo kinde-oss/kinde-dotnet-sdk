@@ -41,8 +41,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AddAPIsRequest" /> class.
         /// </summary>
-        /// <param name="name">name (required).</param>
-        /// <param name="audience">audience (required).</param>
+        /// <param name="name">The name of the API. (1-64 characters). (required).</param>
+        /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims. (1-64 characters) (required).</param>
         public AddAPIsRequest(string name = default(string), string audience = default(string))
         {
             // to ensure "name" is required (not null)
@@ -60,14 +60,18 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// The name of the API. (1-64 characters).
         /// </summary>
+        /// <value>The name of the API. (1-64 characters).</value>
+        /// <example>Example API</example>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Audience
+        /// A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims. (1-64 characters)
         /// </summary>
+        /// <value>A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims. (1-64 characters)</value>
+        /// <example>https://api.example.com</example>
         [DataMember(Name = "audience", IsRequired = true, EmitDefaultValue = true)]
         public string Audience { get; set; }
 

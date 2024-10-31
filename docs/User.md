@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | Unique id of the user in Kinde. | [optional] 
-**ProvidedId** | **string** | External id for user. | [optional] 
+**Id** | **string** | Unique ID of the user in Kinde. | [optional] 
+**ProvidedId** | **string** | External ID for user. | [optional] 
 **PreferredEmail** | **string** | Default email address of the user in Kinde. | [optional] 
 **Username** | **string** | Primary username of the user in Kinde. | [optional] 
 **LastName** | **string** | User&#39;s last name. | [optional] 

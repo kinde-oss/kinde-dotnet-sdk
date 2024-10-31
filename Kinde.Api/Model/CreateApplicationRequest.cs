@@ -34,9 +34,9 @@ namespace Kinde.Api.Model
     public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>, IValidatableObject
     {
         /// <summary>
-        /// The application&#39;s type.
+        /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.
         /// </summary>
-        /// <value>The application&#39;s type.</value>
+        /// <value>The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum TypeEnum
         {
@@ -61,18 +61,28 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// The application&#39;s type.
+        /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.
         /// </summary>
-        /// <value>The application&#39;s type.</value>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
+        /// <value>The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.</value>
+        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
+        public TypeEnum Type { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
-        /// <param name="name">The application&#39;s name..</param>
-        /// <param name="type">The application&#39;s type..</param>
-        public CreateApplicationRequest(string name = default(string), TypeEnum? type = default(TypeEnum?))
+        [JsonConstructorAttribute]
+        protected CreateApplicationRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
+        /// </summary>
+        /// <param name="name">The application&#39;s name. (required).</param>
+        /// <param name="type">The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications. (required).</param>
+        public CreateApplicationRequest(string name = default(string), TypeEnum type = default(TypeEnum))
         {
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new ArgumentNullException("name is a required property for CreateApplicationRequest and cannot be null");
+            }
             this.Name = name;
             this.Type = type;
         }
@@ -81,7 +91,8 @@ namespace Kinde.Api.Model
         /// The application&#39;s name.
         /// </summary>
         /// <value>The application&#39;s name.</value>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        /// <example>React Native app</example>
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>

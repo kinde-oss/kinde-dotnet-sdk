@@ -1,6 +1,6 @@
 # Kinde.Api.Api.IdentitiesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -14,7 +14,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Delete identity
 
-Delete identity by ID.
+Delete identity by ID.  <div>   <code>delete:identities</code> </div> 
 
 ### Example
 ```csharp
@@ -32,7 +32,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -115,7 +115,7 @@ catch (ApiException e)
 
 Get identity
 
-Returns an identity by ID 
+Returns an identity by ID  <div>   <code>read:identities</code> </div> 
 
 ### Example
 ```csharp
@@ -133,7 +133,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -216,7 +216,7 @@ catch (ApiException e)
 
 Update identity
 
-Update identity by ID.
+Update identity by ID.  <div>   <code>update:identities</code> </div> 
 
 ### Example
 ```csharp
@@ -234,7 +234,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

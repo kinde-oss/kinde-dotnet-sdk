@@ -38,10 +38,12 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
-        public CreateUserRequestProfile(string givenName = default(string), string familyName = default(string))
+        /// <param name="picture">The user&#39;s profile picture..</param>
+        public CreateUserRequestProfile(string givenName = default(string), string familyName = default(string), string picture = default(string))
         {
             this.GivenName = givenName;
             this.FamilyName = familyName;
+            this.Picture = picture;
         }
 
         /// <summary>
@@ -59,6 +61,13 @@ namespace Kinde.Api.Model
         public string FamilyName { get; set; }
 
         /// <summary>
+        /// The user&#39;s profile picture.
+        /// </summary>
+        /// <value>The user&#39;s profile picture.</value>
+        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        public string Picture { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -68,6 +77,7 @@ namespace Kinde.Api.Model
             sb.Append("class CreateUserRequestProfile {\n");
             sb.Append("  GivenName: ").Append(GivenName).Append("\n");
             sb.Append("  FamilyName: ").Append(FamilyName).Append("\n");
+            sb.Append("  Picture: ").Append(Picture).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,6 +122,11 @@ namespace Kinde.Api.Model
                     this.FamilyName == input.FamilyName ||
                     (this.FamilyName != null &&
                     this.FamilyName.Equals(input.FamilyName))
+                ) && 
+                (
+                    this.Picture == input.Picture ||
+                    (this.Picture != null &&
+                    this.Picture.Equals(input.Picture))
                 );
         }
 
@@ -131,6 +146,10 @@ namespace Kinde.Api.Model
                 if (this.FamilyName != null)
                 {
                     hashCode = (hashCode * 59) + this.FamilyName.GetHashCode();
+                }
+                if (this.Picture != null)
+                {
+                    hashCode = (hashCode * 59) + this.Picture.GetHashCode();
                 }
                 return hashCode;
             }

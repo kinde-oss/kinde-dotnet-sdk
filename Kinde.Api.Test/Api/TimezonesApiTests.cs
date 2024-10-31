@@ -61,10 +61,8 @@ namespace Kinde.Api.Test.Api
         public void GetTimezonesTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? timezoneKey = null;
-            //string? name = null;
-            //var response = instance.GetTimezones(timezoneKey, name);
-            //Assert.IsType<SuccessResponse>(response);
+            //var response = instance.GetTimezones();
+            //Assert.IsType<GetTimezonesResponse>(response);
         }
     }
 }

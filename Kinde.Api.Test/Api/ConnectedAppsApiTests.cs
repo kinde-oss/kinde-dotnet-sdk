@@ -64,7 +64,8 @@ namespace Kinde.Api.Test.Api
             //string keyCodeRef = null;
             //string? userId = null;
             //string? orgCode = null;
-            //var response = instance.GetConnectedAppAuthUrl(keyCodeRef, userId, orgCode);
+            //string? overrideCallbackUrl = null;
+            //var response = instance.GetConnectedAppAuthUrl(keyCodeRef, userId, orgCode, overrideCallbackUrl);
             //Assert.IsType<ConnectedAppsAuthUrl>(response);
         }
 

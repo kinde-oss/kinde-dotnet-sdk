@@ -1,11 +1,11 @@
 # Kinde.Api.Api.OrganizationsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**AddOrganizationUsers**](OrganizationsApi.md#addorganizationusers) | **POST** /api/v1/organizations/{org_code}/users | Add Organization Users |
-| [**CreateOrganization**](OrganizationsApi.md#createorganization) | **POST** /api/v1/organization | Create Organization |
+| [**CreateOrganization**](OrganizationsApi.md#createorganization) | **POST** /api/v1/organization | Create organization |
 | [**CreateOrganizationUserPermission**](OrganizationsApi.md#createorganizationuserpermission) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/permissions | Add Organization User Permission |
 | [**CreateOrganizationUserRole**](OrganizationsApi.md#createorganizationuserrole) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/roles | Add Organization User Role |
 | [**DeleteOrganization**](OrganizationsApi.md#deleteorganization) | **DELETE** /api/v1/organization/{org_code} | Delete Organization |
@@ -14,13 +14,13 @@ All URIs are relative to *https://app.kinde.com*
 | [**DeleteOrganizationHandle**](OrganizationsApi.md#deleteorganizationhandle) | **DELETE** /api/v1/organization/{org_code}/handle | Delete organization handle |
 | [**DeleteOrganizationUserPermission**](OrganizationsApi.md#deleteorganizationuserpermission) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id} | Delete Organization User Permission |
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
-| [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get Organization |
+| [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get organization |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
 | [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
 | [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | List Organization Users |
-| [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | List Organizations |
+| [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | Get organizations |
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
@@ -34,7 +34,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Add Organization Users
 
-Add existing users to an organization.
+Add existing users to an organization.  <div>   <code>create:organization_users</code> </div> 
 
 ### Example
 ```csharp
@@ -52,7 +52,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -136,9 +136,9 @@ catch (ApiException e)
 # **CreateOrganization**
 > CreateOrganizationResponse CreateOrganization (CreateOrganizationRequest createOrganizationRequest)
 
-Create Organization
+Create organization
 
-Create an organization.
+Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  <div>   <code>create:organizations</code> </div> 
 
 ### Example
 ```csharp
@@ -156,7 +156,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -168,7 +168,7 @@ namespace Example
 
             try
             {
-                // Create Organization
+                // Create organization
                 CreateOrganizationResponse result = apiInstance.CreateOrganization(createOrganizationRequest);
                 Debug.WriteLine(result);
             }
@@ -189,7 +189,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create Organization
+    // Create organization
     ApiResponse<CreateOrganizationResponse> response = apiInstance.CreateOrganizationWithHttpInfo(createOrganizationRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -220,17 +220,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully created. |  -  |
-| **400** | Error creating user. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
-| **500** | Could not create organization. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -240,7 +239,7 @@ catch (ApiException e)
 
 Add Organization User Permission
 
-Add permission to an organization user.
+Add permission to an organization user.  <div>   <code>create:organization_user_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -258,7 +257,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -344,7 +343,7 @@ catch (ApiException e)
 
 Add Organization User Role
 
-Add role to an organization user.
+Add role to an organization user.  <div>   <code>create:organization_user_roles</code> </div> 
 
 ### Example
 ```csharp
@@ -362,7 +361,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -444,11 +443,11 @@ catch (ApiException e)
 
 <a id="deleteorganization"></a>
 # **DeleteOrganization**
-> void DeleteOrganization (string orgCode)
+> SuccessResponse DeleteOrganization (string orgCode)
 
 Delete Organization
 
-Delete an organization.
+Delete an organization.  <div>   <code>delete:organizations</code> </div> 
 
 ### Example
 ```csharp
@@ -466,7 +465,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -479,7 +478,8 @@ namespace Example
             try
             {
                 // Delete Organization
-                apiInstance.DeleteOrganization(orgCode);
+                SuccessResponse result = apiInstance.DeleteOrganization(orgCode);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -499,7 +499,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Delete Organization
-    apiInstance.DeleteOrganizationWithHttpInfo(orgCode);
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationWithHttpInfo(orgCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -517,7 +520,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
@@ -526,16 +529,17 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully deleted. |  -  |
-| **400** | Error deleting organization. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -545,7 +549,7 @@ void (empty response body)
 
 Delete Organization Feature Flag Override
 
-Delete organization feature flag override.
+Delete organization feature flag override.  <div>   <code>delete:organization_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -563,7 +567,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -648,7 +652,7 @@ catch (ApiException e)
 
 Delete Organization Feature Flag Overrides
 
-Delete all organization feature flag overrides.
+Delete all organization feature flag overrides.  <div>   <code>delete:organization_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -666,7 +670,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -749,7 +753,7 @@ catch (ApiException e)
 
 Delete organization handle
 
-Delete organization handle 
+Delete organization handle  <div>   <code>delete:organization_handles</code> </div> 
 
 ### Example
 ```csharp
@@ -767,7 +771,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -850,7 +854,7 @@ catch (ApiException e)
 
 Delete Organization User Permission
 
-Delete permission for an organization user.
+Delete permission for an organization user.  <div>   <code>delete:organization_user_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -868,7 +872,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -955,7 +959,7 @@ catch (ApiException e)
 
 Delete Organization User Role
 
-Delete role for an organization user.
+Delete role for an organization user.  <div>   <code>delete:organization_user_roles</code> </div> 
 
 ### Example
 ```csharp
@@ -973,7 +977,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1056,11 +1060,11 @@ catch (ApiException e)
 
 <a id="getorganization"></a>
 # **GetOrganization**
-> Organization GetOrganization (string? code = null)
+> GetOrganizationResponse GetOrganization (string? code = null)
 
-Get Organization
+Get organization
 
-Gets an organization given the organization's code. 
+Retrieve organization details by code.  <div>   <code>read:organizations</code> </div> 
 
 ### Example
 ```csharp
@@ -1078,7 +1082,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1086,12 +1090,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var code = "code_example";  // string? | The organization's code. (optional) 
+            var code = org_1ccfb819462;  // string? | The organization's code. (optional) 
 
             try
             {
-                // Get Organization
-                Organization result = apiInstance.GetOrganization(code);
+                // Get organization
+                GetOrganizationResponse result = apiInstance.GetOrganization(code);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -1111,8 +1115,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get Organization
-    ApiResponse<Organization> response = apiInstance.GetOrganizationWithHttpInfo(code);
+    // Get organization
+    ApiResponse<GetOrganizationResponse> response = apiInstance.GetOrganizationWithHttpInfo(code);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -1133,7 +1137,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Organization**](Organization.md)
+[**GetOrganizationResponse**](GetOrganizationResponse.md)
 
 ### Authorization
 
@@ -1142,16 +1146,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully retrieved. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1161,7 +1165,7 @@ catch (ApiException e)
 
 List Organization Feature Flags
 
-Get all organization feature flags.
+Get all organization feature flags.  <div>   <code>read:organization_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -1179,7 +1183,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1262,7 +1266,7 @@ catch (ApiException e)
 
 Get Organization Property Values
 
-Gets properties for an organization by org code. 
+Gets properties for an organization by org code.  <div>   <code>read:organization_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -1280,7 +1284,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1363,7 +1367,7 @@ catch (ApiException e)
 
 List Organization User Permissions
 
-Get permissions for an organization user.
+Get permissions for an organization user.  <div>   <code>read:organization_user_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -1381,7 +1385,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1467,7 +1471,7 @@ catch (ApiException e)
 
 List Organization User Roles
 
-Get roles for an organization user.
+Get roles for an organization user.  <div>   <code>read:organization_user_roles</code> </div> 
 
 ### Example
 ```csharp
@@ -1485,7 +1489,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1569,7 +1573,7 @@ catch (ApiException e)
 
 List Organization Users
 
-Get users in an organization.
+Get users in an organization.  <div>   <code>read:organization_users</code> </div> 
 
 ### Example
 ```csharp
@@ -1587,7 +1591,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1678,9 +1682,9 @@ catch (ApiException e)
 # **GetOrganizations**
 > GetOrganizationsResponse GetOrganizations (string? sort = null, int? pageSize = null, string? nextToken = null)
 
-List Organizations
+Get organizations
 
-Get a list of organizations. 
+Get a list of organizations.  <div>   <code>read:organizations</code> </div> 
 
 ### Example
 ```csharp
@@ -1698,7 +1702,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1712,7 +1716,7 @@ namespace Example
 
             try
             {
-                // List Organizations
+                // Get organizations
                 GetOrganizationsResponse result = apiInstance.GetOrganizations(sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
@@ -1733,7 +1737,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Organizations
+    // Get organizations
     ApiResponse<GetOrganizationsResponse> response = apiInstance.GetOrganizationsWithHttpInfo(sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -1766,15 +1770,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A successful response with a list of organizations or an empty list. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **200** | Organizations successfully retreived. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1784,7 +1789,7 @@ catch (ApiException e)
 
 Remove Organization User
 
-Remove user from an organization.
+Remove user from an organization.  <div>   <code>delete:organization_users</code> </div> 
 
 ### Example
 ```csharp
@@ -1802,7 +1807,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1887,7 +1892,7 @@ catch (ApiException e)
 
 Update Organization
 
-Update an organization.
+Update an organization.  <div>   <code>update:organizations</code> </div> 
 
 ### Example
 ```csharp
@@ -1905,7 +1910,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1913,7 +1918,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var orgCode = "orgCode_example";  // string | The identifier for the organization.
+            var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
             var updateOrganizationRequest = new UpdateOrganizationRequest?(); // UpdateOrganizationRequest? | Organization details. (optional) 
 
             try
@@ -1971,16 +1976,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully updated. |  -  |
-| **400** | Error updating organization. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1990,7 +1995,7 @@ catch (ApiException e)
 
 Update Organization Feature Flag Override
 
-Update organization feature flag override.
+Update organization feature flag override.  <div>   <code>update:organization_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -2008,7 +2013,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -2095,7 +2100,7 @@ catch (ApiException e)
 
 Update Organization Property values
 
-Update organization property values.
+Update organization property values.  <div>   <code>update:organization_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -2113,7 +2118,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -2198,7 +2203,7 @@ catch (ApiException e)
 
 Update Organization Property value
 
-Update organization property value.
+Update organization property value.  <div>   <code>update:organization_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -2216,7 +2221,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -2303,7 +2308,7 @@ catch (ApiException e)
 
 Update Organization Users
 
-Update users that belong to an organization.
+Update users that belong to an organization.  <div>   <code>update:organization_users</code> </div> 
 
 ### Example
 ```csharp
@@ -2321,7 +2326,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

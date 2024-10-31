@@ -101,6 +101,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Picture'
+        /// </summary>
+        [Fact]
+        public void PictureTest()
+        {
+            // TODO unit test for the property 'Picture'
+        }
+
+        /// <summary>
         /// Test the property 'Roles'
         /// </summary>
         [Fact]

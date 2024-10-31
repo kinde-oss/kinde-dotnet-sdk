@@ -90,5 +90,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Description'
         }
+
+        /// <summary>
+        /// Test the property 'IsDefaultRole'
+        /// </summary>
+        [Fact]
+        public void IsDefaultRoleTest()
+        {
+            // TODO unit test for the property 'IsDefaultRole'
+        }
     }
 }

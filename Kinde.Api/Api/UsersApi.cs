@@ -29,10 +29,10 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Create User
+        /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -40,10 +40,10 @@ namespace Kinde.Api.Api
         CreateUserResponse CreateUser(CreateUserRequest? createUserRequest = default(CreateUserRequest?));
 
         /// <summary>
-        /// Create User
+        /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user. 
+        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -65,7 +65,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user. 
+        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -73,10 +73,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateIdentityResponse</returns>
         ApiResponse<CreateIdentityResponse> CreateUserIdentityWithHttpInfo(string userId, CreateUserIdentityRequest? createUserIdentityRequest = default(CreateUserIdentityRequest?));
         /// <summary>
-        /// Delete User
+        /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record. 
+        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -85,10 +85,10 @@ namespace Kinde.Api.Api
         SuccessResponse DeleteUser(string id, bool? isDeleteProfile = default(bool?));
 
         /// <summary>
-        /// Delete User
+        /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record. 
+        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -96,10 +96,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteUserWithHttpInfo(string id, bool? isDeleteProfile = default(bool?));
         /// <summary>
-        /// Get User
+        /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record. 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -108,10 +108,10 @@ namespace Kinde.Api.Api
         User GetUserData(string id, string? expand = default(string?));
 
         /// <summary>
-        /// Get User
+        /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record. 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -122,28 +122,32 @@ namespace Kinde.Api.Api
         /// Get identities
         /// </summary>
         /// <remarks>
-        /// Gets a list of identities for an user by ID. 
+        /// Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <returns>GetIdentitiesResponse</returns>
-        GetIdentitiesResponse GetUserIdentities(string userId);
+        GetIdentitiesResponse GetUserIdentities(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?));
 
         /// <summary>
         /// Get identities
         /// </summary>
         /// <remarks>
-        /// Gets a list of identities for an user by ID. 
+        /// Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <returns>ApiResponse of GetIdentitiesResponse</returns>
-        ApiResponse<GetIdentitiesResponse> GetUserIdentitiesWithHttpInfo(string userId);
+        ApiResponse<GetIdentitiesResponse> GetUserIdentitiesWithHttpInfo(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?));
         /// <summary>
         /// Get property values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an user by ID. 
+        /// Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -154,17 +158,17 @@ namespace Kinde.Api.Api
         /// Get property values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an user by ID. 
+        /// Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
         /// <returns>ApiResponse of GetPropertyValuesResponse</returns>
         ApiResponse<GetPropertyValuesResponse> GetUserPropertyValuesWithHttpInfo(string userId);
         /// <summary>
-        /// List Users
+        /// Get users
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -178,10 +182,10 @@ namespace Kinde.Api.Api
         UsersResponse GetUsers(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?));
 
         /// <summary>
-        /// List Users
+        /// Get users
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -197,7 +201,7 @@ namespace Kinde.Api.Api
         /// Refresh User Claims and Invalidate Cache
         /// </summary>
         /// <remarks>
-        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -208,7 +212,7 @@ namespace Kinde.Api.Api
         /// Refresh User Claims and Invalidate Cache
         /// </summary>
         /// <remarks>
-        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -218,7 +222,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.
+        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -230,7 +234,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.
+        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -238,10 +242,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> SetUserPasswordWithHttpInfo(string userId, SetUserPasswordRequest setUserPasswordRequest);
         /// <summary>
-        /// Update User
+        /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record. 
+        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -250,10 +254,10 @@ namespace Kinde.Api.Api
         UpdateUserResponse UpdateUser(string id, UpdateUserRequest updateUserRequest);
 
         /// <summary>
-        /// Update User
+        /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record. 
+        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -264,7 +268,7 @@ namespace Kinde.Api.Api
         /// Update User Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update user feature flag override.
+        /// Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -277,7 +281,7 @@ namespace Kinde.Api.Api
         /// Update User Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update user feature flag override.
+        /// Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -289,7 +293,7 @@ namespace Kinde.Api.Api
         /// Update Property values
         /// </summary>
         /// <remarks>
-        /// Update property values.
+        /// Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -301,7 +305,7 @@ namespace Kinde.Api.Api
         /// Update Property values
         /// </summary>
         /// <remarks>
-        /// Update property values.
+        /// Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -312,7 +316,7 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -325,7 +329,7 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -343,10 +347,10 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Create User
+        /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -355,10 +359,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<CreateUserResponse> CreateUserAsync(CreateUserRequest? createUserRequest = default(CreateUserRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create User
+        /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -369,7 +373,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user. 
+        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -382,7 +386,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user. 
+        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -391,10 +395,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (CreateIdentityResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateIdentityResponse>> CreateUserIdentityWithHttpInfoAsync(string userId, CreateUserIdentityRequest? createUserIdentityRequest = default(CreateUserIdentityRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Delete User
+        /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record. 
+        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -404,10 +408,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> DeleteUserAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Delete User
+        /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record. 
+        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -416,10 +420,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteUserWithHttpInfoAsync(string id, bool? isDeleteProfile = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Get User
+        /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record. 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -429,10 +433,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<User> GetUserDataAsync(string id, string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Get User
+        /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record. 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -444,30 +448,34 @@ namespace Kinde.Api.Api
         /// Get identities
         /// </summary>
         /// <remarks>
-        /// Gets a list of identities for an user by ID. 
+        /// Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetIdentitiesResponse</returns>
-        System.Threading.Tasks.Task<GetIdentitiesResponse> GetUserIdentitiesAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetIdentitiesResponse> GetUserIdentitiesAsync(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get identities
         /// </summary>
         /// <remarks>
-        /// Gets a list of identities for an user by ID. 
+        /// Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetIdentitiesResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetIdentitiesResponse>> GetUserIdentitiesWithHttpInfoAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetIdentitiesResponse>> GetUserIdentitiesWithHttpInfoAsync(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get property values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an user by ID. 
+        /// Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -479,7 +487,7 @@ namespace Kinde.Api.Api
         /// Get property values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an user by ID. 
+        /// Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -487,10 +495,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetPropertyValuesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetPropertyValuesResponse>> GetUserPropertyValuesWithHttpInfoAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Users
+        /// Get users
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -505,10 +513,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Users
+        /// Get users
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -525,7 +533,7 @@ namespace Kinde.Api.Api
         /// Refresh User Claims and Invalidate Cache
         /// </summary>
         /// <remarks>
-        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -537,7 +545,7 @@ namespace Kinde.Api.Api
         /// Refresh User Claims and Invalidate Cache
         /// </summary>
         /// <remarks>
-        /// Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -548,7 +556,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.
+        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -561,7 +569,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.
+        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -570,10 +578,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> SetUserPasswordWithHttpInfoAsync(string userId, SetUserPasswordRequest setUserPasswordRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update User
+        /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record. 
+        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -583,10 +591,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(string id, UpdateUserRequest updateUserRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update User
+        /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record. 
+        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -598,7 +606,7 @@ namespace Kinde.Api.Api
         /// Update User Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update user feature flag override.
+        /// Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -612,7 +620,7 @@ namespace Kinde.Api.Api
         /// Update User Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update user feature flag override.
+        /// Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -625,7 +633,7 @@ namespace Kinde.Api.Api
         /// Update Property values
         /// </summary>
         /// <remarks>
-        /// Update property values.
+        /// Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -638,7 +646,7 @@ namespace Kinde.Api.Api
         /// Update Property values
         /// </summary>
         /// <remarks>
-        /// Update property values.
+        /// Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -650,7 +658,7 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -664,7 +672,7 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -903,7 +911,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create User Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -915,7 +923,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create User Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -930,8 +938,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -962,7 +969,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create User Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -975,7 +982,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create User Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -992,8 +999,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1026,7 +1032,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user. 
+        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1039,7 +1045,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user. 
+        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1092,7 +1098,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user. 
+        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1106,7 +1112,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user. 
+        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1163,7 +1169,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete User Delete a user record. 
+        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1176,7 +1182,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete User Delete a user record. 
+        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1195,8 +1201,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1231,7 +1236,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete User Delete a user record. 
+        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1245,7 +1250,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete User Delete a user record. 
+        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1266,8 +1271,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1304,7 +1308,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get User Retrieve a user record. 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1317,7 +1321,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get User Retrieve a user record. 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1336,8 +1340,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1372,7 +1375,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get User Retrieve a user record. 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1386,7 +1389,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get User Retrieve a user record. 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1407,8 +1410,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1445,24 +1447,28 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identities Gets a list of identities for an user by ID. 
+        /// Get identities Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <returns>GetIdentitiesResponse</returns>
-        public GetIdentitiesResponse GetUserIdentities(string userId)
+        public GetIdentitiesResponse GetUserIdentities(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> localVarResponse = GetUserIdentitiesWithHttpInfo(userId);
+            Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> localVarResponse = GetUserIdentitiesWithHttpInfo(userId, startingAfter, endingBefore);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get identities Gets a list of identities for an user by ID. 
+        /// Get identities Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <returns>ApiResponse of GetIdentitiesResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> GetUserIdentitiesWithHttpInfo(string userId)
+        public Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> GetUserIdentitiesWithHttpInfo(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?))
         {
             // verify the required parameter 'userId' is set
             if (userId == null)
@@ -1486,6 +1492,14 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (endingBefore != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "ending_before", endingBefore));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1507,26 +1521,30 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identities Gets a list of identities for an user by ID. 
+        /// Get identities Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetIdentitiesResponse</returns>
-        public async System.Threading.Tasks.Task<GetIdentitiesResponse> GetUserIdentitiesAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetIdentitiesResponse> GetUserIdentitiesAsync(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> localVarResponse = await GetUserIdentitiesWithHttpInfoAsync(userId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetIdentitiesResponse> localVarResponse = await GetUserIdentitiesWithHttpInfoAsync(userId, startingAfter, endingBefore, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get identities Gets a list of identities for an user by ID. 
+        /// Get identities Gets a list of identities for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="startingAfter">The ID of the identity to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the identity to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetIdentitiesResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetIdentitiesResponse>> GetUserIdentitiesWithHttpInfoAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetIdentitiesResponse>> GetUserIdentitiesWithHttpInfoAsync(string userId, string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'userId' is set
             if (userId == null)
@@ -1552,6 +1570,14 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (endingBefore != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "ending_before", endingBefore));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1574,7 +1600,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get property values Gets properties for an user by ID. 
+        /// Get property values Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1586,7 +1612,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get property values Gets properties for an user by ID. 
+        /// Get property values Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1636,7 +1662,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get property values Gets properties for an user by ID. 
+        /// Get property values Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1649,7 +1675,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get property values Gets properties for an user by ID. 
+        /// Get property values Gets properties for an user by ID.  &lt;div&gt;   &lt;code&gt;read:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1703,7 +1729,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -1721,7 +1747,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -1741,8 +1767,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1800,7 +1825,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -1819,7 +1844,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -1841,8 +1866,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1902,7 +1926,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -1914,7 +1938,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -1964,7 +1988,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -1977,7 +2001,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache. 
+        /// Refresh User Claims and Invalidate Cache Refreshes the user&#39;s claims and invalidates the current cache.  &lt;div&gt;   &lt;code&gt;update:user_refresh_claims&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The id of the user whose claims needs to be updated.</param>
@@ -2031,7 +2055,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Set User password Set user password.
+        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2044,7 +2068,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Set User password Set user password.
+        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2101,7 +2125,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Set User password Set user password.
+        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2115,7 +2139,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Set User password Set user password.
+        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2176,7 +2200,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Update a user record. 
+        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2189,7 +2213,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Update a user record. 
+        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2213,8 +2237,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2246,7 +2269,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Update a user record. 
+        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2260,7 +2283,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Update a user record. 
+        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2286,8 +2309,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -2321,7 +2343,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Feature Flag Override Update user feature flag override.
+        /// Update User Feature Flag Override Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2335,7 +2357,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Feature Flag Override Update user feature flag override.
+        /// Update User Feature Flag Override Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2397,7 +2419,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Feature Flag Override Update user feature flag override.
+        /// Update User Feature Flag Override Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2412,7 +2434,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update User Feature Flag Override Update user feature flag override.
+        /// Update User Feature Flag Override Update user feature flag override.  &lt;div&gt;   &lt;code&gt;update:user_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2478,7 +2500,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property values Update property values.
+        /// Update Property values Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2491,7 +2513,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property values Update property values.
+        /// Update Property values Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2548,7 +2570,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property values Update property values.
+        /// Update Property values Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2562,7 +2584,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property values Update property values.
+        /// Update Property values Update property values.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2623,7 +2645,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property value Update property value.
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2637,7 +2659,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property value Update property value.
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2699,7 +2721,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property value Update property value.
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2714,7 +2736,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property value Update property value.
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>

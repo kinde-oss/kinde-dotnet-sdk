@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The organization&#39;s name. | 
 **FeatureFlags** | **Dictionary&lt;string, CreateOrganizationRequest.InnerEnum&gt;** | The organization&#39;s feature flag settings. | [optional] 
-**ExternalId** | **string** | The organization&#39;s ID. | [optional] 
+**ExternalId** | **string** | The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems. | [optional] 
 **BackgroundColor** | **string** | The organization&#39;s brand settings - background color. | [optional] 
 **ButtonColor** | **string** | The organization&#39;s brand settings - button color. | [optional] 
 **ButtonTextColor** | **string** | The organization&#39;s brand settings - button text color. | [optional] 
@@ -16,8 +16,9 @@ Name | Type | Description | Notes
 **ButtonTextColorDark** | **string** | The organization&#39;s brand settings - dark mode button text color. | [optional] 
 **LinkColorDark** | **string** | The organization&#39;s brand settings - dark mode link color. | [optional] 
 **ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;. | [optional] 
-**Handle** | **string** | The organization&#39;s handle. | [optional] 
-**IsAllowRegistrations** | **bool** | Users can sign up to this organization. | [optional] 
+**Handle** | **string** | A unique handle for the organization - can be used for dynamic callback urls. | [optional] 
+**IsAllowRegistrations** | **bool** | If users become members of this organization when the org code is supplied during authentication. | [optional] 
+**IsCustomAuthConnectionsEnabled** | **bool** | Enable custom auth connections for this organization. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>SuccessResponse</returns>
@@ -63,7 +63,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of SuccessResponse</returns>
@@ -72,7 +72,7 @@ namespace Kinde.Api.Api
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEnvironmentFeatureFlagsResponse</returns>
@@ -82,7 +82,7 @@ namespace Kinde.Api.Api
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
@@ -91,7 +91,7 @@ namespace Kinde.Api.Api
         /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -103,7 +103,7 @@ namespace Kinde.Api.Api
         /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -123,7 +123,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -135,7 +135,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete environment feature flag override.
+        /// Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -146,7 +146,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -157,7 +157,7 @@ namespace Kinde.Api.Api
         /// Delete Environment Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all environment feature flag overrides.
+        /// Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -167,7 +167,7 @@ namespace Kinde.Api.Api
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -178,7 +178,7 @@ namespace Kinde.Api.Api
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get environment feature flags.
+        /// Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -188,7 +188,7 @@ namespace Kinde.Api.Api
         /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -201,7 +201,7 @@ namespace Kinde.Api.Api
         /// Update Environment Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update environment feature flag override.
+        /// Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -439,7 +439,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -451,7 +451,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -501,7 +501,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -514,7 +514,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Override Delete environment feature flag override.
+        /// Delete Environment Feature Flag Override Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -568,7 +568,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>SuccessResponse</returns>
@@ -579,7 +579,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of SuccessResponse</returns>
@@ -623,7 +623,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -635,7 +635,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.
+        /// Delete Environment Feature Flag Overrides Delete all environment feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -683,7 +683,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Environment Feature Flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEnvironmentFeatureFlagsResponse</returns>
@@ -694,7 +694,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Environment Feature Flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
@@ -738,7 +738,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Environment Feature Flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -750,7 +750,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Environment Feature Flags Get environment feature flags.
+        /// List Environment Feature Flags Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -798,7 +798,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Environment Feature Flag Override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -811,7 +811,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Environment Feature Flag Override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -868,7 +868,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Environment Feature Flag Override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -882,7 +882,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Environment Feature Flag Override Update environment feature flag override.
+        /// Update Environment Feature Flag Override Update environment feature flag override.  &lt;div&gt;   &lt;code&gt;update:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>

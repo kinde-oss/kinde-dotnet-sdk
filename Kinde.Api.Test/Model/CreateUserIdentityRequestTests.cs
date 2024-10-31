@@ -81,5 +81,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'PhoneCountryId'
         }
+
+        /// <summary>
+        /// Test the property 'ConnectionId'
+        /// </summary>
+        [Fact]
+        public void ConnectionIdTest()
+        {
+            // TODO unit test for the property 'ConnectionId'
+        }
     }
 }

@@ -41,8 +41,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
         /// </summary>
-        /// <param name="id">The application&#39;s id. (required).</param>
-        /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the user from the organization..</param>
+        /// <param name="id">The application&#39;s Client ID. (required).</param>
+        /// <param name="operation">Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized..</param>
         public UpdateAPIApplicationsRequestApplicationsInner(string id = default(string), string operation = default(string))
         {
             // to ensure "id" is required (not null)
@@ -55,16 +55,18 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The application&#39;s id.
+        /// The application&#39;s Client ID.
         /// </summary>
-        /// <value>The application&#39;s id.</value>
+        /// <value>The application&#39;s Client ID.</value>
+        /// <example>d2db282d6214242b3b145c123f0c123</example>
         [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
         public string Id { get; set; }
 
         /// <summary>
-        /// Optional operation, set to &#39;delete&#39; to remove the user from the organization.
+        /// Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized.
         /// </summary>
-        /// <value>Optional operation, set to &#39;delete&#39; to remove the user from the organization.</value>
+        /// <value>Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized.</value>
+        /// <example>delete</example>
         [DataMember(Name = "operation", EmitDefaultValue = false)]
         public string Operation { get; set; }
 

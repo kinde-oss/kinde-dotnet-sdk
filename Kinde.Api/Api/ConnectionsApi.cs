@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Connection
         /// </summary>
         /// <remarks>
-        /// Create Connection.
+        /// Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create Connection
         /// </summary>
         /// <remarks>
-        /// Create Connection.
+        /// Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Connection
         /// </summary>
         /// <remarks>
-        /// Delete connection. 
+        /// Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Delete Connection
         /// </summary>
         /// <remarks>
-        /// Delete connection. 
+        /// Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -74,7 +74,7 @@ namespace Kinde.Api.Api
         /// Get Connection
         /// </summary>
         /// <remarks>
-        /// Get Connection.
+        /// Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -85,7 +85,7 @@ namespace Kinde.Api.Api
         /// Get Connection
         /// </summary>
         /// <remarks>
-        /// Get Connection.
+        /// Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -95,7 +95,7 @@ namespace Kinde.Api.Api
         /// List Connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections 
+        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -108,7 +108,7 @@ namespace Kinde.Api.Api
         /// List Connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections 
+        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -120,7 +120,7 @@ namespace Kinde.Api.Api
         /// Update Connection
         /// </summary>
         /// <remarks>
-        /// Update Connection.
+        /// Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -132,7 +132,7 @@ namespace Kinde.Api.Api
         /// Update Connection
         /// </summary>
         /// <remarks>
-        /// Update Connection.
+        /// Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -152,7 +152,7 @@ namespace Kinde.Api.Api
         /// Create Connection
         /// </summary>
         /// <remarks>
-        /// Create Connection.
+        /// Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -164,7 +164,7 @@ namespace Kinde.Api.Api
         /// Create Connection
         /// </summary>
         /// <remarks>
-        /// Create Connection.
+        /// Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -175,7 +175,7 @@ namespace Kinde.Api.Api
         /// Delete Connection
         /// </summary>
         /// <remarks>
-        /// Delete connection. 
+        /// Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -187,7 +187,7 @@ namespace Kinde.Api.Api
         /// Delete Connection
         /// </summary>
         /// <remarks>
-        /// Delete connection. 
+        /// Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -198,7 +198,7 @@ namespace Kinde.Api.Api
         /// Get Connection
         /// </summary>
         /// <remarks>
-        /// Get Connection.
+        /// Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -210,7 +210,7 @@ namespace Kinde.Api.Api
         /// Get Connection
         /// </summary>
         /// <remarks>
-        /// Get Connection.
+        /// Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -221,7 +221,7 @@ namespace Kinde.Api.Api
         /// List Connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections 
+        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -235,7 +235,7 @@ namespace Kinde.Api.Api
         /// List Connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections 
+        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -248,7 +248,7 @@ namespace Kinde.Api.Api
         /// Update Connection
         /// </summary>
         /// <remarks>
-        /// Update Connection.
+        /// Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -261,7 +261,7 @@ namespace Kinde.Api.Api
         /// Update Connection
         /// </summary>
         /// <remarks>
-        /// Update Connection.
+        /// Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -499,7 +499,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Connection Create Connection.
+        /// Create Connection Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -511,7 +511,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Connection Create Connection.
+        /// Create Connection Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -562,7 +562,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Connection Create Connection.
+        /// Create Connection Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -575,7 +575,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Connection Create Connection.
+        /// Create Connection Create Connection.  &lt;div&gt;   &lt;code&gt;create:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createConnectionRequest">Connection details.</param>
@@ -630,7 +630,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Connection Delete connection. 
+        /// Delete Connection Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -642,7 +642,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Connection Delete connection. 
+        /// Delete Connection Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -692,7 +692,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Connection Delete connection. 
+        /// Delete Connection Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -705,7 +705,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Connection Delete connection. 
+        /// Delete Connection Delete connection.  &lt;div&gt;   &lt;code&gt;delete:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The identifier for the connection.</param>
@@ -759,7 +759,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connection Get Connection.
+        /// Get Connection Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -771,7 +771,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connection Get Connection.
+        /// Get Connection Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -821,7 +821,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connection Get Connection.
+        /// Get Connection Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -834,7 +834,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connection Get Connection.
+        /// Get Connection Get Connection.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -888,7 +888,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections 
+        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -902,7 +902,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections 
+        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -961,7 +961,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections 
+        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -976,7 +976,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections 
+        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -1039,7 +1039,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Connection Update Connection.
+        /// Update Connection Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -1052,7 +1052,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Connection Update Connection.
+        /// Update Connection Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -1109,7 +1109,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Connection Update Connection.
+        /// Update Connection Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>
@@ -1123,7 +1123,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Connection Update Connection.
+        /// Update Connection Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="connectionId">The unique identifier for the connection.</param>

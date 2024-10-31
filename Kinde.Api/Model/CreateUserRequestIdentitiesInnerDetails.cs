@@ -38,11 +38,13 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="email">The email address of the user..</param>
         /// <param name="phone">The phone number of the user..</param>
+        /// <param name="phoneCountryId">The country code for the phone number..</param>
         /// <param name="username">The username of the user..</param>
-        public CreateUserRequestIdentitiesInnerDetails(string email = default(string), string phone = default(string), string username = default(string))
+        public CreateUserRequestIdentitiesInnerDetails(string email = default(string), string phone = default(string), string phoneCountryId = default(string), string username = default(string))
         {
             this.Email = email;
             this.Phone = phone;
+            this.PhoneCountryId = phoneCountryId;
             this.Username = username;
         }
 
@@ -50,6 +52,7 @@ namespace Kinde.Api.Model
         /// The email address of the user.
         /// </summary>
         /// <value>The email address of the user.</value>
+        /// <example>email@email.com</example>
         [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
 
@@ -57,13 +60,23 @@ namespace Kinde.Api.Model
         /// The phone number of the user.
         /// </summary>
         /// <value>The phone number of the user.</value>
+        /// <example>+61426148233</example>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
         public string Phone { get; set; }
+
+        /// <summary>
+        /// The country code for the phone number.
+        /// </summary>
+        /// <value>The country code for the phone number.</value>
+        /// <example>au</example>
+        [DataMember(Name = "phone_country_id", EmitDefaultValue = false)]
+        public string PhoneCountryId { get; set; }
 
         /// <summary>
         /// The username of the user.
         /// </summary>
         /// <value>The username of the user.</value>
+        /// <example>myusername</example>
         [DataMember(Name = "username", EmitDefaultValue = false)]
         public string Username { get; set; }
 
@@ -77,6 +90,7 @@ namespace Kinde.Api.Model
             sb.Append("class CreateUserRequestIdentitiesInnerDetails {\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
+            sb.Append("  PhoneCountryId: ").Append(PhoneCountryId).Append("\n");
             sb.Append("  Username: ").Append(Username).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,6 +138,11 @@ namespace Kinde.Api.Model
                     this.Phone.Equals(input.Phone))
                 ) && 
                 (
+                    this.PhoneCountryId == input.PhoneCountryId ||
+                    (this.PhoneCountryId != null &&
+                    this.PhoneCountryId.Equals(input.PhoneCountryId))
+                ) && 
+                (
                     this.Username == input.Username ||
                     (this.Username != null &&
                     this.Username.Equals(input.Username))
@@ -146,6 +165,10 @@ namespace Kinde.Api.Model
                 if (this.Phone != null)
                 {
                     hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                }
+                if (this.PhoneCountryId != null)
+                {
+                    hashCode = (hashCode * 59) + this.PhoneCountryId.GetHashCode();
                 }
                 if (this.Username != null)
                 {

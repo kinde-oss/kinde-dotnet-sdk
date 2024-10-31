@@ -36,7 +36,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Permissions" /> class.
         /// </summary>
-        /// <param name="id">The permission&#39;s id..</param>
+        /// <param name="id">The permission&#39;s ID..</param>
         /// <param name="key">The permission identifier to use in code..</param>
         /// <param name="name">The permission&#39;s name..</param>
         /// <param name="description">The permission&#39;s description..</param>
@@ -49,9 +49,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The permission&#39;s id.
+        /// The permission&#39;s ID.
         /// </summary>
-        /// <value>The permission&#39;s id.</value>
+        /// <value>The permission&#39;s ID.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 

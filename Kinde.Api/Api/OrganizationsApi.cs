@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.
+        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -44,7 +44,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.
+        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -52,10 +52,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of AddOrganizationUsersResponse</returns>
         ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?));
         /// <summary>
-        /// Create Organization
+        /// Create organization
         /// </summary>
         /// <remarks>
-        /// Create an organization.
+        /// Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -63,10 +63,10 @@ namespace Kinde.Api.Api
         CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest createOrganizationRequest);
 
         /// <summary>
-        /// Create Organization
+        /// Create organization
         /// </summary>
         /// <remarks>
-        /// Create an organization.
+        /// Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -76,7 +76,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Add permission to an organization user.
+        /// Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -89,7 +89,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Add permission to an organization user.
+        /// Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.
+        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -114,7 +114,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.
+        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -126,28 +126,28 @@ namespace Kinde.Api.Api
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.
+        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <returns></returns>
-        void DeleteOrganization(string orgCode);
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteOrganization(string orgCode);
 
         /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.
+        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteOrganizationWithHttpInfo(string orgCode);
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteOrganizationWithHttpInfo(string orgCode);
         /// <summary>
         /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete organization feature flag override.
+        /// Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -159,7 +159,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete organization feature flag override.
+        /// Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -170,7 +170,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all organization feature flag overrides.
+        /// Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -181,7 +181,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all organization feature flag overrides.
+        /// Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -191,7 +191,7 @@ namespace Kinde.Api.Api
         /// Delete organization handle
         /// </summary>
         /// <remarks>
-        /// Delete organization handle 
+        /// Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -202,7 +202,7 @@ namespace Kinde.Api.Api
         /// Delete organization handle
         /// </summary>
         /// <remarks>
-        /// Delete organization handle 
+        /// Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -212,7 +212,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission for an organization user.
+        /// Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -225,7 +225,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission for an organization user.
+        /// Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -237,7 +237,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.
+        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -250,7 +250,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.
+        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -259,31 +259,31 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationUserRoleWithHttpInfo(string orgCode, string userId, string roleId);
         /// <summary>
-        /// Get Organization
+        /// Get organization
         /// </summary>
         /// <remarks>
-        /// Gets an organization given the organization&#39;s code. 
+        /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <returns>Organization</returns>
-        Organization GetOrganization(string? code = default(string?));
+        /// <returns>GetOrganizationResponse</returns>
+        GetOrganizationResponse GetOrganization(string? code = default(string?));
 
         /// <summary>
-        /// Get Organization
+        /// Get organization
         /// </summary>
         /// <remarks>
-        /// Gets an organization given the organization&#39;s code. 
+        /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <returns>ApiResponse of Organization</returns>
-        ApiResponse<Organization> GetOrganizationWithHttpInfo(string? code = default(string?));
+        /// <returns>ApiResponse of GetOrganizationResponse</returns>
+        ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?));
         /// <summary>
         /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get all organization feature flags.
+        /// Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -294,7 +294,7 @@ namespace Kinde.Api.Api
         /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get all organization feature flags.
+        /// Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -304,7 +304,7 @@ namespace Kinde.Api.Api
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code. 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -315,7 +315,7 @@ namespace Kinde.Api.Api
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code. 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -325,7 +325,7 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -338,7 +338,7 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -350,7 +350,7 @@ namespace Kinde.Api.Api
         /// List Organization User Roles
         /// </summary>
         /// <remarks>
-        /// Get roles for an organization user.
+        /// Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -362,7 +362,7 @@ namespace Kinde.Api.Api
         /// List Organization User Roles
         /// </summary>
         /// <remarks>
-        /// Get roles for an organization user.
+        /// Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -373,7 +373,7 @@ namespace Kinde.Api.Api
         /// List Organization Users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.
+        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -389,7 +389,7 @@ namespace Kinde.Api.Api
         /// List Organization Users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.
+        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -401,10 +401,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationUsersResponse</returns>
         ApiResponse<GetOrganizationUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), string? roles = default(string?));
         /// <summary>
-        /// List Organizations
+        /// Get organizations
         /// </summary>
         /// <remarks>
-        /// Get a list of organizations. 
+        /// Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -414,10 +414,10 @@ namespace Kinde.Api.Api
         GetOrganizationsResponse GetOrganizations(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
-        /// List Organizations
+        /// Get organizations
         /// </summary>
         /// <remarks>
-        /// Get a list of organizations. 
+        /// Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -429,7 +429,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.
+        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -441,7 +441,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.
+        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -452,7 +452,7 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.
+        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -464,7 +464,7 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.
+        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -475,7 +475,7 @@ namespace Kinde.Api.Api
         /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update organization feature flag override.
+        /// Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -488,7 +488,7 @@ namespace Kinde.Api.Api
         /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update organization feature flag override.
+        /// Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -500,7 +500,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -512,7 +512,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -523,7 +523,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -536,7 +536,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -548,7 +548,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.
+        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -560,7 +560,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.
+        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -580,7 +580,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.
+        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -593,7 +593,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.
+        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -602,10 +602,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (AddOrganizationUsersResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<AddOrganizationUsersResponse>> AddOrganizationUsersWithHttpInfoAsync(string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = default(AddOrganizationUsersRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Create Organization
+        /// Create organization
         /// </summary>
         /// <remarks>
-        /// Create an organization.
+        /// Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -614,10 +614,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<CreateOrganizationResponse> CreateOrganizationAsync(CreateOrganizationRequest createOrganizationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create Organization
+        /// Create organization
         /// </summary>
         /// <remarks>
-        /// Create an organization.
+        /// Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -628,7 +628,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Add permission to an organization user.
+        /// Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -642,7 +642,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Add permission to an organization user.
+        /// Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -655,7 +655,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.
+        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -669,7 +669,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.
+        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -682,30 +682,30 @@ namespace Kinde.Api.Api
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.
+        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeleteOrganizationAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.
+        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrganizationWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete organization feature flag override.
+        /// Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -718,7 +718,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Delete organization feature flag override.
+        /// Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -730,7 +730,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all organization feature flag overrides.
+        /// Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -742,7 +742,7 @@ namespace Kinde.Api.Api
         /// Delete Organization Feature Flag Overrides
         /// </summary>
         /// <remarks>
-        /// Delete all organization feature flag overrides.
+        /// Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -753,7 +753,7 @@ namespace Kinde.Api.Api
         /// Delete organization handle
         /// </summary>
         /// <remarks>
-        /// Delete organization handle 
+        /// Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -765,7 +765,7 @@ namespace Kinde.Api.Api
         /// Delete organization handle
         /// </summary>
         /// <remarks>
-        /// Delete organization handle 
+        /// Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -776,7 +776,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission for an organization user.
+        /// Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -790,7 +790,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission for an organization user.
+        /// Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -803,7 +803,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.
+        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -817,7 +817,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.
+        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -827,33 +827,33 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Get Organization
+        /// Get organization
         /// </summary>
         /// <remarks>
-        /// Gets an organization given the organization&#39;s code. 
+        /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Organization</returns>
-        System.Threading.Tasks.Task<Organization> GetOrganizationAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetOrganizationResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Get Organization
+        /// Get organization
         /// </summary>
         /// <remarks>
-        /// Gets an organization given the organization&#39;s code. 
+        /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Organization)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Organization>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get all organization feature flags.
+        /// Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -865,7 +865,7 @@ namespace Kinde.Api.Api
         /// List Organization Feature Flags
         /// </summary>
         /// <remarks>
-        /// Get all organization feature flags.
+        /// Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -876,7 +876,7 @@ namespace Kinde.Api.Api
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code. 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -888,7 +888,7 @@ namespace Kinde.Api.Api
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code. 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -899,7 +899,7 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -913,7 +913,7 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -926,7 +926,7 @@ namespace Kinde.Api.Api
         /// List Organization User Roles
         /// </summary>
         /// <remarks>
-        /// Get roles for an organization user.
+        /// Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -939,7 +939,7 @@ namespace Kinde.Api.Api
         /// List Organization User Roles
         /// </summary>
         /// <remarks>
-        /// Get roles for an organization user.
+        /// Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -951,7 +951,7 @@ namespace Kinde.Api.Api
         /// List Organization Users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.
+        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -968,7 +968,7 @@ namespace Kinde.Api.Api
         /// List Organization Users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.
+        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -981,10 +981,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationUsersResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationUsersResponse>> GetOrganizationUsersWithHttpInfoAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), string? roles = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Organizations
+        /// Get organizations
         /// </summary>
         /// <remarks>
-        /// Get a list of organizations. 
+        /// Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -995,10 +995,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<GetOrganizationsResponse> GetOrganizationsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Organizations
+        /// Get organizations
         /// </summary>
         /// <remarks>
-        /// Get a list of organizations. 
+        /// Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -1011,7 +1011,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.
+        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1024,7 +1024,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.
+        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1036,7 +1036,7 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.
+        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1049,7 +1049,7 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.
+        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1061,7 +1061,7 @@ namespace Kinde.Api.Api
         /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update organization feature flag override.
+        /// Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1075,7 +1075,7 @@ namespace Kinde.Api.Api
         /// Update Organization Feature Flag Override
         /// </summary>
         /// <remarks>
-        /// Update organization feature flag override.
+        /// Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1088,7 +1088,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1101,7 +1101,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1113,7 +1113,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1127,7 +1127,7 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1140,7 +1140,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.
+        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1153,7 +1153,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.
+        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1391,7 +1391,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.
+        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1404,7 +1404,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.
+        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1457,7 +1457,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.
+        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1471,7 +1471,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.
+        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1528,7 +1528,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Organization Create an organization.
+        /// Create organization Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -1540,7 +1540,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Organization Create an organization.
+        /// Create organization Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -1559,8 +1559,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1591,7 +1590,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Organization Create an organization.
+        /// Create organization Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -1604,7 +1603,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Organization Create an organization.
+        /// Create organization Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)  &lt;div&gt;   &lt;code&gt;create:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createOrganizationRequest">Organization details.</param>
@@ -1625,8 +1624,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1659,7 +1657,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Permission Add permission to an organization user.
+        /// Add Organization User Permission Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1673,7 +1671,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Permission Add permission to an organization user.
+        /// Add Organization User Permission Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1736,7 +1734,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Permission Add permission to an organization user.
+        /// Add Organization User Permission Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1751,7 +1749,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Permission Add permission to an organization user.
+        /// Add Organization User Permission Add permission to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1818,7 +1816,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.
+        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1832,7 +1830,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.
+        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1895,7 +1893,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.
+        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1910,7 +1908,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.
+        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1977,23 +1975,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.
+        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <returns></returns>
-        public void DeleteOrganization(string orgCode)
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteOrganization(string orgCode)
         {
-            DeleteOrganizationWithHttpInfo(orgCode);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteOrganizationWithHttpInfo(orgCode);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.
+        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> DeleteOrganizationWithHttpInfo(string orgCode)
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationWithHttpInfo(string orgCode)
         {
             // verify the required parameter 'orgCode' is set
             if (orgCode == null)
@@ -2006,8 +2005,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2026,7 +2024,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2038,25 +2036,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.
+        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeleteOrganizationAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await DeleteOrganizationWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteOrganizationWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.
+        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteOrganizationWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteOrganizationWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'orgCode' is set
             if (orgCode == null)
@@ -2070,8 +2069,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -2092,7 +2090,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2104,7 +2102,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2117,7 +2115,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2173,7 +2171,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2187,7 +2185,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Override Delete organization feature flag override.
+        /// Delete Organization Feature Flag Override Delete organization feature flag override.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2247,7 +2245,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2259,7 +2257,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2309,7 +2307,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2322,7 +2320,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.
+        /// Delete Organization Feature Flag Overrides Delete all organization feature flag overrides.  &lt;div&gt;   &lt;code&gt;delete:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2376,7 +2374,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization handle Delete organization handle 
+        /// Delete organization handle Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2388,7 +2386,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization handle Delete organization handle 
+        /// Delete organization handle Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2438,7 +2436,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization handle Delete organization handle 
+        /// Delete organization handle Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2451,7 +2449,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete organization handle Delete organization handle 
+        /// Delete organization handle Delete organization handle  &lt;div&gt;   &lt;code&gt;delete:organization_handles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2505,7 +2503,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Permission Delete permission for an organization user.
+        /// Delete Organization User Permission Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2519,7 +2517,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Permission Delete permission for an organization user.
+        /// Delete Organization User Permission Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2581,7 +2579,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Permission Delete permission for an organization user.
+        /// Delete Organization User Permission Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2596,7 +2594,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Permission Delete permission for an organization user.
+        /// Delete Organization User Permission Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2662,7 +2660,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.
+        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2676,7 +2674,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.
+        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2738,7 +2736,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.
+        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2753,7 +2751,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.
+        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2819,24 +2817,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Gets an organization given the organization&#39;s code. 
+        /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <returns>Organization</returns>
-        public Organization GetOrganization(string? code = default(string?))
+        /// <returns>GetOrganizationResponse</returns>
+        public GetOrganizationResponse GetOrganization(string? code = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<Organization> localVarResponse = GetOrganizationWithHttpInfo(code);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = GetOrganizationWithHttpInfo(code);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Organization Gets an organization given the organization&#39;s code. 
+        /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
-        /// <returns>ApiResponse of Organization</returns>
-        public Kinde.Api.Client.ApiResponse<Organization> GetOrganizationWithHttpInfo(string? code = default(string?))
+        /// <returns>ApiResponse of GetOrganizationResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -2845,8 +2843,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2868,7 +2865,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Organization>("/api/v1/organization", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2880,26 +2877,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Gets an organization given the organization&#39;s code. 
+        /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Organization</returns>
-        public async System.Threading.Tasks.Task<Organization> GetOrganizationAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetOrganizationResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<Organization> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get Organization Gets an organization given the organization&#39;s code. 
+        /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Organization)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Organization>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -2909,8 +2906,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -2934,7 +2930,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Organization>("/api/v1/organization", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2946,7 +2942,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Feature Flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2958,7 +2954,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Feature Flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3008,7 +3004,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Feature Flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3021,7 +3017,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Feature Flags Get all organization feature flags.
+        /// List Organization Feature Flags Get all organization feature flags.  &lt;div&gt;   &lt;code&gt;read:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3075,7 +3071,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3087,7 +3083,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3137,7 +3133,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3150,7 +3146,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code. 
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3204,7 +3200,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3218,7 +3214,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3279,7 +3275,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3294,7 +3290,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3359,7 +3355,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Roles Get roles for an organization user.
+        /// List Organization User Roles Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3372,7 +3368,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Roles Get roles for an organization user.
+        /// List Organization User Roles Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3428,7 +3424,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Roles Get roles for an organization user.
+        /// List Organization User Roles Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3442,7 +3438,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization User Roles Get roles for an organization user.
+        /// List Organization User Roles Get roles for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3502,7 +3498,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.
+        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3519,7 +3515,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.
+        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3594,7 +3590,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.
+        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3612,7 +3608,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.
+        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3691,7 +3687,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organizations Get a list of organizations. 
+        /// Get organizations Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -3705,7 +3701,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organizations Get a list of organizations. 
+        /// Get organizations Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -3721,8 +3717,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -3764,7 +3759,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organizations Get a list of organizations. 
+        /// Get organizations Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -3779,7 +3774,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organizations Get a list of organizations. 
+        /// Get organizations Get a list of organizations.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -3797,8 +3792,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -3842,7 +3836,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.
+        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3855,7 +3849,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.
+        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3911,7 +3905,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.
+        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3925,7 +3919,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.
+        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3985,7 +3979,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Update an organization.
+        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3998,7 +3992,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Update an organization.
+        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4018,8 +4012,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -4051,7 +4044,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Update an organization.
+        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4065,7 +4058,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Update an organization.
+        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4087,8 +4080,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -4122,7 +4114,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Feature Flag Override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4136,7 +4128,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Feature Flag Override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4198,7 +4190,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Feature Flag Override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4213,7 +4205,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Feature Flag Override Update organization feature flag override.
+        /// Update Organization Feature Flag Override Update organization feature flag override.  &lt;div&gt;   &lt;code&gt;update:organization_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4279,7 +4271,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4292,7 +4284,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4349,7 +4341,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4363,7 +4355,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4424,7 +4416,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4438,7 +4430,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4500,7 +4492,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4515,7 +4507,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -4581,7 +4573,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4594,7 +4586,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4647,7 +4639,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4661,7 +4653,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.
+        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>

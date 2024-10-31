@@ -36,16 +36,17 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateOrganizationResponseOrganization" /> class.
         /// </summary>
-        /// <param name="code">The organization&#39;s code..</param>
+        /// <param name="code">The organization&#39;s unique code..</param>
         public CreateOrganizationResponseOrganization(string code = default(string))
         {
             this.Code = code;
         }
 
         /// <summary>
-        /// The organization&#39;s code.
+        /// The organization&#39;s unique code.
         /// </summary>
-        /// <value>The organization&#39;s code.</value>
+        /// <value>The organization&#39;s unique code.</value>
+        /// <example>org_1ccfb819462</example>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 

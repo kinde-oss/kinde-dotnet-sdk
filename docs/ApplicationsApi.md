@@ -1,25 +1,27 @@
 # Kinde.Api.Api.ApplicationsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateApplication**](ApplicationsApi.md#createapplication) | **POST** /api/v1/applications | Create Application |
-| [**DeleteApplication**](ApplicationsApi.md#deleteapplication) | **DELETE** /api/v1/applications/{application_id} | Delete Application |
+| [**CreateApplication**](ApplicationsApi.md#createapplication) | **POST** /api/v1/applications | Create application |
+| [**DeleteApplication**](ApplicationsApi.md#deleteapplication) | **DELETE** /api/v1/applications/{application_id} | Delete application |
 | [**EnableConnection**](ApplicationsApi.md#enableconnection) | **POST** /api/v1/applications/{application_id}/connections/{connection_id} | Enable connection |
-| [**GetApplication**](ApplicationsApi.md#getapplication) | **GET** /api/v1/applications/{application_id} | Get Application |
+| [**GetApplication**](ApplicationsApi.md#getapplication) | **GET** /api/v1/applications/{application_id} | Get application |
 | [**GetApplicationConnections**](ApplicationsApi.md#getapplicationconnections) | **GET** /api/v1/applications/{application_id}/connections | Get connections |
-| [**GetApplications**](ApplicationsApi.md#getapplications) | **GET** /api/v1/applications | List Applications |
+| [**GetApplicationPropertyValues**](ApplicationsApi.md#getapplicationpropertyvalues) | **GET** /api/v1/applications/{application_id}/properties | Get property values |
+| [**GetApplications**](ApplicationsApi.md#getapplications) | **GET** /api/v1/applications | Get applications |
 | [**RemoveConnection**](ApplicationsApi.md#removeconnection) | **DELETE** /api/v1/applications/{application_id}/connections/{connection_id} | Remove connection |
 | [**UpdateApplication**](ApplicationsApi.md#updateapplication) | **PATCH** /api/v1/applications/{application_id} | Update Application |
+| [**UpdateApplicationsProperty**](ApplicationsApi.md#updateapplicationsproperty) | **PUT** /api/v1/applications/{application_id}/properties/{property_key} | Update property |
 
 <a id="createapplication"></a>
 # **CreateApplication**
-> CreateApplicationResponse CreateApplication (CreateApplicationRequest? createApplicationRequest = null)
+> CreateApplicationResponse CreateApplication (CreateApplicationRequest createApplicationRequest)
 
-Create Application
+Create application
 
-Create an application.
+Create a new client.  <div>   <code>create:applications</code> </div> 
 
 ### Example
 ```csharp
@@ -37,7 +39,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -45,11 +47,11 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var createApplicationRequest = new CreateApplicationRequest?(); // CreateApplicationRequest? | Application details. (optional) 
+            var createApplicationRequest = new CreateApplicationRequest(); // CreateApplicationRequest | 
 
             try
             {
-                // Create Application
+                // Create application
                 CreateApplicationResponse result = apiInstance.CreateApplication(createApplicationRequest);
                 Debug.WriteLine(result);
             }
@@ -70,7 +72,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create Application
+    // Create application
     ApiResponse<CreateApplicationResponse> response = apiInstance.CreateApplicationWithHttpInfo(createApplicationRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -88,7 +90,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createApplicationRequest** | [**CreateApplicationRequest?**](CreateApplicationRequest?.md) | Application details. | [optional]  |
+| **createApplicationRequest** | [**CreateApplicationRequest**](CreateApplicationRequest.md) |  |  |
 
 ### Return type
 
@@ -101,16 +103,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Application successfully created. |  -  |
-| **400** | Error creating user. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **201** | Application successfully created. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -118,9 +120,9 @@ catch (ApiException e)
 # **DeleteApplication**
 > SuccessResponse DeleteApplication (string applicationId)
 
-Delete Application
+Delete application
 
-Delete application. 
+Delete a client / application.  <div>   <code>delete:applications</code> </div> 
 
 ### Example
 ```csharp
@@ -138,7 +140,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -150,7 +152,7 @@ namespace Example
 
             try
             {
-                // Delete Application
+                // Delete application
                 SuccessResponse result = apiInstance.DeleteApplication(applicationId);
                 Debug.WriteLine(result);
             }
@@ -171,7 +173,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Delete Application
+    // Delete application
     ApiResponse<SuccessResponse> response = apiInstance.DeleteApplicationWithHttpInfo(applicationId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -202,7 +204,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -210,8 +212,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Application successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -221,7 +223,7 @@ catch (ApiException e)
 
 Enable connection
 
-Enable an auth connection for an application.
+Enable an auth connection for an application.  <div>   <code>create:application_connections</code> </div> 
 
 ### Example
 ```csharp
@@ -239,7 +241,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -301,16 +303,16 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Connection successfully enabled. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -318,9 +320,9 @@ void (empty response body)
 # **GetApplication**
 > GetApplicationResponse GetApplication (string applicationId)
 
-Get Application
+Get application
 
-Gets an application given the application's id. 
+Gets an application given the application's ID.  <div>   <code>read:applications</code> </div> 
 
 ### Example
 ```csharp
@@ -338,7 +340,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -350,7 +352,7 @@ namespace Example
 
             try
             {
-                // Get Application
+                // Get application
                 GetApplicationResponse result = apiInstance.GetApplication(applicationId);
                 Debug.WriteLine(result);
             }
@@ -371,7 +373,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get Application
+    // Get application
     ApiResponse<GetApplicationResponse> response = apiInstance.GetApplicationWithHttpInfo(applicationId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -402,16 +404,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application successfully retrieved. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -421,7 +423,7 @@ catch (ApiException e)
 
 Get connections
 
-Gets all connections for an application.
+Gets all connections for an application.  <div>   <code>read:application_connections</code> </div> 
 
 ### Example
 ```csharp
@@ -439,7 +441,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -503,16 +505,117 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application connections successfully retrieved. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getapplicationpropertyvalues"></a>
+# **GetApplicationPropertyValues**
+> GetPropertyValuesResponse GetApplicationPropertyValues (string applicationId)
+
+Get property values
+
+Gets properties for an application by client ID.  <div>   <code>read:application_properties</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetApplicationPropertyValuesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = 3b0b5c6c8fcc464fab397f4969b5f482;  // string | The application's ID / client ID.
+
+            try
+            {
+                // Get property values
+                GetPropertyValuesResponse result = apiInstance.GetApplicationPropertyValues(applicationId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.GetApplicationPropertyValues: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetApplicationPropertyValuesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get property values
+    ApiResponse<GetPropertyValuesResponse> response = apiInstance.GetApplicationPropertyValuesWithHttpInfo(applicationId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.GetApplicationPropertyValuesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The application&#39;s ID / client ID. |  |
+
+### Return type
+
+[**GetPropertyValuesResponse**](GetPropertyValuesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Properties successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -520,9 +623,9 @@ catch (ApiException e)
 # **GetApplications**
 > GetApplicationsResponse GetApplications (string? sort = null, int? pageSize = null, string? nextToken = null)
 
-List Applications
+Get applications
 
-Get a list of applications. 
+Get a list of applications / clients.  <div>   <code>read:applications</code> </div> 
 
 ### Example
 ```csharp
@@ -540,7 +643,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -554,7 +657,7 @@ namespace Example
 
             try
             {
-                // List Applications
+                // Get applications
                 GetApplicationsResponse result = apiInstance.GetApplications(sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
@@ -575,7 +678,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Applications
+    // Get applications
     ApiResponse<GetApplicationsResponse> response = apiInstance.GetApplicationsWithHttpInfo(sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -608,15 +711,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A successful response with a list of applications or an empty list. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -626,7 +730,7 @@ catch (ApiException e)
 
 Remove connection
 
-Turn off an auth connection for an application
+Turn off an auth connection for an application  <div>   <code>delete:application_connections</code> </div> 
 
 ### Example
 ```csharp
@@ -644,7 +748,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -710,7 +814,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -718,8 +822,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Connection successfully removed. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -729,7 +833,7 @@ catch (ApiException e)
 
 Update Application
 
-Update an application.
+Updates a client's settings. For more information, read [Applications in Kinde](https://docs.kinde.com/build/applications/about-applications)  <div>   <code>update:applications</code> </div> 
 
 ### Example
 ```csharp
@@ -747,7 +851,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -809,16 +913,121 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application successfully updated. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateapplicationsproperty"></a>
+# **UpdateApplicationsProperty**
+> SuccessResponse UpdateApplicationsProperty (string applicationId, string propertyKey, UpdateApplicationsPropertyRequest updateApplicationsPropertyRequest)
+
+Update property
+
+Update application property value.  <div>   <code>update:application_properties</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateApplicationsPropertyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = 3b0b5c6c8fcc464fab397f4969b5f482;  // string | The application's ID / client ID.
+            var propertyKey = kp_some_key;  // string | The property's key.
+            var updateApplicationsPropertyRequest = new UpdateApplicationsPropertyRequest(); // UpdateApplicationsPropertyRequest | 
+
+            try
+            {
+                // Update property
+                SuccessResponse result = apiInstance.UpdateApplicationsProperty(applicationId, propertyKey, updateApplicationsPropertyRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.UpdateApplicationsProperty: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateApplicationsPropertyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update property
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateApplicationsPropertyWithHttpInfo(applicationId, propertyKey, updateApplicationsPropertyRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.UpdateApplicationsPropertyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The application&#39;s ID / client ID. |  |
+| **propertyKey** | **string** | The property&#39;s key. |  |
+| **updateApplicationsPropertyRequest** | [**UpdateApplicationsPropertyRequest**](UpdateApplicationsPropertyRequest.md) |  |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Property successfully updated |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

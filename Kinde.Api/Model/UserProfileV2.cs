@@ -36,18 +36,19 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileV2" /> class.
         /// </summary>
-        /// <param name="id">Unique id of the user in Kinde (deprecated)..</param>
-        /// <param name="sub">Unique id of the user in Kinde..</param>
-        /// <param name="providedId">Value of the user&#39;s id in a third-party system when the user is imported into Kinde..</param>
+        /// <param name="sub">Unique ID of the user in Kinde..</param>
+        /// <param name="providedId">Value of the user&#39;s ID in a third-party system when the user is imported into Kinde..</param>
         /// <param name="name">User&#39;s first and last name separated by a space..</param>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
         /// <param name="updatedAt">Date the user was last updated at (In Unix time)..</param>
         /// <param name="email">User&#39;s email address if available..</param>
+        /// <param name="emailVerified">Whether the user&#39;s email address has been verified..</param>
         /// <param name="picture">URL that point&#39;s to the user&#39;s picture or avatar.</param>
-        public UserProfileV2(string id = default(string), string sub = default(string), string providedId = default(string), string name = default(string), string givenName = default(string), string familyName = default(string), int updatedAt = default(int), string email = default(string), string picture = default(string))
+        /// <param name="preferredUsername">User&#39;s preferred username..</param>
+        /// <param name="id">Unique ID of the user in Kinde.</param>
+        public UserProfileV2(string sub = default(string), string providedId = default(string), string name = default(string), string givenName = default(string), string familyName = default(string), int updatedAt = default(int), string email = default(string), bool emailVerified = default(bool), string picture = default(string), string preferredUsername = default(string), string id = default(string))
         {
-            this.Id = id;
             this.Sub = sub;
             this.ProvidedId = providedId;
             this.Name = name;
@@ -55,27 +56,25 @@ namespace Kinde.Api.Model
             this.FamilyName = familyName;
             this.UpdatedAt = updatedAt;
             this.Email = email;
+            this.EmailVerified = emailVerified;
             this.Picture = picture;
+            this.PreferredUsername = preferredUsername;
+            this.Id = id;
         }
 
         /// <summary>
-        /// Unique id of the user in Kinde (deprecated).
+        /// Unique ID of the user in Kinde.
         /// </summary>
-        /// <value>Unique id of the user in Kinde (deprecated).</value>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Unique id of the user in Kinde.
-        /// </summary>
-        /// <value>Unique id of the user in Kinde.</value>
+        /// <value>Unique ID of the user in Kinde.</value>
+        /// <example>kp_c3143a4b50ad43c88e541d9077681782</example>
         [DataMember(Name = "sub", EmitDefaultValue = false)]
         public string Sub { get; set; }
 
         /// <summary>
-        /// Value of the user&#39;s id in a third-party system when the user is imported into Kinde.
+        /// Value of the user&#39;s ID in a third-party system when the user is imported into Kinde.
         /// </summary>
-        /// <value>Value of the user&#39;s id in a third-party system when the user is imported into Kinde.</value>
+        /// <value>Value of the user&#39;s ID in a third-party system when the user is imported into Kinde.</value>
+        /// <example>some_external_id</example>
         [DataMember(Name = "provided_id", EmitDefaultValue = true)]
         public string ProvidedId { get; set; }
 
@@ -83,6 +82,7 @@ namespace Kinde.Api.Model
         /// User&#39;s first and last name separated by a space.
         /// </summary>
         /// <value>User&#39;s first and last name separated by a space.</value>
+        /// <example>John Snow</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
@@ -90,6 +90,7 @@ namespace Kinde.Api.Model
         /// User&#39;s first name.
         /// </summary>
         /// <value>User&#39;s first name.</value>
+        /// <example>John</example>
         [DataMember(Name = "given_name", EmitDefaultValue = false)]
         public string GivenName { get; set; }
 
@@ -97,6 +98,7 @@ namespace Kinde.Api.Model
         /// User&#39;s last name.
         /// </summary>
         /// <value>User&#39;s last name.</value>
+        /// <example>Snow</example>
         [DataMember(Name = "family_name", EmitDefaultValue = false)]
         public string FamilyName { get; set; }
 
@@ -104,6 +106,7 @@ namespace Kinde.Api.Model
         /// Date the user was last updated at (In Unix time).
         /// </summary>
         /// <value>Date the user was last updated at (In Unix time).</value>
+        /// <example>1612345678</example>
         [DataMember(Name = "updated_at", EmitDefaultValue = false)]
         public int UpdatedAt { get; set; }
 
@@ -111,15 +114,41 @@ namespace Kinde.Api.Model
         /// User&#39;s email address if available.
         /// </summary>
         /// <value>User&#39;s email address if available.</value>
+        /// <example>john.snow@example.com</example>
         [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Whether the user&#39;s email address has been verified.
+        /// </summary>
+        /// <value>Whether the user&#39;s email address has been verified.</value>
+        /// <example>true</example>
+        [DataMember(Name = "email_verified", EmitDefaultValue = true)]
+        public bool EmailVerified { get; set; }
 
         /// <summary>
         /// URL that point&#39;s to the user&#39;s picture or avatar
         /// </summary>
         /// <value>URL that point&#39;s to the user&#39;s picture or avatar</value>
-        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        /// <example>https://example.com/john_snow.jpg</example>
+        [DataMember(Name = "picture", EmitDefaultValue = true)]
         public string Picture { get; set; }
+
+        /// <summary>
+        /// User&#39;s preferred username.
+        /// </summary>
+        /// <value>User&#39;s preferred username.</value>
+        /// <example>john_snow</example>
+        [DataMember(Name = "preferred_username", EmitDefaultValue = true)]
+        public string PreferredUsername { get; set; }
+
+        /// <summary>
+        /// Unique ID of the user in Kinde
+        /// </summary>
+        /// <value>Unique ID of the user in Kinde</value>
+        /// <example>kp_c3143a4b50ad43c88e541d9077681782</example>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -129,7 +158,6 @@ namespace Kinde.Api.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class UserProfileV2 {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Sub: ").Append(Sub).Append("\n");
             sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
@@ -137,7 +165,10 @@ namespace Kinde.Api.Model
             sb.Append("  FamilyName: ").Append(FamilyName).Append("\n");
             sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  EmailVerified: ").Append(EmailVerified).Append("\n");
             sb.Append("  Picture: ").Append(Picture).Append("\n");
+            sb.Append("  PreferredUsername: ").Append(PreferredUsername).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -174,11 +205,6 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
-                ) && 
-                (
                     this.Sub == input.Sub ||
                     (this.Sub != null &&
                     this.Sub.Equals(input.Sub))
@@ -213,9 +239,23 @@ namespace Kinde.Api.Model
                     this.Email.Equals(input.Email))
                 ) && 
                 (
+                    this.EmailVerified == input.EmailVerified ||
+                    this.EmailVerified.Equals(input.EmailVerified)
+                ) && 
+                (
                     this.Picture == input.Picture ||
                     (this.Picture != null &&
                     this.Picture.Equals(input.Picture))
+                ) && 
+                (
+                    this.PreferredUsername == input.PreferredUsername ||
+                    (this.PreferredUsername != null &&
+                    this.PreferredUsername.Equals(input.PreferredUsername))
+                ) && 
+                (
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 );
         }
 
@@ -228,10 +268,6 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
-                {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                }
                 if (this.Sub != null)
                 {
                     hashCode = (hashCode * 59) + this.Sub.GetHashCode();
@@ -257,9 +293,18 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Email.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.EmailVerified.GetHashCode();
                 if (this.Picture != null)
                 {
                     hashCode = (hashCode * 59) + this.Picture.GetHashCode();
+                }
+                if (this.PreferredUsername != null)
+                {
+                    hashCode = (hashCode * 59) + this.PreferredUsername.GetHashCode();
+                }
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
                 return hashCode;
             }

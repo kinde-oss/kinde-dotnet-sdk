@@ -74,6 +74,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Picture'
+        /// </summary>
+        [Fact]
+        public void PictureTest()
+        {
+            // TODO unit test for the property 'Picture'
+        }
+
+        /// <summary>
         /// Test the property 'IsSuspended'
         /// </summary>
         [Fact]
@@ -89,6 +98,15 @@ namespace Kinde.Api.Test.Model
         public void IsPasswordResetRequestedTest()
         {
             // TODO unit test for the property 'IsPasswordResetRequested'
+        }
+
+        /// <summary>
+        /// Test the property 'ProvidedId'
+        /// </summary>
+        [Fact]
+        public void ProvidedIdTest()
+        {
+            // TODO unit test for the property 'ProvidedId'
         }
     }
 }

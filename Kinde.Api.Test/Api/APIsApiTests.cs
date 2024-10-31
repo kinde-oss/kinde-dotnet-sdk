@@ -63,7 +63,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //AddAPIsRequest addAPIsRequest = null;
             //var response = instance.AddAPIs(addAPIsRequest);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<CreateApisResponse>(response);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string apiId = null;
             //var response = instance.DeleteAPI(apiId);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<DeleteApiResponse>(response);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string apiId = null;
             //var response = instance.GetAPI(apiId);
-            //Assert.IsType<ApiModel>(response);
+            //Assert.IsType<GetApiResponse>(response);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //var response = instance.GetAPIs();
-            //Assert.IsType<Apis>(response);
+            //Assert.IsType<GetApisResponse>(response);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Kinde.Api.Test.Api
             //string apiId = null;
             //UpdateAPIApplicationsRequest updateAPIApplicationsRequest = null;
             //var response = instance.UpdateAPIApplications(apiId, updateAPIApplicationsRequest);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<AuthorizeAppApiResponse>(response);
         }
     }
 }

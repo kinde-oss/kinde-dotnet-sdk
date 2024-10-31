@@ -56,12 +56,30 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'RedirectUrls'
+        /// Test the property 'LogoutUrls'
         /// </summary>
         [Fact]
-        public void RedirectUrlsTest()
+        public void LogoutUrlsTest()
         {
-            // TODO unit test for the property 'RedirectUrls'
+            // TODO unit test for the property 'LogoutUrls'
+        }
+
+        /// <summary>
+        /// Test the property 'Code'
+        /// </summary>
+        [Fact]
+        public void CodeTest()
+        {
+            // TODO unit test for the property 'Code'
+        }
+
+        /// <summary>
+        /// Test the property 'Message'
+        /// </summary>
+        [Fact]
+        public void MessageTest()
+        {
+            // TODO unit test for the property 'Message'
         }
     }
 }

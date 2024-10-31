@@ -1,6 +1,6 @@
 # Kinde.Api.Api.EnvironmentsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -15,7 +15,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Delete Environment Feature Flag Override
 
-Delete environment feature flag override.
+Delete environment feature flag override.  <div>   <code>delete:environment_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -33,7 +33,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -116,7 +116,7 @@ catch (ApiException e)
 
 Delete Environment Feature Flag Overrides
 
-Delete all environment feature flag overrides.
+Delete all environment feature flag overrides.  <div>   <code>delete:environment_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -134,7 +134,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -212,7 +212,7 @@ This endpoint does not need any parameter.
 
 List Environment Feature Flags
 
-Get environment feature flags.
+Get environment feature flags.  <div>   <code>read:environment_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -230,7 +230,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -308,7 +308,7 @@ This endpoint does not need any parameter.
 
 Update Environment Feature Flag Override
 
-Update environment feature flag override.
+Update environment feature flag override.  <div>   <code>update:environment_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -326,7 +326,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

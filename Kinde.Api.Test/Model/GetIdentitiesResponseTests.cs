@@ -74,12 +74,12 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Properties'
+        /// Test the property 'Identities'
         /// </summary>
         [Fact]
-        public void PropertiesTest()
+        public void IdentitiesTest()
         {
-            // TODO unit test for the property 'Properties'
+            // TODO unit test for the property 'Identities'
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Delete Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -74,7 +74,7 @@ namespace Kinde.Api.Api
         /// List Permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -87,7 +87,7 @@ namespace Kinde.Api.Api
         /// List Permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -99,7 +99,7 @@ namespace Kinde.Api.Api
         /// Update Permission
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -111,7 +111,7 @@ namespace Kinde.Api.Api
         /// Update Permission
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -131,7 +131,7 @@ namespace Kinde.Api.Api
         /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -143,7 +143,7 @@ namespace Kinde.Api.Api
         /// Create Permission
         /// </summary>
         /// <remarks>
-        /// Create a new permission.
+        /// Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -154,7 +154,7 @@ namespace Kinde.Api.Api
         /// Delete Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -166,7 +166,7 @@ namespace Kinde.Api.Api
         /// Delete Permission
         /// </summary>
         /// <remarks>
-        /// Delete permission
+        /// Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -177,7 +177,7 @@ namespace Kinde.Api.Api
         /// List Permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -191,7 +191,7 @@ namespace Kinde.Api.Api
         /// List Permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -204,7 +204,7 @@ namespace Kinde.Api.Api
         /// Update Permission
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -217,7 +217,7 @@ namespace Kinde.Api.Api
         /// Update Permission
         /// </summary>
         /// <remarks>
-        /// Update permission
+        /// Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -455,7 +455,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Permission Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -467,7 +467,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Permission Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -513,7 +513,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Permission Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -526,7 +526,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Permission Create a new permission.
+        /// Create Permission Create a new permission.  &lt;div&gt;   &lt;code&gt;create:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
@@ -576,7 +576,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Delete Permission Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -588,7 +588,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Delete Permission Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -638,7 +638,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Delete Permission Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -651,7 +651,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Permission Delete permission
+        /// Delete Permission Delete permission  &lt;div&gt;   &lt;code&gt;delete:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -705,7 +705,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -719,7 +719,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -778,7 +778,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -793,7 +793,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Permissions The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -856,7 +856,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Permission Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -869,7 +869,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Permission Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -917,7 +917,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Permission Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>
@@ -931,7 +931,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Permission Update permission
+        /// Update Permission Update permission  &lt;div&gt;   &lt;code&gt;update:permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="permissionId">The identifier for the permission.</param>

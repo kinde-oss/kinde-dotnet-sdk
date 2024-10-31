@@ -36,18 +36,38 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="LogoutRedirectUrls" /> class.
         /// </summary>
-        /// <param name="redirectUrls">An application&#39;s logout URLs..</param>
-        public LogoutRedirectUrls(List<string> redirectUrls = default(List<string>))
+        /// <param name="logoutUrls">An application&#39;s logout URLs..</param>
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        public LogoutRedirectUrls(List<string> logoutUrls = default(List<string>), string code = default(string), string message = default(string))
         {
-            this.RedirectUrls = redirectUrls;
+            this.LogoutUrls = logoutUrls;
+            this.Code = code;
+            this.Message = message;
         }
 
         /// <summary>
         /// An application&#39;s logout URLs.
         /// </summary>
         /// <value>An application&#39;s logout URLs.</value>
-        [DataMember(Name = "redirect_urls", EmitDefaultValue = false)]
-        public List<string> RedirectUrls { get; set; }
+        [DataMember(Name = "logout_urls", EmitDefaultValue = false)]
+        public List<string> LogoutUrls { get; set; }
+
+        /// <summary>
+        /// Response code.
+        /// </summary>
+        /// <value>Response code.</value>
+        /// <example>OK</example>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Response message.
+        /// </summary>
+        /// <value>Response message.</value>
+        /// <example>Success</example>
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,7 +77,9 @@ namespace Kinde.Api.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class LogoutRedirectUrls {\n");
-            sb.Append("  RedirectUrls: ").Append(RedirectUrls).Append("\n");
+            sb.Append("  LogoutUrls: ").Append(LogoutUrls).Append("\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,10 +116,20 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.RedirectUrls == input.RedirectUrls ||
-                    this.RedirectUrls != null &&
-                    input.RedirectUrls != null &&
-                    this.RedirectUrls.SequenceEqual(input.RedirectUrls)
+                    this.LogoutUrls == input.LogoutUrls ||
+                    this.LogoutUrls != null &&
+                    input.LogoutUrls != null &&
+                    this.LogoutUrls.SequenceEqual(input.LogoutUrls)
+                ) && 
+                (
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
+                ) && 
+                (
+                    this.Message == input.Message ||
+                    (this.Message != null &&
+                    this.Message.Equals(input.Message))
                 );
         }
 
@@ -110,9 +142,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.RedirectUrls != null)
+                if (this.LogoutUrls != null)
                 {
-                    hashCode = (hashCode * 59) + this.RedirectUrls.GetHashCode();
+                    hashCode = (hashCode * 59) + this.LogoutUrls.GetHashCode();
+                }
+                if (this.Code != null)
+                {
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
+                if (this.Message != null)
+                {
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
                 return hashCode;
             }

@@ -1,6 +1,6 @@
 # Kinde.Api.Api.ConnectedAppsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -14,7 +14,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Get Connected App URL
 
-Get a URL that authenticates and authorizes a user to a third-party connected app.
+Get a URL that authenticates and authorizes a user to a third-party connected app.  <div>   <code>read:connected_apps</code> </div> 
 
 ### Example
 ```csharp
@@ -32,7 +32,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -122,7 +122,7 @@ catch (ApiException e)
 
 Get Connected App Token
 
-Get an access token that can be used to call the third-party provider linked to the connected app.
+Get an access token that can be used to call the third-party provider linked to the connected app.  <div>   <code>read:connected_apps</code> </div> 
 
 ### Example
 ```csharp
@@ -140,7 +140,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -223,7 +223,7 @@ catch (ApiException e)
 
 Revoke Connected App Token
 
-Revoke the tokens linked to the connected app session.
+Revoke the tokens linked to the connected app session.  <div>   <code>create:connected_apps</code> </div> 
 
 ### Example
 ```csharp
@@ -241,7 +241,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

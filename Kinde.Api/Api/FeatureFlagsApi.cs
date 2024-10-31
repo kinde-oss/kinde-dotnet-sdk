@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Feature Flag
         /// </summary>
         /// <remarks>
-        /// Create feature flag.
+        /// Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create Feature Flag
         /// </summary>
         /// <remarks>
-        /// Create feature flag.
+        /// Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Feature Flag
         /// </summary>
         /// <remarks>
-        /// Delete feature flag
+        /// Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Delete Feature Flag
         /// </summary>
         /// <remarks>
-        /// Delete feature flag
+        /// Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -74,7 +74,7 @@ namespace Kinde.Api.Api
         /// Replace Feature Flag
         /// </summary>
         /// <remarks>
-        /// Update feature flag.
+        /// Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -90,7 +90,7 @@ namespace Kinde.Api.Api
         /// Replace Feature Flag
         /// </summary>
         /// <remarks>
-        /// Update feature flag.
+        /// Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -114,7 +114,7 @@ namespace Kinde.Api.Api
         /// Create Feature Flag
         /// </summary>
         /// <remarks>
-        /// Create feature flag.
+        /// Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -126,7 +126,7 @@ namespace Kinde.Api.Api
         /// Create Feature Flag
         /// </summary>
         /// <remarks>
-        /// Create feature flag.
+        /// Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -137,7 +137,7 @@ namespace Kinde.Api.Api
         /// Delete Feature Flag
         /// </summary>
         /// <remarks>
-        /// Delete feature flag
+        /// Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -149,7 +149,7 @@ namespace Kinde.Api.Api
         /// Delete Feature Flag
         /// </summary>
         /// <remarks>
-        /// Delete feature flag
+        /// Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -160,7 +160,7 @@ namespace Kinde.Api.Api
         /// Replace Feature Flag
         /// </summary>
         /// <remarks>
-        /// Update feature flag.
+        /// Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -177,7 +177,7 @@ namespace Kinde.Api.Api
         /// Replace Feature Flag
         /// </summary>
         /// <remarks>
-        /// Update feature flag.
+        /// Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -419,7 +419,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Feature Flag Create feature flag.
+        /// Create Feature Flag Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -431,7 +431,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Feature Flag Create feature flag.
+        /// Create Feature Flag Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -482,7 +482,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Feature Flag Create feature flag.
+        /// Create Feature Flag Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -495,7 +495,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Feature Flag Create feature flag.
+        /// Create Feature Flag Create feature flag.  &lt;div&gt;   &lt;code&gt;create:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createFeatureFlagRequest">Flag details.</param>
@@ -550,7 +550,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Feature Flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -562,7 +562,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Feature Flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -612,7 +612,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Feature Flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -625,7 +625,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Feature Flag Delete feature flag
+        /// Delete Feature Flag Delete feature flag  &lt;div&gt;   &lt;code&gt;delete:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The identifier for the feature flag.</param>
@@ -679,7 +679,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Feature Flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -696,7 +696,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Feature Flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -776,7 +776,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Feature Flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>
@@ -794,7 +794,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Feature Flag Update feature flag.
+        /// Replace Feature Flag Update feature flag.  &lt;div&gt;   &lt;code&gt;update:feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="featureFlagKey">The key identifier for the feature flag.</param>

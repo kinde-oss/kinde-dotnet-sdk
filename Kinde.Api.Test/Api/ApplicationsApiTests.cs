@@ -61,7 +61,7 @@ namespace Kinde.Api.Test.Api
         public void CreateApplicationTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //CreateApplicationRequest? createApplicationRequest = null;
+            //CreateApplicationRequest createApplicationRequest = null;
             //var response = instance.CreateApplication(createApplicationRequest);
             //Assert.IsType<CreateApplicationResponse>(response);
         }
@@ -79,6 +79,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test EnableConnection
+        /// </summary>
+        [Fact]
+        public void EnableConnectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //string connectionId = null;
+            //instance.EnableConnection(applicationId, connectionId);
+        }
+
+        /// <summary>
         /// Test GetApplication
         /// </summary>
         [Fact]
@@ -88,6 +100,30 @@ namespace Kinde.Api.Test.Api
             //string applicationId = null;
             //var response = instance.GetApplication(applicationId);
             //Assert.IsType<GetApplicationResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetApplicationConnections
+        /// </summary>
+        [Fact]
+        public void GetApplicationConnectionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //var response = instance.GetApplicationConnections(applicationId);
+            //Assert.IsType<GetConnectionsResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetApplicationPropertyValues
+        /// </summary>
+        [Fact]
+        public void GetApplicationPropertyValuesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //var response = instance.GetApplicationPropertyValues(applicationId);
+            //Assert.IsType<GetPropertyValuesResponse>(response);
         }
 
         /// <summary>
@@ -105,6 +141,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test RemoveConnection
+        /// </summary>
+        [Fact]
+        public void RemoveConnectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //string connectionId = null;
+            //var response = instance.RemoveConnection(applicationId, connectionId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test UpdateApplication
         /// </summary>
         [Fact]
@@ -114,6 +163,20 @@ namespace Kinde.Api.Test.Api
             //string applicationId = null;
             //UpdateApplicationRequest? updateApplicationRequest = null;
             //instance.UpdateApplication(applicationId, updateApplicationRequest);
+        }
+
+        /// <summary>
+        /// Test UpdateApplicationsProperty
+        /// </summary>
+        [Fact]
+        public void UpdateApplicationsPropertyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //string propertyKey = null;
+            //UpdateApplicationsPropertyRequest updateApplicationsPropertyRequest = null;
+            //var response = instance.UpdateApplicationsProperty(applicationId, propertyKey, updateApplicationsPropertyRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
     }
 }

@@ -1,18 +1,18 @@
 # Kinde.Api.Api.IndustriesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetIndustries**](IndustriesApi.md#getindustries) | **GET** /api/v1/industries | List industries and industry keys. |
+| [**GetIndustries**](IndustriesApi.md#getindustries) | **GET** /api/v1/industries | Get industries |
 
 <a id="getindustries"></a>
 # **GetIndustries**
-> SuccessResponse GetIndustries (string? industryKey = null, string? name = null)
+> GetIndustriesResponse GetIndustries ()
 
-List industries and industry keys.
+Get industries
 
-Get a list of industries and associated industry keys.
+Get a list of industries and associated industry keys.  <div>   <code>read:industries</code> </div> 
 
 ### Example
 ```csharp
@@ -30,7 +30,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -38,13 +38,11 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new IndustriesApi(httpClient, config, httpClientHandler);
-            var industryKey = "industryKey_example";  // string? | Industry Key. (optional) 
-            var name = "name_example";  // string? | Industry name. (optional) 
 
             try
             {
-                // List industries and industry keys.
-                SuccessResponse result = apiInstance.GetIndustries(industryKey, name);
+                // Get industries
+                GetIndustriesResponse result = apiInstance.GetIndustries();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -64,8 +62,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List industries and industry keys.
-    ApiResponse<SuccessResponse> response = apiInstance.GetIndustriesWithHttpInfo(industryKey, name);
+    // Get industries
+    ApiResponse<GetIndustriesResponse> response = apiInstance.GetIndustriesWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -79,15 +77,10 @@ catch (ApiException e)
 ```
 
 ### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **industryKey** | **string?** | Industry Key. | [optional]  |
-| **name** | **string?** | Industry name. | [optional]  |
-
+This endpoint does not need any parameter.
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**GetIndustriesResponse**](GetIndustriesResponse.md)
 
 ### Authorization
 
@@ -96,15 +89,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | A successful response with a list of industries and industry keys. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **200** | A list of industries. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

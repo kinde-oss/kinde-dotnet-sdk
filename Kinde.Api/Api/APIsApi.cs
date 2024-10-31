@@ -29,110 +29,110 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Add APIs
+        /// Create API
         /// </summary>
         /// <remarks>
-        /// Add APIs. 
+        /// Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse AddAPIs(AddAPIsRequest addAPIsRequest);
+        /// <param name="addAPIsRequest"></param>
+        /// <returns>CreateApisResponse</returns>
+        CreateApisResponse AddAPIs(AddAPIsRequest addAPIsRequest);
 
         /// <summary>
-        /// Add APIs
+        /// Create API
         /// </summary>
         /// <remarks>
-        /// Add APIs. 
+        /// Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> AddAPIsWithHttpInfo(AddAPIsRequest addAPIsRequest);
+        /// <param name="addAPIsRequest"></param>
+        /// <returns>ApiResponse of CreateApisResponse</returns>
+        ApiResponse<CreateApisResponse> AddAPIsWithHttpInfo(AddAPIsRequest addAPIsRequest);
         /// <summary>
         /// Delete API
         /// </summary>
         /// <remarks>
-        /// Deletes API. 
+        /// Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse DeleteAPI(string apiId);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>DeleteApiResponse</returns>
+        DeleteApiResponse DeleteAPI(string apiId);
 
         /// <summary>
         /// Delete API
         /// </summary>
         /// <remarks>
-        /// Deletes API. 
+        /// Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> DeleteAPIWithHttpInfo(string apiId);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>ApiResponse of DeleteApiResponse</returns>
+        ApiResponse<DeleteApiResponse> DeleteAPIWithHttpInfo(string apiId);
         /// <summary>
-        /// List API details
+        /// Get API
         /// </summary>
         /// <remarks>
-        /// Returns the details of the API. 
+        /// Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiModel</returns>
-        ApiModel GetAPI(string apiId);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>GetApiResponse</returns>
+        GetApiResponse GetAPI(string apiId);
 
         /// <summary>
-        /// List API details
+        /// Get API
         /// </summary>
         /// <remarks>
-        /// Returns the details of the API. 
+        /// Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of ApiModel</returns>
-        ApiResponse<ApiModel> GetAPIWithHttpInfo(string apiId);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>ApiResponse of GetApiResponse</returns>
+        ApiResponse<GetApiResponse> GetAPIWithHttpInfo(string apiId);
         /// <summary>
-        /// List APIs
+        /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of APIs. 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Apis</returns>
-        Apis GetAPIs();
+        /// <returns>GetApisResponse</returns>
+        GetApisResponse GetAPIs();
 
         /// <summary>
-        /// List APIs
+        /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of APIs. 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Apis</returns>
-        ApiResponse<Apis> GetAPIsWithHttpInfo();
+        /// <returns>ApiResponse of GetApisResponse</returns>
+        ApiResponse<GetApisResponse> GetAPIsWithHttpInfo();
         /// <summary>
-        /// Update API Applications
+        /// Authorize API applications
         /// </summary>
         /// <remarks>
-        /// Update the applications under that API. 
+        /// Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateAPIApplications(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
+        /// <returns>AuthorizeAppApiResponse</returns>
+        AuthorizeAppApiResponse UpdateAPIApplications(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest);
 
         /// <summary>
-        /// Update API Applications
+        /// Authorize API applications
         /// </summary>
         /// <remarks>
-        /// Update the applications under that API. 
+        /// Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest);
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
+        /// <returns>ApiResponse of AuthorizeAppApiResponse</returns>
+        ApiResponse<AuthorizeAppApiResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest);
         #endregion Synchronous Operations
     }
 
@@ -143,120 +143,120 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Add APIs
+        /// Create API
         /// </summary>
         /// <remarks>
-        /// Add APIs. 
+        /// Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
+        /// <param name="addAPIsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> AddAPIsAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of CreateApisResponse</returns>
+        System.Threading.Tasks.Task<CreateApisResponse> AddAPIsAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Add APIs
+        /// Create API
         /// </summary>
         /// <remarks>
-        /// Add APIs. 
+        /// Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
+        /// <param name="addAPIsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> AddAPIsWithHttpInfoAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (CreateApisResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateApisResponse>> AddAPIsWithHttpInfoAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete API
         /// </summary>
         /// <remarks>
-        /// Deletes API. 
+        /// Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> DeleteAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of DeleteApiResponse</returns>
+        System.Threading.Tasks.Task<DeleteApiResponse> DeleteAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Delete API
         /// </summary>
         /// <remarks>
-        /// Deletes API. 
+        /// Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (DeleteApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteApiResponse>> DeleteAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List API details
+        /// Get API
         /// </summary>
         /// <remarks>
-        /// Returns the details of the API. 
+        /// Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiModel</returns>
-        System.Threading.Tasks.Task<ApiModel> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetApiResponse</returns>
+        System.Threading.Tasks.Task<GetApiResponse> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List API details
+        /// Get API
         /// </summary>
         /// <remarks>
-        /// Returns the details of the API. 
+        /// Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiModel)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiModel>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiResponse>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List APIs
+        /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of APIs. 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Apis</returns>
-        System.Threading.Tasks.Task<Apis> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetApisResponse</returns>
+        System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List APIs
+        /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of APIs. 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Apis)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Apis>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetApisResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update API Applications
+        /// Authorize API applications
         /// </summary>
         /// <remarks>
-        /// Update the applications under that API. 
+        /// Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateAPIApplicationsAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of AuthorizeAppApiResponse</returns>
+        System.Threading.Tasks.Task<AuthorizeAppApiResponse> UpdateAPIApplicationsAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update API Applications
+        /// Authorize API applications
         /// </summary>
         /// <remarks>
-        /// Update the applications under that API. 
+        /// Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateAPIApplicationsWithHttpInfoAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (AuthorizeAppApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<AuthorizeAppApiResponse>> UpdateAPIApplicationsWithHttpInfoAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -487,24 +487,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add APIs Add APIs. 
+        /// Create API Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse AddAPIs(AddAPIsRequest addAPIsRequest)
+        /// <param name="addAPIsRequest"></param>
+        /// <returns>CreateApisResponse</returns>
+        public CreateApisResponse AddAPIs(AddAPIsRequest addAPIsRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = AddAPIsWithHttpInfo(addAPIsRequest);
+            Kinde.Api.Client.ApiResponse<CreateApisResponse> localVarResponse = AddAPIsWithHttpInfo(addAPIsRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Add APIs Add APIs. 
+        /// Create API Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> AddAPIsWithHttpInfo(AddAPIsRequest addAPIsRequest)
+        /// <param name="addAPIsRequest"></param>
+        /// <returns>ApiResponse of CreateApisResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateApisResponse> AddAPIsWithHttpInfo(AddAPIsRequest addAPIsRequest)
         {
             // verify the required parameter 'addAPIsRequest' is set
             if (addAPIsRequest == null)
@@ -518,7 +518,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -538,7 +537,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<CreateApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -550,26 +549,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add APIs Add APIs. 
+        /// Create API Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
+        /// <param name="addAPIsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> AddAPIsAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of CreateApisResponse</returns>
+        public async System.Threading.Tasks.Task<CreateApisResponse> AddAPIsAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await AddAPIsWithHttpInfoAsync(addAPIsRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<CreateApisResponse> localVarResponse = await AddAPIsWithHttpInfoAsync(addAPIsRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Add APIs Add APIs. 
+        /// Create API Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  &lt;div&gt;   &lt;code&gt;create:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="addAPIsRequest">API details.</param>
+        /// <param name="addAPIsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> AddAPIsWithHttpInfoAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (CreateApisResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateApisResponse>> AddAPIsWithHttpInfoAsync(AddAPIsRequest addAPIsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'addAPIsRequest' is set
             if (addAPIsRequest == null)
@@ -584,7 +583,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -606,7 +604,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -618,24 +616,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete API Deletes API. 
+        /// Delete API Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse DeleteAPI(string apiId)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>DeleteApiResponse</returns>
+        public DeleteApiResponse DeleteAPI(string apiId)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteAPIWithHttpInfo(apiId);
+            Kinde.Api.Client.ApiResponse<DeleteApiResponse> localVarResponse = DeleteAPIWithHttpInfo(apiId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete API Deletes API. 
+        /// Delete API Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteAPIWithHttpInfo(string apiId)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>ApiResponse of DeleteApiResponse</returns>
+        public Kinde.Api.Client.ApiResponse<DeleteApiResponse> DeleteAPIWithHttpInfo(string apiId)
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -648,7 +646,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -668,7 +665,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<DeleteApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -680,26 +677,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete API Deletes API. 
+        /// Delete API Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> DeleteAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of DeleteApiResponse</returns>
+        public async System.Threading.Tasks.Task<DeleteApiResponse> DeleteAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<DeleteApiResponse> localVarResponse = await DeleteAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Delete API Deletes API. 
+        /// Delete API Delete an API you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (DeleteApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<DeleteApiResponse>> DeleteAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -713,7 +710,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -735,7 +731,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -747,24 +743,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List API details Returns the details of the API. 
+        /// Get API Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiModel</returns>
-        public ApiModel GetAPI(string apiId)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>GetApiResponse</returns>
+        public GetApiResponse GetAPI(string apiId)
         {
-            Kinde.Api.Client.ApiResponse<ApiModel> localVarResponse = GetAPIWithHttpInfo(apiId);
+            Kinde.Api.Client.ApiResponse<GetApiResponse> localVarResponse = GetAPIWithHttpInfo(apiId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List API details Returns the details of the API. 
+        /// Get API Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
-        /// <returns>ApiResponse of ApiModel</returns>
-        public Kinde.Api.Client.ApiResponse<ApiModel> GetAPIWithHttpInfo(string apiId)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <returns>ApiResponse of GetApiResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiResponse> GetAPIWithHttpInfo(string apiId)
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -777,7 +773,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -797,7 +792,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<ApiModel>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -809,26 +804,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List API details Returns the details of the API. 
+        /// Get API Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiModel</returns>
-        public async System.Threading.Tasks.Task<ApiModel> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetApiResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiResponse> GetAPIAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<ApiModel> localVarResponse = await GetAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetApiResponse> localVarResponse = await GetAPIWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List API details Returns the details of the API. 
+        /// Get API Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The API&#39;s id.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiModel)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ApiModel>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiResponse>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -842,7 +837,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -864,7 +858,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ApiModel>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -876,22 +870,22 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List APIs Returns a list of APIs. 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Apis</returns>
-        public Apis GetAPIs()
+        /// <returns>GetApisResponse</returns>
+        public GetApisResponse GetAPIs()
         {
-            Kinde.Api.Client.ApiResponse<Apis> localVarResponse = GetAPIsWithHttpInfo();
+            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = GetAPIsWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List APIs Returns a list of APIs. 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Apis</returns>
-        public Kinde.Api.Client.ApiResponse<Apis> GetAPIsWithHttpInfo()
+        /// <returns>ApiResponse of GetApisResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo()
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -900,7 +894,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -919,7 +912,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Apis>("/api/v1/apis", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -931,24 +924,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List APIs Returns a list of APIs. 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Apis</returns>
-        public async System.Threading.Tasks.Task<Apis> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetApisResponse</returns>
+        public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<Apis> localVarResponse = await GetAPIsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = await GetAPIsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List APIs Returns a list of APIs. 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Apis)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Apis>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetApisResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -958,7 +951,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -979,7 +971,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Apis>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -991,26 +983,26 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update API Applications Update the applications under that API. 
+        /// Authorize API applications Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateAPIApplications(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
+        /// <returns>AuthorizeAppApiResponse</returns>
+        public AuthorizeAppApiResponse UpdateAPIApplications(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateAPIApplicationsWithHttpInfo(apiId, updateAPIApplicationsRequest);
+            Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse> localVarResponse = UpdateAPIApplicationsWithHttpInfo(apiId, updateAPIApplicationsRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update API Applications Update the applications under that API. 
+        /// Authorize API applications Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
+        /// <returns>ApiResponse of AuthorizeAppApiResponse</returns>
+        public Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -1028,7 +1020,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -1049,7 +1040,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<AuthorizeAppApiResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1061,28 +1052,28 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update API Applications Update the applications under that API. 
+        /// Authorize API applications Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateAPIApplicationsAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of AuthorizeAppApiResponse</returns>
+        public async System.Threading.Tasks.Task<AuthorizeAppApiResponse> UpdateAPIApplicationsAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateAPIApplicationsWithHttpInfoAsync(apiId, updateAPIApplicationsRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse> localVarResponse = await UpdateAPIApplicationsWithHttpInfoAsync(apiId, updateAPIApplicationsRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update API Applications Update the applications under that API. 
+        /// Authorize API applications Authorize applications to be allowed to request access tokens for an API  &lt;div&gt;   &lt;code&gt;update:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="apiId">The identifier for the API.</param>
-        /// <param name="updateAPIApplicationsRequest">The applications you want to connect or disconnect.</param>
+        /// <param name="apiId">The API&#39;s ID.</param>
+        /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateAPIApplicationsWithHttpInfoAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (AuthorizeAppApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse>> UpdateAPIApplicationsWithHttpInfoAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'apiId' is set
             if (apiId == null)
@@ -1101,7 +1092,6 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
                 "application/json"
             };
 
@@ -1124,7 +1114,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<AuthorizeAppApiResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

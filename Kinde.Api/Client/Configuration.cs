@@ -34,7 +34,7 @@ namespace Kinde.Api.Client
         /// Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "1.2.7";
+        public const string Version = "1.2.8";
 
         /// <summary>
         /// Identifier for ISO 8601 DateTime Format
@@ -118,8 +118,8 @@ namespace Kinde.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.2.7/csharp");
-            BasePath = "https://app.kinde.com";
+            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.2.8/csharp");
+            BasePath = "https://your_kinde_subdomain.kinde.com";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
@@ -127,14 +127,20 @@ namespace Kinde.Api.Client
             {
                 {
                     new Dictionary<string, object> {
-                        {"url", "https://{businessName}.kinde.com"},
+                        {"url", "https://{subdomain}.kinde.com"},
                         {"description", "No description provided"},
                         {
                             "variables", new Dictionary<string, object> {
                                 {
-                                    "businessName", new Dictionary<string, object> {
-                                        {"description", "Business name created in the Kinde admin area."},
-                                        {"default_value", "app"},
+                                    "subdomain", new Dictionary<string, object> {
+                                        {"description", "The subdomain generated for your business on Kinde."},
+                                        {"default_value", "your_kinde_subdomain"},
+                                    }
+                                },
+                                {
+                                    "basePath", new Dictionary<string, object> {
+                                        {"description", "The version of the API."},
+                                        {"default_value", "v1"},
                                     }
                                 }
                             }
@@ -158,7 +164,7 @@ namespace Kinde.Api.Client
             IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
-            string basePath = "https://app.kinde.com") : this()
+            string basePath = "https://your_kinde_subdomain.kinde.com") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
@@ -551,7 +557,7 @@ namespace Kinde.Api.Client
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
             report += "    Version of the API: 1\n";
-            report += "    SDK Package Version: 1.2.7\n";
+            report += "    SDK Package Version: 1.2.8\n";
 
             return report;
         }

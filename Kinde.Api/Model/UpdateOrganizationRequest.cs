@@ -34,6 +34,40 @@ namespace Kinde.Api.Model
     public partial class UpdateOrganizationRequest : IEquatable<UpdateOrganizationRequest>, IValidatableObject
     {
         /// <summary>
+        /// The organization&#39;s brand settings - theme/mode.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - theme/mode.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ThemeCodeEnum
+        {
+            /// <summary>
+            /// Enum Light for value: light
+            /// </summary>
+            [EnumMember(Value = "light")]
+            Light = 1,
+
+            /// <summary>
+            /// Enum Dark for value: dark
+            /// </summary>
+            [EnumMember(Value = "dark")]
+            Dark = 2,
+
+            /// <summary>
+            /// Enum UserPreference for value: user_preference
+            /// </summary>
+            [EnumMember(Value = "user_preference")]
+            UserPreference = 3
+        }
+
+
+        /// <summary>
+        /// The organization&#39;s brand settings - theme/mode.
+        /// </summary>
+        /// <value>The organization&#39;s brand settings - theme/mode.</value>
+        /// <example>light</example>
+        [DataMember(Name = "theme_code", EmitDefaultValue = false)]
+        public ThemeCodeEnum? ThemeCode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="UpdateOrganizationRequest" /> class.
         /// </summary>
         /// <param name="name">The organization&#39;s name..</param>
@@ -46,10 +80,13 @@ namespace Kinde.Api.Model
         /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color..</param>
         /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color..</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
-        /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
+        /// <param name="themeCode">The organization&#39;s brand settings - theme/mode..</param>
         /// <param name="handle">The organization&#39;s handle..</param>
-        /// <param name="isAllowRegistrations">Users can sign up to this organization..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool))
+        /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead..</param>
+        /// <param name="isCustomAuthConnectionsEnabled">Enable custom auth connections for this organization..</param>
+        /// <param name="isAutoJoinDomainList">Users can sign up to this organization..</param>
+        /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -64,12 +101,16 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
+            this.IsCustomAuthConnectionsEnabled = isCustomAuthConnectionsEnabled;
+            this.IsAutoJoinDomainList = isAutoJoinDomainList;
+            this.AllowedDomains = allowedDomains;
         }
 
         /// <summary>
         /// The organization&#39;s name.
         /// </summary>
         /// <value>The organization&#39;s name.</value>
+        /// <example>Acme Corp</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
@@ -77,6 +118,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s ID.
         /// </summary>
         /// <value>The organization&#39;s ID.</value>
+        /// <example>some1234</example>
         [DataMember(Name = "external_id", EmitDefaultValue = false)]
         public string ExternalId { get; set; }
 
@@ -84,6 +126,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - background color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - background color.</value>
+        /// <example>#fff</example>
         [DataMember(Name = "background_color", EmitDefaultValue = false)]
         public string BackgroundColor { get; set; }
 
@@ -91,6 +134,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - button color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - button color.</value>
+        /// <example>#fff</example>
         [DataMember(Name = "button_color", EmitDefaultValue = false)]
         public string ButtonColor { get; set; }
 
@@ -98,6 +142,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - button text color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - button text color.</value>
+        /// <example>#fff</example>
         [DataMember(Name = "button_text_color", EmitDefaultValue = false)]
         public string ButtonTextColor { get; set; }
 
@@ -105,6 +150,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - link color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - link color.</value>
+        /// <example>#fff</example>
         [DataMember(Name = "link_color", EmitDefaultValue = false)]
         public string LinkColor { get; set; }
 
@@ -112,6 +158,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - dark mode background color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode background color.</value>
+        /// <example>#000</example>
         [DataMember(Name = "background_color_dark", EmitDefaultValue = false)]
         public string BackgroundColorDark { get; set; }
 
@@ -119,6 +166,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - dark mode button color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button color.</value>
+        /// <example>#000</example>
         [DataMember(Name = "button_color_dark", EmitDefaultValue = false)]
         public string ButtonColorDark { get; set; }
 
@@ -126,6 +174,7 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - dark mode button text color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
+        /// <example>#000</example>
         [DataMember(Name = "button_text_color_dark", EmitDefaultValue = false)]
         public string ButtonTextColorDark { get; set; }
 
@@ -133,29 +182,49 @@ namespace Kinde.Api.Model
         /// The organization&#39;s brand settings - dark mode link color.
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode link color.</value>
+        /// <example>#000</example>
         [DataMember(Name = "link_color_dark", EmitDefaultValue = false)]
         public string LinkColorDark { get; set; }
-
-        /// <summary>
-        /// The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.
-        /// </summary>
-        /// <value>The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.</value>
-        [DataMember(Name = "theme_code", EmitDefaultValue = false)]
-        public string ThemeCode { get; set; }
 
         /// <summary>
         /// The organization&#39;s handle.
         /// </summary>
         /// <value>The organization&#39;s handle.</value>
+        /// <example>acme_corp</example>
         [DataMember(Name = "handle", EmitDefaultValue = false)]
         public string Handle { get; set; }
+
+        /// <summary>
+        /// Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.
+        /// </summary>
+        /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [Obsolete]
+        public bool IsAllowRegistrations { get; set; }
+
+        /// <summary>
+        /// Enable custom auth connections for this organization.
+        /// </summary>
+        /// <value>Enable custom auth connections for this organization.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_custom_auth_connections_enabled", EmitDefaultValue = true)]
+        public bool IsCustomAuthConnectionsEnabled { get; set; }
 
         /// <summary>
         /// Users can sign up to this organization.
         /// </summary>
         /// <value>Users can sign up to this organization.</value>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
-        public bool IsAllowRegistrations { get; set; }
+        /// <example>true</example>
+        [DataMember(Name = "is_auto_join_domain_list", EmitDefaultValue = true)]
+        public bool IsAutoJoinDomainList { get; set; }
+
+        /// <summary>
+        /// Domains allowed for self-sign up to this environment.
+        /// </summary>
+        /// <value>Domains allowed for self-sign up to this environment.</value>
+        /// <example>[&quot;https://acme.kinde.com&quot;,&quot;https://acme.com&quot;]</example>
+        [DataMember(Name = "allowed_domains", EmitDefaultValue = false)]
+        public List<string> AllowedDomains { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -178,6 +247,9 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
+            sb.Append("  IsCustomAuthConnectionsEnabled: ").Append(IsCustomAuthConnectionsEnabled).Append("\n");
+            sb.Append("  IsAutoJoinDomainList: ").Append(IsAutoJoinDomainList).Append("\n");
+            sb.Append("  AllowedDomains: ").Append(AllowedDomains).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -265,8 +337,7 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.ThemeCode == input.ThemeCode ||
-                    (this.ThemeCode != null &&
-                    this.ThemeCode.Equals(input.ThemeCode))
+                    this.ThemeCode.Equals(input.ThemeCode)
                 ) && 
                 (
                     this.Handle == input.Handle ||
@@ -276,6 +347,20 @@ namespace Kinde.Api.Model
                 (
                     this.IsAllowRegistrations == input.IsAllowRegistrations ||
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
+                ) && 
+                (
+                    this.IsCustomAuthConnectionsEnabled == input.IsCustomAuthConnectionsEnabled ||
+                    this.IsCustomAuthConnectionsEnabled.Equals(input.IsCustomAuthConnectionsEnabled)
+                ) && 
+                (
+                    this.IsAutoJoinDomainList == input.IsAutoJoinDomainList ||
+                    this.IsAutoJoinDomainList.Equals(input.IsAutoJoinDomainList)
+                ) && 
+                (
+                    this.AllowedDomains == input.AllowedDomains ||
+                    this.AllowedDomains != null &&
+                    input.AllowedDomains != null &&
+                    this.AllowedDomains.SequenceEqual(input.AllowedDomains)
                 );
         }
 
@@ -328,15 +413,18 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.LinkColorDark.GetHashCode();
                 }
-                if (this.ThemeCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.ThemeCode.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.ThemeCode.GetHashCode();
                 if (this.Handle != null)
                 {
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsCustomAuthConnectionsEnabled.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAutoJoinDomainList.GetHashCode();
+                if (this.AllowedDomains != null)
+                {
+                    hashCode = (hashCode * 59) + this.AllowedDomains.GetHashCode();
+                }
                 return hashCode;
             }
         }

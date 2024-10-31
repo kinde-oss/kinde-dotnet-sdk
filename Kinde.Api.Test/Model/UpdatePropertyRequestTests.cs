@@ -81,5 +81,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsPrivate'
         }
+
+        /// <summary>
+        /// Test the property 'CategoryId'
+        /// </summary>
+        [Fact]
+        public void CategoryIdTest()
+        {
+            // TODO unit test for the property 'CategoryId'
+        }
     }
 }

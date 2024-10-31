@@ -74,7 +74,7 @@ namespace Kinde.Api.Test.Api
         public void CreateOrganizationTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //CreateOrganizationRequest? createOrganizationRequest = null;
+            //CreateOrganizationRequest createOrganizationRequest = null;
             //var response = instance.CreateOrganization(createOrganizationRequest);
             //Assert.IsType<CreateOrganizationResponse>(response);
         }
@@ -115,7 +115,8 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
-            //instance.DeleteOrganization(orgCode);
+            //var response = instance.DeleteOrganization(orgCode);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>
@@ -140,6 +141,18 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
             //var response = instance.DeleteOrganizationFeatureFlagOverrides(orgCode);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteOrganizationHandle
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationHandleTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //var response = instance.DeleteOrganizationHandle(orgCode);
             //Assert.IsType<SuccessResponse>(response);
         }
 
@@ -180,7 +193,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string? code = null;
             //var response = instance.GetOrganization(code);
-            //Assert.IsType<Organization>(response);
+            //Assert.IsType<GetOrganizationResponse>(response);
         }
 
         /// <summary>
@@ -193,6 +206,18 @@ namespace Kinde.Api.Test.Api
             //string orgCode = null;
             //var response = instance.GetOrganizationFeatureFlags(orgCode);
             //Assert.IsType<GetOrganizationFeatureFlagsResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetOrganizationPropertyValues
+        /// </summary>
+        [Fact]
+        public void GetOrganizationPropertyValuesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //var response = instance.GetOrganizationPropertyValues(orgCode);
+            //Assert.IsType<GetPropertyValuesResponse>(response);
         }
 
         /// <summary>
@@ -290,6 +315,33 @@ namespace Kinde.Api.Test.Api
             //string featureFlagKey = null;
             //string value = null;
             //var response = instance.UpdateOrganizationFeatureFlagOverride(orgCode, featureFlagKey, value);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateOrganizationProperties
+        /// </summary>
+        [Fact]
+        public void UpdateOrganizationPropertiesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest = null;
+            //var response = instance.UpdateOrganizationProperties(orgCode, updateOrganizationPropertiesRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateOrganizationProperty
+        /// </summary>
+        [Fact]
+        public void UpdateOrganizationPropertyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string propertyKey = null;
+            //string value = null;
+            //var response = instance.UpdateOrganizationProperty(orgCode, propertyKey, value);
             //Assert.IsType<SuccessResponse>(response);
         }
 

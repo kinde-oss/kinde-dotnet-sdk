@@ -36,22 +36,24 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Roles" /> class.
         /// </summary>
-        /// <param name="id">The role&#39;s id..</param>
+        /// <param name="id">The role&#39;s ID..</param>
         /// <param name="key">The role identifier to use in code..</param>
         /// <param name="name">The role&#39;s name..</param>
         /// <param name="description">The role&#39;s description..</param>
-        public Roles(string id = default(string), string key = default(string), string name = default(string), string description = default(string))
+        /// <param name="isDefaultRole">Whether the role is the default role..</param>
+        public Roles(string id = default(string), string key = default(string), string name = default(string), string description = default(string), bool isDefaultRole = default(bool))
         {
             this.Id = id;
             this.Key = key;
             this.Name = name;
             this.Description = description;
+            this.IsDefaultRole = isDefaultRole;
         }
 
         /// <summary>
-        /// The role&#39;s id.
+        /// The role&#39;s ID.
         /// </summary>
-        /// <value>The role&#39;s id.</value>
+        /// <value>The role&#39;s ID.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -73,8 +75,15 @@ namespace Kinde.Api.Model
         /// The role&#39;s description.
         /// </summary>
         /// <value>The role&#39;s description.</value>
-        [DataMember(Name = "description", EmitDefaultValue = false)]
+        [DataMember(Name = "description", EmitDefaultValue = true)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Whether the role is the default role.
+        /// </summary>
+        /// <value>Whether the role is the default role.</value>
+        [DataMember(Name = "is_default_role", EmitDefaultValue = true)]
+        public bool IsDefaultRole { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,6 +97,7 @@ namespace Kinde.Api.Model
             sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  IsDefaultRole: ").Append(IsDefaultRole).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -142,6 +152,10 @@ namespace Kinde.Api.Model
                     this.Description == input.Description ||
                     (this.Description != null &&
                     this.Description.Equals(input.Description))
+                ) && 
+                (
+                    this.IsDefaultRole == input.IsDefaultRole ||
+                    this.IsDefaultRole.Equals(input.IsDefaultRole)
                 );
         }
 
@@ -170,6 +184,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsDefaultRole.GetHashCode();
                 return hashCode;
             }
         }

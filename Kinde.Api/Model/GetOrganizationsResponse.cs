@@ -40,7 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="message">Response message..</param>
         /// <param name="organizations">organizations.</param>
         /// <param name="nextToken">Pagination token..</param>
-        public GetOrganizationsResponse(string code = default(string), string message = default(string), List<Organization> organizations = default(List<Organization>), string nextToken = default(string))
+        public GetOrganizationsResponse(string code = default(string), string message = default(string), List<OrganizationItemSchema> organizations = default(List<OrganizationItemSchema>), string nextToken = default(string))
         {
             this.Code = code;
             this.Message = message;
@@ -52,6 +52,7 @@ namespace Kinde.Api.Model
         /// Response code.
         /// </summary>
         /// <value>Response code.</value>
+        /// <example>OK</example>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 
@@ -59,6 +60,7 @@ namespace Kinde.Api.Model
         /// Response message.
         /// </summary>
         /// <value>Response message.</value>
+        /// <example>Success</example>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
@@ -66,12 +68,13 @@ namespace Kinde.Api.Model
         /// Gets or Sets Organizations
         /// </summary>
         [DataMember(Name = "organizations", EmitDefaultValue = false)]
-        public List<Organization> Organizations { get; set; }
+        public List<OrganizationItemSchema> Organizations { get; set; }
 
         /// <summary>
         /// Pagination token.
         /// </summary>
         /// <value>Pagination token.</value>
+        /// <example>Mjo5Om1hbWVfYZNj</example>
         [DataMember(Name = "next_token", EmitDefaultValue = false)]
         public string NextToken { get; set; }
 

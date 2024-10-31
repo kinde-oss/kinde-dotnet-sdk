@@ -65,6 +65,24 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'OrganizationCode'
+        /// </summary>
+        [Fact]
+        public void OrganizationCodeTest()
+        {
+            // TODO unit test for the property 'OrganizationCode'
+        }
+
+        /// <summary>
+        /// Test the property 'ProvidedId'
+        /// </summary>
+        [Fact]
+        public void ProvidedIdTest()
+        {
+            // TODO unit test for the property 'ProvidedId'
+        }
+
+        /// <summary>
         /// Test the property 'Identities'
         /// </summary>
         [Fact]

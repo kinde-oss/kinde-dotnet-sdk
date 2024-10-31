@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Subscriber
         /// </summary>
         /// <remarks>
-        /// Create subscriber.
+        /// Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -45,7 +45,7 @@ namespace Kinde.Api.Api
         /// Create Subscriber
         /// </summary>
         /// <remarks>
-        /// Create subscriber.
+        /// Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -57,7 +57,7 @@ namespace Kinde.Api.Api
         /// Get Subscriber
         /// </summary>
         /// <remarks>
-        /// Retrieve a subscriber record. 
+        /// Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -68,7 +68,7 @@ namespace Kinde.Api.Api
         /// Get Subscriber
         /// </summary>
         /// <remarks>
-        /// Retrieve a subscriber record. 
+        /// Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -78,7 +78,7 @@ namespace Kinde.Api.Api
         /// List Subscribers
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -91,7 +91,7 @@ namespace Kinde.Api.Api
         /// List Subscribers
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -112,7 +112,7 @@ namespace Kinde.Api.Api
         /// Create Subscriber
         /// </summary>
         /// <remarks>
-        /// Create subscriber.
+        /// Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -126,7 +126,7 @@ namespace Kinde.Api.Api
         /// Create Subscriber
         /// </summary>
         /// <remarks>
-        /// Create subscriber.
+        /// Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -139,7 +139,7 @@ namespace Kinde.Api.Api
         /// Get Subscriber
         /// </summary>
         /// <remarks>
-        /// Retrieve a subscriber record. 
+        /// Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -151,7 +151,7 @@ namespace Kinde.Api.Api
         /// Get Subscriber
         /// </summary>
         /// <remarks>
-        /// Retrieve a subscriber record. 
+        /// Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -162,7 +162,7 @@ namespace Kinde.Api.Api
         /// List Subscribers
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -176,7 +176,7 @@ namespace Kinde.Api.Api
         /// List Subscribers
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -415,7 +415,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -429,7 +429,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -490,7 +490,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -505,7 +505,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Subscriber Create subscriber.
+        /// Create Subscriber Create subscriber.  &lt;div&gt;   &lt;code&gt;create:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="firstName">Subscriber&#39;s first name.</param>
@@ -570,7 +570,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Subscriber Retrieve a subscriber record. 
+        /// Get Subscriber Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -582,7 +582,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Subscriber Retrieve a subscriber record. 
+        /// Get Subscriber Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -631,7 +631,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Subscriber Retrieve a subscriber record. 
+        /// Get Subscriber Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -644,7 +644,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Subscriber Retrieve a subscriber record. 
+        /// Get Subscriber Retrieve a subscriber record.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="subscriberId">The subscriber&#39;s id.</param>
@@ -697,7 +697,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -711,7 +711,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -769,7 +769,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -784,7 +784,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. 
+        /// List Subscribers The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:subscribers&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>

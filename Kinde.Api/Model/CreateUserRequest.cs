@@ -38,11 +38,13 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="profile">profile.</param>
         /// <param name="organizationCode">The unique code associated with the organization you want the user to join..</param>
+        /// <param name="providedId">An external id to reference the user..</param>
         /// <param name="identities">Array of identities to assign to the created user.</param>
-        public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), string organizationCode = default(string), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
+        public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), string organizationCode = default(string), string providedId = default(string), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
         {
             this.Profile = profile;
             this.OrganizationCode = organizationCode;
+            this.ProvidedId = providedId;
             this.Identities = identities;
         }
 
@@ -60,9 +62,17 @@ namespace Kinde.Api.Model
         public string OrganizationCode { get; set; }
 
         /// <summary>
+        /// An external id to reference the user.
+        /// </summary>
+        /// <value>An external id to reference the user.</value>
+        [DataMember(Name = "provided_id", EmitDefaultValue = false)]
+        public string ProvidedId { get; set; }
+
+        /// <summary>
         /// Array of identities to assign to the created user
         /// </summary>
         /// <value>Array of identities to assign to the created user</value>
+        /// <example>[{&quot;type&quot;:&quot;email&quot;,&quot;details&quot;:{&quot;email&quot;:&quot;email@email.com&quot;}},{&quot;type&quot;:&quot;phone&quot;,&quot;details&quot;:{&quot;phone&quot;:&quot;+61426148233&quot;,&quot;phone_country_id&quot;:&quot;au&quot;}},{&quot;type&quot;:&quot;username&quot;,&quot;details&quot;:{&quot;username&quot;:&quot;myusername&quot;}}]</example>
         [DataMember(Name = "identities", EmitDefaultValue = false)]
         public List<CreateUserRequestIdentitiesInner> Identities { get; set; }
 
@@ -76,6 +86,7 @@ namespace Kinde.Api.Model
             sb.Append("class CreateUserRequest {\n");
             sb.Append("  Profile: ").Append(Profile).Append("\n");
             sb.Append("  OrganizationCode: ").Append(OrganizationCode).Append("\n");
+            sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -123,6 +134,11 @@ namespace Kinde.Api.Model
                     this.OrganizationCode.Equals(input.OrganizationCode))
                 ) && 
                 (
+                    this.ProvidedId == input.ProvidedId ||
+                    (this.ProvidedId != null &&
+                    this.ProvidedId.Equals(input.ProvidedId))
+                ) && 
+                (
                     this.Identities == input.Identities ||
                     this.Identities != null &&
                     input.Identities != null &&
@@ -146,6 +162,10 @@ namespace Kinde.Api.Model
                 if (this.OrganizationCode != null)
                 {
                     hashCode = (hashCode * 59) + this.OrganizationCode.GetHashCode();
+                }
+                if (this.ProvidedId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ProvidedId.GetHashCode();
                 }
                 if (this.Identities != null)
                 {

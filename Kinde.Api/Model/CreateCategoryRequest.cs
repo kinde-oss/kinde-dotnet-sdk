@@ -50,7 +50,13 @@ namespace Kinde.Api.Model
             /// Enum Usr for value: usr
             /// </summary>
             [EnumMember(Value = "usr")]
-            Usr = 2
+            Usr = 2,
+
+            /// <summary>
+            /// Enum App for value: app
+            /// </summary>
+            [EnumMember(Value = "app")]
+            App = 3
         }
 
 

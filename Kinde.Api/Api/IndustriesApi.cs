@@ -29,28 +29,24 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// List industries and industry keys.
+        /// Get industries
         /// </summary>
         /// <remarks>
-        /// Get a list of industries and associated industry keys.
+        /// Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetIndustries(string? industryKey = default(string?), string? name = default(string?));
+        /// <returns>GetIndustriesResponse</returns>
+        GetIndustriesResponse GetIndustries();
 
         /// <summary>
-        /// List industries and industry keys.
+        /// Get industries
         /// </summary>
         /// <remarks>
-        /// Get a list of industries and associated industry keys.
+        /// Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetIndustriesWithHttpInfo(string? industryKey = default(string?), string? name = default(string?));
+        /// <returns>ApiResponse of GetIndustriesResponse</returns>
+        ApiResponse<GetIndustriesResponse> GetIndustriesWithHttpInfo();
         #endregion Synchronous Operations
     }
 
@@ -61,30 +57,26 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// List industries and industry keys.
+        /// Get industries
         /// </summary>
         /// <remarks>
-        /// Get a list of industries and associated industry keys.
+        /// Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetIndustriesAsync(string? industryKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetIndustriesResponse</returns>
+        System.Threading.Tasks.Task<GetIndustriesResponse> GetIndustriesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List industries and industry keys.
+        /// Get industries
         /// </summary>
         /// <remarks>
-        /// Get a list of industries and associated industry keys.
+        /// Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetIndustriesWithHttpInfoAsync(string? industryKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetIndustriesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetIndustriesResponse>> GetIndustriesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -315,26 +307,22 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List industries and industry keys. Get a list of industries and associated industry keys.
+        /// Get industries Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetIndustries(string? industryKey = default(string?), string? name = default(string?))
+        /// <returns>GetIndustriesResponse</returns>
+        public GetIndustriesResponse GetIndustries()
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetIndustriesWithHttpInfo(industryKey, name);
+            Kinde.Api.Client.ApiResponse<GetIndustriesResponse> localVarResponse = GetIndustriesWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List industries and industry keys. Get a list of industries and associated industry keys.
+        /// Get industries Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetIndustriesWithHttpInfo(string? industryKey = default(string?), string? name = default(string?))
+        /// <returns>ApiResponse of GetIndustriesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetIndustriesResponse> GetIndustriesWithHttpInfo()
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -343,7 +331,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -352,14 +340,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (industryKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry_key", industryKey));
-            }
-            if (name != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -369,7 +349,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/industries", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetIndustriesResponse>("/api/v1/industries", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -381,28 +361,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List industries and industry keys. Get a list of industries and associated industry keys.
+        /// Get industries Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetIndustriesAsync(string? industryKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetIndustriesResponse</returns>
+        public async System.Threading.Tasks.Task<GetIndustriesResponse> GetIndustriesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetIndustriesWithHttpInfoAsync(industryKey, name, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetIndustriesResponse> localVarResponse = await GetIndustriesWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List industries and industry keys. Get a list of industries and associated industry keys.
+        /// Get industries Get a list of industries and associated industry keys.  &lt;div&gt;   &lt;code&gt;read:industries&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="industryKey">Industry Key. (optional)</param>
-        /// <param name="name">Industry name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetIndustriesWithHttpInfoAsync(string? industryKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetIndustriesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetIndustriesResponse>> GetIndustriesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -412,7 +388,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -422,14 +398,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (industryKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry_key", industryKey));
-            }
-            if (name != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -440,7 +408,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/industries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetIndustriesResponse>("/api/v1/industries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

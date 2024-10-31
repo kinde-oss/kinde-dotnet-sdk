@@ -39,7 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="id">The application&#39;s identifier..</param>
         /// <param name="name">The application&#39;s name..</param>
         /// <param name="type">The application&#39;s type..</param>
-        /// <param name="clientId">The application&#39;s client id..</param>
+        /// <param name="clientId">The application&#39;s client ID..</param>
         /// <param name="clientSecret">The application&#39;s client secret..</param>
         /// <param name="loginUri">The default login route for resolving session issues..</param>
         /// <param name="homepageUri">The homepage link to your application..</param>
@@ -76,9 +76,9 @@ namespace Kinde.Api.Model
         public string Type { get; set; }
 
         /// <summary>
-        /// The application&#39;s client id.
+        /// The application&#39;s client ID.
         /// </summary>
-        /// <value>The application&#39;s client id.</value>
+        /// <value>The application&#39;s client ID.</value>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 

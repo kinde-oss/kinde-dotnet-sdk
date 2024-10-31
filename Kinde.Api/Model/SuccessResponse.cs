@@ -47,12 +47,14 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
+        /// <example>Success</example>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
+        /// <example>OK</example>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 

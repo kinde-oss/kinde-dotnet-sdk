@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Get Connected App URL
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -46,7 +46,7 @@ namespace Kinde.Api.Api
         /// Get Connected App URL
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -59,7 +59,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -70,7 +70,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -80,7 +80,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -91,7 +91,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -110,7 +110,7 @@ namespace Kinde.Api.Api
         /// Get Connected App URL
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -125,7 +125,7 @@ namespace Kinde.Api.Api
         /// Get Connected App URL
         /// </summary>
         /// <remarks>
-        /// Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -139,7 +139,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -151,7 +151,7 @@ namespace Kinde.Api.Api
         /// Get Connected App Token
         /// </summary>
         /// <remarks>
-        /// Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -162,7 +162,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -174,7 +174,7 @@ namespace Kinde.Api.Api
         /// Revoke Connected App Token
         /// </summary>
         /// <remarks>
-        /// Revoke the tokens linked to the connected app session.
+        /// Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -411,7 +411,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -426,7 +426,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -491,7 +491,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -507,7 +507,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.
+        /// Get Connected App URL Get a URL that authenticates and authorizes a user to a third-party connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="keyCodeRef">The unique key code reference of the connected app to authenticate against.</param>
@@ -576,7 +576,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -588,7 +588,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -638,7 +638,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -651,7 +651,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.
+        /// Get Connected App Token Get an access token that can be used to call the third-party provider linked to the connected app.  &lt;div&gt;   &lt;code&gt;read:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -705,7 +705,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -717,7 +717,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -767,7 +767,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>
@@ -780,7 +780,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.
+        /// Revoke Connected App Token Revoke the tokens linked to the connected app session.  &lt;div&gt;   &lt;code&gt;create:connected_apps&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sessionId">The unique sesssion id representing the login session of a user.</param>

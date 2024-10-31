@@ -36,7 +36,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateUserResponse" /> class.
         /// </summary>
-        /// <param name="id">Unique id of the user in Kinde..</param>
+        /// <param name="id">Unique ID of the user in Kinde..</param>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
         /// <param name="email">User&#39;s preferred email..</param>
@@ -55,9 +55,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Unique id of the user in Kinde.
+        /// Unique ID of the user in Kinde.
         /// </summary>
-        /// <value>Unique id of the user in Kinde.</value>
+        /// <value>Unique ID of the user in Kinde.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -100,7 +100,7 @@ namespace Kinde.Api.Model
         /// User&#39;s profile picture URL.
         /// </summary>
         /// <value>User&#39;s profile picture URL.</value>
-        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        [DataMember(Name = "picture", EmitDefaultValue = true)]
         public string Picture { get; set; }
 
         /// <summary>

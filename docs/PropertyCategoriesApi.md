@@ -1,6 +1,6 @@
 # Kinde.Api.Api.PropertyCategoriesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -14,7 +14,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create Category
 
-Create category.
+Create category.  <div>   <code>create:property_categories</code> </div> 
 
 ### Example
 ```csharp
@@ -32,7 +32,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -115,7 +115,7 @@ catch (ApiException e)
 
 List categories
 
-Returns a list of categories. 
+Returns a list of categories.  <div>   <code>read:property_categories</code> </div> 
 
 ### Example
 ```csharp
@@ -133,7 +133,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -222,7 +222,7 @@ catch (ApiException e)
 
 Update Category
 
-Update category.
+Update category.  <div>   <code>update:property_categories</code> </div> 
 
 ### Example
 ```csharp
@@ -240,7 +240,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

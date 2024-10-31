@@ -37,7 +37,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier..</param>
-        /// <param name="clientId">The application&#39;s client id..</param>
+        /// <param name="clientId">The application&#39;s client ID..</param>
         /// <param name="clientSecret">The application&#39;s client secret..</param>
         public CreateApplicationResponseApplication(string id = default(string), string clientId = default(string), string clientSecret = default(string))
         {
@@ -54,9 +54,9 @@ namespace Kinde.Api.Model
         public string Id { get; set; }
 
         /// <summary>
-        /// The application&#39;s client id.
+        /// The application&#39;s client ID.
         /// </summary>
-        /// <value>The application&#39;s client id.</value>
+        /// <value>The application&#39;s client ID.</value>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 

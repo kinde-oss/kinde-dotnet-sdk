@@ -1,22 +1,22 @@
 # Kinde.Api.Api.APIsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**AddAPIs**](APIsApi.md#addapis) | **POST** /api/v1/apis | Add APIs |
+| [**AddAPIs**](APIsApi.md#addapis) | **POST** /api/v1/apis | Create API |
 | [**DeleteAPI**](APIsApi.md#deleteapi) | **DELETE** /api/v1/apis/{api_id} | Delete API |
-| [**GetAPI**](APIsApi.md#getapi) | **GET** /api/v1/apis/{api_id} | List API details |
-| [**GetAPIs**](APIsApi.md#getapis) | **GET** /api/v1/apis | List APIs |
-| [**UpdateAPIApplications**](APIsApi.md#updateapiapplications) | **PATCH** /api/v1/apis/{api_id}/applications | Update API Applications |
+| [**GetAPI**](APIsApi.md#getapi) | **GET** /api/v1/apis/{api_id} | Get API |
+| [**GetAPIs**](APIsApi.md#getapis) | **GET** /api/v1/apis | Get APIs |
+| [**UpdateAPIApplications**](APIsApi.md#updateapiapplications) | **PATCH** /api/v1/apis/{api_id}/applications | Authorize API applications |
 
 <a id="addapis"></a>
 # **AddAPIs**
-> SuccessResponse AddAPIs (AddAPIsRequest addAPIsRequest)
+> CreateApisResponse AddAPIs (AddAPIsRequest addAPIsRequest)
 
-Add APIs
+Create API
 
-Add APIs. 
+Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).  <div>   <code>create:apis</code> </div> 
 
 ### Example
 ```csharp
@@ -34,7 +34,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -42,12 +42,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var addAPIsRequest = new AddAPIsRequest(); // AddAPIsRequest | API details.
+            var addAPIsRequest = new AddAPIsRequest(); // AddAPIsRequest | 
 
             try
             {
-                // Add APIs
-                SuccessResponse result = apiInstance.AddAPIs(addAPIsRequest);
+                // Create API
+                CreateApisResponse result = apiInstance.AddAPIs(addAPIsRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -67,8 +67,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Add APIs
-    ApiResponse<SuccessResponse> response = apiInstance.AddAPIsWithHttpInfo(addAPIsRequest);
+    // Create API
+    ApiResponse<CreateApisResponse> response = apiInstance.AddAPIsWithHttpInfo(addAPIsRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -85,11 +85,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **addAPIsRequest** | [**AddAPIsRequest**](AddAPIsRequest.md) | API details. |  |
+| **addAPIsRequest** | [**AddAPIsRequest**](AddAPIsRequest.md) |  |  |
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**CreateApisResponse**](CreateApisResponse.md)
 
 ### Authorization
 
@@ -98,7 +98,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8, application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -106,18 +106,18 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | APIs successfully updated |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="deleteapi"></a>
 # **DeleteAPI**
-> SuccessResponse DeleteAPI (string apiId)
+> DeleteApiResponse DeleteAPI (string apiId)
 
 Delete API
 
-Deletes API. 
+Delete an API you previously created.  <div>   <code>delete:apis</code> </div> 
 
 ### Example
 ```csharp
@@ -135,7 +135,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -143,12 +143,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var apiId = "apiId_example";  // string | The API's id.
+            var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
 
             try
             {
                 // Delete API
-                SuccessResponse result = apiInstance.DeleteAPI(apiId);
+                DeleteApiResponse result = apiInstance.DeleteAPI(apiId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -169,7 +169,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Delete API
-    ApiResponse<SuccessResponse> response = apiInstance.DeleteAPIWithHttpInfo(apiId);
+    ApiResponse<DeleteApiResponse> response = apiInstance.DeleteAPIWithHttpInfo(apiId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -186,11 +186,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **apiId** | **string** | The API&#39;s id. |  |
+| **apiId** | **string** | The API&#39;s ID. |  |
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**DeleteApiResponse**](DeleteApiResponse.md)
 
 ### Authorization
 
@@ -199,7 +199,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8, application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -207,18 +207,18 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | API successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="getapi"></a>
 # **GetAPI**
-> ApiModel GetAPI (string apiId)
+> GetApiResponse GetAPI (string apiId)
 
-List API details
+Get API
 
-Returns the details of the API. 
+Retrieve API details by ID.  <div>   <code>read:apis</code> </div> 
 
 ### Example
 ```csharp
@@ -236,7 +236,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -244,12 +244,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var apiId = "apiId_example";  // string | The API's id.
+            var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
 
             try
             {
-                // List API details
-                ApiModel result = apiInstance.GetAPI(apiId);
+                // Get API
+                GetApiResponse result = apiInstance.GetAPI(apiId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -269,8 +269,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List API details
-    ApiResponse<ApiModel> response = apiInstance.GetAPIWithHttpInfo(apiId);
+    // Get API
+    ApiResponse<GetApiResponse> response = apiInstance.GetAPIWithHttpInfo(apiId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -287,11 +287,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **apiId** | **string** | The API&#39;s id. |  |
+| **apiId** | **string** | The API&#39;s ID. |  |
 
 ### Return type
 
-[**ApiModel**](ApiModel.md)
+[**GetApiResponse**](GetApiResponse.md)
 
 ### Authorization
 
@@ -300,7 +300,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8, application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -308,18 +308,18 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | API successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="getapis"></a>
 # **GetAPIs**
-> Apis GetAPIs ()
+> GetApisResponse GetAPIs ()
 
-List APIs
+Get APIs
 
-Returns a list of APIs. 
+Returns a list of your APIs. The APIs are returned sorted by name.  <div>   <code>read:apis</code> </div> 
 
 ### Example
 ```csharp
@@ -337,7 +337,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -348,8 +348,8 @@ namespace Example
 
             try
             {
-                // List APIs
-                Apis result = apiInstance.GetAPIs();
+                // Get APIs
+                GetApisResponse result = apiInstance.GetAPIs();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -369,8 +369,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List APIs
-    ApiResponse<Apis> response = apiInstance.GetAPIsWithHttpInfo();
+    // Get APIs
+    ApiResponse<GetApisResponse> response = apiInstance.GetAPIsWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -387,7 +387,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**Apis**](Apis.md)
+[**GetApisResponse**](GetApisResponse.md)
 
 ### Authorization
 
@@ -396,26 +396,26 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8, application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | APIs successfully retrieved. |  -  |
+| **200** | A list of APIs. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="updateapiapplications"></a>
 # **UpdateAPIApplications**
-> SuccessResponse UpdateAPIApplications (string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
+> AuthorizeAppApiResponse UpdateAPIApplications (string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
 
-Update API Applications
+Authorize API applications
 
-Update the applications under that API. 
+Authorize applications to be allowed to request access tokens for an API  <div>   <code>update:apis</code> </div> 
 
 ### Example
 ```csharp
@@ -433,7 +433,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -441,13 +441,13 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var apiId = "apiId_example";  // string | The identifier for the API.
-            var updateAPIApplicationsRequest = new UpdateAPIApplicationsRequest(); // UpdateAPIApplicationsRequest | The applications you want to connect or disconnect.
+            var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
+            var updateAPIApplicationsRequest = new UpdateAPIApplicationsRequest(); // UpdateAPIApplicationsRequest | The applications you want to authorize.
 
             try
             {
-                // Update API Applications
-                SuccessResponse result = apiInstance.UpdateAPIApplications(apiId, updateAPIApplicationsRequest);
+                // Authorize API applications
+                AuthorizeAppApiResponse result = apiInstance.UpdateAPIApplications(apiId, updateAPIApplicationsRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -467,8 +467,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update API Applications
-    ApiResponse<SuccessResponse> response = apiInstance.UpdateAPIApplicationsWithHttpInfo(apiId, updateAPIApplicationsRequest);
+    // Authorize API applications
+    ApiResponse<AuthorizeAppApiResponse> response = apiInstance.UpdateAPIApplicationsWithHttpInfo(apiId, updateAPIApplicationsRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -485,12 +485,12 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **apiId** | **string** | The identifier for the API. |  |
-| **updateAPIApplicationsRequest** | [**UpdateAPIApplicationsRequest**](UpdateAPIApplicationsRequest.md) | The applications you want to connect or disconnect. |  |
+| **apiId** | **string** | The API&#39;s ID. |  |
+| **updateAPIApplicationsRequest** | [**UpdateAPIApplicationsRequest**](UpdateAPIApplicationsRequest.md) | The applications you want to authorize. |  |
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**AuthorizeAppApiResponse**](AuthorizeAppApiResponse.md)
 
 ### Authorization
 
@@ -499,16 +499,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8, application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | API applications updated. |  -  |
+| **200** | Authorized applications updated. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

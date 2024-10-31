@@ -63,7 +63,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //CreateRoleRequest? createRoleRequest = null;
             //var response = instance.CreateRole(createRoleRequest);
-            //Assert.IsType<SuccessResponse>(response);
+            //Assert.IsType<CreateRolesResponse>(response);
         }
 
         /// <summary>
@@ -76,6 +76,18 @@ namespace Kinde.Api.Test.Api
             //string roleId = null;
             //var response = instance.DeleteRole(roleId);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetRole
+        /// </summary>
+        [Fact]
+        public void GetRoleTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string roleId = null;
+            //var response = instance.GetRole(roleId);
+            //Assert.IsType<GetRoleResponse>(response);
         }
 
         /// <summary>

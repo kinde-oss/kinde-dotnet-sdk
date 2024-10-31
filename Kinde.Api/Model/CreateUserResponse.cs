@@ -36,7 +36,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserResponse" /> class.
         /// </summary>
-        /// <param name="id">Unique id of the user in Kinde..</param>
+        /// <param name="id">Unique ID of the user in Kinde..</param>
         /// <param name="created">True if the user was successfully created..</param>
         /// <param name="identities">identities.</param>
         public CreateUserResponse(string id = default(string), bool created = default(bool), List<UserIdentity> identities = default(List<UserIdentity>))
@@ -47,9 +47,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Unique id of the user in Kinde.
+        /// Unique ID of the user in Kinde.
         /// </summary>
-        /// <value>Unique id of the user in Kinde.</value>
+        /// <value>Unique ID of the user in Kinde.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 

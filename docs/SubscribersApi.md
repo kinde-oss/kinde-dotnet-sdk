@@ -1,6 +1,6 @@
 # Kinde.Api.Api.SubscribersApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -14,7 +14,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create Subscriber
 
-Create subscriber.
+Create subscriber.  <div>   <code>create:subscribers</code> </div> 
 
 ### Example
 ```csharp
@@ -32,7 +32,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -119,7 +119,7 @@ catch (ApiException e)
 
 Get Subscriber
 
-Retrieve a subscriber record. 
+Retrieve a subscriber record.  <div>   <code>read:subscribers</code> </div> 
 
 ### Example
 ```csharp
@@ -137,7 +137,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -220,7 +220,7 @@ catch (ApiException e)
 
 List Subscribers
 
-The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter. 
+The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:subscribers</code> </div> 
 
 ### Example
 ```csharp
@@ -238,7 +238,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

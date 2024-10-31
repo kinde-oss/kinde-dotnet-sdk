@@ -38,13 +38,13 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
-        /// <param name="properties">properties.</param>
+        /// <param name="identities">identities.</param>
         /// <param name="hasMore">Whether more records exist..</param>
-        public GetIdentitiesResponse(string code = default(string), string message = default(string), List<Identity> properties = default(List<Identity>), bool hasMore = default(bool))
+        public GetIdentitiesResponse(string code = default(string), string message = default(string), List<Identity> identities = default(List<Identity>), bool hasMore = default(bool))
         {
             this.Code = code;
             this.Message = message;
-            this.Properties = properties;
+            this.Identities = identities;
             this.HasMore = hasMore;
         }
 
@@ -63,10 +63,10 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Properties
+        /// Gets or Sets Identities
         /// </summary>
-        [DataMember(Name = "properties", EmitDefaultValue = false)]
-        public List<Identity> Properties { get; set; }
+        [DataMember(Name = "identities", EmitDefaultValue = false)]
+        public List<Identity> Identities { get; set; }
 
         /// <summary>
         /// Whether more records exist.
@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
             sb.Append("class GetIdentitiesResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  Properties: ").Append(Properties).Append("\n");
+            sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("  HasMore: ").Append(HasMore).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -133,10 +133,10 @@ namespace Kinde.Api.Model
                     this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.Properties == input.Properties ||
-                    this.Properties != null &&
-                    input.Properties != null &&
-                    this.Properties.SequenceEqual(input.Properties)
+                    this.Identities == input.Identities ||
+                    this.Identities != null &&
+                    input.Identities != null &&
+                    this.Identities.SequenceEqual(input.Identities)
                 ) && 
                 (
                     this.HasMore == input.HasMore ||
@@ -161,9 +161,9 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.Properties != null)
+                if (this.Identities != null)
                 {
-                    hashCode = (hashCode * 59) + this.Properties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Identities.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.HasMore.GetHashCode();
                 return hashCode;

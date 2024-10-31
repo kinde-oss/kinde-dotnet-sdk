@@ -29,79 +29,45 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// List business details
+        /// Get business
         /// </summary>
         /// <remarks>
-        /// Get your business details.
+        /// Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetBusiness(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?));
+        /// <returns>GetBusinessResponse</returns>
+        GetBusinessResponse GetBusiness();
 
         /// <summary>
-        /// List business details
+        /// Get business
         /// </summary>
         /// <remarks>
-        /// Get your business details.
+        /// Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetBusinessWithHttpInfo(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?));
+        /// <returns>ApiResponse of GetBusinessResponse</returns>
+        ApiResponse<GetBusinessResponse> GetBusinessWithHttpInfo();
         /// <summary>
-        /// Update business details
+        /// Update business
         /// </summary>
         /// <remarks>
-        /// Update business details.
+        /// Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdateBusiness(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?));
+        SuccessResponse UpdateBusiness(UpdateBusinessRequest updateBusinessRequest);
 
         /// <summary>
-        /// Update business details
+        /// Update business
         /// </summary>
         /// <remarks>
-        /// Update business details.
+        /// Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdateBusinessWithHttpInfo(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?));
+        ApiResponse<SuccessResponse> UpdateBusinessWithHttpInfo(UpdateBusinessRequest updateBusinessRequest);
         #endregion Synchronous Operations
     }
 
@@ -112,83 +78,49 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// List business details
+        /// Get business
         /// </summary>
         /// <remarks>
-        /// Get your business details.
+        /// Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetBusinessAsync(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetBusinessResponse</returns>
+        System.Threading.Tasks.Task<GetBusinessResponse> GetBusinessAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List business details
+        /// Get business
         /// </summary>
         /// <remarks>
-        /// Get your business details.
+        /// Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetBusinessWithHttpInfoAsync(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetBusinessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetBusinessResponse>> GetBusinessWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Update business details
+        /// Update business
         /// </summary>
         /// <remarks>
-        /// Update business details.
+        /// Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdateBusinessAsync(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdateBusinessAsync(UpdateBusinessRequest updateBusinessRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Update business details
+        /// Update business
         /// </summary>
         /// <remarks>
-        /// Update business details.
+        /// Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateBusinessWithHttpInfoAsync(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateBusinessWithHttpInfoAsync(UpdateBusinessRequest updateBusinessRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -419,51 +351,23 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List business details Get your business details.
+        /// Get business Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetBusiness(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?))
+        /// <returns>GetBusinessResponse</returns>
+        public GetBusinessResponse GetBusiness()
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetBusinessWithHttpInfo(code, name, email, phone, industry, timezone, privacyUrl, termsUrl);
+            Kinde.Api.Client.ApiResponse<GetBusinessResponse> localVarResponse = GetBusinessWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List business details Get your business details.
+        /// Get business Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetBusinessWithHttpInfo(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?))
+        /// <returns>ApiResponse of GetBusinessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetBusinessResponse> GetBusinessWithHttpInfo()
         {
-            // verify the required parameter 'code' is set
-            if (code == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'code' when calling BusinessApi->GetBusiness");
-
-            // verify the required parameter 'name' is set
-            if (name == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'name' when calling BusinessApi->GetBusiness");
-
-            // verify the required parameter 'email' is set
-            if (email == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'email' when calling BusinessApi->GetBusiness");
-
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -471,7 +375,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -480,29 +384,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "email", email));
-            if (phone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "phone", phone));
-            }
-            if (industry != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry", industry));
-            }
-            if (timezone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone", timezone));
-            }
-            if (privacyUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "privacy_url", privacyUrl));
-            }
-            if (termsUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "terms_url", termsUrl));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -512,7 +393,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/business", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetBusinessResponse>("/api/v1/business", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -524,53 +405,25 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List business details Get your business details.
+        /// Get business Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetBusinessAsync(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetBusinessResponse</returns>
+        public async System.Threading.Tasks.Task<GetBusinessResponse> GetBusinessAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetBusinessWithHttpInfoAsync(code, name, email, phone, industry, timezone, privacyUrl, termsUrl, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetBusinessResponse> localVarResponse = await GetBusinessWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List business details Get your business details.
+        /// Get business Get your business details.  &lt;div&gt;   &lt;code&gt;read:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">Business code.</param>
-        /// <param name="name">Business name.</param>
-        /// <param name="email">Email associated with business.</param>
-        /// <param name="phone">Phone number associated with business. (optional)</param>
-        /// <param name="industry">The industry your business is in. (optional)</param>
-        /// <param name="timezone">The timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetBusinessWithHttpInfoAsync(string code, string name, string email, string? phone = default(string?), string? industry = default(string?), string? timezone = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetBusinessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetBusinessResponse>> GetBusinessWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'code' is set
-            if (code == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'code' when calling BusinessApi->GetBusiness");
-
-            // verify the required parameter 'name' is set
-            if (name == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'name' when calling BusinessApi->GetBusiness");
-
-            // verify the required parameter 'email' is set
-            if (email == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'email' when calling BusinessApi->GetBusiness");
-
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -579,7 +432,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -589,29 +442,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "email", email));
-            if (phone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "phone", phone));
-            }
-            if (industry != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry", industry));
-            }
-            if (timezone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone", timezone));
-            }
-            if (privacyUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "privacy_url", privacyUrl));
-            }
-            if (termsUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "terms_url", termsUrl));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -622,7 +452,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/business", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetBusinessResponse>("/api/v1/business", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -634,59 +464,38 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update business details Update business details.
+        /// Update business Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateBusiness(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?))
+        public SuccessResponse UpdateBusiness(UpdateBusinessRequest updateBusinessRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateBusinessWithHttpInfo(businessName, primaryEmail, primaryPhone, industryKey, timezoneId, privacyUrl, termsUrl, isShowKindeBranding, isClickWrap, partnerCode);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateBusinessWithHttpInfo(updateBusinessRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update business details Update business details.
+        /// Update business Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateBusinessWithHttpInfo(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?))
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateBusinessWithHttpInfo(UpdateBusinessRequest updateBusinessRequest)
         {
-            // verify the required parameter 'businessName' is set
-            if (businessName == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'businessName' when calling BusinessApi->UpdateBusiness");
-
-            // verify the required parameter 'primaryEmail' is set
-            if (primaryEmail == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'primaryEmail' when calling BusinessApi->UpdateBusiness");
+            // verify the required parameter 'updateBusinessRequest' is set
+            if (updateBusinessRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateBusinessRequest' when calling BusinessApi->UpdateBusiness");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -695,40 +504,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "business_name", businessName));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "primary_email", primaryEmail));
-            if (primaryPhone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "primary_phone", primaryPhone));
-            }
-            if (industryKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry_key", industryKey));
-            }
-            if (timezoneId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone_id", timezoneId));
-            }
-            if (privacyUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "privacy_url", privacyUrl));
-            }
-            if (termsUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "terms_url", termsUrl));
-            }
-            if (isShowKindeBranding != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_show_kinde_branding", isShowKindeBranding));
-            }
-            if (isClickWrap != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_click_wrap", isClickWrap));
-            }
-            if (partnerCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "partner_code", partnerCode));
-            }
+            localVarRequestOptions.Data = updateBusinessRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -750,62 +526,41 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update business details Update business details.
+        /// Update business Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdateBusinessAsync(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateBusinessAsync(UpdateBusinessRequest updateBusinessRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateBusinessWithHttpInfoAsync(businessName, primaryEmail, primaryPhone, industryKey, timezoneId, privacyUrl, termsUrl, isShowKindeBranding, isClickWrap, partnerCode, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateBusinessWithHttpInfoAsync(updateBusinessRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update business details Update business details.
+        /// Update business Update your business details.  &lt;div&gt;   &lt;code&gt;update:businesses&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="businessName">Business name.</param>
-        /// <param name="primaryEmail">Email associated with business.</param>
-        /// <param name="primaryPhone">Phone number associated with business. (optional)</param>
-        /// <param name="industryKey">The key of the industry your business is in. (optional)</param>
-        /// <param name="timezoneId">The ID of the timezone your business is in. (optional)</param>
-        /// <param name="privacyUrl">Your Privacy policy URL. (optional)</param>
-        /// <param name="termsUrl">Your Terms and Conditions URL. (optional)</param>
-        /// <param name="isShowKindeBranding">Display \&quot;Powered by Kinde\&quot; on your sign up, sign in, and subscription pages. (optional)</param>
-        /// <param name="isClickWrap">Show a policy acceptance checkbox on sign up. (optional)</param>
-        /// <param name="partnerCode">Your Kinde Perk code. (optional)</param>
+        /// <param name="updateBusinessRequest">The business details to update.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateBusinessWithHttpInfoAsync(string businessName, string primaryEmail, string? primaryPhone = default(string?), string? industryKey = default(string?), string? timezoneId = default(string?), string? privacyUrl = default(string?), string? termsUrl = default(string?), string? isShowKindeBranding = default(string?), bool? isClickWrap = default(bool?), string? partnerCode = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateBusinessWithHttpInfoAsync(UpdateBusinessRequest updateBusinessRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'businessName' is set
-            if (businessName == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'businessName' when calling BusinessApi->UpdateBusiness");
-
-            // verify the required parameter 'primaryEmail' is set
-            if (primaryEmail == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'primaryEmail' when calling BusinessApi->UpdateBusiness");
+            // verify the required parameter 'updateBusinessRequest' is set
+            if (updateBusinessRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateBusinessRequest' when calling BusinessApi->UpdateBusiness");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
+                "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -815,40 +570,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "business_name", businessName));
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "primary_email", primaryEmail));
-            if (primaryPhone != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "primary_phone", primaryPhone));
-            }
-            if (industryKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "industry_key", industryKey));
-            }
-            if (timezoneId != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone_id", timezoneId));
-            }
-            if (privacyUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "privacy_url", privacyUrl));
-            }
-            if (termsUrl != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "terms_url", termsUrl));
-            }
-            if (isShowKindeBranding != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_show_kinde_branding", isShowKindeBranding));
-            }
-            if (isClickWrap != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "is_click_wrap", isClickWrap));
-            }
-            if (partnerCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "partner_code", partnerCode));
-            }
+            localVarRequestOptions.Data = updateBusinessRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required

@@ -29,39 +29,20 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Get User Profile
+        /// Get user profile
         /// </summary>
         /// <remarks>
-        /// Contains the id, names and email of the currently logged in user. 
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>UserProfile</returns>
-        UserProfile GetUser();
-
-        /// <summary>
-        /// Get User Profile
-        /// </summary>
-        /// <remarks>
-        /// Contains the id, names and email of the currently logged in user. 
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of UserProfile</returns>
-        ApiResponse<UserProfile> GetUserWithHttpInfo();
-        /// <summary>
-        /// Returns the details of the currently logged in user
-        /// </summary>
-        /// <remarks>
-        /// Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>UserProfileV2</returns>
         UserProfileV2 GetUserProfileV2();
 
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get user profile
         /// </summary>
         /// <remarks>
-        /// Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of UserProfileV2</returns>
@@ -124,31 +105,10 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Get User Profile
+        /// Get user profile
         /// </summary>
         /// <remarks>
-        /// Contains the id, names and email of the currently logged in user. 
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UserProfile</returns>
-        System.Threading.Tasks.Task<UserProfile> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
-        /// <summary>
-        /// Get User Profile
-        /// </summary>
-        /// <remarks>
-        /// Contains the id, names and email of the currently logged in user. 
-        /// </remarks>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UserProfile)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UserProfile>> GetUserWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        /// <summary>
-        /// Returns the details of the currently logged in user
-        /// </summary>
-        /// <remarks>
-        /// Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -156,10 +116,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<UserProfileV2> GetUserProfileV2Async(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Returns the details of the currently logged in user
+        /// Get user profile
         /// </summary>
         /// <remarks>
-        /// Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -447,120 +407,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get User Profile Contains the id, names and email of the currently logged in user. 
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>UserProfile</returns>
-        public UserProfile GetUser()
-        {
-            Kinde.Api.Client.ApiResponse<UserProfile> localVarResponse = GetUserWithHttpInfo();
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Get User Profile Contains the id, names and email of the currently logged in user. 
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of UserProfile</returns>
-        public Kinde.Api.Client.ApiResponse<UserProfile> GetUserWithHttpInfo()
-        {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<UserProfile>("/oauth2/user_profile", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Get User Profile Contains the id, names and email of the currently logged in user. 
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UserProfile</returns>
-        public async System.Threading.Tasks.Task<UserProfile> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            Kinde.Api.Client.ApiResponse<UserProfile> localVarResponse = await GetUserWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Get User Profile Contains the id, names and email of the currently logged in user. 
-        /// </summary>
-        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UserProfile)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UserProfile>> GetUserWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<UserProfile>("/oauth2/user_profile", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// Get user profile This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>UserProfileV2</returns>
@@ -571,7 +418,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// Get user profile This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of UserProfileV2</returns>
@@ -614,7 +461,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// Get user profile This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -626,7 +473,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Returns the details of the currently logged in user Contains the id, names, profile picture URL and email of the currently logged in user. 
+        /// Get user profile This endpoint returns a user&#39;s ID, names, profile picture URL and email of the currently logged in user. 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>

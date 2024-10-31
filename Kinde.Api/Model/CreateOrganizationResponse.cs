@@ -36,8 +36,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
         /// </summary>
-        /// <param name="message">message.</param>
-        /// <param name="code">code.</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="code">Response code..</param>
         /// <param name="organization">organization.</param>
         public CreateOrganizationResponse(string message = default(string), string code = default(string), CreateOrganizationResponseOrganization organization = default(CreateOrganizationResponseOrganization))
         {
@@ -47,14 +47,18 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// Response message.
         /// </summary>
+        /// <value>Response message.</value>
+        /// <example>Success</example>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// Response code.
         /// </summary>
+        /// <value>Response code.</value>
+        /// <example>OK</example>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 

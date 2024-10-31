@@ -56,7 +56,19 @@ namespace Kinde.Api.Model
             /// Enum Phone for value: phone
             /// </summary>
             [EnumMember(Value = "phone")]
-            Phone = 3
+            Phone = 3,
+
+            /// <summary>
+            /// Enum Enterprise for value: enterprise
+            /// </summary>
+            [EnumMember(Value = "enterprise")]
+            Enterprise = 4,
+
+            /// <summary>
+            /// Enum Social for value: social
+            /// </summary>
+            [EnumMember(Value = "social")]
+            Social = 5
         }
 
 
@@ -64,25 +76,29 @@ namespace Kinde.Api.Model
         /// The identity type
         /// </summary>
         /// <value>The identity type</value>
+        /// <example>email</example>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserIdentityRequest" /> class.
         /// </summary>
-        /// <param name="value">The email address, or username of the user..</param>
+        /// <param name="value">The email address, social identity, or username of the user..</param>
         /// <param name="type">The identity type.</param>
         /// <param name="phoneCountryId">The country code for the phone number, only required when identity type is &#39;phone&#39;..</param>
-        public CreateUserIdentityRequest(string value = default(string), TypeEnum? type = default(TypeEnum?), string phoneCountryId = default(string))
+        /// <param name="connectionId">The social connection ID, only required when identity type is &#39;social&#39;..</param>
+        public CreateUserIdentityRequest(string value = default(string), TypeEnum? type = default(TypeEnum?), string phoneCountryId = default(string), string connectionId = default(string))
         {
             this.Value = value;
             this.Type = type;
             this.PhoneCountryId = phoneCountryId;
+            this.ConnectionId = connectionId;
         }
 
         /// <summary>
-        /// The email address, or username of the user.
+        /// The email address, social identity, or username of the user.
         /// </summary>
-        /// <value>The email address, or username of the user.</value>
+        /// <value>The email address, social identity, or username of the user.</value>
+        /// <example>sally@example.com</example>
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public string Value { get; set; }
 
@@ -90,8 +106,17 @@ namespace Kinde.Api.Model
         /// The country code for the phone number, only required when identity type is &#39;phone&#39;.
         /// </summary>
         /// <value>The country code for the phone number, only required when identity type is &#39;phone&#39;.</value>
+        /// <example>au</example>
         [DataMember(Name = "phone_country_id", EmitDefaultValue = false)]
         public string PhoneCountryId { get; set; }
+
+        /// <summary>
+        /// The social connection ID, only required when identity type is &#39;social&#39;.
+        /// </summary>
+        /// <value>The social connection ID, only required when identity type is &#39;social&#39;.</value>
+        /// <example>conn_019289347f1193da6c0e4d49b97b4bd2</example>
+        [DataMember(Name = "connection_id", EmitDefaultValue = false)]
+        public string ConnectionId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -104,6 +129,7 @@ namespace Kinde.Api.Model
             sb.Append("  Value: ").Append(Value).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  PhoneCountryId: ").Append(PhoneCountryId).Append("\n");
+            sb.Append("  ConnectionId: ").Append(ConnectionId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -152,6 +178,11 @@ namespace Kinde.Api.Model
                     this.PhoneCountryId == input.PhoneCountryId ||
                     (this.PhoneCountryId != null &&
                     this.PhoneCountryId.Equals(input.PhoneCountryId))
+                ) && 
+                (
+                    this.ConnectionId == input.ConnectionId ||
+                    (this.ConnectionId != null &&
+                    this.ConnectionId.Equals(input.ConnectionId))
                 );
         }
 
@@ -172,6 +203,10 @@ namespace Kinde.Api.Model
                 if (this.PhoneCountryId != null)
                 {
                     hashCode = (hashCode * 59) + this.PhoneCountryId.GetHashCode();
+                }
+                if (this.ConnectionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ConnectionId.GetHashCode();
                 }
                 return hashCode;
             }

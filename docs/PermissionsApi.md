@@ -1,6 +1,6 @@
 # Kinde.Api.Api.PermissionsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -15,7 +15,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create Permission
 
-Create a new permission.
+Create a new permission.  <div>   <code>create:permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -33,7 +33,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -116,7 +116,7 @@ catch (ApiException e)
 
 Delete Permission
 
-Delete permission
+Delete permission  <div>   <code>delete:permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -134,7 +134,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -217,7 +217,7 @@ catch (ApiException e)
 
 List Permissions
 
-The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter. 
+The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -235,7 +235,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -321,7 +321,7 @@ catch (ApiException e)
 
 Update Permission
 
-Update permission
+Update permission  <div>   <code>update:permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -339,7 +339,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -411,7 +411,7 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Permission successfully updated |  -  |
+| **200** | Permission successfully updated |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |

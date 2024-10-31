@@ -61,10 +61,8 @@ namespace Kinde.Api.Test.Api
         public void GetIndustriesTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? industryKey = null;
-            //string? name = null;
-            //var response = instance.GetIndustries(industryKey, name);
-            //Assert.IsType<SuccessResponse>(response);
+            //var response = instance.GetIndustries();
+            //Assert.IsType<GetIndustriesResponse>(response);
         }
     }
 }

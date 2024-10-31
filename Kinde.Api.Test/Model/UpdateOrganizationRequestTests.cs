@@ -110,12 +110,93 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'BackgroundColorDark'
+        /// </summary>
+        [Fact]
+        public void BackgroundColorDarkTest()
+        {
+            // TODO unit test for the property 'BackgroundColorDark'
+        }
+
+        /// <summary>
+        /// Test the property 'ButtonColorDark'
+        /// </summary>
+        [Fact]
+        public void ButtonColorDarkTest()
+        {
+            // TODO unit test for the property 'ButtonColorDark'
+        }
+
+        /// <summary>
+        /// Test the property 'ButtonTextColorDark'
+        /// </summary>
+        [Fact]
+        public void ButtonTextColorDarkTest()
+        {
+            // TODO unit test for the property 'ButtonTextColorDark'
+        }
+
+        /// <summary>
+        /// Test the property 'LinkColorDark'
+        /// </summary>
+        [Fact]
+        public void LinkColorDarkTest()
+        {
+            // TODO unit test for the property 'LinkColorDark'
+        }
+
+        /// <summary>
+        /// Test the property 'ThemeCode'
+        /// </summary>
+        [Fact]
+        public void ThemeCodeTest()
+        {
+            // TODO unit test for the property 'ThemeCode'
+        }
+
+        /// <summary>
         /// Test the property 'Handle'
         /// </summary>
         [Fact]
         public void HandleTest()
         {
             // TODO unit test for the property 'Handle'
+        }
+
+        /// <summary>
+        /// Test the property 'IsAllowRegistrations'
+        /// </summary>
+        [Fact]
+        public void IsAllowRegistrationsTest()
+        {
+            // TODO unit test for the property 'IsAllowRegistrations'
+        }
+
+        /// <summary>
+        /// Test the property 'IsCustomAuthConnectionsEnabled'
+        /// </summary>
+        [Fact]
+        public void IsCustomAuthConnectionsEnabledTest()
+        {
+            // TODO unit test for the property 'IsCustomAuthConnectionsEnabled'
+        }
+
+        /// <summary>
+        /// Test the property 'IsAutoJoinDomainList'
+        /// </summary>
+        [Fact]
+        public void IsAutoJoinDomainListTest()
+        {
+            // TODO unit test for the property 'IsAutoJoinDomainList'
+        }
+
+        /// <summary>
+        /// Test the property 'AllowedDomains'
+        /// </summary>
+        [Fact]
+        public void AllowedDomainsTest()
+        {
+            // TODO unit test for the property 'AllowedDomains'
         }
     }
 }

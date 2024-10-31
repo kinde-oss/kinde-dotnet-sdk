@@ -34,9 +34,9 @@ namespace Kinde.Api.Model
     public partial class CreateUserRequestIdentitiesInner : IEquatable<CreateUserRequestIdentitiesInner>, IValidatableObject
     {
         /// <summary>
-        /// The type of identity to create, for e.g. email.
+        /// The type of identity to create, e.g. email, username, or phone.
         /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
+        /// <value>The type of identity to create, e.g. email, username, or phone.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum TypeEnum
         {
@@ -61,15 +61,15 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// The type of identity to create, for e.g. email.
+        /// The type of identity to create, e.g. email, username, or phone.
         /// </summary>
-        /// <value>The type of identity to create, for e.g. email.</value>
+        /// <value>The type of identity to create, e.g. email, username, or phone.</value>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInner" /> class.
         /// </summary>
-        /// <param name="type">The type of identity to create, for e.g. email..</param>
+        /// <param name="type">The type of identity to create, e.g. email, username, or phone..</param>
         /// <param name="details">details.</param>
         public CreateUserRequestIdentitiesInner(TypeEnum? type = default(TypeEnum?), CreateUserRequestIdentitiesInnerDetails details = default(CreateUserRequestIdentitiesInnerDetails))
         {

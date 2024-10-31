@@ -1,6 +1,6 @@
 # Kinde.Api.Api.PropertiesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -15,7 +15,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create Property
 
-Create property.
+Create property.  <div>   <code>create:properties</code> </div> 
 
 ### Example
 ```csharp
@@ -33,7 +33,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -116,7 +116,7 @@ catch (ApiException e)
 
 Delete Property
 
-Delete property.
+Delete property.  <div>   <code>delete:properties</code> </div> 
 
 ### Example
 ```csharp
@@ -134,7 +134,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -217,7 +217,7 @@ catch (ApiException e)
 
 List properties
 
-Returns a list of properties 
+Returns a list of properties  <div>   <code>read:properties</code> </div> 
 
 ### Example
 ```csharp
@@ -235,7 +235,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -246,7 +246,7 @@ namespace Example
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
             var startingAfter = "startingAfter_example";  // string? | The ID of the property to start after. (optional) 
             var endingBefore = "endingBefore_example";  // string? | The ID of the property to end before. (optional) 
-            var context = "usr";  // string? | Filter results by User or Organization context (optional) 
+            var context = "usr";  // string? | Filter results by user,  organization or application context (optional) 
 
             try
             {
@@ -292,7 +292,7 @@ catch (ApiException e)
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
 | **startingAfter** | **string?** | The ID of the property to start after. | [optional]  |
 | **endingBefore** | **string?** | The ID of the property to end before. | [optional]  |
-| **context** | **string?** | Filter results by User or Organization context | [optional]  |
+| **context** | **string?** | Filter results by user,  organization or application context | [optional]  |
 
 ### Return type
 
@@ -324,7 +324,7 @@ catch (ApiException e)
 
 Update Property
 
-Update property.
+Update property.  <div>   <code>update:properties</code> </div> 
 
 ### Example
 ```csharp
@@ -342,7 +342,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create a Webhook
         /// </summary>
         /// <remarks>
-        /// Create a webhook 
+        /// Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create a Webhook
         /// </summary>
         /// <remarks>
-        /// Create a webhook 
+        /// Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Webhook
         /// </summary>
         /// <remarks>
-        /// Delete webhook 
+        /// Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Delete Webhook
         /// </summary>
         /// <remarks>
-        /// Delete webhook 
+        /// Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -74,7 +74,7 @@ namespace Kinde.Api.Api
         /// Get Event
         /// </summary>
         /// <remarks>
-        /// Returns an event 
+        /// Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -85,7 +85,7 @@ namespace Kinde.Api.Api
         /// Get Event
         /// </summary>
         /// <remarks>
-        /// Returns an event 
+        /// Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -95,7 +95,7 @@ namespace Kinde.Api.Api
         /// List Event Types
         /// </summary>
         /// <remarks>
-        /// Returns a list event type definitions 
+        /// Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEventTypesResponse</returns>
@@ -105,7 +105,7 @@ namespace Kinde.Api.Api
         /// List Event Types
         /// </summary>
         /// <remarks>
-        /// Returns a list event type definitions 
+        /// Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEventTypesResponse</returns>
@@ -114,7 +114,7 @@ namespace Kinde.Api.Api
         /// List Webhooks
         /// </summary>
         /// <remarks>
-        /// List webhooks 
+        /// List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetWebhooksResponse</returns>
@@ -124,7 +124,7 @@ namespace Kinde.Api.Api
         /// List Webhooks
         /// </summary>
         /// <remarks>
-        /// List webhooks 
+        /// List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetWebhooksResponse</returns>
@@ -133,7 +133,7 @@ namespace Kinde.Api.Api
         /// Update a Webhook
         /// </summary>
         /// <remarks>
-        /// Update a webhook 
+        /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -144,7 +144,7 @@ namespace Kinde.Api.Api
         /// Update a Webhook
         /// </summary>
         /// <remarks>
-        /// Update a webhook 
+        /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -163,7 +163,7 @@ namespace Kinde.Api.Api
         /// Create a Webhook
         /// </summary>
         /// <remarks>
-        /// Create a webhook 
+        /// Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -175,7 +175,7 @@ namespace Kinde.Api.Api
         /// Create a Webhook
         /// </summary>
         /// <remarks>
-        /// Create a webhook 
+        /// Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -186,7 +186,7 @@ namespace Kinde.Api.Api
         /// Delete Webhook
         /// </summary>
         /// <remarks>
-        /// Delete webhook 
+        /// Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -198,7 +198,7 @@ namespace Kinde.Api.Api
         /// Delete Webhook
         /// </summary>
         /// <remarks>
-        /// Delete webhook 
+        /// Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -209,7 +209,7 @@ namespace Kinde.Api.Api
         /// Get Event
         /// </summary>
         /// <remarks>
-        /// Returns an event 
+        /// Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -221,7 +221,7 @@ namespace Kinde.Api.Api
         /// Get Event
         /// </summary>
         /// <remarks>
-        /// Returns an event 
+        /// Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -232,7 +232,7 @@ namespace Kinde.Api.Api
         /// List Event Types
         /// </summary>
         /// <remarks>
-        /// Returns a list event type definitions 
+        /// Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -243,7 +243,7 @@ namespace Kinde.Api.Api
         /// List Event Types
         /// </summary>
         /// <remarks>
-        /// Returns a list event type definitions 
+        /// Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -253,7 +253,7 @@ namespace Kinde.Api.Api
         /// List Webhooks
         /// </summary>
         /// <remarks>
-        /// List webhooks 
+        /// List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -264,7 +264,7 @@ namespace Kinde.Api.Api
         /// List Webhooks
         /// </summary>
         /// <remarks>
-        /// List webhooks 
+        /// List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -274,7 +274,7 @@ namespace Kinde.Api.Api
         /// Update a Webhook
         /// </summary>
         /// <remarks>
-        /// Update a webhook 
+        /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -286,7 +286,7 @@ namespace Kinde.Api.Api
         /// Update a Webhook
         /// </summary>
         /// <remarks>
-        /// Update a webhook 
+        /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -523,7 +523,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a Webhook Create a webhook 
+        /// Create a Webhook Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -535,7 +535,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a Webhook Create a webhook 
+        /// Create a Webhook Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -586,7 +586,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a Webhook Create a webhook 
+        /// Create a Webhook Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -599,7 +599,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create a Webhook Create a webhook 
+        /// Create a Webhook Create a webhook  &lt;div&gt;   &lt;code&gt;create:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createWebHookRequest">Webhook request specification.</param>
@@ -654,7 +654,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Webhook Delete webhook 
+        /// Delete Webhook Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -666,7 +666,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Webhook Delete webhook 
+        /// Delete Webhook Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -716,7 +716,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Webhook Delete webhook 
+        /// Delete Webhook Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -729,7 +729,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Webhook Delete webhook 
+        /// Delete Webhook Delete webhook  &lt;div&gt;   &lt;code&gt;delete:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="webhookId">The webhook id.</param>
@@ -783,7 +783,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Event Returns an event 
+        /// Get Event Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -795,7 +795,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Event Returns an event 
+        /// Get Event Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -845,7 +845,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Event Returns an event 
+        /// Get Event Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -858,7 +858,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Event Returns an event 
+        /// Get Event Returns an event  &lt;div&gt;   &lt;code&gt;read:events&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="eventId">The event id.</param>
@@ -912,7 +912,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Event Types Returns a list event type definitions 
+        /// List Event Types Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEventTypesResponse</returns>
@@ -923,7 +923,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Event Types Returns a list event type definitions 
+        /// List Event Types Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEventTypesResponse</returns>
@@ -967,7 +967,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Event Types Returns a list event type definitions 
+        /// List Event Types Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -979,7 +979,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Event Types Returns a list event type definitions 
+        /// List Event Types Returns a list event type definitions  &lt;div&gt;   &lt;code&gt;read:event_types&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1027,7 +1027,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Webhooks List webhooks 
+        /// List Webhooks List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetWebhooksResponse</returns>
@@ -1038,7 +1038,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Webhooks List webhooks 
+        /// List Webhooks List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetWebhooksResponse</returns>
@@ -1082,7 +1082,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Webhooks List webhooks 
+        /// List Webhooks List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1094,7 +1094,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Webhooks List webhooks 
+        /// List Webhooks List webhooks  &lt;div&gt;   &lt;code&gt;read:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1142,7 +1142,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a Webhook Update a webhook 
+        /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -1154,7 +1154,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a Webhook Update a webhook 
+        /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -1205,7 +1205,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a Webhook Update a webhook 
+        /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
@@ -1218,7 +1218,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update a Webhook Update a webhook 
+        /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>

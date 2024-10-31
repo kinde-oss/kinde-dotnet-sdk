@@ -56,15 +56,6 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Id'
-        /// </summary>
-        [Fact]
-        public void IdTest()
-        {
-            // TODO unit test for the property 'Id'
-        }
-
-        /// <summary>
         /// Test the property 'Sub'
         /// </summary>
         [Fact]
@@ -128,12 +119,39 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'EmailVerified'
+        /// </summary>
+        [Fact]
+        public void EmailVerifiedTest()
+        {
+            // TODO unit test for the property 'EmailVerified'
+        }
+
+        /// <summary>
         /// Test the property 'Picture'
         /// </summary>
         [Fact]
         public void PictureTest()
         {
             // TODO unit test for the property 'Picture'
+        }
+
+        /// <summary>
+        /// Test the property 'PreferredUsername'
+        /// </summary>
+        [Fact]
+        public void PreferredUsernameTest()
+        {
+            // TODO unit test for the property 'PreferredUsername'
+        }
+
+        /// <summary>
+        /// Test the property 'Id'
+        /// </summary>
+        [Fact]
+        public void IdTest()
+        {
+            // TODO unit test for the property 'Id'
         }
     }
 }

@@ -61,16 +61,8 @@ namespace Kinde.Api.Test.Api
         public void GetBusinessTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string code = null;
-            //string name = null;
-            //string email = null;
-            //string? phone = null;
-            //string? industry = null;
-            //string? timezone = null;
-            //string? privacyUrl = null;
-            //string? termsUrl = null;
-            //var response = instance.GetBusiness(code, name, email, phone, industry, timezone, privacyUrl, termsUrl);
-            //Assert.IsType<SuccessResponse>(response);
+            //var response = instance.GetBusiness();
+            //Assert.IsType<GetBusinessResponse>(response);
         }
 
         /// <summary>
@@ -80,17 +72,8 @@ namespace Kinde.Api.Test.Api
         public void UpdateBusinessTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string businessName = null;
-            //string primaryEmail = null;
-            //string? primaryPhone = null;
-            //string? industryKey = null;
-            //string? timezoneId = null;
-            //string? privacyUrl = null;
-            //string? termsUrl = null;
-            //string? isShowKindeBranding = null;
-            //bool? isClickWrap = null;
-            //string? partnerCode = null;
-            //var response = instance.UpdateBusiness(businessName, primaryEmail, primaryPhone, industryKey, timezoneId, privacyUrl, termsUrl, isShowKindeBranding, isClickWrap, partnerCode);
+            //UpdateBusinessRequest updateBusinessRequest = null;
+            //var response = instance.UpdateBusiness(updateBusinessRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
     }

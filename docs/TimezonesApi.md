@@ -1,18 +1,18 @@
 # Kinde.Api.Api.TimezonesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetTimezones**](TimezonesApi.md#gettimezones) | **GET** /api/v1/timezones | List timezones and timezone IDs. |
+| [**GetTimezones**](TimezonesApi.md#gettimezones) | **GET** /api/v1/timezones | Get timezones |
 
 <a id="gettimezones"></a>
 # **GetTimezones**
-> SuccessResponse GetTimezones (string? timezoneKey = null, string? name = null)
+> GetTimezonesResponse GetTimezones ()
 
-List timezones and timezone IDs.
+Get timezones
 
-Get a list of timezones and associated timezone keys.
+Get a list of timezones and associated timezone keys.  <div>   <code>read:timezones</code> </div> 
 
 ### Example
 ```csharp
@@ -30,7 +30,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -38,13 +38,11 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new TimezonesApi(httpClient, config, httpClientHandler);
-            var timezoneKey = "timezoneKey_example";  // string? | Timezone Key. (optional) 
-            var name = "name_example";  // string? | Timezone. (optional) 
 
             try
             {
-                // List timezones and timezone IDs.
-                SuccessResponse result = apiInstance.GetTimezones(timezoneKey, name);
+                // Get timezones
+                GetTimezonesResponse result = apiInstance.GetTimezones();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -64,8 +62,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List timezones and timezone IDs.
-    ApiResponse<SuccessResponse> response = apiInstance.GetTimezonesWithHttpInfo(timezoneKey, name);
+    // Get timezones
+    ApiResponse<GetTimezonesResponse> response = apiInstance.GetTimezonesWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -79,15 +77,10 @@ catch (ApiException e)
 ```
 
 ### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **timezoneKey** | **string?** | Timezone Key. | [optional]  |
-| **name** | **string?** | Timezone. | [optional]  |
-
+This endpoint does not need any parameter.
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**GetTimezonesResponse**](GetTimezonesResponse.md)
 
 ### Authorization
 
@@ -96,15 +89,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | A successful response with a list of timezones and timezone keys. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **200** | A list of timezones. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

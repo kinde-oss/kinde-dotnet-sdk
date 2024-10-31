@@ -38,14 +38,18 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
+        /// <param name="picture">The user&#39;s profile picture..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="isPasswordResetRequested">Prompt the user to change their password on next sign in..</param>
-        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), bool isSuspended = default(bool), bool isPasswordResetRequested = default(bool))
+        /// <param name="providedId">An external id to reference the user..</param>
+        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), string picture = default(string), bool isSuspended = default(bool), bool isPasswordResetRequested = default(bool), string providedId = default(string))
         {
             this.GivenName = givenName;
             this.FamilyName = familyName;
+            this.Picture = picture;
             this.IsSuspended = isSuspended;
             this.IsPasswordResetRequested = isPasswordResetRequested;
+            this.ProvidedId = providedId;
         }
 
         /// <summary>
@@ -63,6 +67,13 @@ namespace Kinde.Api.Model
         public string FamilyName { get; set; }
 
         /// <summary>
+        /// The user&#39;s profile picture.
+        /// </summary>
+        /// <value>The user&#39;s profile picture.</value>
+        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        public string Picture { get; set; }
+
+        /// <summary>
         /// Whether the user is currently suspended or not.
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
@@ -77,6 +88,13 @@ namespace Kinde.Api.Model
         public bool IsPasswordResetRequested { get; set; }
 
         /// <summary>
+        /// An external id to reference the user.
+        /// </summary>
+        /// <value>An external id to reference the user.</value>
+        [DataMember(Name = "provided_id", EmitDefaultValue = false)]
+        public string ProvidedId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -86,8 +104,10 @@ namespace Kinde.Api.Model
             sb.Append("class UpdateUserRequest {\n");
             sb.Append("  GivenName: ").Append(GivenName).Append("\n");
             sb.Append("  FamilyName: ").Append(FamilyName).Append("\n");
+            sb.Append("  Picture: ").Append(Picture).Append("\n");
             sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
             sb.Append("  IsPasswordResetRequested: ").Append(IsPasswordResetRequested).Append("\n");
+            sb.Append("  ProvidedId: ").Append(ProvidedId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -134,12 +154,22 @@ namespace Kinde.Api.Model
                     this.FamilyName.Equals(input.FamilyName))
                 ) && 
                 (
+                    this.Picture == input.Picture ||
+                    (this.Picture != null &&
+                    this.Picture.Equals(input.Picture))
+                ) && 
+                (
                     this.IsSuspended == input.IsSuspended ||
                     this.IsSuspended.Equals(input.IsSuspended)
                 ) && 
                 (
                     this.IsPasswordResetRequested == input.IsPasswordResetRequested ||
                     this.IsPasswordResetRequested.Equals(input.IsPasswordResetRequested)
+                ) && 
+                (
+                    this.ProvidedId == input.ProvidedId ||
+                    (this.ProvidedId != null &&
+                    this.ProvidedId.Equals(input.ProvidedId))
                 );
         }
 
@@ -160,8 +190,16 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.FamilyName.GetHashCode();
                 }
+                if (this.Picture != null)
+                {
+                    hashCode = (hashCode * 59) + this.Picture.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsPasswordResetRequested.GetHashCode();
+                if (this.ProvidedId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ProvidedId.GetHashCode();
+                }
                 return hashCode;
             }
         }

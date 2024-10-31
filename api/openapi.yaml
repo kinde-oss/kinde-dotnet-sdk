@@ -9,11 +9,14 @@ info:
   title: Kinde Management API
   version: "1"
 servers:
-- url: "https://{businessName}.kinde.com"
+- url: "https://{subdomain}.kinde.com"
   variables:
-    businessName:
-      default: app
-      description: Business name created in the Kinde admin area.
+    subdomain:
+      default: your_kinde_subdomain
+      description: The subdomain generated for your business on Kinde.
+    basePath:
+      default: v1
+      description: The version of the API.
 tags:
 - name: OAuth
   x-displayName: OAuth
@@ -35,6 +38,8 @@ tags:
   x-displayName: Connections
 - name: Environments
   x-displayName: Environments
+- name: Environment variables
+  x-displayName: Environment variables
 - name: Feature Flags
   x-displayName: Feature Flags
 - name: Identities
@@ -56,23 +61,25 @@ tags:
 - name: Webhooks
   x-displayName: Webhooks
 paths:
-  /oauth2/user_profile:
+  /oauth2/v2/user_profile:
     get:
       description: |
-        Contains the id, names and email of the currently logged in user.
-      operationId: getUser
+        This endpoint returns a user's ID, names, profile picture URL and email of the currently logged in user.
+      operationId: getUserProfileV2
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user_profile'
-          description: Details of logged in user V1.
+                $ref: '#/components/schemas/user_profile_v2'
+          description: Details of logged in user.
         "403":
           description: Invalid credentials.
+        "429":
+          description: Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Get User Profile
+      summary: Get user profile
       tags:
       - OAuth
   /oauth2/introspect:
@@ -146,158 +153,136 @@ paths:
       summary: Revoke token
       tags:
       - OAuth
-  /oauth2/v2/user_profile:
-    get:
-      description: |
-        Contains the id, names, profile picture URL and email of the currently logged in user.
-      operationId: getUserProfileV2
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user_profile_v2'
-          description: Details of logged in user V2.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Returns the details of the currently logged in user
-      tags:
-      - OAuth
   /api/v1/apis:
     get:
       description: |
-        Returns a list of APIs.
+        Returns a list of your APIs. The APIs are returned sorted by name.
+
+        <div>
+          <code>read:apis</code>
+        </div>
       operationId: getAPIs
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/apis'
             application/json:
               schema:
-                $ref: '#/components/schemas/apis'
-          description: APIs successfully retrieved.
+                $ref: '#/components/schemas/get_apis_response'
+          description: A list of APIs.
         "400":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List APIs
+      summary: Get APIs
       tags:
       - APIs
     post:
       description: |
-        Add APIs.
+        Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).
+
+        <div>
+          <code>create:apis</code>
+        </div>
+      externalDocs:
+        description: Register and manage APIs
+        url: https://docs.kinde.com/developer-tools/your-apis/register-manage-apis
       operationId: addAPIs
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/addAPIs_request'
-        description: API details.
         required: true
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
             application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
+                $ref: '#/components/schemas/create_apis_response'
           description: APIs successfully updated
         "400":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Add APIs
+      summary: Create API
       tags:
       - APIs
   /api/v1/apis/{api_id}:
     delete:
       description: |
-        Deletes API.
+        Delete an API you previously created.
+
+        <div>
+          <code>delete:apis</code>
+        </div>
       operationId: deleteAPI
       parameters:
-      - description: The API's id.
+      - description: The API's ID.
         explode: false
         in: path
         name: api_id
         required: true
         schema:
-          nullable: false
+          example: 7ccd126599aa422a771abcb341596881
           type: string
         style: simple
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
             application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
+                $ref: '#/components/schemas/delete_api_response'
           description: API successfully deleted.
         "400":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Delete API
@@ -305,65 +290,69 @@ paths:
       - APIs
     get:
       description: |
-        Returns the details of the API.
+        Retrieve API details by ID.
+
+        <div>
+          <code>read:apis</code>
+        </div>
       operationId: getAPI
       parameters:
-      - description: The API's id.
+      - description: The API's ID.
         explode: false
         in: path
         name: api_id
         required: true
         schema:
-          nullable: false
+          example: 7ccd126599aa422a771abcb341596881
           type: string
         style: simple
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/api'
             application/json:
               schema:
-                $ref: '#/components/schemas/api'
+                $ref: '#/components/schemas/get_api_response'
           description: API successfully retrieved.
         "400":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List API details
+      summary: Get API
       tags:
       - APIs
   /api/v1/apis/{api_id}/applications:
     patch:
       description: |
-        Update the applications under that API.
+        Authorize applications to be allowed to request access tokens for an API
+
+        <div>
+          <code>update:apis</code>
+        </div>
       operationId: updateAPIApplications
       parameters:
-      - description: The identifier for the API.
+      - description: The API's ID.
         explode: false
         in: path
         name: api_id
         required: true
         schema:
+          example: 7ccd126599aa422a771abcb341596881
           type: string
         style: simple
       requestBody:
@@ -371,47 +360,46 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/updateAPIApplications_request'
-        description: The applications you want to connect or disconnect.
+        description: The applications you want to authorize.
         required: true
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
             application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
-          description: API applications updated.
+                $ref: '#/components/schemas/authorize_app_api_response'
+          description: Authorized applications updated.
         "400":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Update API Applications
+      summary: Authorize API applications
       tags:
       - APIs
   /api/v1/applications:
     get:
       description: |
-        Get a list of applications.
+        Get a list of applications / clients.
+
+        <div>
+          <code>read:applications</code>
+        </div>
       operationId: getApplications
       parameters:
       - description: Field and order to sort the result by.
@@ -450,37 +438,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_applications_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/get_applications_response'
           description: A successful response with a list of applications or an empty
             list.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Applications
+      summary: Get applications
       tags:
       - Applications
     post:
-      description: Create an application.
+      description: |
+        Create a new client.
+
+        <div>
+          <code>create:applications</code>
+        </div>
       operationId: createApplication
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/createApplication_request'
-        description: Application details.
-        required: false
+        required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/create_application_response'
-            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/create_application_response'
           description: Application successfully created.
@@ -489,23 +489,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Error creating user.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Create Application
+      summary: Create application
       tags:
       - Applications
   /api/v1/applications/{application_id}:
     delete:
       description: |
-        Delete application.
+        Delete a client / application.
+
+        <div>
+          <code>delete:applications</code>
+        </div>
       operationId: deleteApplication
       parameters:
       - description: The identifier for the application.
@@ -522,35 +531,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
           description: Application successfully deleted.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Delete Application
+      summary: Delete application
       tags:
       - Applications
     get:
       description: |
-        Gets an application given the application's id.
+        Gets an application given the application's ID.
+
+        <div>
+          <code>read:applications</code>
+        </div>
       operationId: getApplication
       parameters:
       - description: The identifier for the application.
@@ -568,30 +579,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_application_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/get_application_response'
           description: Application successfully retrieved.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Get Application
+      summary: Get application
       tags:
       - Applications
     patch:
-      description: Update an application.
+      description: |
+        Updates a client's settings. For more information, read [Applications in Kinde](https://docs.kinde.com/build/applications/about-applications)
+
+        <div>
+          <code>update:applications</code>
+        </div>
       operationId: updateApplication
       parameters:
       - description: The identifier for the application.
@@ -617,14 +635,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Update Application
@@ -632,7 +655,12 @@ paths:
       - Applications
   /api/v1/applications/{application_id}/connections:
     get:
-      description: Gets all connections for an application.
+      description: |
+        Gets all connections for an application.
+
+        <div>
+          <code>read:application_connections</code>
+        </div>
       operationId: GetApplicationConnections
       parameters:
       - description: The identifier/client ID for the application.
@@ -650,23 +678,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_connections_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/get_connections_response'
           description: Application connections successfully retrieved.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Get connections
@@ -674,7 +704,12 @@ paths:
       - Applications
   /api/v1/applications/{application_id}/connections/{connection_id}:
     delete:
-      description: Turn off an auth connection for an application
+      description: |
+        Turn off an auth connection for an application
+
+        <div>
+          <code>delete:application_connections</code>
+        </div>
       operationId: RemoveConnection
       parameters:
       - description: The identifier/client ID for the application.
@@ -699,34 +734,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
           description: Connection successfully removed.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Remove connection
       tags:
       - Applications
     post:
-      description: Enable an auth connection for an application.
+      description: |
+        Enable an auth connection for an application.
+
+        <div>
+          <code>create:application_connections</code>
+        </div>
       operationId: EnableConnection
       parameters:
       - description: The identifier/client ID for the application.
@@ -753,309 +791,307 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Enable connection
       tags:
       - Applications
-  /api/v1/business:
+  /api/v1/applications/{application_id}/properties:
     get:
-      description: Get your business details.
-      operationId: getBusiness
+      description: |
+        Gets properties for an application by client ID.
+
+        <div>
+          <code>read:application_properties</code>
+        </div>
+      operationId: getApplicationPropertyValues
       parameters:
-      - description: Business code.
-        explode: true
-        in: query
-        name: code
+      - description: The application's ID / client ID.
+        explode: false
+        in: path
+        name: application_id
         required: true
         schema:
-          nullable: false
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
-        style: form
-      - description: Business name.
-        explode: true
-        in: query
-        name: name
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Email associated with business.
-        explode: true
-        in: query
-        name: email
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Phone number associated with business.
-        explode: true
-        in: query
-        name: phone
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: The industry your business is in.
-        explode: true
-        in: query
-        name: industry
-        required: false
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: The timezone your business is in.
-        explode: true
-        in: query
-        name: timezone
-        required: false
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Your Privacy policy URL.
-        explode: true
-        in: query
-        name: privacy_url
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: Your Terms and Conditions URL.
-        explode: true
-        in: query
-        name: terms_url
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
+        style: simple
       responses:
-        "201":
+        "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
-          description: A successful response with your business details.
+                $ref: '#/components/schemas/get_property_values_response'
+          description: Properties successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List business details
+      summary: Get property values
+      tags:
+      - Applications
+  /api/v1/applications/{application_id}/properties/{property_key}:
+    put:
+      description: |
+        Update application property value.
+
+        <div>
+          <code>update:application_properties</code>
+        </div>
+      operationId: updateApplicationsProperty
+      parameters:
+      - description: The application's ID / client ID.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: string
+        style: simple
+      - description: The property's key.
+        explode: false
+        in: path
+        name: property_key
+        required: true
+        schema:
+          example: kp_some_key
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateApplicationsProperty_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Property successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update property
+      tags:
+      - Applications
+  /api/v1/business:
+    get:
+      description: |
+        Get your business details.
+
+        <div>
+          <code>read:businesses</code>
+        </div>
+      operationId: getBusiness
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_business_response'
+          description: Your business details.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get business
       tags:
       - Business
     patch:
-      description: Update business details.
+      description: |
+        Update your business details.
+
+        <div>
+          <code>update:businesses</code>
+        </div>
       operationId: updateBusiness
-      parameters:
-      - description: Business name.
-        explode: true
-        in: query
-        name: business_name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateBusiness_request'
+        description: The business details to update.
         required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Email associated with business.
-        explode: true
-        in: query
-        name: primary_email
-        required: true
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Phone number associated with business.
-        explode: true
-        in: query
-        name: primary_phone
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: The key of the industry your business is in.
-        explode: true
-        in: query
-        name: industry_key
-        required: false
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: The ID of the timezone your business is in.
-        explode: true
-        in: query
-        name: timezone_id
-        required: false
-        schema:
-          nullable: false
-          type: string
-        style: form
-      - description: Your Privacy policy URL.
-        explode: true
-        in: query
-        name: privacy_url
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: Your Terms and Conditions URL.
-        explode: true
-        in: query
-        name: terms_url
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: "Display \"Powered by Kinde\" on your sign up, sign in, and subscription\
-          \ pages."
-        explode: true
-        in: query
-        name: is_show_kinde_branding
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
-      - description: Show a policy acceptance checkbox on sign up.
-        explode: true
-        in: query
-        name: is_click_wrap
-        required: false
-        schema:
-          nullable: true
-          type: boolean
-        style: form
-      - description: Your Kinde Perk code.
-        explode: true
-        in: query
-        name: partner_code
-        required: false
-        schema:
-          nullable: true
-          type: string
-        style: form
       responses:
-        "201":
+        "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Business successfully updated.
         "400":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Update business details
+      summary: Update business
       tags:
       - Business
   /api/v1/industries:
     get:
-      description: Get a list of industries and associated industry keys.
+      description: |
+        Get a list of industries and associated industry keys.
+
+        <div>
+          <code>read:industries</code>
+        </div>
       operationId: getIndustries
-      parameters:
-      - description: Industry Key.
-        explode: true
-        in: query
-        name: industry_key
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Industry name.
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
       responses:
-        "201":
+        "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
-          description: A successful response with a list of industries and industry
-            keys.
+                $ref: '#/components/schemas/get_industries_response'
+          description: A list of industries.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List industries and industry keys.
+      summary: Get industries
       tags:
       - Industries
   /api/v1/timezones:
     get:
-      description: Get a list of timezones and associated timezone keys.
+      description: |
+        Get a list of timezones and associated timezone keys.
+
+        <div>
+          <code>read:timezones</code>
+        </div>
       operationId: getTimezones
-      parameters:
-      - description: Timezone Key.
-        explode: true
-        in: query
-        name: timezone_key
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Timezone.
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
       responses:
-        "201":
+        "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
-          description: A successful response with a list of timezones and timezone
-            keys.
+                $ref: '#/components/schemas/get_timezones_response'
+          description: A list of timezones.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List timezones and timezone IDs.
+      summary: Get timezones
       tags:
       - Timezones
   /api/v1/applications/{app_id}/auth_redirect_urls:
     delete:
       description: |
         Delete callback URLs.
+
+        <div>
+          <code>delete:applications_redirect_uris</code>
+        </div>
       operationId: deleteCallbackURLs
       parameters:
       - description: The identifier for the application.
@@ -1109,6 +1145,10 @@ paths:
     get:
       description: |
         Returns an application's redirect callback URLs.
+
+        <div>
+          <code>read:applications_redirect_uris</code>
+        </div>
       operationId: getCallbackURLs
       parameters:
       - description: The identifier for the application.
@@ -1150,6 +1190,10 @@ paths:
     post:
       description: |
         Add additional redirect callback URLs.
+
+        <div>
+          <code>create:applications_redirect_uris</code>
+        </div>
       operationId: addRedirectCallbackURLs
       parameters:
       - description: The identifier for the application.
@@ -1196,6 +1240,10 @@ paths:
     put:
       description: |
         Replace all redirect callback URLs.
+
+        <div>
+          <code>update:applications_redirect_uris</code>
+        </div>
       operationId: replaceRedirectCallbackURLs
       parameters:
       - description: The identifier for the application.
@@ -1239,6 +1287,10 @@ paths:
     delete:
       description: |
         Delete logout URLs.
+
+        <div>
+          <code>delete:application_logout_uris</code>
+        </div>
       operationId: deleteLogoutURLs
       parameters:
       - description: The identifier for the application.
@@ -1263,27 +1315,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
           description: Logout URLs successfully deleted.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Delete Logout URLs
@@ -1292,6 +1342,10 @@ paths:
     get:
       description: |
         Returns an application's logout redirect URLs.
+
+        <div>
+          <code>read:application_logout_uris</code>
+        </div>
       operationId: getLogoutURLs
       parameters:
       - description: The identifier for the application.
@@ -1308,31 +1362,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/logout_redirect_urls'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/logout_redirect_urls'
           description: Logout URLs successfully retrieved.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Logout URLs
+      summary: List logout URLs
       tags:
       - Callbacks
     post:
       description: |
         Add additional logout redirect URLs.
+
+        <div>
+          <code>create:application_logout_uris</code>
+        </div>
       operationId: addLogoutRedirectURLs
       parameters:
       - description: The identifier for the application.
@@ -1353,32 +1413,40 @@ paths:
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-          description: Logouts successfully updated
+          description: Logout URLs successfully updated.
         "400":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Add Logout Redirect URLs
+      summary: Add logout redirect URLs
       tags:
       - Callbacks
     put:
       description: |
         Replace all logout redirect URLs.
+
+        <div>
+          <code>update:application_logout_uris</code>
+        </div>
       operationId: replaceLogoutRedirectURLs
       parameters:
       - description: The identifier for the application.
@@ -1399,29 +1467,41 @@ paths:
       responses:
         "200":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-          description: Logout URLs successfully updated
+          description: Logout URLs successfully updated.
         "400":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Replace Logout Redirect URLs
+      summary: Replace logout redirect URls
       tags:
       - Callbacks
   /api/v1/connected_apps/auth_url:
     get:
-      description: Get a URL that authenticates and authorizes a user to a third-party
-        connected app.
+      description: |
+        Get a URL that authenticates and authorizes a user to a third-party connected app.
+
+        <div>
+          <code>read:connected_apps</code>
+        </div>
       operationId: GetConnectedAppAuthUrl
       parameters:
       - description: The unique key code reference of the connected app to authenticate
@@ -1504,8 +1584,12 @@ paths:
       - Connected Apps
   /api/v1/connected_apps/token:
     get:
-      description: Get an access token that can be used to call the third-party provider
-        linked to the connected app.
+      description: |
+        Get an access token that can be used to call the third-party provider linked to the connected app.
+
+        <div>
+          <code>read:connected_apps</code>
+        </div>
       operationId: GetConnectedAppToken
       parameters:
       - description: The unique sesssion id representing the login session of a user.
@@ -1555,7 +1639,12 @@ paths:
       - Connected Apps
   /api/v1/connected_apps/revoke:
     post:
-      description: Revoke the tokens linked to the connected app session.
+      description: |
+        Revoke the tokens linked to the connected app session.
+
+        <div>
+          <code>create:connected_apps</code>
+        </div>
       operationId: RevokeConnectedAppToken
       parameters:
       - description: The unique sesssion id representing the login session of a user.
@@ -1609,6 +1698,10 @@ paths:
     get:
       description: |
         Returns a list of Connections
+
+        <div>
+          <code>read:connections</code>
+        </div>
       operationId: GetConnections
       parameters:
       - description: Number of results per page. Defaults to 10 if parameter not sent.
@@ -1674,7 +1767,12 @@ paths:
       tags:
       - Connections
     post:
-      description: Create Connection.
+      description: |
+        Create Connection.
+
+        <div>
+          <code>create:connections</code>
+        </div>
       operationId: CreateConnection
       requestBody:
         content:
@@ -1715,6 +1813,10 @@ paths:
     delete:
       description: |
         Delete connection.
+
+        <div>
+          <code>delete:connections</code>
+        </div>
       operationId: deleteConnection
       parameters:
       - description: The identifier for the connection.
@@ -1758,7 +1860,12 @@ paths:
       tags:
       - Connections
     get:
-      description: Get Connection.
+      description: |
+        Get Connection.
+
+        <div>
+          <code>read:connections</code>
+        </div>
       operationId: GetConnection
       parameters:
       - description: The unique identifier for the connection.
@@ -1798,7 +1905,12 @@ paths:
       tags:
       - Connections
     patch:
-      description: Update Connection.
+      description: |
+        Update Connection.
+
+        <div>
+          <code>update:connections</code>
+        </div>
       operationId: UpdateConnection
       parameters:
       - description: The unique identifier for the connection.
@@ -1846,7 +1958,12 @@ paths:
       - Connections
   /api/v1/environment/feature_flags:
     delete:
-      description: Delete all environment feature flag overrides.
+      description: |
+        Delete all environment feature flag overrides.
+
+        <div>
+          <code>delete:environment_feature_flags</code>
+        </div>
       operationId: DeleteEnvironementFeatureFlagOverrides
       responses:
         "200":
@@ -1877,7 +1994,12 @@ paths:
       tags:
       - Environments
     get:
-      description: Get environment feature flags.
+      description: |
+        Get environment feature flags.
+
+        <div>
+          <code>read:environment_feature_flags</code>
+        </div>
       operationId: GetEnvironementFeatureFlags
       responses:
         "200":
@@ -1909,7 +2031,12 @@ paths:
       - Environments
   /api/v1/environment/feature_flags/{feature_flag_key}:
     delete:
-      description: Delete environment feature flag override.
+      description: |
+        Delete environment feature flag override.
+
+        <div>
+          <code>delete:environment_feature_flags</code>
+        </div>
       operationId: DeleteEnvironementFeatureFlagOverride
       parameters:
       - description: The identifier for the feature flag.
@@ -1949,7 +2076,12 @@ paths:
       tags:
       - Environments
     patch:
-      description: Update environment feature flag override.
+      description: |
+        Update environment feature flag override.
+
+        <div>
+          <code>update:environment_feature_flags</code>
+        </div>
       operationId: UpdateEnvironementFeatureFlagOverride
       parameters:
       - description: The identifier for the feature flag.
@@ -1995,9 +2127,251 @@ paths:
       summary: Update Environment Feature Flag Override
       tags:
       - Environments
+  /api/v1/environment_variables:
+    get:
+      description: |
+        Get environment variables. This feature is in beta and admin UI is not yet available.
+
+        <div>
+          <code>read:environment_variables</code>
+        </div>
+      operationId: getEnvironmentVariables
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_variables_response'
+          description: A successful response with a list of environment variables
+            or an empty list.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get environment variables
+      tags:
+      - Environment variables
+    post:
+      description: |
+        Create a new environment variable. This feature is in beta and admin UI is not yet available.
+
+        <div>
+          <code>create:environment_variables</code>
+        </div>
+      operationId: createEnvironmentVariable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createEnvironmentVariable_request'
+        description: The environment variable details.
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_environment_variable_response'
+          description: Environment variable successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create environment variable
+      tags:
+      - Environment variables
+  /api/v1/environment_variables/{variable_id}:
+    delete:
+      description: |
+        Delete an environment variable you previously created. This feature is in beta and admin UI is not yet available.
+
+        <div>
+          <code>delete:environment_variables</code>
+        </div>
+      operationId: deleteEnvironmentVariable
+      parameters:
+      - description: The environment variable's ID.
+        explode: false
+        in: path
+        name: variable_id
+        required: true
+        schema:
+          example: env_var_0192b1941f125645fa15bf28a662a0b3
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_environment_variable_response'
+          description: Environment variable successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete environment variable
+      tags:
+      - Environment variables
+    get:
+      description: |
+        Retrieve environment variable details by ID. This feature is in beta and admin UI is not yet available.
+
+        <div>
+          <code>read:environment_variables</code>
+        </div>
+      operationId: getEnvironmentVariable
+      parameters:
+      - description: The environment variable's ID.
+        explode: false
+        in: path
+        name: variable_id
+        required: true
+        schema:
+          example: env_var_0192b1941f125645fa15bf28a662a0b3
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_variable_response'
+          description: Environment variable successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get environment variable
+      tags:
+      - Environment variables
+    patch:
+      description: |
+        Update an environment variable you previously created. This feature is in beta and admin UI is not yet available.
+
+        <div>
+          <code>update:environment_variables</code>
+        </div>
+      operationId: updateEnvironmentVariable
+      parameters:
+      - description: The environment variable's ID.
+        explode: false
+        in: path
+        name: variable_id
+        required: true
+        schema:
+          example: env_var_0192b1941f125645fa15bf28a662a0b3
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateEnvironmentVariable_request'
+        description: The new details for the environment variable
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_environment_variable_response'
+          description: Environment variable successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update environment variable
+      tags:
+      - Environment variables
   /api/v1/feature_flags:
     post:
-      description: Create feature flag.
+      description: |
+        Create feature flag.
+
+        <div>
+          <code>create:feature_flags</code>
+        </div>
       operationId: CreateFeatureFlag
       requestBody:
         content:
@@ -2036,7 +2410,12 @@ paths:
       - Feature Flags
   /api/v1/feature_flags/{feature_flag_key}:
     delete:
-      description: Delete feature flag
+      description: |
+        Delete feature flag
+
+        <div>
+          <code>delete:feature_flags</code>
+        </div>
       operationId: DeleteFeatureFlag
       parameters:
       - description: The identifier for the feature flag.
@@ -2076,7 +2455,12 @@ paths:
       tags:
       - Feature Flags
     put:
-      description: Update feature flag.
+      description: |
+        Update feature flag.
+
+        <div>
+          <code>update:feature_flags</code>
+        </div>
       operationId: UpdateFeatureFlag
       parameters:
       - description: The key identifier for the feature flag.
@@ -2169,7 +2553,12 @@ paths:
       - Feature Flags
   /api/v1/identities/{identity_id}:
     delete:
-      description: Delete identity by ID.
+      description: |
+        Delete identity by ID.
+
+        <div>
+          <code>delete:identities</code>
+        </div>
       operationId: DeleteIdentity
       parameters:
       - description: The unique identifier for the identity.
@@ -2211,6 +2600,10 @@ paths:
     get:
       description: |
         Returns an identity by ID
+
+        <div>
+          <code>read:identities</code>
+        </div>
       operationId: GetIdentity
       parameters:
       - description: The unique identifier for the identity.
@@ -2257,7 +2650,12 @@ paths:
       tags:
       - Identities
     patch:
-      description: Update identity by ID.
+      description: |
+        Update identity by ID.
+
+        <div>
+          <code>update:identities</code>
+        </div>
       operationId: UpdateIdentity
       parameters:
       - description: The unique identifier for the identity.
@@ -2306,7 +2704,11 @@ paths:
   /api/v1/organization:
     get:
       description: |
-        Gets an organization given the organization's code.
+        Retrieve organization details by code.
+
+        <div>
+          <code>read:organizations</code>
+        </div>
       operationId: getOrganization
       parameters:
       - description: The organization's code.
@@ -2315,7 +2717,7 @@ paths:
         name: code
         required: false
         schema:
-          nullable: false
+          example: org_1ccfb819462
           type: string
         style: form
       responses:
@@ -2323,31 +2725,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organization'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/organization'
+                $ref: '#/components/schemas/get_organization_response'
           description: Organization successfully retrieved.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Get Organization
+      summary: Get organization
       tags:
       - Organizations
     post:
-      description: Create an organization.
+      description: |
+        Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)
+
+        <div>
+          <code>create:organizations</code>
+        </div>
       operationId: createOrganization
       requestBody:
         content:
@@ -2368,106 +2777,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Error creating user.
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-        "500":
-          description: Could not create organization.
-      security:
-      - kindeBearerAuth: []
-      summary: Create Organization
-      tags:
-      - Organizations
-  /api/v1/organization/{org_code}:
-    delete:
-      description: Delete an organization.
-      operationId: deleteOrganization
-      parameters:
-      - description: The identifier for the organization.
-        explode: false
-        in: path
-        name: org_code
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          description: Organization successfully deleted.
-        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Error deleting organization.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Delete Organization
-      tags:
-      - Organizations
-    patch:
-      description: Update an organization.
-      operationId: updateOrganization
-      parameters:
-      - description: The identifier for the organization.
-        explode: false
-        in: path
-        name: org_code
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/updateOrganization_request'
-        description: Organization details.
-        required: false
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
-          description: Organization successfully updated.
-        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Error updating organization.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Update Organization
+      summary: Create organization
       tags:
       - Organizations
   /api/v1/organizations:
     get:
       description: |
         Get a list of organizations.
+
+        <div>
+          <code>read:organizations</code>
+        </div>
       operationId: getOrganizations
       parameters:
       - description: Field and order to sort the result by.
@@ -2508,23 +2843,147 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_organizations_response'
-            application/json; charset=utf-8:
+          description: Organizations successfully retreived.
+        "400":
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/get_organizations_response'
-          description: A successful response with a list of organizations or an empty
-            list.
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Organizations
+      summary: Get organizations
+      tags:
+      - Organizations
+  /api/v1/organization/{org_code}:
+    delete:
+      description: |
+        Delete an organization.
+
+        <div>
+          <code>delete:organizations</code>
+        </div>
+      operationId: deleteOrganization
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Organization successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete Organization
+      tags:
+      - Organizations
+    patch:
+      description: |
+        Update an organization.
+
+        <div>
+          <code>update:organizations</code>
+        </div>
+      operationId: updateOrganization
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOrganization_request'
+        description: Organization details.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Organization successfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update Organization
       tags:
       - Organizations
   /api/v1/organizations/{org_code}/users:
     get:
-      description: Get users in an organization.
+      description: |
+        Get users in an organization.
+
+        <div>
+          <code>read:organization_users</code>
+        </div>
       operationId: GetOrganizationUsers
       parameters:
       - description: Field and order to sort the result by.
@@ -2616,7 +3075,12 @@ paths:
       tags:
       - Organizations
     patch:
-      description: Update users that belong to an organization.
+      description: |
+        Update users that belong to an organization.
+
+        <div>
+          <code>update:organization_users</code>
+        </div>
       operationId: UpdateOrganizationUsers
       parameters:
       - description: The organization's code.
@@ -2663,7 +3127,12 @@ paths:
       tags:
       - Organizations
     post:
-      description: Add existing users to an organization.
+      description: |
+        Add existing users to an organization.
+
+        <div>
+          <code>create:organization_users</code>
+        </div>
       operationId: AddOrganizationUsers
       parameters:
       - description: The organization's code.
@@ -2713,7 +3182,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}/roles:
     get:
-      description: Get roles for an organization user.
+      description: |
+        Get roles for an organization user.
+
+        <div>
+          <code>read:organization_user_roles</code>
+        </div>
       operationId: GetOrganizationUserRoles
       parameters:
       - description: The organization's code.
@@ -2754,7 +3228,12 @@ paths:
       tags:
       - Organizations
     post:
-      description: Add role to an organization user.
+      description: |
+        Add role to an organization user.
+
+        <div>
+          <code>create:organization_user_roles</code>
+        </div>
       operationId: CreateOrganizationUserRole
       parameters:
       - description: The organization's code.
@@ -2803,7 +3282,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id}:
     delete:
-      description: Delete role for an organization user.
+      description: |
+        Delete role for an organization user.
+
+        <div>
+          <code>delete:organization_user_roles</code>
+        </div>
       operationId: DeleteOrganizationUserRole
       parameters:
       - description: The organization's code.
@@ -2863,7 +3347,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}/permissions:
     get:
-      description: Get permissions for an organization user.
+      description: |
+        Get permissions for an organization user.
+
+        <div>
+          <code>read:organization_user_permissions</code>
+        </div>
       operationId: GetOrganizationUserPermissions
       parameters:
       - description: The organization's code.
@@ -2913,7 +3402,12 @@ paths:
       tags:
       - Organizations
     post:
-      description: Add permission to an organization user.
+      description: |
+        Add permission to an organization user.
+
+        <div>
+          <code>create:organization_user_permissions</code>
+        </div>
       operationId: CreateOrganizationUserPermission
       parameters:
       - description: The organization's code.
@@ -2962,7 +3456,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id}:
     delete:
-      description: Delete permission for an organization user.
+      description: |
+        Delete permission for an organization user.
+
+        <div>
+          <code>delete:organization_user_permissions</code>
+        </div>
       operationId: DeleteOrganizationUserPermission
       parameters:
       - description: The organization's code.
@@ -3022,7 +3521,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}:
     delete:
-      description: Remove user from an organization.
+      description: |
+        Remove user from an organization.
+
+        <div>
+          <code>delete:organization_users</code>
+        </div>
       operationId: RemoveOrganizationUser
       parameters:
       - description: The organization's code.
@@ -3073,7 +3577,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/feature_flags:
     delete:
-      description: Delete all organization feature flag overrides.
+      description: |
+        Delete all organization feature flag overrides.
+
+        <div>
+          <code>delete:organization_feature_flags</code>
+        </div>
       operationId: DeleteOrganizationFeatureFlagOverrides
       parameters:
       - description: The identifier for the organization.
@@ -3113,7 +3622,12 @@ paths:
       tags:
       - Organizations
     get:
-      description: Get all organization feature flags.
+      description: |
+        Get all organization feature flags.
+
+        <div>
+          <code>read:organization_feature_flags</code>
+        </div>
       operationId: GetOrganizationFeatureFlags
       parameters:
       - description: The identifier for the organization.
@@ -3154,7 +3668,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}:
     delete:
-      description: Delete organization feature flag override.
+      description: |
+        Delete organization feature flag override.
+
+        <div>
+          <code>delete:organization_feature_flags</code>
+        </div>
       operationId: DeleteOrganizationFeatureFlagOverride
       parameters:
       - description: The identifier for the organization.
@@ -3202,7 +3721,12 @@ paths:
       tags:
       - Organizations
     patch:
-      description: Update organization feature flag override.
+      description: |
+        Update organization feature flag override.
+
+        <div>
+          <code>update:organization_feature_flags</code>
+        </div>
       operationId: UpdateOrganizationFeatureFlagOverride
       parameters:
       - description: The identifier for the organization
@@ -3259,7 +3783,12 @@ paths:
       - Organizations
   /api/v1/organizations/{org_code}/properties/{property_key}:
     put:
-      description: Update organization property value.
+      description: |
+        Update organization property value.
+
+        <div>
+          <code>update:organization_properties</code>
+        </div>
       operationId: UpdateOrganizationProperty
       parameters:
       - description: The identifier for the organization
@@ -3318,6 +3847,10 @@ paths:
     get:
       description: |
         Gets properties for an organization by org code.
+
+        <div>
+          <code>read:organization_properties</code>
+        </div>
       operationId: GetOrganizationPropertyValues
       parameters:
       - description: The organization's code.
@@ -3358,7 +3891,12 @@ paths:
       tags:
       - Organizations
     patch:
-      description: Update organization property values.
+      description: |
+        Update organization property values.
+
+        <div>
+          <code>update:organization_properties</code>
+        </div>
       operationId: UpdateOrganizationProperties
       parameters:
       - description: The identifier for the organization
@@ -3408,6 +3946,10 @@ paths:
     delete:
       description: |
         Delete organization handle
+
+        <div>
+          <code>delete:organization_handles</code>
+        </div>
       operationId: DeleteOrganizationHandle
       parameters:
       - description: The organization's code.
@@ -3451,6 +3993,10 @@ paths:
     get:
       description: |
         The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+
+        <div>
+          <code>read:permissions</code>
+        </div>
       operationId: GetPermissions
       parameters:
       - description: Field and order to sort the result by.
@@ -3512,7 +4058,12 @@ paths:
       tags:
       - Permissions
     post:
-      description: Create a new permission.
+      description: |
+        Create a new permission.
+
+        <div>
+          <code>create:permissions</code>
+        </div>
       operationId: CreatePermission
       requestBody:
         content:
@@ -3549,7 +4100,12 @@ paths:
       - Permissions
   /api/v1/permissions/{permission_id}:
     delete:
-      description: Delete permission
+      description: |
+        Delete permission
+
+        <div>
+          <code>delete:permissions</code>
+        </div>
       operationId: DeletePermission
       parameters:
       - description: The identifier for the permission.
@@ -3589,7 +4145,12 @@ paths:
       tags:
       - Permissions
     patch:
-      description: Update permission
+      description: |
+        Update permission
+
+        <div>
+          <code>update:permissions</code>
+        </div>
       operationId: UpdatePermissions
       parameters:
       - description: The identifier for the permission.
@@ -3609,7 +4170,7 @@ paths:
         description: Permission details.
         required: false
       responses:
-        "201":
+        "200":
           content:
             application/json; charset=utf-8:
               schema:
@@ -3638,6 +4199,10 @@ paths:
     get:
       description: |
         Returns a list of properties
+
+        <div>
+          <code>read:properties</code>
+        </div>
       operationId: GetProperties
       parameters:
       - description: Number of results per page. Defaults to 10 if parameter not sent.
@@ -3667,7 +4232,7 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter results by User or Organization context
+      - description: "Filter results by user,  organization or application context"
         explode: true
         in: query
         name: context
@@ -3676,6 +4241,7 @@ paths:
           enum:
           - usr
           - org
+          - app
           nullable: true
           type: string
         style: form
@@ -3715,7 +4281,12 @@ paths:
       tags:
       - Properties
     post:
-      description: Create property.
+      description: |
+        Create property.
+
+        <div>
+          <code>create:properties</code>
+        </div>
       operationId: CreateProperty
       requestBody:
         content:
@@ -3754,7 +4325,12 @@ paths:
       - Properties
   /api/v1/properties/{property_id}:
     delete:
-      description: Delete property.
+      description: |
+        Delete property.
+
+        <div>
+          <code>delete:properties</code>
+        </div>
       operationId: DeleteProperty
       parameters:
       - description: The unique identifier for the property.
@@ -3794,7 +4370,12 @@ paths:
       tags:
       - Properties
     put:
-      description: Update property.
+      description: |
+        Update property.
+
+        <div>
+          <code>update:properties</code>
+        </div>
       operationId: UpdateProperty
       parameters:
       - description: The unique identifier for the property.
@@ -3844,6 +4425,10 @@ paths:
     get:
       description: |
         Returns a list of categories.
+
+        <div>
+          <code>read:property_categories</code>
+        </div>
       operationId: GetCategories
       parameters:
       - description: Number of results per page. Defaults to 10 if parameter not sent.
@@ -3921,7 +4506,12 @@ paths:
       tags:
       - Property Categories
     post:
-      description: Create category.
+      description: |
+        Create category.
+
+        <div>
+          <code>create:property_categories</code>
+        </div>
       operationId: CreateCategory
       requestBody:
         content:
@@ -3960,7 +4550,12 @@ paths:
       - Property Categories
   /api/v1/property_categories/{category_id}:
     put:
-      description: Update category.
+      description: |
+        Update category.
+
+        <div>
+          <code>update:property_categories</code>
+        </div>
       operationId: UpdateCategory
       parameters:
       - description: The unique identifier for the category.
@@ -4010,6 +4605,10 @@ paths:
     get:
       description: |
         The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+
+        <div>
+          <code>read:roles</code>
+        </div>
       operationId: GetRoles
       parameters:
       - description: Field and order to sort the result by.
@@ -4050,28 +4649,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_roles_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/get_roles_response'
           description: Roles successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Roles
+      summary: List roles
       tags:
       - Roles
     post:
-      description: Create role.
+      description: |
+        Create role.
+
+        <div>
+          <code>create:roles</code>
+        </div>
       operationId: CreateRole
       requestBody:
         content:
@@ -4085,17 +4693,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
+                $ref: '#/components/schemas/create_roles_response'
           description: Role successfully created
         "400":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
@@ -4104,18 +4706,175 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Create Role
+      summary: Create role
+      tags:
+      - Roles
+  /api/v1/roles/{role_id}:
+    delete:
+      description: |
+        Delete role
+
+        <div>
+          <code>delete:roles</code>
+        </div>
+      operationId: DeleteRole
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete role
+      tags:
+      - Roles
+    get:
+      description: |
+        Get a role
+
+        <div>
+          <code>read:roles</code>
+        </div>
+      operationId: GetRole
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_role_response'
+          description: Role successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get role
+      tags:
+      - Roles
+    patch:
+      description: |
+        Update a role
+
+        <div>
+          <code>update:roles</code>
+        </div>
+      operationId: UpdateRoles
+      parameters:
+      - description: The identifier for the role.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoles_request'
+        description: Role details.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Role successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update role
       tags:
       - Roles
   /api/v1/roles/{role_id}/permissions:
     get:
-      description: Get permissions for a role.
+      description: |
+        Get permissions for a role.
+
+        <div>
+          <code>read:role_permissions</code>
+        </div>
       operationId: GetRolePermission
       parameters:
       - description: The role's public id.
@@ -4184,12 +4943,16 @@ paths:
           description: Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Get Role Permissions
+      summary: Get role permissions
       tags:
       - Roles
     patch:
       description: |
         Update role permissions.
+
+        <div>
+          <code>update:role_permissions</code>
+        </div>
       operationId: UpdateRolePermissions
       parameters:
       - description: The identifier for the role.
@@ -4230,12 +4993,17 @@ paths:
           description: Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Update Role Permissions
+      summary: Update role permissions
       tags:
       - Roles
   /api/v1/roles/{role_id}/permissions/{permission_id}:
     delete:
-      description: Remove a permission from a role.
+      description: |
+        Remove a permission from a role.
+
+        <div>
+          <code>delete:role_permissions</code>
+        </div>
       operationId: RemoveRolePermission
       parameters:
       - description: The role's public id.
@@ -4281,93 +5049,7 @@ paths:
           description: Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Remove Role Permission
-      tags:
-      - Roles
-  /api/v1/roles/{role_id}:
-    delete:
-      description: Delete role
-      operationId: DeleteRole
-      parameters:
-      - description: The identifier for the role.
-        explode: false
-        in: path
-        name: role_id
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
-          description: Role successfully deleted.
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid request.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Delete Role
-      tags:
-      - Roles
-    patch:
-      description: Update a role
-      operationId: UpdateRoles
-      parameters:
-      - description: The identifier for the role.
-        explode: false
-        in: path
-        name: role_id
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateRoles_request'
-        description: Role details.
-        required: false
-      responses:
-        "201":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
-          description: Role successfully updated
-        "400":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid request.
-        "403":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Update Role
+      summary: Remove role permission
       tags:
       - Roles
   /api/v1/subscribers:
@@ -4376,6 +5058,10 @@ paths:
         The returned list can be sorted by full name or email address
         in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query
         string parameter.
+
+        <div>
+          <code>read:subscribers</code>
+        </div>
       operationId: GetSubscribers
       parameters:
       - description: Field and order to sort the result by.
@@ -4431,7 +5117,12 @@ paths:
       tags:
       - Subscribers
     post:
-      description: Create subscriber.
+      description: |
+        Create subscriber.
+
+        <div>
+          <code>create:subscribers</code>
+        </div>
       operationId: CreateSubscriber
       parameters:
       - description: Subscriber's first name.
@@ -4491,6 +5182,10 @@ paths:
     get:
       description: |
         Retrieve a subscriber record.
+
+        <div>
+          <code>read:subscribers</code>
+        </div>
       operationId: GetSubscriber
       parameters:
       - description: The subscriber's id.
@@ -4532,6 +5227,10 @@ paths:
     get:
       description: |
         The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+
+        <div>
+          <code>read:users</code>
+        </div>
       operationId: getUsers
       parameters:
       - description: Number of results per page. Defaults to 10 if parameter not sent.
@@ -4607,23 +5306,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/users_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/users_response'
           description: Users successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Users
+      summary: Get users
       tags:
       - Users
   /api/v1/users/{user_id}/refresh_claims:
     post:
       description: |
         Refreshes the user's claims and invalidates the current cache.
+
+        <div>
+          <code>update:user_refresh_claims</code>
+        </div>
       operationId: refreshUserClaims
       parameters:
       - description: The id of the user whose claims needs to be updated.
@@ -4673,6 +5387,10 @@ paths:
     delete:
       description: |
         Delete a user record.
+
+        <div>
+          <code>delete:users</code>
+        </div>
       operationId: deleteUser
       parameters:
       - description: The user's id.
@@ -4681,6 +5399,7 @@ paths:
         name: id
         required: true
         schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
           nullable: false
           type: string
         style: form
@@ -4691,6 +5410,7 @@ paths:
         name: is_delete_profile
         required: false
         schema:
+          example: true
           nullable: false
           type: boolean
         style: form
@@ -4700,31 +5420,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
           description: User successfully deleted.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Delete User
+      summary: Delete user
       tags:
       - Users
     get:
       description: |
         Retrieve a user record.
+
+        <div>
+          <code>read:users</code>
+        </div>
       operationId: getUserData
       parameters:
       - description: The user's id.
@@ -4752,31 +5478,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/user'
           description: User successfully updated.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Get User
+      summary: Get user
       tags:
       - Users
     patch:
       description: |
         Update a user record.
+
+        <div>
+          <code>update:users</code>
+        </div>
       operationId: updateUser
       parameters:
       - description: The user's id.
@@ -4801,32 +5533,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/update_user_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/update_user_response'
           description: User successfully updated.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Update User
+      summary: Update user
       tags:
       - Users
     post:
       description: |
         Creates a user record and optionally zero or more identities for the user. An example identity could be the email
         address of the user.
+
+        <div>
+          <code>create:users</code>
+        </div>
       operationId: createUser
       requestBody:
         content:
@@ -4841,31 +5579,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/create_user_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/create_user_response'
           description: User successfully created.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Error creating user.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Create User
+      summary: Create user
       tags:
       - Users
   /api/v1/users/{user_id}/feature_flags/{feature_flag_key}:
     patch:
-      description: Update user feature flag override.
+      description: |
+        Update user feature flag override.
+
+        <div>
+          <code>update:user_feature_flags</code>
+        </div>
       operationId: UpdateUserFeatureFlagOverride
       parameters:
       - description: The identifier for the user
@@ -4922,7 +5667,12 @@ paths:
       - Users
   /api/v1/users/{user_id}/properties/{property_key}:
     put:
-      description: Update property value.
+      description: |
+        Update property value.
+
+        <div>
+          <code>update:user_properties</code>
+        </div>
       operationId: UpdateUserProperty
       parameters:
       - description: The identifier for the user
@@ -4981,6 +5731,10 @@ paths:
     get:
       description: |
         Gets properties for an user by ID.
+
+        <div>
+          <code>read:user_properties</code>
+        </div>
       operationId: GetUserPropertyValues
       parameters:
       - description: The user's ID.
@@ -5021,7 +5775,12 @@ paths:
       tags:
       - Users
     patch:
-      description: Update property values.
+      description: |
+        Update property values.
+
+        <div>
+          <code>update:user_properties</code>
+        </div>
       operationId: UpdateUserProperties
       parameters:
       - description: The identifier for the user
@@ -5069,7 +5828,12 @@ paths:
       - Users
   /api/v1/users/{user_id}/password:
     put:
-      description: Set user password.
+      description: |
+        Set user password.
+
+        <div>
+          <code>update:user_passwords</code>
+        </div>
       operationId: SetUserPassword
       parameters:
       - description: The identifier for the user
@@ -5119,6 +5883,10 @@ paths:
     get:
       description: |
         Gets a list of identities for an user by ID.
+
+        <div>
+          <code>read:user_identities</code>
+        </div>
       operationId: GetUserIdentities
       parameters:
       - description: The user's ID.
@@ -5130,6 +5898,24 @@ paths:
           nullable: false
           type: string
         style: simple
+      - description: The ID of the identity to start after.
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the identity to end before.
+        explode: true
+        in: query
+        name: ending_before
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -5161,6 +5947,10 @@ paths:
     post:
       description: |
         Creates an identity for a user.
+
+        <div>
+          <code>create:user_identities</code>
+        </div>
       operationId: CreateUserIdentity
       parameters:
       - description: The user's ID.
@@ -5180,7 +5970,7 @@ paths:
         description: The identity details.
         required: false
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
@@ -5211,6 +6001,10 @@ paths:
     get:
       description: |
         Returns an event
+
+        <div>
+          <code>read:events</code>
+        </div>
       operationId: GetEvent
       parameters:
       - description: The event id.
@@ -5261,6 +6055,10 @@ paths:
     get:
       description: |
         Returns a list event type definitions
+
+        <div>
+          <code>read:event_types</code>
+        </div>
       operationId: GetEventTypes
       responses:
         "200":
@@ -5301,6 +6099,10 @@ paths:
     delete:
       description: |
         Delete webhook
+
+        <div>
+          <code>delete:webhooks</code>
+        </div>
       operationId: DeleteWebHook
       parameters:
       - description: The webhook id.
@@ -5351,6 +6153,10 @@ paths:
     get:
       description: |
         List webhooks
+
+        <div>
+          <code>read:webhooks</code>
+        </div>
       operationId: GetWebHooks
       responses:
         "200":
@@ -5390,6 +6196,10 @@ paths:
     patch:
       description: |
         Update a webhook
+
+        <div>
+          <code>update:webhooks</code>
+        </div>
       operationId: UpdateWebHook
       requestBody:
         content:
@@ -5436,6 +6246,10 @@ paths:
     post:
       description: |
         Create a webhook
+
+        <div>
+          <code>create:webhooks</code>
+        </div>
       operationId: CreateWebHook
       requestBody:
         content:
@@ -5480,15 +6294,83 @@ paths:
       tags:
       - Webhooks
 components:
+  parameters:
+    api_id:
+      description: The API's ID.
+      explode: false
+      in: path
+      name: api_id
+      required: true
+      schema:
+        example: 7ccd126599aa422a771abcb341596881
+        type: string
+      style: simple
+    application_id:
+      description: The application's ID / client ID.
+      explode: false
+      in: path
+      name: application_id
+      required: true
+      schema:
+        example: 3b0b5c6c8fcc464fab397f4969b5f482
+        type: string
+      style: simple
+    property_key:
+      description: The property's key.
+      explode: false
+      in: path
+      name: property_key
+      required: true
+      schema:
+        example: kp_some_key
+        type: string
+      style: simple
+    variable_id:
+      description: The environment variable's ID.
+      explode: false
+      in: path
+      name: variable_id
+      required: true
+      schema:
+        example: env_var_0192b1941f125645fa15bf28a662a0b3
+        type: string
+      style: simple
+  responses:
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+      description: Invalid request.
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
+      description: The specified resource was not found
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+      description: Too many requests. Request was throttled.
   schemas:
     success_response:
       example:
-        code: code
-        message: message
+        code: OK
+        message: Success
       properties:
         message:
+          example: Success
           type: string
         code:
+          example: OK
           type: string
       type: object
     error:
@@ -5506,6 +6388,302 @@ components:
           items:
             $ref: '#/components/schemas/error'
           type: array
+      type: object
+    not_found_response:
+      properties:
+        errors:
+          $ref: '#/components/schemas/not_found_response_errors'
+      type: object
+    get_apis_response:
+      example:
+        code: OK
+        apis:
+        - audience: https://api.example.com
+          is_management_api: false
+          name: Example API
+          id: 7ccd126599aa422a771abcb341596881
+        - audience: https://api.example.com
+          is_management_api: false
+          name: Example API
+          id: 7ccd126599aa422a771abcb341596881
+        message: Success
+        next_token: Njo5Om1hvWVfYXNj
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        next_token:
+          description: Pagination token.
+          example: Njo5Om1hvWVfYXNj
+          type: string
+        apis:
+          items:
+            $ref: '#/components/schemas/get_apis_response_apis_inner'
+          type: array
+      type: object
+    create_apis_response:
+      example:
+        code: OK
+        api:
+          id: 7ccd126599aa422a771abcb341596881
+        message: Success
+      properties:
+        message:
+          description: A Kinde generated message.
+          example: Success
+          type: string
+        code:
+          description: A Kinde generated status code.
+          example: OK
+          type: string
+        api:
+          $ref: '#/components/schemas/create_apis_response_api'
+      type: object
+    get_environment_variables_response:
+      example:
+        environment_variables:
+        - created_on: 2021-01-01T00:00:00Z
+          is_secret: false
+          id: env_var_0192b1941f125645fa15bf28a662a0b3
+          value: some-secret
+          key: MY_API_KEY
+        - created_on: 2021-01-01T00:00:00Z
+          is_secret: false
+          id: env_var_0192b1941f125645fa15bf28a662a0b3
+          value: some-secret
+          key: MY_API_KEY
+        code: OK
+        has_more: true
+        message: Success
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        environment_variables:
+          items:
+            $ref: '#/components/schemas/environment_variable'
+          type: array
+      type: object
+    get_environment_variable_response:
+      example:
+        code: OK
+        message: Success
+        environment_variable:
+          created_on: 2021-01-01T00:00:00Z
+          is_secret: false
+          id: env_var_0192b1941f125645fa15bf28a662a0b3
+          value: some-secret
+          key: MY_API_KEY
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        environment_variable:
+          $ref: '#/components/schemas/environment_variable'
+      type: object
+    create_environment_variable_response:
+      example:
+        code: VARIABLE_CREATED
+        message: Environment variable created
+        environment_variable:
+          id: env_var_0192b194f6156fb7452fe38cfb144958
+      properties:
+        message:
+          description: A Kinde generated message.
+          example: Environment variable created
+          type: string
+        code:
+          description: A Kinde generated status code.
+          example: VARIABLE_CREATED
+          type: string
+        environment_variable:
+          $ref: '#/components/schemas/create_environment_variable_response_environment_variable'
+      type: object
+    update_environment_variable_response:
+      example:
+        code: ENVIRONMENT_VARIABLE_UPDATED
+        message: Environment variable updated
+      properties:
+        message:
+          description: A Kinde generated message.
+          example: Environment variable updated
+          type: string
+        code:
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_UPDATED
+          type: string
+      type: object
+    delete_environment_variable_response:
+      example:
+        code: ENVIRONMENT_VARIABLE_DELETED
+        message: Environment variable deleted
+      properties:
+        message:
+          description: A Kinde generated message.
+          example: Environment variable deleted
+          type: string
+        code:
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_DELETED
+          type: string
+      type: object
+    get_business_response:
+      example:
+        code: OK
+        business:
+          code: bus_c69fb73b091
+          phone: 555-555-5555
+          timezone: Los Angeles (Pacific Standard Time)
+          terms_url: https://example.com/terms
+          name: Tailsforce Ltd
+          privacy_url: https://example.com/privacy
+          industry: Healthcare & Medical
+          email: sally@example.com
+        message: Success
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        business:
+          $ref: '#/components/schemas/get_business_response_business'
+      type: object
+    get_industries_response:
+      example:
+        code: OK
+        industries:
+        - name: Administration & Office Support
+          key: administration_office_support
+        - name: Administration & Office Support
+          key: administration_office_support
+        message: Success
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        industries:
+          items:
+            $ref: '#/components/schemas/get_industries_response_industries_inner'
+          type: array
+      type: object
+    get_timezones_response:
+      example:
+        code: OK
+        timezones:
+        - name: "London (Greenwich Mean Time) [+01:00]"
+          key: london_greenwich_mean_time
+        - name: "London (Greenwich Mean Time) [+01:00]"
+          key: london_greenwich_mean_time
+        message: Success
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        timezones:
+          items:
+            $ref: '#/components/schemas/get_timezones_response_timezones_inner'
+          type: array
+      type: object
+    get_api_response:
+      example:
+        code: OK
+        api:
+          audience: https://api.example.com
+          is_management_api: false
+          name: Example API
+          id: 7ccd126599aa422a771abcb341596881
+          applications:
+          - is_active: true
+            name: My M2M app
+            id: 3b0b5c6c8fcc464fab397f4969b5f482
+            type: Machine to machine (M2M)
+          - is_active: true
+            name: My M2M app
+            id: 3b0b5c6c8fcc464fab397f4969b5f482
+            type: Machine to machine (M2M)
+        message: success_response
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: success_response
+          type: string
+        api:
+          $ref: '#/components/schemas/get_api_response_api'
+      type: object
+    authorize_app_api_response:
+      example:
+        code: API_APPLICATIONS_UPDATED
+        applications_disconnected:
+        - applications_disconnected
+        - applications_disconnected
+        message: API applications updated
+        applications_connected:
+        - d2db282d6214242b3b145c123f0c123
+        - d2db282d6214242b3b145c123f0c123
+      properties:
+        message:
+          example: API applications updated
+          type: string
+        code:
+          example: API_APPLICATIONS_UPDATED
+          type: string
+        applications_disconnected:
+          items:
+            type: string
+          type: array
+        applications_connected:
+          items:
+            example: d2db282d6214242b3b145c123f0c123
+            type: string
+          type: array
+      type: object
+    delete_api_response:
+      example:
+        code: API_DELETED
+        message: API successfully deleted
+      properties:
+        message:
+          example: API successfully deleted
+          type: string
+        code:
+          example: API_DELETED
+          type: string
       type: object
     user:
       example:
@@ -5531,10 +6709,10 @@ components:
         username: username
       properties:
         id:
-          description: Unique id of the user in Kinde.
+          description: Unique ID of the user in Kinde.
           type: string
         provided_id:
-          description: External id for user.
+          description: External ID for user.
           type: string
         preferred_email:
           description: Default email address of the user in Kinde.
@@ -5592,7 +6770,7 @@ components:
         picture: picture
       properties:
         id:
-          description: Unique id of the user in Kinde.
+          description: Unique ID of the user in Kinde.
           type: string
         given_name:
           description: User's first name.
@@ -5611,6 +6789,7 @@ components:
           type: boolean
         picture:
           description: User's profile picture URL.
+          nullable: true
           type: string
       type: object
     users:
@@ -5692,7 +6871,7 @@ components:
         id: id
       properties:
         id:
-          description: Unique id of the user in Kinde.
+          description: Unique ID of the user in Kinde.
           type: string
         created:
           description: True if the user was successfully created.
@@ -5704,14 +6883,18 @@ components:
       type: object
     create_organization_response:
       example:
-        code: code
+        code: OK
         organization:
-          code: code
-        message: message
+          code: org_1ccfb819462
+        message: Success
       properties:
         message:
+          description: Response message.
+          example: Success
           type: string
         code:
+          description: Response code.
+          example: OK
           type: string
         organization:
           $ref: '#/components/schemas/create_organization_response_organization'
@@ -5727,40 +6910,6 @@ components:
           type: string
         result:
           $ref: '#/components/schemas/user_identity_result'
-      type: object
-    user_profile:
-      example:
-        preferred_email: preferred_email
-        last_name: last_name
-        id: id
-        provided_id: provided_id
-        first_name: first_name
-        picture: picture
-        username: username
-      properties:
-        id:
-          description: Unique id of the user in Kinde.
-          type: string
-        preferred_email:
-          description: Default email address of the user in Kinde.
-          type: string
-        username:
-          description: Primary username of the user in Kinde.
-          type: string
-        provided_id:
-          description: Value of the user's id in a third-party system when the user
-            is imported into Kinde.
-          nullable: true
-          type: string
-        last_name:
-          description: User's last name.
-          type: string
-        first_name:
-          description: User's first name.
-          type: string
-        picture:
-          description: URL that point's to the user's picture or avatar
-          type: string
       type: object
     create_property_response:
       example:
@@ -5793,23 +6942,23 @@ components:
     get_identities_response:
       example:
         code: code
+        identities:
+        - total_logins: 0
+          created_on: created_on
+          is_confirmed: true
+          name: name
+          id: id
+          type: type
+          last_login_on: last_login_on
+        - total_logins: 0
+          created_on: created_on
+          is_confirmed: true
+          name: name
+          id: id
+          type: type
+          last_login_on: last_login_on
         has_more: true
         message: message
-        properties:
-        - total_logins: 0
-          created_on: created_on
-          is_confirmed: true
-          name: name
-          id: id
-          type: type
-          last_login_on: last_login_on
-        - total_logins: 0
-          created_on: created_on
-          is_confirmed: true
-          name: name
-          id: id
-          type: type
-          last_login_on: last_login_on
       properties:
         code:
           description: Response code.
@@ -5817,7 +6966,7 @@ components:
         message:
           description: Response message.
           type: string
-        properties:
+        identities:
           items:
             $ref: '#/components/schemas/identity'
           type: array
@@ -5864,16 +7013,16 @@ components:
         message: message
         next_token: next_token
         properties:
-        - name: name
-          description: description
-          id: id
-          value: value
-          key: key
-        - name: name
-          description: description
-          id: id
-          value: value
-          key: key
+        - name: Town
+          description: Where the entity is located
+          id: prop_0192b7e8b4f8ca08110d2b22059662a8
+          value: West-side Staines massive
+          key: kp_town
+        - name: Town
+          description: Where the entity is located
+          id: prop_0192b7e8b4f8ca08110d2b22059662a8
+          value: West-side Staines massive
+          key: kp_town
       properties:
         code:
           description: Response code.
@@ -6179,78 +7328,203 @@ components:
       type: object
     user_profile_v2:
       example:
-        sub: sub
-        updated_at: 0
-        name: name
-        id: id
-        given_name: given_name
-        provided_id: provided_id
-        family_name: family_name
-        email: email
-        picture: picture
+        sub: kp_c3143a4b50ad43c88e541d9077681782
+        email_verified: true
+        updated_at: 1612345678
+        name: John Snow
+        preferred_username: john_snow
+        id: kp_c3143a4b50ad43c88e541d9077681782
+        given_name: John
+        provided_id: some_external_id
+        family_name: Snow
+        email: john.snow@example.com
+        picture: https://example.com/john_snow.jpg
       properties:
-        id:
-          description: Unique id of the user in Kinde (deprecated).
-          type: string
         sub:
-          description: Unique id of the user in Kinde.
+          description: Unique ID of the user in Kinde.
+          example: kp_c3143a4b50ad43c88e541d9077681782
           type: string
         provided_id:
-          description: Value of the user's id in a third-party system when the user
+          description: Value of the user's ID in a third-party system when the user
             is imported into Kinde.
+          example: some_external_id
           nullable: true
           type: string
         name:
           description: User's first and last name separated by a space.
+          example: John Snow
           type: string
         given_name:
           description: User's first name.
+          example: John
           type: string
         family_name:
           description: User's last name.
+          example: Snow
           type: string
         updated_at:
           description: Date the user was last updated at (In Unix time).
+          example: 1612345678
           type: integer
         email:
           description: User's email address if available.
+          example: john.snow@example.com
           type: string
+        email_verified:
+          description: Whether the user's email address has been verified.
+          example: true
+          type: boolean
         picture:
           description: URL that point's to the user's picture or avatar
+          example: https://example.com/john_snow.jpg
+          nullable: true
+          type: string
+        preferred_username:
+          description: User's preferred username.
+          example: john_snow
+          nullable: true
+          type: string
+        id:
+          description: Unique ID of the user in Kinde
+          example: kp_c3143a4b50ad43c88e541d9077681782
           type: string
       type: object
-    organization:
+    organization_item_schema:
       example:
-        link_color: link_color
-        button_color: button_color
-        code: code
-        background_color: background_color
-        button_text_color: button_text_color
-        name: name
-        is_allow_registrations: true
-        logo: logo
-        external_id: external_id
-        is_default: true
+        is_auto_membership_enabled: true
+        code: org_1ccfb819462
+        name: Acme Corp
+        handle: acme_corp
+        external_id: some1234
+        is_default: false
       properties:
         code:
+          description: The unique identifier for the organization.
+          example: org_1ccfb819462
           type: string
         name:
+          description: The organization's name.
+          example: Acme Corp
+          type: string
+        handle:
+          description: A unique handle for the organization - can be used for dynamic
+            callback urls.
+          example: acme_corp
+          nullable: true
           type: string
         is_default:
+          description: Whether the organization is the default organization.
+          example: false
           type: boolean
         external_id:
+          description: The organization's external identifier - commonly used when
+            migrating from or mapping to other systems.
+          example: some1234
+          nullable: true
           type: string
+        is_auto_membership_enabled:
+          description: If users become members of this organization when the org code
+            is supplied during authentication.
+          example: true
+          type: boolean
+      type: object
+    get_organization_response:
+      example:
+        code: org_1ccfb819462
+        button_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        is_allow_registrations: true
+        handle: acme_corp
+        external_id: some1234
+        is_default: false
+        is_auto_membership_enabled: true
+        background_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        link_color:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        button_color:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        background_color:
+          hsl: "hsl(0, 0%, 100%)"
+          raw: '#ffffff'
+          hex: '#ffffff'
+        button_text_color:
+          hsl: "hsl(0, 0%, 100%)"
+          raw: '#ffffff'
+          hex: '#ffffff'
+        name: Acme Corp
+        button_text_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        logo: logo
+        link_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+      properties:
+        code:
+          description: The unique identifier for the organization.
+          example: org_1ccfb819462
+          type: string
+        name:
+          description: The organization's name.
+          example: Acme Corp
+          type: string
+        handle:
+          description: A unique handle for the organization - can be used for dynamic
+            callback urls.
+          example: acme_corp
+          nullable: true
+          type: string
+        is_default:
+          description: Whether the organization is the default organization.
+          example: false
+          type: boolean
+        external_id:
+          description: The organization's external identifier - commonly used when
+            migrating from or mapping to other systems.
+          example: some1234
+          nullable: true
+          type: string
+        is_auto_membership_enabled:
+          description: If users become members of this organization when the org code
+            is supplied during authentication.
+          example: true
+          type: boolean
         logo:
+          deprecated: true
+          nullable: true
           type: string
         link_color:
-          type: string
-        button_color:
-          type: string
+          $ref: '#/components/schemas/get_organization_response_link_color'
         background_color:
-          type: string
+          $ref: '#/components/schemas/get_organization_response_background_color'
+        button_color:
+          $ref: '#/components/schemas/get_organization_response_link_color'
         button_text_color:
-          type: string
+          $ref: '#/components/schemas/get_organization_response_background_color'
+        link_color_dark:
+          $ref: '#/components/schemas/get_organization_response_link_color'
+        background_color_dark:
+          $ref: '#/components/schemas/get_organization_response_link_color'
+        button_text_color_dark:
+          $ref: '#/components/schemas/get_organization_response_link_color'
+        button_color_dark:
+          $ref: '#/components/schemas/get_organization_response_link_color'
         is_allow_registrations:
+          deprecated: true
+          description: Deprecated - Use 'is_auto_membership_enabled' instead
+          example: true
+          nullable: true
           type: boolean
       type: object
     organization_user:
@@ -6308,6 +7582,36 @@ components:
         strategy:
           type: string
       type: object
+    environment_variable:
+      example:
+        created_on: 2021-01-01T00:00:00Z
+        is_secret: false
+        id: env_var_0192b1941f125645fa15bf28a662a0b3
+        value: some-secret
+        key: MY_API_KEY
+      properties:
+        id:
+          description: The unique ID for the environment variable.
+          example: env_var_0192b1941f125645fa15bf28a662a0b3
+          type: string
+        key:
+          description: The name of the environment variable.
+          example: MY_API_KEY
+          type: string
+        value:
+          description: The value of the environment variable.
+          example: some-secret
+          nullable: true
+          type: string
+        is_secret:
+          description: Whether the environment variable is sensitive.
+          example: false
+          type: boolean
+        created_on:
+          description: The date the environment variable was created.
+          example: 2021-01-01T00:00:00Z
+          type: string
+      type: object
     identity:
       example:
         total_logins: 0
@@ -6359,21 +7663,28 @@ components:
       type: object
     property_value:
       example:
-        name: name
-        description: description
-        id: id
-        value: value
-        key: key
+        name: Town
+        description: Where the entity is located
+        id: prop_0192b7e8b4f8ca08110d2b22059662a8
+        value: West-side Staines massive
+        key: kp_town
       properties:
         id:
+          example: prop_0192b7e8b4f8ca08110d2b22059662a8
           type: string
         name:
+          example: Town
           type: string
         description:
+          example: Where the entity is located
+          nullable: true
           type: string
         key:
+          example: kp_town
           type: string
         value:
+          example: West-side Staines massive
+          nullable: true
           type: string
       type: object
     role:
@@ -6533,11 +7844,13 @@ components:
       example:
         code: code
         roles:
-        - name: name
+        - is_default_role: true
+          name: name
           description: description
           id: id
           key: key
-        - name: name
+        - is_default_role: true
+          name: name
           description: description
           id: id
           key: key
@@ -6558,32 +7871,16 @@ components:
           description: Pagination token.
           type: string
       type: object
-    get_organizations_response:
+    get_role_response:
       example:
         code: code
-        organizations:
-        - link_color: link_color
-          button_color: button_color
-          code: code
-          background_color: background_color
-          button_text_color: button_text_color
-          name: name
-          is_allow_registrations: true
-          logo: logo
-          external_id: external_id
-          is_default: true
-        - link_color: link_color
-          button_color: button_color
-          code: code
-          background_color: background_color
-          button_text_color: button_text_color
-          name: name
-          is_allow_registrations: true
-          logo: logo
-          external_id: external_id
-          is_default: true
+        role:
+          is_default_role: false
+          name: Administrator
+          description: Full access to all resources.
+          id: 01929904-316d-bb2c-069f-99dfea4ac394
+          key: admin
         message: message
-        next_token: next_token
       properties:
         code:
           description: Response code.
@@ -6591,12 +7888,59 @@ components:
         message:
           description: Response message.
           type: string
+        role:
+          $ref: '#/components/schemas/get_role_response_role'
+      type: object
+    create_roles_response:
+      example:
+        code: code
+        role:
+          id: id
+        message: message
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        role:
+          $ref: '#/components/schemas/create_roles_response_role'
+      type: object
+    get_organizations_response:
+      example:
+        code: OK
+        organizations:
+        - is_auto_membership_enabled: true
+          code: org_1ccfb819462
+          name: Acme Corp
+          handle: acme_corp
+          external_id: some1234
+          is_default: false
+        - is_auto_membership_enabled: true
+          code: org_1ccfb819462
+          name: Acme Corp
+          handle: acme_corp
+          external_id: some1234
+          is_default: false
+        message: Success
+        next_token: Mjo5Om1hbWVfYZNj
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
         organizations:
           items:
-            $ref: '#/components/schemas/organization'
+            $ref: '#/components/schemas/organization_item_schema'
           type: array
         next_token:
           description: Pagination token.
+          example: Mjo5Om1hbWVfYZNj
           type: string
       type: object
     get_organization_users_response:
@@ -6958,15 +8302,25 @@ components:
       type: object
     logout_redirect_urls:
       example:
-        redirect_urls:
-        - redirect_urls
-        - redirect_urls
+        logout_urls:
+        - logout_urls
+        - logout_urls
+        code: OK
+        message: Success
       properties:
-        redirect_urls:
+        logout_urls:
           description: An application's logout URLs.
           items:
             type: string
           type: array
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
       type: object
     get_permissions_response:
       example:
@@ -7005,7 +8359,7 @@ components:
         key: key
       properties:
         id:
-          description: The permission's id.
+          description: The permission's ID.
           type: string
         key:
           description: The permission identifier to use in code.
@@ -7019,13 +8373,14 @@ components:
       type: object
     roles:
       example:
+        is_default_role: true
         name: name
         description: description
         id: id
         key: key
       properties:
         id:
-          description: The role's id.
+          description: The role's ID.
           type: string
         key:
           description: The role identifier to use in code.
@@ -7035,69 +8390,16 @@ components:
           type: string
         description:
           description: The role's description.
+          nullable: true
           type: string
+        is_default_role:
+          description: Whether the role is the default role.
+          type: boolean
       type: object
     roles_permission_response:
       items:
         $ref: '#/components/schemas/roles_permission_response_inner'
       type: array
-    apis:
-      example:
-        audience: audience
-        is_management_api: true
-        name: name
-        id: id
-      properties:
-        id:
-          description: Unique id of the API.
-          type: string
-        name:
-          description: The API's name.
-          type: string
-        audience:
-          description: The logical identifier for the API.
-          type: string
-        is_management_api:
-          description: Whether it is the management API or not.
-          type: boolean
-      type: object
-    api:
-      example:
-        audience: audience
-        code: code
-        name: name
-        id: id
-        message: message
-        applications:
-        - is_active: true
-          name: name
-          id: id
-          type: type
-        - is_active: true
-          name: name
-          id: id
-          type: type
-      properties:
-        id:
-          description: The API's unique identifier.
-          type: string
-        code:
-          description: Response code.
-          type: string
-        name:
-          description: The API's name.
-          type: string
-        message:
-          description: Response message.
-          type: string
-        audience:
-          description: The API's audience.
-          type: string
-        applications:
-          items:
-            $ref: '#/components/schemas/api_applications_inner'
-          type: array
-      type: object
     tokenIntrospection_request:
       properties:
         token:
@@ -7122,8 +8424,14 @@ components:
     addAPIs_request:
       properties:
         name:
+          description: The name of the API. (1-64 characters).
+          example: Example API
           type: string
         audience:
+          description: A unique identifier for the API - commonly the URL. This value
+            will be used as the `audience` parameter in authorization claims. (1-64
+            characters)
+          example: https://api.example.com
           type: string
       required:
       - audience
@@ -7132,11 +8440,13 @@ components:
     updateAPIApplications_request_applications_inner:
       properties:
         id:
-          description: The application's id.
+          description: The application's Client ID.
+          example: d2db282d6214242b3b145c123f0c123
           type: string
         operation:
-          description: "Optional operation, set to 'delete' to remove the user from\
-            \ the organization."
+          description: "Optional operation, set to 'delete' to revoke authorization\
+            \ for the application. If not set, the application will be authorized."
+          example: delete
           type: string
       required:
       - id
@@ -7154,14 +8464,20 @@ components:
       properties:
         name:
           description: The application's name.
+          example: React Native app
           type: string
         type:
-          description: The application's type.
+          description: "The application's type. Use `reg` for regular server rendered\
+            \ applications, `spa` for single-page applications, and `m2m` for machine-to-machine\
+            \ applications."
           enum:
           - reg
           - spa
           - m2m
           type: string
+      required:
+      - name
+      - type
       type: object
     updateApplication_request:
       properties:
@@ -7186,6 +8502,74 @@ components:
           type: string
         homepage_uri:
           description: The homepage link to your application.
+          type: string
+      type: object
+    updateApplicationsProperty_request_value:
+      description: The new value for the propery
+      example: Some new value
+      oneOf:
+      - type: string
+      - type: boolean
+    updateApplicationsProperty_request:
+      properties:
+        value:
+          $ref: '#/components/schemas/updateApplicationsProperty_request_value'
+      required:
+      - value
+      type: object
+    updateBusiness_request:
+      properties:
+        business_name:
+          description: The name of the business.
+          example: Tailsforce Ltd
+          nullable: true
+          type: string
+        email:
+          description: The email address of the business.
+          example: sally@example.com
+          nullable: true
+          type: string
+        industry_key:
+          description: The key of the industry of your business. Can be retrieved
+            from the /industries endpoint.
+          example: construction
+          nullable: true
+          type: string
+        is_click_wrap:
+          description: Whether the business is using clickwrap agreements.
+          example: false
+          nullable: true
+          type: boolean
+        is_show_kinde_branding:
+          description: Whether the business is showing Kinde branding. Requires a
+            paid plan.
+          example: true
+          nullable: true
+          type: boolean
+        kinde_perk_code:
+          description: The Kinde perk code for the business.
+          nullable: true
+          type: string
+        phone:
+          description: The phone number of the business.
+          example: 123-456-7890
+          nullable: true
+          type: string
+        privacy_url:
+          description: The URL to the business's privacy policy.
+          example: https://example.com/privacy
+          nullable: true
+          type: string
+        terms_url:
+          description: The URL to the business's terms of service.
+          example: https://example.com/terms
+          nullable: true
+          type: string
+        timezone_key:
+          description: The key of the timezone of your business. Can be retrieved
+            from the /timezones endpoint.
+          example: los_angeles_pacific_standard_time
+          nullable: true
           type: string
       type: object
     replaceRedirectCallbackURLs_request:
@@ -7280,6 +8664,40 @@ components:
       required:
       - value
       type: object
+    createEnvironmentVariable_request:
+      properties:
+        key:
+          description: The name of the environment variable (max 128 characters).
+          example: MY_API_KEY
+          type: string
+        value:
+          description: The value of the new environment variable (max 2048 characters).
+          example: some-secret-value
+          type: string
+        is_secret:
+          description: Whether the environment variable is sensitive. Secrets are
+            not-readable by you or your team after creation.
+          example: false
+          type: boolean
+      required:
+      - key
+      - value
+      type: object
+    updateEnvironmentVariable_request:
+      properties:
+        key:
+          description: The key to update.
+          example: MY_API_KEY
+          type: string
+        value:
+          description: The new value for the environment variable.
+          example: new-secret-value
+          type: string
+        is_secret:
+          description: Whether the environment variable is sensitive. Secret variables
+            are not-readable by you or your team after creation.
+          type: boolean
+      type: object
     CreateFeatureFlag_request:
       properties:
         name:
@@ -7331,6 +8749,7 @@ components:
       properties:
         name:
           description: The organization's name.
+          example: Acme Corp
           type: string
         feature_flags:
           additionalProperties:
@@ -7343,7 +8762,9 @@ components:
           description: The organization's feature flag settings.
           type: object
         external_id:
-          description: The organization's ID.
+          description: The organization's external identifier - commonly used when
+            migrating from or mapping to other systems.
+          example: some1234
           type: string
         background_color:
           description: The organization's brand settings - background color.
@@ -7374,10 +8795,17 @@ components:
             | 'user_preference'.
           type: string
         handle:
-          description: The organization's handle.
+          description: A unique handle for the organization - can be used for dynamic
+            callback urls.
+          example: acme_corp
           type: string
         is_allow_registrations:
-          description: Users can sign up to this organization.
+          description: If users become members of this organization when the org code
+            is supplied during authentication.
+          example: true
+          type: boolean
+        is_custom_auth_connections_enabled:
+          description: Enable custom auth connections for this organization.
           type: boolean
       required:
       - name
@@ -7386,44 +8814,76 @@ components:
       properties:
         name:
           description: The organization's name.
+          example: Acme Corp
           type: string
         external_id:
           description: The organization's ID.
+          example: some1234
           type: string
         background_color:
           description: The organization's brand settings - background color.
+          example: '#fff'
           type: string
         button_color:
           description: The organization's brand settings - button color.
+          example: '#fff'
           type: string
         button_text_color:
           description: The organization's brand settings - button text color.
+          example: '#fff'
           type: string
         link_color:
           description: The organization's brand settings - link color.
+          example: '#fff'
           type: string
         background_color_dark:
           description: The organization's brand settings - dark mode background color.
+          example: '#000'
           type: string
         button_color_dark:
           description: The organization's brand settings - dark mode button color.
+          example: '#000'
           type: string
         button_text_color_dark:
           description: The organization's brand settings - dark mode button text color.
+          example: '#000'
           type: string
         link_color_dark:
           description: The organization's brand settings - dark mode link color.
+          example: '#000'
           type: string
         theme_code:
-          description: The organization's brand settings - theme/mode 'light' | 'dark'
-            | 'user_preference'.
+          description: The organization's brand settings - theme/mode.
+          enum:
+          - light
+          - dark
+          - user_preference
+          example: light
           type: string
         handle:
           description: The organization's handle.
+          example: acme_corp
           type: string
         is_allow_registrations:
-          description: Users can sign up to this organization.
+          deprecated: true
+          description: Deprecated - Use 'is_auto_membership_enabled' instead.
           type: boolean
+        is_custom_auth_connections_enabled:
+          description: Enable custom auth connections for this organization.
+          example: true
+          type: boolean
+        is_auto_join_domain_list:
+          description: Users can sign up to this organization.
+          example: true
+          type: boolean
+        allowed_domains:
+          description: Domains allowed for self-sign up to this environment.
+          example:
+          - https://acme.kinde.com
+          - https://acme.com
+          items:
+            type: string
+          type: array
       type: object
     AddOrganizationUsers_request_users_inner:
       properties:
@@ -7536,6 +8996,7 @@ components:
           enum:
           - org
           - usr
+          - app
           nullable: false
           type: string
         is_private:
@@ -7586,6 +9047,7 @@ components:
           enum:
           - org
           - usr
+          - app
           nullable: false
           type: string
       required:
@@ -7614,24 +9076,6 @@ components:
           description: Set role as default for new users.
           type: boolean
       type: object
-    UpdateRolePermissions_request_permissions_inner:
-      properties:
-        id:
-          description: The permission id.
-          type: string
-        operation:
-          description: "Optional operation, set to 'delete' to remove the permission\
-            \ from the role."
-          type: string
-      type: object
-    UpdateRolePermissions_request:
-      properties:
-        permissions:
-          description: Permissions to add or remove from the role.
-          items:
-            $ref: '#/components/schemas/UpdateRolePermissions_request_permissions_inner'
-          type: array
-      type: object
     UpdateRoles_request:
       properties:
         name:
@@ -7650,6 +9094,24 @@ components:
       - key
       - name
       type: object
+    UpdateRolePermissions_request_permissions_inner:
+      properties:
+        id:
+          description: The permission id.
+          type: string
+        operation:
+          description: "Optional operation, set to 'delete' to remove the permission\
+            \ from the role."
+          type: string
+      type: object
+    UpdateRolePermissions_request:
+      properties:
+        permissions:
+          description: Permissions to add or remove from the role.
+          items:
+            $ref: '#/components/schemas/UpdateRolePermissions_request_permissions_inner'
+          type: array
+      type: object
     createUser_request_profile:
       description: Basic information required to create a user.
       properties:
@@ -7659,25 +9121,35 @@ components:
         family_name:
           description: User's last name.
           type: string
+        picture:
+          description: The user's profile picture.
+          type: string
       type: object
     createUser_request_identities_inner_details:
       description: Additional details required to create the user.
       properties:
         email:
           description: The email address of the user.
+          example: email@email.com
           type: string
         phone:
           description: The phone number of the user.
+          example: +61426148233
+          type: string
+        phone_country_id:
+          description: The country code for the phone number.
+          example: au
           type: string
         username:
           description: The username of the user.
+          example: myusername
           type: string
       type: object
     createUser_request_identities_inner:
       description: The result of the user creation operation.
       properties:
         type:
-          description: "The type of identity to create, for e.g. email."
+          description: "The type of identity to create, e.g. email, username, or phone."
           enum:
           - email
           - phone
@@ -7694,8 +9166,22 @@ components:
           description: The unique code associated with the organization you want the
             user to join.
           type: string
+        provided_id:
+          description: An external id to reference the user.
+          type: string
         identities:
           description: Array of identities to assign to the created user
+          example:
+          - type: email
+            details:
+              email: email@email.com
+          - type: phone
+            details:
+              phone: +61426148233
+              phone_country_id: au
+          - type: username
+            details:
+              username: myusername
           items:
             $ref: '#/components/schemas/createUser_request_identities_inner'
           type: array
@@ -7708,12 +9194,18 @@ components:
         family_name:
           description: User's last name.
           type: string
+        picture:
+          description: The user's profile picture.
+          type: string
         is_suspended:
           description: Whether the user is currently suspended or not.
           type: boolean
         is_password_reset_requested:
           description: Prompt the user to change their password on next sign in.
           type: boolean
+        provided_id:
+          description: An external id to reference the user.
+          type: string
       type: object
     SetUserPassword_request:
       properties:
@@ -7749,7 +9241,8 @@ components:
     CreateUserIdentity_request:
       properties:
         value:
-          description: "The email address, or username of the user."
+          description: "The email address, social identity, or username of the user."
+          example: sally@example.com
           type: string
         type:
           description: The identity type
@@ -7757,10 +9250,19 @@ components:
           - email
           - username
           - phone
+          - enterprise
+          - social
+          example: email
           type: string
         phone_country_id:
           description: "The country code for the phone number, only required when\
             \ identity type is 'phone'."
+          example: au
+          type: string
+        connection_id:
+          description: "The social connection ID, only required when identity type\
+            \ is 'social'."
+          example: conn_019289347f1193da6c0e4d49b97b4bd2
           type: string
       type: object
     CreateWebHook_request:
@@ -7805,6 +9307,204 @@ components:
           nullable: true
           type: string
       type: object
+    not_found_response_errors:
+      properties:
+        code:
+          example: ROUTE_NOT_FOUND
+          type: string
+        message:
+          example: The requested API route does not exist
+          type: string
+      type: object
+    get_apis_response_apis_inner:
+      example:
+        audience: https://api.example.com
+        is_management_api: false
+        name: Example API
+        id: 7ccd126599aa422a771abcb341596881
+      properties:
+        id:
+          description: The unique ID for the API.
+          example: 7ccd126599aa422a771abcb341596881
+          type: string
+        name:
+          description: The API’s name.
+          example: Example API
+          type: string
+        audience:
+          description: A unique identifier for the API - commonly the URL. This value
+            will be used as the `audience` parameter in authorization claims.
+          example: https://api.example.com
+          type: string
+        is_management_api:
+          description: Whether or not it is the Kinde management API.
+          example: false
+          type: boolean
+      type: object
+    create_apis_response_api:
+      example:
+        id: 7ccd126599aa422a771abcb341596881
+      properties:
+        id:
+          description: The unique ID for the API.
+          example: 7ccd126599aa422a771abcb341596881
+          type: string
+      type: object
+    create_environment_variable_response_environment_variable:
+      example:
+        id: env_var_0192b194f6156fb7452fe38cfb144958
+      properties:
+        id:
+          description: The unique ID for the environment variable.
+          example: env_var_0192b194f6156fb7452fe38cfb144958
+          type: string
+      type: object
+    get_business_response_business:
+      example:
+        code: bus_c69fb73b091
+        phone: 555-555-5555
+        timezone: Los Angeles (Pacific Standard Time)
+        terms_url: https://example.com/terms
+        name: Tailsforce Ltd
+        privacy_url: https://example.com/privacy
+        industry: Healthcare & Medical
+        email: sally@example.com
+      properties:
+        code:
+          description: The unique ID for the business.
+          example: bus_c69fb73b091
+          type: string
+        name:
+          description: Your business's name.
+          example: Tailsforce Ltd
+          type: string
+        phone:
+          description: Phone number associated with business.
+          example: 555-555-5555
+          nullable: true
+          type: string
+        email:
+          description: Email address associated with business.
+          example: sally@example.com
+          nullable: true
+          type: string
+        industry:
+          description: The industry your business is in.
+          example: Healthcare & Medical
+          nullable: true
+          type: string
+        timezone:
+          description: The timezone your business is in.
+          example: Los Angeles (Pacific Standard Time)
+          nullable: true
+          type: string
+        privacy_url:
+          description: Your Privacy policy URL.
+          example: https://example.com/privacy
+          nullable: true
+          type: string
+        terms_url:
+          description: Your Terms and Conditions URL.
+          example: https://example.com/terms
+          nullable: true
+          type: string
+      type: object
+    get_industries_response_industries_inner:
+      example:
+        name: Administration & Office Support
+        key: administration_office_support
+      properties:
+        key:
+          description: The unique key for the industry.
+          example: administration_office_support
+          type: string
+        name:
+          description: The display name for the industry.
+          example: Administration & Office Support
+          type: string
+      type: object
+    get_timezones_response_timezones_inner:
+      example:
+        name: "London (Greenwich Mean Time) [+01:00]"
+        key: london_greenwich_mean_time
+      properties:
+        key:
+          description: The unique key for the timezone.
+          example: london_greenwich_mean_time
+          type: string
+        name:
+          description: The display name for the timezone.
+          example: "London (Greenwich Mean Time) [+01:00]"
+          type: string
+      type: object
+    get_api_response_api_applications_inner:
+      example:
+        is_active: true
+        name: My M2M app
+        id: 3b0b5c6c8fcc464fab397f4969b5f482
+        type: Machine to machine (M2M)
+      properties:
+        id:
+          description: The Client ID of the application.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: string
+        name:
+          description: The application's name.
+          example: My M2M app
+          type: string
+        type:
+          description: The application's type.
+          enum:
+          - Machine to machine (M2M)
+          - Back-end web
+          - Front-end and mobile
+          example: Machine to machine (M2M)
+          type: string
+        is_active:
+          description: Whether or not the application is authorized to access the
+            API
+          example: true
+          nullable: true
+          type: boolean
+      type: object
+    get_api_response_api:
+      example:
+        audience: https://api.example.com
+        is_management_api: false
+        name: Example API
+        id: 7ccd126599aa422a771abcb341596881
+        applications:
+        - is_active: true
+          name: My M2M app
+          id: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: Machine to machine (M2M)
+        - is_active: true
+          name: My M2M app
+          id: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: Machine to machine (M2M)
+      properties:
+        id:
+          description: Unique ID of the API.
+          example: 7ccd126599aa422a771abcb341596881
+          type: string
+        name:
+          description: The API’s name.
+          example: Example API
+          type: string
+        audience:
+          description: A unique identifier for the API - commonly the URL. This value
+            will be used as the `audience` parameter in authorization claims.
+          example: https://api.example.com
+          type: string
+        is_management_api:
+          description: Whether or not it is the Kinde management API.
+          example: false
+          type: boolean
+        applications:
+          items:
+            $ref: '#/components/schemas/get_api_response_api_applications_inner'
+          type: array
+      type: object
     user_identities_inner:
       example:
         identity: identity
@@ -7839,10 +9539,10 @@ components:
         username: username
       properties:
         id:
-          description: Unique id of the user in Kinde.
+          description: Unique ID of the user in Kinde.
           type: string
         provided_id:
-          description: External id for user.
+          description: External ID for user.
           type: string
         email:
           description: Default email address of the user in Kinde.
@@ -7891,10 +9591,11 @@ components:
       type: object
     create_organization_response_organization:
       example:
-        code: code
+        code: org_1ccfb819462
       properties:
         code:
-          description: The organization's code.
+          description: The organization's unique code.
+          example: org_1ccfb819462
           type: string
       type: object
     user_identity_result:
@@ -7976,6 +9677,40 @@ components:
           description: The connection's ID.
           type: string
       type: object
+    get_organization_response_link_color:
+      example:
+        hsl: "hsl(220, 100%, 50%)"
+        raw: '#0056F1'
+        hex: '#0056F1'
+      nullable: true
+      properties:
+        raw:
+          example: '#0056F1'
+          type: string
+        hex:
+          example: '#0056F1'
+          type: string
+        hsl:
+          example: "hsl(220, 100%, 50%)"
+          type: string
+      type: object
+    get_organization_response_background_color:
+      example:
+        hsl: "hsl(0, 0%, 100%)"
+        raw: '#ffffff'
+        hex: '#ffffff'
+      nullable: true
+      properties:
+        raw:
+          example: '#ffffff'
+          type: string
+        hex:
+          example: '#ffffff'
+          type: string
+        hsl:
+          example: "hsl(0, 0%, 100%)"
+          type: string
+      type: object
     organization_user_role_permissions_permissions:
       properties:
         key:
@@ -7989,6 +9724,43 @@ components:
         id:
           type: string
         key:
+          type: string
+      type: object
+    get_role_response_role:
+      example:
+        is_default_role: false
+        name: Administrator
+        description: Full access to all resources.
+        id: 01929904-316d-bb2c-069f-99dfea4ac394
+        key: admin
+      properties:
+        id:
+          description: The role's ID.
+          example: 01929904-316d-bb2c-069f-99dfea4ac394
+          type: string
+        key:
+          description: The role identifier to use in code.
+          example: admin
+          type: string
+        name:
+          description: The role's name.
+          example: Administrator
+          type: string
+        description:
+          description: The role's description.
+          example: Full access to all resources.
+          type: string
+        is_default_role:
+          description: Whether the role is the default role.
+          example: false
+          type: boolean
+      type: object
+    create_roles_response_role:
+      example:
+        id: id
+      properties:
+        id:
+          description: The role's ID.
           type: string
       type: object
     get_organization_feature_flags_response_feature_flags_value:
@@ -8023,7 +9795,7 @@ components:
           description: The application's identifier.
           type: string
         client_id:
-          description: The application's client id.
+          description: The application's client ID.
           type: string
         client_secret:
           description: The application's client secret.
@@ -8049,7 +9821,7 @@ components:
           description: The application's type.
           type: string
         client_id:
-          description: The application's client id.
+          description: The application's client ID.
           type: string
         client_secret:
           description: The application's client secret.
@@ -8077,83 +9849,11 @@ components:
         description:
           type: string
       type: object
-    api_applications_inner:
-      example:
-        is_active: true
-        name: name
-        id: id
-        type: type
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        is_active:
-          type: boolean
-      type: object
   securitySchemes:
     kindeBearerAuth:
       bearerFormat: JWT
       description: |
-        Accessing the API requires obtaining an access token when login in through Kinde. However, management functions (for e.g. user management) requires an access token
-        obtained using the client_credentials flow.
+        Accessing the API requires obtaining an access token when login in through Kinde. However, management functions (for e.g. user management) requires an access token obtained using the client_credentials flow.
       scheme: bearer
       type: http
-x-tagGroups:
-- name: Kinde Management API
-  tags:
-  - OAuth
-- name: APIs API
-  tags:
-  - APIs
-  - Connected Apps
-- name: Applications API
-  tags:
-  - Applications
-- name: Business API
-  tags:
-  - Business
-  - Industries
-  - Timezones
-- name: Callbacks API
-  tags:
-  - Callbacks
-- name: Connections API
-  tags:
-  - Connections
-- name: Environment API
-  tags:
-  - Environments
-- name: Feature flags API
-  tags:
-  - Feature Flags
-- name: Identities API
-  tags:
-  - Identities
-- name: Organizations API
-  tags:
-  - Organizations
-- name: Permissions API
-  tags:
-  - Permissions
-- name: Properties API
-  tags:
-  - Properties
-- name: Property Categories API
-  tags:
-  - Property Categories
-- name: Roles API
-  tags:
-  - Roles
-- name: Subscribers API
-  tags:
-  - Subscribers
-- name: Users API
-  tags:
-  - Users
-- name: Webhooks API
-  tags:
-  - Webhooks
 

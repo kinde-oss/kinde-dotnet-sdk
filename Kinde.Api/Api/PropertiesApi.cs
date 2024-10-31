@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Property
         /// </summary>
         /// <remarks>
-        /// Create property.
+        /// Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create Property
         /// </summary>
         /// <remarks>
-        /// Create property.
+        /// Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Delete Property
         /// </summary>
         /// <remarks>
-        /// Delete property.
+        /// Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Delete Property
         /// </summary>
         /// <remarks>
-        /// Delete property.
+        /// Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -74,13 +74,13 @@ namespace Kinde.Api.Api
         /// List properties
         /// </summary>
         /// <remarks>
-        /// Returns a list of properties 
+        /// Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>GetPropertiesResponse</returns>
         GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
 
@@ -88,20 +88,20 @@ namespace Kinde.Api.Api
         /// List properties
         /// </summary>
         /// <remarks>
-        /// Returns a list of properties 
+        /// Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>ApiResponse of GetPropertiesResponse</returns>
         ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
         /// <summary>
         /// Update Property
         /// </summary>
         /// <remarks>
-        /// Update property.
+        /// Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -113,7 +113,7 @@ namespace Kinde.Api.Api
         /// Update Property
         /// </summary>
         /// <remarks>
-        /// Update property.
+        /// Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -133,7 +133,7 @@ namespace Kinde.Api.Api
         /// Create Property
         /// </summary>
         /// <remarks>
-        /// Create property.
+        /// Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -145,7 +145,7 @@ namespace Kinde.Api.Api
         /// Create Property
         /// </summary>
         /// <remarks>
-        /// Create property.
+        /// Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -156,7 +156,7 @@ namespace Kinde.Api.Api
         /// Delete Property
         /// </summary>
         /// <remarks>
-        /// Delete property.
+        /// Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -168,7 +168,7 @@ namespace Kinde.Api.Api
         /// Delete Property
         /// </summary>
         /// <remarks>
-        /// Delete property.
+        /// Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -179,13 +179,13 @@ namespace Kinde.Api.Api
         /// List properties
         /// </summary>
         /// <remarks>
-        /// Returns a list of properties 
+        /// Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetPropertiesResponse</returns>
         System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -194,13 +194,13 @@ namespace Kinde.Api.Api
         /// List properties
         /// </summary>
         /// <remarks>
-        /// Returns a list of properties 
+        /// Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -208,7 +208,7 @@ namespace Kinde.Api.Api
         /// Update Property
         /// </summary>
         /// <remarks>
-        /// Update property.
+        /// Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -221,7 +221,7 @@ namespace Kinde.Api.Api
         /// Update Property
         /// </summary>
         /// <remarks>
-        /// Update property.
+        /// Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -459,7 +459,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Property Create property.
+        /// Create Property Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -471,7 +471,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Property Create property.
+        /// Create Property Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -522,7 +522,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Property Create property.
+        /// Create Property Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -535,7 +535,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Property Create property.
+        /// Create Property Create property.  &lt;div&gt;   &lt;code&gt;create:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createPropertyRequest">Property details.</param>
@@ -590,7 +590,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Property Delete property.
+        /// Delete Property Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -602,7 +602,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Property Delete property.
+        /// Delete Property Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -652,7 +652,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Property Delete property.
+        /// Delete Property Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -665,7 +665,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Property Delete property.
+        /// Delete Property Delete property.  &lt;div&gt;   &lt;code&gt;delete:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -719,13 +719,13 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List properties Returns a list of properties 
+        /// List properties Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>GetPropertiesResponse</returns>
         public GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
         {
@@ -734,13 +734,13 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List properties Returns a list of properties 
+        /// List properties Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>ApiResponse of GetPropertiesResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
         {
@@ -798,13 +798,13 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List properties Returns a list of properties 
+        /// List properties Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetPropertiesResponse</returns>
         public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -814,13 +814,13 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List properties Returns a list of properties 
+        /// List properties Returns a list of properties  &lt;div&gt;   &lt;code&gt;read:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the property to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
-        /// <param name="context">Filter results by User or Organization context (optional)</param>
+        /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -882,7 +882,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property Update property.
+        /// Update Property Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -895,7 +895,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property Update property.
+        /// Update Property Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -952,7 +952,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property Update property.
+        /// Update Property Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>
@@ -966,7 +966,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Property Update property.
+        /// Update Property Update property.  &lt;div&gt;   &lt;code&gt;update:properties&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="propertyId">The unique identifier for the property.</param>

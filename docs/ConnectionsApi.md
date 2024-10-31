@@ -1,6 +1,6 @@
 # Kinde.Api.Api.ConnectionsApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -16,7 +16,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create Connection
 
-Create Connection.
+Create Connection.  <div>   <code>create:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -34,7 +34,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -117,7 +117,7 @@ catch (ApiException e)
 
 Delete Connection
 
-Delete connection. 
+Delete connection.  <div>   <code>delete:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -135,7 +135,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -218,7 +218,7 @@ catch (ApiException e)
 
 Get Connection
 
-Get Connection.
+Get Connection.  <div>   <code>read:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -236,7 +236,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -319,7 +319,7 @@ catch (ApiException e)
 
 List Connections
 
-Returns a list of Connections 
+Returns a list of Connections  <div>   <code>read:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -337,7 +337,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -424,7 +424,7 @@ catch (ApiException e)
 
 Update Connection
 
-Update Connection.
+Update Connection.  <div>   <code>update:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -442,7 +442,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

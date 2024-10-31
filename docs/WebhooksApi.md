@@ -1,6 +1,6 @@
 # Kinde.Api.Api.WebhooksApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -17,7 +17,7 @@ All URIs are relative to *https://app.kinde.com*
 
 Create a Webhook
 
-Create a webhook 
+Create a webhook  <div>   <code>create:webhooks</code> </div> 
 
 ### Example
 ```csharp
@@ -35,7 +35,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -118,7 +118,7 @@ catch (ApiException e)
 
 Delete Webhook
 
-Delete webhook 
+Delete webhook  <div>   <code>delete:webhooks</code> </div> 
 
 ### Example
 ```csharp
@@ -136,7 +136,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -219,7 +219,7 @@ catch (ApiException e)
 
 Get Event
 
-Returns an event 
+Returns an event  <div>   <code>read:events</code> </div> 
 
 ### Example
 ```csharp
@@ -237,7 +237,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -320,7 +320,7 @@ catch (ApiException e)
 
 List Event Types
 
-Returns a list event type definitions 
+Returns a list event type definitions  <div>   <code>read:event_types</code> </div> 
 
 ### Example
 ```csharp
@@ -338,7 +338,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -416,7 +416,7 @@ This endpoint does not need any parameter.
 
 List Webhooks
 
-List webhooks 
+List webhooks  <div>   <code>read:webhooks</code> </div> 
 
 ### Example
 ```csharp
@@ -434,7 +434,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -512,7 +512,7 @@ This endpoint does not need any parameter.
 
 Update a Webhook
 
-Update a webhook 
+Update a webhook  <div>   <code>update:webhooks</code> </div> 
 
 ### Example
 ```csharp
@@ -530,7 +530,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

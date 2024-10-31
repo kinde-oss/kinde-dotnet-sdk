@@ -67,6 +67,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test CreateUserIdentity
+        /// </summary>
+        [Fact]
+        public void CreateUserIdentityTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //CreateUserIdentityRequest? createUserIdentityRequest = null;
+            //var response = instance.CreateUserIdentity(userId, createUserIdentityRequest);
+            //Assert.IsType<CreateIdentityResponse>(response);
+        }
+
+        /// <summary>
         /// Test DeleteUser
         /// </summary>
         [Fact]
@@ -93,19 +106,46 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetUserIdentities
+        /// </summary>
+        [Fact]
+        public void GetUserIdentitiesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //string? startingAfter = null;
+            //string? endingBefore = null;
+            //var response = instance.GetUserIdentities(userId, startingAfter, endingBefore);
+            //Assert.IsType<GetIdentitiesResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetUserPropertyValues
+        /// </summary>
+        [Fact]
+        public void GetUserPropertyValuesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.GetUserPropertyValues(userId);
+            //Assert.IsType<GetPropertyValuesResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetUsers
         /// </summary>
         [Fact]
         public void GetUsersTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
             //int? pageSize = null;
             //string? userId = null;
             //string? nextToken = null;
             //string? email = null;
+            //string? username = null;
             //string? expand = null;
-            //var response = instance.GetUsers(sort, pageSize, userId, nextToken, email, expand);
+            //bool? hasOrganization = null;
+            //var response = instance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization);
             //Assert.IsType<UsersResponse>(response);
         }
 
@@ -122,15 +162,28 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test SetUserPassword
+        /// </summary>
+        [Fact]
+        public void SetUserPasswordTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //SetUserPasswordRequest setUserPasswordRequest = null;
+            //var response = instance.SetUserPassword(userId, setUserPasswordRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test UpdateUser
         /// </summary>
         [Fact]
         public void UpdateUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
+            //string id = null;
             //UpdateUserRequest updateUserRequest = null;
-            //string? id = null;
-            //var response = instance.UpdateUser(updateUserRequest, id);
+            //var response = instance.UpdateUser(id, updateUserRequest);
             //Assert.IsType<UpdateUserResponse>(response);
         }
 
@@ -145,6 +198,33 @@ namespace Kinde.Api.Test.Api
             //string featureFlagKey = null;
             //string value = null;
             //var response = instance.UpdateUserFeatureFlagOverride(userId, featureFlagKey, value);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateUserProperties
+        /// </summary>
+        [Fact]
+        public void UpdateUserPropertiesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest = null;
+            //var response = instance.UpdateUserProperties(userId, updateOrganizationPropertiesRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateUserProperty
+        /// </summary>
+        [Fact]
+        public void UpdateUserPropertyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //string propertyKey = null;
+            //string value = null;
+            //var response = instance.UpdateUserProperty(userId, propertyKey, value);
             //Assert.IsType<SuccessResponse>(response);
         }
     }

@@ -1,24 +1,25 @@
 # Kinde.Api.Api.RolesApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateRole**](RolesApi.md#createrole) | **POST** /api/v1/roles | Create Role |
-| [**DeleteRole**](RolesApi.md#deleterole) | **DELETE** /api/v1/roles/{role_id} | Delete Role |
-| [**GetRolePermission**](RolesApi.md#getrolepermission) | **GET** /api/v1/roles/{role_id}/permissions | Get Role Permissions |
-| [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List Roles |
-| [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove Role Permission |
-| [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update Role Permissions |
-| [**UpdateRoles**](RolesApi.md#updateroles) | **PATCH** /api/v1/roles/{role_id} | Update Role |
+| [**CreateRole**](RolesApi.md#createrole) | **POST** /api/v1/roles | Create role |
+| [**DeleteRole**](RolesApi.md#deleterole) | **DELETE** /api/v1/roles/{role_id} | Delete role |
+| [**GetRole**](RolesApi.md#getrole) | **GET** /api/v1/roles/{role_id} | Get role |
+| [**GetRolePermission**](RolesApi.md#getrolepermission) | **GET** /api/v1/roles/{role_id}/permissions | Get role permissions |
+| [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List roles |
+| [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove role permission |
+| [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update role permissions |
+| [**UpdateRoles**](RolesApi.md#updateroles) | **PATCH** /api/v1/roles/{role_id} | Update role |
 
 <a id="createrole"></a>
 # **CreateRole**
-> SuccessResponse CreateRole (CreateRoleRequest? createRoleRequest = null)
+> CreateRolesResponse CreateRole (CreateRoleRequest? createRoleRequest = null)
 
-Create Role
+Create role
 
-Create role.
+Create role.  <div>   <code>create:roles</code> </div> 
 
 ### Example
 ```csharp
@@ -36,7 +37,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -48,8 +49,8 @@ namespace Example
 
             try
             {
-                // Create Role
-                SuccessResponse result = apiInstance.CreateRole(createRoleRequest);
+                // Create role
+                CreateRolesResponse result = apiInstance.CreateRole(createRoleRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -69,8 +70,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create Role
-    ApiResponse<SuccessResponse> response = apiInstance.CreateRoleWithHttpInfo(createRoleRequest);
+    // Create role
+    ApiResponse<CreateRolesResponse> response = apiInstance.CreateRoleWithHttpInfo(createRoleRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -91,7 +92,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**CreateRolesResponse**](CreateRolesResponse.md)
 
 ### Authorization
 
@@ -100,7 +101,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -108,7 +109,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | Role successfully created |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -116,9 +118,9 @@ catch (ApiException e)
 # **DeleteRole**
 > SuccessResponse DeleteRole (string roleId)
 
-Delete Role
-
 Delete role
+
+Delete role  <div>   <code>delete:roles</code> </div> 
 
 ### Example
 ```csharp
@@ -136,7 +138,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -148,7 +150,7 @@ namespace Example
 
             try
             {
-                // Delete Role
+                // Delete role
                 SuccessResponse result = apiInstance.DeleteRole(roleId);
                 Debug.WriteLine(result);
             }
@@ -169,7 +171,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Delete Role
+    // Delete role
     ApiResponse<SuccessResponse> response = apiInstance.DeleteRoleWithHttpInfo(roleId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -200,7 +202,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -208,8 +210,109 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Role successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getrole"></a>
+# **GetRole**
+> GetRoleResponse GetRole (string roleId)
+
+Get role
+
+Get a role  <div>   <code>read:roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetRoleExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var roleId = "roleId_example";  // string | The identifier for the role.
+
+            try
+            {
+                // Get role
+                GetRoleResponse result = apiInstance.GetRole(roleId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.GetRole: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetRoleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get role
+    ApiResponse<GetRoleResponse> response = apiInstance.GetRoleWithHttpInfo(roleId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.GetRoleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The identifier for the role. |  |
+
+### Return type
+
+[**GetRoleResponse**](GetRoleResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Role successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -217,9 +320,9 @@ catch (ApiException e)
 # **GetRolePermission**
 > List&lt;RolesPermissionResponseInner&gt; GetRolePermission (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
 
-Get Role Permissions
+Get role permissions
 
-Get permissions for a role.
+Get permissions for a role.  <div>   <code>read:role_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -237,7 +340,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -252,7 +355,7 @@ namespace Example
 
             try
             {
-                // Get Role Permissions
+                // Get role permissions
                 List<RolesPermissionResponseInner> result = apiInstance.GetRolePermission(roleId, sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
@@ -273,7 +376,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get Role Permissions
+    // Get role permissions
     ApiResponse<List<RolesPermissionResponseInner>> response = apiInstance.GetRolePermissionWithHttpInfo(roleId, sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -324,9 +427,9 @@ catch (ApiException e)
 # **GetRoles**
 > GetRolesResponse GetRoles (string? sort = null, int? pageSize = null, string? nextToken = null)
 
-List Roles
+List roles
 
-The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter. 
+The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:roles</code> </div> 
 
 ### Example
 ```csharp
@@ -344,7 +447,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -358,7 +461,7 @@ namespace Example
 
             try
             {
-                // List Roles
+                // List roles
                 GetRolesResponse result = apiInstance.GetRoles(sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
@@ -379,7 +482,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Roles
+    // List roles
     ApiResponse<GetRolesResponse> response = apiInstance.GetRolesWithHttpInfo(sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -412,15 +515,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Roles successfully retrieved. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -428,9 +532,9 @@ catch (ApiException e)
 # **RemoveRolePermission**
 > SuccessResponse RemoveRolePermission (string roleId, string permissionId)
 
-Remove Role Permission
+Remove role permission
 
-Remove a permission from a role.
+Remove a permission from a role.  <div>   <code>delete:role_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -448,7 +552,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -461,7 +565,7 @@ namespace Example
 
             try
             {
-                // Remove Role Permission
+                // Remove role permission
                 SuccessResponse result = apiInstance.RemoveRolePermission(roleId, permissionId);
                 Debug.WriteLine(result);
             }
@@ -482,7 +586,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Remove Role Permission
+    // Remove role permission
     ApiResponse<SuccessResponse> response = apiInstance.RemoveRolePermissionWithHttpInfo(roleId, permissionId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -531,9 +635,9 @@ catch (ApiException e)
 # **UpdateRolePermissions**
 > UpdateRolePermissionsResponse UpdateRolePermissions (string roleId, UpdateRolePermissionsRequest updateRolePermissionsRequest)
 
-Update Role Permissions
+Update role permissions
 
-Update role permissions. 
+Update role permissions.  <div>   <code>update:role_permissions</code> </div> 
 
 ### Example
 ```csharp
@@ -551,7 +655,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -564,7 +668,7 @@ namespace Example
 
             try
             {
-                // Update Role Permissions
+                // Update role permissions
                 UpdateRolePermissionsResponse result = apiInstance.UpdateRolePermissions(roleId, updateRolePermissionsRequest);
                 Debug.WriteLine(result);
             }
@@ -585,7 +689,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update Role Permissions
+    // Update role permissions
     ApiResponse<UpdateRolePermissionsResponse> response = apiInstance.UpdateRolePermissionsWithHttpInfo(roleId, updateRolePermissionsRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -633,9 +737,9 @@ catch (ApiException e)
 # **UpdateRoles**
 > SuccessResponse UpdateRoles (string roleId, UpdateRolesRequest? updateRolesRequest = null)
 
-Update Role
+Update role
 
-Update a role
+Update a role  <div>   <code>update:roles</code> </div> 
 
 ### Example
 ```csharp
@@ -653,7 +757,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -666,7 +770,7 @@ namespace Example
 
             try
             {
-                // Update Role
+                // Update role
                 SuccessResponse result = apiInstance.UpdateRoles(roleId, updateRolesRequest);
                 Debug.WriteLine(result);
             }
@@ -687,7 +791,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update Role
+    // Update role
     ApiResponse<SuccessResponse> response = apiInstance.UpdateRolesWithHttpInfo(roleId, updateRolesRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -719,7 +823,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -727,8 +831,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | Role successfully updated |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

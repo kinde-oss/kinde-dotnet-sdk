@@ -14,9 +14,12 @@ Name | Type | Description | Notes
 **ButtonColorDark** | **string** | The organization&#39;s brand settings - dark mode button color. | [optional] 
 **ButtonTextColorDark** | **string** | The organization&#39;s brand settings - dark mode button text color. | [optional] 
 **LinkColorDark** | **string** | The organization&#39;s brand settings - dark mode link color. | [optional] 
-**ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;. | [optional] 
+**ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode. | [optional] 
 **Handle** | **string** | The organization&#39;s handle. | [optional] 
-**IsAllowRegistrations** | **bool** | Users can sign up to this organization. | [optional] 
+**IsAllowRegistrations** | **bool** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead. | [optional] 
+**IsCustomAuthConnectionsEnabled** | **bool** | Enable custom auth connections for this organization. | [optional] 
+**IsAutoJoinDomainList** | **bool** | Users can sign up to this organization. | [optional] 
+**AllowedDomains** | **List&lt;string&gt;** | Domains allowed for self-sign up to this environment. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.
+        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.
+        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Get identity
         /// </summary>
         /// <remarks>
-        /// Returns an identity by ID 
+        /// Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -64,7 +64,7 @@ namespace Kinde.Api.Api
         /// Get identity
         /// </summary>
         /// <remarks>
-        /// Returns an identity by ID 
+        /// Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -74,7 +74,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.
+        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -86,7 +86,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.
+        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -106,7 +106,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.
+        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -118,7 +118,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.
+        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -129,7 +129,7 @@ namespace Kinde.Api.Api
         /// Get identity
         /// </summary>
         /// <remarks>
-        /// Returns an identity by ID 
+        /// Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -141,7 +141,7 @@ namespace Kinde.Api.Api
         /// Get identity
         /// </summary>
         /// <remarks>
-        /// Returns an identity by ID 
+        /// Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -152,7 +152,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.
+        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -165,7 +165,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.
+        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -403,7 +403,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.
+        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -415,7 +415,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.
+        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -465,7 +465,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.
+        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -478,7 +478,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.
+        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -532,7 +532,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identity Returns an identity by ID 
+        /// Get identity Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -544,7 +544,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identity Returns an identity by ID 
+        /// Get identity Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -594,7 +594,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identity Returns an identity by ID 
+        /// Get identity Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -607,7 +607,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get identity Returns an identity by ID 
+        /// Get identity Returns an identity by ID  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -661,7 +661,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.
+        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -674,7 +674,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.
+        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -731,7 +731,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.
+        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -745,7 +745,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.
+        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>

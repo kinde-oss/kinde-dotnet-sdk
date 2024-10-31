@@ -99,5 +99,23 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'ClientSecret'
         }
+
+        /// <summary>
+        /// Test the property 'LoginUri'
+        /// </summary>
+        [Fact]
+        public void LoginUriTest()
+        {
+            // TODO unit test for the property 'LoginUri'
+        }
+
+        /// <summary>
+        /// Test the property 'HomepageUri'
+        /// </summary>
+        [Fact]
+        public void HomepageUriTest()
+        {
+            // TODO unit test for the property 'HomepageUri'
+        }
     }
 }

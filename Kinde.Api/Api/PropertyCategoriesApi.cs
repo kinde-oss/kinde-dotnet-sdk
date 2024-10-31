@@ -32,7 +32,7 @@ namespace Kinde.Api.Api
         /// Create Category
         /// </summary>
         /// <remarks>
-        /// Create category.
+        /// Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Api
         /// Create Category
         /// </summary>
         /// <remarks>
-        /// Create category.
+        /// Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// List categories
         /// </summary>
         /// <remarks>
-        /// Returns a list of categories. 
+        /// Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -67,7 +67,7 @@ namespace Kinde.Api.Api
         /// List categories
         /// </summary>
         /// <remarks>
-        /// Returns a list of categories. 
+        /// Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -80,7 +80,7 @@ namespace Kinde.Api.Api
         /// Update Category
         /// </summary>
         /// <remarks>
-        /// Update category.
+        /// Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -92,7 +92,7 @@ namespace Kinde.Api.Api
         /// Update Category
         /// </summary>
         /// <remarks>
-        /// Update category.
+        /// Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -112,7 +112,7 @@ namespace Kinde.Api.Api
         /// Create Category
         /// </summary>
         /// <remarks>
-        /// Create category.
+        /// Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -124,7 +124,7 @@ namespace Kinde.Api.Api
         /// Create Category
         /// </summary>
         /// <remarks>
-        /// Create category.
+        /// Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -135,7 +135,7 @@ namespace Kinde.Api.Api
         /// List categories
         /// </summary>
         /// <remarks>
-        /// Returns a list of categories. 
+        /// Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -150,7 +150,7 @@ namespace Kinde.Api.Api
         /// List categories
         /// </summary>
         /// <remarks>
-        /// Returns a list of categories. 
+        /// Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -164,7 +164,7 @@ namespace Kinde.Api.Api
         /// Update Category
         /// </summary>
         /// <remarks>
-        /// Update category.
+        /// Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -177,7 +177,7 @@ namespace Kinde.Api.Api
         /// Update Category
         /// </summary>
         /// <remarks>
-        /// Update category.
+        /// Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -415,7 +415,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Category Create category.
+        /// Create Category Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -427,7 +427,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Category Create category.
+        /// Create Category Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -478,7 +478,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Category Create category.
+        /// Create Category Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -491,7 +491,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Create Category Create category.
+        /// Create Category Create category.  &lt;div&gt;   &lt;code&gt;create:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createCategoryRequest">Category details.</param>
@@ -546,7 +546,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List categories Returns a list of categories. 
+        /// List categories Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -561,7 +561,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List categories Returns a list of categories. 
+        /// List categories Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -625,7 +625,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List categories Returns a list of categories. 
+        /// List categories Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -641,7 +641,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List categories Returns a list of categories. 
+        /// List categories Returns a list of categories.  &lt;div&gt;   &lt;code&gt;read:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -709,7 +709,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Category Update category.
+        /// Update Category Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -722,7 +722,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Category Update category.
+        /// Update Category Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -779,7 +779,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Category Update category.
+        /// Update Category Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>
@@ -793,7 +793,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Update Category Update category.
+        /// Update Category Update category.  &lt;div&gt;   &lt;code&gt;update:property_categories&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="categoryId">The unique identifier for the category.</param>

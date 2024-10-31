@@ -1,19 +1,19 @@
 # Kinde.Api.Api.UsersApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create User |
+| [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create user |
 | [**CreateUserIdentity**](UsersApi.md#createuseridentity) | **POST** /api/v1/users/{user_id}/identities | Create identity |
-| [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete User |
-| [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get User |
+| [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete user |
+| [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get user |
 | [**GetUserIdentities**](UsersApi.md#getuseridentities) | **GET** /api/v1/users/{user_id}/identities | Get identities |
 | [**GetUserPropertyValues**](UsersApi.md#getuserpropertyvalues) | **GET** /api/v1/users/{user_id}/properties | Get property values |
-| [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | List Users |
+| [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | Get users |
 | [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
 | [**SetUserPassword**](UsersApi.md#setuserpassword) | **PUT** /api/v1/users/{user_id}/password | Set User password |
-| [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update User |
+| [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update user |
 | [**UpdateUserFeatureFlagOverride**](UsersApi.md#updateuserfeatureflagoverride) | **PATCH** /api/v1/users/{user_id}/feature_flags/{feature_flag_key} | Update User Feature Flag Override |
 | [**UpdateUserProperties**](UsersApi.md#updateuserproperties) | **PATCH** /api/v1/users/{user_id}/properties | Update Property values |
 | [**UpdateUserProperty**](UsersApi.md#updateuserproperty) | **PUT** /api/v1/users/{user_id}/properties/{property_key} | Update Property value |
@@ -22,9 +22,9 @@ All URIs are relative to *https://app.kinde.com*
 # **CreateUser**
 > CreateUserResponse CreateUser (CreateUserRequest? createUserRequest = null)
 
-Create User
+Create user
 
-Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user. 
+Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  <div>   <code>create:users</code> </div> 
 
 ### Example
 ```csharp
@@ -42,7 +42,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -54,7 +54,7 @@ namespace Example
 
             try
             {
-                // Create User
+                // Create user
                 CreateUserResponse result = apiInstance.CreateUser(createUserRequest);
                 Debug.WriteLine(result);
             }
@@ -75,7 +75,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create User
+    // Create user
     ApiResponse<CreateUserResponse> response = apiInstance.CreateUserWithHttpInfo(createUserRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -106,16 +106,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | User successfully created. |  -  |
-| **400** | Error creating user. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -125,7 +125,7 @@ catch (ApiException e)
 
 Create identity
 
-Creates an identity for a user. 
+Creates an identity for a user.  <div>   <code>create:user_identities</code> </div> 
 
 ### Example
 ```csharp
@@ -143,7 +143,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -215,7 +215,7 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Identity successfully created. |  -  |
+| **201** | Identity successfully created. |  -  |
 | **400** | Error creating identity. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
@@ -226,9 +226,9 @@ catch (ApiException e)
 # **DeleteUser**
 > SuccessResponse DeleteUser (string id, bool? isDeleteProfile = null)
 
-Delete User
+Delete user
 
-Delete a user record. 
+Delete a user record.  <div>   <code>delete:users</code> </div> 
 
 ### Example
 ```csharp
@@ -246,7 +246,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -254,12 +254,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
-            var id = "id_example";  // string | The user's id.
+            var id = kp_c3143a4b50ad43c88e541d9077681782;  // string | The user's id.
             var isDeleteProfile = true;  // bool? | Delete all data and remove the user's profile from all of Kinde, including the subscriber list (optional) 
 
             try
             {
-                // Delete User
+                // Delete user
                 SuccessResponse result = apiInstance.DeleteUser(id, isDeleteProfile);
                 Debug.WriteLine(result);
             }
@@ -280,7 +280,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Delete User
+    // Delete user
     ApiResponse<SuccessResponse> response = apiInstance.DeleteUserWithHttpInfo(id, isDeleteProfile);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -312,16 +312,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | User successfully deleted. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -329,9 +329,9 @@ catch (ApiException e)
 # **GetUserData**
 > User GetUserData (string id, string? expand = null)
 
-Get User
+Get user
 
-Retrieve a user record. 
+Retrieve a user record.  <div>   <code>read:users</code> </div> 
 
 ### Example
 ```csharp
@@ -349,7 +349,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -362,7 +362,7 @@ namespace Example
 
             try
             {
-                // Get User
+                // Get user
                 User result = apiInstance.GetUserData(id, expand);
                 Debug.WriteLine(result);
             }
@@ -383,7 +383,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get User
+    // Get user
     ApiResponse<User> response = apiInstance.GetUserDataWithHttpInfo(id, expand);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -415,26 +415,26 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | User successfully updated. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="getuseridentities"></a>
 # **GetUserIdentities**
-> GetIdentitiesResponse GetUserIdentities (string userId)
+> GetIdentitiesResponse GetUserIdentities (string userId, string? startingAfter = null, string? endingBefore = null)
 
 Get identities
 
-Gets a list of identities for an user by ID. 
+Gets a list of identities for an user by ID.  <div>   <code>read:user_identities</code> </div> 
 
 ### Example
 ```csharp
@@ -452,7 +452,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -461,11 +461,13 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var userId = "userId_example";  // string | The user's ID.
+            var startingAfter = "startingAfter_example";  // string? | The ID of the identity to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the identity to end before. (optional) 
 
             try
             {
                 // Get identities
-                GetIdentitiesResponse result = apiInstance.GetUserIdentities(userId);
+                GetIdentitiesResponse result = apiInstance.GetUserIdentities(userId, startingAfter, endingBefore);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -486,7 +488,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get identities
-    ApiResponse<GetIdentitiesResponse> response = apiInstance.GetUserIdentitiesWithHttpInfo(userId);
+    ApiResponse<GetIdentitiesResponse> response = apiInstance.GetUserIdentitiesWithHttpInfo(userId, startingAfter, endingBefore);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -504,6 +506,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **userId** | **string** | The user&#39;s ID. |  |
+| **startingAfter** | **string?** | The ID of the identity to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the identity to end before. | [optional]  |
 
 ### Return type
 
@@ -535,7 +539,7 @@ catch (ApiException e)
 
 Get property values
 
-Gets properties for an user by ID. 
+Gets properties for an user by ID.  <div>   <code>read:user_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -553,7 +557,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -634,9 +638,9 @@ catch (ApiException e)
 # **GetUsers**
 > UsersResponse GetUsers (int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? username = null, string? expand = null, bool? hasOrganization = null)
 
-List Users
+Get users
 
-The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter. 
+The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:users</code> </div> 
 
 ### Example
 ```csharp
@@ -654,7 +658,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -672,7 +676,7 @@ namespace Example
 
             try
             {
-                // List Users
+                // Get users
                 UsersResponse result = apiInstance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization);
                 Debug.WriteLine(result);
             }
@@ -693,7 +697,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Users
+    // Get users
     ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -730,15 +734,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Users successfully retrieved. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -748,7 +753,7 @@ catch (ApiException e)
 
 Refresh User Claims and Invalidate Cache
 
-Refreshes the user's claims and invalidates the current cache. 
+Refreshes the user's claims and invalidates the current cache.  <div>   <code>update:user_refresh_claims</code> </div> 
 
 ### Example
 ```csharp
@@ -766,7 +771,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -849,7 +854,7 @@ catch (ApiException e)
 
 Set User password
 
-Set user password.
+Set user password.  <div>   <code>update:user_passwords</code> </div> 
 
 ### Example
 ```csharp
@@ -867,7 +872,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -950,9 +955,9 @@ catch (ApiException e)
 # **UpdateUser**
 > UpdateUserResponse UpdateUser (string id, UpdateUserRequest updateUserRequest)
 
-Update User
+Update user
 
-Update a user record. 
+Update a user record.  <div>   <code>update:users</code> </div> 
 
 ### Example
 ```csharp
@@ -970,7 +975,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -983,7 +988,7 @@ namespace Example
 
             try
             {
-                // Update User
+                // Update user
                 UpdateUserResponse result = apiInstance.UpdateUser(id, updateUserRequest);
                 Debug.WriteLine(result);
             }
@@ -1004,7 +1009,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update User
+    // Update user
     ApiResponse<UpdateUserResponse> response = apiInstance.UpdateUserWithHttpInfo(id, updateUserRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -1036,16 +1041,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | User successfully updated. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1055,7 +1060,7 @@ catch (ApiException e)
 
 Update User Feature Flag Override
 
-Update user feature flag override.
+Update user feature flag override.  <div>   <code>update:user_feature_flags</code> </div> 
 
 ### Example
 ```csharp
@@ -1073,7 +1078,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1160,7 +1165,7 @@ catch (ApiException e)
 
 Update Property values
 
-Update property values.
+Update property values.  <div>   <code>update:user_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -1178,7 +1183,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -1263,7 +1268,7 @@ catch (ApiException e)
 
 Update Property value
 
-Update property value.
+Update property value.  <div>   <code>update:user_properties</code> </div> 
 
 ### Example
 ```csharp
@@ -1281,7 +1286,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

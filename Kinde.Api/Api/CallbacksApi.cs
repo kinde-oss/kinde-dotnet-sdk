@@ -29,10 +29,10 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// Add Logout Redirect URLs
+        /// Add logout redirect URLs
         /// </summary>
         /// <remarks>
-        /// Add additional logout redirect URLs. 
+        /// Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -41,10 +41,10 @@ namespace Kinde.Api.Api
         SuccessResponse AddLogoutRedirectURLs(string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest);
 
         /// <summary>
-        /// Add Logout Redirect URLs
+        /// Add logout redirect URLs
         /// </summary>
         /// <remarks>
-        /// Add additional logout redirect URLs. 
+        /// Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -55,7 +55,7 @@ namespace Kinde.Api.Api
         /// Add Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Add additional redirect callback URLs. 
+        /// Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -67,7 +67,7 @@ namespace Kinde.Api.Api
         /// Add Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Add additional redirect callback URLs. 
+        /// Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -78,7 +78,7 @@ namespace Kinde.Api.Api
         /// Delete Callback URLs
         /// </summary>
         /// <remarks>
-        /// Delete callback URLs. 
+        /// Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -90,7 +90,7 @@ namespace Kinde.Api.Api
         /// Delete Callback URLs
         /// </summary>
         /// <remarks>
-        /// Delete callback URLs. 
+        /// Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Api
         /// Delete Logout URLs
         /// </summary>
         /// <remarks>
-        /// Delete logout URLs. 
+        /// Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -113,7 +113,7 @@ namespace Kinde.Api.Api
         /// Delete Logout URLs
         /// </summary>
         /// <remarks>
-        /// Delete logout URLs. 
+        /// Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -124,7 +124,7 @@ namespace Kinde.Api.Api
         /// List Callback URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s redirect callback URLs. 
+        /// Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -135,17 +135,17 @@ namespace Kinde.Api.Api
         /// List Callback URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s redirect callback URLs. 
+        /// Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
         /// <returns>ApiResponse of RedirectCallbackUrls</returns>
         ApiResponse<RedirectCallbackUrls> GetCallbackURLsWithHttpInfo(string appId);
         /// <summary>
-        /// List Logout URLs
+        /// List logout URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s logout redirect URLs. 
+        /// Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -153,20 +153,20 @@ namespace Kinde.Api.Api
         LogoutRedirectUrls GetLogoutURLs(string appId);
 
         /// <summary>
-        /// List Logout URLs
+        /// List logout URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s logout redirect URLs. 
+        /// Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
         /// <returns>ApiResponse of LogoutRedirectUrls</returns>
         ApiResponse<LogoutRedirectUrls> GetLogoutURLsWithHttpInfo(string appId);
         /// <summary>
-        /// Replace Logout Redirect URLs
+        /// Replace logout redirect URls
         /// </summary>
         /// <remarks>
-        /// Replace all logout redirect URLs. 
+        /// Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -175,10 +175,10 @@ namespace Kinde.Api.Api
         SuccessResponse ReplaceLogoutRedirectURLs(string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest);
 
         /// <summary>
-        /// Replace Logout Redirect URLs
+        /// Replace logout redirect URls
         /// </summary>
         /// <remarks>
-        /// Replace all logout redirect URLs. 
+        /// Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -189,7 +189,7 @@ namespace Kinde.Api.Api
         /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Replace all redirect callback URLs. 
+        /// Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -201,7 +201,7 @@ namespace Kinde.Api.Api
         /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Replace all redirect callback URLs. 
+        /// Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -218,10 +218,10 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// Add Logout Redirect URLs
+        /// Add logout redirect URLs
         /// </summary>
         /// <remarks>
-        /// Add additional logout redirect URLs. 
+        /// Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -231,10 +231,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> AddLogoutRedirectURLsAsync(string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Add Logout Redirect URLs
+        /// Add logout redirect URLs
         /// </summary>
         /// <remarks>
-        /// Add additional logout redirect URLs. 
+        /// Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -246,7 +246,7 @@ namespace Kinde.Api.Api
         /// Add Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Add additional redirect callback URLs. 
+        /// Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -259,7 +259,7 @@ namespace Kinde.Api.Api
         /// Add Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Add additional redirect callback URLs. 
+        /// Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -271,7 +271,7 @@ namespace Kinde.Api.Api
         /// Delete Callback URLs
         /// </summary>
         /// <remarks>
-        /// Delete callback URLs. 
+        /// Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -284,7 +284,7 @@ namespace Kinde.Api.Api
         /// Delete Callback URLs
         /// </summary>
         /// <remarks>
-        /// Delete callback URLs. 
+        /// Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -296,7 +296,7 @@ namespace Kinde.Api.Api
         /// Delete Logout URLs
         /// </summary>
         /// <remarks>
-        /// Delete logout URLs. 
+        /// Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -309,7 +309,7 @@ namespace Kinde.Api.Api
         /// Delete Logout URLs
         /// </summary>
         /// <remarks>
-        /// Delete logout URLs. 
+        /// Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -321,7 +321,7 @@ namespace Kinde.Api.Api
         /// List Callback URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s redirect callback URLs. 
+        /// Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -333,7 +333,7 @@ namespace Kinde.Api.Api
         /// List Callback URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s redirect callback URLs. 
+        /// Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -341,10 +341,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (RedirectCallbackUrls)</returns>
         System.Threading.Tasks.Task<ApiResponse<RedirectCallbackUrls>> GetCallbackURLsWithHttpInfoAsync(string appId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Logout URLs
+        /// List logout URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s logout redirect URLs. 
+        /// Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -353,10 +353,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<LogoutRedirectUrls> GetLogoutURLsAsync(string appId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Logout URLs
+        /// List logout URLs
         /// </summary>
         /// <remarks>
-        /// Returns an application&#39;s logout redirect URLs. 
+        /// Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -364,10 +364,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (LogoutRedirectUrls)</returns>
         System.Threading.Tasks.Task<ApiResponse<LogoutRedirectUrls>> GetLogoutURLsWithHttpInfoAsync(string appId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Replace Logout Redirect URLs
+        /// Replace logout redirect URls
         /// </summary>
         /// <remarks>
-        /// Replace all logout redirect URLs. 
+        /// Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -377,10 +377,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> ReplaceLogoutRedirectURLsAsync(string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Replace Logout Redirect URLs
+        /// Replace logout redirect URls
         /// </summary>
         /// <remarks>
-        /// Replace all logout redirect URLs. 
+        /// Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -392,7 +392,7 @@ namespace Kinde.Api.Api
         /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Replace all redirect callback URLs. 
+        /// Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -405,7 +405,7 @@ namespace Kinde.Api.Api
         /// Replace Redirect Callback URLs
         /// </summary>
         /// <remarks>
-        /// Replace all redirect callback URLs. 
+        /// Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -643,7 +643,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Logout Redirect URLs Add additional logout redirect URLs. 
+        /// Add logout redirect URLs Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -656,7 +656,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Logout Redirect URLs Add additional logout redirect URLs. 
+        /// Add logout redirect URLs Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -680,7 +680,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -712,7 +712,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Logout Redirect URLs Add additional logout redirect URLs. 
+        /// Add logout redirect URLs Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -726,7 +726,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Logout Redirect URLs Add additional logout redirect URLs. 
+        /// Add logout redirect URLs Add additional logout redirect URLs.  &lt;div&gt;   &lt;code&gt;create:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -752,7 +752,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -786,7 +786,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Redirect Callback URLs Add additional redirect callback URLs. 
+        /// Add Redirect Callback URLs Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -799,7 +799,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Redirect Callback URLs Add additional redirect callback URLs. 
+        /// Add Redirect Callback URLs Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -855,7 +855,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Redirect Callback URLs Add additional redirect callback URLs. 
+        /// Add Redirect Callback URLs Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -869,7 +869,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Add Redirect Callback URLs Add additional redirect callback URLs. 
+        /// Add Redirect Callback URLs Add additional redirect callback URLs.  &lt;div&gt;   &lt;code&gt;create:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -929,7 +929,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Callback URLs Delete callback URLs. 
+        /// Delete Callback URLs Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -942,7 +942,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Callback URLs Delete callback URLs. 
+        /// Delete Callback URLs Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -998,7 +998,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Callback URLs Delete callback URLs. 
+        /// Delete Callback URLs Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1012,7 +1012,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Callback URLs Delete callback URLs. 
+        /// Delete Callback URLs Delete callback URLs.  &lt;div&gt;   &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1072,7 +1072,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Logout URLs Delete logout URLs. 
+        /// Delete Logout URLs Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1085,7 +1085,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Logout URLs Delete logout URLs. 
+        /// Delete Logout URLs Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1108,8 +1108,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1141,7 +1140,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Logout URLs Delete logout URLs. 
+        /// Delete Logout URLs Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1155,7 +1154,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete Logout URLs Delete logout URLs. 
+        /// Delete Logout URLs Delete logout URLs.  &lt;div&gt;   &lt;code&gt;delete:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1180,8 +1179,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1215,7 +1213,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Callback URLs Returns an application&#39;s redirect callback URLs. 
+        /// List Callback URLs Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1227,7 +1225,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Callback URLs Returns an application&#39;s redirect callback URLs. 
+        /// List Callback URLs Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1277,7 +1275,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Callback URLs Returns an application&#39;s redirect callback URLs. 
+        /// List Callback URLs Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1290,7 +1288,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Callback URLs Returns an application&#39;s redirect callback URLs. 
+        /// List Callback URLs Returns an application&#39;s redirect callback URLs.  &lt;div&gt;   &lt;code&gt;read:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1344,7 +1342,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Logout URLs Returns an application&#39;s logout redirect URLs. 
+        /// List logout URLs Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1356,7 +1354,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Logout URLs Returns an application&#39;s logout redirect URLs. 
+        /// List logout URLs Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1374,8 +1372,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1406,7 +1403,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Logout URLs Returns an application&#39;s logout redirect URLs. 
+        /// List logout URLs Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1419,7 +1416,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Logout URLs Returns an application&#39;s logout redirect URLs. 
+        /// List logout URLs Returns an application&#39;s logout redirect URLs.  &lt;div&gt;   &lt;code&gt;read:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1439,8 +1436,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1473,7 +1469,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Logout Redirect URLs Replace all logout redirect URLs. 
+        /// Replace logout redirect URls Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1486,7 +1482,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Logout Redirect URLs Replace all logout redirect URLs. 
+        /// Replace logout redirect URls Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1510,7 +1506,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1542,7 +1538,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Logout Redirect URLs Replace all logout redirect URLs. 
+        /// Replace logout redirect URls Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1556,7 +1552,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Logout Redirect URLs Replace all logout redirect URLs. 
+        /// Replace logout redirect URls Replace all logout redirect URLs.  &lt;div&gt;   &lt;code&gt;update:application_logout_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1582,7 +1578,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1616,7 +1612,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1629,7 +1625,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1685,7 +1681,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>
@@ -1699,7 +1695,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Replace Redirect Callback URLs Replace all redirect callback URLs. 
+        /// Replace Redirect Callback URLs Replace all redirect callback URLs.  &lt;div&gt;   &lt;code&gt;update:applications_redirect_uris&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">The identifier for the application.</param>

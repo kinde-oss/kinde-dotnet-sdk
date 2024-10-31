@@ -1,25 +1,25 @@
 # Kinde.Api.Api.CallbacksApi
 
-All URIs are relative to *https://app.kinde.com*
+All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**AddLogoutRedirectURLs**](CallbacksApi.md#addlogoutredirecturls) | **POST** /api/v1/applications/{app_id}/auth_logout_urls | Add Logout Redirect URLs |
+| [**AddLogoutRedirectURLs**](CallbacksApi.md#addlogoutredirecturls) | **POST** /api/v1/applications/{app_id}/auth_logout_urls | Add logout redirect URLs |
 | [**AddRedirectCallbackURLs**](CallbacksApi.md#addredirectcallbackurls) | **POST** /api/v1/applications/{app_id}/auth_redirect_urls | Add Redirect Callback URLs |
 | [**DeleteCallbackURLs**](CallbacksApi.md#deletecallbackurls) | **DELETE** /api/v1/applications/{app_id}/auth_redirect_urls | Delete Callback URLs |
 | [**DeleteLogoutURLs**](CallbacksApi.md#deletelogouturls) | **DELETE** /api/v1/applications/{app_id}/auth_logout_urls | Delete Logout URLs |
 | [**GetCallbackURLs**](CallbacksApi.md#getcallbackurls) | **GET** /api/v1/applications/{app_id}/auth_redirect_urls | List Callback URLs |
-| [**GetLogoutURLs**](CallbacksApi.md#getlogouturls) | **GET** /api/v1/applications/{app_id}/auth_logout_urls | List Logout URLs |
-| [**ReplaceLogoutRedirectURLs**](CallbacksApi.md#replacelogoutredirecturls) | **PUT** /api/v1/applications/{app_id}/auth_logout_urls | Replace Logout Redirect URLs |
+| [**GetLogoutURLs**](CallbacksApi.md#getlogouturls) | **GET** /api/v1/applications/{app_id}/auth_logout_urls | List logout URLs |
+| [**ReplaceLogoutRedirectURLs**](CallbacksApi.md#replacelogoutredirecturls) | **PUT** /api/v1/applications/{app_id}/auth_logout_urls | Replace logout redirect URls |
 | [**ReplaceRedirectCallbackURLs**](CallbacksApi.md#replaceredirectcallbackurls) | **PUT** /api/v1/applications/{app_id}/auth_redirect_urls | Replace Redirect Callback URLs |
 
 <a id="addlogoutredirecturls"></a>
 # **AddLogoutRedirectURLs**
 > SuccessResponse AddLogoutRedirectURLs (string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest)
 
-Add Logout Redirect URLs
+Add logout redirect URLs
 
-Add additional logout redirect URLs. 
+Add additional logout redirect URLs.  <div>   <code>create:application_logout_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -37,7 +37,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -50,7 +50,7 @@ namespace Example
 
             try
             {
-                // Add Logout Redirect URLs
+                // Add logout redirect URLs
                 SuccessResponse result = apiInstance.AddLogoutRedirectURLs(appId, replaceLogoutRedirectURLsRequest);
                 Debug.WriteLine(result);
             }
@@ -71,7 +71,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Add Logout Redirect URLs
+    // Add logout redirect URLs
     ApiResponse<SuccessResponse> response = apiInstance.AddLogoutRedirectURLsWithHttpInfo(appId, replaceLogoutRedirectURLsRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -103,16 +103,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Logouts successfully updated |  -  |
+| **200** | Logout URLs successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -122,7 +122,7 @@ catch (ApiException e)
 
 Add Redirect Callback URLs
 
-Add additional redirect callback URLs. 
+Add additional redirect callback URLs.  <div>   <code>create:applications_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -140,7 +140,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -225,7 +225,7 @@ catch (ApiException e)
 
 Delete Callback URLs
 
-Delete callback URLs. 
+Delete callback URLs.  <div>   <code>delete:applications_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -243,7 +243,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -328,7 +328,7 @@ catch (ApiException e)
 
 Delete Logout URLs
 
-Delete logout URLs. 
+Delete logout URLs.  <div>   <code>delete:application_logout_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -346,7 +346,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -412,7 +412,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -420,8 +420,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Logout URLs successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -431,7 +431,7 @@ catch (ApiException e)
 
 List Callback URLs
 
-Returns an application's redirect callback URLs. 
+Returns an application's redirect callback URLs.  <div>   <code>read:applications_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -449,7 +449,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -530,9 +530,9 @@ catch (ApiException e)
 # **GetLogoutURLs**
 > LogoutRedirectUrls GetLogoutURLs (string appId)
 
-List Logout URLs
+List logout URLs
 
-Returns an application's logout redirect URLs. 
+Returns an application's logout redirect URLs.  <div>   <code>read:application_logout_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -550,7 +550,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -562,7 +562,7 @@ namespace Example
 
             try
             {
-                // List Logout URLs
+                // List logout URLs
                 LogoutRedirectUrls result = apiInstance.GetLogoutURLs(appId);
                 Debug.WriteLine(result);
             }
@@ -583,7 +583,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Logout URLs
+    // List logout URLs
     ApiResponse<LogoutRedirectUrls> response = apiInstance.GetLogoutURLsWithHttpInfo(appId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -614,7 +614,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -622,8 +622,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Logout URLs successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -631,9 +631,9 @@ catch (ApiException e)
 # **ReplaceLogoutRedirectURLs**
 > SuccessResponse ReplaceLogoutRedirectURLs (string appId, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest)
 
-Replace Logout Redirect URLs
+Replace logout redirect URls
 
-Replace all logout redirect URLs. 
+Replace all logout redirect URLs.  <div>   <code>update:application_logout_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -651,7 +651,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -664,7 +664,7 @@ namespace Example
 
             try
             {
-                // Replace Logout Redirect URLs
+                // Replace logout redirect URls
                 SuccessResponse result = apiInstance.ReplaceLogoutRedirectURLs(appId, replaceLogoutRedirectURLsRequest);
                 Debug.WriteLine(result);
             }
@@ -685,7 +685,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Replace Logout Redirect URLs
+    // Replace logout redirect URls
     ApiResponse<SuccessResponse> response = apiInstance.ReplaceLogoutRedirectURLsWithHttpInfo(appId, replaceLogoutRedirectURLsRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -717,16 +717,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Logout URLs successfully updated |  -  |
+| **200** | Logout URLs successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -736,7 +736,7 @@ catch (ApiException e)
 
 Replace Redirect Callback URLs
 
-Replace all redirect callback URLs. 
+Replace all redirect callback URLs.  <div>   <code>update:applications_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
@@ -754,7 +754,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://app.kinde.com";
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

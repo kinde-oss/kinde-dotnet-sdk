@@ -69,7 +69,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="name">The organization&#39;s name. (required).</param>
         /// <param name="featureFlags">The organization&#39;s feature flag settings..</param>
-        /// <param name="externalId">The organization&#39;s ID..</param>
+        /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems..</param>
         /// <param name="backgroundColor">The organization&#39;s brand settings - background color..</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
         /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color..</param>
@@ -79,9 +79,10 @@ namespace Kinde.Api.Model
         /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color..</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
-        /// <param name="handle">The organization&#39;s handle..</param>
-        /// <param name="isAllowRegistrations">Users can sign up to this organization..</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool))
+        /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
+        /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication..</param>
+        /// <param name="isCustomAuthConnectionsEnabled">Enable custom auth connections for this organization..</param>
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -102,12 +103,14 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
+            this.IsCustomAuthConnectionsEnabled = isCustomAuthConnectionsEnabled;
         }
 
         /// <summary>
         /// The organization&#39;s name.
         /// </summary>
         /// <value>The organization&#39;s name.</value>
+        /// <example>Acme Corp</example>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
@@ -119,9 +122,10 @@ namespace Kinde.Api.Model
         public Dictionary<string, CreateOrganizationRequest.InnerEnum> FeatureFlags { get; set; }
 
         /// <summary>
-        /// The organization&#39;s ID.
+        /// The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.
         /// </summary>
-        /// <value>The organization&#39;s ID.</value>
+        /// <value>The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</value>
+        /// <example>some1234</example>
         [DataMember(Name = "external_id", EmitDefaultValue = false)]
         public string ExternalId { get; set; }
 
@@ -189,18 +193,27 @@ namespace Kinde.Api.Model
         public string ThemeCode { get; set; }
 
         /// <summary>
-        /// The organization&#39;s handle.
+        /// A unique handle for the organization - can be used for dynamic callback urls.
         /// </summary>
-        /// <value>The organization&#39;s handle.</value>
+        /// <value>A unique handle for the organization - can be used for dynamic callback urls.</value>
+        /// <example>acme_corp</example>
         [DataMember(Name = "handle", EmitDefaultValue = false)]
         public string Handle { get; set; }
 
         /// <summary>
-        /// Users can sign up to this organization.
+        /// If users become members of this organization when the org code is supplied during authentication.
         /// </summary>
-        /// <value>Users can sign up to this organization.</value>
+        /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
+        /// <example>true</example>
         [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
         public bool IsAllowRegistrations { get; set; }
+
+        /// <summary>
+        /// Enable custom auth connections for this organization.
+        /// </summary>
+        /// <value>Enable custom auth connections for this organization.</value>
+        [DataMember(Name = "is_custom_auth_connections_enabled", EmitDefaultValue = true)]
+        public bool IsCustomAuthConnectionsEnabled { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -224,6 +237,7 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
+            sb.Append("  IsCustomAuthConnectionsEnabled: ").Append(IsCustomAuthConnectionsEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -328,6 +342,10 @@ namespace Kinde.Api.Model
                 (
                     this.IsAllowRegistrations == input.IsAllowRegistrations ||
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
+                ) && 
+                (
+                    this.IsCustomAuthConnectionsEnabled == input.IsCustomAuthConnectionsEnabled ||
+                    this.IsCustomAuthConnectionsEnabled.Equals(input.IsCustomAuthConnectionsEnabled)
                 );
         }
 
@@ -393,6 +411,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsCustomAuthConnectionsEnabled.GetHashCode();
                 return hashCode;
             }
         }

@@ -55,17 +55,6 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
-        /// Test GetUser
-        /// </summary>
-        [Fact]
-        public void GetUserTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.GetUser();
-            //Assert.IsType<UserProfile>(response);
-        }
-
-        /// <summary>
         /// Test GetUserProfileV2
         /// </summary>
         [Fact]

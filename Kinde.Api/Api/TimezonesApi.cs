@@ -29,28 +29,24 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// List timezones and timezone IDs.
+        /// Get timezones
         /// </summary>
         /// <remarks>
-        /// Get a list of timezones and associated timezone keys.
+        /// Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        SuccessResponse GetTimezones(string? timezoneKey = default(string?), string? name = default(string?));
+        /// <returns>GetTimezonesResponse</returns>
+        GetTimezonesResponse GetTimezones();
 
         /// <summary>
-        /// List timezones and timezone IDs.
+        /// Get timezones
         /// </summary>
         /// <remarks>
-        /// Get a list of timezones and associated timezone keys.
+        /// Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> GetTimezonesWithHttpInfo(string? timezoneKey = default(string?), string? name = default(string?));
+        /// <returns>ApiResponse of GetTimezonesResponse</returns>
+        ApiResponse<GetTimezonesResponse> GetTimezonesWithHttpInfo();
         #endregion Synchronous Operations
     }
 
@@ -61,30 +57,26 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// List timezones and timezone IDs.
+        /// Get timezones
         /// </summary>
         /// <remarks>
-        /// Get a list of timezones and associated timezone keys.
+        /// Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> GetTimezonesAsync(string? timezoneKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of GetTimezonesResponse</returns>
+        System.Threading.Tasks.Task<GetTimezonesResponse> GetTimezonesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List timezones and timezone IDs.
+        /// Get timezones
         /// </summary>
         /// <remarks>
-        /// Get a list of timezones and associated timezone keys.
+        /// Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> GetTimezonesWithHttpInfoAsync(string? timezoneKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (GetTimezonesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetTimezonesResponse>> GetTimezonesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -315,26 +307,22 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List timezones and timezone IDs. Get a list of timezones and associated timezone keys.
+        /// Get timezones Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse GetTimezones(string? timezoneKey = default(string?), string? name = default(string?))
+        /// <returns>GetTimezonesResponse</returns>
+        public GetTimezonesResponse GetTimezones()
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = GetTimezonesWithHttpInfo(timezoneKey, name);
+            Kinde.Api.Client.ApiResponse<GetTimezonesResponse> localVarResponse = GetTimezonesWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List timezones and timezone IDs. Get a list of timezones and associated timezone keys.
+        /// Get timezones Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> GetTimezonesWithHttpInfo(string? timezoneKey = default(string?), string? name = default(string?))
+        /// <returns>ApiResponse of GetTimezonesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetTimezonesResponse> GetTimezonesWithHttpInfo()
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -343,7 +331,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -352,14 +340,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (timezoneKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone_key", timezoneKey));
-            }
-            if (name != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -369,7 +349,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<SuccessResponse>("/api/v1/timezones", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetTimezonesResponse>("/api/v1/timezones", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -381,28 +361,24 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List timezones and timezone IDs. Get a list of timezones and associated timezone keys.
+        /// Get timezones Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> GetTimezonesAsync(string? timezoneKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of GetTimezonesResponse</returns>
+        public async System.Threading.Tasks.Task<GetTimezonesResponse> GetTimezonesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await GetTimezonesWithHttpInfoAsync(timezoneKey, name, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetTimezonesResponse> localVarResponse = await GetTimezonesWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List timezones and timezone IDs. Get a list of timezones and associated timezone keys.
+        /// Get timezones Get a list of timezones and associated timezone keys.  &lt;div&gt;   &lt;code&gt;read:timezones&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="timezoneKey">Timezone Key. (optional)</param>
-        /// <param name="name">Timezone. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> GetTimezonesWithHttpInfoAsync(string? timezoneKey = default(string?), string? name = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (GetTimezonesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetTimezonesResponse>> GetTimezonesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -412,7 +388,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -422,14 +398,6 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (timezoneKey != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "timezone_key", timezoneKey));
-            }
-            if (name != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "name", name));
-            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -440,7 +408,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<SuccessResponse>("/api/v1/timezones", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetTimezonesResponse>("/api/v1/timezones", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

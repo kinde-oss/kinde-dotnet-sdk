@@ -67,6 +67,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteProperty
+        /// </summary>
+        [Fact]
+        public void DeletePropertyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string propertyId = null;
+            //var response = instance.DeleteProperty(propertyId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetProperties
         /// </summary>
         [Fact]
