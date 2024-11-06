@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 Kinde.Api.Test/Api/APIsApiTests.cs
 Kinde.Api.Test/Api/ApplicationsApiTests.cs
 Kinde.Api.Test/Api/BusinessApiTests.cs
@@ -145,8 +146,8 @@ Kinde.Api.Test/Model/PropertyValueTests.cs
 Kinde.Api.Test/Model/RedirectCallbackUrlsTests.cs
 Kinde.Api.Test/Model/ReplaceLogoutRedirectURLsRequestTests.cs
 Kinde.Api.Test/Model/ReplaceRedirectCallbackURLsRequestTests.cs
+Kinde.Api.Test/Model/RolePermissionsResponseTests.cs
 Kinde.Api.Test/Model/RoleTests.cs
-Kinde.Api.Test/Model/RolesPermissionResponseInnerTests.cs
 Kinde.Api.Test/Model/RolesTests.cs
 Kinde.Api.Test/Model/SetUserPasswordRequestTests.cs
 Kinde.Api.Test/Model/SubscriberTests.cs
@@ -364,8 +365,8 @@ Kinde.Api/Model/RedirectCallbackUrls.cs
 Kinde.Api/Model/ReplaceLogoutRedirectURLsRequest.cs
 Kinde.Api/Model/ReplaceRedirectCallbackURLsRequest.cs
 Kinde.Api/Model/Role.cs
+Kinde.Api/Model/RolePermissionsResponse.cs
 Kinde.Api/Model/Roles.cs
-Kinde.Api/Model/RolesPermissionResponseInner.cs
 Kinde.Api/Model/SetUserPasswordRequest.cs
 Kinde.Api/Model/Subscriber.cs
 Kinde.Api/Model/SubscribersSubscriber.cs
@@ -574,9 +575,9 @@ docs/RedirectCallbackUrls.md
 docs/ReplaceLogoutRedirectURLsRequest.md
 docs/ReplaceRedirectCallbackURLsRequest.md
 docs/Role.md
+docs/RolePermissionsResponse.md
 docs/Roles.md
 docs/RolesApi.md
-docs/RolesPermissionResponseInner.md
 docs/SetUserPasswordRequest.md
 docs/Subscriber.md
 docs/SubscribersApi.md

@@ -110,6 +110,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'JoinedOn'
+        /// </summary>
+        [Fact]
+        public void JoinedOnTest()
+        {
+            // TODO unit test for the property 'JoinedOn'
+        }
+
+        /// <summary>
         /// Test the property 'Roles'
         /// </summary>
         [Fact]

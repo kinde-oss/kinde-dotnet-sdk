@@ -28,23 +28,23 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationUsersResponse
+    /// RolePermissionsResponse
     /// </summary>
-    [DataContract(Name = "get_organization_users_response")]
-    public partial class GetOrganizationUsersResponse : IEquatable<GetOrganizationUsersResponse>, IValidatableObject
+    [DataContract(Name = "role_permissions_response")]
+    public partial class RolePermissionsResponse : IEquatable<RolePermissionsResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationUsersResponse" /> class.
+        /// Initializes a new instance of the <see cref="RolePermissionsResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
-        /// <param name="organizationUsers">organizationUsers.</param>
+        /// <param name="permissions">permissions.</param>
         /// <param name="nextToken">Pagination token..</param>
-        public GetOrganizationUsersResponse(string code = default(string), string message = default(string), List<OrganizationUser> organizationUsers = default(List<OrganizationUser>), string nextToken = default(string))
+        public RolePermissionsResponse(string code = default(string), string message = default(string), List<Permissions> permissions = default(List<Permissions>), string nextToken = default(string))
         {
             this.Code = code;
             this.Message = message;
-            this.OrganizationUsers = organizationUsers;
+            this.Permissions = permissions;
             this.NextToken = nextToken;
         }
 
@@ -52,7 +52,6 @@ namespace Kinde.Api.Model
         /// Response code.
         /// </summary>
         /// <value>Response code.</value>
-        /// <example>OK</example>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 
@@ -60,15 +59,14 @@ namespace Kinde.Api.Model
         /// Response message.
         /// </summary>
         /// <value>Response message.</value>
-        /// <example>Success</example>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets OrganizationUsers
+        /// Gets or Sets Permissions
         /// </summary>
-        [DataMember(Name = "organization_users", EmitDefaultValue = false)]
-        public List<OrganizationUser> OrganizationUsers { get; set; }
+        [DataMember(Name = "permissions", EmitDefaultValue = false)]
+        public List<Permissions> Permissions { get; set; }
 
         /// <summary>
         /// Pagination token.
@@ -84,10 +82,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetOrganizationUsersResponse {\n");
+            sb.Append("class RolePermissionsResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
-            sb.Append("  OrganizationUsers: ").Append(OrganizationUsers).Append("\n");
+            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("  NextToken: ").Append(NextToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -109,15 +107,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetOrganizationUsersResponse);
+            return this.Equals(input as RolePermissionsResponse);
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationUsersResponse instances are equal
+        /// Returns true if RolePermissionsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationUsersResponse to be compared</param>
+        /// <param name="input">Instance of RolePermissionsResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetOrganizationUsersResponse input)
+        public bool Equals(RolePermissionsResponse input)
         {
             if (input == null)
             {
@@ -135,10 +133,10 @@ namespace Kinde.Api.Model
                     this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.OrganizationUsers == input.OrganizationUsers ||
-                    this.OrganizationUsers != null &&
-                    input.OrganizationUsers != null &&
-                    this.OrganizationUsers.SequenceEqual(input.OrganizationUsers)
+                    this.Permissions == input.Permissions ||
+                    this.Permissions != null &&
+                    input.Permissions != null &&
+                    this.Permissions.SequenceEqual(input.Permissions)
                 ) && 
                 (
                     this.NextToken == input.NextToken ||
@@ -164,9 +162,9 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.OrganizationUsers != null)
+                if (this.Permissions != null)
                 {
-                    hashCode = (hashCode * 59) + this.OrganizationUsers.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Permissions.GetHashCode();
                 }
                 if (this.NextToken != null)
                 {

@@ -2979,7 +2979,7 @@ paths:
   /api/v1/organizations/{org_code}/users:
     get:
       description: |
-        Get users in an organization.
+        Get user details for all members of an organization.
 
         <div>
           <code>read:organization_users</code>
@@ -3026,6 +3026,7 @@ paths:
         name: org_code
         required: true
         schema:
+          example: org_1ccfb819462
           nullable: false
           type: string
         style: simple
@@ -3051,9 +3052,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_organization_users_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/get_organization_users_response'
           description: A successful response with a list of organization users or
             an empty list.
         "400":
@@ -3061,17 +3059,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Error creating user
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Organization Users
+      summary: Get organization users
       tags:
       - Organizations
     patch:
@@ -4875,7 +4878,7 @@ paths:
         <div>
           <code>read:role_permissions</code>
         </div>
-      operationId: GetRolePermission
+      operationId: GetRolePermissions
       parameters:
       - description: The role's public id.
         explode: false
@@ -4923,10 +4926,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roles_permission_response'
+                $ref: '#/components/schemas/role_permissions_response'
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/roles_permission_response'
+                $ref: '#/components/schemas/role_permissions_response'
           description: A list of permissions for a role
         "400":
           content:
@@ -7529,30 +7532,50 @@ components:
       type: object
     organization_user:
       example:
-        full_name: full_name
+        full_name: John Snow
         roles:
-        - roles
-        - roles
-        last_name: last_name
-        id: id
-        first_name: first_name
-        email: email
-        picture: picture
+        - admin
+        - admin
+        last_name: Snow
+        id: kp:97c2ba24217d48e3b96a799b76cf2c74
+        joined_on: 2021-01-01T00:00:00Z
+        first_name: John
+        email: john.snow@example.com
+        picture: https://example.com/john_snow.jpg
       properties:
         id:
+          description: The unique ID for the user.
+          example: kp:97c2ba24217d48e3b96a799b76cf2c74
           type: string
         email:
+          description: The user's email address.
+          example: john.snow@example.com
           type: string
         full_name:
+          description: The user's full name.
+          example: John Snow
           type: string
         last_name:
+          description: The user's last name.
+          example: Snow
           type: string
         first_name:
+          description: The user's first name.
+          example: John
           type: string
         picture:
+          description: The user's profile picture URL.
+          example: https://example.com/john_snow.jpg
+          type: string
+        joined_on:
+          description: The date the user joined the organization.
+          example: 2021-01-01T00:00:00Z
           type: string
         roles:
+          description: The roles the user has in the organization.
           items:
+            description: The role's key.
+            example: admin
             type: string
           type: array
       type: object
@@ -7945,34 +7968,38 @@ components:
       type: object
     get_organization_users_response:
       example:
-        code: code
+        code: OK
         organization_users:
-        - full_name: full_name
+        - full_name: John Snow
           roles:
-          - roles
-          - roles
-          last_name: last_name
-          id: id
-          first_name: first_name
-          email: email
-          picture: picture
-        - full_name: full_name
+          - admin
+          - admin
+          last_name: Snow
+          id: kp:97c2ba24217d48e3b96a799b76cf2c74
+          joined_on: 2021-01-01T00:00:00Z
+          first_name: John
+          email: john.snow@example.com
+          picture: https://example.com/john_snow.jpg
+        - full_name: John Snow
           roles:
-          - roles
-          - roles
-          last_name: last_name
-          id: id
-          first_name: first_name
-          email: email
-          picture: picture
-        message: message
+          - admin
+          - admin
+          last_name: Snow
+          id: kp:97c2ba24217d48e3b96a799b76cf2c74
+          joined_on: 2021-01-01T00:00:00Z
+          first_name: John
+          email: john.snow@example.com
+          picture: https://example.com/john_snow.jpg
+        message: Success
         next_token: next_token
       properties:
         code:
           description: Response code.
+          example: OK
           type: string
         message:
           description: Response message.
+          example: Success
           type: string
         organization_users:
           items:
@@ -8396,10 +8423,35 @@ components:
           description: Whether the role is the default role.
           type: boolean
       type: object
-    roles_permission_response:
-      items:
-        $ref: '#/components/schemas/roles_permission_response_inner'
-      type: array
+    role_permissions_response:
+      example:
+        code: code
+        permissions:
+        - name: name
+          description: description
+          id: id
+          key: key
+        - name: name
+          description: description
+          id: id
+          key: key
+        message: message
+        next_token: next_token
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        permissions:
+          items:
+            $ref: '#/components/schemas/permissions'
+          type: array
+        next_token:
+          description: Pagination token.
+          type: string
+      type: object
     tokenIntrospection_request:
       properties:
         token:
@@ -9831,22 +9883,6 @@ components:
           type: string
         homepage_uri:
           description: The homepage link to your application.
-          type: string
-      type: object
-    roles_permission_response_inner:
-      example:
-        name: name
-        description: description
-        id: id
-        key: key
-      properties:
-        id:
-          type: string
-        key:
-          type: string
-        name:
-          type: string
-        description:
           type: string
       type: object
   securitySchemes:

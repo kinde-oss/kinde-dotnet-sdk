@@ -7,7 +7,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**CreateRole**](RolesApi.md#createrole) | **POST** /api/v1/roles | Create role |
 | [**DeleteRole**](RolesApi.md#deleterole) | **DELETE** /api/v1/roles/{role_id} | Delete role |
 | [**GetRole**](RolesApi.md#getrole) | **GET** /api/v1/roles/{role_id} | Get role |
-| [**GetRolePermission**](RolesApi.md#getrolepermission) | **GET** /api/v1/roles/{role_id}/permissions | Get role permissions |
+| [**GetRolePermissions**](RolesApi.md#getrolepermissions) | **GET** /api/v1/roles/{role_id}/permissions | Get role permissions |
 | [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List roles |
 | [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove role permission |
 | [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update role permissions |
@@ -316,9 +316,9 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getrolepermission"></a>
-# **GetRolePermission**
-> List&lt;RolesPermissionResponseInner&gt; GetRolePermission (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
+<a id="getrolepermissions"></a>
+# **GetRolePermissions**
+> RolePermissionsResponse GetRolePermissions (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
 
 Get role permissions
 
@@ -335,7 +335,7 @@ using Kinde.Api.Model;
 
 namespace Example
 {
-    public class GetRolePermissionExample
+    public class GetRolePermissionsExample
     {
         public static void Main()
         {
@@ -356,12 +356,12 @@ namespace Example
             try
             {
                 // Get role permissions
-                List<RolesPermissionResponseInner> result = apiInstance.GetRolePermission(roleId, sort, pageSize, nextToken);
+                RolePermissionsResponse result = apiInstance.GetRolePermissions(roleId, sort, pageSize, nextToken);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling RolesApi.GetRolePermission: " + e.Message);
+                Debug.Print("Exception when calling RolesApi.GetRolePermissions: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -370,21 +370,21 @@ namespace Example
 }
 ```
 
-#### Using the GetRolePermissionWithHttpInfo variant
+#### Using the GetRolePermissionsWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Get role permissions
-    ApiResponse<List<RolesPermissionResponseInner>> response = apiInstance.GetRolePermissionWithHttpInfo(roleId, sort, pageSize, nextToken);
+    ApiResponse<RolePermissionsResponse> response = apiInstance.GetRolePermissionsWithHttpInfo(roleId, sort, pageSize, nextToken);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling RolesApi.GetRolePermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling RolesApi.GetRolePermissionsWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -401,7 +401,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**List&lt;RolesPermissionResponseInner&gt;**](RolesPermissionResponseInner.md)
+[**RolePermissionsResponse**](RolePermissionsResponse.md)
 
 ### Authorization
 

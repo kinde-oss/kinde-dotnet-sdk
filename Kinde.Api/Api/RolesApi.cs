@@ -102,8 +102,8 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>List&lt;RolesPermissionResponseInner&gt;</returns>
-        List<RolesPermissionResponseInner> GetRolePermission(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>RolePermissionsResponse</returns>
+        RolePermissionsResponse GetRolePermissions(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
 
         /// <summary>
         /// Get role permissions
@@ -116,8 +116,8 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of List&lt;RolesPermissionResponseInner&gt;</returns>
-        ApiResponse<List<RolesPermissionResponseInner>> GetRolePermissionWithHttpInfo(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <returns>ApiResponse of RolePermissionsResponse</returns>
+        ApiResponse<RolePermissionsResponse> GetRolePermissionsWithHttpInfo(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
         /// List roles
         /// </summary>
@@ -302,8 +302,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;RolesPermissionResponseInner&gt;</returns>
-        System.Threading.Tasks.Task<List<RolesPermissionResponseInner>> GetRolePermissionAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of RolePermissionsResponse</returns>
+        System.Threading.Tasks.Task<RolePermissionsResponse> GetRolePermissionsAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get role permissions
@@ -317,8 +317,8 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;RolesPermissionResponseInner&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<RolesPermissionResponseInner>>> GetRolePermissionWithHttpInfoAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (RolePermissionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RolePermissionsResponse>> GetRolePermissionsWithHttpInfoAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List roles
         /// </summary>
@@ -1033,10 +1033,10 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>List&lt;RolesPermissionResponseInner&gt;</returns>
-        public List<RolesPermissionResponseInner> GetRolePermission(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>RolePermissionsResponse</returns>
+        public RolePermissionsResponse GetRolePermissions(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<List<RolesPermissionResponseInner>> localVarResponse = GetRolePermissionWithHttpInfo(roleId, sort, pageSize, nextToken);
+            Kinde.Api.Client.ApiResponse<RolePermissionsResponse> localVarResponse = GetRolePermissionsWithHttpInfo(roleId, sort, pageSize, nextToken);
             return localVarResponse.Data;
         }
 
@@ -1048,12 +1048,12 @@ namespace Kinde.Api.Api
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
-        /// <returns>ApiResponse of List&lt;RolesPermissionResponseInner&gt;</returns>
-        public Kinde.Api.Client.ApiResponse<List<RolesPermissionResponseInner>> GetRolePermissionWithHttpInfo(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        /// <returns>ApiResponse of RolePermissionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RolePermissionsResponse> GetRolePermissionsWithHttpInfo(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
         {
             // verify the required parameter 'roleId' is set
             if (roleId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRolePermission");
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRolePermissions");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -1094,11 +1094,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<RolesPermissionResponseInner>>("/api/v1/roles/{role_id}/permissions", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<RolePermissionsResponse>("/api/v1/roles/{role_id}/permissions", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetRolePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetRolePermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1114,10 +1114,10 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;RolesPermissionResponseInner&gt;</returns>
-        public async System.Threading.Tasks.Task<List<RolesPermissionResponseInner>> GetRolePermissionAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of RolePermissionsResponse</returns>
+        public async System.Threading.Tasks.Task<RolePermissionsResponse> GetRolePermissionsAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<List<RolesPermissionResponseInner>> localVarResponse = await GetRolePermissionWithHttpInfoAsync(roleId, sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<RolePermissionsResponse> localVarResponse = await GetRolePermissionsWithHttpInfoAsync(roleId, sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1130,12 +1130,12 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;RolesPermissionResponseInner&gt;)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<List<RolesPermissionResponseInner>>> GetRolePermissionWithHttpInfoAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (RolePermissionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RolePermissionsResponse>> GetRolePermissionsWithHttpInfoAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'roleId' is set
             if (roleId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRolePermission");
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRolePermissions");
 
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -1179,11 +1179,11 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<RolesPermissionResponseInner>>("/api/v1/roles/{role_id}/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<RolePermissionsResponse>("/api/v1/roles/{role_id}/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetRolePermission", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetRolePermissions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

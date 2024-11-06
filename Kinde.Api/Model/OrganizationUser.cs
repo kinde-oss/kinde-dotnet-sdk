@@ -36,14 +36,15 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OrganizationUser" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="email">email.</param>
-        /// <param name="fullName">fullName.</param>
-        /// <param name="lastName">lastName.</param>
-        /// <param name="firstName">firstName.</param>
-        /// <param name="picture">picture.</param>
-        /// <param name="roles">roles.</param>
-        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), List<string> roles = default(List<string>))
+        /// <param name="id">The unique ID for the user..</param>
+        /// <param name="email">The user&#39;s email address..</param>
+        /// <param name="fullName">The user&#39;s full name..</param>
+        /// <param name="lastName">The user&#39;s last name..</param>
+        /// <param name="firstName">The user&#39;s first name..</param>
+        /// <param name="picture">The user&#39;s profile picture URL..</param>
+        /// <param name="joinedOn">The date the user joined the organization..</param>
+        /// <param name="roles">The roles the user has in the organization..</param>
+        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), string joinedOn = default(string), List<string> roles = default(List<string>))
         {
             this.Id = id;
             this.Email = email;
@@ -51,48 +52,70 @@ namespace Kinde.Api.Model
             this.LastName = lastName;
             this.FirstName = firstName;
             this.Picture = picture;
+            this.JoinedOn = joinedOn;
             this.Roles = roles;
         }
 
         /// <summary>
-        /// Gets or Sets Id
+        /// The unique ID for the user.
         /// </summary>
+        /// <value>The unique ID for the user.</value>
+        /// <example>kp:97c2ba24217d48e3b96a799b76cf2c74</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Email
+        /// The user&#39;s email address.
         /// </summary>
+        /// <value>The user&#39;s email address.</value>
+        /// <example>john.snow@example.com</example>
         [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or Sets FullName
+        /// The user&#39;s full name.
         /// </summary>
+        /// <value>The user&#39;s full name.</value>
+        /// <example>John Snow</example>
         [DataMember(Name = "full_name", EmitDefaultValue = false)]
         public string FullName { get; set; }
 
         /// <summary>
-        /// Gets or Sets LastName
+        /// The user&#39;s last name.
         /// </summary>
+        /// <value>The user&#39;s last name.</value>
+        /// <example>Snow</example>
         [DataMember(Name = "last_name", EmitDefaultValue = false)]
         public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or Sets FirstName
+        /// The user&#39;s first name.
         /// </summary>
+        /// <value>The user&#39;s first name.</value>
+        /// <example>John</example>
         [DataMember(Name = "first_name", EmitDefaultValue = false)]
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets or Sets Picture
+        /// The user&#39;s profile picture URL.
         /// </summary>
+        /// <value>The user&#39;s profile picture URL.</value>
+        /// <example>https://example.com/john_snow.jpg</example>
         [DataMember(Name = "picture", EmitDefaultValue = false)]
         public string Picture { get; set; }
 
         /// <summary>
-        /// Gets or Sets Roles
+        /// The date the user joined the organization.
         /// </summary>
+        /// <value>The date the user joined the organization.</value>
+        /// <example>2021-01-01T00:00:00Z</example>
+        [DataMember(Name = "joined_on", EmitDefaultValue = false)]
+        public string JoinedOn { get; set; }
+
+        /// <summary>
+        /// The roles the user has in the organization.
+        /// </summary>
+        /// <value>The roles the user has in the organization.</value>
         [DataMember(Name = "roles", EmitDefaultValue = false)]
         public List<string> Roles { get; set; }
 
@@ -110,6 +133,7 @@ namespace Kinde.Api.Model
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  Picture: ").Append(Picture).Append("\n");
+            sb.Append("  JoinedOn: ").Append(JoinedOn).Append("\n");
             sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -177,6 +201,11 @@ namespace Kinde.Api.Model
                     this.Picture.Equals(input.Picture))
                 ) && 
                 (
+                    this.JoinedOn == input.JoinedOn ||
+                    (this.JoinedOn != null &&
+                    this.JoinedOn.Equals(input.JoinedOn))
+                ) && 
+                (
                     this.Roles == input.Roles ||
                     this.Roles != null &&
                     input.Roles != null &&
@@ -216,6 +245,10 @@ namespace Kinde.Api.Model
                 if (this.Picture != null)
                 {
                     hashCode = (hashCode * 59) + this.Picture.GetHashCode();
+                }
+                if (this.JoinedOn != null)
+                {
+                    hashCode = (hashCode * 59) + this.JoinedOn.GetHashCode();
                 }
                 if (this.Roles != null)
                 {

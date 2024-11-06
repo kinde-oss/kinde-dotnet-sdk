@@ -370,10 +370,10 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsUserRolesResponse</returns>
         ApiResponse<GetOrganizationsUserRolesResponse> GetOrganizationUserRolesWithHttpInfo(string orgCode, string userId);
         /// <summary>
-        /// List Organization Users
+        /// Get organization users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -386,10 +386,10 @@ namespace Kinde.Api.Api
         GetOrganizationUsersResponse GetOrganizationUsers(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), string? roles = default(string?));
 
         /// <summary>
-        /// List Organization Users
+        /// Get organization users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -948,10 +948,10 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationsUserRolesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationsUserRolesResponse>> GetOrganizationUserRolesWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Organization Users
+        /// Get organization users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -965,10 +965,10 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<GetOrganizationUsersResponse> GetOrganizationUsersAsync(string orgCode, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), string? permissions = default(string?), string? roles = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Organization Users
+        /// Get organization users
         /// </summary>
         /// <remarks>
-        /// Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3498,7 +3498,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization users Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3515,7 +3515,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization users Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3538,8 +3538,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -3590,7 +3589,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization users Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3608,7 +3607,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Organization Users Get users in an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization users Get user details for all members of an organization.  &lt;div&gt;   &lt;code&gt;read:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3633,8 +3632,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 

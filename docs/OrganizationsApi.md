@@ -19,7 +19,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
 | [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
-| [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | List Organization Users |
+| [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | Get organization users |
 | [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | Get organizations |
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
@@ -1571,9 +1571,9 @@ catch (ApiException e)
 # **GetOrganizationUsers**
 > GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, string? permissions = null, string? roles = null)
 
-List Organization Users
+Get organization users
 
-Get users in an organization.  <div>   <code>read:organization_users</code> </div> 
+Get user details for all members of an organization.  <div>   <code>read:organization_users</code> </div> 
 
 ### Example
 ```csharp
@@ -1599,7 +1599,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var orgCode = "orgCode_example";  // string | The organization's code.
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
             var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
@@ -1608,7 +1608,7 @@ namespace Example
 
             try
             {
-                // List Organization Users
+                // Get organization users
                 GetOrganizationUsersResponse result = apiInstance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions, roles);
                 Debug.WriteLine(result);
             }
@@ -1629,7 +1629,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Organization Users
+    // Get organization users
     ApiResponse<GetOrganizationUsersResponse> response = apiInstance.GetOrganizationUsersWithHttpInfo(orgCode, sort, pageSize, nextToken, permissions, roles);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -1665,16 +1665,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A successful response with a list of organization users or an empty list. |  -  |
-| **400** | Error creating user |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

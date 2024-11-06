@@ -91,18 +91,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
-        /// Test GetRolePermission
+        /// Test GetRolePermissions
         /// </summary>
         [Fact]
-        public void GetRolePermissionTest()
+        public void GetRolePermissionsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string roleId = null;
             //string? sort = null;
             //int? pageSize = null;
             //string? nextToken = null;
-            //var response = instance.GetRolePermission(roleId, sort, pageSize, nextToken);
-            //Assert.IsType<List<RolesPermissionResponseInner>>(response);
+            //var response = instance.GetRolePermissions(roleId, sort, pageSize, nextToken);
+            //Assert.IsType<RolePermissionsResponse>(response);
         }
 
         /// <summary>
