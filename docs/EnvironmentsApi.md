@@ -7,6 +7,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**DeleteEnvironementFeatureFlagOverride**](EnvironmentsApi.md#deleteenvironementfeatureflagoverride) | **DELETE** /api/v1/environment/feature_flags/{feature_flag_key} | Delete Environment Feature Flag Override |
 | [**DeleteEnvironementFeatureFlagOverrides**](EnvironmentsApi.md#deleteenvironementfeatureflagoverrides) | **DELETE** /api/v1/environment/feature_flags | Delete Environment Feature Flag Overrides |
 | [**GetEnvironementFeatureFlags**](EnvironmentsApi.md#getenvironementfeatureflags) | **GET** /api/v1/environment/feature_flags | List Environment Feature Flags |
+| [**GetEnvironment**](EnvironmentsApi.md#getenvironment) | **GET** /api/v1/environment | Get environment |
 | [**UpdateEnvironementFeatureFlagOverride**](EnvironmentsApi.md#updateenvironementfeatureflagoverride) | **PATCH** /api/v1/environment/feature_flags/{feature_flag_key} | Update Environment Feature Flag Override |
 
 <a id="deleteenvironementfeatureflagoverride"></a>
@@ -299,6 +300,102 @@ This endpoint does not need any parameter.
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getenvironment"></a>
+# **GetEnvironment**
+> GetEnvironmentResponse GetEnvironment ()
+
+Get environment
+
+Get's the current environment.  <div>   <code>read:environments</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetEnvironmentExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+
+            try
+            {
+                // Get environment
+                GetEnvironmentResponse result = apiInstance.GetEnvironment();
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling EnvironmentsApi.GetEnvironment: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetEnvironmentWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get environment
+    ApiResponse<GetEnvironmentResponse> response = apiInstance.GetEnvironmentWithHttpInfo();
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling EnvironmentsApi.GetEnvironmentWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+### Return type
+
+[**GetEnvironmentResponse**](GetEnvironmentResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Environment successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

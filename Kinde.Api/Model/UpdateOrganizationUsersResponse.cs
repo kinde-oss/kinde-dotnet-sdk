@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -37,12 +37,14 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="UpdateOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="message">message.</param>
+        /// <param name="code">code.</param>
         /// <param name="usersAdded">usersAdded.</param>
         /// <param name="usersUpdated">usersUpdated.</param>
         /// <param name="usersRemoved">usersRemoved.</param>
-        public UpdateOrganizationUsersResponse(string message = default(string), List<string> usersAdded = default(List<string>), List<string> usersUpdated = default(List<string>), List<string> usersRemoved = default(List<string>))
+        public UpdateOrganizationUsersResponse(string message = default(string), string code = default(string), List<string> usersAdded = default(List<string>), List<string> usersUpdated = default(List<string>), List<string> usersRemoved = default(List<string>))
         {
             this.Message = message;
+            this.Code = code;
             this.UsersAdded = usersAdded;
             this.UsersUpdated = usersUpdated;
             this.UsersRemoved = usersRemoved;
@@ -51,8 +53,16 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
+        /// <example>Success</example>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Code
+        /// </summary>
+        /// <example>OK</example>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
 
         /// <summary>
         /// Gets or Sets UsersAdded
@@ -81,6 +91,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class UpdateOrganizationUsersResponse {\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  UsersAdded: ").Append(UsersAdded).Append("\n");
             sb.Append("  UsersUpdated: ").Append(UsersUpdated).Append("\n");
             sb.Append("  UsersRemoved: ").Append(UsersRemoved).Append("\n");
@@ -125,6 +136,11 @@ namespace Kinde.Api.Model
                     this.Message.Equals(input.Message))
                 ) && 
                 (
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
+                ) && 
+                (
                     this.UsersAdded == input.UsersAdded ||
                     this.UsersAdded != null &&
                     input.UsersAdded != null &&
@@ -156,6 +172,10 @@ namespace Kinde.Api.Model
                 if (this.Message != null)
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
+                if (this.Code != null)
+                {
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 }
                 if (this.UsersAdded != null)
                 {

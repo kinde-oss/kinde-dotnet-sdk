@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -119,6 +119,33 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'LogoDark'
+        /// </summary>
+        [Fact]
+        public void LogoDarkTest()
+        {
+            // TODO unit test for the property 'LogoDark'
+        }
+
+        /// <summary>
+        /// Test the property 'FaviconSvg'
+        /// </summary>
+        [Fact]
+        public void FaviconSvgTest()
+        {
+            // TODO unit test for the property 'FaviconSvg'
+        }
+
+        /// <summary>
+        /// Test the property 'FaviconFallback'
+        /// </summary>
+        [Fact]
+        public void FaviconFallbackTest()
+        {
+            // TODO unit test for the property 'FaviconFallback'
+        }
+
+        /// <summary>
         /// Test the property 'LinkColor'
         /// </summary>
         [Fact]
@@ -188,6 +215,60 @@ namespace Kinde.Api.Test.Model
         public void ButtonColorDarkTest()
         {
             // TODO unit test for the property 'ButtonColorDark'
+        }
+
+        /// <summary>
+        /// Test the property 'ButtonBorderRadius'
+        /// </summary>
+        [Fact]
+        public void ButtonBorderRadiusTest()
+        {
+            // TODO unit test for the property 'ButtonBorderRadius'
+        }
+
+        /// <summary>
+        /// Test the property 'CardBorderRadius'
+        /// </summary>
+        [Fact]
+        public void CardBorderRadiusTest()
+        {
+            // TODO unit test for the property 'CardBorderRadius'
+        }
+
+        /// <summary>
+        /// Test the property 'InputBorderRadius'
+        /// </summary>
+        [Fact]
+        public void InputBorderRadiusTest()
+        {
+            // TODO unit test for the property 'InputBorderRadius'
+        }
+
+        /// <summary>
+        /// Test the property 'ThemeCode'
+        /// </summary>
+        [Fact]
+        public void ThemeCodeTest()
+        {
+            // TODO unit test for the property 'ThemeCode'
+        }
+
+        /// <summary>
+        /// Test the property 'ColorScheme'
+        /// </summary>
+        [Fact]
+        public void ColorSchemeTest()
+        {
+            // TODO unit test for the property 'ColorScheme'
+        }
+
+        /// <summary>
+        /// Test the property 'CreatedOn'
+        /// </summary>
+        [Fact]
+        public void CreatedOnTest()
+        {
+            // TODO unit test for the property 'CreatedOn'
         }
 
         /// <summary>

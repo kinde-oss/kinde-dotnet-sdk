@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -227,6 +227,29 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?));
+        /// <summary>
+        /// Update application tokens
+        /// </summary>
+        /// <remarks>
+        /// Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateApplicationTokens(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest);
+
+        /// <summary>
+        /// Update application tokens
+        /// </summary>
+        /// <remarks>
+        /// Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateApplicationTokensWithHttpInfo(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest);
         /// <summary>
         /// Update property
         /// </summary>
@@ -478,6 +501,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update application tokens
+        /// </summary>
+        /// <remarks>
+        /// Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateApplicationTokensAsync(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update application tokens
+        /// </summary>
+        /// <remarks>
+        /// Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateApplicationTokensWithHttpInfoAsync(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update property
         /// </summary>
@@ -1927,6 +1975,149 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateApplication", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update application tokens Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateApplicationTokens(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateApplicationTokensWithHttpInfo(applicationId, updateApplicationTokensRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update application tokens Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateApplicationTokensWithHttpInfo(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest)
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->UpdateApplicationTokens");
+
+            // verify the required parameter 'updateApplicationTokensRequest' is set
+            if (updateApplicationTokensRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateApplicationTokensRequest' when calling ApplicationsApi->UpdateApplicationTokens");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.Data = updateApplicationTokensRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/applications/{application_id}/tokens", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateApplicationTokens", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update application tokens Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateApplicationTokensAsync(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateApplicationTokensWithHttpInfoAsync(applicationId, updateApplicationTokensRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update application tokens Configure tokens for an application.   &lt;div&gt;     &lt;code&gt;update:application_tokens&lt;/code&gt;   &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="updateApplicationTokensRequest">Application tokens.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateApplicationTokensWithHttpInfoAsync(string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->UpdateApplicationTokens");
+
+            // verify the required parameter 'updateApplicationTokensRequest' is set
+            if (updateApplicationTokensRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateApplicationTokensRequest' when calling ApplicationsApi->UpdateApplicationTokens");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.Data = updateApplicationTokensRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/applications/{application_id}/tokens", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateApplicationTokens", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

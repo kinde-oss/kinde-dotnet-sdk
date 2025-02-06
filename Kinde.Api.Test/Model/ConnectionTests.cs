@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -56,39 +56,30 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Id'
+        /// Test the property 'Code'
         /// </summary>
         [Fact]
-        public void IdTest()
+        public void CodeTest()
         {
-            // TODO unit test for the property 'Id'
+            // TODO unit test for the property 'Code'
         }
 
         /// <summary>
-        /// Test the property 'Name'
+        /// Test the property 'Message'
         /// </summary>
         [Fact]
-        public void NameTest()
+        public void MessageTest()
         {
-            // TODO unit test for the property 'Name'
+            // TODO unit test for the property 'Message'
         }
 
         /// <summary>
-        /// Test the property 'DisplayName'
+        /// Test the property 'VarConnection'
         /// </summary>
         [Fact]
-        public void DisplayNameTest()
+        public void VarConnectionTest()
         {
-            // TODO unit test for the property 'DisplayName'
-        }
-
-        /// <summary>
-        /// Test the property 'Strategy'
-        /// </summary>
-        [Fact]
-        public void StrategyTest()
-        {
-            // TODO unit test for the property 'Strategy'
+            // TODO unit test for the property 'VarConnection'
         }
     }
 }

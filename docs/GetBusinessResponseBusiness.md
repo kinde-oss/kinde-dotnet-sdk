@@ -12,6 +12,9 @@ Name | Type | Description | Notes
 **Timezone** | **string** | The timezone your business is in. | [optional] 
 **PrivacyUrl** | **string** | Your Privacy policy URL. | [optional] 
 **TermsUrl** | **string** | Your Terms and Conditions URL. | [optional] 
+**HasClickwrap** | **bool** | Whether your business uses clickwrap agreements. | [optional] 
+**HasKindeBranding** | **bool** | Whether your business shows Kinde branding. | [optional] 
+**CreatedOn** | **string** | Date of business creation in ISO 8601 format. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

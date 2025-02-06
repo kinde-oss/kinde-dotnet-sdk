@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -28,18 +28,18 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationResponseBackgroundColor
+    /// GetEnvironmentResponseEnvironmentLinkColor
     /// </summary>
-    [DataContract(Name = "get_organization_response_background_color")]
-    public partial class GetOrganizationResponseBackgroundColor : IEquatable<GetOrganizationResponseBackgroundColor>, IValidatableObject
+    [DataContract(Name = "get_environment_response_environment_link_color")]
+    public partial class GetEnvironmentResponseEnvironmentLinkColor : IEquatable<GetEnvironmentResponseEnvironmentLinkColor>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationResponseBackgroundColor" /> class.
+        /// Initializes a new instance of the <see cref="GetEnvironmentResponseEnvironmentLinkColor" /> class.
         /// </summary>
         /// <param name="raw">raw.</param>
         /// <param name="hex">hex.</param>
         /// <param name="hsl">hsl.</param>
-        public GetOrganizationResponseBackgroundColor(string raw = default(string), string hex = default(string), string hsl = default(string))
+        public GetEnvironmentResponseEnvironmentLinkColor(string raw = default(string), string hex = default(string), string hsl = default(string))
         {
             this.Raw = raw;
             this.Hex = hex;
@@ -49,21 +49,21 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Raw
         /// </summary>
-        /// <example>#ffffff</example>
+        /// <example>#0056F1</example>
         [DataMember(Name = "raw", EmitDefaultValue = false)]
         public string Raw { get; set; }
 
         /// <summary>
         /// Gets or Sets Hex
         /// </summary>
-        /// <example>#ffffff</example>
+        /// <example>#0056F1</example>
         [DataMember(Name = "hex", EmitDefaultValue = false)]
         public string Hex { get; set; }
 
         /// <summary>
         /// Gets or Sets Hsl
         /// </summary>
-        /// <example>hsl(0, 0%, 100%)</example>
+        /// <example>hsl(220, 100%, 50%)</example>
         [DataMember(Name = "hsl", EmitDefaultValue = false)]
         public string Hsl { get; set; }
 
@@ -74,7 +74,7 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetOrganizationResponseBackgroundColor {\n");
+            sb.Append("class GetEnvironmentResponseEnvironmentLinkColor {\n");
             sb.Append("  Raw: ").Append(Raw).Append("\n");
             sb.Append("  Hex: ").Append(Hex).Append("\n");
             sb.Append("  Hsl: ").Append(Hsl).Append("\n");
@@ -98,15 +98,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetOrganizationResponseBackgroundColor);
+            return this.Equals(input as GetEnvironmentResponseEnvironmentLinkColor);
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationResponseBackgroundColor instances are equal
+        /// Returns true if GetEnvironmentResponseEnvironmentLinkColor instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationResponseBackgroundColor to be compared</param>
+        /// <param name="input">Instance of GetEnvironmentResponseEnvironmentLinkColor to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetOrganizationResponseBackgroundColor input)
+        public bool Equals(GetEnvironmentResponseEnvironmentLinkColor input)
         {
             if (input == null)
             {

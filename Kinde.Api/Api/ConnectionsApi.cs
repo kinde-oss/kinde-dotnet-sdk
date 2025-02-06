@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -116,6 +116,29 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
         ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?));
+        /// <summary>
+        /// Replace Connection
+        /// </summary>
+        /// <remarks>
+        /// Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse ReplaceConnection(string connectionId, ReplaceConnectionRequest replaceConnectionRequest);
+
+        /// <summary>
+        /// Replace Connection
+        /// </summary>
+        /// <remarks>
+        /// Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> ReplaceConnectionWithHttpInfo(string connectionId, ReplaceConnectionRequest replaceConnectionRequest);
         /// <summary>
         /// Update Connection
         /// </summary>
@@ -244,6 +267,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Replace Connection
+        /// </summary>
+        /// <remarks>
+        /// Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> ReplaceConnectionAsync(string connectionId, ReplaceConnectionRequest replaceConnectionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Replace Connection
+        /// </summary>
+        /// <remarks>
+        /// Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> ReplaceConnectionWithHttpInfoAsync(string connectionId, ReplaceConnectionRequest replaceConnectionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Connection
         /// </summary>
@@ -530,8 +578,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -596,8 +643,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -660,8 +706,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -725,8 +770,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -789,8 +833,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -854,8 +897,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -1039,6 +1081,149 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Replace Connection Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse ReplaceConnection(string connectionId, ReplaceConnectionRequest replaceConnectionRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = ReplaceConnectionWithHttpInfo(connectionId, replaceConnectionRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Replace Connection Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> ReplaceConnectionWithHttpInfo(string connectionId, ReplaceConnectionRequest replaceConnectionRequest)
+        {
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ConnectionsApi->ReplaceConnection");
+
+            // verify the required parameter 'replaceConnectionRequest' is set
+            if (replaceConnectionRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceConnectionRequest' when calling ConnectionsApi->ReplaceConnection");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+            localVarRequestOptions.Data = replaceConnectionRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/connections/{connection_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReplaceConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Replace Connection Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> ReplaceConnectionAsync(string connectionId, ReplaceConnectionRequest replaceConnectionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await ReplaceConnectionWithHttpInfoAsync(connectionId, replaceConnectionRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Replace Connection Replace Connection Config.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="connectionId">The unique identifier for the connection.</param>
+        /// <param name="replaceConnectionRequest">The complete connection configuration to replace the existing one.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> ReplaceConnectionWithHttpInfoAsync(string connectionId, ReplaceConnectionRequest replaceConnectionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling ConnectionsApi->ReplaceConnection");
+
+            // verify the required parameter 'replaceConnectionRequest' is set
+            if (replaceConnectionRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceConnectionRequest' when calling ConnectionsApi->ReplaceConnection");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+            localVarRequestOptions.Data = replaceConnectionRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReplaceConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Update Connection Update Connection.  &lt;div&gt;   &lt;code&gt;update:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1076,8 +1261,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1149,8 +1333,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 

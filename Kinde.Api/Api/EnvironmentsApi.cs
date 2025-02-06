@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -87,6 +87,25 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentFeatureFlagsResponse</returns>
         ApiResponse<GetEnvironmentFeatureFlagsResponse> GetEnvironementFeatureFlagsWithHttpInfo();
+        /// <summary>
+        /// Get environment
+        /// </summary>
+        /// <remarks>
+        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetEnvironmentResponse</returns>
+        GetEnvironmentResponse GetEnvironment();
+
+        /// <summary>
+        /// Get environment
+        /// </summary>
+        /// <remarks>
+        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetEnvironmentResponse</returns>
+        ApiResponse<GetEnvironmentResponse> GetEnvironmentWithHttpInfo();
         /// <summary>
         /// Update Environment Feature Flag Override
         /// </summary>
@@ -184,6 +203,27 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get environment
+        /// </summary>
+        /// <remarks>
+        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetEnvironmentResponse</returns>
+        System.Threading.Tasks.Task<GetEnvironmentResponse> GetEnvironmentAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get environment
+        /// </summary>
+        /// <remarks>
+        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Environment Feature Flag Override
         /// </summary>
@@ -791,6 +831,119 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetEnvironementFeatureFlags", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetEnvironmentResponse</returns>
+        public GetEnvironmentResponse GetEnvironment()
+        {
+            Kinde.Api.Client.ApiResponse<GetEnvironmentResponse> localVarResponse = GetEnvironmentWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetEnvironmentResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetEnvironmentResponse> GetEnvironmentWithHttpInfo()
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetEnvironmentResponse>("/api/v1/environment", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetEnvironment", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetEnvironmentResponse</returns>
+        public async System.Threading.Tasks.Task<GetEnvironmentResponse> GetEnvironmentAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetEnvironmentResponse> localVarResponse = await GetEnvironmentWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentResponse>("/api/v1/environment", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetEnvironment", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -41,7 +41,7 @@ namespace Kinde.Api.Model
         /// <param name="eventId">eventId.</param>
         /// <param name="timestamp">Timestamp in ISO 8601 format..</param>
         /// <param name="data">Event specific data object..</param>
-        public GetEventResponseEvent(string type = default(string), string source = default(string), string eventId = default(string), string timestamp = default(string), Object data = default(Object))
+        public GetEventResponseEvent(string type = default(string), string source = default(string), string eventId = default(string), int timestamp = default(int), Object data = default(Object))
         {
             this.Type = type;
             this.Source = source;
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Timestamp in ISO 8601 format.</value>
         [DataMember(Name = "timestamp", EmitDefaultValue = false)]
-        public string Timestamp { get; set; }
+        public int Timestamp { get; set; }
 
         /// <summary>
         /// Event specific data object.
@@ -147,8 +147,7 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.Timestamp == input.Timestamp ||
-                    (this.Timestamp != null &&
-                    this.Timestamp.Equals(input.Timestamp))
+                    this.Timestamp.Equals(input.Timestamp)
                 ) && 
                 (
                     this.Data == input.Data ||
@@ -178,10 +177,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.EventId.GetHashCode();
                 }
-                if (this.Timestamp != null)
-                {
-                    hashCode = (hashCode * 59) + this.Timestamp.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.Timestamp.GetHashCode();
                 if (this.Data != null)
                 {
                     hashCode = (hashCode * 59) + this.Data.GetHashCode();

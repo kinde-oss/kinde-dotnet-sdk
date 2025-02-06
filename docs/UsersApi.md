@@ -7,11 +7,14 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create user |
 | [**CreateUserIdentity**](UsersApi.md#createuseridentity) | **POST** /api/v1/users/{user_id}/identities | Create identity |
 | [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete user |
+| [**DeleteUserSessions**](UsersApi.md#deleteusersessions) | **DELETE** /api/v1/users/{user_id}/sessions | Delete user sessions |
 | [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get user |
 | [**GetUserIdentities**](UsersApi.md#getuseridentities) | **GET** /api/v1/users/{user_id}/identities | Get identities |
 | [**GetUserPropertyValues**](UsersApi.md#getuserpropertyvalues) | **GET** /api/v1/users/{user_id}/properties | Get property values |
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | Get users |
+| [**GetUsersMFA**](UsersApi.md#getusersmfa) | **GET** /api/v1/users/{user_id}/mfa | Get user&#39;s MFA configuration |
 | [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
+| [**ResetUsersMFA**](UsersApi.md#resetusersmfa) | **DELETE** /api/v1/users/{user_id}/mfa/{factor_id} | Reset MFA for a user |
 | [**SetUserPassword**](UsersApi.md#setuserpassword) | **PUT** /api/v1/users/{user_id}/password | Set User password |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update user |
 | [**UpdateUserFeatureFlagOverride**](UsersApi.md#updateuserfeatureflagoverride) | **PATCH** /api/v1/users/{user_id}/feature_flags/{feature_flag_key} | Update User Feature Flag Override |
@@ -321,6 +324,108 @@ catch (ApiException e)
 | **200** | User successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteusersessions"></a>
+# **DeleteUserSessions**
+> SuccessResponse DeleteUserSessions (string userId)
+
+Delete user sessions
+
+Invalidate user sessions.  <div>   <code>delete:user_sessions</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteUserSessionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Delete user sessions
+                SuccessResponse result = apiInstance.DeleteUserSessions(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.DeleteUserSessions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteUserSessionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete user sessions
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteUserSessionsWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.DeleteUserSessionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User sessions successfully invalidated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -667,7 +772,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var userId = "userId_example";  // string? | ID of the user to filter by. (optional) 
+            var userId = "userId_example";  // string? | Filter the results by User ID. The query string should be comma separated and url encoded. (optional) 
             var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
             var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
             var username = "username_example";  // string? | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
@@ -716,7 +821,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **userId** | **string?** | ID of the user to filter by. | [optional]  |
+| **userId** | **string?** | Filter the results by User ID. The query string should be comma separated and url encoded. | [optional]  |
 | **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 | **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
 | **username** | **string?** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
@@ -743,6 +848,108 @@ catch (ApiException e)
 | **200** | Users successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getusersmfa"></a>
+# **GetUsersMFA**
+> GetUserMfaResponse GetUsersMFA (string userId)
+
+Get user's MFA configuration
+
+Get a user’s MFA configuration.  <div>   <code>read:user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetUsersMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Get user's MFA configuration
+                GetUserMfaResponse result = apiInstance.GetUsersMFA(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.GetUsersMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetUsersMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get user's MFA configuration
+    ApiResponse<GetUserMfaResponse> response = apiInstance.GetUsersMFAWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.GetUsersMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+
+### Return type
+
+[**GetUserMfaResponse**](GetUserMfaResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successfully retrieve user&#39;s MFA configuration. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -845,6 +1052,110 @@ catch (ApiException e)
 | **400** | Bad request. |  -  |
 | **403** | Bad request. |  -  |
 | **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="resetusersmfa"></a>
+# **ResetUsersMFA**
+> SuccessResponse ResetUsersMFA (string userId, string factorId)
+
+Reset MFA for a user
+
+Reset a user’s MFA.  <div>   <code>delete:user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ResetUsersMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+            var factorId = mfa_0193278a00ac29b3f6d4e4d462d55c47;  // string | The identifier for the MFA factor
+
+            try
+            {
+                // Reset MFA for a user
+                SuccessResponse result = apiInstance.ResetUsersMFA(userId, factorId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.ResetUsersMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ResetUsersMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Reset MFA for a user
+    ApiResponse<SuccessResponse> response = apiInstance.ResetUsersMFAWithHttpInfo(userId, factorId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.ResetUsersMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+| **factorId** | **string** | The identifier for the MFA factor |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User&#39;s MFA successfully reset. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

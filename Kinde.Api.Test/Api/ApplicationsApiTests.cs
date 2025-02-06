@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -163,6 +163,19 @@ namespace Kinde.Api.Test.Api
             //string applicationId = null;
             //UpdateApplicationRequest? updateApplicationRequest = null;
             //instance.UpdateApplication(applicationId, updateApplicationRequest);
+        }
+
+        /// <summary>
+        /// Test UpdateApplicationTokens
+        /// </summary>
+        [Fact]
+        public void UpdateApplicationTokensTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string applicationId = null;
+            //UpdateApplicationTokensRequest updateApplicationTokensRequest = null;
+            //var response = instance.UpdateApplicationTokens(applicationId, updateApplicationTokensRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>

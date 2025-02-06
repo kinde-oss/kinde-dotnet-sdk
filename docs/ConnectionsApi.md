@@ -8,6 +8,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**DeleteConnection**](ConnectionsApi.md#deleteconnection) | **DELETE** /api/v1/connections/{connection_id} | Delete Connection |
 | [**GetConnection**](ConnectionsApi.md#getconnection) | **GET** /api/v1/connections/{connection_id} | Get Connection |
 | [**GetConnections**](ConnectionsApi.md#getconnections) | **GET** /api/v1/connections | List Connections |
+| [**ReplaceConnection**](ConnectionsApi.md#replaceconnection) | **PUT** /api/v1/connections/{connection_id} | Replace Connection |
 | [**UpdateConnection**](ConnectionsApi.md#updateconnection) | **PATCH** /api/v1/connections/{connection_id} | Update Connection |
 
 <a id="createconnection"></a>
@@ -98,16 +99,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Connection successfully created |  -  |
+| **201** | Connection successfully created. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -199,16 +200,17 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Connection deleted. |  -  |
+| **200** | Connection successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -300,7 +302,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -308,8 +310,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Connection successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -418,6 +420,110 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="replaceconnection"></a>
+# **ReplaceConnection**
+> SuccessResponse ReplaceConnection (string connectionId, ReplaceConnectionRequest replaceConnectionRequest)
+
+Replace Connection
+
+Replace Connection Config.  <div>   <code>update:connections</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ReplaceConnectionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var connectionId = "connectionId_example";  // string | The unique identifier for the connection.
+            var replaceConnectionRequest = new ReplaceConnectionRequest(); // ReplaceConnectionRequest | The complete connection configuration to replace the existing one.
+
+            try
+            {
+                // Replace Connection
+                SuccessResponse result = apiInstance.ReplaceConnection(connectionId, replaceConnectionRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ConnectionsApi.ReplaceConnection: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ReplaceConnectionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Replace Connection
+    ApiResponse<SuccessResponse> response = apiInstance.ReplaceConnectionWithHttpInfo(connectionId, replaceConnectionRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ConnectionsApi.ReplaceConnectionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **connectionId** | **string** | The unique identifier for the connection. |  |
+| **replaceConnectionRequest** | [**ReplaceConnectionRequest**](ReplaceConnectionRequest.md) | The complete connection configuration to replace the existing one. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Connection successfully updated |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateconnection"></a>
 # **UpdateConnection**
 > SuccessResponse UpdateConnection (string connectionId, UpdateConnectionRequest updateConnectionRequest)
@@ -508,7 +614,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -516,8 +622,9 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Connection successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

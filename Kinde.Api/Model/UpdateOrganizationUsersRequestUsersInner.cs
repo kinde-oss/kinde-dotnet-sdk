@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -52,6 +52,7 @@ namespace Kinde.Api.Model
         /// The users id.
         /// </summary>
         /// <value>The users id.</value>
+        /// <example>kp_057ee6debc624c70947b6ba512908c35</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -59,6 +60,7 @@ namespace Kinde.Api.Model
         /// Optional operation, set to &#39;delete&#39; to remove the user from the organization.
         /// </summary>
         /// <value>Optional operation, set to &#39;delete&#39; to remove the user from the organization.</value>
+        /// <example>delete</example>
         [DataMember(Name = "operation", EmitDefaultValue = false)]
         public string Operation { get; set; }
 

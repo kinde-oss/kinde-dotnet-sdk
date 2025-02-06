@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -44,7 +44,10 @@ namespace Kinde.Api.Model
         /// <param name="timezone">The timezone your business is in..</param>
         /// <param name="privacyUrl">Your Privacy policy URL..</param>
         /// <param name="termsUrl">Your Terms and Conditions URL..</param>
-        public GetBusinessResponseBusiness(string code = default(string), string name = default(string), string phone = default(string), string email = default(string), string industry = default(string), string timezone = default(string), string privacyUrl = default(string), string termsUrl = default(string))
+        /// <param name="hasClickwrap">Whether your business uses clickwrap agreements..</param>
+        /// <param name="hasKindeBranding">Whether your business shows Kinde branding..</param>
+        /// <param name="createdOn">Date of business creation in ISO 8601 format..</param>
+        public GetBusinessResponseBusiness(string code = default(string), string name = default(string), string phone = default(string), string email = default(string), string industry = default(string), string timezone = default(string), string privacyUrl = default(string), string termsUrl = default(string), bool hasClickwrap = default(bool), bool hasKindeBranding = default(bool), string createdOn = default(string))
         {
             this.Code = code;
             this.Name = name;
@@ -54,6 +57,9 @@ namespace Kinde.Api.Model
             this.Timezone = timezone;
             this.PrivacyUrl = privacyUrl;
             this.TermsUrl = termsUrl;
+            this.HasClickwrap = hasClickwrap;
+            this.HasKindeBranding = hasKindeBranding;
+            this.CreatedOn = createdOn;
         }
 
         /// <summary>
@@ -121,6 +127,30 @@ namespace Kinde.Api.Model
         public string TermsUrl { get; set; }
 
         /// <summary>
+        /// Whether your business uses clickwrap agreements.
+        /// </summary>
+        /// <value>Whether your business uses clickwrap agreements.</value>
+        /// <example>false</example>
+        [DataMember(Name = "has_clickwrap", EmitDefaultValue = true)]
+        public bool HasClickwrap { get; set; }
+
+        /// <summary>
+        /// Whether your business shows Kinde branding.
+        /// </summary>
+        /// <value>Whether your business shows Kinde branding.</value>
+        /// <example>true</example>
+        [DataMember(Name = "has_kinde_branding", EmitDefaultValue = true)]
+        public bool HasKindeBranding { get; set; }
+
+        /// <summary>
+        /// Date of business creation in ISO 8601 format.
+        /// </summary>
+        /// <value>Date of business creation in ISO 8601 format.</value>
+        /// <example>2021-01-01T00:00:00Z</example>
+        [DataMember(Name = "created_on", EmitDefaultValue = false)]
+        public string CreatedOn { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -136,6 +166,9 @@ namespace Kinde.Api.Model
             sb.Append("  Timezone: ").Append(Timezone).Append("\n");
             sb.Append("  PrivacyUrl: ").Append(PrivacyUrl).Append("\n");
             sb.Append("  TermsUrl: ").Append(TermsUrl).Append("\n");
+            sb.Append("  HasClickwrap: ").Append(HasClickwrap).Append("\n");
+            sb.Append("  HasKindeBranding: ").Append(HasKindeBranding).Append("\n");
+            sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -210,6 +243,19 @@ namespace Kinde.Api.Model
                     this.TermsUrl == input.TermsUrl ||
                     (this.TermsUrl != null &&
                     this.TermsUrl.Equals(input.TermsUrl))
+                ) && 
+                (
+                    this.HasClickwrap == input.HasClickwrap ||
+                    this.HasClickwrap.Equals(input.HasClickwrap)
+                ) && 
+                (
+                    this.HasKindeBranding == input.HasKindeBranding ||
+                    this.HasKindeBranding.Equals(input.HasKindeBranding)
+                ) && 
+                (
+                    this.CreatedOn == input.CreatedOn ||
+                    (this.CreatedOn != null &&
+                    this.CreatedOn.Equals(input.CreatedOn))
                 );
         }
 
@@ -253,6 +299,12 @@ namespace Kinde.Api.Model
                 if (this.TermsUrl != null)
                 {
                     hashCode = (hashCode * 59) + this.TermsUrl.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.HasClickwrap.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasKindeBranding.GetHashCode();
+                if (this.CreatedOn != null)
+                {
+                    hashCode = (hashCode * 59) + this.CreatedOn.GetHashCode();
                 }
                 return hashCode;
             }

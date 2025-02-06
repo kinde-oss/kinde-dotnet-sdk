@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -61,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The unique ID for the user.</value>
         /// <example>kp:97c2ba24217d48e3b96a799b76cf2c74</example>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public string Id { get; set; }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s email address.</value>
         /// <example>john.snow@example.com</example>
-        [DataMember(Name = "email", EmitDefaultValue = false)]
+        [DataMember(Name = "email", EmitDefaultValue = true)]
         public string Email { get; set; }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s last name.</value>
         /// <example>Snow</example>
-        [DataMember(Name = "last_name", EmitDefaultValue = false)]
+        [DataMember(Name = "last_name", EmitDefaultValue = true)]
         public string LastName { get; set; }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s first name.</value>
         /// <example>John</example>
-        [DataMember(Name = "first_name", EmitDefaultValue = false)]
+        [DataMember(Name = "first_name", EmitDefaultValue = true)]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s profile picture URL.</value>
         /// <example>https://example.com/john_snow.jpg</example>
-        [DataMember(Name = "picture", EmitDefaultValue = false)]
+        [DataMember(Name = "picture", EmitDefaultValue = true)]
         public string Picture { get; set; }
 
         /// <summary>

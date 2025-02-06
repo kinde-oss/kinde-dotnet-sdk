@@ -4,6 +4,8 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
+| [**AddOrganizationLogo**](OrganizationsApi.md#addorganizationlogo) | **POST** /api/v1/organizations/{org_code}/logos/{type} | Add organization logo |
+| [**AddOrganizationUserAPIScope**](OrganizationsApi.md#addorganizationuserapiscope) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id} | Add scope to organization user api |
 | [**AddOrganizationUsers**](OrganizationsApi.md#addorganizationusers) | **POST** /api/v1/organizations/{org_code}/users | Add Organization Users |
 | [**CreateOrganization**](OrganizationsApi.md#createorganization) | **POST** /api/v1/organization | Create organization |
 | [**CreateOrganizationUserPermission**](OrganizationsApi.md#createorganizationuserpermission) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/permissions | Add Organization User Permission |
@@ -12,8 +14,11 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**DeleteOrganizationFeatureFlagOverride**](OrganizationsApi.md#deleteorganizationfeatureflagoverride) | **DELETE** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Delete Organization Feature Flag Override |
 | [**DeleteOrganizationFeatureFlagOverrides**](OrganizationsApi.md#deleteorganizationfeatureflagoverrides) | **DELETE** /api/v1/organizations/{org_code}/feature_flags | Delete Organization Feature Flag Overrides |
 | [**DeleteOrganizationHandle**](OrganizationsApi.md#deleteorganizationhandle) | **DELETE** /api/v1/organization/{org_code}/handle | Delete organization handle |
+| [**DeleteOrganizationLogo**](OrganizationsApi.md#deleteorganizationlogo) | **DELETE** /api/v1/organizations/{org_code}/logos/{type} | Delete organization logo |
+| [**DeleteOrganizationUserAPIScope**](OrganizationsApi.md#deleteorganizationuserapiscope) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id} | Delete scope from organization user API |
 | [**DeleteOrganizationUserPermission**](OrganizationsApi.md#deleteorganizationuserpermission) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id} | Delete Organization User Permission |
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
+| [**GetOrgUserMFA**](OrganizationsApi.md#getorgusermfa) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/mfa | Get an organization user&#39;s MFA configuration |
 | [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get organization |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
 | [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
@@ -21,12 +26,223 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | Get organization users |
 | [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | Get organizations |
+| [**ReadOrganizationLogo**](OrganizationsApi.md#readorganizationlogo) | **GET** /api/v1/organizations/{org_code}/logos | Read organization logo details |
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
+| [**ReplaceOrganizationMFA**](OrganizationsApi.md#replaceorganizationmfa) | **PUT** /api/v1/organizations/{org_code}/mfa | Replace Organization MFA Configuration |
+| [**ResetOrgUserMFA**](OrganizationsApi.md#resetorgusermfa) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id} | Reset MFA for a user |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
 | [**UpdateOrganizationProperties**](OrganizationsApi.md#updateorganizationproperties) | **PATCH** /api/v1/organizations/{org_code}/properties | Update Organization Property values |
 | [**UpdateOrganizationProperty**](OrganizationsApi.md#updateorganizationproperty) | **PUT** /api/v1/organizations/{org_code}/properties/{property_key} | Update Organization Property value |
 | [**UpdateOrganizationUsers**](OrganizationsApi.md#updateorganizationusers) | **PATCH** /api/v1/organizations/{org_code}/users | Update Organization Users |
+
+<a id="addorganizationlogo"></a>
+# **AddOrganizationLogo**
+> SuccessResponse AddOrganizationLogo (string orgCode, string type, FileParameter logo)
+
+Add organization logo
+
+Add organization logo  <div>   <code>update:organizations</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class AddOrganizationLogoExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var type = dark;  // string | The type of logo to add.
+            var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | The logo file to upload.
+
+            try
+            {
+                // Add organization logo
+                SuccessResponse result = apiInstance.AddOrganizationLogo(orgCode, type, logo);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.AddOrganizationLogo: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the AddOrganizationLogoWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add organization logo
+    ApiResponse<SuccessResponse> response = apiInstance.AddOrganizationLogoWithHttpInfo(orgCode, type, logo);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.AddOrganizationLogoWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **type** | **string** | The type of logo to add. |  |
+| **logo** | **FileParameter****FileParameter** | The logo file to upload. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization logo successfully updated |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="addorganizationuserapiscope"></a>
+# **AddOrganizationUserAPIScope**
+> void AddOrganizationUserAPIScope (string orgCode, string userId, string apiId, string scopeId)
+
+Add scope to organization user api
+
+Add a scope to an organization user api.  <div>   <code>create:organization_user_api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class AddOrganizationUserAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization.
+            var userId = kp_5ce676e5d6a24bc9aac2fba35a46e958;  // string | User ID
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Add scope to organization user api
+                apiInstance.AddOrganizationUserAPIScope(orgCode, userId, apiId, scopeId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.AddOrganizationUserAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the AddOrganizationUserAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add scope to organization user api
+    apiInstance.AddOrganizationUserAPIScopeWithHttpInfo(orgCode, userId, apiId, scopeId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.AddOrganizationUserAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+| **userId** | **string** | User ID |  |
+| **apiId** | **string** | API ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully added to organization user api |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="addorganizationusers"></a>
 # **AddOrganizationUsers**
@@ -118,7 +334,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -126,9 +342,9 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Users successfully added. |  -  |
 | **204** | No users added. |  -  |
-| **400** | Bad request. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -848,6 +1064,212 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="deleteorganizationlogo"></a>
+# **DeleteOrganizationLogo**
+> SuccessResponse DeleteOrganizationLogo (string orgCode, string type)
+
+Delete organization logo
+
+Delete organization logo  <div>   <code>update:organizations</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationLogoExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var type = dark;  // string | The type of logo to delete.
+
+            try
+            {
+                // Delete organization logo
+                SuccessResponse result = apiInstance.DeleteOrganizationLogo(orgCode, type);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationLogo: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationLogoWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete organization logo
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationLogoWithHttpInfo(orgCode, type);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationLogoWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **type** | **string** | The type of logo to delete. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization logo successfully deleted |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteorganizationuserapiscope"></a>
+# **DeleteOrganizationUserAPIScope**
+> void DeleteOrganizationUserAPIScope (string orgCode, string userId, string apiId, string scopeId)
+
+Delete scope from organization user API
+
+Delete a scope from an organization user api you previously created.  <div>   <code>delete:organization_user_api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationUserAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization.
+            var userId = kp_5ce676e5d6a24bc9aac2fba35a46e958;  // string | User ID
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Delete scope from organization user API
+                apiInstance.DeleteOrganizationUserAPIScope(orgCode, userId, apiId, scopeId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationUserAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationUserAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete scope from organization user API
+    apiInstance.DeleteOrganizationUserAPIScopeWithHttpInfo(orgCode, userId, apiId, scopeId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationUserAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+| **userId** | **string** | User ID |  |
+| **apiId** | **string** | API ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization user API scope successfully deleted. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="deleteorganizationuserpermission"></a>
 # **DeleteOrganizationUserPermission**
 > SuccessResponse DeleteOrganizationUserPermission (string orgCode, string userId, string permissionId)
@@ -1055,6 +1477,110 @@ catch (ApiException e)
 | **400** | Error creating user. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorgusermfa"></a>
+# **GetOrgUserMFA**
+> GetUserMfaResponse GetOrgUserMFA (string orgCode, string userId)
+
+Get an organization user's MFA configuration
+
+Get an organization user’s MFA configuration.  <div>   <code>read:organization_user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrgUserMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Get an organization user's MFA configuration
+                GetUserMfaResponse result = apiInstance.GetOrgUserMFA(orgCode, userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrgUserMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrgUserMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get an organization user's MFA configuration
+    ApiResponse<GetUserMfaResponse> response = apiInstance.GetOrgUserMFAWithHttpInfo(orgCode, userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrgUserMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+| **userId** | **string** | The identifier for the user |  |
+
+### Return type
+
+[**GetUserMfaResponse**](GetUserMfaResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successfully retrieve user&#39;s MFA configuration. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1600,11 +2126,11 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
-            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
-            var permissions = "permissions_example";  // string? | Filter by user permissions comma separated (where all match) (optional) 
-            var roles = "roles_example";  // string? | Filter by user roles comma separated (where all match) (optional) 
+            var sort = email_asc;  // string? | Field and order to sort the result by. (optional) 
+            var pageSize = 10;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = MTo6OmlkX2FzYw==;  // string? | A string to get the next page of results if there are more results. (optional) 
+            var permissions = admin;  // string? | Filter by user permissions comma separated (where all match) (optional) 
+            var roles = manager;  // string? | Filter by user roles comma separated (where all match) (optional) 
 
             try
             {
@@ -1783,6 +2309,107 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="readorganizationlogo"></a>
+# **ReadOrganizationLogo**
+> ReadLogoResponse ReadOrganizationLogo (string orgCode)
+
+Read organization logo details
+
+Read organization logo details  <div>   <code>read:organizations</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ReadOrganizationLogoExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+
+            try
+            {
+                // Read organization logo details
+                ReadLogoResponse result = apiInstance.ReadOrganizationLogo(orgCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.ReadOrganizationLogo: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ReadOrganizationLogoWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Read organization logo details
+    ApiResponse<ReadLogoResponse> response = apiInstance.ReadOrganizationLogoWithHttpInfo(orgCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.ReadOrganizationLogoWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+
+### Return type
+
+[**ReadLogoResponse**](ReadLogoResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successfully retrieved organization logo details |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="removeorganizationuser"></a>
 # **RemoveOrganizationUser**
 > SuccessResponse RemoveOrganizationUser (string orgCode, string userId)
@@ -1883,6 +2510,215 @@ catch (ApiException e)
 | **400** | Error removing user |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="replaceorganizationmfa"></a>
+# **ReplaceOrganizationMFA**
+> SuccessResponse ReplaceOrganizationMFA (string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest)
+
+Replace Organization MFA Configuration
+
+Replace Organization MFA Configuration.  <div>   <code>update:organization_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ReplaceOrganizationMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = "orgCode_example";  // string | The identifier for the organization
+            var replaceOrganizationMFARequest = new ReplaceOrganizationMFARequest(); // ReplaceOrganizationMFARequest | MFA details.
+
+            try
+            {
+                // Replace Organization MFA Configuration
+                SuccessResponse result = apiInstance.ReplaceOrganizationMFA(orgCode, replaceOrganizationMFARequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.ReplaceOrganizationMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ReplaceOrganizationMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Replace Organization MFA Configuration
+    ApiResponse<SuccessResponse> response = apiInstance.ReplaceOrganizationMFAWithHttpInfo(orgCode, replaceOrganizationMFARequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.ReplaceOrganizationMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization |  |
+| **replaceOrganizationMFARequest** | [**ReplaceOrganizationMFARequest**](ReplaceOrganizationMFARequest.md) | MFA details. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | MFA Configuration updated successfully. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="resetorgusermfa"></a>
+# **ResetOrgUserMFA**
+> SuccessResponse ResetOrgUserMFA (string orgCode, string userId, string factorId)
+
+Reset MFA for a user
+
+Reset an organization user’s MFA.  <div>   <code>delete:organization_user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ResetOrgUserMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+            var factorId = mfa_0193278a00ac29b3f6d4e4d462d55c47;  // string | The identifier for the MFA factor
+
+            try
+            {
+                // Reset MFA for a user
+                SuccessResponse result = apiInstance.ResetOrgUserMFA(orgCode, userId, factorId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.ResetOrgUserMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ResetOrgUserMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Reset MFA for a user
+    ApiResponse<SuccessResponse> response = apiInstance.ResetOrgUserMFAWithHttpInfo(orgCode, userId, factorId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.ResetOrgUserMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+| **userId** | **string** | The identifier for the user |  |
+| **factorId** | **string** | The identifier for the MFA factor |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User&#39;s MFA successfully reset. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2392,16 +3228,16 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, application/json; charset=utf-8
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Users successfully removed. |  -  |
-| **400** | Error updating organization user. |  -  |
-| **403** | Invalid credentials. |  -  |
-| **429** | Request was throttled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

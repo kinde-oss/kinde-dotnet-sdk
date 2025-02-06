@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -34,6 +34,72 @@ namespace Kinde.Api.Model
     public partial class GetOrganizationResponse : IEquatable<GetOrganizationResponse>, IValidatableObject
     {
         /// <summary>
+        /// Whether the environment is forced into light mode, dark mode or user preference
+        /// </summary>
+        /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ThemeCodeEnum
+        {
+            /// <summary>
+            /// Enum Light for value: light
+            /// </summary>
+            [EnumMember(Value = "light")]
+            Light = 1,
+
+            /// <summary>
+            /// Enum Dark for value: dark
+            /// </summary>
+            [EnumMember(Value = "dark")]
+            Dark = 2,
+
+            /// <summary>
+            /// Enum UserPreference for value: user_preference
+            /// </summary>
+            [EnumMember(Value = "user_preference")]
+            UserPreference = 3
+        }
+
+
+        /// <summary>
+        /// Whether the environment is forced into light mode, dark mode or user preference
+        /// </summary>
+        /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
+        [DataMember(Name = "theme_code", EmitDefaultValue = false)]
+        public ThemeCodeEnum? ThemeCode { get; set; }
+        /// <summary>
+        /// The color scheme for the environment used for meta tags based on the theme code
+        /// </summary>
+        /// <value>The color scheme for the environment used for meta tags based on the theme code</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ColorSchemeEnum
+        {
+            /// <summary>
+            /// Enum Light for value: light
+            /// </summary>
+            [EnumMember(Value = "light")]
+            Light = 1,
+
+            /// <summary>
+            /// Enum Dark for value: dark
+            /// </summary>
+            [EnumMember(Value = "dark")]
+            Dark = 2,
+
+            /// <summary>
+            /// Enum LightDark for value: light dark
+            /// </summary>
+            [EnumMember(Value = "light dark")]
+            LightDark = 3
+        }
+
+
+        /// <summary>
+        /// The color scheme for the environment used for meta tags based on the theme code
+        /// </summary>
+        /// <value>The color scheme for the environment used for meta tags based on the theme code</value>
+        [DataMember(Name = "color_scheme", EmitDefaultValue = false)]
+        public ColorSchemeEnum? ColorScheme { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationResponse" /> class.
         /// </summary>
         /// <param name="code">The unique identifier for the organization..</param>
@@ -42,7 +108,10 @@ namespace Kinde.Api.Model
         /// <param name="isDefault">Whether the organization is the default organization..</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems..</param>
         /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
-        /// <param name="logo">logo.</param>
+        /// <param name="logo">The organization&#39;s logo URL..</param>
+        /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes..</param>
+        /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers.</param>
+        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG.</param>
         /// <param name="linkColor">linkColor.</param>
         /// <param name="backgroundColor">backgroundColor.</param>
         /// <param name="buttonColor">buttonColor.</param>
@@ -51,8 +120,14 @@ namespace Kinde.Api.Model
         /// <param name="backgroundColorDark">backgroundColorDark.</param>
         /// <param name="buttonTextColorDark">buttonTextColorDark.</param>
         /// <param name="buttonColorDark">buttonColorDark.</param>
+        /// <param name="buttonBorderRadius">The border radius for buttons. Value is px, Kinde transforms to rem for rendering.</param>
+        /// <param name="cardBorderRadius">The border radius for cards. Value is px, Kinde transforms to rem for rendering.</param>
+        /// <param name="inputBorderRadius">The border radius for inputs. Value is px, Kinde transforms to rem for rendering.</param>
+        /// <param name="themeCode">Whether the environment is forced into light mode, dark mode or user preference.</param>
+        /// <param name="colorScheme">The color scheme for the environment used for meta tags based on the theme code.</param>
+        /// <param name="createdOn">Date of organization creation in ISO 8601 format..</param>
         /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</param>
-        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), GetOrganizationResponseLinkColor linkColor = default(GetOrganizationResponseLinkColor), GetOrganizationResponseBackgroundColor backgroundColor = default(GetOrganizationResponseBackgroundColor), GetOrganizationResponseLinkColor buttonColor = default(GetOrganizationResponseLinkColor), GetOrganizationResponseBackgroundColor buttonTextColor = default(GetOrganizationResponseBackgroundColor), GetOrganizationResponseLinkColor linkColorDark = default(GetOrganizationResponseLinkColor), GetOrganizationResponseLinkColor backgroundColorDark = default(GetOrganizationResponseLinkColor), GetOrganizationResponseLinkColor buttonTextColorDark = default(GetOrganizationResponseLinkColor), GetOrganizationResponseLinkColor buttonColorDark = default(GetOrganizationResponseLinkColor), bool? isAllowRegistrations = default(bool?))
+        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?))
         {
             this.Code = code;
             this.Name = name;
@@ -61,6 +136,9 @@ namespace Kinde.Api.Model
             this.ExternalId = externalId;
             this.IsAutoMembershipEnabled = isAutoMembershipEnabled;
             this.Logo = logo;
+            this.LogoDark = logoDark;
+            this.FaviconSvg = faviconSvg;
+            this.FaviconFallback = faviconFallback;
             this.LinkColor = linkColor;
             this.BackgroundColor = backgroundColor;
             this.ButtonColor = buttonColor;
@@ -69,6 +147,12 @@ namespace Kinde.Api.Model
             this.BackgroundColorDark = backgroundColorDark;
             this.ButtonTextColorDark = buttonTextColorDark;
             this.ButtonColorDark = buttonColorDark;
+            this.ButtonBorderRadius = buttonBorderRadius;
+            this.CardBorderRadius = cardBorderRadius;
+            this.InputBorderRadius = inputBorderRadius;
+            this.ThemeCode = themeCode;
+            this.ColorScheme = colorScheme;
+            this.CreatedOn = createdOn;
             this.IsAllowRegistrations = isAllowRegistrations;
         }
 
@@ -121,59 +205,116 @@ namespace Kinde.Api.Model
         public bool IsAutoMembershipEnabled { get; set; }
 
         /// <summary>
-        /// Gets or Sets Logo
+        /// The organization&#39;s logo URL.
         /// </summary>
+        /// <value>The organization&#39;s logo URL.</value>
+        /// <example>https://yoursubdomain.kinde.com/logo?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "logo", EmitDefaultValue = true)]
-        [Obsolete]
         public string Logo { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s logo URL to be used for dark themes.
+        /// </summary>
+        /// <value>The organization&#39;s logo URL to be used for dark themes.</value>
+        /// <example>https://yoursubdomain.kinde.com/logo_dark?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
+        [DataMember(Name = "logo_dark", EmitDefaultValue = true)]
+        public string LogoDark { get; set; }
+
+        /// <summary>
+        /// The organization&#39;s SVG favicon URL. Optimal format for most browsers
+        /// </summary>
+        /// <value>The organization&#39;s SVG favicon URL. Optimal format for most browsers</value>
+        /// <example>https://yoursubdomain.kinde.com/favicon_svg?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
+        [DataMember(Name = "favicon_svg", EmitDefaultValue = true)]
+        public string FaviconSvg { get; set; }
+
+        /// <summary>
+        /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
+        /// </summary>
+        /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
+        /// <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
+        [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
+        public string FaviconFallback { get; set; }
 
         /// <summary>
         /// Gets or Sets LinkColor
         /// </summary>
         [DataMember(Name = "link_color", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor LinkColor { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor LinkColor { get; set; }
 
         /// <summary>
         /// Gets or Sets BackgroundColor
         /// </summary>
         [DataMember(Name = "background_color", EmitDefaultValue = true)]
-        public GetOrganizationResponseBackgroundColor BackgroundColor { get; set; }
+        public GetEnvironmentResponseEnvironmentBackgroundColor BackgroundColor { get; set; }
 
         /// <summary>
         /// Gets or Sets ButtonColor
         /// </summary>
         [DataMember(Name = "button_color", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor ButtonColor { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor ButtonColor { get; set; }
 
         /// <summary>
         /// Gets or Sets ButtonTextColor
         /// </summary>
         [DataMember(Name = "button_text_color", EmitDefaultValue = true)]
-        public GetOrganizationResponseBackgroundColor ButtonTextColor { get; set; }
+        public GetEnvironmentResponseEnvironmentBackgroundColor ButtonTextColor { get; set; }
 
         /// <summary>
         /// Gets or Sets LinkColorDark
         /// </summary>
         [DataMember(Name = "link_color_dark", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor LinkColorDark { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor LinkColorDark { get; set; }
 
         /// <summary>
         /// Gets or Sets BackgroundColorDark
         /// </summary>
         [DataMember(Name = "background_color_dark", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor BackgroundColorDark { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor BackgroundColorDark { get; set; }
 
         /// <summary>
         /// Gets or Sets ButtonTextColorDark
         /// </summary>
         [DataMember(Name = "button_text_color_dark", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor ButtonTextColorDark { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor ButtonTextColorDark { get; set; }
 
         /// <summary>
         /// Gets or Sets ButtonColorDark
         /// </summary>
         [DataMember(Name = "button_color_dark", EmitDefaultValue = true)]
-        public GetOrganizationResponseLinkColor ButtonColorDark { get; set; }
+        public GetEnvironmentResponseEnvironmentLinkColor ButtonColorDark { get; set; }
+
+        /// <summary>
+        /// The border radius for buttons. Value is px, Kinde transforms to rem for rendering
+        /// </summary>
+        /// <value>The border radius for buttons. Value is px, Kinde transforms to rem for rendering</value>
+        /// <example>8</example>
+        [DataMember(Name = "button_border_radius", EmitDefaultValue = true)]
+        public int? ButtonBorderRadius { get; set; }
+
+        /// <summary>
+        /// The border radius for cards. Value is px, Kinde transforms to rem for rendering
+        /// </summary>
+        /// <value>The border radius for cards. Value is px, Kinde transforms to rem for rendering</value>
+        /// <example>16</example>
+        [DataMember(Name = "card_border_radius", EmitDefaultValue = true)]
+        public int? CardBorderRadius { get; set; }
+
+        /// <summary>
+        /// The border radius for inputs. Value is px, Kinde transforms to rem for rendering
+        /// </summary>
+        /// <value>The border radius for inputs. Value is px, Kinde transforms to rem for rendering</value>
+        /// <example>4</example>
+        [DataMember(Name = "input_border_radius", EmitDefaultValue = true)]
+        public int? InputBorderRadius { get; set; }
+
+        /// <summary>
+        /// Date of organization creation in ISO 8601 format.
+        /// </summary>
+        /// <value>Date of organization creation in ISO 8601 format.</value>
+        /// <example>2021-01-01T00:00:00Z</example>
+        [DataMember(Name = "created_on", EmitDefaultValue = false)]
+        public string CreatedOn { get; set; }
 
         /// <summary>
         /// Deprecated - Use &#39;is_auto_membership_enabled&#39; instead
@@ -199,6 +340,9 @@ namespace Kinde.Api.Model
             sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
             sb.Append("  IsAutoMembershipEnabled: ").Append(IsAutoMembershipEnabled).Append("\n");
             sb.Append("  Logo: ").Append(Logo).Append("\n");
+            sb.Append("  LogoDark: ").Append(LogoDark).Append("\n");
+            sb.Append("  FaviconSvg: ").Append(FaviconSvg).Append("\n");
+            sb.Append("  FaviconFallback: ").Append(FaviconFallback).Append("\n");
             sb.Append("  LinkColor: ").Append(LinkColor).Append("\n");
             sb.Append("  BackgroundColor: ").Append(BackgroundColor).Append("\n");
             sb.Append("  ButtonColor: ").Append(ButtonColor).Append("\n");
@@ -207,6 +351,12 @@ namespace Kinde.Api.Model
             sb.Append("  BackgroundColorDark: ").Append(BackgroundColorDark).Append("\n");
             sb.Append("  ButtonTextColorDark: ").Append(ButtonTextColorDark).Append("\n");
             sb.Append("  ButtonColorDark: ").Append(ButtonColorDark).Append("\n");
+            sb.Append("  ButtonBorderRadius: ").Append(ButtonBorderRadius).Append("\n");
+            sb.Append("  CardBorderRadius: ").Append(CardBorderRadius).Append("\n");
+            sb.Append("  InputBorderRadius: ").Append(InputBorderRadius).Append("\n");
+            sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
+            sb.Append("  ColorScheme: ").Append(ColorScheme).Append("\n");
+            sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -277,6 +427,21 @@ namespace Kinde.Api.Model
                     this.Logo.Equals(input.Logo))
                 ) && 
                 (
+                    this.LogoDark == input.LogoDark ||
+                    (this.LogoDark != null &&
+                    this.LogoDark.Equals(input.LogoDark))
+                ) && 
+                (
+                    this.FaviconSvg == input.FaviconSvg ||
+                    (this.FaviconSvg != null &&
+                    this.FaviconSvg.Equals(input.FaviconSvg))
+                ) && 
+                (
+                    this.FaviconFallback == input.FaviconFallback ||
+                    (this.FaviconFallback != null &&
+                    this.FaviconFallback.Equals(input.FaviconFallback))
+                ) && 
+                (
                     this.LinkColor == input.LinkColor ||
                     (this.LinkColor != null &&
                     this.LinkColor.Equals(input.LinkColor))
@@ -317,6 +482,34 @@ namespace Kinde.Api.Model
                     this.ButtonColorDark.Equals(input.ButtonColorDark))
                 ) && 
                 (
+                    this.ButtonBorderRadius == input.ButtonBorderRadius ||
+                    (this.ButtonBorderRadius != null &&
+                    this.ButtonBorderRadius.Equals(input.ButtonBorderRadius))
+                ) && 
+                (
+                    this.CardBorderRadius == input.CardBorderRadius ||
+                    (this.CardBorderRadius != null &&
+                    this.CardBorderRadius.Equals(input.CardBorderRadius))
+                ) && 
+                (
+                    this.InputBorderRadius == input.InputBorderRadius ||
+                    (this.InputBorderRadius != null &&
+                    this.InputBorderRadius.Equals(input.InputBorderRadius))
+                ) && 
+                (
+                    this.ThemeCode == input.ThemeCode ||
+                    this.ThemeCode.Equals(input.ThemeCode)
+                ) && 
+                (
+                    this.ColorScheme == input.ColorScheme ||
+                    this.ColorScheme.Equals(input.ColorScheme)
+                ) && 
+                (
+                    this.CreatedOn == input.CreatedOn ||
+                    (this.CreatedOn != null &&
+                    this.CreatedOn.Equals(input.CreatedOn))
+                ) && 
+                (
                     this.IsAllowRegistrations == input.IsAllowRegistrations ||
                     (this.IsAllowRegistrations != null &&
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations))
@@ -354,6 +547,18 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Logo.GetHashCode();
                 }
+                if (this.LogoDark != null)
+                {
+                    hashCode = (hashCode * 59) + this.LogoDark.GetHashCode();
+                }
+                if (this.FaviconSvg != null)
+                {
+                    hashCode = (hashCode * 59) + this.FaviconSvg.GetHashCode();
+                }
+                if (this.FaviconFallback != null)
+                {
+                    hashCode = (hashCode * 59) + this.FaviconFallback.GetHashCode();
+                }
                 if (this.LinkColor != null)
                 {
                     hashCode = (hashCode * 59) + this.LinkColor.GetHashCode();
@@ -385,6 +590,24 @@ namespace Kinde.Api.Model
                 if (this.ButtonColorDark != null)
                 {
                     hashCode = (hashCode * 59) + this.ButtonColorDark.GetHashCode();
+                }
+                if (this.ButtonBorderRadius != null)
+                {
+                    hashCode = (hashCode * 59) + this.ButtonBorderRadius.GetHashCode();
+                }
+                if (this.CardBorderRadius != null)
+                {
+                    hashCode = (hashCode * 59) + this.CardBorderRadius.GetHashCode();
+                }
+                if (this.InputBorderRadius != null)
+                {
+                    hashCode = (hashCode * 59) + this.InputBorderRadius.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.ThemeCode.GetHashCode();
+                hashCode = (hashCode * 59) + this.ColorScheme.GetHashCode();
+                if (this.CreatedOn != null)
+                {
+                    hashCode = (hashCode * 59) + this.CreatedOn.GetHashCode();
                 }
                 if (this.IsAllowRegistrations != null)
                 {

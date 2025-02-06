@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -93,6 +93,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteUserSessions
+        /// </summary>
+        [Fact]
+        public void DeleteUserSessionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.DeleteUserSessions(userId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetUserData
         /// </summary>
         [Fact]
@@ -150,6 +162,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetUsersMFA
+        /// </summary>
+        [Fact]
+        public void GetUsersMFATest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.GetUsersMFA(userId);
+            //Assert.IsType<GetUserMfaResponse>(response);
+        }
+
+        /// <summary>
         /// Test RefreshUserClaims
         /// </summary>
         [Fact]
@@ -158,6 +182,19 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string userId = null;
             //var response = instance.RefreshUserClaims(userId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ResetUsersMFA
+        /// </summary>
+        [Fact]
+        public void ResetUsersMFATest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //string factorId = null;
+            //var response = instance.ResetUsersMFA(userId, factorId);
             //Assert.IsType<SuccessResponse>(response);
         }
 

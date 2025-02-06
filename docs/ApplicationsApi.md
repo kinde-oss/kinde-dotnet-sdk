@@ -13,6 +13,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetApplications**](ApplicationsApi.md#getapplications) | **GET** /api/v1/applications | Get applications |
 | [**RemoveConnection**](ApplicationsApi.md#removeconnection) | **DELETE** /api/v1/applications/{application_id}/connections/{connection_id} | Remove connection |
 | [**UpdateApplication**](ApplicationsApi.md#updateapplication) | **PATCH** /api/v1/applications/{application_id} | Update Application |
+| [**UpdateApplicationTokens**](ApplicationsApi.md#updateapplicationtokens) | **PATCH** /api/v1/applications/{application_id}/tokens | Update application tokens |
 | [**UpdateApplicationsProperty**](ApplicationsApi.md#updateapplicationsproperty) | **PUT** /api/v1/applications/{application_id}/properties/{property_key} | Update property |
 
 <a id="createapplication"></a>
@@ -148,7 +149,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier for the application.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier for the application.
 
             try
             {
@@ -249,8 +250,8 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
-            var connectionId = "connectionId_example";  // string | The identifier for the connection.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier/client ID for the application.
+            var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
 
             try
             {
@@ -348,7 +349,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier for the application.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier for the application.
 
             try
             {
@@ -449,7 +450,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier/client ID for the application.
 
             try
             {
@@ -756,8 +757,8 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier/client ID for the application.
-            var connectionId = "connectionId_example";  // string | The identifier for the connection.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier/client ID for the application.
+            var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
 
             try
             {
@@ -859,7 +860,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var applicationId = "applicationId_example";  // string | The identifier for the application.
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier for the application.
             var updateApplicationRequest = new UpdateApplicationRequest?(); // UpdateApplicationRequest? | Application details. (optional) 
 
             try
@@ -920,6 +921,109 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Application successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateapplicationtokens"></a>
+# **UpdateApplicationTokens**
+> SuccessResponse UpdateApplicationTokens (string applicationId, UpdateApplicationTokensRequest updateApplicationTokensRequest)
+
+Update application tokens
+
+Configure tokens for an application.   <div>     <code>update:application_tokens</code>   </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateApplicationTokensExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
+            var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier/client ID for the application.
+            var updateApplicationTokensRequest = new UpdateApplicationTokensRequest(); // UpdateApplicationTokensRequest | Application tokens.
+
+            try
+            {
+                // Update application tokens
+                SuccessResponse result = apiInstance.UpdateApplicationTokens(applicationId, updateApplicationTokensRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ApplicationsApi.UpdateApplicationTokens: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateApplicationTokensWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update application tokens
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateApplicationTokensWithHttpInfo(applicationId, updateApplicationTokensRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ApplicationsApi.UpdateApplicationTokensWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **applicationId** | **string** | The identifier/client ID for the application. |  |
+| **updateApplicationTokensRequest** | [**UpdateApplicationTokensRequest**](UpdateApplicationTokensRequest.md) | Application tokens. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Application tokens succesfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |

@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -154,34 +154,19 @@ namespace Kinde.Api.Model
         /// The identity provider identifier for the connection.
         /// </summary>
         /// <value>The identity provider identifier for the connection.</value>
-        [DataMember(Name = "strategy", IsRequired = true, EmitDefaultValue = true)]
-        public StrategyEnum Strategy { get; set; }
+        [DataMember(Name = "strategy", EmitDefaultValue = false)]
+        public StrategyEnum? Strategy { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateConnectionRequest" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected CreateConnectionRequest() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequest" /> class.
-        /// </summary>
-        /// <param name="name">The internal name of the connection. (required).</param>
-        /// <param name="displayName">The public facing name of the connection. (required).</param>
-        /// <param name="strategy">The identity provider identifier for the connection. (required).</param>
+        /// <param name="name">The internal name of the connection..</param>
+        /// <param name="displayName">The public facing name of the connection..</param>
+        /// <param name="strategy">The identity provider identifier for the connection..</param>
         /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
-        /// <param name="options">The connection&#39;s options (varies by strategy)..</param>
-        public CreateConnectionRequest(string name = default(string), string displayName = default(string), StrategyEnum strategy = default(StrategyEnum), List<string> enabledApplications = default(List<string>), Object options = default(Object))
+        /// <param name="options">options.</param>
+        public CreateConnectionRequest(string name = default(string), string displayName = default(string), StrategyEnum? strategy = default(StrategyEnum?), List<string> enabledApplications = default(List<string>), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
         {
-            // to ensure "name" is required (not null)
-            if (name == null)
-            {
-                throw new ArgumentNullException("name is a required property for CreateConnectionRequest and cannot be null");
-            }
             this.Name = name;
-            // to ensure "displayName" is required (not null)
-            if (displayName == null)
-            {
-                throw new ArgumentNullException("displayName is a required property for CreateConnectionRequest and cannot be null");
-            }
             this.DisplayName = displayName;
             this.Strategy = strategy;
             this.EnabledApplications = enabledApplications;
@@ -192,14 +177,14 @@ namespace Kinde.Api.Model
         /// The internal name of the connection.
         /// </summary>
         /// <value>The internal name of the connection.</value>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// The public facing name of the connection.
         /// </summary>
         /// <value>The public facing name of the connection.</value>
-        [DataMember(Name = "display_name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "display_name", EmitDefaultValue = false)]
         public string DisplayName { get; set; }
 
         /// <summary>
@@ -210,11 +195,10 @@ namespace Kinde.Api.Model
         public List<string> EnabledApplications { get; set; }
 
         /// <summary>
-        /// The connection&#39;s options (varies by strategy).
+        /// Gets or Sets Options
         /// </summary>
-        /// <value>The connection&#39;s options (varies by strategy).</value>
         [DataMember(Name = "options", EmitDefaultValue = false)]
-        public Object Options { get; set; }
+        public CreateConnectionRequestOptions Options { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -102,6 +102,19 @@ namespace Kinde.Api.Test.Api
             //string? endingBefore = null;
             //var response = instance.GetConnections(pageSize, startingAfter, endingBefore);
             //Assert.IsType<GetConnectionsResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ReplaceConnection
+        /// </summary>
+        [Fact]
+        public void ReplaceConnectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string connectionId = null;
+            //ReplaceConnectionRequest replaceConnectionRequest = null;
+            //var response = instance.ReplaceConnection(connectionId, replaceConnectionRequest);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>

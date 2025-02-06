@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -105,7 +105,7 @@ namespace Kinde.Api.Api
         /// <param name="permissionId">The identifier for the permission.</param>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        SuccessResponse UpdatePermissions(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
 
         /// <summary>
         /// Update Permission
@@ -117,7 +117,7 @@ namespace Kinde.Api.Api
         /// <param name="permissionId">The identifier for the permission.</param>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
+        ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?));
         #endregion Synchronous Operations
     }
 
@@ -211,7 +211,7 @@ namespace Kinde.Api.Api
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update Permission
@@ -224,7 +224,7 @@ namespace Kinde.Api.Api
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -862,7 +862,7 @@ namespace Kinde.Api.Api
         /// <param name="permissionId">The identifier for the permission.</param>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdatePermissions(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        public SuccessResponse UpdatePermissions(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
             Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdatePermissionsWithHttpInfo(permissionId, createPermissionRequest);
             return localVarResponse.Data;
@@ -875,8 +875,12 @@ namespace Kinde.Api.Api
         /// <param name="permissionId">The identifier for the permission.</param>
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdatePermissionsWithHttpInfo(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?))
         {
+            // verify the required parameter 'permissionId' is set
+            if (permissionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling PermissionsApi->UpdatePermissions");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -924,7 +928,7 @@ namespace Kinde.Api.Api
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
-        public async System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdatePermissionsAsync(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdatePermissionsWithHttpInfoAsync(permissionId, createPermissionRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -938,8 +942,12 @@ namespace Kinde.Api.Api
         /// <param name="createPermissionRequest">Permission details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(int permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdatePermissionsWithHttpInfoAsync(string permissionId, CreatePermissionRequest? createPermissionRequest = default(CreatePermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'permissionId' is set
+            if (permissionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling PermissionsApi->UpdatePermissions");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 

@@ -1,5 +1,5 @@
 # Kinde.Api.Model.UpdateApplicationsPropertyRequestValue
-The new value for the propery
+The new value for the property
 
 ## Properties
 

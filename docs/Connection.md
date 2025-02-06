@@ -4,10 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | [optional] 
-**Name** | **string** |  | [optional] 
-**DisplayName** | **string** |  | [optional] 
-**Strategy** | **string** |  | [optional] 
+**Code** | **string** | Response code. | [optional] 
+**Message** | **string** | Response message. | [optional] 
+**VarConnection** | [**ConnectionConnection**](ConnectionConnection.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

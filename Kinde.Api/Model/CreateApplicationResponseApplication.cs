@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -50,6 +50,7 @@ namespace Kinde.Api.Model
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -57,6 +58,7 @@ namespace Kinde.Api.Model
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -64,6 +66,7 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
+        /// <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 

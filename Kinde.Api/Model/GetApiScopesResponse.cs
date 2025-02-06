@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -28,44 +28,45 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationResponseLinkColor
+    /// GetApiScopesResponse
     /// </summary>
-    [DataContract(Name = "get_organization_response_link_color")]
-    public partial class GetOrganizationResponseLinkColor : IEquatable<GetOrganizationResponseLinkColor>, IValidatableObject
+    [DataContract(Name = "get_api_scopes_response")]
+    public partial class GetApiScopesResponse : IEquatable<GetApiScopesResponse>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationResponseLinkColor" /> class.
+        /// Initializes a new instance of the <see cref="GetApiScopesResponse" /> class.
         /// </summary>
-        /// <param name="raw">raw.</param>
-        /// <param name="hex">hex.</param>
-        /// <param name="hsl">hsl.</param>
-        public GetOrganizationResponseLinkColor(string raw = default(string), string hex = default(string), string hsl = default(string))
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="scopes">scopes.</param>
+        public GetApiScopesResponse(string code = default(string), string message = default(string), List<GetApiScopesResponseScopesInner> scopes = default(List<GetApiScopesResponseScopesInner>))
         {
-            this.Raw = raw;
-            this.Hex = hex;
-            this.Hsl = hsl;
+            this.Code = code;
+            this.Message = message;
+            this.Scopes = scopes;
         }
 
         /// <summary>
-        /// Gets or Sets Raw
+        /// Response code.
         /// </summary>
-        /// <example>#0056F1</example>
-        [DataMember(Name = "raw", EmitDefaultValue = false)]
-        public string Raw { get; set; }
+        /// <value>Response code.</value>
+        /// <example>OK</example>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Hex
+        /// Response message.
         /// </summary>
-        /// <example>#0056F1</example>
-        [DataMember(Name = "hex", EmitDefaultValue = false)]
-        public string Hex { get; set; }
+        /// <value>Response message.</value>
+        /// <example>success_response</example>
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Hsl
+        /// Gets or Sets Scopes
         /// </summary>
-        /// <example>hsl(220, 100%, 50%)</example>
-        [DataMember(Name = "hsl", EmitDefaultValue = false)]
-        public string Hsl { get; set; }
+        [DataMember(Name = "scopes", EmitDefaultValue = false)]
+        public List<GetApiScopesResponseScopesInner> Scopes { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -74,10 +75,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class GetOrganizationResponseLinkColor {\n");
-            sb.Append("  Raw: ").Append(Raw).Append("\n");
-            sb.Append("  Hex: ").Append(Hex).Append("\n");
-            sb.Append("  Hsl: ").Append(Hsl).Append("\n");
+            sb.Append("class GetApiScopesResponse {\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Scopes: ").Append(Scopes).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,15 +99,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as GetOrganizationResponseLinkColor);
+            return this.Equals(input as GetApiScopesResponse);
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationResponseLinkColor instances are equal
+        /// Returns true if GetApiScopesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationResponseLinkColor to be compared</param>
+        /// <param name="input">Instance of GetApiScopesResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetOrganizationResponseLinkColor input)
+        public bool Equals(GetApiScopesResponse input)
         {
             if (input == null)
             {
@@ -114,19 +115,20 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Raw == input.Raw ||
-                    (this.Raw != null &&
-                    this.Raw.Equals(input.Raw))
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
                 ) && 
                 (
-                    this.Hex == input.Hex ||
-                    (this.Hex != null &&
-                    this.Hex.Equals(input.Hex))
+                    this.Message == input.Message ||
+                    (this.Message != null &&
+                    this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.Hsl == input.Hsl ||
-                    (this.Hsl != null &&
-                    this.Hsl.Equals(input.Hsl))
+                    this.Scopes == input.Scopes ||
+                    this.Scopes != null &&
+                    input.Scopes != null &&
+                    this.Scopes.SequenceEqual(input.Scopes)
                 );
         }
 
@@ -139,17 +141,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Raw != null)
+                if (this.Code != null)
                 {
-                    hashCode = (hashCode * 59) + this.Raw.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 }
-                if (this.Hex != null)
+                if (this.Message != null)
                 {
-                    hashCode = (hashCode * 59) + this.Hex.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.Hsl != null)
+                if (this.Scopes != null)
                 {
-                    hashCode = (hashCode * 59) + this.Hsl.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Scopes.GetHashCode();
                 }
                 return hashCode;
             }

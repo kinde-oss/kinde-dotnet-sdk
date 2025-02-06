@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -86,7 +86,9 @@ namespace Kinde.Api.Model
         /// <param name="isCustomAuthConnectionsEnabled">Enable custom auth connections for this organization..</param>
         /// <param name="isAutoJoinDomainList">Users can sign up to this organization..</param>
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>))
+        /// <param name="isEnableAdvancedOrgs">Activate advanced organization features..</param>
+        /// <param name="isEnforceMfa">Enforce MFA for all users in this organization..</param>
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -104,6 +106,8 @@ namespace Kinde.Api.Model
             this.IsCustomAuthConnectionsEnabled = isCustomAuthConnectionsEnabled;
             this.IsAutoJoinDomainList = isAutoJoinDomainList;
             this.AllowedDomains = allowedDomains;
+            this.IsEnableAdvancedOrgs = isEnableAdvancedOrgs;
+            this.IsEnforceMfa = isEnforceMfa;
         }
 
         /// <summary>
@@ -227,6 +231,22 @@ namespace Kinde.Api.Model
         public List<string> AllowedDomains { get; set; }
 
         /// <summary>
+        /// Activate advanced organization features.
+        /// </summary>
+        /// <value>Activate advanced organization features.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_enable_advanced_orgs", EmitDefaultValue = true)]
+        public bool IsEnableAdvancedOrgs { get; set; }
+
+        /// <summary>
+        /// Enforce MFA for all users in this organization.
+        /// </summary>
+        /// <value>Enforce MFA for all users in this organization.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_enforce_mfa", EmitDefaultValue = true)]
+        public bool IsEnforceMfa { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -250,6 +270,8 @@ namespace Kinde.Api.Model
             sb.Append("  IsCustomAuthConnectionsEnabled: ").Append(IsCustomAuthConnectionsEnabled).Append("\n");
             sb.Append("  IsAutoJoinDomainList: ").Append(IsAutoJoinDomainList).Append("\n");
             sb.Append("  AllowedDomains: ").Append(AllowedDomains).Append("\n");
+            sb.Append("  IsEnableAdvancedOrgs: ").Append(IsEnableAdvancedOrgs).Append("\n");
+            sb.Append("  IsEnforceMfa: ").Append(IsEnforceMfa).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -361,6 +383,14 @@ namespace Kinde.Api.Model
                     this.AllowedDomains != null &&
                     input.AllowedDomains != null &&
                     this.AllowedDomains.SequenceEqual(input.AllowedDomains)
+                ) && 
+                (
+                    this.IsEnableAdvancedOrgs == input.IsEnableAdvancedOrgs ||
+                    this.IsEnableAdvancedOrgs.Equals(input.IsEnableAdvancedOrgs)
+                ) && 
+                (
+                    this.IsEnforceMfa == input.IsEnforceMfa ||
+                    this.IsEnforceMfa.Equals(input.IsEnforceMfa)
                 );
         }
 
@@ -425,6 +455,8 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.AllowedDomains.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsEnableAdvancedOrgs.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsEnforceMfa.GetHashCode();
                 return hashCode;
             }
         }

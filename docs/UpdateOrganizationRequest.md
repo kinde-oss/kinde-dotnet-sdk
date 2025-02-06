@@ -20,6 +20,8 @@ Name | Type | Description | Notes
 **IsCustomAuthConnectionsEnabled** | **bool** | Enable custom auth connections for this organization. | [optional] 
 **IsAutoJoinDomainList** | **bool** | Users can sign up to this organization. | [optional] 
 **AllowedDomains** | **List&lt;string&gt;** | Domains allowed for self-sign up to this environment. | [optional] 
+**IsEnableAdvancedOrgs** | **bool** | Activate advanced organization features. | [optional] 
+**IsEnforceMfa** | **bool** | Enforce MFA for all users in this organization. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

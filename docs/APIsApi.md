@@ -4,11 +4,222 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
+| [**AddAPIApplicationScope**](APIsApi.md#addapiapplicationscope) | **POST** /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id} | Add scope to API application |
+| [**AddAPIScope**](APIsApi.md#addapiscope) | **POST** /api/v1/apis/{api_id}/scopes | Create API scope |
 | [**AddAPIs**](APIsApi.md#addapis) | **POST** /api/v1/apis | Create API |
 | [**DeleteAPI**](APIsApi.md#deleteapi) | **DELETE** /api/v1/apis/{api_id} | Delete API |
+| [**DeleteAPIAppliationScope**](APIsApi.md#deleteapiappliationscope) | **DELETE** /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id} | Delete API application scope |
+| [**DeleteAPIScope**](APIsApi.md#deleteapiscope) | **DELETE** /api/v1/apis/{api_id}/scopes/{scope_id} | Delete API scope |
 | [**GetAPI**](APIsApi.md#getapi) | **GET** /api/v1/apis/{api_id} | Get API |
+| [**GetAPIScope**](APIsApi.md#getapiscope) | **GET** /api/v1/apis/{api_id}/scopes/{scope_id} | Get API scope |
+| [**GetAPIScopes**](APIsApi.md#getapiscopes) | **GET** /api/v1/apis/{api_id}/scopes | Get API scopes |
 | [**GetAPIs**](APIsApi.md#getapis) | **GET** /api/v1/apis | Get APIs |
 | [**UpdateAPIApplications**](APIsApi.md#updateapiapplications) | **PATCH** /api/v1/apis/{api_id}/applications | Authorize API applications |
+| [**UpdateAPIScope**](APIsApi.md#updateapiscope) | **PATCH** /api/v1/apis/{api_id}/scopes/{scope_id} | Update API scope |
+
+<a id="addapiapplicationscope"></a>
+# **AddAPIApplicationScope**
+> void AddAPIApplicationScope (string apiId, string applicationId, string scopeId)
+
+Add scope to API application
+
+Add a scope to an API application.  <div>   <code>create:api_application_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class AddAPIApplicationScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var applicationId = 7643b487c97545aab79257fd13a1085a;  // string | Application ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Add scope to API application
+                apiInstance.AddAPIApplicationScope(apiId, applicationId, scopeId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.AddAPIApplicationScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the AddAPIApplicationScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add scope to API application
+    apiInstance.AddAPIApplicationScopeWithHttpInfo(apiId, applicationId, scopeId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.AddAPIApplicationScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **applicationId** | **string** | Application ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully added to API application |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="addapiscope"></a>
+# **AddAPIScope**
+> CreateApiScopesResponse AddAPIScope (string apiId, AddAPIScopeRequest addAPIScopeRequest)
+
+Create API scope
+
+Create a new API scope.  <div>   <code>create:api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class AddAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var addAPIScopeRequest = new AddAPIScopeRequest(); // AddAPIScopeRequest | 
+
+            try
+            {
+                // Create API scope
+                CreateApiScopesResponse result = apiInstance.AddAPIScope(apiId, addAPIScopeRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.AddAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the AddAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create API scope
+    ApiResponse<CreateApiScopesResponse> response = apiInstance.AddAPIScopeWithHttpInfo(apiId, addAPIScopeRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.AddAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **addAPIScopeRequest** | [**AddAPIScopeRequest**](AddAPIScopeRequest.md) |  |  |
+
+### Return type
+
+[**CreateApiScopesResponse**](CreateApiScopesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scopes successfully created |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="addapis"></a>
 # **AddAPIs**
@@ -212,6 +423,206 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="deleteapiappliationscope"></a>
+# **DeleteAPIAppliationScope**
+> void DeleteAPIAppliationScope (string apiId, string applicationId, string scopeId)
+
+Delete API application scope
+
+Delete an API application scope you previously created.  <div>   <code>delete:apis_application_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteAPIAppliationScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var applicationId = 7643b487c97545aab79257fd13a1085a;  // string | Application ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Delete API application scope
+                apiInstance.DeleteAPIAppliationScope(apiId, applicationId, scopeId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.DeleteAPIAppliationScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteAPIAppliationScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete API application scope
+    apiInstance.DeleteAPIAppliationScopeWithHttpInfo(apiId, applicationId, scopeId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.DeleteAPIAppliationScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **applicationId** | **string** | Application ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully deleted. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteapiscope"></a>
+# **DeleteAPIScope**
+> void DeleteAPIScope (string apiId, string scopeId)
+
+Delete API scope
+
+Delete an API scope you previously created.  <div>   <code>delete:apis_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Delete API scope
+                apiInstance.DeleteAPIScope(apiId, scopeId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.DeleteAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete API scope
+    apiInstance.DeleteAPIScopeWithHttpInfo(apiId, scopeId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.DeleteAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully deleted. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getapi"></a>
 # **GetAPI**
 > GetApiResponse GetAPI (string apiId)
@@ -313,9 +724,213 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getapiscope"></a>
+# **GetAPIScope**
+> GetApiScopeResponse GetAPIScope (string apiId, string scopeId)
+
+Get API scope
+
+Retrieve API scope by API ID.  <div>   <code>read:api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+
+            try
+            {
+                // Get API scope
+                GetApiScopeResponse result = apiInstance.GetAPIScope(apiId, scopeId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.GetAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get API scope
+    ApiResponse<GetApiScopeResponse> response = apiInstance.GetAPIScopeWithHttpInfo(apiId, scopeId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.GetAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **scopeId** | **string** | Scope ID |  |
+
+### Return type
+
+[**GetApiScopeResponse**](GetApiScopeResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getapiscopes"></a>
+# **GetAPIScopes**
+> GetApiScopesResponse GetAPIScopes (string apiId)
+
+Get API scopes
+
+Retrieve API scopes by API ID.  <div>   <code>read:api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetAPIScopesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+
+            try
+            {
+                // Get API scopes
+                GetApiScopesResponse result = apiInstance.GetAPIScopes(apiId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.GetAPIScopes: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetAPIScopesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get API scopes
+    ApiResponse<GetApiScopesResponse> response = apiInstance.GetAPIScopesWithHttpInfo(apiId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.GetAPIScopesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+
+### Return type
+
+[**GetApiScopesResponse**](GetApiScopesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scopes successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getapis"></a>
 # **GetAPIs**
-> GetApisResponse GetAPIs ()
+> GetApisResponse GetAPIs (string? expand = null)
 
 Get APIs
 
@@ -345,11 +960,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var expand = "scopes";  // string? | Specify additional data to retrieve. Use \"scopes\". (optional) 
 
             try
             {
                 // Get APIs
-                GetApisResponse result = apiInstance.GetAPIs();
+                GetApisResponse result = apiInstance.GetAPIs(expand);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -370,7 +986,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get APIs
-    ApiResponse<GetApisResponse> response = apiInstance.GetAPIsWithHttpInfo();
+    ApiResponse<GetApisResponse> response = apiInstance.GetAPIsWithHttpInfo(expand);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -384,7 +1000,11 @@ catch (ApiException e)
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;scopes\&quot;. | [optional]  |
+
 ### Return type
 
 [**GetApisResponse**](GetApisResponse.md)
@@ -506,6 +1126,107 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Authorized applications updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateapiscope"></a>
+# **UpdateAPIScope**
+> void UpdateAPIScope (string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest)
+
+Update API scope
+
+Update an API scope.  <div>   <code>update:api_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateAPIScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
+            var updateAPIScopeRequest = new UpdateAPIScopeRequest(); // UpdateAPIScopeRequest | 
+
+            try
+            {
+                // Update API scope
+                apiInstance.UpdateAPIScope(apiId, scopeId, updateAPIScopeRequest);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.UpdateAPIScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateAPIScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update API scope
+    apiInstance.UpdateAPIScopeWithHttpInfo(apiId, scopeId, updateAPIScopeRequest);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.UpdateAPIScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **scopeId** | **string** | Scope ID |  |
+| **updateAPIScopeRequest** | [**UpdateAPIScopeRequest**](UpdateAPIScopeRequest.md) |  |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API scope successfully updated |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |

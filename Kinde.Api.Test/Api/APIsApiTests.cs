@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -55,6 +55,32 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test AddAPIApplicationScope
+        /// </summary>
+        [Fact]
+        public void AddAPIApplicationScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //string applicationId = null;
+            //string scopeId = null;
+            //instance.AddAPIApplicationScope(apiId, applicationId, scopeId);
+        }
+
+        /// <summary>
+        /// Test AddAPIScope
+        /// </summary>
+        [Fact]
+        public void AddAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //AddAPIScopeRequest addAPIScopeRequest = null;
+            //var response = instance.AddAPIScope(apiId, addAPIScopeRequest);
+            //Assert.IsType<CreateApiScopesResponse>(response);
+        }
+
+        /// <summary>
         /// Test AddAPIs
         /// </summary>
         [Fact]
@@ -79,6 +105,31 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteAPIAppliationScope
+        /// </summary>
+        [Fact]
+        public void DeleteAPIAppliationScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //string applicationId = null;
+            //string scopeId = null;
+            //instance.DeleteAPIAppliationScope(apiId, applicationId, scopeId);
+        }
+
+        /// <summary>
+        /// Test DeleteAPIScope
+        /// </summary>
+        [Fact]
+        public void DeleteAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //string scopeId = null;
+            //instance.DeleteAPIScope(apiId, scopeId);
+        }
+
+        /// <summary>
         /// Test GetAPI
         /// </summary>
         [Fact]
@@ -91,13 +142,39 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetAPIScope
+        /// </summary>
+        [Fact]
+        public void GetAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //string scopeId = null;
+            //var response = instance.GetAPIScope(apiId, scopeId);
+            //Assert.IsType<GetApiScopeResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetAPIScopes
+        /// </summary>
+        [Fact]
+        public void GetAPIScopesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //var response = instance.GetAPIScopes(apiId);
+            //Assert.IsType<GetApiScopesResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetAPIs
         /// </summary>
         [Fact]
         public void GetAPIsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.GetAPIs();
+            //string? expand = null;
+            //var response = instance.GetAPIs(expand);
             //Assert.IsType<GetApisResponse>(response);
         }
 
@@ -112,6 +189,19 @@ namespace Kinde.Api.Test.Api
             //UpdateAPIApplicationsRequest updateAPIApplicationsRequest = null;
             //var response = instance.UpdateAPIApplications(apiId, updateAPIApplicationsRequest);
             //Assert.IsType<AuthorizeAppApiResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateAPIScope
+        /// </summary>
+        [Fact]
+        public void UpdateAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string apiId = null;
+            //string scopeId = null;
+            //UpdateAPIScopeRequest updateAPIScopeRequest = null;
+            //instance.UpdateAPIScope(apiId, scopeId, updateAPIScopeRequest);
         }
     }
 }

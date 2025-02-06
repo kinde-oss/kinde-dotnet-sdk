@@ -4,7 +4,19 @@ info:
     email: support@kinde.com
     name: Kinde Support Team
     url: https://docs.kinde.com
-  description: Provides endpoints to manage your Kinde Businesses
+  description: |2
+
+    Provides endpoints to manage your Kinde Businesses.
+
+    ## Intro
+
+    ## How to use
+
+    1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).
+
+    2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)
+
+    3. Test request any endpoint using the test token
   termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
   title: Kinde Management API
   version: "1"
@@ -14,12 +26,7 @@ servers:
     subdomain:
       default: your_kinde_subdomain
       description: The subdomain generated for your business on Kinde.
-    basePath:
-      default: v1
-      description: The version of the API.
 tags:
-- name: OAuth
-  x-displayName: OAuth
 - name: APIs
   x-displayName: APIs
 - name: Applications
@@ -44,6 +51,8 @@ tags:
   x-displayName: Feature Flags
 - name: Identities
   x-displayName: Identities
+- name: MFA
+  x-displayName: MFA
 - name: Organizations
   x-displayName: Organizations
 - name: Permissions
@@ -60,99 +69,9 @@ tags:
   x-displayName: Users
 - name: Webhooks
   x-displayName: Webhooks
+- name: OAuth
+  x-displayName: OAuth
 paths:
-  /oauth2/v2/user_profile:
-    get:
-      description: |
-        This endpoint returns a user's ID, names, profile picture URL and email of the currently logged in user.
-      operationId: getUserProfileV2
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user_profile_v2'
-          description: Details of logged in user.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Get user profile
-      tags:
-      - OAuth
-  /oauth2/introspect:
-    post:
-      description: Retrieve information about the provided token.
-      operationId: tokenIntrospection
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/tokenIntrospection_request'
-        description: Token details.
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_introspect'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/token_introspect'
-          description: Details of the token.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Get token details
-      tags:
-      - OAuth
-  /oauth2/revoke:
-    post:
-      description: Revoke a previously issued token.
-      operationId: tokenRevocation
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/tokenRevocation_request'
-        description: Details of the token to be revoked.
-        required: true
-      responses:
-        "200":
-          description: Token successfully revoked.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Revoke token
-      tags:
-      - OAuth
   /api/v1/apis:
     get:
       description: |
@@ -162,6 +81,18 @@ paths:
           <code>read:apis</code>
         </div>
       operationId: getAPIs
+      parameters:
+      - description: Specify additional data to retrieve. Use "scopes".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          enum:
+          - scopes
+          nullable: true
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -336,6 +267,287 @@ paths:
       summary: Get API
       tags:
       - APIs
+  /api/v1/apis/{api_id}/scopes:
+    get:
+      description: |
+        Retrieve API scopes by API ID.
+
+        <div>
+          <code>read:api_scopes</code>
+        </div>
+      operationId: getAPIScopes
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_scopes_response'
+          description: API scopes successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get API scopes
+      tags:
+      - APIs
+    post:
+      description: |
+        Create a new API scope.
+
+        <div>
+          <code>create:api_scopes</code>
+        </div>
+      operationId: addAPIScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addAPIScope_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_api_scopes_response'
+          description: API scopes successfully created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create API scope
+      tags:
+      - APIs
+  /api/v1/apis/{api_id}/scopes/{scope_id}:
+    delete:
+      description: |
+        Delete an API scope you previously created.
+
+        <div>
+          <code>delete:apis_scopes</code>
+        </div>
+      operationId: deleteAPIScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: API scope successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete API scope
+      tags:
+      - APIs
+    get:
+      description: |
+        Retrieve API scope by API ID.
+
+        <div>
+          <code>read:api_scopes</code>
+        </div>
+      operationId: getAPIScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_scope_response'
+          description: API scope successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get API scope
+      tags:
+      - APIs
+    patch:
+      description: |
+        Update an API scope.
+
+        <div>
+          <code>update:api_scopes</code>
+        </div>
+      operationId: updateAPIScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateAPIScope_request'
+        required: true
+      responses:
+        "200":
+          description: API scope successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update API scope
+      tags:
+      - APIs
   /api/v1/apis/{api_id}/applications:
     patch:
       description: |
@@ -390,6 +602,137 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Authorize API applications
+      tags:
+      - APIs
+  /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}:
+    delete:
+      description: |
+        Delete an API application scope you previously created.
+
+        <div>
+          <code>delete:apis_application_scopes</code>
+        </div>
+      operationId: deleteAPIAppliationScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Application ID
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          example: 7643b487c97545aab79257fd13a1085a
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: API scope successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete API application scope
+      tags:
+      - APIs
+    post:
+      description: |
+        Add a scope to an API application.
+
+        <div>
+          <code>create:api_application_scopes</code>
+        </div>
+      operationId: addAPIApplicationScope
+      parameters:
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Application ID
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          example: 7643b487c97545aab79257fd13a1085a
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: API scope successfully added to API application
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Add scope to API application
       tags:
       - APIs
   /api/v1/applications:
@@ -523,6 +866,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           type: string
         style: simple
       responses:
@@ -570,6 +914,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           nullable: false
           type: string
         style: simple
@@ -618,6 +963,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           type: string
         style: simple
       requestBody:
@@ -669,6 +1015,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           nullable: false
           type: string
         style: simple
@@ -718,6 +1065,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           type: string
         style: simple
       - description: The identifier for the connection.
@@ -726,6 +1074,7 @@ paths:
         name: connection_id
         required: true
         schema:
+          example: conn_0192c16abb53b44277e597d31877ba5b
           type: string
         style: simple
       responses:
@@ -773,6 +1122,7 @@ paths:
         name: application_id
         required: true
         schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
           type: string
         style: simple
       - description: The identifier for the connection.
@@ -781,6 +1131,7 @@ paths:
         name: connection_id
         required: true
         schema:
+          example: conn_0192c16abb53b44277e597d31877ba5b
           type: string
         style: simple
       responses:
@@ -920,6 +1271,61 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Update property
+      tags:
+      - Applications
+  /api/v1/applications/{application_id}/tokens:
+    patch:
+      description: |
+        Configure tokens for an application.
+          <div>
+            <code>update:application_tokens</code>
+          </div>
+      operationId: updateApplicationTokens
+      parameters:
+      - description: The identifier/client ID for the application.
+        explode: false
+        in: path
+        name: application_id
+        required: true
+        schema:
+          example: 20bbffaa4c5e492a962273039d4ae18b
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateApplicationTokens_request'
+        description: Application tokens.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Application tokens succesfully updated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update application tokens
       tags:
       - Applications
   /api/v1/business:
@@ -1787,23 +2193,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/create_connection_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/create_connection_response'
-          description: Connection successfully created
+          description: Connection successfully created.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Create Connection
@@ -1833,27 +2241,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
-          description: Connection deleted.
+          description: Connection successfully deleted.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Delete Connection
@@ -1882,23 +2294,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/connection'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/connection'
           description: Connection successfully retrieved.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Get Connection
@@ -1934,28 +2348,136 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/success_response'
           description: Connection successfully updated.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
-          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Update Connection
       tags:
       - Connections
+    put:
+      description: |
+        Replace Connection Config.
+
+        <div>
+          <code>update:connections</code>
+        </div>
+      operationId: ReplaceConnection
+      parameters:
+      - description: The unique identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceConnection_request'
+        description: The complete connection configuration to replace the existing
+          one.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Connection successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Replace Connection
+      tags:
+      - Connections
+  /api/v1/environment:
+    get:
+      description: |
+        Get's the current environment.
+
+        <div>
+          <code>read:environments</code>
+        </div>
+      operationId: getEnvironment
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_response'
+          description: Environment successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get environment
+      tags:
+      - Environments
   /api/v1/environment/feature_flags:
     delete:
       description: |
@@ -2701,6 +3223,52 @@ paths:
       summary: Update identity
       tags:
       - Identities
+  /api/v1/mfa:
+    put:
+      description: |
+        Replace MFA Configuration.
+
+        <div>
+          <code>update:mfa</code>
+        </div>
+      operationId: ReplaceMFA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceMFA_request'
+        description: MFA details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: MFA Configuration updated successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Replace MFA Configuration
+      tags:
+      - MFA
   /api/v1/organization:
     get:
       description: |
@@ -2999,6 +3567,7 @@ paths:
           - email_desc
           - id_asc
           - id_desc
+          example: email_asc
           nullable: true
           type: string
         style: form
@@ -3008,6 +3577,7 @@ paths:
         name: page_size
         required: false
         schema:
+          example: 10
           nullable: true
           type: integer
         style: form
@@ -3017,6 +3587,7 @@ paths:
         name: next_token
         required: false
         schema:
+          example: MTo6OmlkX2FzYw==
           nullable: true
           type: string
         style: form
@@ -3036,6 +3607,7 @@ paths:
         name: permissions
         required: false
         schema:
+          example: admin
           type: string
         style: form
       - description: Filter by user roles comma separated (where all match)
@@ -3044,6 +3616,7 @@ paths:
         name: roles
         required: false
         schema:
+          example: manager
           type: string
         style: form
       responses:
@@ -3107,23 +3680,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/update_organization_users_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/update_organization_users_response'
           description: Users successfully removed.
         "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Error updating organization user.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Update Organization Users
@@ -3159,9 +3734,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/add_organization_users_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/add_organization_users_response'
           description: Users successfully added.
         "204":
           description: No users added.
@@ -3170,14 +3742,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-            application/json; charset=utf-8:
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
+          description: Unauthorized - invalid credentials.
         "429":
-          description: Request was throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
       summary: Add Organization Users
@@ -3578,6 +4155,290 @@ paths:
       summary: Remove Organization User
       tags:
       - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}:
+    delete:
+      description: |
+        Delete a scope from an organization user api you previously created.
+
+        <div>
+          <code>delete:organization_user_api_scopes</code>
+        </div>
+      operationId: deleteOrganizationUserAPIScope
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: User ID
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_5ce676e5d6a24bc9aac2fba35a46e958
+          nullable: false
+          type: string
+        style: simple
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Organization user API scope successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete scope from organization user API
+      tags:
+      - Organizations
+    post:
+      description: |
+        Add a scope to an organization user api.
+
+        <div>
+          <code>create:organization_user_api_scopes</code>
+        </div>
+      operationId: addOrganizationUserAPIScope
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: User ID
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_5ce676e5d6a24bc9aac2fba35a46e958
+          nullable: false
+          type: string
+        style: simple
+      - description: API ID
+        explode: false
+        in: path
+        name: api_id
+        required: true
+        schema:
+          example: 838f208d006a482dbd8cdb79a9889f68
+          nullable: false
+          type: string
+        style: simple
+      - description: Scope ID
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: API scope successfully added to organization user api
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Add scope to organization user api
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/mfa:
+    get:
+      description: |
+        Get an organization user’s MFA configuration.
+
+        <div>
+          <code>read:organization_user_mfa</code>
+        </div>
+      operationId: GetOrgUserMFA
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          type: string
+        style: simple
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_user_mfa_response'
+          description: Successfully retrieve user's MFA configuration.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get an organization user's MFA configuration
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}:
+    delete:
+      description: |
+        Reset an organization user’s MFA.
+
+        <div>
+          <code>delete:organization_user_mfa</code>
+        </div>
+      operationId: ResetOrgUserMFA
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          type: string
+        style: simple
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      - description: The identifier for the MFA factor
+        explode: false
+        in: path
+        name: factor_id
+        required: true
+        schema:
+          example: mfa_0193278a00ac29b3f6d4e4d462d55c47
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User's MFA successfully reset.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Reset MFA for a user
+      tags:
+      - Organizations
   /api/v1/organizations/{org_code}/feature_flags:
     delete:
       description: |
@@ -3945,6 +4806,61 @@ paths:
       summary: Update Organization Property values
       tags:
       - Organizations
+  /api/v1/organizations/{org_code}/mfa:
+    put:
+      description: |
+        Replace Organization MFA Configuration.
+
+        <div>
+          <code>update:organization_mfa</code>
+        </div>
+      operationId: ReplaceOrganizationMFA
+      parameters:
+      - description: The identifier for the organization
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceOrganizationMFA_request'
+        description: MFA details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: MFA Configuration updated successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Replace Organization MFA Configuration
+      tags:
+      - Organizations
   /api/v1/organization/{org_code}/handle:
     delete:
       description: |
@@ -3990,6 +4906,186 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Delete organization handle
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/logos:
+    get:
+      description: |
+        Read organization logo details
+
+        <div>
+          <code>read:organizations</code>
+        </div>
+      operationId: ReadOrganizationLogo
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/read_logo_response'
+          description: Successfully retrieved organization logo details
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Read organization logo details
+      tags:
+      - Organizations
+  /api/v1/organizations/{org_code}/logos/{type}:
+    delete:
+      description: |
+        Delete organization logo
+
+        <div>
+          <code>update:organizations</code>
+        </div>
+      operationId: DeleteOrganizationLogo
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          nullable: false
+          type: string
+        style: simple
+      - description: The type of logo to delete.
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - dark
+          - light
+          example: dark
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Organization logo successfully deleted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete organization logo
+      tags:
+      - Organizations
+    post:
+      description: |
+        Add organization logo
+
+        <div>
+          <code>update:organizations</code>
+        </div>
+      operationId: AddOrganizationLogo
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          nullable: false
+          type: string
+        style: simple
+      - description: The type of logo to add.
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - dark
+          - light
+          example: dark
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddOrganizationLogo_request'
+        description: Organization logo details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Organization logo successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Add organization logo
       tags:
       - Organizations
   /api/v1/permissions:
@@ -4163,7 +5259,7 @@ paths:
         required: true
         schema:
           nullable: false
-          type: integer
+          type: string
         style: simple
       requestBody:
         content:
@@ -5245,7 +6341,8 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: ID of the user to filter by.
+      - description: Filter the results by User ID. The query string should be comma
+          separated and url encoded.
         explode: true
         in: query
         name: user_id
@@ -6000,6 +7097,180 @@ paths:
       summary: Create identity
       tags:
       - Users
+  /api/v1/users/{user_id}/sessions:
+    delete:
+      description: |
+        Invalidate user sessions.
+
+        <div>
+          <code>delete:user_sessions</code>
+        </div>
+      operationId: DeleteUserSessions
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User sessions successfully invalidated.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete user sessions
+      tags:
+      - Users
+  /api/v1/users/{user_id}/mfa:
+    get:
+      description: |
+        Get a user’s MFA configuration.
+
+        <div>
+          <code>read:user_mfa</code>
+        </div>
+      operationId: GetUsersMFA
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_user_mfa_response'
+          description: Successfully retrieve user's MFA configuration.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get user's MFA configuration
+      tags:
+      - Users
+  /api/v1/users/{user_id}/mfa/{factor_id}:
+    delete:
+      description: |
+        Reset a user’s MFA.
+
+        <div>
+          <code>delete:user_mfa</code>
+        </div>
+      operationId: ResetUsersMFA
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      - description: The identifier for the MFA factor
+        explode: false
+        in: path
+        name: factor_id
+        required: true
+        schema:
+          example: mfa_0193278a00ac29b3f6d4e4d462d55c47
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User's MFA successfully reset.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Reset MFA for a user
+      tags:
+      - Users
   /api/v1/events/{event_id}:
     get:
       description: |
@@ -6296,6 +7567,110 @@ paths:
       summary: Create a Webhook
       tags:
       - Webhooks
+  /oauth2/v2/user_profile:
+    get:
+      description: |
+        This endpoint returns a user's ID, names, profile picture URL and email of the currently logged in user.
+      operationId: getUserProfileV2
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_profile_v2'
+          description: Details of logged in user.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get user profile
+      tags:
+      - OAuth
+  /oauth2/introspect:
+    post:
+      description: Retrieve information about the provided token.
+      operationId: tokenIntrospection
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/tokenIntrospection_request'
+        description: Token details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_introspect'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/token_introspect'
+          description: Details of the token.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+          description: Bad request.
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Introspect
+      tags:
+      - OAuth
+  /oauth2/revoke:
+    post:
+      description: Use this endpoint to invalidate an access or refresh token. The
+        token will no longer be valid for use.
+      operationId: tokenRevocation
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/tokenRevocation_request'
+        description: Details of the token to be revoked.
+        required: true
+      responses:
+        "200":
+          description: Token successfully revoked.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_error_response'
+          description: Bad request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Revoke token
+      tags:
+      - OAuth
 components:
   parameters:
     api_id:
@@ -6405,10 +7780,20 @@ components:
           is_management_api: false
           name: Example API
           id: 7ccd126599aa422a771abcb341596881
+          scopes:
+          - id: api_scope_01939128c3d7193ae87c4755213c07c6
+            key: create:apis
+          - id: api_scope_01939128c3d7193ae87c4755213c07c6
+            key: create:apis
         - audience: https://api.example.com
           is_management_api: false
           name: Example API
           id: 7ccd126599aa422a771abcb341596881
+          scopes:
+          - id: api_scope_01939128c3d7193ae87c4755213c07c6
+            key: create:apis
+          - id: api_scope_01939128c3d7193ae87c4755213c07c6
+            key: create:apis
         message: Success
         next_token: Njo5Om1hvWVfYXNj
       properties:
@@ -6446,6 +7831,24 @@ components:
           type: string
         api:
           $ref: '#/components/schemas/create_apis_response_api'
+      type: object
+    create_api_scopes_response:
+      example:
+        code: OK
+        scope:
+          id: api_scope_0193ab57965aef77b2b687d0ef673713
+        message: Success
+      properties:
+        message:
+          description: A Kinde generated message.
+          example: Success
+          type: string
+        code:
+          description: A Kinde generated status code.
+          example: OK
+          type: string
+        scope:
+          $ref: '#/components/schemas/create_api_scopes_response_scope'
       type: object
     get_environment_variables_response:
       example:
@@ -6554,11 +7957,14 @@ components:
         business:
           code: bus_c69fb73b091
           phone: 555-555-5555
+          has_kinde_branding: true
+          created_on: 2021-01-01T00:00:00Z
           timezone: Los Angeles (Pacific Standard Time)
           terms_url: https://example.com/terms
           name: Tailsforce Ltd
           privacy_url: https://example.com/privacy
           industry: Healthcare & Medical
+          has_clickwrap: false
           email: sally@example.com
         message: Success
       properties:
@@ -6627,6 +8033,11 @@ components:
           is_management_api: false
           name: Example API
           id: 7ccd126599aa422a771abcb341596881
+          scopes:
+          - id: api_scope_01939222ef24200668b9f5829af001ce
+            key: read:logs
+          - id: api_scope_01939222ef24200668b9f5829af001ce
+            key: read:logs
           applications:
           - is_active: true
             name: My M2M app
@@ -6648,6 +8059,51 @@ components:
           type: string
         api:
           $ref: '#/components/schemas/get_api_response_api'
+      type: object
+    get_api_scopes_response:
+      example:
+        code: OK
+        scopes:
+        - description: Read logs scope
+          id: api_scope_01939128c3d7193ae87c4755213c07c6
+          key: read:logs
+        - description: Read logs scope
+          id: api_scope_01939128c3d7193ae87c4755213c07c6
+          key: read:logs
+        message: success_response
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: success_response
+          type: string
+        scopes:
+          items:
+            $ref: '#/components/schemas/get_api_scopes_response_scopes_inner'
+          type: array
+      type: object
+    get_api_scope_response:
+      example:
+        code: OK
+        scope:
+          description: Read logs scope
+          id: api_scope_01939128c3d7193ae87c4755213c07c6
+          key: read:logs
+        message: success_response
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: success_response
+          type: string
+        scope:
+          $ref: '#/components/schemas/get_api_scopes_response_scopes_inner'
       type: object
     authorize_app_api_response:
       example:
@@ -6977,6 +8433,26 @@ components:
           description: Whether more records exist.
           type: boolean
       type: object
+    get_user_mfa_response:
+      example:
+        code: code
+        mfa:
+          usage_count: 2
+          created_on: 2024-11-18T13:31:46.795085+11:00
+          last_used_on: 2024-11-18T13:32:07.22538+11:00
+          name: sally@gmail.com
+          id: mfa_01933d1ca1f093e7fad48ebcdb65a871
+          type: email
+          is_verified: true
+        message: message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        mfa:
+          $ref: '#/components/schemas/get_user_mfa_response_mfa'
+      type: object
     get_properties_response:
       example:
         code: code
@@ -7089,7 +8565,7 @@ components:
           data: "{}"
           source: source
           type: type
-          timestamp: timestamp
+          timestamp: 0
       properties:
         code:
           description: Response code.
@@ -7238,14 +8714,20 @@ components:
         has_more: true
         message: message
         connections:
-        - name: name
-          id: id
-          display_name: display_name
-          strategy: strategy
-        - name: name
-          id: id
-          display_name: display_name
-          strategy: strategy
+        - code: code
+          connection:
+            name: name
+            id: id
+            display_name: display_name
+            strategy: strategy
+          message: message
+        - code: code
+          connection:
+            name: name
+            id: id
+            display_name: display_name
+            strategy: strategy
+          message: message
       properties:
         code:
           description: Response code.
@@ -7292,106 +8774,6 @@ components:
         schema:
           type: object
       type: object
-    token_introspect:
-      example:
-        aud:
-        - aud
-        - aud
-        active: true
-        exp: exp
-        iat: iat
-        client_id: client_id
-      properties:
-        active:
-          description: Indicates the status of the token.
-          type: boolean
-        aud:
-          description: Array of intended token recipients.
-          items:
-            type: string
-          type: array
-        client_id:
-          description: Identifier for the requesting client.
-          type: string
-        exp:
-          description: Token expiration timestamp.
-          type: string
-        iat:
-          description: Token issuance timestamp.
-          type: string
-      type: object
-    token_error_response:
-      properties:
-        error:
-          description: Error.
-          type: string
-        error_description:
-          description: The error description.
-          type: string
-      type: object
-    user_profile_v2:
-      example:
-        sub: kp_c3143a4b50ad43c88e541d9077681782
-        email_verified: true
-        updated_at: 1612345678
-        name: John Snow
-        preferred_username: john_snow
-        id: kp_c3143a4b50ad43c88e541d9077681782
-        given_name: John
-        provided_id: some_external_id
-        family_name: Snow
-        email: john.snow@example.com
-        picture: https://example.com/john_snow.jpg
-      properties:
-        sub:
-          description: Unique ID of the user in Kinde.
-          example: kp_c3143a4b50ad43c88e541d9077681782
-          type: string
-        provided_id:
-          description: Value of the user's ID in a third-party system when the user
-            is imported into Kinde.
-          example: some_external_id
-          nullable: true
-          type: string
-        name:
-          description: User's first and last name separated by a space.
-          example: John Snow
-          type: string
-        given_name:
-          description: User's first name.
-          example: John
-          type: string
-        family_name:
-          description: User's last name.
-          example: Snow
-          type: string
-        updated_at:
-          description: Date the user was last updated at (In Unix time).
-          example: 1612345678
-          type: integer
-        email:
-          description: User's email address if available.
-          example: john.snow@example.com
-          type: string
-        email_verified:
-          description: Whether the user's email address has been verified.
-          example: true
-          type: boolean
-        picture:
-          description: URL that point's to the user's picture or avatar
-          example: https://example.com/john_snow.jpg
-          nullable: true
-          type: string
-        preferred_username:
-          description: User's preferred username.
-          example: john_snow
-          nullable: true
-          type: string
-        id:
-          description: Unique ID of the user in Kinde
-          example: kp_c3143a4b50ad43c88e541d9077681782
-          type: string
-      type: object
     organization_item_schema:
       example:
         is_auto_membership_enabled: true
@@ -7431,23 +8813,101 @@ components:
           example: true
           type: boolean
       type: object
+    get_environment_response:
+      example:
+        environment:
+          code: production
+          google_analytics_tag: G-1234567
+          favicon_fallback: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          button_color_dark:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          button_border_radius: 8
+          input_border_radius: 4
+          link_color:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          theme_code: light
+          button_text_color_dark:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          logo: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          color_scheme: light
+          custom_domain: app.example.com
+          hotjar_site_id: "404009"
+          kinde_domain: example.kinde.com
+          is_default: true
+          card_border_radius: 16
+          background_color_dark:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          button_color:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          background_color:
+            hsl: "hsl(0, 0%, 100%)"
+            raw: '#ffffff'
+            hex: '#ffffff'
+          button_text_color:
+            hsl: "hsl(0, 0%, 100%)"
+            raw: '#ffffff'
+            hex: '#ffffff'
+          created_on: 2021-01-01T00:00:00Z
+          name: Production
+          is_live: true
+          logo_dark: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          link_color_dark:
+            hsl: "hsl(220, 100%, 50%)"
+            raw: '#0056F1'
+            hex: '#0056F1'
+          favicon_svg: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        code: OK
+        message: success_response
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: success_response
+          type: string
+        environment:
+          $ref: '#/components/schemas/get_environment_response_environment'
+      type: object
     get_organization_response:
       example:
         code: org_1ccfb819462
+        favicon_fallback: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
         button_color_dark:
           hsl: "hsl(220, 100%, 50%)"
           raw: '#0056F1'
           hex: '#0056F1'
-        is_allow_registrations: true
-        handle: acme_corp
         external_id: some1234
-        is_default: false
+        button_border_radius: 8
         is_auto_membership_enabled: true
-        background_color_dark:
+        input_border_radius: 4
+        link_color:
           hsl: "hsl(220, 100%, 50%)"
           raw: '#0056F1'
           hex: '#0056F1'
-        link_color:
+        theme_code: light
+        button_text_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        logo: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        color_scheme: light
+        is_allow_registrations: true
+        handle: acme_corp
+        is_default: false
+        card_border_radius: 16
+        background_color_dark:
           hsl: "hsl(220, 100%, 50%)"
           raw: '#0056F1'
           hex: '#0056F1'
@@ -7463,16 +8923,14 @@ components:
           hsl: "hsl(0, 0%, 100%)"
           raw: '#ffffff'
           hex: '#ffffff'
+        created_on: 2021-01-01T00:00:00Z
         name: Acme Corp
-        button_text_color_dark:
-          hsl: "hsl(220, 100%, 50%)"
-          raw: '#0056F1'
-          hex: '#0056F1'
-        logo: logo
+        logo_dark: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
         link_color_dark:
           hsl: "hsl(220, 100%, 50%)"
           raw: '#0056F1'
           hex: '#0056F1'
+        favicon_svg: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
       properties:
         code:
           description: The unique identifier for the organization.
@@ -7504,25 +8962,81 @@ components:
           example: true
           type: boolean
         logo:
-          deprecated: true
+          description: The organization's logo URL.
+          example: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        logo_dark:
+          description: The organization's logo URL to be used for dark themes.
+          example: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        favicon_svg:
+          description: The organization's SVG favicon URL. Optimal format for most
+            browsers
+          example: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        favicon_fallback:
+          description: "The favicon URL to be used as a fallback in browsers that\
+            \ don’t support SVG, add a PNG"
+          example: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
           nullable: true
           type: string
         link_color:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
         background_color:
-          $ref: '#/components/schemas/get_organization_response_background_color'
+          $ref: '#/components/schemas/get_environment_response_environment_background_color'
         button_color:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
         button_text_color:
-          $ref: '#/components/schemas/get_organization_response_background_color'
+          $ref: '#/components/schemas/get_environment_response_environment_background_color'
         link_color_dark:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
         background_color_dark:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
         button_text_color_dark:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
         button_color_dark:
-          $ref: '#/components/schemas/get_organization_response_link_color'
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        button_border_radius:
+          description: "The border radius for buttons. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 8
+          nullable: true
+          type: integer
+        card_border_radius:
+          description: "The border radius for cards. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 16
+          nullable: true
+          type: integer
+        input_border_radius:
+          description: "The border radius for inputs. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 4
+          nullable: true
+          type: integer
+        theme_code:
+          description: "Whether the environment is forced into light mode, dark mode\
+            \ or user preference"
+          enum:
+          - light
+          - dark
+          - user_preference
+          type: string
+        color_scheme:
+          description: The color scheme for the environment used for meta tags based
+            on the theme code
+          enum:
+          - light
+          - dark
+          - light dark
+          type: string
+        created_on:
+          description: Date of organization creation in ISO 8601 format.
+          example: 2021-01-01T00:00:00Z
+          type: string
         is_allow_registrations:
           deprecated: true
           description: Deprecated - Use 'is_auto_membership_enabled' instead
@@ -7546,10 +9060,12 @@ components:
         id:
           description: The unique ID for the user.
           example: kp:97c2ba24217d48e3b96a799b76cf2c74
+          nullable: true
           type: string
         email:
           description: The user's email address.
           example: john.snow@example.com
+          nullable: true
           type: string
         full_name:
           description: The user's full name.
@@ -7558,14 +9074,17 @@ components:
         last_name:
           description: The user's last name.
           example: Snow
+          nullable: true
           type: string
         first_name:
           description: The user's first name.
           example: John
+          nullable: true
           type: string
         picture:
           description: The user's profile picture URL.
           example: https://example.com/john_snow.jpg
+          nullable: true
           type: string
         joined_on:
           description: The date the user joined the organization.
@@ -7591,19 +9110,22 @@ components:
       type: object
     connection:
       example:
-        name: name
-        id: id
-        display_name: display_name
-        strategy: strategy
+        code: code
+        connection:
+          name: name
+          id: id
+          display_name: display_name
+          strategy: strategy
+        message: message
       properties:
-        id:
+        code:
+          description: Response code.
           type: string
-        name:
+        message:
+          description: Response message.
           type: string
-        display_name:
-          type: string
-        strategy:
-          type: string
+        connection:
+          $ref: '#/components/schemas/connection_connection'
       type: object
     environment_variable:
       example:
@@ -8163,28 +9685,36 @@ components:
     update_organization_users_response:
       example:
         users_added:
-        - users_added
-        - users_added
+        - kp_057ee6debc624c70947b6ba512908c35
+        - kp_057ee6debc624c70947b6ba512908c35
+        code: OK
         users_updated:
-        - users_updated
-        - users_updated
+        - kp_057ee6debc624c70947b6ba512908c35
+        - kp_057ee6debc624c70947b6ba512908c35
         users_removed:
-        - users_removed
-        - users_removed
-        message: message
+        - kp_057ee6debc624c70947b6ba512908c35
+        - kp_057ee6debc624c70947b6ba512908c35
+        message: Success
       properties:
         message:
+          example: Success
+          type: string
+        code:
+          example: OK
           type: string
         users_added:
           items:
+            example: kp_057ee6debc624c70947b6ba512908c35
             type: string
           type: array
         users_updated:
           items:
+            example: kp_057ee6debc624c70947b6ba512908c35
             type: string
           type: array
         users_removed:
           items:
+            example: kp_057ee6debc624c70947b6ba512908c35
             type: string
           type: array
       type: object
@@ -8231,9 +9761,9 @@ components:
       example:
         code: code
         application:
-          id: id
-          client_secret: client_secret
-          client_id: client_id
+          id: 3b0b5c6c8fcc464fab397f4969b5f482
+          client_secret: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+          client_id: 3b0b5c6c8fcc464fab397f4969b5f482
         message: message
       properties:
         code:
@@ -8249,13 +9779,14 @@ components:
       example:
         code: code
         application:
-          homepage_uri: homepage_uri
-          name: name
-          id: id
-          client_secret: client_secret
-          type: type
-          login_uri: login_uri
-          client_id: client_id
+          homepage_uri: https://yourapp.com
+          name: My React app
+          id: 3b0b5c6c8fcc464fab397f4969b5f482
+          client_secret: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+          type: m2m
+          login_uri: https://yourapp.com/api/auth/login
+          client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+          has_cancel_button: false
         message: message
       properties:
         code:
@@ -8452,25 +9983,134 @@ components:
           description: Pagination token.
           type: string
       type: object
-    tokenIntrospection_request:
+    read_logo_response:
+      example:
+        code: OK
+        message: Success
+        logos:
+        - path: /logo?p_org_code=org_1767f11ce62
+          file_name: kinde_light.jpeg
+          type: light
+        - path: /logo?p_org_code=org_1767f11ce62
+          file_name: kinde_light.jpeg
+          type: light
       properties:
-        token:
-          description: The token to be introspected.
+        code:
+          description: Response code.
+          example: OK
           type: string
-        token_type:
-          description: The provided token's type.
+        logos:
+          description: A list of logos.
+          items:
+            $ref: '#/components/schemas/read_logo_response_logos_inner'
+          type: array
+        message:
+          description: Response message.
+          example: Success
           type: string
       type: object
-    tokenRevocation_request:
+    user_profile_v2:
+      example:
+        sub: kp_c3143a4b50ad43c88e541d9077681782
+        email_verified: true
+        updated_at: 1612345678
+        name: John Snow
+        preferred_username: john_snow
+        id: kp_c3143a4b50ad43c88e541d9077681782
+        given_name: John
+        provided_id: some_external_id
+        family_name: Snow
+        email: john.snow@example.com
+        picture: https://example.com/john_snow.jpg
       properties:
-        token:
-          description: The token to be revoked.
+        sub:
+          description: Unique ID of the user in Kinde.
+          example: kp_c3143a4b50ad43c88e541d9077681782
           type: string
+        provided_id:
+          description: Value of the user's ID in a third-party system when the user
+            is imported into Kinde.
+          example: some_external_id
+          nullable: true
+          type: string
+        name:
+          description: User's first and last name separated by a space.
+          example: John Snow
+          type: string
+        given_name:
+          description: User's first name.
+          example: John
+          type: string
+        family_name:
+          description: User's last name.
+          example: Snow
+          type: string
+        updated_at:
+          description: Date the user was last updated at (In Unix time).
+          example: 1612345678
+          type: integer
+        email:
+          description: User's email address if available.
+          example: john.snow@example.com
+          type: string
+        email_verified:
+          description: Whether the user's email address has been verified.
+          example: true
+          type: boolean
+        picture:
+          description: URL that point's to the user's picture or avatar
+          example: https://example.com/john_snow.jpg
+          nullable: true
+          type: string
+        preferred_username:
+          description: User's preferred username.
+          example: john_snow
+          nullable: true
+          type: string
+        id:
+          description: Unique ID of the user in Kinde
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+      type: object
+    token_introspect:
+      example:
+        aud:
+        - https://api.example.com/v1
+        - https://api.example.com/v1
+        active: true
+        exp: 1612345678
+        iat: 1612345678
+        client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+      properties:
+        active:
+          description: Indicates the status of the token.
+          type: boolean
+        aud:
+          description: Array of intended token recipients.
+          items:
+            example: https://api.example.com/v1
+            type: string
+          type: array
         client_id:
-          description: The identifier for your client.
+          description: Identifier for the requesting client.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
-        client_secret:
-          description: The secret associated with your client.
+        exp:
+          description: Token expiration timestamp.
+          example: 1612345678
+          type: integer
+        iat:
+          description: Token issuance timestamp.
+          example: 1612345678
+          type: integer
+      type: object
+    token_error_response:
+      properties:
+        error:
+          description: Error.
+          type: string
+        error_description:
+          description: The error description.
           type: string
       type: object
     addAPIs_request:
@@ -8488,6 +10128,27 @@ components:
       required:
       - audience
       - name
+      type: object
+    addAPIScope_request:
+      properties:
+        key:
+          description: "The key reference for the scope (1-64 characters, no white\
+            \ space)."
+          example: read:logs
+          type: string
+        description:
+          description: Description of the api scope purpose.
+          example: Scope for reading logs.
+          type: string
+      required:
+      - key
+      type: object
+    updateAPIScope_request:
+      properties:
+        description:
+          description: Description of the api scope purpose.
+          example: Scope for reading logs.
+          type: string
       type: object
     updateAPIApplications_request_applications_inner:
       properties:
@@ -8557,7 +10218,7 @@ components:
           type: string
       type: object
     updateApplicationsProperty_request_value:
-      description: The new value for the propery
+      description: The new value for the property
       example: Some new value
       oneOf:
       - type: string
@@ -8568,6 +10229,29 @@ components:
           $ref: '#/components/schemas/updateApplicationsProperty_request_value'
       required:
       - value
+      type: object
+    updateApplicationTokens_request:
+      properties:
+        access_token_lifetime:
+          description: The lifetime of an access token in seconds.
+          example: 3600
+          type: integer
+        refresh_token_lifetime:
+          description: The lifetime of a refresh token in seconds.
+          example: 86400
+          type: integer
+        id_token_lifetime:
+          description: The lifetime of an ID token in seconds.
+          example: 3600
+          type: integer
+        authenticated_session_lifetime:
+          description: The lifetime of an authenticated session in seconds.
+          example: 86400
+          type: integer
+        is_hasura_mapping_enabled:
+          description: Enable or disable Hasura mapping.
+          example: true
+          type: boolean
       type: object
     updateBusiness_request:
       properties:
@@ -8640,6 +10324,121 @@ components:
             type: string
           type: array
       type: object
+    CreateConnection_request_options_oneOf:
+      description: "Social connection options (e.g., Google SSO)."
+      properties:
+        client_id:
+          description: OAuth client ID.
+          example: hji7db2146af332akfldfded22
+          type: string
+        client_secret:
+          description: OAuth client secret.
+          example: 19fkjdalg521l23fassf3039d4ae18b
+          type: string
+        is_use_custom_domain:
+          description: Use custom domain callback URL.
+          example: true
+          type: boolean
+      type: object
+    CreateConnection_request_options_oneOf_1:
+      description: Azure AD connection options.
+      properties:
+        client_id:
+          description: Client ID.
+          example: hji7db2146af332akfldfded22
+          type: string
+        client_secret:
+          description: Client secret.
+          example: 19fkjdalg521l23fassf3039d4ae18b
+          type: string
+        home_realm_domains:
+          description: List of domains to limit authentication.
+          example:
+          - '@kinde.com'
+          - '@kinde.io'
+          items:
+            type: string
+          type: array
+        entra_id_domain:
+          description: Domain for Entra ID.
+          example: kinde.com
+          type: string
+        is_use_common_endpoint:
+          description: Use https://login.windows.net/common instead of a default endpoint.
+          example: true
+          type: boolean
+        is_sync_user_profile_on_login:
+          description: Sync user profile data with IDP.
+          example: true
+          type: boolean
+        is_retrieve_provider_user_groups:
+          description: Include user group info from MS Entra ID.
+          example: true
+          type: boolean
+        is_extended_attributes_required:
+          description: Include additional user profile information.
+          example: true
+          type: boolean
+      type: object
+    CreateConnection_request_options_oneOf_2:
+      description: "SAML connection options (e.g., Cloudflare SAML)."
+      properties:
+        home_realm_domains:
+          description: List of domains to restrict authentication.
+          example:
+          - '@kinde.com'
+          - '@kinde.io'
+          items:
+            type: string
+          type: array
+        saml_entity_id:
+          description: SAML Entity ID.
+          example: https://kinde.com
+          type: string
+        saml_acs_url:
+          description: Assertion Consumer Service URL.
+          example: https://kinde.com/saml/acs
+          type: string
+        saml_idp_metadata_url:
+          description: URL for the IdP metadata.
+          example: https://kinde.com/saml/metadata
+          type: string
+        saml_email_key_attr:
+          description: Attribute key for the user’s email.
+          example: email
+          type: string
+        saml_first_name_key_attr:
+          description: Attribute key for the user’s first name.
+          example: given_name
+          type: string
+        saml_last_name_key_attr:
+          description: Attribute key for the user’s last name.
+          example: family_name
+          type: string
+        is_create_missing_user:
+          description: Create user if they don’t exist.
+          example: true
+          type: boolean
+        saml_signing_certificate:
+          description: Certificate for signing SAML requests.
+          example: |-
+            -----BEGIN CERTIFICATE-----
+            MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+            -----END CERTIFICATE-----
+          type: string
+        saml_signing_private_key:
+          description: Private key associated with the signing certificate.
+          example: |-
+            -----BEGIN PRIVATE KEY-----
+            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+            -----END PRIVATE KEY-----
+          type: string
+      type: object
+    CreateConnection_request_options:
+      oneOf:
+      - $ref: '#/components/schemas/CreateConnection_request_options_oneOf'
+      - $ref: '#/components/schemas/CreateConnection_request_options_oneOf_1'
+      - $ref: '#/components/schemas/CreateConnection_request_options_oneOf_2'
     CreateConnection_request:
       properties:
         name:
@@ -8680,32 +10479,55 @@ components:
             type: string
           type: array
         options:
-          description: The connection's options (varies by strategy).
-          type: object
-      required:
-      - display_name
-      - name
-      - strategy
+          $ref: '#/components/schemas/CreateConnection_request_options'
       type: object
-    UpdateConnection_request:
+    ReplaceConnection_request:
       properties:
         name:
           description: The internal name of the connection.
+          example: ConnectionA
           nullable: false
           type: string
         display_name:
-          description: The public facing name of the connection.
+          description: The public-facing name of the connection.
+          example: Connection
           nullable: false
           type: string
         enabled_applications:
           description: Client IDs of applications in which this connection is to be
             enabled.
+          example:
+          - c647dbe20f5944e28af97c9184fded22
+          - 20bbffaa4c5e492a962273039d4ae18b
           items:
             type: string
           type: array
         options:
-          description: The connection's options (varies by strategy).
-          type: object
+          $ref: '#/components/schemas/CreateConnection_request_options'
+      type: object
+    UpdateConnection_request:
+      properties:
+        name:
+          description: The internal name of the connection.
+          example: ConnectionA
+          nullable: false
+          type: string
+        display_name:
+          description: The public facing name of the connection.
+          example: Connection
+          nullable: false
+          type: string
+        enabled_applications:
+          description: Client IDs of applications in which this connection is to be
+            enabled.
+          example:
+          - c647dbe20f5944e28af97c9184fded22
+          - 20bbffaa4c5e492a962273039d4ae18b
+          items:
+            type: string
+          type: array
+        options:
+          $ref: '#/components/schemas/CreateConnection_request_options'
       type: object
     UpdateEnvironementFeatureFlagOverride_request:
       properties:
@@ -8796,6 +10618,30 @@ components:
           description: Whether the identity is the primary for it's type
           nullable: false
           type: boolean
+      type: object
+    ReplaceMFA_request:
+      properties:
+        policy:
+          description: "Specifies whether MFA is required, optional, or not enforced."
+          enum:
+          - required
+          - "off"
+          - optional
+          nullable: false
+          type: string
+        enabled_factors:
+          description: The MFA methods to enable.
+          items:
+            enum:
+            - mfa:email
+            - mfa:sms
+            - mfa:authenticator_app
+            type: string
+          nullable: false
+          type: array
+      required:
+      - enabled_factors
+      - policy
       type: object
     createOrganization_request:
       properties:
@@ -8936,20 +10782,31 @@ components:
           items:
             type: string
           type: array
+        is_enable_advanced_orgs:
+          description: Activate advanced organization features.
+          example: true
+          type: boolean
+        is_enforce_mfa:
+          description: Enforce MFA for all users in this organization.
+          example: true
+          type: boolean
       type: object
     AddOrganizationUsers_request_users_inner:
       properties:
         id:
           description: The users id.
+          example: kp_057ee6debc624c70947b6ba512908c35
           type: string
         roles:
           description: Role keys to assign to the user.
           items:
+            example: manager
             type: string
           type: array
         permissions:
           description: Permission keys to assign to the user.
           items:
+            example: admin
             type: string
           type: array
       type: object
@@ -8965,19 +10822,23 @@ components:
       properties:
         id:
           description: The users id.
+          example: kp_057ee6debc624c70947b6ba512908c35
           type: string
         operation:
           description: "Optional operation, set to 'delete' to remove the user from\
             \ the organization."
+          example: delete
           type: string
         roles:
           description: Role keys to assign to the user.
           items:
+            example: manager
             type: string
           type: array
         permissions:
           description: Permission keys to assign to the user.
           items:
+            example: admin
             type: string
           type: array
       type: object
@@ -9009,6 +10870,30 @@ components:
           type: object
       required:
       - properties
+      type: object
+    ReplaceOrganizationMFA_request:
+      properties:
+        enabled_factors:
+          description: The MFA methods to enable.
+          items:
+            enum:
+            - mfa:email
+            - mfa:sms
+            - mfa:authenticator_app
+            type: string
+          nullable: false
+          type: array
+      required:
+      - enabled_factors
+      type: object
+    AddOrganizationLogo_request:
+      properties:
+        logo:
+          description: The logo file to upload.
+          format: binary
+          type: string
+      required:
+      - logo
       type: object
     CreatePermission_request:
       properties:
@@ -9359,6 +11244,46 @@ components:
           nullable: true
           type: string
       type: object
+    tokenIntrospection_request:
+      properties:
+        token:
+          description: The token to be introspected.
+          example: rrkYRaz8z96sAiOxPt6IzOCoelFFT4ujWIM2XNZgZsmX2Zu3imZ1W
+          type: string
+        token_type_hint:
+          description: A hint about the token type being queried in the request.
+          enum:
+          - access_token
+          - refresh_token
+          type: string
+      required:
+      - token
+      type: object
+    tokenRevocation_request:
+      properties:
+        client_id:
+          description: The `client_id` of your application.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: string
+        client_secret:
+          description: The `client_secret` of your application. Required for backend
+            apps only.
+          example: rrkYRaz8z96sAiOxPt6IzOCoelFFT4ujWIM2XNZgZsmX2Zu3imZ1W
+          type: string
+        token:
+          description: The token to be revoked.
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzNDU2Nzg5LCJuYW1lIjoiSm9zZXBoIn0.OpOSSw7e485LOP5PrzScxHb7SR6sAOMRckfFwi4rp7o
+          type: string
+        token_type_hint:
+          description: The type of token to be revoked.
+          enum:
+          - access_token
+          - refresh_token
+          type: string
+      required:
+      - client_id
+      - token
+      type: object
     not_found_response_errors:
       properties:
         code:
@@ -9368,12 +11293,29 @@ components:
           example: The requested API route does not exist
           type: string
       type: object
+    get_apis_response_apis_inner_scopes_inner:
+      example:
+        id: api_scope_01939128c3d7193ae87c4755213c07c6
+        key: create:apis
+      properties:
+        id:
+          example: api_scope_01939128c3d7193ae87c4755213c07c6
+          type: string
+        key:
+          example: create:apis
+          type: string
+      type: object
     get_apis_response_apis_inner:
       example:
         audience: https://api.example.com
         is_management_api: false
         name: Example API
         id: 7ccd126599aa422a771abcb341596881
+        scopes:
+        - id: api_scope_01939128c3d7193ae87c4755213c07c6
+          key: create:apis
+        - id: api_scope_01939128c3d7193ae87c4755213c07c6
+          key: create:apis
       properties:
         id:
           description: The unique ID for the API.
@@ -9392,6 +11334,10 @@ components:
           description: Whether or not it is the Kinde management API.
           example: false
           type: boolean
+        scopes:
+          items:
+            $ref: '#/components/schemas/get_apis_response_apis_inner_scopes_inner'
+          type: array
       type: object
     create_apis_response_api:
       example:
@@ -9400,6 +11346,15 @@ components:
         id:
           description: The unique ID for the API.
           example: 7ccd126599aa422a771abcb341596881
+          type: string
+      type: object
+    create_api_scopes_response_scope:
+      example:
+        id: api_scope_0193ab57965aef77b2b687d0ef673713
+      properties:
+        id:
+          description: The unique ID for the API scope.
+          example: api_scope_0193ab57965aef77b2b687d0ef673713
           type: string
       type: object
     create_environment_variable_response_environment_variable:
@@ -9415,11 +11370,14 @@ components:
       example:
         code: bus_c69fb73b091
         phone: 555-555-5555
+        has_kinde_branding: true
+        created_on: 2021-01-01T00:00:00Z
         timezone: Los Angeles (Pacific Standard Time)
         terms_url: https://example.com/terms
         name: Tailsforce Ltd
         privacy_url: https://example.com/privacy
         industry: Healthcare & Medical
+        has_clickwrap: false
         email: sally@example.com
       properties:
         code:
@@ -9460,6 +11418,18 @@ components:
           example: https://example.com/terms
           nullable: true
           type: string
+        has_clickwrap:
+          description: Whether your business uses clickwrap agreements.
+          example: false
+          type: boolean
+        has_kinde_branding:
+          description: Whether your business shows Kinde branding.
+          example: true
+          type: boolean
+        created_on:
+          description: Date of business creation in ISO 8601 format.
+          example: 2021-01-01T00:00:00Z
+          type: string
       type: object
     get_industries_response_industries_inner:
       example:
@@ -9487,6 +11457,20 @@ components:
         name:
           description: The display name for the timezone.
           example: "London (Greenwich Mean Time) [+01:00]"
+          type: string
+      type: object
+    get_api_response_api_scopes_inner:
+      example:
+        id: api_scope_01939222ef24200668b9f5829af001ce
+        key: read:logs
+      properties:
+        id:
+          description: The ID of the scope.
+          example: api_scope_01939222ef24200668b9f5829af001ce
+          type: string
+        key:
+          description: The reference key for the scope.
+          example: read:logs
           type: string
       type: object
     get_api_response_api_applications_inner:
@@ -9525,6 +11509,11 @@ components:
         is_management_api: false
         name: Example API
         id: 7ccd126599aa422a771abcb341596881
+        scopes:
+        - id: api_scope_01939222ef24200668b9f5829af001ce
+          key: read:logs
+        - id: api_scope_01939222ef24200668b9f5829af001ce
+          key: read:logs
         applications:
         - is_active: true
           name: My M2M app
@@ -9552,10 +11541,33 @@ components:
           description: Whether or not it is the Kinde management API.
           example: false
           type: boolean
+        scopes:
+          items:
+            $ref: '#/components/schemas/get_api_response_api_scopes_inner'
+          type: array
         applications:
           items:
             $ref: '#/components/schemas/get_api_response_api_applications_inner'
           type: array
+      type: object
+    get_api_scopes_response_scopes_inner:
+      example:
+        description: Read logs scope
+        id: api_scope_01939128c3d7193ae87c4755213c07c6
+        key: read:logs
+      properties:
+        id:
+          description: Unique ID of the API scope.
+          example: api_scope_01939128c3d7193ae87c4755213c07c6
+          type: string
+        key:
+          description: The scope's reference key.
+          example: read:logs
+          type: string
+        description:
+          description: Explanation of the scope purpose.
+          example: Read logs scope
+          type: string
       type: object
     user_identities_inner:
       example:
@@ -9675,6 +11687,47 @@ components:
           description: The identity's ID.
           type: string
       type: object
+    get_user_mfa_response_mfa:
+      example:
+        usage_count: 2
+        created_on: 2024-11-18T13:31:46.795085+11:00
+        last_used_on: 2024-11-18T13:32:07.22538+11:00
+        name: sally@gmail.com
+        id: mfa_01933d1ca1f093e7fad48ebcdb65a871
+        type: email
+        is_verified: true
+      properties:
+        id:
+          description: The MFA's identifier.
+          example: mfa_01933d1ca1f093e7fad48ebcdb65a871
+          type: string
+        type:
+          description: "The type of MFA (e.g. email, SMS, authenticator app)."
+          example: email
+          type: string
+        created_on:
+          description: The timestamp when the MFA was created.
+          example: 2024-11-18T13:31:46.795085+11:00
+          format: date-time
+          type: string
+        name:
+          description: "The identifier used for MFA (e.g. email address, phone number)."
+          example: sally@gmail.com
+          type: string
+        is_verified:
+          description: Whether the MFA is verified or not.
+          example: true
+          type: boolean
+        usage_count:
+          description: The number of times MFA has been used.
+          example: 2
+          type: integer
+        last_used_on:
+          description: The timestamp when the MFA was last used.
+          example: 2024-11-18T13:32:07.22538+11:00
+          format: date-time
+          type: string
+      type: object
     create_category_response_category:
       example:
         id: id
@@ -9689,7 +11742,7 @@ components:
         data: "{}"
         source: source
         type: type
-        timestamp: timestamp
+        timestamp: 0
       properties:
         type:
           type: string
@@ -9699,7 +11752,7 @@ components:
           type: string
         timestamp:
           description: Timestamp in ISO 8601 format.
-          type: string
+          type: integer
         data:
           description: Event specific data object.
           type: object
@@ -9729,7 +11782,7 @@ components:
           description: The connection's ID.
           type: string
       type: object
-    get_organization_response_link_color:
+    get_environment_response_environment_link_color:
       example:
         hsl: "hsl(220, 100%, 50%)"
         raw: '#0056F1'
@@ -9746,7 +11799,7 @@ components:
           example: "hsl(220, 100%, 50%)"
           type: string
       type: object
-    get_organization_response_background_color:
+    get_environment_response_environment_background_color:
       example:
         hsl: "hsl(0, 0%, 100%)"
         raw: '#ffffff'
@@ -9761,6 +11814,188 @@ components:
           type: string
         hsl:
           example: "hsl(0, 0%, 100%)"
+          type: string
+      type: object
+    get_environment_response_environment:
+      example:
+        code: production
+        google_analytics_tag: G-1234567
+        favicon_fallback: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        button_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        button_border_radius: 8
+        input_border_radius: 4
+        link_color:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        theme_code: light
+        button_text_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        logo: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        color_scheme: light
+        custom_domain: app.example.com
+        hotjar_site_id: "404009"
+        kinde_domain: example.kinde.com
+        is_default: true
+        card_border_radius: 16
+        background_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        button_color:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        background_color:
+          hsl: "hsl(0, 0%, 100%)"
+          raw: '#ffffff'
+          hex: '#ffffff'
+        button_text_color:
+          hsl: "hsl(0, 0%, 100%)"
+          raw: '#ffffff'
+          hex: '#ffffff'
+        created_on: 2021-01-01T00:00:00Z
+        name: Production
+        is_live: true
+        logo_dark: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        link_color_dark:
+          hsl: "hsl(220, 100%, 50%)"
+          raw: '#0056F1'
+          hex: '#0056F1'
+        favicon_svg: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+      properties:
+        code:
+          description: The unique identifier for the environment.
+          example: production
+          type: string
+        name:
+          description: The environment's name.
+          example: Production
+          type: string
+        hotjar_site_id:
+          description: Your HotJar site ID.
+          example: "404009"
+          nullable: true
+          type: string
+        google_analytics_tag:
+          description: Your Google Analytics tag.
+          example: G-1234567
+          nullable: true
+          type: string
+        is_default:
+          description: Whether the environment is the default. Typically this is your
+            production environment.
+          example: true
+          type: boolean
+        is_live:
+          description: Whether the environment is live.
+          example: true
+          type: boolean
+        kinde_domain:
+          description: Your domain on Kinde
+          example: example.kinde.com
+          type: string
+        custom_domain:
+          description: Your custom domain for the environment
+          example: app.example.com
+          nullable: true
+          type: string
+        logo:
+          description: The organization's logo URL.
+          example: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        logo_dark:
+          description: The organization's logo URL to be used for dark themes.
+          example: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        favicon_svg:
+          description: The organization's SVG favicon URL. Optimal format for most
+            browsers
+          example: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        favicon_fallback:
+          description: "The favicon URL to be used as a fallback in browsers that\
+            \ don’t support SVG, add a PNG"
+          example: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+          nullable: true
+          type: string
+        link_color:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        background_color:
+          $ref: '#/components/schemas/get_environment_response_environment_background_color'
+        button_color:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        button_text_color:
+          $ref: '#/components/schemas/get_environment_response_environment_background_color'
+        link_color_dark:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        background_color_dark:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        button_text_color_dark:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        button_color_dark:
+          $ref: '#/components/schemas/get_environment_response_environment_link_color'
+        button_border_radius:
+          description: "The border radius for buttons. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 8
+          nullable: true
+          type: integer
+        card_border_radius:
+          description: "The border radius for cards. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 16
+          nullable: true
+          type: integer
+        input_border_radius:
+          description: "The border radius for inputs. Value is px, Kinde transforms\
+            \ to rem for rendering"
+          example: 4
+          nullable: true
+          type: integer
+        theme_code:
+          description: "Whether the environment is forced into light mode, dark mode\
+            \ or user preference"
+          enum:
+          - light
+          - dark
+          - user_preference
+          type: string
+        color_scheme:
+          description: The color scheme for the environment used for meta tags based
+            on the theme code
+          enum:
+          - light
+          - dark
+          - light dark
+          type: string
+        created_on:
+          description: Date of environment creation in ISO 8601 format.
+          example: 2021-01-01T00:00:00Z
+          type: string
+      type: object
+    connection_connection:
+      example:
+        name: name
+        id: id
+        display_name: display_name
+        strategy: strategy
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        display_name:
+          type: string
+        strategy:
           type: string
       type: object
     organization_user_role_permissions_permissions:
@@ -9839,50 +12074,88 @@ components:
       type: object
     create_application_response_application:
       example:
-        id: id
-        client_secret: client_secret
-        client_id: client_id
+        id: 3b0b5c6c8fcc464fab397f4969b5f482
+        client_secret: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+        client_id: 3b0b5c6c8fcc464fab397f4969b5f482
       properties:
         id:
           description: The application's identifier.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
         client_id:
           description: The application's client ID.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
         client_secret:
           description: The application's client secret.
+          example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
           type: string
       type: object
     get_application_response_application:
       example:
-        homepage_uri: homepage_uri
-        name: name
-        id: id
-        client_secret: client_secret
-        type: type
-        login_uri: login_uri
-        client_id: client_id
+        homepage_uri: https://yourapp.com
+        name: My React app
+        id: 3b0b5c6c8fcc464fab397f4969b5f482
+        client_secret: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+        type: m2m
+        login_uri: https://yourapp.com/api/auth/login
+        client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+        has_cancel_button: false
       properties:
         id:
           description: The application's identifier.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
         name:
           description: The application's name.
+          example: My React app
           type: string
         type:
           description: The application's type.
+          enum:
+          - m2m
+          - reg
+          - spa
           type: string
         client_id:
           description: The application's client ID.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
           type: string
         client_secret:
           description: The application's client secret.
+          example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
           type: string
         login_uri:
           description: The default login route for resolving session issues.
+          example: https://yourapp.com/api/auth/login
           type: string
         homepage_uri:
           description: The homepage link to your application.
+          example: https://yourapp.com
+          type: string
+        has_cancel_button:
+          description: "Whether the application has a cancel button to allow users\
+            \ to exit the auth flow [Beta]."
+          example: false
+          type: boolean
+      type: object
+    read_logo_response_logos_inner:
+      example:
+        path: /logo?p_org_code=org_1767f11ce62
+        file_name: kinde_light.jpeg
+        type: light
+      properties:
+        type:
+          description: The type of logo (light or dark).
+          example: light
+          type: string
+        file_name:
+          description: The name of the logo file.
+          example: kinde_light.jpeg
+          type: string
+        path:
+          description: The relative path to the logo file.
+          example: /logo?p_org_code=org_1767f11ce62
           type: string
       type: object
   securitySchemes:

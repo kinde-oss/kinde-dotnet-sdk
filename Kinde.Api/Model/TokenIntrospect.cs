@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -41,7 +41,7 @@ namespace Kinde.Api.Model
         /// <param name="clientId">Identifier for the requesting client..</param>
         /// <param name="exp">Token expiration timestamp..</param>
         /// <param name="iat">Token issuance timestamp..</param>
-        public TokenIntrospect(bool active = default(bool), List<string> aud = default(List<string>), string clientId = default(string), string exp = default(string), string iat = default(string))
+        public TokenIntrospect(bool active = default(bool), List<string> aud = default(List<string>), string clientId = default(string), int exp = default(int), int iat = default(int))
         {
             this.Active = active;
             this.Aud = aud;
@@ -68,6 +68,7 @@ namespace Kinde.Api.Model
         /// Identifier for the requesting client.
         /// </summary>
         /// <value>Identifier for the requesting client.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -75,15 +76,17 @@ namespace Kinde.Api.Model
         /// Token expiration timestamp.
         /// </summary>
         /// <value>Token expiration timestamp.</value>
+        /// <example>1612345678</example>
         [DataMember(Name = "exp", EmitDefaultValue = false)]
-        public string Exp { get; set; }
+        public int Exp { get; set; }
 
         /// <summary>
         /// Token issuance timestamp.
         /// </summary>
         /// <value>Token issuance timestamp.</value>
+        /// <example>1612345678</example>
         [DataMember(Name = "iat", EmitDefaultValue = false)]
-        public string Iat { get; set; }
+        public int Iat { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -150,13 +153,11 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.Exp == input.Exp ||
-                    (this.Exp != null &&
-                    this.Exp.Equals(input.Exp))
+                    this.Exp.Equals(input.Exp)
                 ) && 
                 (
                     this.Iat == input.Iat ||
-                    (this.Iat != null &&
-                    this.Iat.Equals(input.Iat))
+                    this.Iat.Equals(input.Iat)
                 );
         }
 
@@ -178,14 +179,8 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.ClientId.GetHashCode();
                 }
-                if (this.Exp != null)
-                {
-                    hashCode = (hashCode * 59) + this.Exp.GetHashCode();
-                }
-                if (this.Iat != null)
-                {
-                    hashCode = (hashCode * 59) + this.Iat.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.Exp.GetHashCode();
+                hashCode = (hashCode * 59) + this.Iat.GetHashCode();
                 return hashCode;
             }
         }

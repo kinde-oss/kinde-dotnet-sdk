@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -28,6 +28,58 @@ namespace Kinde.Api.Api
     public interface IOrganizationsApiSync : IApiAccessor
     {
         #region Synchronous Operations
+        /// <summary>
+        /// Add organization logo
+        /// </summary>
+        /// <remarks>
+        /// Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse AddOrganizationLogo(string orgCode, string type, FileParameter logo);
+
+        /// <summary>
+        /// Add organization logo
+        /// </summary>
+        /// <remarks>
+        /// Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> AddOrganizationLogoWithHttpInfo(string orgCode, string type, FileParameter logo);
+        /// <summary>
+        /// Add scope to organization user api
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void AddOrganizationUserAPIScope(string orgCode, string userId, string apiId, string scopeId);
+
+        /// <summary>
+        /// Add scope to organization user api
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> AddOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId);
         /// <summary>
         /// Add Organization Users
         /// </summary>
@@ -209,6 +261,56 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationHandleWithHttpInfo(string orgCode);
         /// <summary>
+        /// Delete organization logo
+        /// </summary>
+        /// <remarks>
+        /// Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteOrganizationLogo(string orgCode, string type);
+
+        /// <summary>
+        /// Delete organization logo
+        /// </summary>
+        /// <remarks>
+        /// Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteOrganizationLogoWithHttpInfo(string orgCode, string type);
+        /// <summary>
+        /// Delete scope from organization user API
+        /// </summary>
+        /// <remarks>
+        /// Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void DeleteOrganizationUserAPIScope(string orgCode, string userId, string apiId, string scopeId);
+
+        /// <summary>
+        /// Delete scope from organization user API
+        /// </summary>
+        /// <remarks>
+        /// Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId);
+        /// <summary>
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
@@ -258,6 +360,29 @@ namespace Kinde.Api.Api
         /// <param name="roleId">The role id.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationUserRoleWithHttpInfo(string orgCode, string userId, string roleId);
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration
+        /// </summary>
+        /// <remarks>
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <returns>GetUserMfaResponse</returns>
+        GetUserMfaResponse GetOrgUserMFA(string orgCode, string userId);
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration
+        /// </summary>
+        /// <remarks>
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <returns>ApiResponse of GetUserMfaResponse</returns>
+        ApiResponse<GetUserMfaResponse> GetOrgUserMFAWithHttpInfo(string orgCode, string userId);
         /// <summary>
         /// Get organization
         /// </summary>
@@ -426,6 +551,27 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsResponse</returns>
         ApiResponse<GetOrganizationsResponse> GetOrganizationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
         /// <summary>
+        /// Read organization logo details
+        /// </summary>
+        /// <remarks>
+        /// Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ReadLogoResponse</returns>
+        ReadLogoResponse ReadOrganizationLogo(string orgCode);
+
+        /// <summary>
+        /// Read organization logo details
+        /// </summary>
+        /// <remarks>
+        /// Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of ReadLogoResponse</returns>
+        ApiResponse<ReadLogoResponse> ReadOrganizationLogoWithHttpInfo(string orgCode);
+        /// <summary>
         /// Remove Organization User
         /// </summary>
         /// <remarks>
@@ -448,6 +594,54 @@ namespace Kinde.Api.Api
         /// <param name="userId">The user&#39;s id.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> RemoveOrganizationUserWithHttpInfo(string orgCode, string userId);
+        /// <summary>
+        /// Replace Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse ReplaceOrganizationMFA(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest);
+
+        /// <summary>
+        /// Replace Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> ReplaceOrganizationMFAWithHttpInfo(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest);
+        /// <summary>
+        /// Reset MFA for a user
+        /// </summary>
+        /// <remarks>
+        /// Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse ResetOrgUserMFA(string orgCode, string userId, string factorId);
+
+        /// <summary>
+        /// Reset MFA for a user
+        /// </summary>
+        /// <remarks>
+        /// Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> ResetOrgUserMFAWithHttpInfo(string orgCode, string userId, string factorId);
         /// <summary>
         /// Update Organization
         /// </summary>
@@ -576,6 +770,62 @@ namespace Kinde.Api.Api
     public interface IOrganizationsApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
+        /// <summary>
+        /// Add organization logo
+        /// </summary>
+        /// <remarks>
+        /// Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> AddOrganizationLogoAsync(string orgCode, string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add organization logo
+        /// </summary>
+        /// <remarks>
+        /// Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> AddOrganizationLogoWithHttpInfoAsync(string orgCode, string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Add scope to organization user api
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task AddOrganizationUserAPIScopeAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add scope to organization user api
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> AddOrganizationUserAPIScopeWithHttpInfoAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Add Organization Users
         /// </summary>
@@ -773,6 +1023,60 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationHandleWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Delete organization logo
+        /// </summary>
+        /// <remarks>
+        /// Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationLogoAsync(string orgCode, string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete organization logo
+        /// </summary>
+        /// <remarks>
+        /// Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationLogoWithHttpInfoAsync(string orgCode, string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete scope from organization user API
+        /// </summary>
+        /// <remarks>
+        /// Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task DeleteOrganizationUserAPIScopeAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete scope from organization user API
+        /// </summary>
+        /// <remarks>
+        /// Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrganizationUserAPIScopeWithHttpInfoAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Delete Organization User Permission
         /// </summary>
         /// <remarks>
@@ -826,6 +1130,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration
+        /// </summary>
+        /// <remarks>
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetUserMfaResponse</returns>
+        System.Threading.Tasks.Task<GetUserMfaResponse> GetOrgUserMFAAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration
+        /// </summary>
+        /// <remarks>
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetUserMfaResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetUserMfaResponse>> GetOrgUserMFAWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get organization
         /// </summary>
@@ -1008,6 +1337,29 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationsResponse>> GetOrganizationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Read organization logo details
+        /// </summary>
+        /// <remarks>
+        /// Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ReadLogoResponse</returns>
+        System.Threading.Tasks.Task<ReadLogoResponse> ReadOrganizationLogoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Read organization logo details
+        /// </summary>
+        /// <remarks>
+        /// Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ReadLogoResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ReadLogoResponse>> ReadOrganizationLogoWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Remove Organization User
         /// </summary>
         /// <remarks>
@@ -1032,6 +1384,58 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RemoveOrganizationUserWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Replace Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> ReplaceOrganizationMFAAsync(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Replace Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> ReplaceOrganizationMFAWithHttpInfoAsync(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Reset MFA for a user
+        /// </summary>
+        /// <remarks>
+        /// Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> ResetOrgUserMFAAsync(string orgCode, string userId, string factorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Reset MFA for a user
+        /// </summary>
+        /// <remarks>
+        /// Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> ResetOrgUserMFAWithHttpInfoAsync(string orgCode, string userId, string factorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Organization
         /// </summary>
@@ -1391,6 +1795,330 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Add organization logo Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse AddOrganizationLogo(string orgCode, string type, FileParameter logo)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = AddOrganizationLogoWithHttpInfo(orgCode, type, logo);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add organization logo Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> AddOrganizationLogoWithHttpInfo(string orgCode, string type, FileParameter logo)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationLogo");
+
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->AddOrganizationLogo");
+
+            // verify the required parameter 'logo' is set
+            if (logo == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling OrganizationsApi->AddOrganizationLogo");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+            localVarRequestOptions.FileParameters.Add("logo", logo);
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add organization logo Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> AddOrganizationLogoAsync(string orgCode, string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await AddOrganizationLogoWithHttpInfoAsync(orgCode, type, logo, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add organization logo Add organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> AddOrganizationLogoWithHttpInfoAsync(string orgCode, string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationLogo");
+
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->AddOrganizationLogo");
+
+            // verify the required parameter 'logo' is set
+            if (logo == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling OrganizationsApi->AddOrganizationLogo");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+            localVarRequestOptions.FileParameters.Add("logo", logo);
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add scope to organization user api Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void AddOrganizationUserAPIScope(string orgCode, string userId, string apiId, string scopeId)
+        {
+            AddOrganizationUserAPIScopeWithHttpInfo(orgCode, userId, apiId, scopeId);
+        }
+
+        /// <summary>
+        /// Add scope to organization user api Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> AddOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddOrganizationUserAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add scope to organization user api Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task AddOrganizationUserAPIScopeAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await AddOrganizationUserAPIScopeWithHttpInfoAsync(orgCode, userId, apiId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Add scope to organization user api Add a scope to an organization user api.  &lt;div&gt;   &lt;code&gt;create:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> AddOrganizationUserAPIScopeWithHttpInfoAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddOrganizationUserAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1424,8 +2152,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1493,8 +2220,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -2503,6 +3229,314 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Delete organization logo Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteOrganizationLogo(string orgCode, string type)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteOrganizationLogoWithHttpInfo(orgCode, type);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization logo Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationLogoWithHttpInfo(string orgCode, string type)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationLogo");
+
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->DeleteOrganizationLogo");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete organization logo Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationLogoAsync(string orgCode, string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteOrganizationLogoWithHttpInfoAsync(orgCode, type, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization logo Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteOrganizationLogoWithHttpInfoAsync(string orgCode, string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationLogo");
+
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->DeleteOrganizationLogo");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete scope from organization user API Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void DeleteOrganizationUserAPIScope(string orgCode, string userId, string apiId, string scopeId)
+        {
+            DeleteOrganizationUserAPIScopeWithHttpInfo(orgCode, userId, apiId, scopeId);
+        }
+
+        /// <summary>
+        /// Delete scope from organization user API Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> DeleteOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete scope from organization user API Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task DeleteOrganizationUserAPIScopeAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await DeleteOrganizationUserAPIScopeWithHttpInfoAsync(orgCode, userId, apiId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Delete scope from organization user API Delete a scope from an organization user api you previously created.  &lt;div&gt;   &lt;code&gt;delete:organization_user_api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">User ID</param>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteOrganizationUserAPIScopeWithHttpInfoAsync(string orgCode, string userId, string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Delete Organization User Permission Delete permission for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -2810,6 +3844,147 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("DeleteOrganizationUserRole", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <returns>GetUserMfaResponse</returns>
+        public GetUserMfaResponse GetOrgUserMFA(string orgCode, string userId)
+        {
+            Kinde.Api.Client.ApiResponse<GetUserMfaResponse> localVarResponse = GetOrgUserMFAWithHttpInfo(orgCode, userId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <returns>ApiResponse of GetUserMfaResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetUserMfaResponse> GetOrgUserMFAWithHttpInfo(string orgCode, string userId)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrgUserMFA");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrgUserMFA");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetUserMfaResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrgUserMFA", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetUserMfaResponse</returns>
+        public async System.Threading.Tasks.Task<GetUserMfaResponse> GetOrgUserMFAAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetUserMfaResponse> localVarResponse = await GetOrgUserMFAWithHttpInfoAsync(orgCode, userId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetUserMfaResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetUserMfaResponse>> GetOrgUserMFAWithHttpInfoAsync(string orgCode, string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrgUserMFA");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrgUserMFA");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetUserMfaResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrgUserMFA", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -3834,6 +5009,133 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Read organization logo details Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ReadLogoResponse</returns>
+        public ReadLogoResponse ReadOrganizationLogo(string orgCode)
+        {
+            Kinde.Api.Client.ApiResponse<ReadLogoResponse> localVarResponse = ReadOrganizationLogoWithHttpInfo(orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Read organization logo details Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of ReadLogoResponse</returns>
+        public Kinde.Api.Client.ApiResponse<ReadLogoResponse> ReadOrganizationLogoWithHttpInfo(string orgCode)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReadOrganizationLogo");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<ReadLogoResponse>("/api/v1/organizations/{org_code}/logos", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReadOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Read organization logo details Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ReadLogoResponse</returns>
+        public async System.Threading.Tasks.Task<ReadLogoResponse> ReadOrganizationLogoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<ReadLogoResponse> localVarResponse = await ReadOrganizationLogoWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Read organization logo details Read organization logo details  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ReadLogoResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ReadLogoResponse>> ReadOrganizationLogoWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReadOrganizationLogo");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ReadLogoResponse>("/api/v1/organizations/{org_code}/logos", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReadOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -3970,6 +5272,304 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("RemoveOrganizationUser", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Replace Organization MFA Configuration Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse ReplaceOrganizationMFA(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = ReplaceOrganizationMFAWithHttpInfo(orgCode, replaceOrganizationMFARequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Replace Organization MFA Configuration Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> ReplaceOrganizationMFAWithHttpInfo(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReplaceOrganizationMFA");
+
+            // verify the required parameter 'replaceOrganizationMFARequest' is set
+            if (replaceOrganizationMFARequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceOrganizationMFARequest' when calling OrganizationsApi->ReplaceOrganizationMFA");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = replaceOrganizationMFARequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/organizations/{org_code}/mfa", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReplaceOrganizationMFA", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Replace Organization MFA Configuration Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> ReplaceOrganizationMFAAsync(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await ReplaceOrganizationMFAWithHttpInfoAsync(orgCode, replaceOrganizationMFARequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Replace Organization MFA Configuration Replace Organization MFA Configuration.  &lt;div&gt;   &lt;code&gt;update:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="replaceOrganizationMFARequest">MFA details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> ReplaceOrganizationMFAWithHttpInfoAsync(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReplaceOrganizationMFA");
+
+            // verify the required parameter 'replaceOrganizationMFARequest' is set
+            if (replaceOrganizationMFARequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceOrganizationMFARequest' when calling OrganizationsApi->ReplaceOrganizationMFA");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = replaceOrganizationMFARequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/organizations/{org_code}/mfa", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReplaceOrganizationMFA", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Reset MFA for a user Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse ResetOrgUserMFA(string orgCode, string userId, string factorId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = ResetOrgUserMFAWithHttpInfo(orgCode, userId, factorId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Reset MFA for a user Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> ResetOrgUserMFAWithHttpInfo(string orgCode, string userId, string factorId)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ResetOrgUserMFA");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->ResetOrgUserMFA");
+
+            // verify the required parameter 'factorId' is set
+            if (factorId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'factorId' when calling OrganizationsApi->ResetOrgUserMFA");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("factor_id", Kinde.Api.Client.ClientUtils.ParameterToString(factorId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ResetOrgUserMFA", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Reset MFA for a user Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> ResetOrgUserMFAAsync(string orgCode, string userId, string factorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await ResetOrgUserMFAWithHttpInfoAsync(orgCode, userId, factorId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Reset MFA for a user Reset an organization user’s MFA.  &lt;div&gt;   &lt;code&gt;delete:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization.</param>
+        /// <param name="userId">The identifier for the user</param>
+        /// <param name="factorId">The identifier for the MFA factor</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> ResetOrgUserMFAWithHttpInfoAsync(string orgCode, string userId, string factorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ResetOrgUserMFA");
+
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->ResetOrgUserMFA");
+
+            // verify the required parameter 'factorId' is set
+            if (factorId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'factorId' when calling OrganizationsApi->ResetOrgUserMFA");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("factor_id", Kinde.Api.Client.ClientUtils.ParameterToString(factorId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ResetOrgUserMFA", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -4604,8 +6204,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -4673,8 +6272,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 

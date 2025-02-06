@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -39,8 +39,8 @@ namespace Kinde.Api.Model
         /// <param name="name">The internal name of the connection..</param>
         /// <param name="displayName">The public facing name of the connection..</param>
         /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
-        /// <param name="options">The connection&#39;s options (varies by strategy)..</param>
-        public UpdateConnectionRequest(string name = default(string), string displayName = default(string), List<string> enabledApplications = default(List<string>), Object options = default(Object))
+        /// <param name="options">options.</param>
+        public UpdateConnectionRequest(string name = default(string), string displayName = default(string), List<string> enabledApplications = default(List<string>), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
         {
             this.Name = name;
             this.DisplayName = displayName;
@@ -52,6 +52,7 @@ namespace Kinde.Api.Model
         /// The internal name of the connection.
         /// </summary>
         /// <value>The internal name of the connection.</value>
+        /// <example>ConnectionA</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
@@ -59,6 +60,7 @@ namespace Kinde.Api.Model
         /// The public facing name of the connection.
         /// </summary>
         /// <value>The public facing name of the connection.</value>
+        /// <example>Connection</example>
         [DataMember(Name = "display_name", EmitDefaultValue = false)]
         public string DisplayName { get; set; }
 
@@ -66,15 +68,15 @@ namespace Kinde.Api.Model
         /// Client IDs of applications in which this connection is to be enabled.
         /// </summary>
         /// <value>Client IDs of applications in which this connection is to be enabled.</value>
+        /// <example>[&quot;c647dbe20f5944e28af97c9184fded22&quot;,&quot;20bbffaa4c5e492a962273039d4ae18b&quot;]</example>
         [DataMember(Name = "enabled_applications", EmitDefaultValue = false)]
         public List<string> EnabledApplications { get; set; }
 
         /// <summary>
-        /// The connection&#39;s options (varies by strategy).
+        /// Gets or Sets Options
         /// </summary>
-        /// <value>The connection&#39;s options (varies by strategy).</value>
         [DataMember(Name = "options", EmitDefaultValue = false)]
-        public Object Options { get; set; }
+        public CreateConnectionRequestOptions Options { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

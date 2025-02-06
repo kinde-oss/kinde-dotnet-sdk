@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** |  | [optional] 
+**Code** | **string** |  | [optional] 
 **UsersAdded** | **List&lt;string&gt;** |  | [optional] 
 **UsersUpdated** | **List&lt;string&gt;** |  | [optional] 
 **UsersRemoved** | **List&lt;string&gt;** |  | [optional] 

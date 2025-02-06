@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -40,12 +40,14 @@ namespace Kinde.Api.Model
         /// <param name="name">The API’s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
         /// <param name="isManagementApi">Whether or not it is the Kinde management API..</param>
-        public GetApisResponseApisInner(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool))
+        /// <param name="scopes">scopes.</param>
+        public GetApisResponseApisInner(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApisResponseApisInnerScopesInner> scopes = default(List<GetApisResponseApisInnerScopesInner>))
         {
             this.Id = id;
             this.Name = name;
             this.Audience = audience;
             this.IsManagementApi = isManagementApi;
+            this.Scopes = scopes;
         }
 
         /// <summary>
@@ -81,6 +83,12 @@ namespace Kinde.Api.Model
         public bool IsManagementApi { get; set; }
 
         /// <summary>
+        /// Gets or Sets Scopes
+        /// </summary>
+        [DataMember(Name = "scopes", EmitDefaultValue = false)]
+        public List<GetApisResponseApisInnerScopesInner> Scopes { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -92,6 +100,7 @@ namespace Kinde.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Audience: ").Append(Audience).Append("\n");
             sb.Append("  IsManagementApi: ").Append(IsManagementApi).Append("\n");
+            sb.Append("  Scopes: ").Append(Scopes).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -145,6 +154,12 @@ namespace Kinde.Api.Model
                 (
                     this.IsManagementApi == input.IsManagementApi ||
                     this.IsManagementApi.Equals(input.IsManagementApi)
+                ) && 
+                (
+                    this.Scopes == input.Scopes ||
+                    this.Scopes != null &&
+                    input.Scopes != null &&
+                    this.Scopes.SequenceEqual(input.Scopes)
                 );
         }
 
@@ -170,6 +185,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Audience.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsManagementApi.GetHashCode();
+                if (this.Scopes != null)
+                {
+                    hashCode = (hashCode * 59) + this.Scopes.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -317,7 +317,7 @@ catch (ApiException e)
 
 <a id="updatepermissions"></a>
 # **UpdatePermissions**
-> SuccessResponse UpdatePermissions (int permissionId, CreatePermissionRequest? createPermissionRequest = null)
+> SuccessResponse UpdatePermissions (string permissionId, CreatePermissionRequest? createPermissionRequest = null)
 
 Update Permission
 
@@ -347,7 +347,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
-            var permissionId = 56;  // int | The identifier for the permission.
+            var permissionId = "permissionId_example";  // string | The identifier for the permission.
             var createPermissionRequest = new CreatePermissionRequest?(); // CreatePermissionRequest? | Permission details. (optional) 
 
             try
@@ -391,7 +391,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **permissionId** | **int** | The identifier for the permission. |  |
+| **permissionId** | **string** | The identifier for the permission. |  |
 | **createPermissionRequest** | [**CreatePermissionRequest?**](CreatePermissionRequest?.md) | Permission details. | [optional]  |
 
 ### Return type

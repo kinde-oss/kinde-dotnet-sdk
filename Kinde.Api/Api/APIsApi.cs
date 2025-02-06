@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -28,6 +28,54 @@ namespace Kinde.Api.Api
     public interface IAPIsApiSync : IApiAccessor
     {
         #region Synchronous Operations
+        /// <summary>
+        /// Add scope to API application
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void AddAPIApplicationScope(string apiId, string applicationId, string scopeId);
+
+        /// <summary>
+        /// Add scope to API application
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> AddAPIApplicationScopeWithHttpInfo(string apiId, string applicationId, string scopeId);
+        /// <summary>
+        /// Create API scope
+        /// </summary>
+        /// <remarks>
+        /// Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <returns>CreateApiScopesResponse</returns>
+        CreateApiScopesResponse AddAPIScope(string apiId, AddAPIScopeRequest addAPIScopeRequest);
+
+        /// <summary>
+        /// Create API scope
+        /// </summary>
+        /// <remarks>
+        /// Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <returns>ApiResponse of CreateApiScopesResponse</returns>
+        ApiResponse<CreateApiScopesResponse> AddAPIScopeWithHttpInfo(string apiId, AddAPIScopeRequest addAPIScopeRequest);
         /// <summary>
         /// Create API
         /// </summary>
@@ -71,6 +119,54 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of DeleteApiResponse</returns>
         ApiResponse<DeleteApiResponse> DeleteAPIWithHttpInfo(string apiId);
         /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void DeleteAPIAppliationScope(string apiId, string applicationId, string scopeId);
+
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteAPIAppliationScopeWithHttpInfo(string apiId, string applicationId, string scopeId);
+        /// <summary>
+        /// Delete API scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void DeleteAPIScope(string apiId, string scopeId);
+
+        /// <summary>
+        /// Delete API scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteAPIScopeWithHttpInfo(string apiId, string scopeId);
+        /// <summary>
         /// Get API
         /// </summary>
         /// <remarks>
@@ -92,14 +188,59 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApiResponse</returns>
         ApiResponse<GetApiResponse> GetAPIWithHttpInfo(string apiId);
         /// <summary>
+        /// Get API scope
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>GetApiScopeResponse</returns>
+        GetApiScopeResponse GetAPIScope(string apiId, string scopeId);
+
+        /// <summary>
+        /// Get API scope
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of GetApiScopeResponse</returns>
+        ApiResponse<GetApiScopeResponse> GetAPIScopeWithHttpInfo(string apiId, string scopeId);
+        /// <summary>
+        /// Get API scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <returns>GetApiScopesResponse</returns>
+        GetApiScopesResponse GetAPIScopes(string apiId);
+
+        /// <summary>
+        /// Get API scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <returns>ApiResponse of GetApiScopesResponse</returns>
+        ApiResponse<GetApiScopesResponse> GetAPIScopesWithHttpInfo(string apiId);
+        /// <summary>
         /// Get APIs
         /// </summary>
         /// <remarks>
         /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
-        GetApisResponse GetAPIs();
+        GetApisResponse GetAPIs(string? expand = default(string?));
 
         /// <summary>
         /// Get APIs
@@ -108,8 +249,9 @@ namespace Kinde.Api.Api
         /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
-        ApiResponse<GetApisResponse> GetAPIsWithHttpInfo();
+        ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string? expand = default(string?));
         /// <summary>
         /// Authorize API applications
         /// </summary>
@@ -133,6 +275,31 @@ namespace Kinde.Api.Api
         /// <param name="updateAPIApplicationsRequest">The applications you want to authorize.</param>
         /// <returns>ApiResponse of AuthorizeAppApiResponse</returns>
         ApiResponse<AuthorizeAppApiResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest);
+        /// <summary>
+        /// Update API scope
+        /// </summary>
+        /// <remarks>
+        /// Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <returns></returns>
+        void UpdateAPIScope(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest);
+
+        /// <summary>
+        /// Update API scope
+        /// </summary>
+        /// <remarks>
+        /// Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> UpdateAPIScopeWithHttpInfo(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest);
         #endregion Synchronous Operations
     }
 
@@ -142,6 +309,58 @@ namespace Kinde.Api.Api
     public interface IAPIsApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
+        /// <summary>
+        /// Add scope to API application
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task AddAPIApplicationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add scope to API application
+        /// </summary>
+        /// <remarks>
+        /// Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> AddAPIApplicationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Create API scope
+        /// </summary>
+        /// <remarks>
+        /// Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateApiScopesResponse</returns>
+        System.Threading.Tasks.Task<CreateApiScopesResponse> AddAPIScopeAsync(string apiId, AddAPIScopeRequest addAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create API scope
+        /// </summary>
+        /// <remarks>
+        /// Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateApiScopesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateApiScopesResponse>> AddAPIScopeWithHttpInfoAsync(string apiId, AddAPIScopeRequest addAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Create API
         /// </summary>
@@ -189,6 +408,58 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (DeleteApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<DeleteApiResponse>> DeleteAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task DeleteAPIAppliationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteAPIAppliationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete API scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task DeleteAPIScopeAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete API scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteAPIScopeWithHttpInfoAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get API
         /// </summary>
         /// <remarks>
@@ -212,15 +483,64 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApiResponse>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get API scope
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiScopeResponse</returns>
+        System.Threading.Tasks.Task<GetApiScopeResponse> GetAPIScopeAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get API scope
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiScopeResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiScopeResponse>> GetAPIScopeWithHttpInfoAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get API scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiScopesResponse</returns>
+        System.Threading.Tasks.Task<GetApiScopesResponse> GetAPIScopesAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get API scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiScopesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiScopesResponse>> GetAPIScopesWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get APIs
         /// </summary>
         /// <remarks>
         /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
-        System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get APIs
@@ -229,9 +549,10 @@ namespace Kinde.Api.Api
         /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Authorize API applications
         /// </summary>
@@ -257,6 +578,33 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (AuthorizeAppApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<AuthorizeAppApiResponse>> UpdateAPIApplicationsWithHttpInfoAsync(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update API scope
+        /// </summary>
+        /// <remarks>
+        /// Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task UpdateAPIScopeAsync(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update API scope
+        /// </summary>
+        /// <remarks>
+        /// Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateAPIScopeWithHttpInfoAsync(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -484,6 +832,302 @@ namespace Kinde.Api.Api
                 return _exceptionFactory;
             }
             set { _exceptionFactory = value; }
+        }
+
+        /// <summary>
+        /// Add scope to API application Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void AddAPIApplicationScope(string apiId, string applicationId, string scopeId)
+        {
+            AddAPIApplicationScopeWithHttpInfo(apiId, applicationId, scopeId);
+        }
+
+        /// <summary>
+        /// Add scope to API application Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> AddAPIApplicationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIApplicationScope");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->AddAPIApplicationScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->AddAPIApplicationScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddAPIApplicationScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add scope to API application Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task AddAPIApplicationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await AddAPIApplicationScopeWithHttpInfoAsync(apiId, applicationId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Add scope to API application Add a scope to an API application.  &lt;div&gt;   &lt;code&gt;create:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> AddAPIApplicationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIApplicationScope");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->AddAPIApplicationScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->AddAPIApplicationScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddAPIApplicationScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Create API scope Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <returns>CreateApiScopesResponse</returns>
+        public CreateApiScopesResponse AddAPIScope(string apiId, AddAPIScopeRequest addAPIScopeRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateApiScopesResponse> localVarResponse = AddAPIScopeWithHttpInfo(apiId, addAPIScopeRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create API scope Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <returns>ApiResponse of CreateApiScopesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateApiScopesResponse> AddAPIScopeWithHttpInfo(string apiId, AddAPIScopeRequest addAPIScopeRequest)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIScope");
+
+            // verify the required parameter 'addAPIScopeRequest' is set
+            if (addAPIScopeRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIScopeRequest' when calling APIsApi->AddAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.Data = addAPIScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<CreateApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Create API scope Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateApiScopesResponse</returns>
+        public async System.Threading.Tasks.Task<CreateApiScopesResponse> AddAPIScopeAsync(string apiId, AddAPIScopeRequest addAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateApiScopesResponse> localVarResponse = await AddAPIScopeWithHttpInfoAsync(apiId, addAPIScopeRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create API scope Create a new API scope.  &lt;div&gt;   &lt;code&gt;create:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="addAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateApiScopesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateApiScopesResponse>> AddAPIScopeWithHttpInfoAsync(string apiId, AddAPIScopeRequest addAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIScope");
+
+            // verify the required parameter 'addAPIScopeRequest' is set
+            if (addAPIScopeRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIScopeRequest' when calling APIsApi->AddAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.Data = addAPIScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
         }
 
         /// <summary>
@@ -743,6 +1387,298 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void DeleteAPIAppliationScope(string apiId, string applicationId, string scopeId)
+        {
+            DeleteAPIAppliationScopeWithHttpInfo(apiId, applicationId, scopeId);
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> DeleteAPIAppliationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIAppliationScope");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->DeleteAPIAppliationScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIAppliationScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteAPIAppliationScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task DeleteAPIAppliationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await DeleteAPIAppliationScopeWithHttpInfoAsync(apiId, applicationId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteAPIAppliationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIAppliationScope");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->DeleteAPIAppliationScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIAppliationScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteAPIAppliationScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void DeleteAPIScope(string apiId, string scopeId)
+        {
+            DeleteAPIScopeWithHttpInfo(apiId, scopeId);
+        }
+
+        /// <summary>
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> DeleteAPIScopeWithHttpInfo(string apiId, string scopeId)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task DeleteAPIScopeAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await DeleteAPIScopeWithHttpInfoAsync(apiId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteAPIScopeWithHttpInfoAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Get API Retrieve API details by ID.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -870,13 +1806,282 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Get API scope Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>GetApiScopeResponse</returns>
+        public GetApiScopeResponse GetAPIScope(string apiId, string scopeId)
+        {
+            Kinde.Api.Client.ApiResponse<GetApiScopeResponse> localVarResponse = GetAPIScopeWithHttpInfo(apiId, scopeId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API scope Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of GetApiScopeResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiScopeResponse> GetAPIScopeWithHttpInfo(string apiId, string scopeId)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->GetAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetApiScopeResponse>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get API scope Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiScopeResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiScopeResponse> GetAPIScopeAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiScopeResponse> localVarResponse = await GetAPIScopeWithHttpInfoAsync(apiId, scopeId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API scope Retrieve API scope by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiScopeResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiScopeResponse>> GetAPIScopeWithHttpInfoAsync(string apiId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->GetAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiScopeResponse>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get API scopes Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <returns>GetApiScopesResponse</returns>
+        public GetApiScopesResponse GetAPIScopes(string apiId)
+        {
+            Kinde.Api.Client.ApiResponse<GetApiScopesResponse> localVarResponse = GetAPIScopesWithHttpInfo(apiId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API scopes Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <returns>ApiResponse of GetApiScopesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiScopesResponse> GetAPIScopesWithHttpInfo(string apiId)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScopes");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetAPIScopes", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get API scopes Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiScopesResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiScopesResponse> GetAPIScopesAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiScopesResponse> localVarResponse = await GetAPIScopesWithHttpInfoAsync(apiId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API scopes Retrieve API scopes by API ID.  &lt;div&gt;   &lt;code&gt;read:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiScopesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiScopesResponse>> GetAPIScopesWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScopes");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetAPIScopes", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
-        public GetApisResponse GetAPIs()
+        public GetApisResponse GetAPIs(string? expand = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = GetAPIsWithHttpInfo();
+            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = GetAPIsWithHttpInfo(expand);
             return localVarResponse.Data;
         }
 
@@ -884,8 +2089,9 @@ namespace Kinde.Api.Api
         /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo()
+        public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string? expand = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -903,6 +2109,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -927,11 +2137,12 @@ namespace Kinde.Api.Api
         /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
-        public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = await GetAPIsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = await GetAPIsWithHttpInfoAsync(expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -939,9 +2150,10 @@ namespace Kinde.Api.Api
         /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -961,6 +2173,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1119,6 +2335,161 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateAPIApplications", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update API scope Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <returns></returns>
+        public void UpdateAPIScope(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest)
+        {
+            UpdateAPIScopeWithHttpInfo(apiId, scopeId, updateAPIScopeRequest);
+        }
+
+        /// <summary>
+        /// Update API scope Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> UpdateAPIScopeWithHttpInfo(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest)
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->UpdateAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->UpdateAPIScope");
+
+            // verify the required parameter 'updateAPIScopeRequest' is set
+            if (updateAPIScopeRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIScopeRequest' when calling APIsApi->UpdateAPIScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+            localVarRequestOptions.Data = updateAPIScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateAPIScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update API scope Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task UpdateAPIScopeAsync(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await UpdateAPIScopeWithHttpInfoAsync(apiId, scopeId, updateAPIScopeRequest, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Update API scope Update an API scope.  &lt;div&gt;   &lt;code&gt;update:api_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> UpdateAPIScopeWithHttpInfoAsync(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->UpdateAPIScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->UpdateAPIScope");
+
+            // verify the required parameter 'updateAPIScopeRequest' is set
+            if (updateAPIScopeRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIScopeRequest' when calling APIsApi->UpdateAPIScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+            localVarRequestOptions.Data = updateAPIScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateAPIScope", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

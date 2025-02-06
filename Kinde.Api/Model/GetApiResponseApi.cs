@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -40,13 +40,15 @@ namespace Kinde.Api.Model
         /// <param name="name">The API’s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
         /// <param name="isManagementApi">Whether or not it is the Kinde management API..</param>
+        /// <param name="scopes">scopes.</param>
         /// <param name="applications">applications.</param>
-        public GetApiResponseApi(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApiResponseApiApplicationsInner> applications = default(List<GetApiResponseApiApplicationsInner>))
+        public GetApiResponseApi(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApiResponseApiScopesInner> scopes = default(List<GetApiResponseApiScopesInner>), List<GetApiResponseApiApplicationsInner> applications = default(List<GetApiResponseApiApplicationsInner>))
         {
             this.Id = id;
             this.Name = name;
             this.Audience = audience;
             this.IsManagementApi = isManagementApi;
+            this.Scopes = scopes;
             this.Applications = applications;
         }
 
@@ -83,6 +85,12 @@ namespace Kinde.Api.Model
         public bool IsManagementApi { get; set; }
 
         /// <summary>
+        /// Gets or Sets Scopes
+        /// </summary>
+        [DataMember(Name = "scopes", EmitDefaultValue = false)]
+        public List<GetApiResponseApiScopesInner> Scopes { get; set; }
+
+        /// <summary>
         /// Gets or Sets Applications
         /// </summary>
         [DataMember(Name = "applications", EmitDefaultValue = false)]
@@ -100,6 +108,7 @@ namespace Kinde.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Audience: ").Append(Audience).Append("\n");
             sb.Append("  IsManagementApi: ").Append(IsManagementApi).Append("\n");
+            sb.Append("  Scopes: ").Append(Scopes).Append("\n");
             sb.Append("  Applications: ").Append(Applications).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -156,6 +165,12 @@ namespace Kinde.Api.Model
                     this.IsManagementApi.Equals(input.IsManagementApi)
                 ) && 
                 (
+                    this.Scopes == input.Scopes ||
+                    this.Scopes != null &&
+                    input.Scopes != null &&
+                    this.Scopes.SequenceEqual(input.Scopes)
+                ) && 
+                (
                     this.Applications == input.Applications ||
                     this.Applications != null &&
                     input.Applications != null &&
@@ -185,6 +200,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Audience.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsManagementApi.GetHashCode();
+                if (this.Scopes != null)
+                {
+                    hashCode = (hashCode * 59) + this.Scopes.GetHashCode();
+                }
                 if (this.Applications != null)
                 {
                     hashCode = (hashCode * 59) + this.Applications.GetHashCode();

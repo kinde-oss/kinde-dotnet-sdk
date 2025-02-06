@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -36,41 +36,35 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        /// <param name="displayName">displayName.</param>
-        /// <param name="strategy">strategy.</param>
-        public Connection(string id = default(string), string name = default(string), string displayName = default(string), string strategy = default(string))
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="varConnection">varConnection.</param>
+        public Connection(string code = default(string), string message = default(string), ConnectionConnection varConnection = default(ConnectionConnection))
         {
-            this.Id = id;
-            this.Name = name;
-            this.DisplayName = displayName;
-            this.Strategy = strategy;
+            this.Code = code;
+            this.Message = message;
+            this.VarConnection = varConnection;
         }
 
         /// <summary>
-        /// Gets or Sets Id
+        /// Response code.
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id { get; set; }
+        /// <value>Response code.</value>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Response message.
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        /// <value>Response message.</value>
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets DisplayName
+        /// Gets or Sets VarConnection
         /// </summary>
-        [DataMember(Name = "display_name", EmitDefaultValue = false)]
-        public string DisplayName { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Strategy
-        /// </summary>
-        [DataMember(Name = "strategy", EmitDefaultValue = false)]
-        public string Strategy { get; set; }
+        [DataMember(Name = "connection", EmitDefaultValue = false)]
+        public ConnectionConnection VarConnection { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -80,10 +74,9 @@ namespace Kinde.Api.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Connection {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  DisplayName: ").Append(DisplayName).Append("\n");
-            sb.Append("  Strategy: ").Append(Strategy).Append("\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  VarConnection: ").Append(VarConnection).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -120,24 +113,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
                 ) && 
                 (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
+                    this.Message == input.Message ||
+                    (this.Message != null &&
+                    this.Message.Equals(input.Message))
                 ) && 
                 (
-                    this.DisplayName == input.DisplayName ||
-                    (this.DisplayName != null &&
-                    this.DisplayName.Equals(input.DisplayName))
-                ) && 
-                (
-                    this.Strategy == input.Strategy ||
-                    (this.Strategy != null &&
-                    this.Strategy.Equals(input.Strategy))
+                    this.VarConnection == input.VarConnection ||
+                    (this.VarConnection != null &&
+                    this.VarConnection.Equals(input.VarConnection))
                 );
         }
 
@@ -150,21 +138,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
+                if (this.Code != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 }
-                if (this.Name != null)
+                if (this.Message != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
-                if (this.DisplayName != null)
+                if (this.VarConnection != null)
                 {
-                    hashCode = (hashCode * 59) + this.DisplayName.GetHashCode();
-                }
-                if (this.Strategy != null)
-                {
-                    hashCode = (hashCode * 59) + this.Strategy.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarConnection.GetHashCode();
                 }
                 return hashCode;
             }

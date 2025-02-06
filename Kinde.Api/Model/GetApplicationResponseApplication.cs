@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -34,6 +34,39 @@ namespace Kinde.Api.Model
     public partial class GetApplicationResponseApplication : IEquatable<GetApplicationResponseApplication>, IValidatableObject
     {
         /// <summary>
+        /// The application&#39;s type.
+        /// </summary>
+        /// <value>The application&#39;s type.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TypeEnum
+        {
+            /// <summary>
+            /// Enum M2m for value: m2m
+            /// </summary>
+            [EnumMember(Value = "m2m")]
+            M2m = 1,
+
+            /// <summary>
+            /// Enum Reg for value: reg
+            /// </summary>
+            [EnumMember(Value = "reg")]
+            Reg = 2,
+
+            /// <summary>
+            /// Enum Spa for value: spa
+            /// </summary>
+            [EnumMember(Value = "spa")]
+            Spa = 3
+        }
+
+
+        /// <summary>
+        /// The application&#39;s type.
+        /// </summary>
+        /// <value>The application&#39;s type.</value>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public TypeEnum? Type { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="GetApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier..</param>
@@ -43,7 +76,8 @@ namespace Kinde.Api.Model
         /// <param name="clientSecret">The application&#39;s client secret..</param>
         /// <param name="loginUri">The default login route for resolving session issues..</param>
         /// <param name="homepageUri">The homepage link to your application..</param>
-        public GetApplicationResponseApplication(string id = default(string), string name = default(string), string type = default(string), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string))
+        /// <param name="hasCancelButton">Whether the application has a cancel button to allow users to exit the auth flow [Beta]..</param>
+        public GetApplicationResponseApplication(string id = default(string), string name = default(string), TypeEnum? type = default(TypeEnum?), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string), bool hasCancelButton = default(bool))
         {
             this.Id = id;
             this.Name = name;
@@ -52,12 +86,14 @@ namespace Kinde.Api.Model
             this.ClientSecret = clientSecret;
             this.LoginUri = loginUri;
             this.HomepageUri = homepageUri;
+            this.HasCancelButton = hasCancelButton;
         }
 
         /// <summary>
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -65,20 +101,15 @@ namespace Kinde.Api.Model
         /// The application&#39;s name.
         /// </summary>
         /// <value>The application&#39;s name.</value>
+        /// <example>My React app</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-
-        /// <summary>
-        /// The application&#39;s type.
-        /// </summary>
-        /// <value>The application&#39;s type.</value>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
 
         /// <summary>
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -86,6 +117,7 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
+        /// <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 
@@ -93,6 +125,7 @@ namespace Kinde.Api.Model
         /// The default login route for resolving session issues.
         /// </summary>
         /// <value>The default login route for resolving session issues.</value>
+        /// <example>https://yourapp.com/api/auth/login</example>
         [DataMember(Name = "login_uri", EmitDefaultValue = false)]
         public string LoginUri { get; set; }
 
@@ -100,8 +133,17 @@ namespace Kinde.Api.Model
         /// The homepage link to your application.
         /// </summary>
         /// <value>The homepage link to your application.</value>
+        /// <example>https://yourapp.com</example>
         [DataMember(Name = "homepage_uri", EmitDefaultValue = false)]
         public string HomepageUri { get; set; }
+
+        /// <summary>
+        /// Whether the application has a cancel button to allow users to exit the auth flow [Beta].
+        /// </summary>
+        /// <value>Whether the application has a cancel button to allow users to exit the auth flow [Beta].</value>
+        /// <example>false</example>
+        [DataMember(Name = "has_cancel_button", EmitDefaultValue = true)]
+        public bool HasCancelButton { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,6 +160,7 @@ namespace Kinde.Api.Model
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
             sb.Append("  LoginUri: ").Append(LoginUri).Append("\n");
             sb.Append("  HomepageUri: ").Append(HomepageUri).Append("\n");
+            sb.Append("  HasCancelButton: ").Append(HasCancelButton).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -165,8 +208,7 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.Type == input.Type ||
-                    (this.Type != null &&
-                    this.Type.Equals(input.Type))
+                    this.Type.Equals(input.Type)
                 ) && 
                 (
                     this.ClientId == input.ClientId ||
@@ -187,6 +229,10 @@ namespace Kinde.Api.Model
                     this.HomepageUri == input.HomepageUri ||
                     (this.HomepageUri != null &&
                     this.HomepageUri.Equals(input.HomepageUri))
+                ) && 
+                (
+                    this.HasCancelButton == input.HasCancelButton ||
+                    this.HasCancelButton.Equals(input.HasCancelButton)
                 );
         }
 
@@ -207,10 +253,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                if (this.Type != null)
-                {
-                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 if (this.ClientId != null)
                 {
                     hashCode = (hashCode * 59) + this.ClientId.GetHashCode();
@@ -227,6 +270,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.HomepageUri.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.HasCancelButton.GetHashCode();
                 return hashCode;
             }
         }

@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -52,6 +52,34 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test 'IsType' OrganizationsApi
             //Assert.IsType<OrganizationsApi>(instance);
+        }
+
+        /// <summary>
+        /// Test AddOrganizationLogo
+        /// </summary>
+        [Fact]
+        public void AddOrganizationLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string type = null;
+            //FileParameter logo = null;
+            //var response = instance.AddOrganizationLogo(orgCode, type, logo);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test AddOrganizationUserAPIScope
+        /// </summary>
+        [Fact]
+        public void AddOrganizationUserAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string apiId = null;
+            //string scopeId = null;
+            //instance.AddOrganizationUserAPIScope(orgCode, userId, apiId, scopeId);
         }
 
         /// <summary>
@@ -157,6 +185,33 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteOrganizationLogo
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string type = null;
+            //var response = instance.DeleteOrganizationLogo(orgCode, type);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteOrganizationUserAPIScope
+        /// </summary>
+        [Fact]
+        public void DeleteOrganizationUserAPIScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string apiId = null;
+            //string scopeId = null;
+            //instance.DeleteOrganizationUserAPIScope(orgCode, userId, apiId, scopeId);
+        }
+
+        /// <summary>
         /// Test DeleteOrganizationUserPermission
         /// </summary>
         [Fact]
@@ -182,6 +237,19 @@ namespace Kinde.Api.Test.Api
             //string roleId = null;
             //var response = instance.DeleteOrganizationUserRole(orgCode, userId, roleId);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetOrgUserMFA
+        /// </summary>
+        [Fact]
+        public void GetOrgUserMFATest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //var response = instance.GetOrgUserMFA(orgCode, userId);
+            //Assert.IsType<GetUserMfaResponse>(response);
         }
 
         /// <summary>
@@ -279,6 +347,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test ReadOrganizationLogo
+        /// </summary>
+        [Fact]
+        public void ReadOrganizationLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //var response = instance.ReadOrganizationLogo(orgCode);
+            //Assert.IsType<ReadLogoResponse>(response);
+        }
+
+        /// <summary>
         /// Test RemoveOrganizationUser
         /// </summary>
         [Fact]
@@ -288,6 +368,33 @@ namespace Kinde.Api.Test.Api
             //string orgCode = null;
             //string userId = null;
             //var response = instance.RemoveOrganizationUser(orgCode, userId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ReplaceOrganizationMFA
+        /// </summary>
+        [Fact]
+        public void ReplaceOrganizationMFATest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //ReplaceOrganizationMFARequest replaceOrganizationMFARequest = null;
+            //var response = instance.ReplaceOrganizationMFA(orgCode, replaceOrganizationMFARequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ResetOrgUserMFA
+        /// </summary>
+        [Fact]
+        public void ResetOrgUserMFATest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //string factorId = null;
+            //var response = instance.ResetOrgUserMFA(orgCode, userId, factorId);
             //Assert.IsType<SuccessResponse>(response);
         }
 

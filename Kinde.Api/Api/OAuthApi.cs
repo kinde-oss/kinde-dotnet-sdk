@@ -1,7 +1,7 @@
 /*
  * Kinde Management API
  *
- * Provides endpoints to manage your Kinde Businesses
+ *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
  *
  * The version of the OpenAPI document: 1
  * Contact: support@kinde.com
@@ -48,53 +48,55 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of UserProfileV2</returns>
         ApiResponse<UserProfileV2> GetUserProfileV2WithHttpInfo();
         /// <summary>
-        /// Get token details
+        /// Introspect
         /// </summary>
         /// <remarks>
         /// Retrieve information about the provided token.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>TokenIntrospect</returns>
-        TokenIntrospect TokenIntrospection(string? token = default(string?), string? tokenType = default(string?));
+        TokenIntrospect TokenIntrospection(string token, string? tokenTypeHint = default(string?));
 
         /// <summary>
-        /// Get token details
+        /// Introspect
         /// </summary>
         /// <remarks>
         /// Retrieve information about the provided token.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>ApiResponse of TokenIntrospect</returns>
-        ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string? token = default(string?), string? tokenType = default(string?));
+        ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string? tokenTypeHint = default(string?));
         /// <summary>
         /// Revoke token
         /// </summary>
         /// <remarks>
-        /// Revoke a previously issued token.
+        /// Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns></returns>
-        void TokenRevocation(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?));
+        void TokenRevocation(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?));
 
         /// <summary>
         /// Revoke token
         /// </summary>
         /// <remarks>
-        /// Revoke a previously issued token.
+        /// Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TokenRevocationWithHttpInfo(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?));
+        ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?));
         #endregion Synchronous Operations
     }
 
@@ -126,57 +128,59 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (UserProfileV2)</returns>
         System.Threading.Tasks.Task<ApiResponse<UserProfileV2>> GetUserProfileV2WithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Get token details
+        /// Introspect
         /// </summary>
         /// <remarks>
         /// Retrieve information about the provided token.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TokenIntrospect</returns>
-        System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string? token = default(string?), string? tokenType = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Get token details
+        /// Introspect
         /// </summary>
         /// <remarks>
         /// Retrieve information about the provided token.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TokenIntrospect)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string? token = default(string?), string? tokenType = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Revoke token
         /// </summary>
         /// <remarks>
-        /// Revoke a previously issued token.
+        /// Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TokenRevocationAsync(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Revoke token
         /// </summary>
         /// <remarks>
-        /// Revoke a previously issued token.
+        /// Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -520,27 +524,31 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get token details Retrieve information about the provided token.
+        /// Introspect Retrieve information about the provided token.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>TokenIntrospect</returns>
-        public TokenIntrospect TokenIntrospection(string? token = default(string?), string? tokenType = default(string?))
+        public TokenIntrospect TokenIntrospection(string token, string? tokenTypeHint = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = TokenIntrospectionWithHttpInfo(token, tokenType);
+            Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = TokenIntrospectionWithHttpInfo(token, tokenTypeHint);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get token details Retrieve information about the provided token.
+        /// Introspect Retrieve information about the provided token.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>ApiResponse of TokenIntrospect</returns>
-        public Kinde.Api.Client.ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string? token = default(string?), string? tokenType = default(string?))
+        public Kinde.Api.Client.ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string? tokenTypeHint = default(string?))
         {
+            // verify the required parameter 'token' is set
+            if (token == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'token' when calling OAuthApi->TokenIntrospection");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -559,13 +567,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (token != null)
+            localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
+            if (tokenTypeHint != null)
             {
-                localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
-            }
-            if (tokenType != null)
-            {
-                localVarRequestOptions.FormParameters.Add("token_type", Kinde.Api.Client.ClientUtils.ParameterToString(tokenType)); // form parameter
+                localVarRequestOptions.FormParameters.Add("token_type_hint", Kinde.Api.Client.ClientUtils.ParameterToString(tokenTypeHint)); // form parameter
             }
 
             // authentication (kindeBearerAuth) required
@@ -588,29 +593,33 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get token details Retrieve information about the provided token.
+        /// Introspect Retrieve information about the provided token.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TokenIntrospect</returns>
-        public async System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string? token = default(string?), string? tokenType = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = await TokenIntrospectionWithHttpInfoAsync(token, tokenType, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = await TokenIntrospectionWithHttpInfoAsync(token, tokenTypeHint, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get token details Retrieve information about the provided token.
+        /// Introspect Retrieve information about the provided token.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be introspected. (optional)</param>
-        /// <param name="tokenType">The provided token&#39;s type. (optional)</param>
+        /// <param name="token">The token to be introspected.</param>
+        /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TokenIntrospect)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string? token = default(string?), string? tokenType = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'token' is set
+            if (token == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'token' when calling OAuthApi->TokenIntrospection");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -631,13 +640,10 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (token != null)
+            localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
+            if (tokenTypeHint != null)
             {
-                localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
-            }
-            if (tokenType != null)
-            {
-                localVarRequestOptions.FormParameters.Add("token_type", Kinde.Api.Client.ClientUtils.ParameterToString(tokenType)); // form parameter
+                localVarRequestOptions.FormParameters.Add("token_type_hint", Kinde.Api.Client.ClientUtils.ParameterToString(tokenTypeHint)); // form parameter
             }
 
             // authentication (kindeBearerAuth) required
@@ -661,28 +667,38 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke token Revoke a previously issued token.
+        /// Revoke token Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns></returns>
-        public void TokenRevocation(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?))
+        public void TokenRevocation(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?))
         {
-            TokenRevocationWithHttpInfo(token, clientId, clientSecret);
+            TokenRevocationWithHttpInfo(clientId, token, clientSecret, tokenTypeHint);
         }
 
         /// <summary>
-        /// Revoke token Revoke a previously issued token.
+        /// Revoke token Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> TokenRevocationWithHttpInfo(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?))
+        public Kinde.Api.Client.ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?))
         {
+            // verify the required parameter 'clientId' is set
+            if (clientId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'clientId' when calling OAuthApi->TokenRevocation");
+
+            // verify the required parameter 'token' is set
+            if (token == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'token' when calling OAuthApi->TokenRevocation");
+
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -691,8 +707,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -701,17 +716,15 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (token != null)
-            {
-                localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
-            }
-            if (clientId != null)
-            {
-                localVarRequestOptions.FormParameters.Add("client_id", Kinde.Api.Client.ClientUtils.ParameterToString(clientId)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("client_id", Kinde.Api.Client.ClientUtils.ParameterToString(clientId)); // form parameter
             if (clientSecret != null)
             {
                 localVarRequestOptions.FormParameters.Add("client_secret", Kinde.Api.Client.ClientUtils.ParameterToString(clientSecret)); // form parameter
+            }
+            localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
+            if (tokenTypeHint != null)
+            {
+                localVarRequestOptions.FormParameters.Add("token_type_hint", Kinde.Api.Client.ClientUtils.ParameterToString(tokenTypeHint)); // form parameter
             }
 
             // authentication (kindeBearerAuth) required
@@ -734,30 +747,40 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Revoke token Revoke a previously issued token.
+        /// Revoke token Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TokenRevocationAsync(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TokenRevocationWithHttpInfoAsync(token, clientId, clientSecret, cancellationToken).ConfigureAwait(false);
+            await TokenRevocationWithHttpInfoAsync(clientId, token, clientSecret, tokenTypeHint, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Revoke token Revoke a previously issued token.
+        /// Revoke token Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use.
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="token">The token to be revoked. (optional)</param>
-        /// <param name="clientId">The identifier for your client. (optional)</param>
-        /// <param name="clientSecret">The secret associated with your client. (optional)</param>
+        /// <param name="clientId">The &#x60;client_id&#x60; of your application.</param>
+        /// <param name="token">The token to be revoked.</param>
+        /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
+        /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string? token = default(string?), string? clientId = default(string?), string? clientSecret = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'clientId' is set
+            if (clientId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'clientId' when calling OAuthApi->TokenRevocation");
+
+            // verify the required parameter 'token' is set
+            if (token == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'token' when calling OAuthApi->TokenRevocation");
+
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -767,8 +790,7 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
 
 
@@ -778,17 +800,15 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (token != null)
-            {
-                localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
-            }
-            if (clientId != null)
-            {
-                localVarRequestOptions.FormParameters.Add("client_id", Kinde.Api.Client.ClientUtils.ParameterToString(clientId)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("client_id", Kinde.Api.Client.ClientUtils.ParameterToString(clientId)); // form parameter
             if (clientSecret != null)
             {
                 localVarRequestOptions.FormParameters.Add("client_secret", Kinde.Api.Client.ClientUtils.ParameterToString(clientSecret)); // form parameter
+            }
+            localVarRequestOptions.FormParameters.Add("token", Kinde.Api.Client.ClientUtils.ParameterToString(token)); // form parameter
+            if (tokenTypeHint != null)
+            {
+                localVarRequestOptions.FormParameters.Add("token_type_hint", Kinde.Api.Client.ClientUtils.ParameterToString(tokenTypeHint)); // form parameter
             }
 
             // authentication (kindeBearerAuth) required
