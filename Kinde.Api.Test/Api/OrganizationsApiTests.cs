@@ -240,6 +240,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test EnableOrgConnection
+        /// </summary>
+        [Fact]
+        public void EnableOrgConnectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string organizationCode = null;
+            //string connectionId = null;
+            //instance.EnableOrgConnection(organizationCode, connectionId);
+        }
+
+        /// <summary>
         /// Test GetOrgUserMFA
         /// </summary>
         [Fact]
@@ -262,6 +274,18 @@ namespace Kinde.Api.Test.Api
             //string? code = null;
             //var response = instance.GetOrganization(code);
             //Assert.IsType<GetOrganizationResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetOrganizationConnections
+        /// </summary>
+        [Fact]
+        public void GetOrganizationConnectionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string organizationCode = null;
+            //var response = instance.GetOrganizationConnections(organizationCode);
+            //Assert.IsType<GetConnectionsResponse>(response);
         }
 
         /// <summary>
@@ -356,6 +380,19 @@ namespace Kinde.Api.Test.Api
             //string orgCode = null;
             //var response = instance.ReadOrganizationLogo(orgCode);
             //Assert.IsType<ReadLogoResponse>(response);
+        }
+
+        /// <summary>
+        /// Test RemoveOrgConnection
+        /// </summary>
+        [Fact]
+        public void RemoveOrgConnectionTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string organizationCode = null;
+            //string connectionId = null;
+            //var response = instance.RemoveOrgConnection(organizationCode, connectionId);
+            //Assert.IsType<SuccessResponse>(response);
         }
 
         /// <summary>

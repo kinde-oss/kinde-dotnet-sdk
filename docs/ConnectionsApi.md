@@ -7,7 +7,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**CreateConnection**](ConnectionsApi.md#createconnection) | **POST** /api/v1/connections | Create Connection |
 | [**DeleteConnection**](ConnectionsApi.md#deleteconnection) | **DELETE** /api/v1/connections/{connection_id} | Delete Connection |
 | [**GetConnection**](ConnectionsApi.md#getconnection) | **GET** /api/v1/connections/{connection_id} | Get Connection |
-| [**GetConnections**](ConnectionsApi.md#getconnections) | **GET** /api/v1/connections | List Connections |
+| [**GetConnections**](ConnectionsApi.md#getconnections) | **GET** /api/v1/connections | Get connections |
 | [**ReplaceConnection**](ConnectionsApi.md#replaceconnection) | **PUT** /api/v1/connections/{connection_id} | Replace Connection |
 | [**UpdateConnection**](ConnectionsApi.md#updateconnection) | **PATCH** /api/v1/connections/{connection_id} | Update Connection |
 
@@ -317,11 +317,11 @@ catch (ApiException e)
 
 <a id="getconnections"></a>
 # **GetConnections**
-> GetConnectionsResponse GetConnections (int? pageSize = null, string? startingAfter = null, string? endingBefore = null)
+> GetConnectionsResponse GetConnections (int? pageSize = null, string? homeRealmDomain = null, string? startingAfter = null, string? endingBefore = null)
 
-List Connections
+Get connections
 
-Returns a list of Connections  <div>   <code>read:connections</code> </div> 
+Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  <div>   <code>read:connections</code> </div> 
 
 ### Example
 ```csharp
@@ -348,13 +348,14 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var homeRealmDomain = myapp.com;  // string? | Filter the results by the home realm domain. (optional) 
             var startingAfter = "startingAfter_example";  // string? | The ID of the connection to start after. (optional) 
             var endingBefore = "endingBefore_example";  // string? | The ID of the connection to end before. (optional) 
 
             try
             {
-                // List Connections
-                GetConnectionsResponse result = apiInstance.GetConnections(pageSize, startingAfter, endingBefore);
+                // Get connections
+                GetConnectionsResponse result = apiInstance.GetConnections(pageSize, homeRealmDomain, startingAfter, endingBefore);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -374,8 +375,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List Connections
-    ApiResponse<GetConnectionsResponse> response = apiInstance.GetConnectionsWithHttpInfo(pageSize, startingAfter, endingBefore);
+    // Get connections
+    ApiResponse<GetConnectionsResponse> response = apiInstance.GetConnectionsWithHttpInfo(pageSize, homeRealmDomain, startingAfter, endingBefore);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -393,6 +394,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **homeRealmDomain** | **string?** | Filter the results by the home realm domain. | [optional]  |
 | **startingAfter** | **string?** | The ID of the connection to start after. | [optional]  |
 | **endingBefore** | **string?** | The ID of the connection to end before. | [optional]  |
 

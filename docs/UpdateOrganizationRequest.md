@@ -17,11 +17,12 @@ Name | Type | Description | Notes
 **ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode. | [optional] 
 **Handle** | **string** | The organization&#39;s handle. | [optional] 
 **IsAllowRegistrations** | **bool** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead. | [optional] 
-**IsCustomAuthConnectionsEnabled** | **bool** | Enable custom auth connections for this organization. | [optional] 
 **IsAutoJoinDomainList** | **bool** | Users can sign up to this organization. | [optional] 
 **AllowedDomains** | **List&lt;string&gt;** | Domains allowed for self-sign up to this environment. | [optional] 
 **IsEnableAdvancedOrgs** | **bool** | Activate advanced organization features. | [optional] 
 **IsEnforceMfa** | **bool** | Enforce MFA for all users in this organization. | [optional] 
+**SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
+**SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** | Unique ID of the user in Kinde. | [optional] 
 **ProvidedId** | **string** | External ID for user. | [optional] 
 **Email** | **string** | Default email address of the user in Kinde. | [optional] 
+**Phone** | **string** | User&#39;s primary phone number. | [optional] 
 **Username** | **string** | Primary username of the user in Kinde. | [optional] 
 **LastName** | **string** | User&#39;s last name. | [optional] 
 **FirstName** | **string** | User&#39;s first name. | [optional] 

@@ -29,6 +29,29 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// Add role scope
+        /// </summary>
+        /// <remarks>
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <returns>AddRoleScopeResponse</returns>
+        AddRoleScopeResponse AddRoleScope(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?));
+
+        /// <summary>
+        /// Add role scope
+        /// </summary>
+        /// <remarks>
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <returns>ApiResponse of AddRoleScopeResponse</returns>
+        ApiResponse<AddRoleScopeResponse> AddRoleScopeWithHttpInfo(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?));
+        /// <summary>
         /// Create role
         /// </summary>
         /// <remarks>
@@ -70,6 +93,29 @@ namespace Kinde.Api.Api
         /// <param name="roleId">The identifier for the role.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteRoleWithHttpInfo(string roleId);
+        /// <summary>
+        /// Delete role scope
+        /// </summary>
+        /// <remarks>
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <returns>DeleteRoleScopeResponse</returns>
+        DeleteRoleScopeResponse DeleteRoleScope(string roleId, string scopeId);
+
+        /// <summary>
+        /// Delete role scope
+        /// </summary>
+        /// <remarks>
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <returns>ApiResponse of DeleteRoleScopeResponse</returns>
+        ApiResponse<DeleteRoleScopeResponse> DeleteRoleScopeWithHttpInfo(string roleId, string scopeId);
         /// <summary>
         /// Get role
         /// </summary>
@@ -118,6 +164,27 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of RolePermissionsResponse</returns>
         ApiResponse<RolePermissionsResponse> GetRolePermissionsWithHttpInfo(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        /// <summary>
+        /// Get role scopes
+        /// </summary>
+        /// <remarks>
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <returns>RoleScopesResponse</returns>
+        RoleScopesResponse GetRoleScopes(string roleId);
+
+        /// <summary>
+        /// Get role scopes
+        /// </summary>
+        /// <remarks>
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <returns>ApiResponse of RoleScopesResponse</returns>
+        ApiResponse<RoleScopesResponse> GetRoleScopesWithHttpInfo(string roleId);
         /// <summary>
         /// List roles
         /// </summary>
@@ -222,6 +289,31 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
+        /// Add role scope
+        /// </summary>
+        /// <remarks>
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of AddRoleScopeResponse</returns>
+        System.Threading.Tasks.Task<AddRoleScopeResponse> AddRoleScopeAsync(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add role scope
+        /// </summary>
+        /// <remarks>
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (AddRoleScopeResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<AddRoleScopeResponse>> AddRoleScopeWithHttpInfoAsync(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Create role
         /// </summary>
         /// <remarks>
@@ -267,6 +359,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteRoleWithHttpInfoAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete role scope
+        /// </summary>
+        /// <remarks>
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DeleteRoleScopeResponse</returns>
+        System.Threading.Tasks.Task<DeleteRoleScopeResponse> DeleteRoleScopeAsync(string roleId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete role scope
+        /// </summary>
+        /// <remarks>
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DeleteRoleScopeResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteRoleScopeResponse>> DeleteRoleScopeWithHttpInfoAsync(string roleId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get role
         /// </summary>
@@ -319,6 +436,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (RolePermissionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<RolePermissionsResponse>> GetRolePermissionsWithHttpInfoAsync(string roleId, string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get role scopes
+        /// </summary>
+        /// <remarks>
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RoleScopesResponse</returns>
+        System.Threading.Tasks.Task<RoleScopesResponse> GetRoleScopesAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get role scopes
+        /// </summary>
+        /// <remarks>
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RoleScopesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RoleScopesResponse>> GetRoleScopesWithHttpInfoAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List roles
         /// </summary>
@@ -651,6 +791,141 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <returns>AddRoleScopeResponse</returns>
+        public AddRoleScopeResponse AddRoleScope(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?))
+        {
+            Kinde.Api.Client.ApiResponse<AddRoleScopeResponse> localVarResponse = AddRoleScopeWithHttpInfo(roleId, addRoleScopeRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <returns>ApiResponse of AddRoleScopeResponse</returns>
+        public Kinde.Api.Client.ApiResponse<AddRoleScopeResponse> AddRoleScopeWithHttpInfo(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->AddRoleScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.Data = addRoleScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<AddRoleScopeResponse>("/api/v1/roles/{role_id}/scopes", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddRoleScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of AddRoleScopeResponse</returns>
+        public async System.Threading.Tasks.Task<AddRoleScopeResponse> AddRoleScopeAsync(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<AddRoleScopeResponse> localVarResponse = await AddRoleScopeWithHttpInfoAsync(roleId, addRoleScopeRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="addRoleScopeRequest">Add scope to role. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (AddRoleScopeResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<AddRoleScopeResponse>> AddRoleScopeWithHttpInfoAsync(string roleId, AddRoleScopeRequest? addRoleScopeRequest = default(AddRoleScopeRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->AddRoleScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.Data = addRoleScopeRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<AddRoleScopeResponse>("/api/v1/roles/{role_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddRoleScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Create role Create role.  &lt;div&gt;   &lt;code&gt;create:roles&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -892,6 +1167,147 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("DeleteRole", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <returns>DeleteRoleScopeResponse</returns>
+        public DeleteRoleScopeResponse DeleteRoleScope(string roleId, string scopeId)
+        {
+            Kinde.Api.Client.ApiResponse<DeleteRoleScopeResponse> localVarResponse = DeleteRoleScopeWithHttpInfo(roleId, scopeId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <returns>ApiResponse of DeleteRoleScopeResponse</returns>
+        public Kinde.Api.Client.ApiResponse<DeleteRoleScopeResponse> DeleteRoleScopeWithHttpInfo(string roleId, string scopeId)
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->DeleteRoleScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling RolesApi->DeleteRoleScope");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<DeleteRoleScopeResponse>("/api/v1/roles/{role_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteRoleScope", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DeleteRoleScopeResponse</returns>
+        public async System.Threading.Tasks.Task<DeleteRoleScopeResponse> DeleteRoleScopeAsync(string roleId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<DeleteRoleScopeResponse> localVarResponse = await DeleteRoleScopeWithHttpInfoAsync(roleId, scopeId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="scopeId">The scope id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DeleteRoleScopeResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<DeleteRoleScopeResponse>> DeleteRoleScopeWithHttpInfoAsync(string roleId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->DeleteRoleScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling RolesApi->DeleteRoleScope");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteRoleScopeResponse>("/api/v1/roles/{role_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteRoleScope", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1184,6 +1600,135 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetRolePermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <returns>RoleScopesResponse</returns>
+        public RoleScopesResponse GetRoleScopes(string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<RoleScopesResponse> localVarResponse = GetRoleScopesWithHttpInfo(roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <returns>ApiResponse of RoleScopesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RoleScopesResponse> GetRoleScopesWithHttpInfo(string roleId)
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRoleScopes");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<RoleScopesResponse>("/api/v1/roles/{role_id}/scopes", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetRoleScopes", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RoleScopesResponse</returns>
+        public async System.Threading.Tasks.Task<RoleScopesResponse> GetRoleScopesAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<RoleScopesResponse> localVarResponse = await GetRoleScopesWithHttpInfoAsync(roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RoleScopesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RoleScopesResponse>> GetRoleScopesWithHttpInfoAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRoleScopes");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<RoleScopesResponse>("/api/v1/roles/{role_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetRoleScopes", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

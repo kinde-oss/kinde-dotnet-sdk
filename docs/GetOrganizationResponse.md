@@ -29,6 +29,8 @@ Name | Type | Description | Notes
 **ColorScheme** | **string** | The color scheme for the environment used for meta tags based on the theme code | [optional] 
 **CreatedOn** | **string** | Date of organization creation in ISO 8601 format. | [optional] 
 **IsAllowRegistrations** | **bool?** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead | [optional] 
+**SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
+**SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

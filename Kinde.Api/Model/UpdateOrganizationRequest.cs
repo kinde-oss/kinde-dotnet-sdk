@@ -83,12 +83,13 @@ namespace Kinde.Api.Model
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode..</param>
         /// <param name="handle">The organization&#39;s handle..</param>
         /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead..</param>
-        /// <param name="isCustomAuthConnectionsEnabled">Enable custom auth connections for this organization..</param>
         /// <param name="isAutoJoinDomainList">Users can sign up to this organization..</param>
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
         /// <param name="isEnableAdvancedOrgs">Activate advanced organization features..</param>
         /// <param name="isEnforceMfa">Enforce MFA for all users in this organization..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool))
+        /// <param name="senderName">The name of the organization that will be used in emails.</param>
+        /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool), string senderName = default(string), string senderEmail = default(string))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -103,11 +104,12 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
-            this.IsCustomAuthConnectionsEnabled = isCustomAuthConnectionsEnabled;
             this.IsAutoJoinDomainList = isAutoJoinDomainList;
             this.AllowedDomains = allowedDomains;
             this.IsEnableAdvancedOrgs = isEnableAdvancedOrgs;
             this.IsEnforceMfa = isEnforceMfa;
+            this.SenderName = senderName;
+            this.SenderEmail = senderEmail;
         }
 
         /// <summary>
@@ -207,14 +209,6 @@ namespace Kinde.Api.Model
         public bool IsAllowRegistrations { get; set; }
 
         /// <summary>
-        /// Enable custom auth connections for this organization.
-        /// </summary>
-        /// <value>Enable custom auth connections for this organization.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_custom_auth_connections_enabled", EmitDefaultValue = true)]
-        public bool IsCustomAuthConnectionsEnabled { get; set; }
-
-        /// <summary>
         /// Users can sign up to this organization.
         /// </summary>
         /// <value>Users can sign up to this organization.</value>
@@ -247,6 +241,22 @@ namespace Kinde.Api.Model
         public bool IsEnforceMfa { get; set; }
 
         /// <summary>
+        /// The name of the organization that will be used in emails
+        /// </summary>
+        /// <value>The name of the organization that will be used in emails</value>
+        /// <example>Acme Corp</example>
+        [DataMember(Name = "sender_name", EmitDefaultValue = true)]
+        public string SenderName { get; set; }
+
+        /// <summary>
+        /// The email address that will be used in emails. Requires custom SMTP to be set up.
+        /// </summary>
+        /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
+        /// <example>hello@acmecorp.com</example>
+        [DataMember(Name = "sender_email", EmitDefaultValue = true)]
+        public string SenderEmail { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -267,11 +277,12 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
-            sb.Append("  IsCustomAuthConnectionsEnabled: ").Append(IsCustomAuthConnectionsEnabled).Append("\n");
             sb.Append("  IsAutoJoinDomainList: ").Append(IsAutoJoinDomainList).Append("\n");
             sb.Append("  AllowedDomains: ").Append(AllowedDomains).Append("\n");
             sb.Append("  IsEnableAdvancedOrgs: ").Append(IsEnableAdvancedOrgs).Append("\n");
             sb.Append("  IsEnforceMfa: ").Append(IsEnforceMfa).Append("\n");
+            sb.Append("  SenderName: ").Append(SenderName).Append("\n");
+            sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -371,10 +382,6 @@ namespace Kinde.Api.Model
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
                 ) && 
                 (
-                    this.IsCustomAuthConnectionsEnabled == input.IsCustomAuthConnectionsEnabled ||
-                    this.IsCustomAuthConnectionsEnabled.Equals(input.IsCustomAuthConnectionsEnabled)
-                ) && 
-                (
                     this.IsAutoJoinDomainList == input.IsAutoJoinDomainList ||
                     this.IsAutoJoinDomainList.Equals(input.IsAutoJoinDomainList)
                 ) && 
@@ -391,6 +398,16 @@ namespace Kinde.Api.Model
                 (
                     this.IsEnforceMfa == input.IsEnforceMfa ||
                     this.IsEnforceMfa.Equals(input.IsEnforceMfa)
+                ) && 
+                (
+                    this.SenderName == input.SenderName ||
+                    (this.SenderName != null &&
+                    this.SenderName.Equals(input.SenderName))
+                ) && 
+                (
+                    this.SenderEmail == input.SenderEmail ||
+                    (this.SenderEmail != null &&
+                    this.SenderEmail.Equals(input.SenderEmail))
                 );
         }
 
@@ -449,7 +466,6 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsCustomAuthConnectionsEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsAutoJoinDomainList.GetHashCode();
                 if (this.AllowedDomains != null)
                 {
@@ -457,6 +473,14 @@ namespace Kinde.Api.Model
                 }
                 hashCode = (hashCode * 59) + this.IsEnableAdvancedOrgs.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsEnforceMfa.GetHashCode();
+                if (this.SenderName != null)
+                {
+                    hashCode = (hashCode * 59) + this.SenderName.GetHashCode();
+                }
+                if (this.SenderEmail != null)
+                {
+                    hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
+                }
                 return hashCode;
             }
         }

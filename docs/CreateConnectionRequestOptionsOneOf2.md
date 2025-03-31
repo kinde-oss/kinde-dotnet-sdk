@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **IsCreateMissingUser** | **bool** | Create user if they don’t exist. | [optional] 
 **SamlSigningCertificate** | **string** | Certificate for signing SAML requests. | [optional] 
 **SamlSigningPrivateKey** | **string** | Private key associated with the signing certificate. | [optional] 
+**IsAutoJoinOrganizationEnabled** | **bool** | Users automatically join organization when using this connection. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

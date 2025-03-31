@@ -83,6 +83,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Phone'
+        /// </summary>
+        [Fact]
+        public void PhoneTest()
+        {
+            // TODO unit test for the property 'Phone'
+        }
+
+        /// <summary>
         /// Test the property 'Username'
         /// </summary>
         [Fact]

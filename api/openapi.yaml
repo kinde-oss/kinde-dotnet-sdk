@@ -63,6 +63,8 @@ tags:
   x-displayName: Property Categories
 - name: Roles
   x-displayName: Roles
+- name: Search
+  x-displayName: Search
 - name: Subscribers
   x-displayName: Subscribers
 - name: Users
@@ -2103,7 +2105,7 @@ paths:
   /api/v1/connections:
     get:
       description: |
-        Returns a list of Connections
+        Returns a list of authentication connections. Optionally you can filter this by a home realm domain.
 
         <div>
           <code>read:connections</code>
@@ -2118,6 +2120,16 @@ paths:
         schema:
           nullable: true
           type: integer
+        style: form
+      - description: Filter the results by the home realm domain.
+        explode: true
+        in: query
+        name: home_realm_domain
+        required: false
+        schema:
+          example: myapp.com
+          nullable: true
+          type: string
         style: form
       - description: The ID of the connection to start after.
         explode: true
@@ -2169,7 +2181,7 @@ paths:
           description: Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: List Connections
+      summary: Get connections
       tags:
       - Connections
     post:
@@ -2442,7 +2454,7 @@ paths:
   /api/v1/environment:
     get:
       description: |
-        Get's the current environment.
+        Gets the current environment.
 
         <div>
           <code>read:environments</code>
@@ -2647,6 +2659,157 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Update Environment Feature Flag Override
+      tags:
+      - Environments
+  /api/v1/environment/logos:
+    get:
+      description: |
+        Read environment logo details
+
+        <div>
+          <code>read:environments</code>
+        </div>
+      operationId: ReadLogo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/read_env_logo_response'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Read logo details
+      tags:
+      - Environments
+  /api/v1/environment/logos/{type}:
+    delete:
+      description: |
+        Delete environment logo
+
+        <div>
+          <code>update:environments</code>
+        </div>
+      operationId: DeleteLogo
+      parameters:
+      - description: The type of logo to delete.
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - dark
+          - light
+          example: dark
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Logo successfully deleted
+        "204":
+          description: No logo found to delete
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete logo
+      tags:
+      - Environments
+    put:
+      description: |
+        Add environment logo
+
+        <div>
+          <code>update:environments</code>
+        </div>
+      operationId: AddLogo
+      parameters:
+      - description: The type of logo to add.
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - dark
+          - light
+          example: dark
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddLogo_request'
+        description: Logo details.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Logo successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Add logo
       tags:
       - Environments
   /api/v1/environment_variables:
@@ -4997,6 +5160,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Organization logo successfully deleted
+        "204":
+          description: No logo found to delete
         "400":
           content:
             application/json:
@@ -5055,7 +5220,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AddOrganizationLogo_request'
+              $ref: '#/components/schemas/AddLogo_request'
         description: Organization logo details.
         required: true
       responses:
@@ -5086,6 +5251,167 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: Add organization logo
+      tags:
+      - Organizations
+  /api/v1/organizations/{organization_code}/connections:
+    get:
+      description: |
+        Gets all connections for an organization.
+
+        <div>
+          <code>read:organization_connections</code>
+        </div>
+      operationId: GetOrganizationConnections
+      parameters:
+      - description: The organization code.
+        explode: false
+        in: path
+        name: organization_code
+        required: true
+        schema:
+          example: org_7d45b01ef13
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+          description: Organization connections successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get connections
+      tags:
+      - Organizations
+  /api/v1/organizations/{organization_code}/connections/{connection_id}:
+    delete:
+      description: |
+        Turn off an auth connection for an organization
+
+        <div>
+          <code>delete:organization_connections</code>
+        </div>
+      operationId: RemoveOrgConnection
+      parameters:
+      - description: The unique code for the organization.
+        explode: false
+        in: path
+        name: organization_code
+        required: true
+        schema:
+          example: org_7d45b01ef13
+          type: string
+        style: simple
+      - description: The identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          example: conn_0192c16abb53b44277e597d31877ba5b
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Connection successfully removed.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Remove connection
+      tags:
+      - Organizations
+    post:
+      description: |
+        Enable an auth connection for an organization.
+
+        <div>
+          <code>create:organization_connections</code>
+        </div>
+      operationId: EnableOrgConnection
+      parameters:
+      - description: The unique code for the organization.
+        explode: false
+        in: path
+        name: organization_code
+        required: true
+        schema:
+          example: org_7d45b01ef13
+          type: string
+        style: simple
+      - description: The identifier for the connection.
+        explode: false
+        in: path
+        name: connection_id
+        required: true
+        schema:
+          example: conn_0192c16abb53b44277e597d31877ba5b
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Connection successfully enabled.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Enable connection
       tags:
       - Organizations
   /api/v1/permissions:
@@ -5966,6 +6292,166 @@ paths:
       summary: Update role
       tags:
       - Roles
+  /api/v1/roles/{role_id}/scopes:
+    get:
+      description: |
+        Get scopes for a role.
+
+        <div>
+          <code>read:role_scopes</code>
+        </div>
+      operationId: GetRoleScopes
+      parameters:
+      - description: The role id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_scopes_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/role_scopes_response'
+          description: A list of scopes for a role
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Error removing user
+        "403":
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get role scopes
+      tags:
+      - Roles
+    post:
+      description: |
+        Add scope to role.
+
+        <div>
+          <code>create:role_scopes</code>
+        </div>
+      operationId: AddRoleScope
+      parameters:
+      - description: The role id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRoleScope_request'
+        description: Add scope to role.
+        required: false
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/add_role_scope_response'
+          description: Role scope successfully added.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Add role scope
+      tags:
+      - Roles
+  /api/v1/roles/{role_id}/scopes/{scope_id}:
+    delete:
+      description: |
+        Delete scope from role.
+
+        <div>
+          <code>delete:role_scopes</code>
+        </div>
+      operationId: DeleteRoleScope
+      parameters:
+      - description: The role id.
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      - description: The scope id.
+        explode: false
+        in: path
+        name: scope_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_role_scope_response'
+          description: Role scope successfully deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Delete role scope
+      tags:
+      - Roles
   /api/v1/roles/{role_id}/permissions:
     get:
       description: |
@@ -6151,6 +6637,104 @@ paths:
       summary: Remove role permission
       tags:
       - Roles
+  /api/v1/search/users:
+    get:
+      description: |
+        Search for users based on the provided query string. Set query to '*' to filter by other parameters only.
+        The number of records to return at a time can be controlled using the `page_size` query string parameter.
+
+        <div>
+          <code>read:users</code>
+        </div>
+      operationId: searchUsers
+      parameters:
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: Search the users by email or name. Use '*' to search all.
+        explode: true
+        in: query
+        name: query
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: properties
+        required: false
+        schema:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+        style: deepObject
+      - description: The ID of the user to start after.
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the user to end before.
+        explode: true
+        in: query
+        name: ending_before
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: Specify additional data to retrieve. Use "organizations" and/or
+          "identities".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_users_response'
+          description: Users successfully retrieved.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Search users
+      tags:
+      - Search
   /api/v1/subscribers:
     get:
       description: |
@@ -8157,6 +8741,7 @@ components:
           type: type
         - identity: identity
           type: type
+        phone: phone
         created_on: created_on
         preferred_email: preferred_email
         organizations:
@@ -8175,6 +8760,9 @@ components:
           type: string
         preferred_email:
           description: Default email address of the user in Kinde.
+          type: string
+        phone:
+          description: User's primary phone number.
           type: string
         username:
           description: Primary username of the user in Kinde.
@@ -8273,6 +8861,7 @@ components:
             type: type
           - identity: identity
             type: type
+          phone: phone
           created_on: created_on
           organizations:
           - organizations
@@ -8293,6 +8882,7 @@ components:
             type: type
           - identity: identity
             type: type
+          phone: phone
           created_on: created_on
           organizations:
           - organizations
@@ -8316,6 +8906,67 @@ components:
         next_token:
           description: Pagination token.
           type: string
+      type: object
+    search_users_response:
+      example:
+        code: code
+        message: message
+        results:
+        - failed_sign_ins: 0
+          last_name: Snow
+          is_suspended: true
+          last_signed_in: 2025-02-12T18:02:23.614638+00:00
+          total_sign_ins: 1
+          picture: https://example.com/john_snow.jpg
+          identities:
+          - identity: identity
+            type: type
+          - identity: identity
+            type: type
+          created_on: 2025-02-12T18:02:23.614638+00:00
+          organizations:
+          - organizations
+          - organizations
+          id: kp_0ba7c433e5d648cf992621ce99d42817
+          provided_id: U123456
+          first_name: John
+          email: user@domain.com
+          properties:
+            key: properties
+          username: john.snow
+        - failed_sign_ins: 0
+          last_name: Snow
+          is_suspended: true
+          last_signed_in: 2025-02-12T18:02:23.614638+00:00
+          total_sign_ins: 1
+          picture: https://example.com/john_snow.jpg
+          identities:
+          - identity: identity
+            type: type
+          - identity: identity
+            type: type
+          created_on: 2025-02-12T18:02:23.614638+00:00
+          organizations:
+          - organizations
+          - organizations
+          id: kp_0ba7c433e5d648cf992621ce99d42817
+          provided_id: U123456
+          first_name: John
+          email: user@domain.com
+          properties:
+            key: properties
+          username: john.snow
+      properties:
+        code:
+          description: Response code.
+          type: string
+        message:
+          description: Response message.
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/search_users_response_results_inner'
+          type: array
       type: object
     create_user_response:
       example:
@@ -8889,6 +9540,7 @@ components:
           raw: '#0056F1'
           hex: '#0056F1'
         external_id: some1234
+        sender_name: Acme Corp
         button_border_radius: 8
         is_auto_membership_enabled: true
         input_border_radius: 4
@@ -8903,6 +9555,7 @@ components:
           hex: '#0056F1'
         logo: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
         color_scheme: light
+        sender_email: hello@acmecorp.com
         is_allow_registrations: true
         handle: acme_corp
         is_default: false
@@ -9043,6 +9696,17 @@ components:
           example: true
           nullable: true
           type: boolean
+        sender_name:
+          description: The name of the organization that will be used in emails
+          example: Acme Corp
+          nullable: true
+          type: string
+        sender_email:
+          description: The email address that will be used in emails. Requires custom
+            SMTP to be set up.
+          example: hello@acmecorp.com
+          nullable: true
+          type: string
       type: object
     organization_user:
       example:
@@ -9451,6 +10115,34 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/create_roles_response_role'
+      type: object
+    add_role_scope_response:
+      example:
+        code: ROLE_SCOPE_ADDED
+        message: Scope added to role
+      properties:
+        code:
+          description: Response code.
+          example: ROLE_SCOPE_ADDED
+          type: string
+        message:
+          description: Response message.
+          example: Scope added to role
+          type: string
+      type: object
+    delete_role_scope_response:
+      example:
+        code: SCOPE_DELETED
+        message: Scope deleted from role
+      properties:
+        code:
+          description: Response code.
+          example: SCOPE_DELETED
+          type: string
+        message:
+          description: Response message.
+          example: Scope deleted from role
+          type: string
       type: object
     get_organizations_response:
       example:
@@ -9929,6 +10621,30 @@ components:
           description: The permission's description.
           type: string
       type: object
+    scopes:
+      example:
+        api_id: 3635b4431f174de6b789c67481bd0c7a
+        description: Create users
+        id: api_scope_019541f3fa0c874fc47b3ae73585b21c
+        key: create:users
+      properties:
+        id:
+          description: Scope ID.
+          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
+          type: string
+        key:
+          description: Scope key.
+          example: create:users
+          type: string
+        description:
+          description: Description of scope.
+          example: Create users
+          type: string
+        api_id:
+          description: API ID.
+          example: 3635b4431f174de6b789c67481bd0c7a
+          type: string
+      type: object
     roles:
       example:
         is_default_role: true
@@ -9983,6 +10699,33 @@ components:
           description: Pagination token.
           type: string
       type: object
+    role_scopes_response:
+      example:
+        code: OK
+        scopes:
+        - api_id: 3635b4431f174de6b789c67481bd0c7a
+          description: Create users
+          id: api_scope_019541f3fa0c874fc47b3ae73585b21c
+          key: create:users
+        - api_id: 3635b4431f174de6b789c67481bd0c7a
+          description: Create users
+          id: api_scope_019541f3fa0c874fc47b3ae73585b21c
+          key: create:users
+        message: Success
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        scopes:
+          items:
+            $ref: '#/components/schemas/scopes'
+          type: array
+      type: object
     read_logo_response:
       example:
         code: OK
@@ -10003,6 +10746,30 @@ components:
           description: A list of logos.
           items:
             $ref: '#/components/schemas/read_logo_response_logos_inner'
+          type: array
+        message:
+          description: Response message.
+          example: Success
+          type: string
+      type: object
+    read_env_logo_response:
+      example:
+        code: OK
+        message: Success
+        logos:
+        - file_name: kinde_light.jpeg
+          type: light
+        - file_name: kinde_light.jpeg
+          type: light
+      properties:
+        code:
+          description: Response code.
+          example: OK
+          type: string
+        logos:
+          description: A list of logos.
+          items:
+            $ref: '#/components/schemas/read_env_logo_response_logos_inner'
           type: array
         message:
           description: Response message.
@@ -10379,6 +11146,10 @@ components:
           description: Include additional user profile information.
           example: true
           type: boolean
+        is_auto_join_organization_enabled:
+          description: Users automatically join organization when using this connection.
+          example: true
+          type: boolean
       type: object
     CreateConnection_request_options_oneOf_2:
       description: "SAML connection options (e.g., Cloudflare SAML)."
@@ -10433,6 +11204,10 @@ components:
             MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
             -----END PRIVATE KEY-----
           type: string
+        is_auto_join_organization_enabled:
+          description: Users automatically join organization when using this connection.
+          example: true
+          type: boolean
       type: object
     CreateConnection_request_options:
       oneOf:
@@ -10478,9 +11253,114 @@ components:
           items:
             type: string
           type: array
+        organization_code:
+          description: Enterprise connections only - the code for organization that
+            manages this connection.
+          example: org_80581732fbe
+          nullable: true
+          type: string
         options:
           $ref: '#/components/schemas/CreateConnection_request_options'
       type: object
+    ReplaceConnection_request_options_oneOf:
+      description: Azure AD connection options.
+      properties:
+        client_id:
+          description: Client ID.
+          example: hji7db2146af332akfldfded22
+          type: string
+        client_secret:
+          description: Client secret.
+          example: 19fkjdalg521l23fassf3039d4ae18b
+          type: string
+        home_realm_domains:
+          description: List of domains to limit authentication.
+          example:
+          - '@kinde.com'
+          - '@kinde.io'
+          items:
+            type: string
+          type: array
+        entra_id_domain:
+          description: Domain for Entra ID.
+          example: kinde.com
+          type: string
+        is_use_common_endpoint:
+          description: Use https://login.windows.net/common instead of a default endpoint.
+          example: true
+          type: boolean
+        is_sync_user_profile_on_login:
+          description: Sync user profile data with IDP.
+          example: true
+          type: boolean
+        is_retrieve_provider_user_groups:
+          description: Include user group info from MS Entra ID.
+          example: true
+          type: boolean
+        is_extended_attributes_required:
+          description: Include additional user profile information.
+          example: true
+          type: boolean
+      type: object
+    ReplaceConnection_request_options_oneOf_1:
+      description: "SAML connection options (e.g., Cloudflare SAML)."
+      properties:
+        home_realm_domains:
+          description: List of domains to restrict authentication.
+          example:
+          - '@kinde.com'
+          - '@kinde.io'
+          items:
+            type: string
+          type: array
+        saml_entity_id:
+          description: SAML Entity ID.
+          example: https://kinde.com
+          type: string
+        saml_acs_url:
+          description: Assertion Consumer Service URL.
+          example: https://kinde.com/saml/acs
+          type: string
+        saml_idp_metadata_url:
+          description: URL for the IdP metadata.
+          example: https://kinde.com/saml/metadata
+          type: string
+        saml_email_key_attr:
+          description: Attribute key for the user’s email.
+          example: email
+          type: string
+        saml_first_name_key_attr:
+          description: Attribute key for the user’s first name.
+          example: given_name
+          type: string
+        saml_last_name_key_attr:
+          description: Attribute key for the user’s last name.
+          example: family_name
+          type: string
+        is_create_missing_user:
+          description: Create user if they don’t exist.
+          example: true
+          type: boolean
+        saml_signing_certificate:
+          description: Certificate for signing SAML requests.
+          example: |-
+            -----BEGIN CERTIFICATE-----
+            MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+            -----END CERTIFICATE-----
+          type: string
+        saml_signing_private_key:
+          description: Private key associated with the signing certificate.
+          example: |-
+            -----BEGIN PRIVATE KEY-----
+            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+            -----END PRIVATE KEY-----
+          type: string
+      type: object
+    ReplaceConnection_request_options:
+      oneOf:
+      - $ref: '#/components/schemas/CreateConnection_request_options_oneOf'
+      - $ref: '#/components/schemas/ReplaceConnection_request_options_oneOf'
+      - $ref: '#/components/schemas/ReplaceConnection_request_options_oneOf_1'
     ReplaceConnection_request:
       properties:
         name:
@@ -10503,7 +11383,7 @@ components:
             type: string
           type: array
         options:
-          $ref: '#/components/schemas/CreateConnection_request_options'
+          $ref: '#/components/schemas/ReplaceConnection_request_options'
       type: object
     UpdateConnection_request:
       properties:
@@ -10527,7 +11407,7 @@ components:
             type: string
           type: array
         options:
-          $ref: '#/components/schemas/CreateConnection_request_options'
+          $ref: '#/components/schemas/ReplaceConnection_request_options'
       type: object
     UpdateEnvironementFeatureFlagOverride_request:
       properties:
@@ -10537,6 +11417,15 @@ components:
           type: string
       required:
       - value
+      type: object
+    AddLogo_request:
+      properties:
+        logo:
+          description: The logo file to upload.
+          format: binary
+          type: string
+      required:
+      - logo
       type: object
     createEnvironmentVariable_request:
       properties:
@@ -10702,9 +11591,17 @@ components:
             is supplied during authentication.
           example: true
           type: boolean
-        is_custom_auth_connections_enabled:
-          description: Enable custom auth connections for this organization.
-          type: boolean
+        sender_name:
+          description: The name of the organization that will be used in emails
+          example: Acme Corp
+          nullable: true
+          type: string
+        sender_email:
+          description: The email address that will be used in emails. Requires custom
+            SMTP to be set up.
+          example: hello@acmecorp.com
+          nullable: true
+          type: string
       required:
       - name
       type: object
@@ -10766,10 +11663,6 @@ components:
           deprecated: true
           description: Deprecated - Use 'is_auto_membership_enabled' instead.
           type: boolean
-        is_custom_auth_connections_enabled:
-          description: Enable custom auth connections for this organization.
-          example: true
-          type: boolean
         is_auto_join_domain_list:
           description: Users can sign up to this organization.
           example: true
@@ -10790,6 +11683,17 @@ components:
           description: Enforce MFA for all users in this organization.
           example: true
           type: boolean
+        sender_name:
+          description: The name of the organization that will be used in emails
+          example: Acme Corp
+          nullable: true
+          type: string
+        sender_email:
+          description: The email address that will be used in emails. Requires custom
+            SMTP to be set up.
+          example: hello@acmecorp.com
+          nullable: true
+          type: string
       type: object
     AddOrganizationUsers_request_users_inner:
       properties:
@@ -10885,15 +11789,6 @@ components:
           type: array
       required:
       - enabled_factors
-      type: object
-    AddOrganizationLogo_request:
-      properties:
-        logo:
-          description: The logo file to upload.
-          format: binary
-          type: string
-      required:
-      - logo
       type: object
     CreatePermission_request:
       properties:
@@ -11030,6 +11925,12 @@ components:
       required:
       - key
       - name
+      type: object
+    AddRoleScope_request:
+      properties:
+        scope_id:
+          description: The scope identifier.
+          type: string
       type: object
     UpdateRolePermissions_request_permissions_inner:
       properties:
@@ -11197,8 +12098,8 @@ components:
           example: au
           type: string
         connection_id:
-          description: "The social connection ID, only required when identity type\
-            \ is 'social'."
+          description: "The social or enterprise connection ID, only required when\
+            \ identity type is 'social' or 'enterprise'."
           example: conn_019289347f1193da6c0e4d49b97b4bd2
           type: string
       type: object
@@ -11592,6 +12493,7 @@ components:
           type: type
         - identity: identity
           type: type
+        phone: phone
         created_on: created_on
         organizations:
         - organizations
@@ -11610,6 +12512,9 @@ components:
           type: string
         email:
           description: Default email address of the user in Kinde.
+          type: string
+        phone:
+          description: User's primary phone number.
           type: string
         username:
           description: Primary username of the user in Kinde.
@@ -11652,6 +12557,103 @@ components:
           items:
             $ref: '#/components/schemas/user_identities_inner'
           type: array
+      type: object
+    search_users_response_results_inner:
+      example:
+        failed_sign_ins: 0
+        last_name: Snow
+        is_suspended: true
+        last_signed_in: 2025-02-12T18:02:23.614638+00:00
+        total_sign_ins: 1
+        picture: https://example.com/john_snow.jpg
+        identities:
+        - identity: identity
+          type: type
+        - identity: identity
+          type: type
+        created_on: 2025-02-12T18:02:23.614638+00:00
+        organizations:
+        - organizations
+        - organizations
+        id: kp_0ba7c433e5d648cf992621ce99d42817
+        provided_id: U123456
+        first_name: John
+        email: user@domain.com
+        properties:
+          key: properties
+        username: john.snow
+      properties:
+        id:
+          description: Unique ID of the user in Kinde.
+          example: kp_0ba7c433e5d648cf992621ce99d42817
+          type: string
+        provided_id:
+          description: External ID for user.
+          example: U123456
+          nullable: true
+          type: string
+        email:
+          description: Default email address of the user in Kinde.
+          example: user@domain.com
+          nullable: true
+          type: string
+        username:
+          description: Primary username of the user in Kinde.
+          example: john.snow
+          nullable: true
+          type: string
+        last_name:
+          description: User's last name.
+          example: Snow
+          type: string
+        first_name:
+          description: User's first name.
+          example: John
+          type: string
+        is_suspended:
+          description: Whether the user is currently suspended or not.
+          example: true
+          type: boolean
+        picture:
+          description: User's profile picture URL.
+          example: https://example.com/john_snow.jpg
+          nullable: true
+          type: string
+        total_sign_ins:
+          description: Total number of user sign ins.
+          example: 1
+          nullable: true
+          type: integer
+        failed_sign_ins:
+          description: Number of consecutive failed user sign ins.
+          example: 0
+          nullable: true
+          type: integer
+        last_signed_in:
+          description: Last sign in date in ISO 8601 format.
+          example: 2025-02-12T18:02:23.614638+00:00
+          nullable: true
+          type: string
+        created_on:
+          description: Date of user creation in ISO 8601 format.
+          example: 2025-02-12T18:02:23.614638+00:00
+          nullable: true
+          type: string
+        organizations:
+          description: Array of organizations a user belongs to.
+          items:
+            type: string
+          type: array
+        identities:
+          description: Array of identities belonging to the user.
+          items:
+            $ref: '#/components/schemas/user_identities_inner'
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+          description: The user properties.
+          type: object
       type: object
     create_organization_response_organization:
       example:
@@ -12156,6 +13158,20 @@ components:
         path:
           description: The relative path to the logo file.
           example: /logo?p_org_code=org_1767f11ce62
+          type: string
+      type: object
+    read_env_logo_response_logos_inner:
+      example:
+        file_name: kinde_light.jpeg
+        type: light
+      properties:
+        type:
+          description: The type of logo (light or dark).
+          example: light
+          type: string
+        file_name:
+          description: The name of the logo file.
+          example: kinde_light.jpeg
           type: string
       type: object
   securitySchemes:

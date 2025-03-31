@@ -163,13 +163,15 @@ namespace Kinde.Api.Model
         /// <param name="displayName">The public facing name of the connection..</param>
         /// <param name="strategy">The identity provider identifier for the connection..</param>
         /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
+        /// <param name="organizationCode">Enterprise connections only - the code for organization that manages this connection..</param>
         /// <param name="options">options.</param>
-        public CreateConnectionRequest(string name = default(string), string displayName = default(string), StrategyEnum? strategy = default(StrategyEnum?), List<string> enabledApplications = default(List<string>), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
+        public CreateConnectionRequest(string name = default(string), string displayName = default(string), StrategyEnum? strategy = default(StrategyEnum?), List<string> enabledApplications = default(List<string>), string organizationCode = default(string), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
         {
             this.Name = name;
             this.DisplayName = displayName;
             this.Strategy = strategy;
             this.EnabledApplications = enabledApplications;
+            this.OrganizationCode = organizationCode;
             this.Options = options;
         }
 
@@ -195,6 +197,14 @@ namespace Kinde.Api.Model
         public List<string> EnabledApplications { get; set; }
 
         /// <summary>
+        /// Enterprise connections only - the code for organization that manages this connection.
+        /// </summary>
+        /// <value>Enterprise connections only - the code for organization that manages this connection.</value>
+        /// <example>org_80581732fbe</example>
+        [DataMember(Name = "organization_code", EmitDefaultValue = true)]
+        public string OrganizationCode { get; set; }
+
+        /// <summary>
         /// Gets or Sets Options
         /// </summary>
         [DataMember(Name = "options", EmitDefaultValue = false)]
@@ -212,6 +222,7 @@ namespace Kinde.Api.Model
             sb.Append("  DisplayName: ").Append(DisplayName).Append("\n");
             sb.Append("  Strategy: ").Append(Strategy).Append("\n");
             sb.Append("  EnabledApplications: ").Append(EnabledApplications).Append("\n");
+            sb.Append("  OrganizationCode: ").Append(OrganizationCode).Append("\n");
             sb.Append("  Options: ").Append(Options).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -269,6 +280,11 @@ namespace Kinde.Api.Model
                     this.EnabledApplications.SequenceEqual(input.EnabledApplications)
                 ) && 
                 (
+                    this.OrganizationCode == input.OrganizationCode ||
+                    (this.OrganizationCode != null &&
+                    this.OrganizationCode.Equals(input.OrganizationCode))
+                ) && 
+                (
                     this.Options == input.Options ||
                     (this.Options != null &&
                     this.Options.Equals(input.Options))
@@ -296,6 +312,10 @@ namespace Kinde.Api.Model
                 if (this.EnabledApplications != null)
                 {
                     hashCode = (hashCode * 59) + this.EnabledApplications.GetHashCode();
+                }
+                if (this.OrganizationCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.OrganizationCode.GetHashCode();
                 }
                 if (this.Options != null)
                 {

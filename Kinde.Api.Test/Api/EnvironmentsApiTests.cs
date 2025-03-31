@@ -55,6 +55,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test AddLogo
+        /// </summary>
+        [Fact]
+        public void AddLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string type = null;
+            //FileParameter logo = null;
+            //var response = instance.AddLogo(type, logo);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test DeleteEnvironementFeatureFlagOverride
         /// </summary>
         [Fact]
@@ -78,6 +91,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteLogo
+        /// </summary>
+        [Fact]
+        public void DeleteLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string type = null;
+            //var response = instance.DeleteLogo(type);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetEnvironementFeatureFlags
         /// </summary>
         [Fact]
@@ -97,6 +122,17 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //var response = instance.GetEnvironment();
             //Assert.IsType<GetEnvironmentResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ReadLogo
+        /// </summary>
+        [Fact]
+        public void ReadLogoTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.ReadLogo();
+            //Assert.IsType<ReadEnvLogoResponse>(response);
         }
 
         /// <summary>

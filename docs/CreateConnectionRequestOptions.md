@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **IsSyncUserProfileOnLogin** | **bool** | Sync user profile data with IDP. | [optional] 
 **IsRetrieveProviderUserGroups** | **bool** | Include user group info from MS Entra ID. | [optional] 
 **IsExtendedAttributesRequired** | **bool** | Include additional user profile information. | [optional] 
+**IsAutoJoinOrganizationEnabled** | **bool** | Users automatically join organization when using this connection. | [optional] 
 **SamlEntityId** | **string** | SAML Entity ID. | [optional] 
 **SamlAcsUrl** | **string** | Assertion Consumer Service URL. | [optional] 
 **SamlIdpMetadataUrl** | **string** | URL for the IdP metadata. | [optional] 

@@ -18,7 +18,8 @@ Name | Type | Description | Notes
 **ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;. | [optional] 
 **Handle** | **string** | A unique handle for the organization - can be used for dynamic callback urls. | [optional] 
 **IsAllowRegistrations** | **bool** | If users become members of this organization when the org code is supplied during authentication. | [optional] 
-**IsCustomAuthConnectionsEnabled** | **bool** | Enable custom auth connections for this organization. | [optional] 
+**SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
+**SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

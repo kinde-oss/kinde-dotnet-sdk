@@ -29,6 +29,29 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// Add logo
+        /// </summary>
+        /// <remarks>
+        /// Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse AddLogo(string type, FileParameter logo);
+
+        /// <summary>
+        /// Add logo
+        /// </summary>
+        /// <remarks>
+        /// Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> AddLogoWithHttpInfo(string type, FileParameter logo);
+        /// <summary>
         /// Delete Environment Feature Flag Override
         /// </summary>
         /// <remarks>
@@ -69,6 +92,27 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteEnvironementFeatureFlagOverridesWithHttpInfo();
         /// <summary>
+        /// Delete logo
+        /// </summary>
+        /// <remarks>
+        /// Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteLogo(string type);
+
+        /// <summary>
+        /// Delete logo
+        /// </summary>
+        /// <remarks>
+        /// Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteLogoWithHttpInfo(string type);
+        /// <summary>
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
@@ -91,7 +135,7 @@ namespace Kinde.Api.Api
         /// Get environment
         /// </summary>
         /// <remarks>
-        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEnvironmentResponse</returns>
@@ -101,11 +145,30 @@ namespace Kinde.Api.Api
         /// Get environment
         /// </summary>
         /// <remarks>
-        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentResponse</returns>
         ApiResponse<GetEnvironmentResponse> GetEnvironmentWithHttpInfo();
+        /// <summary>
+        /// Read logo details
+        /// </summary>
+        /// <remarks>
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ReadEnvLogoResponse</returns>
+        ReadEnvLogoResponse ReadLogo();
+
+        /// <summary>
+        /// Read logo details
+        /// </summary>
+        /// <remarks>
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of ReadEnvLogoResponse</returns>
+        ApiResponse<ReadEnvLogoResponse> ReadLogoWithHttpInfo();
         /// <summary>
         /// Update Environment Feature Flag Override
         /// </summary>
@@ -138,6 +201,31 @@ namespace Kinde.Api.Api
     public interface IEnvironmentsApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
+        /// <summary>
+        /// Add logo
+        /// </summary>
+        /// <remarks>
+        /// Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> AddLogoAsync(string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add logo
+        /// </summary>
+        /// <remarks>
+        /// Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> AddLogoWithHttpInfoAsync(string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete Environment Feature Flag Override
         /// </summary>
@@ -183,6 +271,29 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Delete logo
+        /// </summary>
+        /// <remarks>
+        /// Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteLogoAsync(string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete logo
+        /// </summary>
+        /// <remarks>
+        /// Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteLogoWithHttpInfoAsync(string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// List Environment Feature Flags
         /// </summary>
         /// <remarks>
@@ -207,7 +318,7 @@ namespace Kinde.Api.Api
         /// Get environment
         /// </summary>
         /// <remarks>
-        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -218,12 +329,33 @@ namespace Kinde.Api.Api
         /// Get environment
         /// </summary>
         /// <remarks>
-        /// Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Read logo details
+        /// </summary>
+        /// <remarks>
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ReadEnvLogoResponse</returns>
+        System.Threading.Tasks.Task<ReadEnvLogoResponse> ReadLogoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Read logo details
+        /// </summary>
+        /// <remarks>
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ReadEnvLogoResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ReadEnvLogoResponse>> ReadLogoWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Environment Feature Flag Override
         /// </summary>
@@ -479,6 +611,149 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Add logo Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse AddLogo(string type, FileParameter logo)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = AddLogoWithHttpInfo(type, logo);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add logo Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> AddLogoWithHttpInfo(string type, FileParameter logo)
+        {
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->AddLogo");
+
+            // verify the required parameter 'logo' is set
+            if (logo == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling EnvironmentsApi->AddLogo");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+            localVarRequestOptions.FileParameters.Add("logo", logo);
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Add logo Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> AddLogoAsync(string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await AddLogoWithHttpInfoAsync(type, logo, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add logo Add environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to add.</param>
+        /// <param name="logo">The logo file to upload.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> AddLogoWithHttpInfoAsync(string type, FileParameter logo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->AddLogo");
+
+            // verify the required parameter 'logo' is set
+            if (logo == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling EnvironmentsApi->AddLogo");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+            localVarRequestOptions.FileParameters.Add("logo", logo);
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("AddLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Delete Environment Feature Flag Override Delete environment feature flag override.  &lt;div&gt;   &lt;code&gt;delete:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -723,6 +998,133 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Delete logo Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteLogo(string type)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteLogoWithHttpInfo(type);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete logo Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteLogoWithHttpInfo(string type)
+        {
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->DeleteLogo");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Delete logo Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteLogoAsync(string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteLogoWithHttpInfoAsync(type, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete logo Delete environment logo  &lt;div&gt;   &lt;code&gt;update:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="type">The type of logo to delete.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteLogoWithHttpInfoAsync(string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'type' is set
+            if (type == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->DeleteLogo");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DeleteLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// List Environment Feature Flags Get environment feature flags.  &lt;div&gt;   &lt;code&gt;read:environment_feature_flags&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -838,7 +1240,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetEnvironmentResponse</returns>
@@ -849,7 +1251,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetEnvironmentResponse</returns>
@@ -892,7 +1294,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -904,7 +1306,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get environment Get&#39;s the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment Gets the current environment.  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -944,6 +1346,119 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetEnvironment", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ReadEnvLogoResponse</returns>
+        public ReadEnvLogoResponse ReadLogo()
+        {
+            Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse> localVarResponse = ReadLogoWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of ReadEnvLogoResponse</returns>
+        public Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse> ReadLogoWithHttpInfo()
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<ReadEnvLogoResponse>("/api/v1/environment/logos", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReadLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ReadEnvLogoResponse</returns>
+        public async System.Threading.Tasks.Task<ReadEnvLogoResponse> ReadLogoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse> localVarResponse = await ReadLogoWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ReadEnvLogoResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse>> ReadLogoWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ReadEnvLogoResponse>("/api/v1/environment/logos", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ReadLogo", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

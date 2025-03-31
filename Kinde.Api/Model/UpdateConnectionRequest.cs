@@ -40,7 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="displayName">The public facing name of the connection..</param>
         /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
         /// <param name="options">options.</param>
-        public UpdateConnectionRequest(string name = default(string), string displayName = default(string), List<string> enabledApplications = default(List<string>), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
+        public UpdateConnectionRequest(string name = default(string), string displayName = default(string), List<string> enabledApplications = default(List<string>), ReplaceConnectionRequestOptions options = default(ReplaceConnectionRequestOptions))
         {
             this.Name = name;
             this.DisplayName = displayName;
@@ -76,7 +76,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Options
         /// </summary>
         [DataMember(Name = "options", EmitDefaultValue = false)]
-        public CreateConnectionRequestOptions Options { get; set; }
+        public ReplaceConnectionRequestOptions Options { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

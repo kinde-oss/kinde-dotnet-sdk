@@ -361,6 +361,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationUserRoleWithHttpInfo(string orgCode, string userId, string roleId);
         /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns></returns>
+        void EnableOrgConnection(string organizationCode, string connectionId);
+
+        /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> EnableOrgConnectionWithHttpInfo(string organizationCode, string connectionId);
+        /// <summary>
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
@@ -404,6 +427,27 @@ namespace Kinde.Api.Api
         /// <param name="code">The organization&#39;s code. (optional)</param>
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
         ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?));
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <returns>GetConnectionsResponse</returns>
+        GetConnectionsResponse GetOrganizationConnections(string organizationCode);
+
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <returns>ApiResponse of GetConnectionsResponse</returns>
+        ApiResponse<GetConnectionsResponse> GetOrganizationConnectionsWithHttpInfo(string organizationCode);
         /// <summary>
         /// List Organization Feature Flags
         /// </summary>
@@ -571,6 +615,29 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <returns>ApiResponse of ReadLogoResponse</returns>
         ApiResponse<ReadLogoResponse> ReadOrganizationLogoWithHttpInfo(string orgCode);
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RemoveOrgConnection(string organizationCode, string connectionId);
+
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RemoveOrgConnectionWithHttpInfo(string organizationCode, string connectionId);
         /// <summary>
         /// Remove Organization User
         /// </summary>
@@ -1131,6 +1198,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task EnableOrgConnectionAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Enable connection
+        /// </summary>
+        /// <remarks>
+        /// Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> EnableOrgConnectionWithHttpInfoAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
@@ -1178,6 +1270,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetConnectionsResponse</returns>
+        System.Threading.Tasks.Task<GetConnectionsResponse> GetOrganizationConnectionsAsync(string organizationCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get connections
+        /// </summary>
+        /// <remarks>
+        /// Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetOrganizationConnectionsWithHttpInfoAsync(string organizationCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// List Organization Feature Flags
         /// </summary>
@@ -1359,6 +1474,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ReadLogoResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<ReadLogoResponse>> ReadOrganizationLogoWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RemoveOrgConnectionAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Remove connection
+        /// </summary>
+        /// <remarks>
+        /// Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RemoveOrgConnectionWithHttpInfoAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Remove Organization User
         /// </summary>
@@ -3851,6 +3991,145 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
+        /// Enable connection Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns></returns>
+        public void EnableOrgConnection(string organizationCode, string connectionId)
+        {
+            EnableOrgConnectionWithHttpInfo(organizationCode, connectionId);
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> EnableOrgConnectionWithHttpInfo(string organizationCode, string connectionId)
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->EnableOrgConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->EnableOrgConnection");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("EnableOrgConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task EnableOrgConnectionAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await EnableOrgConnectionWithHttpInfoAsync(organizationCode, connectionId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Enable connection Enable an auth connection for an organization.  &lt;div&gt;   &lt;code&gt;create:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> EnableOrgConnectionWithHttpInfoAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->EnableOrgConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->EnableOrgConnection");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("EnableOrgConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -4110,6 +4389,133 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetOrganization", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <returns>GetConnectionsResponse</returns>
+        public GetConnectionsResponse GetOrganizationConnections(string organizationCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = GetOrganizationConnectionsWithHttpInfo(organizationCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <returns>ApiResponse of GetConnectionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetOrganizationConnectionsWithHttpInfo(string organizationCode)
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->GetOrganizationConnections");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetConnectionsResponse>("/api/v1/organizations/{organization_code}/connections", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationConnections", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetConnectionsResponse</returns>
+        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetOrganizationConnectionsAsync(string organizationCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = await GetOrganizationConnectionsWithHttpInfoAsync(organizationCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get connections Gets all connections for an organization.  &lt;div&gt;   &lt;code&gt;read:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The organization code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetOrganizationConnectionsWithHttpInfoAsync(string organizationCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->GetOrganizationConnections");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetConnectionsResponse>("/api/v1/organizations/{organization_code}/connections", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationConnections", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -5129,6 +5535,147 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("ReadOrganizationLogo", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RemoveOrgConnection(string organizationCode, string connectionId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RemoveOrgConnectionWithHttpInfo(organizationCode, connectionId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveOrgConnectionWithHttpInfo(string organizationCode, string connectionId)
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->RemoveOrgConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->RemoveOrgConnection");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RemoveOrgConnection", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RemoveOrgConnectionAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RemoveOrgConnectionWithHttpInfoAsync(organizationCode, connectionId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove connection Turn off an auth connection for an organization  &lt;div&gt;   &lt;code&gt;delete:organization_connections&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationCode">The unique code for the organization.</param>
+        /// <param name="connectionId">The identifier for the connection.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RemoveOrgConnectionWithHttpInfoAsync(string organizationCode, string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'organizationCode' is set
+            if (organizationCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->RemoveOrgConnection");
+
+            // verify the required parameter 'connectionId' is set
+            if (connectionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->RemoveOrgConnection");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
+            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RemoveOrgConnection", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

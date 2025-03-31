@@ -182,12 +182,21 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'IsCustomAuthConnectionsEnabled'
+        /// Test the property 'SenderName'
         /// </summary>
         [Fact]
-        public void IsCustomAuthConnectionsEnabledTest()
+        public void SenderNameTest()
         {
-            // TODO unit test for the property 'IsCustomAuthConnectionsEnabled'
+            // TODO unit test for the property 'SenderName'
+        }
+
+        /// <summary>
+        /// Test the property 'SenderEmail'
+        /// </summary>
+        [Fact]
+        public void SenderEmailTest()
+        {
+            // TODO unit test for the property 'SenderEmail'
         }
     }
 }

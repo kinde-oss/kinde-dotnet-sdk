@@ -55,6 +55,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test AddRoleScope
+        /// </summary>
+        [Fact]
+        public void AddRoleScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string roleId = null;
+            //AddRoleScopeRequest? addRoleScopeRequest = null;
+            //var response = instance.AddRoleScope(roleId, addRoleScopeRequest);
+            //Assert.IsType<AddRoleScopeResponse>(response);
+        }
+
+        /// <summary>
         /// Test CreateRole
         /// </summary>
         [Fact]
@@ -76,6 +89,19 @@ namespace Kinde.Api.Test.Api
             //string roleId = null;
             //var response = instance.DeleteRole(roleId);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test DeleteRoleScope
+        /// </summary>
+        [Fact]
+        public void DeleteRoleScopeTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string roleId = null;
+            //string scopeId = null;
+            //var response = instance.DeleteRoleScope(roleId, scopeId);
+            //Assert.IsType<DeleteRoleScopeResponse>(response);
         }
 
         /// <summary>
@@ -103,6 +129,18 @@ namespace Kinde.Api.Test.Api
             //string? nextToken = null;
             //var response = instance.GetRolePermissions(roleId, sort, pageSize, nextToken);
             //Assert.IsType<RolePermissionsResponse>(response);
+        }
+
+        /// <summary>
+        /// Test GetRoleScopes
+        /// </summary>
+        [Fact]
+        public void GetRoleScopesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string roleId = null;
+            //var response = instance.GetRoleScopes(roleId);
+            //Assert.IsType<RoleScopesResponse>(response);
         }
 
         /// <summary>

@@ -279,5 +279,23 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'IsAllowRegistrations'
         }
+
+        /// <summary>
+        /// Test the property 'SenderName'
+        /// </summary>
+        [Fact]
+        public void SenderNameTest()
+        {
+            // TODO unit test for the property 'SenderName'
+        }
+
+        /// <summary>
+        /// Test the property 'SenderEmail'
+        /// </summary>
+        [Fact]
+        public void SenderEmailTest()
+        {
+            // TODO unit test for the property 'SenderEmail'
+        }
     }
 }

@@ -144,5 +144,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'SamlSigningPrivateKey'
         }
+
+        /// <summary>
+        /// Test the property 'IsAutoJoinOrganizationEnabled'
+        /// </summary>
+        [Fact]
+        public void IsAutoJoinOrganizationEnabledTest()
+        {
+            // TODO unit test for the property 'IsAutoJoinOrganizationEnabled'
+        }
     }
 }

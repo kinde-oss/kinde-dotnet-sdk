@@ -81,8 +81,9 @@ namespace Kinde.Api.Model
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
         /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication..</param>
-        /// <param name="isCustomAuthConnectionsEnabled">Enable custom auth connections for this organization..</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool))
+        /// <param name="senderName">The name of the organization that will be used in emails.</param>
+        /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), string senderName = default(string), string senderEmail = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -103,7 +104,8 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
-            this.IsCustomAuthConnectionsEnabled = isCustomAuthConnectionsEnabled;
+            this.SenderName = senderName;
+            this.SenderEmail = senderEmail;
         }
 
         /// <summary>
@@ -209,11 +211,20 @@ namespace Kinde.Api.Model
         public bool IsAllowRegistrations { get; set; }
 
         /// <summary>
-        /// Enable custom auth connections for this organization.
+        /// The name of the organization that will be used in emails
         /// </summary>
-        /// <value>Enable custom auth connections for this organization.</value>
-        [DataMember(Name = "is_custom_auth_connections_enabled", EmitDefaultValue = true)]
-        public bool IsCustomAuthConnectionsEnabled { get; set; }
+        /// <value>The name of the organization that will be used in emails</value>
+        /// <example>Acme Corp</example>
+        [DataMember(Name = "sender_name", EmitDefaultValue = true)]
+        public string SenderName { get; set; }
+
+        /// <summary>
+        /// The email address that will be used in emails. Requires custom SMTP to be set up.
+        /// </summary>
+        /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
+        /// <example>hello@acmecorp.com</example>
+        [DataMember(Name = "sender_email", EmitDefaultValue = true)]
+        public string SenderEmail { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -237,7 +248,8 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
-            sb.Append("  IsCustomAuthConnectionsEnabled: ").Append(IsCustomAuthConnectionsEnabled).Append("\n");
+            sb.Append("  SenderName: ").Append(SenderName).Append("\n");
+            sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -344,8 +356,14 @@ namespace Kinde.Api.Model
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
                 ) && 
                 (
-                    this.IsCustomAuthConnectionsEnabled == input.IsCustomAuthConnectionsEnabled ||
-                    this.IsCustomAuthConnectionsEnabled.Equals(input.IsCustomAuthConnectionsEnabled)
+                    this.SenderName == input.SenderName ||
+                    (this.SenderName != null &&
+                    this.SenderName.Equals(input.SenderName))
+                ) && 
+                (
+                    this.SenderEmail == input.SenderEmail ||
+                    (this.SenderEmail != null &&
+                    this.SenderEmail.Equals(input.SenderEmail))
                 );
         }
 
@@ -411,7 +429,14 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsCustomAuthConnectionsEnabled.GetHashCode();
+                if (this.SenderName != null)
+                {
+                    hashCode = (hashCode * 59) + this.SenderName.GetHashCode();
+                }
+                if (this.SenderEmail != null)
+                {
+                    hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
+                }
                 return hashCode;
             }
         }

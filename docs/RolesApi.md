@@ -4,14 +4,120 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
+| [**AddRoleScope**](RolesApi.md#addrolescope) | **POST** /api/v1/roles/{role_id}/scopes | Add role scope |
 | [**CreateRole**](RolesApi.md#createrole) | **POST** /api/v1/roles | Create role |
 | [**DeleteRole**](RolesApi.md#deleterole) | **DELETE** /api/v1/roles/{role_id} | Delete role |
+| [**DeleteRoleScope**](RolesApi.md#deleterolescope) | **DELETE** /api/v1/roles/{role_id}/scopes/{scope_id} | Delete role scope |
 | [**GetRole**](RolesApi.md#getrole) | **GET** /api/v1/roles/{role_id} | Get role |
 | [**GetRolePermissions**](RolesApi.md#getrolepermissions) | **GET** /api/v1/roles/{role_id}/permissions | Get role permissions |
+| [**GetRoleScopes**](RolesApi.md#getrolescopes) | **GET** /api/v1/roles/{role_id}/scopes | Get role scopes |
 | [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List roles |
 | [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove role permission |
 | [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update role permissions |
 | [**UpdateRoles**](RolesApi.md#updateroles) | **PATCH** /api/v1/roles/{role_id} | Update role |
+
+<a id="addrolescope"></a>
+# **AddRoleScope**
+> AddRoleScopeResponse AddRoleScope (string roleId, AddRoleScopeRequest? addRoleScopeRequest = null)
+
+Add role scope
+
+Add scope to role.  <div>   <code>create:role_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class AddRoleScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var roleId = "roleId_example";  // string | The role id.
+            var addRoleScopeRequest = new AddRoleScopeRequest?(); // AddRoleScopeRequest? | Add scope to role. (optional) 
+
+            try
+            {
+                // Add role scope
+                AddRoleScopeResponse result = apiInstance.AddRoleScope(roleId, addRoleScopeRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.AddRoleScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the AddRoleScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Add role scope
+    ApiResponse<AddRoleScopeResponse> response = apiInstance.AddRoleScopeWithHttpInfo(roleId, addRoleScopeRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.AddRoleScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The role id. |  |
+| **addRoleScopeRequest** | [**AddRoleScopeRequest?**](AddRoleScopeRequest?.md) | Add scope to role. | [optional]  |
+
+### Return type
+
+[**AddRoleScopeResponse**](AddRoleScopeResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Role scope successfully added. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="createrole"></a>
 # **CreateRole**
@@ -209,6 +315,109 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Role successfully deleted. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleterolescope"></a>
+# **DeleteRoleScope**
+> DeleteRoleScopeResponse DeleteRoleScope (string roleId, string scopeId)
+
+Delete role scope
+
+Delete scope from role.  <div>   <code>delete:role_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteRoleScopeExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var roleId = "roleId_example";  // string | The role id.
+            var scopeId = "scopeId_example";  // string | The scope id.
+
+            try
+            {
+                // Delete role scope
+                DeleteRoleScopeResponse result = apiInstance.DeleteRoleScope(roleId, scopeId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.DeleteRoleScope: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteRoleScopeWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete role scope
+    ApiResponse<DeleteRoleScopeResponse> response = apiInstance.DeleteRoleScopeWithHttpInfo(roleId, scopeId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.DeleteRoleScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The role id. |  |
+| **scopeId** | **string** | The scope id. |  |
+
+### Return type
+
+[**DeleteRoleScopeResponse**](DeleteRoleScopeResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Role scope successfully deleted. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
@@ -417,6 +626,107 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A list of permissions for a role |  -  |
+| **400** | Error removing user |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getrolescopes"></a>
+# **GetRoleScopes**
+> RoleScopesResponse GetRoleScopes (string roleId)
+
+Get role scopes
+
+Get scopes for a role.  <div>   <code>read:role_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetRoleScopesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var roleId = "roleId_example";  // string | The role id.
+
+            try
+            {
+                // Get role scopes
+                RoleScopesResponse result = apiInstance.GetRoleScopes(roleId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.GetRoleScopes: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetRoleScopesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get role scopes
+    ApiResponse<RoleScopesResponse> response = apiInstance.GetRoleScopesWithHttpInfo(roleId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.GetRoleScopesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The role id. |  |
+
+### Return type
+
+[**RoleScopesResponse**](RoleScopesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A list of scopes for a role |  -  |
 | **400** | Error removing user |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |

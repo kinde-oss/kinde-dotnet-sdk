@@ -18,8 +18,10 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**DeleteOrganizationUserAPIScope**](OrganizationsApi.md#deleteorganizationuserapiscope) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id} | Delete scope from organization user API |
 | [**DeleteOrganizationUserPermission**](OrganizationsApi.md#deleteorganizationuserpermission) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id} | Delete Organization User Permission |
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
+| [**EnableOrgConnection**](OrganizationsApi.md#enableorgconnection) | **POST** /api/v1/organizations/{organization_code}/connections/{connection_id} | Enable connection |
 | [**GetOrgUserMFA**](OrganizationsApi.md#getorgusermfa) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/mfa | Get an organization user&#39;s MFA configuration |
 | [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get organization |
+| [**GetOrganizationConnections**](OrganizationsApi.md#getorganizationconnections) | **GET** /api/v1/organizations/{organization_code}/connections | Get connections |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
 | [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
 | [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
@@ -27,6 +29,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | Get organization users |
 | [**GetOrganizations**](OrganizationsApi.md#getorganizations) | **GET** /api/v1/organizations | Get organizations |
 | [**ReadOrganizationLogo**](OrganizationsApi.md#readorganizationlogo) | **GET** /api/v1/organizations/{org_code}/logos | Read organization logo details |
+| [**RemoveOrgConnection**](OrganizationsApi.md#removeorgconnection) | **DELETE** /api/v1/organizations/{organization_code}/connections/{connection_id} | Remove connection |
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
 | [**ReplaceOrganizationMFA**](OrganizationsApi.md#replaceorganizationmfa) | **PUT** /api/v1/organizations/{org_code}/mfa | Replace Organization MFA Configuration |
 | [**ResetOrgUserMFA**](OrganizationsApi.md#resetorgusermfa) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id} | Reset MFA for a user |
@@ -1161,6 +1164,7 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization logo successfully deleted |  -  |
+| **204** | No logo found to delete |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
@@ -1480,6 +1484,105 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="enableorgconnection"></a>
+# **EnableOrgConnection**
+> void EnableOrgConnection (string organizationCode, string connectionId)
+
+Enable connection
+
+Enable an auth connection for an organization.  <div>   <code>create:organization_connections</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class EnableOrgConnectionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var organizationCode = org_7d45b01ef13;  // string | The unique code for the organization.
+            var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
+
+            try
+            {
+                // Enable connection
+                apiInstance.EnableOrgConnection(organizationCode, connectionId);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.EnableOrgConnection: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the EnableOrgConnectionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Enable connection
+    apiInstance.EnableOrgConnectionWithHttpInfo(organizationCode, connectionId);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.EnableOrgConnectionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationCode** | **string** | The unique code for the organization. |  |
+| **connectionId** | **string** | The identifier for the connection. |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Connection successfully enabled. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getorgusermfa"></a>
 # **GetOrgUserMFA**
 > GetUserMfaResponse GetOrgUserMFA (string orgCode, string userId)
@@ -1679,6 +1782,107 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Organization successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationconnections"></a>
+# **GetOrganizationConnections**
+> GetConnectionsResponse GetOrganizationConnections (string organizationCode)
+
+Get connections
+
+Gets all connections for an organization.  <div>   <code>read:organization_connections</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationConnectionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var organizationCode = org_7d45b01ef13;  // string | The organization code.
+
+            try
+            {
+                // Get connections
+                GetConnectionsResponse result = apiInstance.GetOrganizationConnections(organizationCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationConnections: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationConnectionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get connections
+    ApiResponse<GetConnectionsResponse> response = apiInstance.GetOrganizationConnectionsWithHttpInfo(organizationCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationConnectionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationCode** | **string** | The organization code. |  |
+
+### Return type
+
+[**GetConnectionsResponse**](GetConnectionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization connections successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
@@ -2404,6 +2608,109 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Successfully retrieved organization logo details |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="removeorgconnection"></a>
+# **RemoveOrgConnection**
+> SuccessResponse RemoveOrgConnection (string organizationCode, string connectionId)
+
+Remove connection
+
+Turn off an auth connection for an organization  <div>   <code>delete:organization_connections</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class RemoveOrgConnectionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var organizationCode = org_7d45b01ef13;  // string | The unique code for the organization.
+            var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
+
+            try
+            {
+                // Remove connection
+                SuccessResponse result = apiInstance.RemoveOrgConnection(organizationCode, connectionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.RemoveOrgConnection: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the RemoveOrgConnectionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Remove connection
+    ApiResponse<SuccessResponse> response = apiInstance.RemoveOrgConnectionWithHttpInfo(organizationCode, connectionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.RemoveOrgConnectionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationCode** | **string** | The unique code for the organization. |  |
+| **connectionId** | **string** | The identifier for the connection. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Connection successfully removed. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |

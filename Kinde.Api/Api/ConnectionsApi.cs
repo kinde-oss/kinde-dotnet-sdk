@@ -92,30 +92,32 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Connection</returns>
         ApiResponse<Connection> GetConnectionWithHttpInfo(string connectionId);
         /// <summary>
-        /// List Connections
+        /// Get connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>GetConnectionsResponse</returns>
-        GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?));
+        GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?));
 
         /// <summary>
-        /// List Connections
+        /// Get connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
-        ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?));
+        ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?));
         /// <summary>
         /// Replace Connection
         /// </summary>
@@ -241,32 +243,34 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (Connection)</returns>
         System.Threading.Tasks.Task<ApiResponse<Connection>> GetConnectionWithHttpInfoAsync(string connectionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// List Connections
+        /// Get connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetConnectionsResponse</returns>
-        System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// List Connections
+        /// Get connections
         /// </summary>
         /// <remarks>
-        /// Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Replace Connection
         /// </summary>
@@ -930,28 +934,30 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Get connections Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>GetConnectionsResponse</returns>
-        public GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?))
+        public GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?))
         {
-            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = GetConnectionsWithHttpInfo(pageSize, startingAfter, endingBefore);
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = GetConnectionsWithHttpInfo(pageSize, homeRealmDomain, startingAfter, endingBefore);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Get connections Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -973,6 +979,10 @@ namespace Kinde.Api.Api
             if (pageSize != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (homeRealmDomain != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "home_realm_domain", homeRealmDomain));
             }
             if (startingAfter != null)
             {
@@ -1003,30 +1013,32 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Get connections Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetConnectionsResponse</returns>
-        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = await GetConnectionsWithHttpInfoAsync(pageSize, startingAfter, endingBefore, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = await GetConnectionsWithHttpInfoAsync(pageSize, homeRealmDomain, startingAfter, endingBefore, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// List Connections Returns a list of Connections  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
+        /// Get connections Returns a list of authentication connections. Optionally you can filter this by a home realm domain.  &lt;div&gt;   &lt;code&gt;read:connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="homeRealmDomain">Filter the results by the home realm domain. (optional)</param>
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -1050,6 +1062,10 @@ namespace Kinde.Api.Api
             if (pageSize != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (homeRealmDomain != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "home_realm_domain", homeRealmDomain));
             }
             if (startingAfter != null)
             {

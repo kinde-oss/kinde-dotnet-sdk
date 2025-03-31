@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **IsSyncUserProfileOnLogin** | **bool** | Sync user profile data with IDP. | [optional] 
 **IsRetrieveProviderUserGroups** | **bool** | Include user group info from MS Entra ID. | [optional] 
 **IsExtendedAttributesRequired** | **bool** | Include additional user profile information. | [optional] 
+**IsAutoJoinOrganizationEnabled** | **bool** | Users automatically join organization when using this connection. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

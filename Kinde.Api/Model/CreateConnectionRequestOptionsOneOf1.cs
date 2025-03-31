@@ -44,7 +44,8 @@ namespace Kinde.Api.Model
         /// <param name="isSyncUserProfileOnLogin">Sync user profile data with IDP..</param>
         /// <param name="isRetrieveProviderUserGroups">Include user group info from MS Entra ID..</param>
         /// <param name="isExtendedAttributesRequired">Include additional user profile information..</param>
-        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool))
+        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
+        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
@@ -54,6 +55,7 @@ namespace Kinde.Api.Model
             this.IsSyncUserProfileOnLogin = isSyncUserProfileOnLogin;
             this.IsRetrieveProviderUserGroups = isRetrieveProviderUserGroups;
             this.IsExtendedAttributesRequired = isExtendedAttributesRequired;
+            this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
         }
 
         /// <summary>
@@ -121,6 +123,14 @@ namespace Kinde.Api.Model
         public bool IsExtendedAttributesRequired { get; set; }
 
         /// <summary>
+        /// Users automatically join organization when using this connection.
+        /// </summary>
+        /// <value>Users automatically join organization when using this connection.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_auto_join_organization_enabled", EmitDefaultValue = true)]
+        public bool IsAutoJoinOrganizationEnabled { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -136,6 +146,7 @@ namespace Kinde.Api.Model
             sb.Append("  IsSyncUserProfileOnLogin: ").Append(IsSyncUserProfileOnLogin).Append("\n");
             sb.Append("  IsRetrieveProviderUserGroups: ").Append(IsRetrieveProviderUserGroups).Append("\n");
             sb.Append("  IsExtendedAttributesRequired: ").Append(IsExtendedAttributesRequired).Append("\n");
+            sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -207,6 +218,10 @@ namespace Kinde.Api.Model
                 (
                     this.IsExtendedAttributesRequired == input.IsExtendedAttributesRequired ||
                     this.IsExtendedAttributesRequired.Equals(input.IsExtendedAttributesRequired)
+                ) && 
+                (
+                    this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
+                    this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
                 );
         }
 
@@ -239,6 +254,7 @@ namespace Kinde.Api.Model
                 hashCode = (hashCode * 59) + this.IsSyncUserProfileOnLogin.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsRetrieveProviderUserGroups.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsExtendedAttributesRequired.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
                 return hashCode;
             }
         }

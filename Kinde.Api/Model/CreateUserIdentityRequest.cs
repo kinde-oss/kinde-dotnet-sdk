@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
         /// <param name="value">The email address, social identity, or username of the user..</param>
         /// <param name="type">The identity type.</param>
         /// <param name="phoneCountryId">The country code for the phone number, only required when identity type is &#39;phone&#39;..</param>
-        /// <param name="connectionId">The social connection ID, only required when identity type is &#39;social&#39;..</param>
+        /// <param name="connectionId">The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;..</param>
         public CreateUserIdentityRequest(string value = default(string), TypeEnum? type = default(TypeEnum?), string phoneCountryId = default(string), string connectionId = default(string))
         {
             this.Value = value;
@@ -111,9 +111,9 @@ namespace Kinde.Api.Model
         public string PhoneCountryId { get; set; }
 
         /// <summary>
-        /// The social connection ID, only required when identity type is &#39;social&#39;.
+        /// The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.
         /// </summary>
-        /// <value>The social connection ID, only required when identity type is &#39;social&#39;.</value>
+        /// <value>The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.</value>
         /// <example>conn_019289347f1193da6c0e4d49b97b4bd2</example>
         [DataMember(Name = "connection_id", EmitDefaultValue = false)]
         public string ConnectionId { get; set; }

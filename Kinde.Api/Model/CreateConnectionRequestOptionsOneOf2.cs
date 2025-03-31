@@ -46,7 +46,8 @@ namespace Kinde.Api.Model
         /// <param name="isCreateMissingUser">Create user if they don’t exist..</param>
         /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
-        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string))
+        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
+        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
@@ -58,6 +59,7 @@ namespace Kinde.Api.Model
             this.IsCreateMissingUser = isCreateMissingUser;
             this.SamlSigningCertificate = samlSigningCertificate;
             this.SamlSigningPrivateKey = samlSigningPrivateKey;
+            this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
         }
 
         /// <summary>
@@ -129,8 +131,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
         /// <example>-----BEGIN CERTIFICATE-----
-        /// MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
-        /// -----END CERTIFICATE-----</example>
+MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+-----END CERTIFICATE-----</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -139,10 +141,18 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
         /// <example>-----BEGIN PRIVATE KEY-----
-        /// MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-        /// -----END PRIVATE KEY-----</example>
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+-----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
+
+        /// <summary>
+        /// Users automatically join organization when using this connection.
+        /// </summary>
+        /// <value>Users automatically join organization when using this connection.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_auto_join_organization_enabled", EmitDefaultValue = true)]
+        public bool IsAutoJoinOrganizationEnabled { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -162,6 +172,7 @@ namespace Kinde.Api.Model
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
             sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
             sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
+            sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -246,6 +257,10 @@ namespace Kinde.Api.Model
                     this.SamlSigningPrivateKey == input.SamlSigningPrivateKey ||
                     (this.SamlSigningPrivateKey != null &&
                     this.SamlSigningPrivateKey.Equals(input.SamlSigningPrivateKey))
+                ) && 
+                (
+                    this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
+                    this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
                 );
         }
 
@@ -295,6 +310,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SamlSigningPrivateKey.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
                 return hashCode;
             }
         }

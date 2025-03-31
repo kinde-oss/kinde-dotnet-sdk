@@ -137,6 +137,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'IsAutoJoinOrganizationEnabled'
+        /// </summary>
+        [Fact]
+        public void IsAutoJoinOrganizationEnabledTest()
+        {
+            // TODO unit test for the property 'IsAutoJoinOrganizationEnabled'
+        }
+
+        /// <summary>
         /// Test the property 'SamlEntityId'
         /// </summary>
         [Fact]
