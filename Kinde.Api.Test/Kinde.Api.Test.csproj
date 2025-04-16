@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Kinde.Api.Test</AssemblyName>
     <RootNamespace>Kinde.Api.Test</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>annotations</Nullable>
   </PropertyGroup>
