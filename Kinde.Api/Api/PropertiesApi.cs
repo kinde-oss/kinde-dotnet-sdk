@@ -82,7 +82,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>GetPropertiesResponse</returns>
-        GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
+        GetPropertiesResponse GetProperties(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string));
 
         /// <summary>
         /// List properties
@@ -96,7 +96,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>ApiResponse of GetPropertiesResponse</returns>
-        ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
+        ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string));
         /// <summary>
         /// Update Property
         /// </summary>
@@ -188,7 +188,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetPropertiesResponse</returns>
-        System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List properties
@@ -203,7 +203,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Property
         /// </summary>
@@ -727,7 +727,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>GetPropertiesResponse</returns>
-        public GetPropertiesResponse GetProperties(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
+        public GetPropertiesResponse GetProperties(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetPropertiesResponse> localVarResponse = GetPropertiesWithHttpInfo(pageSize, startingAfter, endingBefore, context);
             return localVarResponse.Data;
@@ -742,7 +742,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the property to end before. (optional)</param>
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <returns>ApiResponse of GetPropertiesResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetPropertiesResponse> GetPropertiesWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -807,7 +807,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetPropertiesResponse</returns>
-        public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetPropertiesResponse> localVarResponse = await GetPropertiesWithHttpInfoAsync(pageSize, startingAfter, endingBefore, context, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -823,7 +823,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter results by user,  organization or application context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetPropertiesResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPropertiesResponse>> GetPropertiesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

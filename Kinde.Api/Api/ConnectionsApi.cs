@@ -103,7 +103,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>GetConnectionsResponse</returns>
-        GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?));
+        GetConnectionsResponse GetConnections(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string));
 
         /// <summary>
         /// Get connections
@@ -117,7 +117,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
-        ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?));
+        ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string));
         /// <summary>
         /// Replace Connection
         /// </summary>
@@ -255,7 +255,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetConnectionsResponse</returns>
-        System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get connections
@@ -270,7 +270,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Replace Connection
         /// </summary>
@@ -942,7 +942,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>GetConnectionsResponse</returns>
-        public GetConnectionsResponse GetConnections(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?))
+        public GetConnectionsResponse GetConnections(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = GetConnectionsWithHttpInfo(pageSize, homeRealmDomain, startingAfter, endingBefore);
             return localVarResponse.Data;
@@ -957,7 +957,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the connection to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetConnectionsWithHttpInfo(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -1022,7 +1022,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetConnectionsResponse</returns>
-        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetConnectionsResponse> GetConnectionsAsync(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetConnectionsResponse> localVarResponse = await GetConnectionsWithHttpInfoAsync(pageSize, homeRealmDomain, startingAfter, endingBefore, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1038,7 +1038,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the connection to end before. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string? homeRealmDomain = default(string?), string? startingAfter = default(string?), string? endingBefore = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetConnectionsResponse>> GetConnectionsWithHttpInfoAsync(int? pageSize = default(int?), string homeRealmDomain = default(string), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

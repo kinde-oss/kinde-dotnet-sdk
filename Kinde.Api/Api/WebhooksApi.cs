@@ -136,9 +136,10 @@ namespace Kinde.Api.Api
         /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <returns>UpdateWebhookResponse</returns>
-        UpdateWebhookResponse UpdateWebHook(UpdateWebHookRequest updateWebHookRequest);
+        UpdateWebhookResponse UpdateWebHook(string webhookId, UpdateWebHookRequest updateWebHookRequest);
 
         /// <summary>
         /// Update a Webhook
@@ -147,9 +148,10 @@ namespace Kinde.Api.Api
         /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <returns>ApiResponse of UpdateWebhookResponse</returns>
-        ApiResponse<UpdateWebhookResponse> UpdateWebHookWithHttpInfo(UpdateWebHookRequest updateWebHookRequest);
+        ApiResponse<UpdateWebhookResponse> UpdateWebHookWithHttpInfo(string webhookId, UpdateWebHookRequest updateWebHookRequest);
         #endregion Synchronous Operations
     }
 
@@ -277,10 +279,11 @@ namespace Kinde.Api.Api
         /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UpdateWebhookResponse</returns>
-        System.Threading.Tasks.Task<UpdateWebhookResponse> UpdateWebHookAsync(UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UpdateWebhookResponse> UpdateWebHookAsync(string webhookId, UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update a Webhook
@@ -289,10 +292,11 @@ namespace Kinde.Api.Api
         /// Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UpdateWebhookResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UpdateWebhookResponse>> UpdateWebHookWithHttpInfoAsync(UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UpdateWebhookResponse>> UpdateWebHookWithHttpInfoAsync(string webhookId, UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1145,11 +1149,12 @@ namespace Kinde.Api.Api
         /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <returns>UpdateWebhookResponse</returns>
-        public UpdateWebhookResponse UpdateWebHook(UpdateWebHookRequest updateWebHookRequest)
+        public UpdateWebhookResponse UpdateWebHook(string webhookId, UpdateWebHookRequest updateWebHookRequest)
         {
-            Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> localVarResponse = UpdateWebHookWithHttpInfo(updateWebHookRequest);
+            Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> localVarResponse = UpdateWebHookWithHttpInfo(webhookId, updateWebHookRequest);
             return localVarResponse.Data;
         }
 
@@ -1157,10 +1162,15 @@ namespace Kinde.Api.Api
         /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <returns>ApiResponse of UpdateWebhookResponse</returns>
-        public Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> UpdateWebHookWithHttpInfo(UpdateWebHookRequest updateWebHookRequest)
+        public Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> UpdateWebHookWithHttpInfo(string webhookId, UpdateWebHookRequest updateWebHookRequest)
         {
+            // verify the required parameter 'webhookId' is set
+            if (webhookId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'webhookId' when calling WebhooksApi->UpdateWebHook");
+
             // verify the required parameter 'updateWebHookRequest' is set
             if (updateWebHookRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateWebHookRequest' when calling WebhooksApi->UpdateWebHook");
@@ -1183,6 +1193,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            localVarRequestOptions.PathParameters.Add("webhook_id", Kinde.Api.Client.ClientUtils.ParameterToString(webhookId)); // path parameter
             localVarRequestOptions.Data = updateWebHookRequest;
 
             // authentication (kindeBearerAuth) required
@@ -1193,7 +1204,7 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<UpdateWebhookResponse>("/api/v1/webhooks", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<UpdateWebhookResponse>("/api/v1/webhooks/{webhook_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1208,12 +1219,13 @@ namespace Kinde.Api.Api
         /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UpdateWebhookResponse</returns>
-        public async System.Threading.Tasks.Task<UpdateWebhookResponse> UpdateWebHookAsync(UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UpdateWebhookResponse> UpdateWebHookAsync(string webhookId, UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> localVarResponse = await UpdateWebHookWithHttpInfoAsync(updateWebHookRequest, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UpdateWebhookResponse> localVarResponse = await UpdateWebHookWithHttpInfoAsync(webhookId, updateWebHookRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1221,11 +1233,16 @@ namespace Kinde.Api.Api
         /// Update a Webhook Update a webhook  &lt;div&gt;   &lt;code&gt;update:webhooks&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="webhookId">The webhook id.</param>
         /// <param name="updateWebHookRequest">Update webhook request specification.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UpdateWebhookResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateWebhookResponse>> UpdateWebHookWithHttpInfoAsync(UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateWebhookResponse>> UpdateWebHookWithHttpInfoAsync(string webhookId, UpdateWebHookRequest updateWebHookRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'webhookId' is set
+            if (webhookId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'webhookId' when calling WebhooksApi->UpdateWebHook");
+
             // verify the required parameter 'updateWebHookRequest' is set
             if (updateWebHookRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateWebHookRequest' when calling WebhooksApi->UpdateWebHook");
@@ -1250,6 +1267,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            localVarRequestOptions.PathParameters.Add("webhook_id", Kinde.Api.Client.ClientUtils.ParameterToString(webhookId)); // path parameter
             localVarRequestOptions.Data = updateWebHookRequest;
 
             // authentication (kindeBearerAuth) required
@@ -1261,7 +1279,7 @@ namespace Kinde.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateWebhookResponse>("/api/v1/webhooks", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateWebhookResponse>("/api/v1/webhooks/{webhook_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

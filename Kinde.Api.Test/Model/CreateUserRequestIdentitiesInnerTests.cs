@@ -65,6 +65,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'IsVerified'
+        /// </summary>
+        [Fact]
+        public void IsVerifiedTest()
+        {
+            // TODO unit test for the property 'IsVerified'
+        }
+
+        /// <summary>
         /// Test the property 'Details'
         /// </summary>
         [Fact]

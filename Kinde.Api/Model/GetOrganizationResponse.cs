@@ -129,7 +129,8 @@ namespace Kinde.Api.Model
         /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
-        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?), string senderName = default(string), string senderEmail = default(string))
+        /// <param name="billing">billing.</param>
+        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?), string senderName = default(string), string senderEmail = default(string), GetOrganizationResponseBilling billing = default(GetOrganizationResponseBilling))
         {
             this.Code = code;
             this.Name = name;
@@ -158,6 +159,7 @@ namespace Kinde.Api.Model
             this.IsAllowRegistrations = isAllowRegistrations;
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
+            this.Billing = billing;
         }
 
         /// <summary>
@@ -346,6 +348,12 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
+        /// Gets or Sets Billing
+        /// </summary>
+        [DataMember(Name = "billing", EmitDefaultValue = false)]
+        public GetOrganizationResponseBilling Billing { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -380,6 +388,7 @@ namespace Kinde.Api.Model
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
+            sb.Append("  Billing: ").Append(Billing).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -545,6 +554,11 @@ namespace Kinde.Api.Model
                     this.SenderEmail == input.SenderEmail ||
                     (this.SenderEmail != null &&
                     this.SenderEmail.Equals(input.SenderEmail))
+                ) && 
+                (
+                    this.Billing == input.Billing ||
+                    (this.Billing != null &&
+                    this.Billing.Equals(input.Billing))
                 );
         }
 
@@ -652,6 +666,10 @@ namespace Kinde.Api.Model
                 if (this.SenderEmail != null)
                 {
                     hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
+                }
+                if (this.Billing != null)
+                {
+                    hashCode = (hashCode * 59) + this.Billing.GetHashCode();
                 }
                 return hashCode;
             }

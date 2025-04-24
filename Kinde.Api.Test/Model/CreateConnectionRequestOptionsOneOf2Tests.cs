@@ -92,6 +92,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'SamlSignInUrl'
+        /// </summary>
+        [Fact]
+        public void SamlSignInUrlTest()
+        {
+            // TODO unit test for the property 'SamlSignInUrl'
+        }
+
+        /// <summary>
         /// Test the property 'SamlEmailKeyAttr'
         /// </summary>
         [Fact]

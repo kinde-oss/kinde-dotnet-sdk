@@ -34,7 +34,7 @@ namespace Kinde.Api.Client
         /// Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "1.2.11";
+        public const string Version = "1.3.0";
 
         /// <summary>
         /// Identifier for ISO 8601 DateTime Format
@@ -58,11 +58,6 @@ namespace Kinde.Api.Client
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
                     response.RawContent, response.Headers);
-            }
-            if (status == 0)
-            {
-                return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText);
             }
             return null;
         };
@@ -118,7 +113,7 @@ namespace Kinde.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.2.11/csharp");
+            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.3.0/csharp");
             BasePath = "https://your_kinde_subdomain.kinde.com";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
@@ -551,7 +546,7 @@ namespace Kinde.Api.Client
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
             report += "    Version of the API: 1\n";
-            report += "    SDK Package Version: 1.2.11\n";
+            report += "    SDK Package Version: 1.3.0\n";
 
             return report;
         }

@@ -90,7 +90,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
-            //AddOrganizationUsersRequest? addOrganizationUsersRequest = null;
+            //AddOrganizationUsersRequest addOrganizationUsersRequest = null;
             //var response = instance.AddOrganizationUsers(orgCode, addOrganizationUsersRequest);
             //Assert.IsType<AddOrganizationUsersResponse>(response);
         }
@@ -271,7 +271,7 @@ namespace Kinde.Api.Test.Api
         public void GetOrganizationTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? code = null;
+            //string code = null;
             //var response = instance.GetOrganization(code);
             //Assert.IsType<GetOrganizationResponse>(response);
         }
@@ -321,7 +321,7 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
             //string userId = null;
-            //string? expand = null;
+            //string expand = null;
             //var response = instance.GetOrganizationUserPermissions(orgCode, userId, expand);
             //Assert.IsType<GetOrganizationsUserPermissionsResponse>(response);
         }
@@ -347,11 +347,11 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
-            //string? permissions = null;
-            //string? roles = null;
+            //string nextToken = null;
+            //string permissions = null;
+            //string roles = null;
             //var response = instance.GetOrganizationUsers(orgCode, sort, pageSize, nextToken, permissions, roles);
             //Assert.IsType<GetOrganizationUsersResponse>(response);
         }
@@ -363,9 +363,9 @@ namespace Kinde.Api.Test.Api
         public void GetOrganizationsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetOrganizations(sort, pageSize, nextToken);
             //Assert.IsType<GetOrganizationsResponse>(response);
         }
@@ -436,6 +436,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test ResetOrgUserMFAAll
+        /// </summary>
+        [Fact]
+        public void ResetOrgUserMFAAllTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //string userId = null;
+            //var response = instance.ResetOrgUserMFAAll(orgCode, userId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test UpdateOrganization
         /// </summary>
         [Fact]
@@ -443,8 +456,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
-            //UpdateOrganizationRequest? updateOrganizationRequest = null;
-            //var response = instance.UpdateOrganization(orgCode, updateOrganizationRequest);
+            //string expand = null;
+            //UpdateOrganizationRequest updateOrganizationRequest = null;
+            //var response = instance.UpdateOrganization(orgCode, expand, updateOrganizationRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
 
@@ -497,7 +511,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string orgCode = null;
-            //UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null;
+            //UpdateOrganizationUsersRequest updateOrganizationUsersRequest = null;
             //var response = instance.UpdateOrganizationUsers(orgCode, updateOrganizationUsersRequest);
             //Assert.IsType<UpdateOrganizationUsersResponse>(response);
         }

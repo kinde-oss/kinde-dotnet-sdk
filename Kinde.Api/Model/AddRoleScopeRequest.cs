@@ -36,9 +36,19 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AddRoleScopeRequest" /> class.
         /// </summary>
-        /// <param name="scopeId">The scope identifier..</param>
+        [JsonConstructorAttribute]
+        protected AddRoleScopeRequest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddRoleScopeRequest" /> class.
+        /// </summary>
+        /// <param name="scopeId">The scope identifier. (required).</param>
         public AddRoleScopeRequest(string scopeId = default(string))
         {
+            // to ensure "scopeId" is required (not null)
+            if (scopeId == null)
+            {
+                throw new ArgumentNullException("scopeId is a required property for AddRoleScopeRequest and cannot be null");
+            }
             this.ScopeId = scopeId;
         }
 
@@ -46,7 +56,7 @@ namespace Kinde.Api.Model
         /// The scope identifier.
         /// </summary>
         /// <value>The scope identifier.</value>
-        [DataMember(Name = "scope_id", EmitDefaultValue = false)]
+        [DataMember(Name = "scope_id", IsRequired = true, EmitDefaultValue = true)]
         public string ScopeId { get; set; }
 
         /// <summary>

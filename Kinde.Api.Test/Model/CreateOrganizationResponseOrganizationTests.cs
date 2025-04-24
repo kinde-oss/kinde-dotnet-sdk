@@ -63,5 +63,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'Code'
         }
+
+        /// <summary>
+        /// Test the property 'BillingCustomerId'
+        /// </summary>
+        [Fact]
+        public void BillingCustomerIdTest()
+        {
+            // TODO unit test for the property 'BillingCustomerId'
+        }
     }
 }

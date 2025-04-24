@@ -87,9 +87,9 @@ namespace Kinde.Api.Test.Api
         public void GetSubscribersTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetSubscribers(sort, pageSize, nextToken);
             //Assert.IsType<GetSubscribersResponse>(response);
         }

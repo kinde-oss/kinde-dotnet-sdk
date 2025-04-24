@@ -57,7 +57,7 @@ namespace Kinde.Api.Api
         /// <param name="token">The token to be introspected.</param>
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>TokenIntrospect</returns>
-        TokenIntrospect TokenIntrospection(string token, string? tokenTypeHint = default(string?));
+        TokenIntrospect TokenIntrospection(string token, string tokenTypeHint = default(string));
 
         /// <summary>
         /// Introspect
@@ -69,7 +69,7 @@ namespace Kinde.Api.Api
         /// <param name="token">The token to be introspected.</param>
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>ApiResponse of TokenIntrospect</returns>
-        ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string? tokenTypeHint = default(string?));
+        ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string tokenTypeHint = default(string));
         /// <summary>
         /// Revoke token
         /// </summary>
@@ -82,7 +82,7 @@ namespace Kinde.Api.Api
         /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns></returns>
-        void TokenRevocation(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?));
+        void TokenRevocation(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string));
 
         /// <summary>
         /// Revoke token
@@ -96,7 +96,7 @@ namespace Kinde.Api.Api
         /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?));
+        ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string));
         #endregion Synchronous Operations
     }
 
@@ -138,7 +138,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TokenIntrospect</returns>
-        System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Introspect
@@ -151,7 +151,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TokenIntrospect)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Revoke token
         /// </summary>
@@ -165,7 +165,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Revoke token
@@ -180,7 +180,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -530,7 +530,7 @@ namespace Kinde.Api.Api
         /// <param name="token">The token to be introspected.</param>
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>TokenIntrospect</returns>
-        public TokenIntrospect TokenIntrospection(string token, string? tokenTypeHint = default(string?))
+        public TokenIntrospect TokenIntrospection(string token, string tokenTypeHint = default(string))
         {
             Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = TokenIntrospectionWithHttpInfo(token, tokenTypeHint);
             return localVarResponse.Data;
@@ -543,7 +543,7 @@ namespace Kinde.Api.Api
         /// <param name="token">The token to be introspected.</param>
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <returns>ApiResponse of TokenIntrospect</returns>
-        public Kinde.Api.Client.ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string? tokenTypeHint = default(string?))
+        public Kinde.Api.Client.ApiResponse<TokenIntrospect> TokenIntrospectionWithHttpInfo(string token, string tokenTypeHint = default(string))
         {
             // verify the required parameter 'token' is set
             if (token == null)
@@ -600,7 +600,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TokenIntrospect</returns>
-        public async System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TokenIntrospect> TokenIntrospectionAsync(string token, string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<TokenIntrospect> localVarResponse = await TokenIntrospectionWithHttpInfoAsync(token, tokenTypeHint, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -614,7 +614,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">A hint about the token type being queried in the request. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TokenIntrospect)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<TokenIntrospect>> TokenIntrospectionWithHttpInfoAsync(string token, string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'token' is set
             if (token == null)
@@ -675,7 +675,7 @@ namespace Kinde.Api.Api
         /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns></returns>
-        public void TokenRevocation(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?))
+        public void TokenRevocation(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string))
         {
             TokenRevocationWithHttpInfo(clientId, token, clientSecret, tokenTypeHint);
         }
@@ -689,7 +689,7 @@ namespace Kinde.Api.Api
         /// <param name="clientSecret">The &#x60;client_secret&#x60; of your application. Required for backend apps only. (optional)</param>
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?))
+        public Kinde.Api.Client.ApiResponse<Object> TokenRevocationWithHttpInfo(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string))
         {
             // verify the required parameter 'clientId' is set
             if (clientId == null)
@@ -756,7 +756,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TokenRevocationAsync(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TokenRevocationWithHttpInfoAsync(clientId, token, clientSecret, tokenTypeHint, cancellationToken).ConfigureAwait(false);
         }
@@ -771,7 +771,7 @@ namespace Kinde.Api.Api
         /// <param name="tokenTypeHint">The type of token to be revoked. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string? clientSecret = default(string?), string? tokenTypeHint = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> TokenRevocationWithHttpInfoAsync(string clientId, string token, string clientSecret = default(string), string tokenTypeHint = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'clientId' is set
             if (clientId == null)

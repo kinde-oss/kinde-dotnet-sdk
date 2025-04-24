@@ -240,7 +240,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
-        GetApisResponse GetAPIs(string? expand = default(string?));
+        GetApisResponse GetAPIs(string expand = default(string));
 
         /// <summary>
         /// Get APIs
@@ -251,7 +251,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
-        ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string? expand = default(string?));
+        ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string expand = default(string));
         /// <summary>
         /// Authorize API applications
         /// </summary>
@@ -540,7 +540,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
-        System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get APIs
@@ -552,7 +552,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Authorize API applications
         /// </summary>
@@ -2079,7 +2079,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
-        public GetApisResponse GetAPIs(string? expand = default(string?))
+        public GetApisResponse GetAPIs(string expand = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = GetAPIsWithHttpInfo(expand);
             return localVarResponse.Data;
@@ -2091,7 +2091,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string? expand = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string expand = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -2140,7 +2140,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
-        public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetApisResponse> localVarResponse = await GetAPIsWithHttpInfoAsync(expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2153,7 +2153,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

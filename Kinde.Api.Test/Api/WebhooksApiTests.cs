@@ -119,8 +119,9 @@ namespace Kinde.Api.Test.Api
         public void UpdateWebHookTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
+            //string webhookId = null;
             //UpdateWebHookRequest updateWebHookRequest = null;
-            //var response = instance.UpdateWebHook(updateWebHookRequest);
+            //var response = instance.UpdateWebHook(webhookId, updateWebHookRequest);
             //Assert.IsType<UpdateWebhookResponse>(response);
         }
     }

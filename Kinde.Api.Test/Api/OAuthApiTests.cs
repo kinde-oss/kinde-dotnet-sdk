@@ -73,7 +73,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string token = null;
-            //string? tokenTypeHint = null;
+            //string tokenTypeHint = null;
             //var response = instance.TokenIntrospection(token, tokenTypeHint);
             //Assert.IsType<TokenIntrospect>(response);
         }
@@ -87,8 +87,8 @@ namespace Kinde.Api.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //string clientId = null;
             //string token = null;
-            //string? clientSecret = null;
-            //string? tokenTypeHint = null;
+            //string clientSecret = null;
+            //string tokenTypeHint = null;
             //instance.TokenRevocation(clientId, token, clientSecret, tokenTypeHint);
         }
     }

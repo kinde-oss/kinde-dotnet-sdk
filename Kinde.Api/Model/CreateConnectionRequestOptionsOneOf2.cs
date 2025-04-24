@@ -40,6 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="samlEntityId">SAML Entity ID..</param>
         /// <param name="samlAcsUrl">Assertion Consumer Service URL..</param>
         /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
+        /// <param name="samlSignInUrl">Override the default SSO endpoint with a URL your IdP recognizes..</param>
         /// <param name="samlEmailKeyAttr">Attribute key for the user’s email..</param>
         /// <param name="samlFirstNameKeyAttr">Attribute key for the user’s first name..</param>
         /// <param name="samlLastNameKeyAttr">Attribute key for the user’s last name..</param>
@@ -47,12 +48,13 @@ namespace Kinde.Api.Model
         /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
         /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
-        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool))
+        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
             this.SamlAcsUrl = samlAcsUrl;
             this.SamlIdpMetadataUrl = samlIdpMetadataUrl;
+            this.SamlSignInUrl = samlSignInUrl;
             this.SamlEmailKeyAttr = samlEmailKeyAttr;
             this.SamlFirstNameKeyAttr = samlFirstNameKeyAttr;
             this.SamlLastNameKeyAttr = samlLastNameKeyAttr;
@@ -93,6 +95,14 @@ namespace Kinde.Api.Model
         /// <example>https://kinde.com/saml/metadata</example>
         [DataMember(Name = "saml_idp_metadata_url", EmitDefaultValue = false)]
         public string SamlIdpMetadataUrl { get; set; }
+
+        /// <summary>
+        /// Override the default SSO endpoint with a URL your IdP recognizes.
+        /// </summary>
+        /// <value>Override the default SSO endpoint with a URL your IdP recognizes.</value>
+        /// <example>https://kinde.com/saml/signin</example>
+        [DataMember(Name = "saml_sign_in_url", EmitDefaultValue = false)]
+        public string SamlSignInUrl { get; set; }
 
         /// <summary>
         /// Attribute key for the user’s email.
@@ -142,7 +152,7 @@ namespace Kinde.Api.Model
         /// <value>Private key associated with the signing certificate.</value>
         /// <example>-----BEGIN PRIVATE KEY-----
         /// MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-        ///-----END PRIVATE KEY-----</example>
+        /// -----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
 
@@ -166,6 +176,7 @@ namespace Kinde.Api.Model
             sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
             sb.Append("  SamlAcsUrl: ").Append(SamlAcsUrl).Append("\n");
             sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
+            sb.Append("  SamlSignInUrl: ").Append(SamlSignInUrl).Append("\n");
             sb.Append("  SamlEmailKeyAttr: ").Append(SamlEmailKeyAttr).Append("\n");
             sb.Append("  SamlFirstNameKeyAttr: ").Append(SamlFirstNameKeyAttr).Append("\n");
             sb.Append("  SamlLastNameKeyAttr: ").Append(SamlLastNameKeyAttr).Append("\n");
@@ -230,6 +241,11 @@ namespace Kinde.Api.Model
                     this.SamlIdpMetadataUrl.Equals(input.SamlIdpMetadataUrl))
                 ) && 
                 (
+                    this.SamlSignInUrl == input.SamlSignInUrl ||
+                    (this.SamlSignInUrl != null &&
+                    this.SamlSignInUrl.Equals(input.SamlSignInUrl))
+                ) && 
+                (
                     this.SamlEmailKeyAttr == input.SamlEmailKeyAttr ||
                     (this.SamlEmailKeyAttr != null &&
                     this.SamlEmailKeyAttr.Equals(input.SamlEmailKeyAttr))
@@ -288,6 +304,10 @@ namespace Kinde.Api.Model
                 if (this.SamlIdpMetadataUrl != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlIdpMetadataUrl.GetHashCode();
+                }
+                if (this.SamlSignInUrl != null)
+                {
+                    hashCode = (hashCode * 59) + this.SamlSignInUrl.GetHashCode();
                 }
                 if (this.SamlEmailKeyAttr != null)
                 {

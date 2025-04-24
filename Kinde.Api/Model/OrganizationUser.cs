@@ -43,8 +43,9 @@ namespace Kinde.Api.Model
         /// <param name="firstName">The user&#39;s first name..</param>
         /// <param name="picture">The user&#39;s profile picture URL..</param>
         /// <param name="joinedOn">The date the user joined the organization..</param>
+        /// <param name="lastAccessedOn">The date the user last accessed the organization..</param>
         /// <param name="roles">The roles the user has in the organization..</param>
-        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), string joinedOn = default(string), List<string> roles = default(List<string>))
+        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), string joinedOn = default(string), string lastAccessedOn = default(string), List<string> roles = default(List<string>))
         {
             this.Id = id;
             this.Email = email;
@@ -53,6 +54,7 @@ namespace Kinde.Api.Model
             this.FirstName = firstName;
             this.Picture = picture;
             this.JoinedOn = joinedOn;
+            this.LastAccessedOn = lastAccessedOn;
             this.Roles = roles;
         }
 
@@ -113,6 +115,14 @@ namespace Kinde.Api.Model
         public string JoinedOn { get; set; }
 
         /// <summary>
+        /// The date the user last accessed the organization.
+        /// </summary>
+        /// <value>The date the user last accessed the organization.</value>
+        /// <example>2022-01-01T00:00:00Z</example>
+        [DataMember(Name = "last_accessed_on", EmitDefaultValue = true)]
+        public string LastAccessedOn { get; set; }
+
+        /// <summary>
         /// The roles the user has in the organization.
         /// </summary>
         /// <value>The roles the user has in the organization.</value>
@@ -134,6 +144,7 @@ namespace Kinde.Api.Model
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  Picture: ").Append(Picture).Append("\n");
             sb.Append("  JoinedOn: ").Append(JoinedOn).Append("\n");
+            sb.Append("  LastAccessedOn: ").Append(LastAccessedOn).Append("\n");
             sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -206,6 +217,11 @@ namespace Kinde.Api.Model
                     this.JoinedOn.Equals(input.JoinedOn))
                 ) && 
                 (
+                    this.LastAccessedOn == input.LastAccessedOn ||
+                    (this.LastAccessedOn != null &&
+                    this.LastAccessedOn.Equals(input.LastAccessedOn))
+                ) && 
+                (
                     this.Roles == input.Roles ||
                     this.Roles != null &&
                     input.Roles != null &&
@@ -249,6 +265,10 @@ namespace Kinde.Api.Model
                 if (this.JoinedOn != null)
                 {
                     hashCode = (hashCode * 59) + this.JoinedOn.GetHashCode();
+                }
+                if (this.LastAccessedOn != null)
+                {
+                    hashCode = (hashCode * 59) + this.LastAccessedOn.GetHashCode();
                 }
                 if (this.Roles != null)
                 {

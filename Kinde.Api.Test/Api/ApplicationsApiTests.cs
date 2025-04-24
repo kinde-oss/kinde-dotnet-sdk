@@ -133,9 +133,9 @@ namespace Kinde.Api.Test.Api
         public void GetApplicationsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetApplications(sort, pageSize, nextToken);
             //Assert.IsType<GetApplicationsResponse>(response);
         }
@@ -161,7 +161,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string applicationId = null;
-            //UpdateApplicationRequest? updateApplicationRequest = null;
+            //UpdateApplicationRequest updateApplicationRequest = null;
             //instance.UpdateApplication(applicationId, updateApplicationRequest);
         }
 

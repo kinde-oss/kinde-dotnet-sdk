@@ -62,11 +62,11 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //int? pageSize = null;
-            //string? query = null;
-            //Dictionary<string, List<string>>? properties = null;
-            //string? startingAfter = null;
-            //string? endingBefore = null;
-            //string? expand = null;
+            //string query = null;
+            //Dictionary<string, List<string>> properties = null;
+            //string startingAfter = null;
+            //string endingBefore = null;
+            //string expand = null;
             //var response = instance.SearchUsers(pageSize, query, properties, startingAfter, endingBefore, expand);
             //Assert.IsType<SearchUsersResponse>(response);
         }

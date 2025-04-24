@@ -62,7 +62,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string roleId = null;
-            //AddRoleScopeRequest? addRoleScopeRequest = null;
+            //AddRoleScopeRequest addRoleScopeRequest = null;
             //var response = instance.AddRoleScope(roleId, addRoleScopeRequest);
             //Assert.IsType<AddRoleScopeResponse>(response);
         }
@@ -74,7 +74,7 @@ namespace Kinde.Api.Test.Api
         public void CreateRoleTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //CreateRoleRequest? createRoleRequest = null;
+            //CreateRoleRequest createRoleRequest = null;
             //var response = instance.CreateRole(createRoleRequest);
             //Assert.IsType<CreateRolesResponse>(response);
         }
@@ -124,9 +124,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string roleId = null;
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetRolePermissions(roleId, sort, pageSize, nextToken);
             //Assert.IsType<RolePermissionsResponse>(response);
         }
@@ -150,9 +150,9 @@ namespace Kinde.Api.Test.Api
         public void GetRolesTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetRoles(sort, pageSize, nextToken);
             //Assert.IsType<GetRolesResponse>(response);
         }
@@ -191,7 +191,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string roleId = null;
-            //UpdateRolesRequest? updateRolesRequest = null;
+            //UpdateRolesRequest updateRolesRequest = null;
             //var response = instance.UpdateRoles(roleId, updateRolesRequest);
             //Assert.IsType<SuccessResponse>(response);
         }

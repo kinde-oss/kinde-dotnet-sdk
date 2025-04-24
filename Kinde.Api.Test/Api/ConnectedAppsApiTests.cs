@@ -62,9 +62,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string keyCodeRef = null;
-            //string? userId = null;
-            //string? orgCode = null;
-            //string? overrideCallbackUrl = null;
+            //string userId = null;
+            //string orgCode = null;
+            //string overrideCallbackUrl = null;
             //var response = instance.GetConnectedAppAuthUrl(keyCodeRef, userId, orgCode, overrideCallbackUrl);
             //Assert.IsType<ConnectedAppsAuthUrl>(response);
         }

@@ -297,5 +297,14 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'SenderEmail'
         }
+
+        /// <summary>
+        /// Test the property 'Billing'
+        /// </summary>
+        [Fact]
+        public void BillingTest()
+        {
+            // TODO unit test for the property 'Billing'
+        }
     }
 }

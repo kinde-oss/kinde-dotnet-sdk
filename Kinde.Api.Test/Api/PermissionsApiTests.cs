@@ -61,7 +61,7 @@ namespace Kinde.Api.Test.Api
         public void CreatePermissionTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //CreatePermissionRequest? createPermissionRequest = null;
+            //CreatePermissionRequest createPermissionRequest = null;
             //var response = instance.CreatePermission(createPermissionRequest);
             //Assert.IsType<SuccessResponse>(response);
         }
@@ -85,9 +85,9 @@ namespace Kinde.Api.Test.Api
         public void GetPermissionsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? sort = null;
+            //string sort = null;
             //int? pageSize = null;
-            //string? nextToken = null;
+            //string nextToken = null;
             //var response = instance.GetPermissions(sort, pageSize, nextToken);
             //Assert.IsType<GetPermissionsResponse>(response);
         }
@@ -100,7 +100,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string permissionId = null;
-            //CreatePermissionRequest? createPermissionRequest = null;
+            //CreatePermissionRequest createPermissionRequest = null;
             //var response = instance.UpdatePermissions(permissionId, createPermissionRequest);
             //Assert.IsType<SuccessResponse>(response);
         }

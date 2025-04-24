@@ -70,12 +70,22 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInner" /> class.
         /// </summary>
         /// <param name="type">The type of identity to create, e.g. email, username, or phone..</param>
+        /// <param name="isVerified">Set whether an email or phone identity is verified or not..</param>
         /// <param name="details">details.</param>
-        public CreateUserRequestIdentitiesInner(TypeEnum? type = default(TypeEnum?), CreateUserRequestIdentitiesInnerDetails details = default(CreateUserRequestIdentitiesInnerDetails))
+        public CreateUserRequestIdentitiesInner(TypeEnum? type = default(TypeEnum?), bool isVerified = default(bool), CreateUserRequestIdentitiesInnerDetails details = default(CreateUserRequestIdentitiesInnerDetails))
         {
             this.Type = type;
+            this.IsVerified = isVerified;
             this.Details = details;
         }
+
+        /// <summary>
+        /// Set whether an email or phone identity is verified or not.
+        /// </summary>
+        /// <value>Set whether an email or phone identity is verified or not.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_verified", EmitDefaultValue = true)]
+        public bool IsVerified { get; set; }
 
         /// <summary>
         /// Gets or Sets Details
@@ -92,6 +102,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class CreateUserRequestIdentitiesInner {\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  IsVerified: ").Append(IsVerified).Append("\n");
             sb.Append("  Details: ").Append(Details).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -133,6 +144,10 @@ namespace Kinde.Api.Model
                     this.Type.Equals(input.Type)
                 ) && 
                 (
+                    this.IsVerified == input.IsVerified ||
+                    this.IsVerified.Equals(input.IsVerified)
+                ) && 
+                (
                     this.Details == input.Details ||
                     (this.Details != null &&
                     this.Details.Equals(input.Details))
@@ -149,6 +164,7 @@ namespace Kinde.Api.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsVerified.GetHashCode();
                 if (this.Details != null)
                 {
                     hashCode = (hashCode * 59) + this.Details.GetHashCode();

@@ -42,7 +42,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>SearchUsersResponse</returns>
-        SearchUsersResponse SearchUsers(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?));
+        SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string));
 
         /// <summary>
         /// Search users
@@ -58,7 +58,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of SearchUsersResponse</returns>
-        ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?));
+        ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string));
         #endregion Synchronous Operations
     }
 
@@ -83,7 +83,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SearchUsersResponse</returns>
-        System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Search users
@@ -100,7 +100,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SearchUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -341,7 +341,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>SearchUsersResponse</returns>
-        public SearchUsersResponse SearchUsers(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?))
+        public SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string))
         {
             Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = SearchUsersWithHttpInfo(pageSize, query, properties, startingAfter, endingBefore, expand);
             return localVarResponse.Data;
@@ -358,7 +358,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <returns>ApiResponse of SearchUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?))
+        public Kinde.Api.Client.ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -431,7 +431,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SearchUsersResponse</returns>
-        public async System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = await SearchUsersWithHttpInfoAsync(pageSize, query, properties, startingAfter, endingBefore, expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -449,7 +449,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SearchUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string? query = default(string?), Dictionary<string, List<string>>? properties = default(Dictionary<string, List<string>>?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? expand = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

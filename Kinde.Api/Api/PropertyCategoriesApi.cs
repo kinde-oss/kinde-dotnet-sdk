@@ -61,7 +61,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the category to end before. (optional)</param>
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <returns>GetCategoriesResponse</returns>
-        GetCategoriesResponse GetCategories(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
+        GetCategoriesResponse GetCategories(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string));
 
         /// <summary>
         /// List categories
@@ -75,7 +75,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the category to end before. (optional)</param>
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <returns>ApiResponse of GetCategoriesResponse</returns>
-        ApiResponse<GetCategoriesResponse> GetCategoriesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?));
+        ApiResponse<GetCategoriesResponse> GetCategoriesWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string));
         /// <summary>
         /// Update Category
         /// </summary>
@@ -144,7 +144,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetCategoriesResponse</returns>
-        System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List categories
@@ -159,7 +159,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetCategoriesResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetCategoriesResponse>> GetCategoriesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetCategoriesResponse>> GetCategoriesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Category
         /// </summary>
@@ -554,7 +554,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the category to end before. (optional)</param>
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <returns>GetCategoriesResponse</returns>
-        public GetCategoriesResponse GetCategories(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
+        public GetCategoriesResponse GetCategories(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetCategoriesResponse> localVarResponse = GetCategoriesWithHttpInfo(pageSize, startingAfter, endingBefore, context);
             return localVarResponse.Data;
@@ -569,7 +569,7 @@ namespace Kinde.Api.Api
         /// <param name="endingBefore">The ID of the category to end before. (optional)</param>
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <returns>ApiResponse of GetCategoriesResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetCategoriesResponse> GetCategoriesWithHttpInfo(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetCategoriesResponse> GetCategoriesWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -634,7 +634,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetCategoriesResponse</returns>
-        public async System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetCategoriesResponse> localVarResponse = await GetCategoriesWithHttpInfoAsync(pageSize, startingAfter, endingBefore, context, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -650,7 +650,7 @@ namespace Kinde.Api.Api
         /// <param name="context">Filter the results by User or Organization context (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetCategoriesResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetCategoriesResponse>> GetCategoriesWithHttpInfoAsync(int? pageSize = default(int?), string? startingAfter = default(string?), string? endingBefore = default(string?), string? context = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetCategoriesResponse>> GetCategoriesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

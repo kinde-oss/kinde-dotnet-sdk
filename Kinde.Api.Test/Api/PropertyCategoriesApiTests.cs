@@ -74,9 +74,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //int? pageSize = null;
-            //string? startingAfter = null;
-            //string? endingBefore = null;
-            //string? context = null;
+            //string startingAfter = null;
+            //string endingBefore = null;
+            //string context = null;
             //var response = instance.GetCategories(pageSize, startingAfter, endingBefore, context);
             //Assert.IsType<GetCategoriesResponse>(response);
         }

@@ -61,7 +61,7 @@ namespace Kinde.Api.Test.Api
         public void CreateUserTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //CreateUserRequest? createUserRequest = null;
+            //CreateUserRequest createUserRequest = null;
             //var response = instance.CreateUser(createUserRequest);
             //Assert.IsType<CreateUserResponse>(response);
         }
@@ -74,7 +74,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string userId = null;
-            //CreateUserIdentityRequest? createUserIdentityRequest = null;
+            //CreateUserIdentityRequest createUserIdentityRequest = null;
             //var response = instance.CreateUserIdentity(userId, createUserIdentityRequest);
             //Assert.IsType<CreateIdentityResponse>(response);
         }
@@ -112,7 +112,7 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string id = null;
-            //string? expand = null;
+            //string expand = null;
             //var response = instance.GetUserData(id, expand);
             //Assert.IsType<User>(response);
         }
@@ -125,8 +125,8 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string userId = null;
-            //string? startingAfter = null;
-            //string? endingBefore = null;
+            //string startingAfter = null;
+            //string endingBefore = null;
             //var response = instance.GetUserIdentities(userId, startingAfter, endingBefore);
             //Assert.IsType<GetIdentitiesResponse>(response);
         }
@@ -144,6 +144,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetUserSessions
+        /// </summary>
+        [Fact]
+        public void GetUserSessionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.GetUserSessions(userId);
+            //Assert.IsType<GetUserSessionsResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetUsers
         /// </summary>
         [Fact]
@@ -151,11 +163,11 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //int? pageSize = null;
-            //string? userId = null;
-            //string? nextToken = null;
-            //string? email = null;
-            //string? username = null;
-            //string? expand = null;
+            //string userId = null;
+            //string nextToken = null;
+            //string email = null;
+            //string username = null;
+            //string expand = null;
             //bool? hasOrganization = null;
             //var response = instance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization);
             //Assert.IsType<UsersResponse>(response);
@@ -195,6 +207,18 @@ namespace Kinde.Api.Test.Api
             //string userId = null;
             //string factorId = null;
             //var response = instance.ResetUsersMFA(userId, factorId);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test ResetUsersMFAAll
+        /// </summary>
+        [Fact]
+        public void ResetUsersMFAAllTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string userId = null;
+            //var response = instance.ResetUsersMFAAll(userId);
             //Assert.IsType<SuccessResponse>(response);
         }
 

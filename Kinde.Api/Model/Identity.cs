@@ -36,14 +36,16 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Identity" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="type">type.</param>
-        /// <param name="isConfirmed">isConfirmed.</param>
-        /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
-        /// <param name="lastLoginOn">Date of user creation in ISO 8601 format..</param>
+        /// <param name="id">The unique ID for the identity.</param>
+        /// <param name="type">The type of identity.</param>
+        /// <param name="isConfirmed">Whether the identity is confirmed.</param>
+        /// <param name="createdOn">Date of user creation in ISO 8601 format.</param>
+        /// <param name="lastLoginOn">Date of last login in ISO 8601 format.</param>
         /// <param name="totalLogins">totalLogins.</param>
-        /// <param name="name">name.</param>
-        public Identity(string id = default(string), string type = default(string), bool isConfirmed = default(bool), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string))
+        /// <param name="name">The value of the identity.</param>
+        /// <param name="email">The associated email of the identity.</param>
+        /// <param name="isPrimary">Whether the identity is the primary identity for the user.</param>
+        public Identity(string id = default(string), string type = default(string), bool isConfirmed = default(bool), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), bool? isPrimary = default(bool?))
         {
             this.Id = id;
             this.Type = type;
@@ -52,51 +54,80 @@ namespace Kinde.Api.Model
             this.LastLoginOn = lastLoginOn;
             this.TotalLogins = totalLogins;
             this.Name = name;
+            this.Email = email;
+            this.IsPrimary = isPrimary;
         }
 
         /// <summary>
-        /// Gets or Sets Id
+        /// The unique ID for the identity
         /// </summary>
+        /// <value>The unique ID for the identity</value>
+        /// <example>identity_019617f0cd72460a42192cf37b41084f</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Type
+        /// The type of identity
         /// </summary>
+        /// <value>The type of identity</value>
+        /// <example>email</example>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public string Type { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsConfirmed
+        /// Whether the identity is confirmed
         /// </summary>
+        /// <value>Whether the identity is confirmed</value>
+        /// <example>true</example>
         [DataMember(Name = "is_confirmed", EmitDefaultValue = true)]
         public bool IsConfirmed { get; set; }
 
         /// <summary>
-        /// Date of user creation in ISO 8601 format.
+        /// Date of user creation in ISO 8601 format
         /// </summary>
-        /// <value>Date of user creation in ISO 8601 format.</value>
+        /// <value>Date of user creation in ISO 8601 format</value>
+        /// <example>2025-01-01T00:00:00Z</example>
         [DataMember(Name = "created_on", EmitDefaultValue = false)]
         public string CreatedOn { get; set; }
 
         /// <summary>
-        /// Date of user creation in ISO 8601 format.
+        /// Date of last login in ISO 8601 format
         /// </summary>
-        /// <value>Date of user creation in ISO 8601 format.</value>
+        /// <value>Date of last login in ISO 8601 format</value>
+        /// <example>2025-01-05T00:00:00Z</example>
         [DataMember(Name = "last_login_on", EmitDefaultValue = false)]
         public string LastLoginOn { get; set; }
 
         /// <summary>
         /// Gets or Sets TotalLogins
         /// </summary>
+        /// <example>20</example>
         [DataMember(Name = "total_logins", EmitDefaultValue = false)]
         public int TotalLogins { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// The value of the identity
         /// </summary>
+        /// <value>The value of the identity</value>
+        /// <example>sally@example.com</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// The associated email of the identity
+        /// </summary>
+        /// <value>The associated email of the identity</value>
+        /// <example>sally@example.com</example>
+        [DataMember(Name = "email", EmitDefaultValue = false)]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Whether the identity is the primary identity for the user
+        /// </summary>
+        /// <value>Whether the identity is the primary identity for the user</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_primary", EmitDefaultValue = true)]
+        public bool? IsPrimary { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -113,6 +144,8 @@ namespace Kinde.Api.Model
             sb.Append("  LastLoginOn: ").Append(LastLoginOn).Append("\n");
             sb.Append("  TotalLogins: ").Append(TotalLogins).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  IsPrimary: ").Append(IsPrimary).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -180,6 +213,16 @@ namespace Kinde.Api.Model
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
+                ) && 
+                (
+                    this.Email == input.Email ||
+                    (this.Email != null &&
+                    this.Email.Equals(input.Email))
+                ) && 
+                (
+                    this.IsPrimary == input.IsPrimary ||
+                    (this.IsPrimary != null &&
+                    this.IsPrimary.Equals(input.IsPrimary))
                 );
         }
 
@@ -213,6 +256,14 @@ namespace Kinde.Api.Model
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
+                if (this.Email != null)
+                {
+                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                }
+                if (this.IsPrimary != null)
+                {
+                    hashCode = (hashCode * 59) + this.IsPrimary.GetHashCode();
                 }
                 return hashCode;
             }

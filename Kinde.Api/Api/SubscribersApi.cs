@@ -85,7 +85,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>GetSubscribersResponse</returns>
-        GetSubscribersResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        GetSubscribersResponse GetSubscribers(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
 
         /// <summary>
         /// List Subscribers
@@ -98,7 +98,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of GetSubscribersResponse</returns>
-        ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         #endregion Synchronous Operations
     }
 
@@ -170,7 +170,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetSubscribersResponse</returns>
-        System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// List Subscribers
@@ -184,7 +184,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetSubscribersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -704,7 +704,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>GetSubscribersResponse</returns>
-        public GetSubscribersResponse GetSubscribers(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        public GetSubscribersResponse GetSubscribers(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetSubscribersResponse> localVarResponse = GetSubscribersWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
@@ -718,7 +718,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of GetSubscribersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetSubscribersResponse> GetSubscribersWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -777,7 +777,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetSubscribersResponse</returns>
-        public async System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetSubscribersResponse> GetSubscribersAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetSubscribersResponse> localVarResponse = await GetSubscribersWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -792,7 +792,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetSubscribersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetSubscribersResponse>> GetSubscribersWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();

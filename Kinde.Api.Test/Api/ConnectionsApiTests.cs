@@ -98,9 +98,9 @@ namespace Kinde.Api.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //int? pageSize = null;
-            //string? homeRealmDomain = null;
-            //string? startingAfter = null;
-            //string? endingBefore = null;
+            //string homeRealmDomain = null;
+            //string startingAfter = null;
+            //string endingBefore = null;
             //var response = instance.GetConnections(pageSize, homeRealmDomain, startingAfter, endingBefore);
             //Assert.IsType<GetConnectionsResponse>(response);
         }

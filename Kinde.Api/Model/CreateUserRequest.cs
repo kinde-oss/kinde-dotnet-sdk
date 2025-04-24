@@ -72,7 +72,7 @@ namespace Kinde.Api.Model
         /// Array of identities to assign to the created user
         /// </summary>
         /// <value>Array of identities to assign to the created user</value>
-        /// <example>[{&quot;type&quot;:&quot;email&quot;,&quot;details&quot;:{&quot;email&quot;:&quot;email@email.com&quot;}},{&quot;type&quot;:&quot;phone&quot;,&quot;details&quot;:{&quot;phone&quot;:&quot;+61426148233&quot;,&quot;phone_country_id&quot;:&quot;au&quot;}},{&quot;type&quot;:&quot;username&quot;,&quot;details&quot;:{&quot;username&quot;:&quot;myusername&quot;}}]</example>
+        /// <example>[{&quot;type&quot;:&quot;email&quot;,&quot;is_verified&quot;:true,&quot;details&quot;:{&quot;email&quot;:&quot;email@email.com&quot;}},{&quot;type&quot;:&quot;phone&quot;,&quot;is_verified&quot;:false,&quot;details&quot;:{&quot;phone&quot;:&quot;+61426148233&quot;,&quot;phone_country_id&quot;:&quot;au&quot;}},{&quot;type&quot;:&quot;username&quot;,&quot;details&quot;:{&quot;username&quot;:&quot;myusername&quot;}}]</example>
         [DataMember(Name = "identities", EmitDefaultValue = false)]
         public List<CreateUserRequestIdentitiesInner> Identities { get; set; }
 

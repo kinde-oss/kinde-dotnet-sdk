@@ -40,7 +40,7 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <returns>ConnectedAppsAuthUrl</returns>
-        ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?));
+        ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string));
 
         /// <summary>
         /// Get Connected App URL
@@ -54,7 +54,7 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?));
+        ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string));
         /// <summary>
         /// Get Connected App Token
         /// </summary>
@@ -119,7 +119,7 @@ namespace Kinde.Api.Api
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get Connected App URL
@@ -134,7 +134,7 @@ namespace Kinde.Api.Api
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get Connected App Token
         /// </summary>
@@ -419,7 +419,7 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <returns>ConnectedAppsAuthUrl</returns>
-        public ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?))
+        public ConnectedAppsAuthUrl GetConnectedAppAuthUrl(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string))
         {
             Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = GetConnectedAppAuthUrlWithHttpInfo(keyCodeRef, userId, orgCode, overrideCallbackUrl);
             return localVarResponse.Data;
@@ -434,7 +434,7 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional)</param>
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <returns>ApiResponse of ConnectedAppsAuthUrl</returns>
-        public Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?))
+        public Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlWithHttpInfo(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string))
         {
             // verify the required parameter 'keyCodeRef' is set
             if (keyCodeRef == null)
@@ -500,7 +500,7 @@ namespace Kinde.Api.Api
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ConnectedAppsAuthUrl</returns>
-        public async System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ConnectedAppsAuthUrl> GetConnectedAppAuthUrlAsync(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl> localVarResponse = await GetConnectedAppAuthUrlWithHttpInfoAsync(keyCodeRef, userId, orgCode, overrideCallbackUrl, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -516,7 +516,7 @@ namespace Kinde.Api.Api
         /// <param name="overrideCallbackUrl">A URL that overrides the default callback URL setup in your connected app configuration (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ConnectedAppsAuthUrl)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string? userId = default(string?), string? orgCode = default(string?), string? overrideCallbackUrl = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ConnectedAppsAuthUrl>> GetConnectedAppAuthUrlWithHttpInfoAsync(string keyCodeRef, string userId = default(string), string orgCode = default(string), string overrideCallbackUrl = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'keyCodeRef' is set
             if (keyCodeRef == null)

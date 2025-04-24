@@ -119,6 +119,15 @@ namespace Kinde.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'LastAccessedOn'
+        /// </summary>
+        [Fact]
+        public void LastAccessedOnTest()
+        {
+            // TODO unit test for the property 'LastAccessedOn'
+        }
+
+        /// <summary>
         /// Test the property 'Roles'
         /// </summary>
         [Fact]

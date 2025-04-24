@@ -198,5 +198,32 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'SenderEmail'
         }
+
+        /// <summary>
+        /// Test the property 'IsCreateBillingCustomer'
+        /// </summary>
+        [Fact]
+        public void IsCreateBillingCustomerTest()
+        {
+            // TODO unit test for the property 'IsCreateBillingCustomer'
+        }
+
+        /// <summary>
+        /// Test the property 'BillingEmail'
+        /// </summary>
+        [Fact]
+        public void BillingEmailTest()
+        {
+            // TODO unit test for the property 'BillingEmail'
+        }
+
+        /// <summary>
+        /// Test the property 'BillingPlanCode'
+        /// </summary>
+        [Fact]
+        public void BillingPlanCodeTest()
+        {
+            // TODO unit test for the property 'BillingPlanCode'
+        }
     }
 }

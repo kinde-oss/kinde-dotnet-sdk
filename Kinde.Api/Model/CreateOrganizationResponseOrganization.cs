@@ -37,9 +37,11 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateOrganizationResponseOrganization" /> class.
         /// </summary>
         /// <param name="code">The organization&#39;s unique code..</param>
-        public CreateOrganizationResponseOrganization(string code = default(string))
+        /// <param name="billingCustomerId">The billing customer id if the organization was created with the is_create_billing_customer as true.</param>
+        public CreateOrganizationResponseOrganization(string code = default(string), string billingCustomerId = default(string))
         {
             this.Code = code;
+            this.BillingCustomerId = billingCustomerId;
         }
 
         /// <summary>
@@ -51,6 +53,14 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
+        /// The billing customer id if the organization was created with the is_create_billing_customer as true
+        /// </summary>
+        /// <value>The billing customer id if the organization was created with the is_create_billing_customer as true</value>
+        /// <example>customer_1245adbc6789</example>
+        [DataMember(Name = "billing_customer_id", EmitDefaultValue = false)]
+        public string BillingCustomerId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -59,6 +69,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class CreateOrganizationResponseOrganization {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  BillingCustomerId: ").Append(BillingCustomerId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,6 +109,11 @@ namespace Kinde.Api.Model
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
+                ) && 
+                (
+                    this.BillingCustomerId == input.BillingCustomerId ||
+                    (this.BillingCustomerId != null &&
+                    this.BillingCustomerId.Equals(input.BillingCustomerId))
                 );
         }
 
@@ -113,6 +129,10 @@ namespace Kinde.Api.Model
                 if (this.Code != null)
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
+                if (this.BillingCustomerId != null)
+                {
+                    hashCode = (hashCode * 59) + this.BillingCustomerId.GetHashCode();
                 }
                 return hashCode;
             }

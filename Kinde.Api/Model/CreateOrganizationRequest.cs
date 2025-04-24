@@ -83,7 +83,10 @@ namespace Kinde.Api.Model
         /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), string senderName = default(string), string senderEmail = default(string))
+        /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
+        /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
+        /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), string senderName = default(string), string senderEmail = default(string), bool isCreateBillingCustomer = default(bool), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -106,6 +109,9 @@ namespace Kinde.Api.Model
             this.IsAllowRegistrations = isAllowRegistrations;
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
+            this.IsCreateBillingCustomer = isCreateBillingCustomer;
+            this.BillingEmail = billingEmail;
+            this.BillingPlanCode = billingPlanCode;
         }
 
         /// <summary>
@@ -227,6 +233,30 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
+        /// If a billing customer is also created for this organization
+        /// </summary>
+        /// <value>If a billing customer is also created for this organization</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_create_billing_customer", EmitDefaultValue = true)]
+        public bool IsCreateBillingCustomer { get; set; }
+
+        /// <summary>
+        /// The email address used for billing purposes for the organization
+        /// </summary>
+        /// <value>The email address used for billing purposes for the organization</value>
+        /// <example>billing@acmecorp.com</example>
+        [DataMember(Name = "billing_email", EmitDefaultValue = false)]
+        public string BillingEmail { get; set; }
+
+        /// <summary>
+        /// The billing plan to put the customer on. If not specified, the default plan is used
+        /// </summary>
+        /// <value>The billing plan to put the customer on. If not specified, the default plan is used</value>
+        /// <example>pro</example>
+        [DataMember(Name = "billing_plan_code", EmitDefaultValue = false)]
+        public string BillingPlanCode { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -250,6 +280,9 @@ namespace Kinde.Api.Model
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
+            sb.Append("  IsCreateBillingCustomer: ").Append(IsCreateBillingCustomer).Append("\n");
+            sb.Append("  BillingEmail: ").Append(BillingEmail).Append("\n");
+            sb.Append("  BillingPlanCode: ").Append(BillingPlanCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -364,6 +397,20 @@ namespace Kinde.Api.Model
                     this.SenderEmail == input.SenderEmail ||
                     (this.SenderEmail != null &&
                     this.SenderEmail.Equals(input.SenderEmail))
+                ) && 
+                (
+                    this.IsCreateBillingCustomer == input.IsCreateBillingCustomer ||
+                    this.IsCreateBillingCustomer.Equals(input.IsCreateBillingCustomer)
+                ) && 
+                (
+                    this.BillingEmail == input.BillingEmail ||
+                    (this.BillingEmail != null &&
+                    this.BillingEmail.Equals(input.BillingEmail))
+                ) && 
+                (
+                    this.BillingPlanCode == input.BillingPlanCode ||
+                    (this.BillingPlanCode != null &&
+                    this.BillingPlanCode.Equals(input.BillingPlanCode))
                 );
         }
 
@@ -436,6 +483,15 @@ namespace Kinde.Api.Model
                 if (this.SenderEmail != null)
                 {
                     hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.IsCreateBillingCustomer.GetHashCode();
+                if (this.BillingEmail != null)
+                {
+                    hashCode = (hashCode * 59) + this.BillingEmail.GetHashCode();
+                }
+                if (this.BillingPlanCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.BillingPlanCode.GetHashCode();
                 }
                 return hashCode;
             }

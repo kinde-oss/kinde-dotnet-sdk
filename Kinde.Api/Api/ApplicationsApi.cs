@@ -167,7 +167,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>GetApplicationsResponse</returns>
-        GetApplicationsResponse GetApplications(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        GetApplicationsResponse GetApplications(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
 
         /// <summary>
         /// Get applications
@@ -180,7 +180,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of GetApplicationsResponse</returns>
-        ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?));
+        ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         /// <summary>
         /// Remove connection
         /// </summary>
@@ -214,7 +214,7 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns></returns>
-        void UpdateApplication(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?));
+        void UpdateApplication(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest));
 
         /// <summary>
         /// Update Application
@@ -226,7 +226,7 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?));
+        ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest));
         /// <summary>
         /// Update application tokens
         /// </summary>
@@ -436,7 +436,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApplicationsResponse</returns>
-        System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get applications
@@ -450,7 +450,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Remove connection
         /// </summary>
@@ -487,7 +487,7 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update Application
@@ -500,7 +500,7 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update application tokens
         /// </summary>
@@ -1566,7 +1566,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>GetApplicationsResponse</returns>
-        public GetApplicationsResponse GetApplications(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        public GetApplicationsResponse GetApplications(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
         {
             Kinde.Api.Client.ApiResponse<GetApplicationsResponse> localVarResponse = GetApplicationsWithHttpInfo(sort, pageSize, nextToken);
             return localVarResponse.Data;
@@ -1580,7 +1580,7 @@ namespace Kinde.Api.Api
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <returns>ApiResponse of GetApplicationsResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?))
+        public Kinde.Api.Client.ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -1639,7 +1639,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApplicationsResponse</returns>
-        public async System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetApplicationsResponse> GetApplicationsAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetApplicationsResponse> localVarResponse = await GetApplicationsWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1654,7 +1654,7 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string? sort = default(string?), int? pageSize = default(int?), string? nextToken = default(string?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -1855,7 +1855,7 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns></returns>
-        public void UpdateApplication(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?))
+        public void UpdateApplication(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest))
         {
             UpdateApplicationWithHttpInfo(applicationId, updateApplicationRequest);
         }
@@ -1867,7 +1867,7 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Kinde.Api.Client.ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?))
+        public Kinde.Api.Client.ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest))
         {
             // verify the required parameter 'applicationId' is set
             if (applicationId == null)
@@ -1920,7 +1920,7 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task UpdateApplicationAsync(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await UpdateApplicationWithHttpInfoAsync(applicationId, updateApplicationRequest, cancellationToken).ConfigureAwait(false);
         }
@@ -1933,7 +1933,7 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest? updateApplicationRequest = default(UpdateApplicationRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'applicationId' is set
             if (applicationId == null)

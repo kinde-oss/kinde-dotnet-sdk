@@ -173,7 +173,7 @@ namespace Kinde.Api.Test.Api
         public void GetAPIsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? expand = null;
+            //string expand = null;
             //var response = instance.GetAPIs(expand);
             //Assert.IsType<GetApisResponse>(response);
         }
