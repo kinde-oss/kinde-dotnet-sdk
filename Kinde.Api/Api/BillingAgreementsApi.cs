@@ -29,7 +29,7 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// 
+        /// Create billing agreement
         /// </summary>
         /// <remarks>
         /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
@@ -40,7 +40,7 @@ namespace Kinde.Api.Api
         SuccessResponse CreateBillingAgreement(CreateBillingAgreementRequest createBillingAgreementRequest);
 
         /// <summary>
-        /// 
+        /// Create billing agreement
         /// </summary>
         /// <remarks>
         /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
@@ -88,7 +88,7 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// 
+        /// Create billing agreement
         /// </summary>
         /// <remarks>
         /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
@@ -100,7 +100,7 @@ namespace Kinde.Api.Api
         System.Threading.Tasks.Task<SuccessResponse> CreateBillingAgreementAsync(CreateBillingAgreementRequest createBillingAgreementRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// 
+        /// Create billing agreement
         /// </summary>
         /// <remarks>
         /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
@@ -371,7 +371,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        ///  Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -383,7 +383,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        ///  Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -433,7 +433,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        ///  Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -446,7 +446,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        ///  Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>

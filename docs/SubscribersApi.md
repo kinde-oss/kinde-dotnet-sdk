@@ -100,7 +100,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json, application/json; charset=utf-8
 
 
 ### HTTP response details
@@ -201,7 +201,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json, application/json; charset=utf-8
 
 
 ### HTTP response details
@@ -216,7 +216,7 @@ catch (ApiException e)
 
 <a id="getsubscribers"></a>
 # **GetSubscribers**
-> GetSubscribersResponse GetSubscribers (string? sort = null, int? pageSize = null, string? nextToken = null)
+> GetSubscribersResponse GetSubscribers (string sort = null, int? pageSize = null, string nextToken = null)
 
 List Subscribers
 
@@ -246,9 +246,9 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new SubscribersApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -291,9 +291,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -306,7 +306,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json; charset=utf-8
+ - **Accept**: application/json, application/json; charset=utf-8
 
 
 ### HTTP response details

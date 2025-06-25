@@ -31,6 +31,7 @@ Name | Type | Description | Notes
 **IsAllowRegistrations** | **bool?** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead | [optional] 
 **SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
 **SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
+**Billing** | [**GetOrganizationResponseBilling**](GetOrganizationResponseBilling.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -31,6 +31,12 @@ tags:
   x-displayName: APIs
 - name: Applications
   x-displayName: Applications
+- name: Billing Entitlements
+  x-displayName: Billing Entitlements
+- name: Billing Agreements
+  x-displayName: Billing Agreements
+- name: Billing Meter Usage
+  x-displayName: Billing Meter Usage
 - name: Business
   x-displayName: Business
 - name: Industries
@@ -71,8 +77,6 @@ tags:
   x-displayName: Users
 - name: Webhooks
   x-displayName: Webhooks
-- name: OAuth
-  x-displayName: OAuth
 paths:
   /api/v1/apis:
     get:
@@ -1306,7 +1310,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response'
-          description: Application tokens succesfully updated.
+          description: Application tokens successfully updated.
         "400":
           content:
             application/json:
@@ -1330,6 +1334,291 @@ paths:
       summary: Update application tokens
       tags:
       - Applications
+  /api/v1/billing/entitlements:
+    get:
+      description: |
+        Returns all the entitlements a billing customer currently has access to
+
+        <div>
+          <code>read:billing_entitlements</code>
+        </div>
+      operationId: getBillingEntitlements
+      parameters:
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: The ID of the billing entitlement to start after.
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the billing entitlement to end before.
+        explode: true
+        in: query
+        name: ending_before
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the billing customer to retrieve entitlements for
+        explode: true
+        in: query
+        name: customer_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: "When the maximum limit of an entitlement is null, this value\
+          \ is returned as the maximum limit"
+        explode: true
+        in: query
+        name: max_value
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: Specify additional plan data to retrieve. Use "plans".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          enum:
+          - plans
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_billing_entitlements_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_billing_entitlements_response'
+          description: Billing entitlements successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get billing entitlements
+      tags:
+      - Billing Entitlements
+  /api/v1/billing/agreements:
+    get:
+      description: |
+        Returns all the agreements a billing customer currently has access to
+
+        <div>
+          <code>read:billing_agreements</code>
+        </div>
+      operationId: getBillingAgreements
+      parameters:
+      - description: Number of results per page. Defaults to 10 if parameter not sent.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      - description: The ID of the billing agreement to start after.
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the billing agreement to end before.
+        explode: true
+        in: query
+        name: ending_before
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - description: The ID of the billing customer to retrieve agreements for
+        example: customer_0195ac80a14c2ca2cec97d026d864de0
+        explode: true
+        in: query
+        name: customer_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: form
+      - description: The feature code to filter by agreements only containing that
+          feature
+        explode: true
+        in: query
+        name: feature_code
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_billing_agreements_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_billing_agreements_response'
+          description: Billing agreements successfully retrieved.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get billing agreements
+      tags:
+      - Billing Agreements
+    post:
+      description: |
+        Creates a new billing agreement based on the plan code passed, and cancels the customer's existing agreements
+
+        <div>
+          <code>create:billing_agreements</code>
+        </div>
+      operationId: createBillingAgreement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBillingAgreement_request'
+        description: New agreement request values
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Billing agreement successfully changed
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create billing agreement
+      tags:
+      - Billing Agreements
+  /api/v1/billing/meter_usage:
+    post:
+      description: |
+        Create a new meter usage record
+
+        <div>
+          <code>create:meter_usage</code>
+        </div>
+      operationId: createMeterUsageRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createMeterUsageRecord_request'
+        description: Meter usage record
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_meter_usage_record_response'
+          description: Meter usage record successfully created.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Create meter usage record
+      tags:
+      - Billing Meter Usage
   /api/v1/business:
     get:
       description: |
@@ -1539,6 +1828,9 @@ paths:
           description: Invalid request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -1622,18 +1914,27 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Callbacks successfully updated
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -1672,12 +1973,18 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Callbacks successfully updated
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -3670,6 +3977,17 @@ paths:
           example: org_1ccfb819462
           type: string
         style: simple
+      - description: Specify additional data to retrieve. Use "billing".
+        explode: true
+        in: query
+        name: expand
+        required: false
+        schema:
+          enum:
+          - billing
+          nullable: true
+          type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -4466,6 +4784,69 @@ paths:
       tags:
       - Organizations
   /api/v1/organizations/{org_code}/users/{user_id}/mfa:
+    delete:
+      description: |
+        Reset all organization MFA factors for a user.
+
+        <div>
+          <code>delete:organization_user_mfa</code>
+        </div>
+      operationId: ResetOrgUserMFAAll
+      parameters:
+      - description: The identifier for the organization.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          type: string
+        style: simple
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User's MFA successfully reset.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Reset all organization MFA for a user
+      tags:
+      - Organizations
     get:
       description: |
         Get an organization user’s MFA configuration.
@@ -4532,7 +4913,7 @@ paths:
   /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}:
     delete:
       description: |
-        Reset an organization user’s MFA.
+        Reset a specific organization MFA factor for a user.
 
         <div>
           <code>delete:organization_user_mfa</code>
@@ -4599,7 +4980,7 @@ paths:
           description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Reset MFA for a user
+      summary: Reset specific organization MFA for a user
       tags:
       - Organizations
   /api/v1/organizations/{org_code}/feature_flags:
@@ -5414,6 +5795,63 @@ paths:
       summary: Enable connection
       tags:
       - Organizations
+  /api/v1/organizations/{org_code}/sessions:
+    patch:
+      description: |
+        Update the organization's session configuration.
+
+        <div>
+          <code>update:organizations</code>
+        </div>
+      operationId: UpdateOrganizationSessions
+      parameters:
+      - description: The organization's code.
+        explode: false
+        in: path
+        name: org_code
+        required: true
+        schema:
+          example: org_1ccfb819462
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrganizationSessions_request'
+        description: Organization session configuration.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: Organization sessions successfully updated
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update organization session configuration
+      tags:
+      - Organizations
   /api/v1/permissions:
     get:
       description: |
@@ -5500,18 +5938,27 @@ paths:
       responses:
         "201":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Permission successfully created
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -5597,18 +6044,27 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/success_response'
           description: Permission successfully updated
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -6363,7 +6819,7 @@ paths:
             schema:
               $ref: '#/components/schemas/AddRoleScope_request'
         description: Add scope to role.
-        required: false
+        required: true
       responses:
         "201":
           content:
@@ -6782,12 +7238,18 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_subscribers_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/get_subscribers_response'
           description: Subscriber successfully retrieved.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -6838,18 +7300,27 @@ paths:
       responses:
         "201":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_subscriber_success_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/create_subscriber_success_response'
           description: Subscriber successfully created
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Invalid request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -6883,18 +7354,27 @@ paths:
       responses:
         "200":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_subscriber_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/get_subscriber_response'
           description: Subscriber successfully retrieved.
         "400":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
           description: Bad request.
         "403":
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/error_response'
@@ -7736,7 +8216,115 @@ paths:
       summary: Delete user sessions
       tags:
       - Users
+    get:
+      description: |
+        Retrieve the list of active sessions for a specific user.
+
+        <div>
+          <code>read:user_sessions</code>
+        </div>
+      operationId: GetUserSessions
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_user_sessions_response'
+          description: Successfully retrieved user sessions.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Get user sessions
+      tags:
+      - Users
   /api/v1/users/{user_id}/mfa:
+    delete:
+      description: |
+        Reset all environment MFA factors for a user.
+
+        <div>
+          <code>delete:user_mfa</code>
+        </div>
+      operationId: ResetUsersMFAAll
+      parameters:
+      - description: The identifier for the user
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: kp_c3143a4b50ad43c88e541d9077681782
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+          description: User's MFA successfully reset.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Unauthorized - invalid credentials.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/not_found_response'
+          description: The specified resource was not found
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Too many requests. Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Reset all environment MFA for a user
+      tags:
+      - Users
     get:
       description: |
         Get a user’s MFA configuration.
@@ -7794,7 +8382,7 @@ paths:
   /api/v1/users/{user_id}/mfa/{factor_id}:
     delete:
       description: |
-        Reset a user’s MFA.
+        Reset a specific environment MFA factor for a user.
 
         <div>
           <code>delete:user_mfa</code>
@@ -7852,7 +8440,7 @@ paths:
           description: Too many requests. Request was throttled.
       security:
       - kindeBearerAuth: []
-      summary: Reset MFA for a user
+      summary: Reset specific environment MFA for a user
       tags:
       - Users
   /api/v1/events/{event_id}:
@@ -8007,6 +8595,66 @@ paths:
       summary: Delete Webhook
       tags:
       - Webhooks
+    patch:
+      description: |
+        Update a webhook
+
+        <div>
+          <code>update:webhooks</code>
+        </div>
+      operationId: UpdateWebHook
+      parameters:
+      - description: The webhook id.
+        explode: false
+        in: path
+        name: webhook_id
+        required: true
+        schema:
+          nullable: false
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWebHook_request'
+        description: Update webhook request specification.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/update_webhook_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_webhook_response'
+          description: Webhook successfully updated.
+        "400":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid request.
+        "403":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+          description: Invalid credentials.
+        "429":
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+      summary: Update a Webhook
+      tags:
+      - Webhooks
   /api/v1/webhooks:
     get:
       description: |
@@ -8049,56 +8697,6 @@ paths:
       security:
       - kindeBearerAuth: []
       summary: List Webhooks
-      tags:
-      - Webhooks
-    patch:
-      description: |
-        Update a webhook
-
-        <div>
-          <code>update:webhooks</code>
-        </div>
-      operationId: UpdateWebHook
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateWebHook_request'
-        description: Update webhook request specification.
-        required: true
-      responses:
-        "200":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/update_webhook_response'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/update_webhook_response'
-          description: Webhook successfully updated.
-        "400":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid request.
-        "403":
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/error_response'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Update a Webhook
       tags:
       - Webhooks
     post:
@@ -8151,110 +8749,6 @@ paths:
       summary: Create a Webhook
       tags:
       - Webhooks
-  /oauth2/v2/user_profile:
-    get:
-      description: |
-        This endpoint returns a user's ID, names, profile picture URL and email of the currently logged in user.
-      operationId: getUserProfileV2
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user_profile_v2'
-          description: Details of logged in user.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Get user profile
-      tags:
-      - OAuth
-  /oauth2/introspect:
-    post:
-      description: Retrieve information about the provided token.
-      operationId: tokenIntrospection
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/tokenIntrospection_request'
-        description: Token details.
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_introspect'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/token_introspect'
-          description: Details of the token.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-          description: Bad request.
-        "403":
-          description: Invalid credentials.
-        "429":
-          description: Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Introspect
-      tags:
-      - OAuth
-  /oauth2/revoke:
-    post:
-      description: Use this endpoint to invalidate an access or refresh token. The
-        token will no longer be valid for use.
-      operationId: tokenRevocation
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/tokenRevocation_request'
-        description: Details of the token to be revoked.
-        required: true
-      responses:
-        "200":
-          description: Token successfully revoked.
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Invalid request.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token_error_response'
-          description: Bad request.
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Unauthorized - invalid credentials.
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_response'
-          description: Too many requests. Request was throttled.
-      security:
-      - kindeBearerAuth: []
-      summary: Revoke token
-      tags:
-      - OAuth
 components:
   parameters:
     api_id:
@@ -8996,6 +9490,7 @@ components:
         code: OK
         organization:
           code: org_1ccfb819462
+          billing_customer_id: customer_1245adbc6789
         message: Success
       properties:
         message:
@@ -9053,20 +9548,24 @@ components:
       example:
         code: code
         identities:
-        - total_logins: 0
-          created_on: created_on
+        - total_logins: 20
+          is_primary: true
+          created_on: 2025-01-01T00:00:00Z
           is_confirmed: true
-          name: name
-          id: id
-          type: type
-          last_login_on: last_login_on
-        - total_logins: 0
-          created_on: created_on
+          name: sally@example.com
+          id: identity_019617f0cd72460a42192cf37b41084f
+          type: email
+          last_login_on: 2025-01-05T00:00:00Z
+          email: sally@example.com
+        - total_logins: 20
+          is_primary: true
+          created_on: 2025-01-01T00:00:00Z
           is_confirmed: true
-          name: name
-          id: id
-          type: type
-          last_login_on: last_login_on
+          name: sally@example.com
+          id: identity_019617f0cd72460a42192cf37b41084f
+          type: email
+          last_login_on: 2025-01-05T00:00:00Z
+          email: sally@example.com
         has_more: true
         message: message
       properties:
@@ -9083,6 +9582,55 @@ components:
         has_more:
           description: Whether more records exist.
           type: boolean
+      type: object
+    get_user_sessions_response:
+      example:
+        sessions:
+        - updated_on: 2025-04-01T13:04:20+11:00
+          initial_ip_address: 192.168.65.1
+          initial_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+          user_id: kp_5fc30d0547734f30aca617450202169f
+          started_on: 2025-04-01T13:04:20.315701+11:00
+          connection_id: conn_75ab8ec0faae4f73bae9fc64daf120c9
+          expires_on: 2025-04-02T13:04:20.315701+11:00
+          last_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+          session_id: session_0xc75ec12fe8434ffc9d527794f00692e5
+          org_code: org_1ccfb819462
+          client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+          last_ip_address: 192.168.65.1
+        - updated_on: 2025-04-01T13:04:20+11:00
+          initial_ip_address: 192.168.65.1
+          initial_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+          user_id: kp_5fc30d0547734f30aca617450202169f
+          started_on: 2025-04-01T13:04:20.315701+11:00
+          connection_id: conn_75ab8ec0faae4f73bae9fc64daf120c9
+          expires_on: 2025-04-02T13:04:20.315701+11:00
+          last_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+          session_id: session_0xc75ec12fe8434ffc9d527794f00692e5
+          org_code: org_1ccfb819462
+          client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+          last_ip_address: 192.168.65.1
+        code: OK
+        has_more: false
+        message: Success
+      properties:
+        code:
+          example: OK
+          type: string
+        message:
+          example: Success
+          type: string
+        has_more:
+          example: false
+          type: boolean
+        sessions:
+          items:
+            $ref: '#/components/schemas/get_user_sessions_response_sessions_inner'
+          type: array
       type: object
     get_user_mfa_response:
       example:
@@ -9542,6 +10090,13 @@ components:
         external_id: some1234
         sender_name: Acme Corp
         button_border_radius: 8
+        billing:
+          agreements:
+          - agreement_id: agreement_a1234b
+            plan_code: pro
+          - agreement_id: agreement_a1234b
+            plan_code: pro
+          billing_customer_id: billing_customer_id
         is_auto_membership_enabled: true
         input_border_radius: 4
         link_color:
@@ -9707,6 +10262,8 @@ components:
           example: hello@acmecorp.com
           nullable: true
           type: string
+        billing:
+          $ref: '#/components/schemas/get_organization_response_billing'
       type: object
     organization_user:
       example:
@@ -9720,6 +10277,7 @@ components:
         first_name: John
         email: john.snow@example.com
         picture: https://example.com/john_snow.jpg
+        last_accessed_on: 2022-01-01T00:00:00Z
       properties:
         id:
           description: The unique ID for the user.
@@ -9753,6 +10311,11 @@ components:
         joined_on:
           description: The date the user joined the organization.
           example: 2021-01-01T00:00:00Z
+          type: string
+        last_accessed_on:
+          description: The date the user last accessed the organization.
+          example: 2022-01-01T00:00:00Z
+          nullable: true
           type: string
         roles:
           description: The roles the user has in the organization.
@@ -9823,30 +10386,52 @@ components:
       type: object
     identity:
       example:
-        total_logins: 0
-        created_on: created_on
+        total_logins: 20
+        is_primary: true
+        created_on: 2025-01-01T00:00:00Z
         is_confirmed: true
-        name: name
-        id: id
-        type: type
-        last_login_on: last_login_on
+        name: sally@example.com
+        id: identity_019617f0cd72460a42192cf37b41084f
+        type: email
+        last_login_on: 2025-01-05T00:00:00Z
+        email: sally@example.com
       properties:
         id:
+          description: The unique ID for the identity
+          example: identity_019617f0cd72460a42192cf37b41084f
           type: string
         type:
+          description: The type of identity
+          example: email
           type: string
         is_confirmed:
+          description: Whether the identity is confirmed
+          example: true
           type: boolean
         created_on:
-          description: Date of user creation in ISO 8601 format.
+          description: Date of user creation in ISO 8601 format
+          example: 2025-01-01T00:00:00Z
           type: string
         last_login_on:
-          description: Date of user creation in ISO 8601 format.
+          description: Date of last login in ISO 8601 format
+          example: 2025-01-05T00:00:00Z
           type: string
         total_logins:
+          example: 20
           type: integer
         name:
+          description: The value of the identity
+          example: sally@example.com
           type: string
+        email:
+          description: The associated email of the identity
+          example: sally@example.com
+          type: string
+        is_primary:
+          description: Whether the identity is the primary identity for the user
+          example: true
+          nullable: true
+          type: boolean
       type: object
     property:
       example:
@@ -10194,6 +10779,7 @@ components:
           first_name: John
           email: john.snow@example.com
           picture: https://example.com/john_snow.jpg
+          last_accessed_on: 2022-01-01T00:00:00Z
         - full_name: John Snow
           roles:
           - admin
@@ -10204,6 +10790,7 @@ components:
           first_name: John
           email: john.snow@example.com
           picture: https://example.com/john_snow.jpg
+          last_accessed_on: 2022-01-01T00:00:00Z
         message: Success
         next_token: next_token
       properties:
@@ -10776,108 +11363,110 @@ components:
           example: Success
           type: string
       type: object
-    user_profile_v2:
+    get_billing_entitlements_response:
       example:
-        sub: kp_c3143a4b50ad43c88e541d9077681782
-        email_verified: true
-        updated_at: 1612345678
-        name: John Snow
-        preferred_username: john_snow
-        id: kp_c3143a4b50ad43c88e541d9077681782
-        given_name: John
-        provided_id: some_external_id
-        family_name: Snow
-        email: john.snow@example.com
-        picture: https://example.com/john_snow.jpg
+        entitlements:
+        - fixed_charge: 35
+          feature_name: Pro Gym
+          price_name: Pro gym
+          entitlement_limit_min: 1
+          id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          unit_amount: 0
+          entitlement_limit_max: 6
+          feature_code: CcdkvEXpbg6UY
+        - fixed_charge: 35
+          feature_name: Pro Gym
+          price_name: Pro gym
+          entitlement_limit_min: 1
+          id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          unit_amount: 0
+          entitlement_limit_max: 6
+          feature_code: CcdkvEXpbg6UY
+        code: OK
+        plans:
+        - code: code
+          subscribed_on: 2024-11-18T13:32:03+11:00
+        - code: code
+          subscribed_on: 2024-11-18T13:32:03+11:00
+        has_more: true
+        message: Success
       properties:
-        sub:
-          description: Unique ID of the user in Kinde.
-          example: kp_c3143a4b50ad43c88e541d9077681782
+        code:
+          description: Response code.
+          example: OK
           type: string
-        provided_id:
-          description: Value of the user's ID in a third-party system when the user
-            is imported into Kinde.
-          example: some_external_id
-          nullable: true
+        message:
+          description: Response message.
+          example: Success
           type: string
-        name:
-          description: User's first and last name separated by a space.
-          example: John Snow
-          type: string
-        given_name:
-          description: User's first name.
-          example: John
-          type: string
-        family_name:
-          description: User's last name.
-          example: Snow
-          type: string
-        updated_at:
-          description: Date the user was last updated at (In Unix time).
-          example: 1612345678
-          type: integer
-        email:
-          description: User's email address if available.
-          example: john.snow@example.com
-          type: string
-        email_verified:
-          description: Whether the user's email address has been verified.
-          example: true
+        has_more:
+          description: Whether more records exist.
           type: boolean
-        picture:
-          description: URL that point's to the user's picture or avatar
-          example: https://example.com/john_snow.jpg
-          nullable: true
-          type: string
-        preferred_username:
-          description: User's preferred username.
-          example: john_snow
-          nullable: true
-          type: string
-        id:
-          description: Unique ID of the user in Kinde
-          example: kp_c3143a4b50ad43c88e541d9077681782
-          type: string
-      type: object
-    token_introspect:
-      example:
-        aud:
-        - https://api.example.com/v1
-        - https://api.example.com/v1
-        active: true
-        exp: 1612345678
-        iat: 1612345678
-        client_id: 3b0b5c6c8fcc464fab397f4969b5f482
-      properties:
-        active:
-          description: Indicates the status of the token.
-          type: boolean
-        aud:
-          description: Array of intended token recipients.
+        entitlements:
+          description: A list of entitlements
           items:
-            example: https://api.example.com/v1
-            type: string
+            $ref: '#/components/schemas/get_billing_entitlements_response_entitlements_inner'
           type: array
-        client_id:
-          description: Identifier for the requesting client.
-          example: 3b0b5c6c8fcc464fab397f4969b5f482
-          type: string
-        exp:
-          description: Token expiration timestamp.
-          example: 1612345678
-          type: integer
-        iat:
-          description: Token issuance timestamp.
-          example: 1612345678
-          type: integer
+        plans:
+          description: A list of plans.
+          items:
+            $ref: '#/components/schemas/get_billing_entitlements_response_plans_inner'
+          type: array
       type: object
-    token_error_response:
+    get_billing_agreements_response:
+      example:
+        code: OK
+        agreements:
+        - billing_group_id: sbg_0195abf6773fdae18d5da72281a3fde2
+          entitlements:
+          - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+            feature_code: CcdkvEXpbg6UY
+          - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+            feature_code: CcdkvEXpbg6UY
+          expires_on: 2024-11-18T13:32:03+11:00
+          plan_code: plan_code
+          id: agreement_0195ac80a14c2ca2cec97d026d864de0
+        - billing_group_id: sbg_0195abf6773fdae18d5da72281a3fde2
+          entitlements:
+          - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+            feature_code: CcdkvEXpbg6UY
+          - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+            feature_code: CcdkvEXpbg6UY
+          expires_on: 2024-11-18T13:32:03+11:00
+          plan_code: plan_code
+          id: agreement_0195ac80a14c2ca2cec97d026d864de0
+        has_more: true
+        message: Success
       properties:
-        error:
-          description: Error.
+        code:
+          description: Response code.
+          example: OK
           type: string
-        error_description:
-          description: The error description.
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        agreements:
+          description: A list of billing agreements
+          items:
+            $ref: '#/components/schemas/get_billing_agreements_response_agreements_inner'
+          type: array
+      type: object
+    create_meter_usage_record_response:
+      example:
+        code: OK
+        message: Success
+      properties:
+        message:
+          description: Response message.
+          example: Success
+          type: string
+        code:
+          description: Response code.
+          example: OK
           type: string
       type: object
     addAPIs_request:
@@ -11019,6 +11608,62 @@ components:
           description: Enable or disable Hasura mapping.
           example: true
           type: boolean
+      type: object
+    createBillingAgreement_request:
+      properties:
+        customer_id:
+          description: The ID of the billing customer to create a new agreement for
+          example: customer_0195ac80a14c2ca2cec97d026d864de0
+          type: string
+        plan_code:
+          description: The code of the billing plan the new agreement will be based
+            on
+          example: pro
+          type: string
+        is_invoice_now:
+          description: Generate a final invoice for any un-invoiced metered usage.
+          example: true
+          type: boolean
+        is_prorate:
+          description: Generate a proration invoice item that credits remaining unused
+            features.
+          example: true
+          type: boolean
+      required:
+      - customer_id
+      - plan_code
+      type: object
+    createMeterUsageRecord_request:
+      properties:
+        customer_agreement_id:
+          description: The billing agreement against which to record usage
+          example: agreement_0195ac80a14c2ca2cec97d026d864de0
+          type: string
+        billing_feature_code:
+          description: The code of the feature within the agreement against which
+            to record usage
+          example: pro_gym
+          type: string
+        meter_value:
+          description: The value of usage to record
+          example: pro_gym
+          type: string
+        meter_usage_timestamp:
+          description: The date and time the usage needs to be recorded for (defaults
+            to current date/time)
+          example: 2024-11-18T13:32:03+11:00
+          format: date-time
+          type: string
+        meter_type_code:
+          description: Absolutes overrides the current usage
+          enum:
+          - absolute
+          - delta
+          type: string
+      required:
+      - billing_feature_code
+      - customer_agreement_id
+      - meter_value
       type: object
     updateBusiness_request:
       properties:
@@ -11173,6 +11818,10 @@ components:
         saml_idp_metadata_url:
           description: URL for the IdP metadata.
           example: https://kinde.com/saml/metadata
+          type: string
+        saml_sign_in_url:
+          description: Override the default SSO endpoint with a URL your IdP recognizes.
+          example: https://kinde.com/saml/signin
           type: string
         saml_email_key_attr:
           description: Attribute key for the user’s email.
@@ -11602,6 +12251,19 @@ components:
           example: hello@acmecorp.com
           nullable: true
           type: string
+        is_create_billing_customer:
+          description: If a billing customer is also created for this organization
+          example: false
+          type: boolean
+        billing_email:
+          description: The email address used for billing purposes for the organization
+          example: billing@acmecorp.com
+          type: string
+        billing_plan_code:
+          description: "The billing plan to put the customer on. If not specified,\
+            \ the default plan is used"
+          example: pro
+          type: string
       required:
       - name
       type: object
@@ -11790,6 +12452,26 @@ components:
       required:
       - enabled_factors
       type: object
+    UpdateOrganizationSessions_request:
+      properties:
+        is_use_org_sso_session_policy:
+          description: Whether to use the organization's SSO session policy override.
+          type: boolean
+        sso_session_persistence_mode:
+          description: Determines if the session should be persistent or not.
+          enum:
+          - persistent
+          - non-persistent
+          type: string
+        is_use_org_authenticated_session_lifetime:
+          description: Whether to apply the organization's authenticated session lifetime
+            override.
+          type: boolean
+        authenticated_session_lifetime:
+          description: Authenticated session lifetime in seconds.
+          example: 86400
+          type: integer
+      type: object
     CreatePermission_request:
       properties:
         name:
@@ -11931,6 +12613,8 @@ components:
         scope_id:
           description: The scope identifier.
           type: string
+      required:
+      - scope_id
       type: object
     UpdateRolePermissions_request_permissions_inner:
       properties:
@@ -11993,6 +12677,10 @@ components:
           - phone
           - username
           type: string
+        is_verified:
+          description: Set whether an email or phone identity is verified or not.
+          example: true
+          type: boolean
         details:
           $ref: '#/components/schemas/createUser_request_identities_inner_details'
       type: object
@@ -12011,9 +12699,11 @@ components:
           description: Array of identities to assign to the created user
           example:
           - type: email
+            is_verified: true
             details:
               email: email@email.com
           - type: phone
+            is_verified: false
             details:
               phone: +61426148233
               phone_country_id: au
@@ -12103,6 +12793,23 @@ components:
           example: conn_019289347f1193da6c0e4d49b97b4bd2
           type: string
       type: object
+    UpdateWebHook_request:
+      properties:
+        event_types:
+          description: Array of event type keys
+          items:
+            type: string
+          nullable: false
+          type: array
+        name:
+          description: The webhook name
+          nullable: false
+          type: string
+        description:
+          description: The webhook description
+          nullable: true
+          type: string
+      type: object
     CreateWebHook_request:
       properties:
         endpoint:
@@ -12127,63 +12834,6 @@ components:
       - endpoint
       - event_types
       - name
-      type: object
-    UpdateWebHook_request:
-      properties:
-        event_types:
-          description: Array of event type keys
-          items:
-            type: string
-          nullable: false
-          type: array
-        name:
-          description: The webhook name
-          nullable: false
-          type: string
-        description:
-          description: The webhook description
-          nullable: true
-          type: string
-      type: object
-    tokenIntrospection_request:
-      properties:
-        token:
-          description: The token to be introspected.
-          example: rrkYRaz8z96sAiOxPt6IzOCoelFFT4ujWIM2XNZgZsmX2Zu3imZ1W
-          type: string
-        token_type_hint:
-          description: A hint about the token type being queried in the request.
-          enum:
-          - access_token
-          - refresh_token
-          type: string
-      required:
-      - token
-      type: object
-    tokenRevocation_request:
-      properties:
-        client_id:
-          description: The `client_id` of your application.
-          example: 3b0b5c6c8fcc464fab397f4969b5f482
-          type: string
-        client_secret:
-          description: The `client_secret` of your application. Required for backend
-            apps only.
-          example: rrkYRaz8z96sAiOxPt6IzOCoelFFT4ujWIM2XNZgZsmX2Zu3imZ1W
-          type: string
-        token:
-          description: The token to be revoked.
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzNDU2Nzg5LCJuYW1lIjoiSm9zZXBoIn0.OpOSSw7e485LOP5PrzScxHb7SR6sAOMRckfFwi4rp7o
-          type: string
-        token_type_hint:
-          description: The type of token to be revoked.
-          enum:
-          - access_token
-          - refresh_token
-          type: string
-      required:
-      - client_id
-      - token
       type: object
     not_found_response_errors:
       properties:
@@ -12658,10 +13308,16 @@ components:
     create_organization_response_organization:
       example:
         code: org_1ccfb819462
+        billing_customer_id: customer_1245adbc6789
       properties:
         code:
           description: The organization's unique code.
           example: org_1ccfb819462
+          type: string
+        billing_customer_id:
+          description: The billing customer id if the organization was created with
+            the is_create_billing_customer as true
+          example: customer_1245adbc6789
           type: string
       type: object
     user_identity_result:
@@ -12687,6 +13343,81 @@ components:
       properties:
         id:
           description: The identity's ID.
+          type: string
+      type: object
+    get_user_sessions_response_sessions_inner:
+      example:
+        updated_on: 2025-04-01T13:04:20+11:00
+        initial_ip_address: 192.168.65.1
+        initial_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+          \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+        user_id: kp_5fc30d0547734f30aca617450202169f
+        started_on: 2025-04-01T13:04:20.315701+11:00
+        connection_id: conn_75ab8ec0faae4f73bae9fc64daf120c9
+        expires_on: 2025-04-02T13:04:20.315701+11:00
+        last_user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+          \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+        session_id: session_0xc75ec12fe8434ffc9d527794f00692e5
+        org_code: org_1ccfb819462
+        client_id: 3b0b5c6c8fcc464fab397f4969b5f482
+        last_ip_address: 192.168.65.1
+      properties:
+        user_id:
+          description: The unique identifier of the user associated with the session.
+          example: kp_5fc30d0547734f30aca617450202169f
+          type: string
+        org_code:
+          description: "The organization code associated with the session, if applicable."
+          example: org_1ccfb819462
+          nullable: true
+          type: string
+        client_id:
+          description: The client ID used to initiate the session.
+          example: 3b0b5c6c8fcc464fab397f4969b5f482
+          type: string
+        expires_on:
+          description: The timestamp indicating when the session will expire.
+          example: 2025-04-02T13:04:20.315701+11:00
+          format: date-time
+          type: string
+        session_id:
+          description: The unique identifier of the session.
+          example: session_0xc75ec12fe8434ffc9d527794f00692e5
+          type: string
+        started_on:
+          description: The timestamp when the session was initiated.
+          example: 2025-04-01T13:04:20.315701+11:00
+          format: date-time
+          type: string
+        updated_on:
+          description: The timestamp of the last update to the session.
+          example: 2025-04-01T13:04:20+11:00
+          format: date-time
+          type: string
+        connection_id:
+          description: The identifier of the connection through which the session
+            was established.
+          example: conn_75ab8ec0faae4f73bae9fc64daf120c9
+          type: string
+        last_ip_address:
+          description: The last known IP address of the user during this session.
+          example: 192.168.65.1
+          type: string
+        last_user_agent:
+          description: The last known user agent (browser or app) used during this
+            session.
+          example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+          type: string
+        initial_ip_address:
+          description: The IP address from which the session was initially started.
+          example: 192.168.65.1
+          type: string
+        initial_user_agent:
+          description: The user agent (browser or app) used when the session was first
+            created.
+          example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
+            \ (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
           type: string
       type: object
     get_user_mfa_response_mfa:
@@ -12984,6 +13715,39 @@ components:
           example: 2021-01-01T00:00:00Z
           type: string
       type: object
+    get_organization_response_billing_agreements_inner:
+      example:
+        agreement_id: agreement_a1234b
+        plan_code: pro
+      properties:
+        plan_code:
+          description: The code of the plan from which this agreement is taken from
+          example: pro
+          type: string
+        agreement_id:
+          description: The id of the billing agreement in Kinde
+          example: agreement_a1234b
+          type: string
+      type: object
+    get_organization_response_billing:
+      description: The billing information if the organization is a billing customer.
+      example:
+        agreements:
+        - agreement_id: agreement_a1234b
+          plan_code: pro
+        - agreement_id: agreement_a1234b
+          plan_code: pro
+        billing_customer_id: billing_customer_id
+      properties:
+        billing_customer_id:
+          type: string
+        agreements:
+          description: The billing agreements the billing customer is currently subscribed
+            to
+          items:
+            $ref: '#/components/schemas/get_organization_response_billing_agreements_inner'
+          type: array
+      type: object
     connection_connection:
       example:
         name: name
@@ -13174,11 +13938,116 @@ components:
           example: kinde_light.jpeg
           type: string
       type: object
+    get_billing_entitlements_response_entitlements_inner:
+      example:
+        fixed_charge: 35
+        feature_name: Pro Gym
+        price_name: Pro gym
+        entitlement_limit_min: 1
+        id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+        unit_amount: 0
+        entitlement_limit_max: 6
+        feature_code: CcdkvEXpbg6UY
+      properties:
+        id:
+          description: The friendly id of an entitlement
+          example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          type: string
+        fixed_charge:
+          description: The price charged if this is an entitlement for a fixed charged
+          example: 35
+          type: integer
+        price_name:
+          description: The name of the price associated with the entitlement
+          example: Pro gym
+          type: string
+        unit_amount:
+          description: The price charged for this entitlement in cents
+          type: integer
+        feature_code:
+          description: The feature code of the feature corresponding to this entitlement
+          example: CcdkvEXpbg6UY
+          type: string
+        feature_name:
+          description: The feature name of the feature corresponding to this entitlement
+          example: Pro Gym
+          type: string
+        entitlement_limit_max:
+          description: The maximum number of units of the feature the customer is
+            entitled to
+          type: integer
+        entitlement_limit_min:
+          description: The minimum number of units of the feature the customer is
+            entitled to
+          type: integer
+      type: object
+    get_billing_entitlements_response_plans_inner:
+      example:
+        code: code
+        subscribed_on: 2024-11-18T13:32:03+11:00
+      properties:
+        code:
+          description: The plan code the billing customer is subscribed to
+          type: string
+        subscribed_on:
+          example: 2024-11-18T13:32:03+11:00
+          format: date-time
+          type: string
+      type: object
+    get_billing_agreements_response_agreements_inner_entitlements_inner:
+      example:
+        entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+        feature_code: CcdkvEXpbg6UY
+      properties:
+        feature_code:
+          description: The feature code of the feature corresponding to this entitlement
+          example: CcdkvEXpbg6UY
+          type: string
+        entitlement_id:
+          description: The friendly id of an entitlement
+          example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          type: string
+      type: object
+    get_billing_agreements_response_agreements_inner:
+      example:
+        billing_group_id: sbg_0195abf6773fdae18d5da72281a3fde2
+        entitlements:
+        - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          feature_code: CcdkvEXpbg6UY
+        - entitlement_id: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+          feature_code: CcdkvEXpbg6UY
+        expires_on: 2024-11-18T13:32:03+11:00
+        plan_code: plan_code
+        id: agreement_0195ac80a14c2ca2cec97d026d864de0
+      properties:
+        id:
+          description: The friendly id of an agreement
+          example: agreement_0195ac80a14c2ca2cec97d026d864de0
+          type: string
+        plan_code:
+          description: The plan code the billing customer is subscribed to
+          type: string
+        expires_on:
+          description: The date the agreement expired (and was no longer active)
+          example: 2024-11-18T13:32:03+11:00
+          format: date-time
+          type: string
+        billing_group_id:
+          description: The friendly id of the billing group this agreement's plan
+            is part of
+          example: sbg_0195abf6773fdae18d5da72281a3fde2
+          type: string
+        entitlements:
+          description: A list of billing entitlements that is part of this agreement
+          items:
+            $ref: '#/components/schemas/get_billing_agreements_response_agreements_inner_entitlements_inner'
+          type: array
+      type: object
   securitySchemes:
     kindeBearerAuth:
       bearerFormat: JWT
       description: |
-        Accessing the API requires obtaining an access token when login in through Kinde. However, management functions (for e.g. user management) requires an access token obtained using the client_credentials flow.
+        Requires an access token obtained using the client_credentials flow.
       scheme: bearer
       type: http
 

@@ -622,7 +622,7 @@ catch (ApiException e)
 
 <a id="getapplications"></a>
 # **GetApplications**
-> GetApplicationsResponse GetApplications (string? sort = null, int? pageSize = null, string? nextToken = null)
+> GetApplicationsResponse GetApplications (string sort = null, int? pageSize = null, string nextToken = null)
 
 Get applications
 
@@ -652,9 +652,9 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -697,9 +697,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -830,7 +830,7 @@ catch (ApiException e)
 
 <a id="updateapplication"></a>
 # **UpdateApplication**
-> void UpdateApplication (string applicationId, UpdateApplicationRequest? updateApplicationRequest = null)
+> void UpdateApplication (string applicationId, UpdateApplicationRequest updateApplicationRequest = null)
 
 Update Application
 
@@ -861,7 +861,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApplicationsApi(httpClient, config, httpClientHandler);
             var applicationId = 20bbffaa4c5e492a962273039d4ae18b;  // string | The identifier for the application.
-            var updateApplicationRequest = new UpdateApplicationRequest?(); // UpdateApplicationRequest? | Application details. (optional) 
+            var updateApplicationRequest = new UpdateApplicationRequest(); // UpdateApplicationRequest | Application details. (optional) 
 
             try
             {
@@ -901,7 +901,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **applicationId** | **string** | The identifier for the application. |  |
-| **updateApplicationRequest** | [**UpdateApplicationRequest?**](UpdateApplicationRequest?.md) | Application details. | [optional]  |
+| **updateApplicationRequest** | [**UpdateApplicationRequest**](UpdateApplicationRequest.md) | Application details. | [optional]  |
 
 ### Return type
 
@@ -1023,7 +1023,7 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Application tokens succesfully updated. |  -  |
+| **200** | Application tokens successfully updated. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |

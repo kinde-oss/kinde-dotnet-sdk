@@ -32,11 +32,13 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**RemoveOrgConnection**](OrganizationsApi.md#removeorgconnection) | **DELETE** /api/v1/organizations/{organization_code}/connections/{connection_id} | Remove connection |
 | [**RemoveOrganizationUser**](OrganizationsApi.md#removeorganizationuser) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id} | Remove Organization User |
 | [**ReplaceOrganizationMFA**](OrganizationsApi.md#replaceorganizationmfa) | **PUT** /api/v1/organizations/{org_code}/mfa | Replace Organization MFA Configuration |
-| [**ResetOrgUserMFA**](OrganizationsApi.md#resetorgusermfa) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id} | Reset MFA for a user |
+| [**ResetOrgUserMFA**](OrganizationsApi.md#resetorgusermfa) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id} | Reset specific organization MFA for a user |
+| [**ResetOrgUserMFAAll**](OrganizationsApi.md#resetorgusermfaall) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa | Reset all organization MFA for a user |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
 | [**UpdateOrganizationProperties**](OrganizationsApi.md#updateorganizationproperties) | **PATCH** /api/v1/organizations/{org_code}/properties | Update Organization Property values |
 | [**UpdateOrganizationProperty**](OrganizationsApi.md#updateorganizationproperty) | **PUT** /api/v1/organizations/{org_code}/properties/{property_key} | Update Organization Property value |
+| [**UpdateOrganizationSessions**](OrganizationsApi.md#updateorganizationsessions) | **PATCH** /api/v1/organizations/{org_code}/sessions | Update organization session configuration |
 | [**UpdateOrganizationUsers**](OrganizationsApi.md#updateorganizationusers) | **PATCH** /api/v1/organizations/{org_code}/users | Update Organization Users |
 
 <a id="addorganizationlogo"></a>
@@ -249,7 +251,7 @@ void (empty response body)
 
 <a id="addorganizationusers"></a>
 # **AddOrganizationUsers**
-> AddOrganizationUsersResponse AddOrganizationUsers (string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = null)
+> AddOrganizationUsersResponse AddOrganizationUsers (string orgCode, AddOrganizationUsersRequest addOrganizationUsersRequest = null)
 
 Add Organization Users
 
@@ -280,7 +282,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = "orgCode_example";  // string | The organization's code.
-            var addOrganizationUsersRequest = new AddOrganizationUsersRequest?(); // AddOrganizationUsersRequest? |  (optional) 
+            var addOrganizationUsersRequest = new AddOrganizationUsersRequest(); // AddOrganizationUsersRequest |  (optional) 
 
             try
             {
@@ -324,7 +326,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **addOrganizationUsersRequest** | [**AddOrganizationUsersRequest?**](AddOrganizationUsersRequest?.md) |  | [optional]  |
+| **addOrganizationUsersRequest** | [**AddOrganizationUsersRequest**](AddOrganizationUsersRequest.md) |  | [optional]  |
 
 ### Return type
 
@@ -1689,7 +1691,7 @@ catch (ApiException e)
 
 <a id="getorganization"></a>
 # **GetOrganization**
-> GetOrganizationResponse GetOrganization (string? code = null)
+> GetOrganizationResponse GetOrganization (string code = null)
 
 Get organization
 
@@ -1719,7 +1721,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var code = org_1ccfb819462;  // string? | The organization's code. (optional) 
+            var code = org_1ccfb819462;  // string | The organization's code. (optional) 
 
             try
             {
@@ -1762,7 +1764,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **code** | **string?** | The organization&#39;s code. | [optional]  |
+| **code** | **string** | The organization&#39;s code. | [optional]  |
 
 ### Return type
 
@@ -2093,7 +2095,7 @@ catch (ApiException e)
 
 <a id="getorganizationuserpermissions"></a>
 # **GetOrganizationUserPermissions**
-> GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions (string orgCode, string userId, string? expand = null)
+> GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions (string orgCode, string userId, string expand = null)
 
 List Organization User Permissions
 
@@ -2125,7 +2127,7 @@ namespace Example
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
-            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"roles\". (optional) 
+            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"roles\". (optional) 
 
             try
             {
@@ -2170,7 +2172,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
 | **userId** | **string** | The user&#39;s id. |  |
-| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;roles\&quot;. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;roles\&quot;. | [optional]  |
 
 ### Return type
 
@@ -2299,7 +2301,7 @@ catch (ApiException e)
 
 <a id="getorganizationusers"></a>
 # **GetOrganizationUsers**
-> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, string? permissions = null, string? roles = null)
+> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string sort = null, int? pageSize = null, string nextToken = null, string permissions = null, string roles = null)
 
 Get organization users
 
@@ -2330,11 +2332,11 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
-            var sort = email_asc;  // string? | Field and order to sort the result by. (optional) 
+            var sort = email_asc;  // string | Field and order to sort the result by. (optional) 
             var pageSize = 10;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = MTo6OmlkX2FzYw==;  // string? | A string to get the next page of results if there are more results. (optional) 
-            var permissions = admin;  // string? | Filter by user permissions comma separated (where all match) (optional) 
-            var roles = manager;  // string? | Filter by user roles comma separated (where all match) (optional) 
+            var nextToken = MTo6OmlkX2FzYw==;  // string | A string to get the next page of results if there are more results. (optional) 
+            var permissions = admin;  // string | Filter by user permissions comma separated (where all match) (optional) 
+            var roles = manager;  // string | Filter by user roles comma separated (where all match) (optional) 
 
             try
             {
@@ -2378,11 +2380,11 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
-| **permissions** | **string?** | Filter by user permissions comma separated (where all match) | [optional]  |
-| **roles** | **string?** | Filter by user roles comma separated (where all match) | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **permissions** | **string** | Filter by user permissions comma separated (where all match) | [optional]  |
+| **roles** | **string** | Filter by user roles comma separated (where all match) | [optional]  |
 
 ### Return type
 
@@ -2410,7 +2412,7 @@ catch (ApiException e)
 
 <a id="getorganizations"></a>
 # **GetOrganizations**
-> GetOrganizationsResponse GetOrganizations (string? sort = null, int? pageSize = null, string? nextToken = null)
+> GetOrganizationsResponse GetOrganizations (string sort = null, int? pageSize = null, string nextToken = null)
 
 Get organizations
 
@@ -2440,9 +2442,9 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -2485,9 +2487,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -2927,9 +2929,9 @@ catch (ApiException e)
 # **ResetOrgUserMFA**
 > SuccessResponse ResetOrgUserMFA (string orgCode, string userId, string factorId)
 
-Reset MFA for a user
+Reset specific organization MFA for a user
 
-Reset an organization user’s MFA.  <div>   <code>delete:organization_user_mfa</code> </div> 
+Reset a specific organization MFA factor for a user.  <div>   <code>delete:organization_user_mfa</code> </div> 
 
 ### Example
 ```csharp
@@ -2961,7 +2963,7 @@ namespace Example
 
             try
             {
-                // Reset MFA for a user
+                // Reset specific organization MFA for a user
                 SuccessResponse result = apiInstance.ResetOrgUserMFA(orgCode, userId, factorId);
                 Debug.WriteLine(result);
             }
@@ -2982,7 +2984,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Reset MFA for a user
+    // Reset specific organization MFA for a user
     ApiResponse<SuccessResponse> response = apiInstance.ResetOrgUserMFAWithHttpInfo(orgCode, userId, factorId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -3029,9 +3031,113 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="resetorgusermfaall"></a>
+# **ResetOrgUserMFAAll**
+> SuccessResponse ResetOrgUserMFAAll (string orgCode, string userId)
+
+Reset all organization MFA for a user
+
+Reset all organization MFA factors for a user.  <div>   <code>delete:organization_user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ResetOrgUserMFAAllExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Reset all organization MFA for a user
+                SuccessResponse result = apiInstance.ResetOrgUserMFAAll(orgCode, userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.ResetOrgUserMFAAll: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ResetOrgUserMFAAllWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Reset all organization MFA for a user
+    ApiResponse<SuccessResponse> response = apiInstance.ResetOrgUserMFAAllWithHttpInfo(orgCode, userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.ResetOrgUserMFAAllWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization. |  |
+| **userId** | **string** | The identifier for the user |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User&#39;s MFA successfully reset. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateorganization"></a>
 # **UpdateOrganization**
-> SuccessResponse UpdateOrganization (string orgCode, UpdateOrganizationRequest? updateOrganizationRequest = null)
+> SuccessResponse UpdateOrganization (string orgCode, string expand = null, UpdateOrganizationRequest updateOrganizationRequest = null)
 
 Update Organization
 
@@ -3062,12 +3168,13 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
-            var updateOrganizationRequest = new UpdateOrganizationRequest?(); // UpdateOrganizationRequest? | Organization details. (optional) 
+            var expand = "billing";  // string | Specify additional data to retrieve. Use \"billing\". (optional) 
+            var updateOrganizationRequest = new UpdateOrganizationRequest(); // UpdateOrganizationRequest | Organization details. (optional) 
 
             try
             {
                 // Update Organization
-                SuccessResponse result = apiInstance.UpdateOrganization(orgCode, updateOrganizationRequest);
+                SuccessResponse result = apiInstance.UpdateOrganization(orgCode, expand, updateOrganizationRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -3088,7 +3195,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update Organization
-    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationWithHttpInfo(orgCode, updateOrganizationRequest);
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationWithHttpInfo(orgCode, expand, updateOrganizationRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -3106,7 +3213,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The identifier for the organization. |  |
-| **updateOrganizationRequest** | [**UpdateOrganizationRequest?**](UpdateOrganizationRequest?.md) | Organization details. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;billing\&quot;. | [optional]  |
+| **updateOrganizationRequest** | [**UpdateOrganizationRequest**](UpdateOrganizationRequest.md) | Organization details. | [optional]  |
 
 ### Return type
 
@@ -3445,9 +3553,112 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="updateorganizationsessions"></a>
+# **UpdateOrganizationSessions**
+> SuccessResponse UpdateOrganizationSessions (string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest)
+
+Update organization session configuration
+
+Update the organization's session configuration.  <div>   <code>update:organizations</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationSessionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var updateOrganizationSessionsRequest = new UpdateOrganizationSessionsRequest(); // UpdateOrganizationSessionsRequest | Organization session configuration.
+
+            try
+            {
+                // Update organization session configuration
+                SuccessResponse result = apiInstance.UpdateOrganizationSessions(orgCode, updateOrganizationSessionsRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationSessions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationSessionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update organization session configuration
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationSessionsWithHttpInfo(orgCode, updateOrganizationSessionsRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationSessionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **updateOrganizationSessionsRequest** | [**UpdateOrganizationSessionsRequest**](UpdateOrganizationSessionsRequest.md) | Organization session configuration. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization sessions successfully updated |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateorganizationusers"></a>
 # **UpdateOrganizationUsers**
-> UpdateOrganizationUsersResponse UpdateOrganizationUsers (string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null)
+> UpdateOrganizationUsersResponse UpdateOrganizationUsers (string orgCode, UpdateOrganizationUsersRequest updateOrganizationUsersRequest = null)
 
 Update Organization Users
 
@@ -3478,7 +3689,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
             var orgCode = "orgCode_example";  // string | The organization's code.
-            var updateOrganizationUsersRequest = new UpdateOrganizationUsersRequest?(); // UpdateOrganizationUsersRequest? |  (optional) 
+            var updateOrganizationUsersRequest = new UpdateOrganizationUsersRequest(); // UpdateOrganizationUsersRequest |  (optional) 
 
             try
             {
@@ -3522,7 +3733,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **updateOrganizationUsersRequest** | [**UpdateOrganizationUsersRequest?**](UpdateOrganizationUsersRequest?.md) |  | [optional]  |
+| **updateOrganizationUsersRequest** | [**UpdateOrganizationUsersRequest**](UpdateOrganizationUsersRequest.md) |  | [optional]  |
 
 ### Return type
 

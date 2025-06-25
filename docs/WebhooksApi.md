@@ -9,7 +9,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetEvent**](WebhooksApi.md#getevent) | **GET** /api/v1/events/{event_id} | Get Event |
 | [**GetEventTypes**](WebhooksApi.md#geteventtypes) | **GET** /api/v1/event_types | List Event Types |
 | [**GetWebHooks**](WebhooksApi.md#getwebhooks) | **GET** /api/v1/webhooks | List Webhooks |
-| [**UpdateWebHook**](WebhooksApi.md#updatewebhook) | **PATCH** /api/v1/webhooks | Update a Webhook |
+| [**UpdateWebHook**](WebhooksApi.md#updatewebhook) | **PATCH** /api/v1/webhooks/{webhook_id} | Update a Webhook |
 
 <a id="createwebhook"></a>
 # **CreateWebHook**
@@ -508,7 +508,7 @@ This endpoint does not need any parameter.
 
 <a id="updatewebhook"></a>
 # **UpdateWebHook**
-> UpdateWebhookResponse UpdateWebHook (UpdateWebHookRequest updateWebHookRequest)
+> UpdateWebhookResponse UpdateWebHook (string webhookId, UpdateWebHookRequest updateWebHookRequest)
 
 Update a Webhook
 
@@ -538,12 +538,13 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var webhookId = "webhookId_example";  // string | The webhook id.
             var updateWebHookRequest = new UpdateWebHookRequest(); // UpdateWebHookRequest | Update webhook request specification.
 
             try
             {
                 // Update a Webhook
-                UpdateWebhookResponse result = apiInstance.UpdateWebHook(updateWebHookRequest);
+                UpdateWebhookResponse result = apiInstance.UpdateWebHook(webhookId, updateWebHookRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -564,7 +565,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update a Webhook
-    ApiResponse<UpdateWebhookResponse> response = apiInstance.UpdateWebHookWithHttpInfo(updateWebHookRequest);
+    ApiResponse<UpdateWebhookResponse> response = apiInstance.UpdateWebHookWithHttpInfo(webhookId, updateWebHookRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -581,6 +582,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **webhookId** | **string** | The webhook id. |  |
 | **updateWebHookRequest** | [**UpdateWebHookRequest**](UpdateWebHookRequest.md) | Update webhook request specification. |  |
 
 ### Return type
