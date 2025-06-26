@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// ReplaceOrganizationMFARequest
     /// </summary>
     [DataContract(Name = "ReplaceOrganizationMFA_request")]
-    public partial class ReplaceOrganizationMFARequest : IEquatable<ReplaceOrganizationMFARequest>, IValidatableObject
+    public partial class ReplaceOrganizationMFARequest : IEquatable<ReplaceOrganizationMFARequest>
     {
         /// <summary>
-        /// Defines EnabledFactors
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnabledFactorsEnum
@@ -52,19 +48,16 @@ namespace Kinde.Api.Model
             Sms = 2,
 
             /// <summary>
-            /// Enum AuthenticatorApp for value: mfa:authenticator_app
             /// </summary>
             [EnumMember(Value = "mfa:authenticator_app")]
             AuthenticatorApp = 3
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceOrganizationMFARequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected ReplaceOrganizationMFARequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceOrganizationMFARequest" /> class.
         /// </summary>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
         public ReplaceOrganizationMFARequest(List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>))
@@ -117,9 +110,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ReplaceOrganizationMFARequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReplaceOrganizationMFARequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ReplaceOrganizationMFARequest input)
         {
@@ -153,15 +144,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

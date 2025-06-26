@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// ReplaceMFARequest
     /// </summary>
     [DataContract(Name = "ReplaceMFA_request")]
-    public partial class ReplaceMFARequest : IEquatable<ReplaceMFARequest>, IValidatableObject
+    public partial class ReplaceMFARequest : IEquatable<ReplaceMFARequest>
     {
         /// <summary>
         /// Specifies whether MFA is required, optional, or not enforced.
@@ -67,7 +64,6 @@ namespace Kinde.Api.Model
         [DataMember(Name = "policy", IsRequired = true, EmitDefaultValue = true)]
         public PolicyEnum Policy { get; set; }
         /// <summary>
-        /// Defines EnabledFactors
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnabledFactorsEnum
@@ -85,19 +81,16 @@ namespace Kinde.Api.Model
             Sms = 2,
 
             /// <summary>
-            /// Enum AuthenticatorApp for value: mfa:authenticator_app
             /// </summary>
             [EnumMember(Value = "mfa:authenticator_app")]
             AuthenticatorApp = 3
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceMFARequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected ReplaceMFARequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceMFARequest" /> class.
         /// </summary>
         /// <param name="policy">Specifies whether MFA is required, optional, or not enforced. (required).</param>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
@@ -153,9 +146,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ReplaceMFARequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReplaceMFARequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ReplaceMFARequest input)
         {
@@ -194,15 +185,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

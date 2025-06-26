@@ -21,23 +21,18 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationResponseOrganization
     /// </summary>
     [DataContract(Name = "create_organization_response_organization")]
-    public partial class CreateOrganizationResponseOrganization : IEquatable<CreateOrganizationResponseOrganization>, IValidatableObject
+    public partial class CreateOrganizationResponseOrganization : IEquatable<CreateOrganizationResponseOrganization>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationResponseOrganization" /> class.
         /// </summary>
         /// <param name="code">The organization&#39;s unique code..</param>
-        /// <param name="billingCustomerId">The billing customer id if the organization was created with the is_create_billing_customer as true.</param>
         public CreateOrganizationResponseOrganization(string code = default(string), string billingCustomerId = default(string))
         {
             this.Code = code;
@@ -94,9 +89,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationResponseOrganization instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationResponseOrganization to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateOrganizationResponseOrganization input)
         {
@@ -138,15 +131,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

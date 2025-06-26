@@ -21,23 +21,18 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// TokenErrorResponse
     /// </summary>
     [DataContract(Name = "token_error_response")]
-    public partial class TokenErrorResponse : IEquatable<TokenErrorResponse>, IValidatableObject
+    public partial class TokenErrorResponse : IEquatable<TokenErrorResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TokenErrorResponse" /> class.
         /// </summary>
         /// <param name="error">Error..</param>
-        /// <param name="errorDescription">The error description..</param>
         public TokenErrorResponse(string error = default(string), string errorDescription = default(string))
         {
             this.Error = error;
@@ -92,9 +87,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if TokenErrorResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of TokenErrorResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(TokenErrorResponse input)
         {
@@ -136,15 +129,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,7 +29,7 @@ namespace Kinde.Api.Model
     /// Identity
     /// </summary>
     [DataContract(Name = "identity")]
-    public partial class Identity : IEquatable<Identity>, IValidatableObject
+    public partial class Identity : IEquatable<Identity>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Identity" /> class.
@@ -62,7 +60,6 @@ namespace Kinde.Api.Model
         /// The unique ID for the identity
         /// </summary>
         /// <value>The unique ID for the identity</value>
-        /// <example>identity_019617f0cd72460a42192cf37b41084f</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -99,7 +96,6 @@ namespace Kinde.Api.Model
         public string LastLoginOn { get; set; }
 
         /// <summary>
-        /// Gets or Sets TotalLogins
         /// </summary>
         /// <example>20</example>
         [DataMember(Name = "total_logins", EmitDefaultValue = false)]
@@ -269,15 +265,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

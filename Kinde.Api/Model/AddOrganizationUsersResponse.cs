@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// AddOrganizationUsersResponse
     /// </summary>
     [DataContract(Name = "add_organization_users_response")]
-    public partial class AddOrganizationUsersResponse : IEquatable<AddOrganizationUsersResponse>, IValidatableObject
+    public partial class AddOrganizationUsersResponse : IEquatable<AddOrganizationUsersResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -61,7 +57,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets UsersAdded
         /// </summary>
         [DataMember(Name = "users_added", EmitDefaultValue = false)]
         public List<string> UsersAdded { get; set; }
@@ -101,9 +96,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if AddOrganizationUsersResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of AddOrganizationUsersResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(AddOrganizationUsersResponse input)
         {
@@ -155,15 +148,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// TokenIntrospect
     /// </summary>
     [DataContract(Name = "token_introspect")]
-    public partial class TokenIntrospect : IEquatable<TokenIntrospect>, IValidatableObject
+    public partial class TokenIntrospect : IEquatable<TokenIntrospect>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TokenIntrospect" /> class.
         /// </summary>
         /// <param name="active">Indicates the status of the token..</param>
         /// <param name="aud">Array of intended token recipients..</param>
@@ -68,7 +64,6 @@ namespace Kinde.Api.Model
         /// Identifier for the requesting client.
         /// </summary>
         /// <value>Identifier for the requesting client.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -125,9 +120,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if TokenIntrospect instances are equal
         /// </summary>
-        /// <param name="input">Instance of TokenIntrospect to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(TokenIntrospect input)
         {
@@ -185,15 +178,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

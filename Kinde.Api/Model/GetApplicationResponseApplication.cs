@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApplicationResponseApplication
     /// </summary>
     [DataContract(Name = "get_application_response_application")]
-    public partial class GetApplicationResponseApplication : IEquatable<GetApplicationResponseApplication>, IValidatableObject
+    public partial class GetApplicationResponseApplication : IEquatable<GetApplicationResponseApplication>
     {
         /// <summary>
         /// The application&#39;s type.
@@ -67,7 +64,6 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier..</param>
         /// <param name="name">The application&#39;s name..</param>
@@ -76,7 +72,6 @@ namespace Kinde.Api.Model
         /// <param name="clientSecret">The application&#39;s client secret..</param>
         /// <param name="loginUri">The default login route for resolving session issues..</param>
         /// <param name="homepageUri">The homepage link to your application..</param>
-        /// <param name="hasCancelButton">Whether the application has a cancel button to allow users to exit the auth flow [Beta]..</param>
         public GetApplicationResponseApplication(string id = default(string), string name = default(string), TypeEnum? type = default(TypeEnum?), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string), bool hasCancelButton = default(bool))
         {
             this.Id = id;
@@ -93,7 +88,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -109,7 +103,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -117,7 +110,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
-        /// <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 
@@ -125,7 +117,6 @@ namespace Kinde.Api.Model
         /// The default login route for resolving session issues.
         /// </summary>
         /// <value>The default login route for resolving session issues.</value>
-        /// <example>https://yourapp.com/api/auth/login</example>
         [DataMember(Name = "login_uri", EmitDefaultValue = false)]
         public string LoginUri { get; set; }
 
@@ -185,9 +176,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApplicationResponseApplication instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApplicationResponseApplication to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApplicationResponseApplication input)
         {
@@ -275,15 +264,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

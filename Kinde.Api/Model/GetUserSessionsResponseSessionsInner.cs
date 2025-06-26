@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetUserSessionsResponseSessionsInner
     /// </summary>
     [DataContract(Name = "get_user_sessions_response_sessions_inner")]
-    public partial class GetUserSessionsResponseSessionsInner : IEquatable<GetUserSessionsResponseSessionsInner>, IValidatableObject
+    public partial class GetUserSessionsResponseSessionsInner : IEquatable<GetUserSessionsResponseSessionsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserSessionsResponseSessionsInner" /> class.
         /// </summary>
         /// <param name="userId">The unique identifier of the user associated with the session..</param>
         /// <param name="orgCode">The organization code associated with the session, if applicable..</param>
@@ -46,9 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="connectionId">The identifier of the connection through which the session was established..</param>
         /// <param name="lastIpAddress">The last known IP address of the user during this session..</param>
         /// <param name="lastUserAgent">The last known user agent (browser or app) used during this session..</param>
-        /// <param name="initialIpAddress">The IP address from which the session was initially started..</param>
-        /// <param name="initialUserAgent">The user agent (browser or app) used when the session was first created..</param>
-        public GetUserSessionsResponseSessionsInner(string userId = default(string), string orgCode = default(string), string clientId = default(string), DateTime expiresOn = default(DateTime), string sessionId = default(string), DateTime startedOn = default(DateTime), DateTime updatedOn = default(DateTime), string connectionId = default(string), string lastIpAddress = default(string), string lastUserAgent = default(string), string initialIpAddress = default(string), string initialUserAgent = default(string))
+        public GetUserSessionsResponseSessionsInner(string userId = default(string), string orgCode = default(string), string clientId = default(string), DateTimeOffset expiresOn = default(DateTimeOffset), string sessionId = default(string), DateTimeOffset startedOn = default(DateTimeOffset), DateTimeOffset updatedOn = default(DateTimeOffset), string connectionId = default(string), string lastIpAddress = default(string), string lastUserAgent = default(string), string initialIpAddress = default(string), string initialUserAgent = default(string))
         {
             this.UserId = userId;
             this.OrgCode = orgCode;
@@ -68,7 +62,6 @@ namespace Kinde.Api.Model
         /// The unique identifier of the user associated with the session.
         /// </summary>
         /// <value>The unique identifier of the user associated with the session.</value>
-        /// <example>kp_5fc30d0547734f30aca617450202169f</example>
         [DataMember(Name = "user_id", EmitDefaultValue = false)]
         public string UserId { get; set; }
 
@@ -84,7 +77,6 @@ namespace Kinde.Api.Model
         /// The client ID used to initiate the session.
         /// </summary>
         /// <value>The client ID used to initiate the session.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -94,13 +86,12 @@ namespace Kinde.Api.Model
         /// <value>The timestamp indicating when the session will expire.</value>
         /// <example>2025-04-02T13:04:20.315701+11:00</example>
         [DataMember(Name = "expires_on", EmitDefaultValue = false)]
-        public DateTime ExpiresOn { get; set; }
+        public DateTimeOffset ExpiresOn { get; set; }
 
         /// <summary>
         /// The unique identifier of the session.
         /// </summary>
         /// <value>The unique identifier of the session.</value>
-        /// <example>session_0xc75ec12fe8434ffc9d527794f00692e5</example>
         [DataMember(Name = "session_id", EmitDefaultValue = false)]
         public string SessionId { get; set; }
 
@@ -110,7 +101,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the session was initiated.</value>
         /// <example>2025-04-01T13:04:20.315701+11:00</example>
         [DataMember(Name = "started_on", EmitDefaultValue = false)]
-        public DateTime StartedOn { get; set; }
+        public DateTimeOffset StartedOn { get; set; }
 
         /// <summary>
         /// The timestamp of the last update to the session.
@@ -118,13 +109,12 @@ namespace Kinde.Api.Model
         /// <value>The timestamp of the last update to the session.</value>
         /// <example>2025-04-01T13:04:20+11:00</example>
         [DataMember(Name = "updated_on", EmitDefaultValue = false)]
-        public DateTime UpdatedOn { get; set; }
+        public DateTimeOffset UpdatedOn { get; set; }
 
         /// <summary>
         /// The identifier of the connection through which the session was established.
         /// </summary>
         /// <value>The identifier of the connection through which the session was established.</value>
-        /// <example>conn_75ab8ec0faae4f73bae9fc64daf120c9</example>
         [DataMember(Name = "connection_id", EmitDefaultValue = false)]
         public string ConnectionId { get; set; }
 
@@ -140,7 +130,6 @@ namespace Kinde.Api.Model
         /// The last known user agent (browser or app) used during this session.
         /// </summary>
         /// <value>The last known user agent (browser or app) used during this session.</value>
-        /// <example>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36</example>
         [DataMember(Name = "last_user_agent", EmitDefaultValue = false)]
         public string LastUserAgent { get; set; }
 
@@ -156,7 +145,6 @@ namespace Kinde.Api.Model
         /// The user agent (browser or app) used when the session was first created.
         /// </summary>
         /// <value>The user agent (browser or app) used when the session was first created.</value>
-        /// <example>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36</example>
         [DataMember(Name = "initial_user_agent", EmitDefaultValue = false)]
         public string InitialUserAgent { get; set; }
 
@@ -204,9 +192,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetUserSessionsResponseSessionsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetUserSessionsResponseSessionsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetUserSessionsResponseSessionsInner input)
         {
@@ -338,15 +324,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

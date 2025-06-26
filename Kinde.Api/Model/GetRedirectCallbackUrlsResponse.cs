@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetRedirectCallbackUrlsResponse
     /// </summary>
     [DataContract(Name = "get_redirect_callback_urls_response")]
-    public partial class GetRedirectCallbackUrlsResponse : IEquatable<GetRedirectCallbackUrlsResponse>, IValidatableObject
+    public partial class GetRedirectCallbackUrlsResponse : IEquatable<GetRedirectCallbackUrlsResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetRedirectCallbackUrlsResponse" /> class.
         /// </summary>
         /// <param name="redirectUrls">An application&#39;s redirect callback URLs..</param>
         public GetRedirectCallbackUrlsResponse(List<RedirectCallbackUrls> redirectUrls = default(List<RedirectCallbackUrls>))
@@ -82,9 +78,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetRedirectCallbackUrlsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetRedirectCallbackUrlsResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetRedirectCallbackUrlsResponse input)
         {
@@ -118,15 +112,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

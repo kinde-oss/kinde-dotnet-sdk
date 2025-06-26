@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetEnvironmentResponseEnvironmentBackgroundColor
     /// </summary>
     [DataContract(Name = "get_environment_response_environment_background_color")]
-    public partial class GetEnvironmentResponseEnvironmentBackgroundColor : IEquatable<GetEnvironmentResponseEnvironmentBackgroundColor>, IValidatableObject
+    public partial class GetEnvironmentResponseEnvironmentBackgroundColor : IEquatable<GetEnvironmentResponseEnvironmentBackgroundColor>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" /> class.
         /// </summary>
         /// <param name="raw">raw.</param>
         /// <param name="hex">hex.</param>
@@ -102,9 +98,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetEnvironmentResponseEnvironmentBackgroundColor instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetEnvironmentResponseEnvironmentBackgroundColor to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetEnvironmentResponseEnvironmentBackgroundColor input)
         {
@@ -155,15 +149,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

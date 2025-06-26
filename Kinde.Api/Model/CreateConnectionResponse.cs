@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateConnectionResponse
     /// </summary>
     [DataContract(Name = "create_connection_response")]
-    public partial class CreateConnectionResponse : IEquatable<CreateConnectionResponse>, IValidatableObject
+    public partial class CreateConnectionResponse : IEquatable<CreateConnectionResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionResponse" /> class.
         /// </summary>
         /// <param name="message">message.</param>
         /// <param name="code">code.</param>
@@ -59,7 +55,6 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Connection
         /// </summary>
         [DataMember(Name = "connection", EmitDefaultValue = false)]
         public CreateConnectionResponseConnection Connection { get; set; }
@@ -99,9 +94,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateConnectionResponse input)
         {
@@ -152,15 +145,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

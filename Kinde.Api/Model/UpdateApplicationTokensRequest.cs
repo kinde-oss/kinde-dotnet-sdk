@@ -21,26 +21,17 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateApplicationTokensRequest
     /// </summary>
     [DataContract(Name = "updateApplicationTokens_request")]
-    public partial class UpdateApplicationTokensRequest : IEquatable<UpdateApplicationTokensRequest>, IValidatableObject
+    public partial class UpdateApplicationTokensRequest : IEquatable<UpdateApplicationTokensRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateApplicationTokensRequest" /> class.
         /// </summary>
-        /// <param name="accessTokenLifetime">The lifetime of an access token in seconds..</param>
-        /// <param name="refreshTokenLifetime">The lifetime of a refresh token in seconds..</param>
-        /// <param name="idTokenLifetime">The lifetime of an ID token in seconds..</param>
-        /// <param name="authenticatedSessionLifetime">The lifetime of an authenticated session in seconds..</param>
-        /// <param name="isHasuraMappingEnabled">Enable or disable Hasura mapping..</param>
         public UpdateApplicationTokensRequest(int accessTokenLifetime = default(int), int refreshTokenLifetime = default(int), int idTokenLifetime = default(int), int authenticatedSessionLifetime = default(int), bool isHasuraMappingEnabled = default(bool))
         {
             this.AccessTokenLifetime = accessTokenLifetime;
@@ -127,9 +118,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateApplicationTokensRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateApplicationTokensRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateApplicationTokensRequest input)
         {
@@ -178,15 +167,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

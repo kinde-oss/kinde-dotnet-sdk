@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UserProfileV2
     /// </summary>
     [DataContract(Name = "user_profile_v2")]
-    public partial class UserProfileV2 : IEquatable<UserProfileV2>, IValidatableObject
+    public partial class UserProfileV2 : IEquatable<UserProfileV2>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileV2" /> class.
@@ -45,7 +42,6 @@ namespace Kinde.Api.Model
         /// <param name="email">User&#39;s email address if available..</param>
         /// <param name="emailVerified">Whether the user&#39;s email address has been verified..</param>
         /// <param name="picture">URL that point&#39;s to the user&#39;s picture or avatar.</param>
-        /// <param name="preferredUsername">User&#39;s preferred username..</param>
         /// <param name="id">Unique ID of the user in Kinde.</param>
         public UserProfileV2(string sub = default(string), string providedId = default(string), string name = default(string), string givenName = default(string), string familyName = default(string), int updatedAt = default(int), string email = default(string), bool emailVerified = default(bool), string picture = default(string), string preferredUsername = default(string), string id = default(string))
         {
@@ -66,7 +62,6 @@ namespace Kinde.Api.Model
         /// Unique ID of the user in Kinde.
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
-        /// <example>kp_c3143a4b50ad43c88e541d9077681782</example>
         [DataMember(Name = "sub", EmitDefaultValue = false)]
         public string Sub { get; set; }
 
@@ -146,7 +141,6 @@ namespace Kinde.Api.Model
         /// Unique ID of the user in Kinde
         /// </summary>
         /// <value>Unique ID of the user in Kinde</value>
-        /// <example>kp_c3143a4b50ad43c88e541d9077681782</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -310,15 +304,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

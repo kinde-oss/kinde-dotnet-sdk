@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApisResponseApisInner
     /// </summary>
     [DataContract(Name = "get_apis_response_apis_inner")]
-    public partial class GetApisResponseApisInner : IEquatable<GetApisResponseApisInner>, IValidatableObject
+    public partial class GetApisResponseApisInner : IEquatable<GetApisResponseApisInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApisResponseApisInner" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API..</param>
         /// <param name="name">The API’s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
-        /// <param name="isManagementApi">Whether or not it is the Kinde management API..</param>
         /// <param name="scopes">scopes.</param>
         public GetApisResponseApisInner(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApisResponseApisInnerScopesInner> scopes = default(List<GetApisResponseApisInnerScopesInner>))
         {
@@ -54,7 +49,6 @@ namespace Kinde.Api.Model
         /// The unique ID for the API.
         /// </summary>
         /// <value>The unique ID for the API.</value>
-        /// <example>7ccd126599aa422a771abcb341596881</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -125,9 +119,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApisResponseApisInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApisResponseApisInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApisResponseApisInner input)
         {
@@ -193,15 +185,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

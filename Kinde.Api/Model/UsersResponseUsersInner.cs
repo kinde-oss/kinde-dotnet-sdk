@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UsersResponseUsersInner
     /// </summary>
     [DataContract(Name = "users_response_users_inner")]
-    public partial class UsersResponseUsersInner : IEquatable<UsersResponseUsersInner>, IValidatableObject
+    public partial class UsersResponseUsersInner : IEquatable<UsersResponseUsersInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersResponseUsersInner" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the user in Kinde..</param>
         /// <param name="providedId">External ID for user..</param>
@@ -222,9 +218,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UsersResponseUsersInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of UsersResponseUsersInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UsersResponseUsersInner input)
         {
@@ -381,15 +375,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

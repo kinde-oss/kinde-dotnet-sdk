@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateAPIApplicationsRequestApplicationsInner
     /// </summary>
     [DataContract(Name = "updateAPIApplications_request_applications_inner")]
-    public partial class UpdateAPIApplicationsRequestApplicationsInner : IEquatable<UpdateAPIApplicationsRequestApplicationsInner>, IValidatableObject
+    public partial class UpdateAPIApplicationsRequestApplicationsInner : IEquatable<UpdateAPIApplicationsRequestApplicationsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected UpdateAPIApplicationsRequestApplicationsInner() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s Client ID. (required).</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized..</param>
@@ -58,7 +53,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s Client ID.
         /// </summary>
         /// <value>The application&#39;s Client ID.</value>
-        /// <example>d2db282d6214242b3b145c123f0c123</example>
         [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
         public string Id { get; set; }
 
@@ -104,9 +98,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateAPIApplicationsRequestApplicationsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateAPIApplicationsRequestApplicationsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateAPIApplicationsRequestApplicationsInner input)
         {
@@ -148,15 +140,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

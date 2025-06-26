@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateFeatureFlagRequest
     /// </summary>
     [DataContract(Name = "CreateFeatureFlag_request")]
-    public partial class CreateFeatureFlagRequest : IEquatable<CreateFeatureFlagRequest>, IValidatableObject
+    public partial class CreateFeatureFlagRequest : IEquatable<CreateFeatureFlagRequest>
     {
         /// <summary>
         /// The variable type.
@@ -100,18 +97,15 @@ namespace Kinde.Api.Model
         [DataMember(Name = "allow_override_level", EmitDefaultValue = false)]
         public AllowOverrideLevelEnum? AllowOverrideLevel { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateFeatureFlagRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateFeatureFlagRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateFeatureFlagRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the flag. (required).</param>
         /// <param name="description">Description of the flag purpose..</param>
         /// <param name="key">The flag identifier to use in code. (required).</param>
         /// <param name="type">The variable type. (required).</param>
-        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level..</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations. (required).</param>
         public CreateFeatureFlagRequest(string name = default(string), string description = default(string), string key = default(string), TypeEnum type = default(TypeEnum), AllowOverrideLevelEnum? allowOverrideLevel = default(AllowOverrideLevelEnum?), string defaultValue = default(string))
         {
@@ -204,9 +198,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateFeatureFlagRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateFeatureFlagRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateFeatureFlagRequest input)
         {
@@ -276,15 +268,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

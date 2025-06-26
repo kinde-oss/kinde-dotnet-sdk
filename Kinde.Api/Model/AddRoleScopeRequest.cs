@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// AddRoleScopeRequest
     /// </summary>
     [DataContract(Name = "AddRoleScope_request")]
-    public partial class AddRoleScopeRequest : IEquatable<AddRoleScopeRequest>, IValidatableObject
+    public partial class AddRoleScopeRequest : IEquatable<AddRoleScopeRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddRoleScopeRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected AddRoleScopeRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddRoleScopeRequest" /> class.
         /// </summary>
         /// <param name="scopeId">The scope identifier. (required).</param>
         public AddRoleScopeRequest(string scopeId = default(string))
@@ -92,9 +87,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if AddRoleScopeRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of AddRoleScopeRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(AddRoleScopeRequest input)
         {
@@ -127,15 +120,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

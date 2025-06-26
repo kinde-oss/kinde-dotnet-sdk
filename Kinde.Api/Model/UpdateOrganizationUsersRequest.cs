@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersRequest
     /// </summary>
     [DataContract(Name = "UpdateOrganizationUsers_request")]
-    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>, IValidatableObject
+    public partial class UpdateOrganizationUsersRequest : IEquatable<UpdateOrganizationUsersRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequest" /> class.
         /// </summary>
         /// <param name="users">Users to add, update or remove from the organization..</param>
         public UpdateOrganizationUsersRequest(List<UpdateOrganizationUsersRequestUsersInner> users = default(List<UpdateOrganizationUsersRequestUsersInner>))
@@ -82,9 +78,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateOrganizationUsersRequest input)
         {
@@ -118,15 +112,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

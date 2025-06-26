@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateEnvironmentVariableResponseEnvironmentVariable
     /// </summary>
     [DataContract(Name = "create_environment_variable_response_environment_variable")]
-    public partial class CreateEnvironmentVariableResponseEnvironmentVariable : IEquatable<CreateEnvironmentVariableResponseEnvironmentVariable>, IValidatableObject
+    public partial class CreateEnvironmentVariableResponseEnvironmentVariable : IEquatable<CreateEnvironmentVariableResponseEnvironmentVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateEnvironmentVariableResponseEnvironmentVariable" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the environment variable..</param>
         public CreateEnvironmentVariableResponseEnvironmentVariable(string id = default(string))
@@ -46,7 +42,6 @@ namespace Kinde.Api.Model
         /// The unique ID for the environment variable.
         /// </summary>
         /// <value>The unique ID for the environment variable.</value>
-        /// <example>env_var_0192b194f6156fb7452fe38cfb144958</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -83,9 +78,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateEnvironmentVariableResponseEnvironmentVariable instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateEnvironmentVariableResponseEnvironmentVariable to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateEnvironmentVariableResponseEnvironmentVariable input)
         {
@@ -118,15 +111,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,29 +21,26 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateBillingAgreementRequest
     /// </summary>
     [DataContract(Name = "createBillingAgreement_request")]
-    public partial class CreateBillingAgreementRequest : IEquatable<CreateBillingAgreementRequest>, IValidatableObject
+    public partial class CreateBillingAgreementRequest : IEquatable<CreateBillingAgreementRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateBillingAgreementRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         /// <param name="customerId">The ID of the billing customer to create a new agreement for (required).</param>
         /// <param name="planCode">The code of the billing plan the new agreement will be based on (required).</param>
-        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string))
+        /// <param name="isInvoiceNow">Generate a final invoice for any un-invoiced metered usage..</param>
+        /// <param name="isProrate">Generate a proration invoice item that credits remaining unused features..</param>
+        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string), bool isInvoiceNow = default(bool), bool isProrate = default(bool))
         {
             // to ensure "customerId" is required (not null)
             if (customerId == null)
@@ -57,13 +54,14 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("planCode is a required property for CreateBillingAgreementRequest and cannot be null");
             }
             this.PlanCode = planCode;
+            this.IsInvoiceNow = isInvoiceNow;
+            this.IsProrate = isProrate;
         }
 
         /// <summary>
         /// The ID of the billing customer to create a new agreement for
         /// </summary>
         /// <value>The ID of the billing customer to create a new agreement for</value>
-        /// <example>customer_0195ac80a14c2ca2cec97d026d864de0</example>
         [DataMember(Name = "customer_id", IsRequired = true, EmitDefaultValue = true)]
         public string CustomerId { get; set; }
 
@@ -76,6 +74,22 @@ namespace Kinde.Api.Model
         public string PlanCode { get; set; }
 
         /// <summary>
+        /// Generate a final invoice for any un-invoiced metered usage.
+        /// </summary>
+        /// <value>Generate a final invoice for any un-invoiced metered usage.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_invoice_now", EmitDefaultValue = true)]
+        public bool IsInvoiceNow { get; set; }
+
+        /// <summary>
+        /// Generate a proration invoice item that credits remaining unused features.
+        /// </summary>
+        /// <value>Generate a proration invoice item that credits remaining unused features.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_prorate", EmitDefaultValue = true)]
+        public bool IsProrate { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -85,6 +99,8 @@ namespace Kinde.Api.Model
             sb.Append("class CreateBillingAgreementRequest {\n");
             sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
             sb.Append("  PlanCode: ").Append(PlanCode).Append("\n");
+            sb.Append("  IsInvoiceNow: ").Append(IsInvoiceNow).Append("\n");
+            sb.Append("  IsProrate: ").Append(IsProrate).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -109,9 +125,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateBillingAgreementRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateBillingAgreementRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateBillingAgreementRequest input)
         {
@@ -129,6 +143,14 @@ namespace Kinde.Api.Model
                     this.PlanCode == input.PlanCode ||
                     (this.PlanCode != null &&
                     this.PlanCode.Equals(input.PlanCode))
+                ) && 
+                (
+                    this.IsInvoiceNow == input.IsInvoiceNow ||
+                    this.IsInvoiceNow.Equals(input.IsInvoiceNow)
+                ) && 
+                (
+                    this.IsProrate == input.IsProrate ||
+                    this.IsProrate.Equals(input.IsProrate)
                 );
         }
 
@@ -149,19 +171,12 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.PlanCode.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsInvoiceNow.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsProrate.GetHashCode();
                 return hashCode;
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
