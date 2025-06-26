@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateOrganizationRequest
     /// </summary>
     [DataContract(Name = "createOrganization_request")]
-    public partial class CreateOrganizationRequest : IEquatable<CreateOrganizationRequest>, IValidatableObject
+    public partial class CreateOrganizationRequest : IEquatable<CreateOrganizationRequest>
     {
         /// <summary>
         /// Value of the feature flag.
@@ -60,32 +57,22 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateOrganizationRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateOrganizationRequest" /> class.
         /// </summary>
         /// <param name="name">The organization&#39;s name. (required).</param>
         /// <param name="featureFlags">The organization&#39;s feature flag settings..</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems..</param>
-        /// <param name="backgroundColor">The organization&#39;s brand settings - background color..</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
-        /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color..</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color..</param>
-        /// <param name="backgroundColorDark">The organization&#39;s brand settings - dark mode background color..</param>
-        /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color..</param>
-        /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color..</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
-        /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
-        /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
         /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
-        /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
         public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), string senderName = default(string), string senderEmail = default(string), bool isCreateBillingCustomer = default(bool), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
@@ -233,7 +220,6 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
-        /// If a billing customer is also created for this organization
         /// </summary>
         /// <value>If a billing customer is also created for this organization</value>
         /// <example>false</example>
@@ -241,7 +227,6 @@ namespace Kinde.Api.Model
         public bool IsCreateBillingCustomer { get; set; }
 
         /// <summary>
-        /// The email address used for billing purposes for the organization
         /// </summary>
         /// <value>The email address used for billing purposes for the organization</value>
         /// <example>billing@acmecorp.com</example>
@@ -307,9 +292,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateOrganizationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateOrganizationRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateOrganizationRequest input)
         {
@@ -497,15 +480,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

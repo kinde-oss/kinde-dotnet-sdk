@@ -21,25 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 using System.Reflection;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateConnectionRequestOptions
     /// </summary>
     [JsonConverter(typeof(CreateConnectionRequestOptionsJsonConverter))]
     [DataContract(Name = "CreateConnection_request_options")]
-    public partial class CreateConnectionRequestOptions : AbstractOpenAPISchema, IEquatable<CreateConnectionRequestOptions>, IValidatableObject
+    public partial class CreateConnectionRequestOptions : AbstractOpenAPISchema, IEquatable<CreateConnectionRequestOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptions" /> class
-        /// with the <see cref="CreateConnectionRequestOptionsOneOf" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of CreateConnectionRequestOptionsOneOf.</param>
         public CreateConnectionRequestOptions(CreateConnectionRequestOptionsOneOf actualInstance)
         {
             this.IsNullable = false;
@@ -48,10 +42,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptions" /> class
-        /// with the <see cref="CreateConnectionRequestOptionsOneOf1" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of CreateConnectionRequestOptionsOneOf1.</param>
         public CreateConnectionRequestOptions(CreateConnectionRequestOptionsOneOf1 actualInstance)
         {
             this.IsNullable = false;
@@ -60,10 +51,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptions" /> class
-        /// with the <see cref="CreateConnectionRequestOptionsOneOf2" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of CreateConnectionRequestOptionsOneOf2.</param>
         public CreateConnectionRequestOptions(CreateConnectionRequestOptionsOneOf2 actualInstance)
         {
             this.IsNullable = false;
@@ -75,7 +63,6 @@ namespace Kinde.Api.Model
         private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets ActualInstance
         /// </summary>
         public override Object ActualInstance
         {
@@ -105,30 +92,21 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `CreateConnectionRequestOptionsOneOf`. If the actual instance is not `CreateConnectionRequestOptionsOneOf`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of CreateConnectionRequestOptionsOneOf</returns>
         public CreateConnectionRequestOptionsOneOf GetCreateConnectionRequestOptionsOneOf()
         {
             return (CreateConnectionRequestOptionsOneOf)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `CreateConnectionRequestOptionsOneOf1`. If the actual instance is not `CreateConnectionRequestOptionsOneOf1`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of CreateConnectionRequestOptionsOneOf1</returns>
         public CreateConnectionRequestOptionsOneOf1 GetCreateConnectionRequestOptionsOneOf1()
         {
             return (CreateConnectionRequestOptionsOneOf1)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `CreateConnectionRequestOptionsOneOf2`. If the actual instance is not `CreateConnectionRequestOptionsOneOf2`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of CreateConnectionRequestOptionsOneOf2</returns>
         public CreateConnectionRequestOptionsOneOf2 GetCreateConnectionRequestOptionsOneOf2()
         {
             return (CreateConnectionRequestOptionsOneOf2)this.ActualInstance;
@@ -157,10 +135,8 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into an instance of CreateConnectionRequestOptions
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        /// <returns>An instance of CreateConnectionRequestOptions</returns>
         public static CreateConnectionRequestOptions FromJson(string jsonString)
         {
             CreateConnectionRequestOptions newCreateConnectionRequestOptions = null;
@@ -256,9 +232,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionRequestOptions instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionRequestOptions to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateConnectionRequestOptions input)
         {
@@ -282,20 +256,9 @@ namespace Kinde.Api.Model
                 return hashCode;
             }
         }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
     /// <summary>
-    /// Custom JSON converter for CreateConnectionRequestOptions
     /// </summary>
     public class CreateConnectionRequestOptionsJsonConverter : JsonConverter
     {

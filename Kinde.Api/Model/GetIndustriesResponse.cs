@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetIndustriesResponse
     /// </summary>
     [DataContract(Name = "get_industries_response")]
-    public partial class GetIndustriesResponse : IEquatable<GetIndustriesResponse>, IValidatableObject
+    public partial class GetIndustriesResponse : IEquatable<GetIndustriesResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetIndustriesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -63,7 +59,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Industries
         /// </summary>
         [DataMember(Name = "industries", EmitDefaultValue = false)]
         public List<GetIndustriesResponseIndustriesInner> Industries { get; set; }
@@ -103,9 +98,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetIndustriesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetIndustriesResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetIndustriesResponse input)
         {
@@ -157,15 +150,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

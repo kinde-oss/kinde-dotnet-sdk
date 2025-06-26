@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// SubscribersSubscriber
     /// </summary>
     [DataContract(Name = "subscribers_subscriber")]
-    public partial class SubscribersSubscriber : IEquatable<SubscribersSubscriber>, IValidatableObject
+    public partial class SubscribersSubscriber : IEquatable<SubscribersSubscriber>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubscribersSubscriber" /> class.
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="email">email.</param>
@@ -117,9 +113,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if SubscribersSubscriber instances are equal
         /// </summary>
-        /// <param name="input">Instance of SubscribersSubscriber to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(SubscribersSubscriber input)
         {
@@ -188,15 +182,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

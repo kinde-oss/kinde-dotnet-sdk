@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateAPIApplicationsRequest
     /// </summary>
     [DataContract(Name = "updateAPIApplications_request")]
-    public partial class UpdateAPIApplicationsRequest : IEquatable<UpdateAPIApplicationsRequest>, IValidatableObject
+    public partial class UpdateAPIApplicationsRequest : IEquatable<UpdateAPIApplicationsRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected UpdateAPIApplicationsRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequest" /> class.
         /// </summary>
         /// <param name="applications">applications (required).</param>
         public UpdateAPIApplicationsRequest(List<UpdateAPIApplicationsRequestApplicationsInner> applications = default(List<UpdateAPIApplicationsRequestApplicationsInner>))
@@ -53,7 +48,6 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets Applications
         /// </summary>
         [DataMember(Name = "applications", IsRequired = true, EmitDefaultValue = true)]
         public List<UpdateAPIApplicationsRequestApplicationsInner> Applications { get; set; }
@@ -91,9 +85,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateAPIApplicationsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateAPIApplicationsRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateAPIApplicationsRequest input)
         {
@@ -127,15 +119,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

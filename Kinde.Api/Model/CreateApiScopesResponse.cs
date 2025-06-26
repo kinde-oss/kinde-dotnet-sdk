@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateApiScopesResponse
     /// </summary>
     [DataContract(Name = "create_api_scopes_response")]
-    public partial class CreateApiScopesResponse : IEquatable<CreateApiScopesResponse>, IValidatableObject
+    public partial class CreateApiScopesResponse : IEquatable<CreateApiScopesResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApiScopesResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message..</param>
         /// <param name="code">A Kinde generated status code..</param>
@@ -103,9 +99,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateApiScopesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateApiScopesResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateApiScopesResponse input)
         {
@@ -156,15 +150,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,27 +21,22 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// OrganizationItemSchema
     /// </summary>
     [DataContract(Name = "organization_item_schema")]
-    public partial class OrganizationItemSchema : IEquatable<OrganizationItemSchema>, IValidatableObject
+    public partial class OrganizationItemSchema : IEquatable<OrganizationItemSchema>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationItemSchema" /> class.
         /// </summary>
         /// <param name="code">The unique identifier for the organization..</param>
         /// <param name="name">The organization&#39;s name..</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
         /// <param name="isDefault">Whether the organization is the default organization..</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems..</param>
-        /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
         public OrganizationItemSchema(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool))
         {
             this.Code = code;
@@ -138,9 +133,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if OrganizationItemSchema instances are equal
         /// </summary>
-        /// <param name="input">Instance of OrganizationItemSchema to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(OrganizationItemSchema input)
         {
@@ -210,15 +203,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

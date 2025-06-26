@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationRequest
     /// </summary>
     [DataContract(Name = "updateOrganization_request")]
-    public partial class UpdateOrganizationRequest : IEquatable<UpdateOrganizationRequest>, IValidatableObject
+    public partial class UpdateOrganizationRequest : IEquatable<UpdateOrganizationRequest>
     {
         /// <summary>
         /// The organization&#39;s brand settings - theme/mode.
@@ -53,7 +50,6 @@ namespace Kinde.Api.Model
             Dark = 2,
 
             /// <summary>
-            /// Enum UserPreference for value: user_preference
             /// </summary>
             [EnumMember(Value = "user_preference")]
             UserPreference = 3
@@ -68,24 +64,15 @@ namespace Kinde.Api.Model
         [DataMember(Name = "theme_code", EmitDefaultValue = false)]
         public ThemeCodeEnum? ThemeCode { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationRequest" /> class.
         /// </summary>
         /// <param name="name">The organization&#39;s name..</param>
         /// <param name="externalId">The organization&#39;s ID..</param>
-        /// <param name="backgroundColor">The organization&#39;s brand settings - background color..</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
-        /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color..</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color..</param>
-        /// <param name="backgroundColorDark">The organization&#39;s brand settings - dark mode background color..</param>
-        /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color..</param>
-        /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color..</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode..</param>
         /// <param name="handle">The organization&#39;s handle..</param>
-        /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead..</param>
-        /// <param name="isAutoJoinDomainList">Users can sign up to this organization..</param>
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
-        /// <param name="isEnableAdvancedOrgs">Activate advanced organization features..</param>
         /// <param name="isEnforceMfa">Enforce MFA for all users in this organization..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
@@ -307,9 +294,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateOrganizationRequest input)
         {
@@ -485,15 +470,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

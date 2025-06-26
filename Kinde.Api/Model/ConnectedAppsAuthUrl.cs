@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// ConnectedAppsAuthUrl
     /// </summary>
     [DataContract(Name = "connected_apps_auth_url")]
-    public partial class ConnectedAppsAuthUrl : IEquatable<ConnectedAppsAuthUrl>, IValidatableObject
+    public partial class ConnectedAppsAuthUrl : IEquatable<ConnectedAppsAuthUrl>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsAuthUrl" /> class.
         /// </summary>
         /// <param name="url">A URL that is used to authenticate an end-user against a connected app..</param>
         /// <param name="sessionId">A unique identifier for the login session..</param>
@@ -92,9 +88,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ConnectedAppsAuthUrl instances are equal
         /// </summary>
-        /// <param name="input">Instance of ConnectedAppsAuthUrl to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ConnectedAppsAuthUrl input)
         {
@@ -136,15 +130,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

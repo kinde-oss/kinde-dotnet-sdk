@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,7 +29,7 @@ namespace Kinde.Api.Model
     /// The result of the user creation operation.
     /// </summary>
     [DataContract(Name = "createUser_request_identities_inner")]
-    public partial class CreateUserRequestIdentitiesInner : IEquatable<CreateUserRequestIdentitiesInner>, IValidatableObject
+    public partial class CreateUserRequestIdentitiesInner : IEquatable<CreateUserRequestIdentitiesInner>
     {
         /// <summary>
         /// The type of identity to create, e.g. email, username, or phone.
@@ -67,7 +65,6 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInner" /> class.
         /// </summary>
         /// <param name="type">The type of identity to create, e.g. email, username, or phone..</param>
         /// <param name="isVerified">Set whether an email or phone identity is verified or not..</param>
@@ -128,9 +125,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateUserRequestIdentitiesInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserRequestIdentitiesInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateUserRequestIdentitiesInner input)
         {
@@ -173,15 +168,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

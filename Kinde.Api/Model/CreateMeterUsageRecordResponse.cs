@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateMeterUsageRecordResponse
     /// </summary>
     [DataContract(Name = "create_meter_usage_record_response")]
-    public partial class CreateMeterUsageRecordResponse : IEquatable<CreateMeterUsageRecordResponse>, IValidatableObject
+    public partial class CreateMeterUsageRecordResponse : IEquatable<CreateMeterUsageRecordResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateMeterUsageRecordResponse" /> class.
         /// </summary>
         /// <param name="message">Response message..</param>
         /// <param name="code">Response code..</param>
@@ -94,9 +90,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateMeterUsageRecordResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateMeterUsageRecordResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateMeterUsageRecordResponse input)
         {
@@ -138,15 +132,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

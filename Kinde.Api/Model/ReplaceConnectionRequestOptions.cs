@@ -21,25 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 using System.Reflection;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// ReplaceConnectionRequestOptions
     /// </summary>
     [JsonConverter(typeof(ReplaceConnectionRequestOptionsJsonConverter))]
     [DataContract(Name = "ReplaceConnection_request_options")]
-    public partial class ReplaceConnectionRequestOptions : AbstractOpenAPISchema, IEquatable<ReplaceConnectionRequestOptions>, IValidatableObject
+    public partial class ReplaceConnectionRequestOptions : AbstractOpenAPISchema, IEquatable<ReplaceConnectionRequestOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptions" /> class
-        /// with the <see cref="CreateConnectionRequestOptionsOneOf" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of CreateConnectionRequestOptionsOneOf.</param>
         public ReplaceConnectionRequestOptions(CreateConnectionRequestOptionsOneOf actualInstance)
         {
             this.IsNullable = false;
@@ -48,10 +42,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptions" /> class
-        /// with the <see cref="ReplaceConnectionRequestOptionsOneOf" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of ReplaceConnectionRequestOptionsOneOf.</param>
         public ReplaceConnectionRequestOptions(ReplaceConnectionRequestOptionsOneOf actualInstance)
         {
             this.IsNullable = false;
@@ -60,10 +51,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptions" /> class
-        /// with the <see cref="ReplaceConnectionRequestOptionsOneOf1" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of ReplaceConnectionRequestOptionsOneOf1.</param>
         public ReplaceConnectionRequestOptions(ReplaceConnectionRequestOptionsOneOf1 actualInstance)
         {
             this.IsNullable = false;
@@ -75,7 +63,6 @@ namespace Kinde.Api.Model
         private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets ActualInstance
         /// </summary>
         public override Object ActualInstance
         {
@@ -105,30 +92,21 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `CreateConnectionRequestOptionsOneOf`. If the actual instance is not `CreateConnectionRequestOptionsOneOf`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of CreateConnectionRequestOptionsOneOf</returns>
         public CreateConnectionRequestOptionsOneOf GetCreateConnectionRequestOptionsOneOf()
         {
             return (CreateConnectionRequestOptionsOneOf)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `ReplaceConnectionRequestOptionsOneOf`. If the actual instance is not `ReplaceConnectionRequestOptionsOneOf`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of ReplaceConnectionRequestOptionsOneOf</returns>
         public ReplaceConnectionRequestOptionsOneOf GetReplaceConnectionRequestOptionsOneOf()
         {
             return (ReplaceConnectionRequestOptionsOneOf)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `ReplaceConnectionRequestOptionsOneOf1`. If the actual instance is not `ReplaceConnectionRequestOptionsOneOf1`,
-        /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of ReplaceConnectionRequestOptionsOneOf1</returns>
         public ReplaceConnectionRequestOptionsOneOf1 GetReplaceConnectionRequestOptionsOneOf1()
         {
             return (ReplaceConnectionRequestOptionsOneOf1)this.ActualInstance;
@@ -157,10 +135,8 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into an instance of ReplaceConnectionRequestOptions
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        /// <returns>An instance of ReplaceConnectionRequestOptions</returns>
         public static ReplaceConnectionRequestOptions FromJson(string jsonString)
         {
             ReplaceConnectionRequestOptions newReplaceConnectionRequestOptions = null;
@@ -256,9 +232,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ReplaceConnectionRequestOptions instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReplaceConnectionRequestOptions to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ReplaceConnectionRequestOptions input)
         {
@@ -282,20 +256,9 @@ namespace Kinde.Api.Model
                 return hashCode;
             }
         }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
     /// <summary>
-    /// Custom JSON converter for ReplaceConnectionRequestOptions
     /// </summary>
     public class ReplaceConnectionRequestOptionsJsonConverter : JsonConverter
     {

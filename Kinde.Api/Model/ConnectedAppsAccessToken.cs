@@ -21,23 +21,18 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// ConnectedAppsAccessToken
     /// </summary>
     [DataContract(Name = "connected_apps_access_token")]
-    public partial class ConnectedAppsAccessToken : IEquatable<ConnectedAppsAccessToken>, IValidatableObject
+    public partial class ConnectedAppsAccessToken : IEquatable<ConnectedAppsAccessToken>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectedAppsAccessToken" /> class.
         /// </summary>
         /// <param name="accessToken">The access token to access a third-party provider..</param>
-        /// <param name="accessTokenExpiry">The date and time that the access token expires..</param>
         public ConnectedAppsAccessToken(string accessToken = default(string), string accessTokenExpiry = default(string))
         {
             this.AccessToken = accessToken;
@@ -92,9 +87,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ConnectedAppsAccessToken instances are equal
         /// </summary>
-        /// <param name="input">Instance of ConnectedAppsAccessToken to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ConnectedAppsAccessToken input)
         {
@@ -136,15 +129,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

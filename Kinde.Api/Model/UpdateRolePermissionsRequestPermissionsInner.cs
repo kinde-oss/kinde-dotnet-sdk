@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateRolePermissionsRequestPermissionsInner
     /// </summary>
     [DataContract(Name = "UpdateRolePermissions_request_permissions_inner")]
-    public partial class UpdateRolePermissionsRequestPermissionsInner : IEquatable<UpdateRolePermissionsRequestPermissionsInner>, IValidatableObject
+    public partial class UpdateRolePermissionsRequestPermissionsInner : IEquatable<UpdateRolePermissionsRequestPermissionsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateRolePermissionsRequestPermissionsInner" /> class.
         /// </summary>
         /// <param name="id">The permission id..</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the permission from the role..</param>
@@ -92,9 +88,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateRolePermissionsRequestPermissionsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateRolePermissionsRequestPermissionsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateRolePermissionsRequestPermissionsInner input)
         {
@@ -136,15 +130,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

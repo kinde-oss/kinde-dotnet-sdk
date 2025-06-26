@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// PropertyValue
     /// </summary>
     [DataContract(Name = "property_value")]
-    public partial class PropertyValue : IEquatable<PropertyValue>, IValidatableObject
+    public partial class PropertyValue : IEquatable<PropertyValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyValue" /> class.
@@ -53,7 +50,6 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        /// <example>prop_0192b7e8b4f8ca08110d2b22059662a8</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -65,7 +61,6 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Description
         /// </summary>
         /// <example>Where the entity is located</example>
         [DataMember(Name = "description", EmitDefaultValue = true)]
@@ -193,15 +188,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

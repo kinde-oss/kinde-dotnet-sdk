@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetPropertiesResponse
     /// </summary>
     [DataContract(Name = "get_properties_response")]
-    public partial class GetPropertiesResponse : IEquatable<GetPropertiesResponse>, IValidatableObject
+    public partial class GetPropertiesResponse : IEquatable<GetPropertiesResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetPropertiesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -63,7 +59,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Properties
         /// </summary>
         [DataMember(Name = "properties", EmitDefaultValue = false)]
         public List<Property> Properties { get; set; }
@@ -111,9 +106,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetPropertiesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetPropertiesResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetPropertiesResponse input)
         {
@@ -170,15 +163,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

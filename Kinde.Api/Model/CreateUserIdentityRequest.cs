@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateUserIdentityRequest
     /// </summary>
     [DataContract(Name = "CreateUserIdentity_request")]
-    public partial class CreateUserIdentityRequest : IEquatable<CreateUserIdentityRequest>, IValidatableObject
+    public partial class CreateUserIdentityRequest : IEquatable<CreateUserIdentityRequest>
     {
         /// <summary>
         /// The identity type
@@ -59,7 +56,6 @@ namespace Kinde.Api.Model
             Phone = 3,
 
             /// <summary>
-            /// Enum Enterprise for value: enterprise
             /// </summary>
             [EnumMember(Value = "enterprise")]
             Enterprise = 4,
@@ -80,7 +76,6 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserIdentityRequest" /> class.
         /// </summary>
         /// <param name="value">The email address, social identity, or username of the user..</param>
         /// <param name="type">The identity type.</param>
@@ -114,7 +109,6 @@ namespace Kinde.Api.Model
         /// The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.
         /// </summary>
         /// <value>The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.</value>
-        /// <example>conn_019289347f1193da6c0e4d49b97b4bd2</example>
         [DataMember(Name = "connection_id", EmitDefaultValue = false)]
         public string ConnectionId { get; set; }
 
@@ -154,9 +148,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateUserIdentityRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserIdentityRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateUserIdentityRequest input)
         {
@@ -212,15 +204,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

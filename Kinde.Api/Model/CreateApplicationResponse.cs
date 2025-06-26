@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateApplicationResponse
     /// </summary>
     [DataContract(Name = "create_application_response")]
-    public partial class CreateApplicationResponse : IEquatable<CreateApplicationResponse>, IValidatableObject
+    public partial class CreateApplicationResponse : IEquatable<CreateApplicationResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -61,7 +57,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Application
         /// </summary>
         [DataMember(Name = "application", EmitDefaultValue = false)]
         public CreateApplicationResponseApplication Application { get; set; }
@@ -101,9 +96,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateApplicationResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateApplicationResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateApplicationResponse input)
         {
@@ -154,15 +147,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

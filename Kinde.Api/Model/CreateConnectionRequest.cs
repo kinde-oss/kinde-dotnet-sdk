@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateConnectionRequest
     /// </summary>
     [DataContract(Name = "CreateConnection_request")]
-    public partial class CreateConnectionRequest : IEquatable<CreateConnectionRequest>, IValidatableObject
+    public partial class CreateConnectionRequest : IEquatable<CreateConnectionRequest>
     {
         /// <summary>
         /// The identity provider identifier for the connection.
@@ -53,7 +50,6 @@ namespace Kinde.Api.Model
             Oauth2azureAd = 2,
 
             /// <summary>
-            /// Enum Oauth2bitbucket for value: oauth2:bitbucket
             /// </summary>
             [EnumMember(Value = "oauth2:bitbucket")]
             Oauth2bitbucket = 3,
@@ -95,7 +91,6 @@ namespace Kinde.Api.Model
             Oauth2linkedin = 9,
 
             /// <summary>
-            /// Enum Oauth2microsoft for value: oauth2:microsoft
             /// </summary>
             [EnumMember(Value = "oauth2:microsoft")]
             Oauth2microsoft = 10,
@@ -157,13 +152,10 @@ namespace Kinde.Api.Model
         [DataMember(Name = "strategy", EmitDefaultValue = false)]
         public StrategyEnum? Strategy { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequest" /> class.
         /// </summary>
         /// <param name="name">The internal name of the connection..</param>
         /// <param name="displayName">The public facing name of the connection..</param>
         /// <param name="strategy">The identity provider identifier for the connection..</param>
-        /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
-        /// <param name="organizationCode">Enterprise connections only - the code for organization that manages this connection..</param>
         /// <param name="options">options.</param>
         public CreateConnectionRequest(string name = default(string), string displayName = default(string), StrategyEnum? strategy = default(StrategyEnum?), List<string> enabledApplications = default(List<string>), string organizationCode = default(string), CreateConnectionRequestOptions options = default(CreateConnectionRequestOptions))
         {
@@ -248,9 +240,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateConnectionRequest input)
         {
@@ -325,15 +315,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
