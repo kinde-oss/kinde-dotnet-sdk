@@ -72,5 +72,23 @@ namespace Kinde.Api.Test.Model
         {
             // TODO unit test for the property 'PlanCode'
         }
+
+        /// <summary>
+        /// Test the property 'IsInvoiceNow'
+        /// </summary>
+        [Fact]
+        public void IsInvoiceNowTest()
+        {
+            // TODO unit test for the property 'IsInvoiceNow'
+        }
+
+        /// <summary>
+        /// Test the property 'IsProrate'
+        /// </summary>
+        [Fact]
+        public void IsProrateTest()
+        {
+            // TODO unit test for the property 'IsProrate'
+        }
     }
 }

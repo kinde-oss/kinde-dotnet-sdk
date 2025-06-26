@@ -831,6 +831,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationPropertyWithHttpInfo(string orgCode, string propertyKey, string value);
         /// <summary>
+        /// Update organization session configuration
+        /// </summary>
+        /// <remarks>
+        /// Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateOrganizationSessions(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest);
+
+        /// <summary>
+        /// Update organization session configuration
+        /// </summary>
+        /// <remarks>
+        /// Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateOrganizationSessionsWithHttpInfo(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest);
+        /// <summary>
         /// Update Organization Users
         /// </summary>
         /// <remarks>
@@ -1732,6 +1755,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationPropertyWithHttpInfoAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update organization session configuration
+        /// </summary>
+        /// <remarks>
+        /// Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationSessionsAsync(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization session configuration
+        /// </summary>
+        /// <remarks>
+        /// Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationSessionsWithHttpInfoAsync(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Organization Users
         /// </summary>
@@ -6916,6 +6964,149 @@ namespace Kinde.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdateOrganizationProperty", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization session configuration Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationSessions(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationSessionsWithHttpInfo(orgCode, updateOrganizationSessionsRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization session configuration Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationSessionsWithHttpInfo(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationSessions");
+
+            // verify the required parameter 'updateOrganizationSessionsRequest' is set
+            if (updateOrganizationSessionsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationSessionsRequest' when calling OrganizationsApi->UpdateOrganizationSessions");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationSessionsRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/organizations/{org_code}/sessions", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationSessions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization session configuration Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationSessionsAsync(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateOrganizationSessionsWithHttpInfoAsync(orgCode, updateOrganizationSessionsRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization session configuration Update the organization&#39;s session configuration.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationSessionsRequest">Organization session configuration.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationSessionsWithHttpInfoAsync(string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationSessions");
+
+            // verify the required parameter 'updateOrganizationSessionsRequest' is set
+            if (updateOrganizationSessionsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationSessionsRequest' when calling OrganizationsApi->UpdateOrganizationSessions");
+
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationSessionsRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organizations/{org_code}/sessions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationSessions", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

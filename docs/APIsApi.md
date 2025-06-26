@@ -930,7 +930,7 @@ catch (ApiException e)
 
 <a id="getapis"></a>
 # **GetAPIs**
-> GetApisResponse GetAPIs (string? expand = null)
+> GetApisResponse GetAPIs (string expand = null)
 
 Get APIs
 
@@ -960,7 +960,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var expand = "scopes";  // string? | Specify additional data to retrieve. Use \"scopes\". (optional) 
+            var expand = "scopes";  // string | Specify additional data to retrieve. Use \"scopes\". (optional) 
 
             try
             {
@@ -1003,7 +1003,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;scopes\&quot;. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;scopes\&quot;. | [optional]  |
 
 ### Return type
 

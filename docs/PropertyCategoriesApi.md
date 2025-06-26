@@ -111,7 +111,7 @@ catch (ApiException e)
 
 <a id="getcategories"></a>
 # **GetCategories**
-> GetCategoriesResponse GetCategories (int? pageSize = null, string? startingAfter = null, string? endingBefore = null, string? context = null)
+> GetCategoriesResponse GetCategories (int? pageSize = null, string startingAfter = null, string endingBefore = null, string context = null)
 
 List categories
 
@@ -142,9 +142,9 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var startingAfter = "startingAfter_example";  // string? | The ID of the category to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string? | The ID of the category to end before. (optional) 
-            var context = "usr";  // string? | Filter the results by User or Organization context (optional) 
+            var startingAfter = "startingAfter_example";  // string | The ID of the category to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string | The ID of the category to end before. (optional) 
+            var context = "usr";  // string | Filter the results by User or Organization context (optional) 
 
             try
             {
@@ -188,9 +188,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **startingAfter** | **string?** | The ID of the category to start after. | [optional]  |
-| **endingBefore** | **string?** | The ID of the category to end before. | [optional]  |
-| **context** | **string?** | Filter the results by User or Organization context | [optional]  |
+| **startingAfter** | **string** | The ID of the category to start after. | [optional]  |
+| **endingBefore** | **string** | The ID of the category to end before. | [optional]  |
+| **context** | **string** | Filter the results by User or Organization context | [optional]  |
 
 ### Return type
 

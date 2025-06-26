@@ -11,10 +11,12 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetUserData**](UsersApi.md#getuserdata) | **GET** /api/v1/user | Get user |
 | [**GetUserIdentities**](UsersApi.md#getuseridentities) | **GET** /api/v1/users/{user_id}/identities | Get identities |
 | [**GetUserPropertyValues**](UsersApi.md#getuserpropertyvalues) | **GET** /api/v1/users/{user_id}/properties | Get property values |
+| [**GetUserSessions**](UsersApi.md#getusersessions) | **GET** /api/v1/users/{user_id}/sessions | Get user sessions |
 | [**GetUsers**](UsersApi.md#getusers) | **GET** /api/v1/users | Get users |
 | [**GetUsersMFA**](UsersApi.md#getusersmfa) | **GET** /api/v1/users/{user_id}/mfa | Get user&#39;s MFA configuration |
 | [**RefreshUserClaims**](UsersApi.md#refreshuserclaims) | **POST** /api/v1/users/{user_id}/refresh_claims | Refresh User Claims and Invalidate Cache |
-| [**ResetUsersMFA**](UsersApi.md#resetusersmfa) | **DELETE** /api/v1/users/{user_id}/mfa/{factor_id} | Reset MFA for a user |
+| [**ResetUsersMFA**](UsersApi.md#resetusersmfa) | **DELETE** /api/v1/users/{user_id}/mfa/{factor_id} | Reset specific environment MFA for a user |
+| [**ResetUsersMFAAll**](UsersApi.md#resetusersmfaall) | **DELETE** /api/v1/users/{user_id}/mfa | Reset all environment MFA for a user |
 | [**SetUserPassword**](UsersApi.md#setuserpassword) | **PUT** /api/v1/users/{user_id}/password | Set User password |
 | [**UpdateUser**](UsersApi.md#updateuser) | **PATCH** /api/v1/user | Update user |
 | [**UpdateUserFeatureFlagOverride**](UsersApi.md#updateuserfeatureflagoverride) | **PATCH** /api/v1/users/{user_id}/feature_flags/{feature_flag_key} | Update User Feature Flag Override |
@@ -23,7 +25,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="createuser"></a>
 # **CreateUser**
-> CreateUserResponse CreateUser (CreateUserRequest? createUserRequest = null)
+> CreateUserResponse CreateUser (CreateUserRequest createUserRequest = null)
 
 Create user
 
@@ -53,7 +55,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
-            var createUserRequest = new CreateUserRequest?(); // CreateUserRequest? | The details of the user to create. (optional) 
+            var createUserRequest = new CreateUserRequest(); // CreateUserRequest | The details of the user to create. (optional) 
 
             try
             {
@@ -96,7 +98,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createUserRequest** | [**CreateUserRequest?**](CreateUserRequest?.md) | The details of the user to create. | [optional]  |
+| **createUserRequest** | [**CreateUserRequest**](CreateUserRequest.md) | The details of the user to create. | [optional]  |
 
 ### Return type
 
@@ -124,7 +126,7 @@ catch (ApiException e)
 
 <a id="createuseridentity"></a>
 # **CreateUserIdentity**
-> CreateIdentityResponse CreateUserIdentity (string userId, CreateUserIdentityRequest? createUserIdentityRequest = null)
+> CreateIdentityResponse CreateUserIdentity (string userId, CreateUserIdentityRequest createUserIdentityRequest = null)
 
 Create identity
 
@@ -155,7 +157,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var userId = "userId_example";  // string | The user's ID.
-            var createUserIdentityRequest = new CreateUserIdentityRequest?(); // CreateUserIdentityRequest? | The identity details. (optional) 
+            var createUserIdentityRequest = new CreateUserIdentityRequest(); // CreateUserIdentityRequest | The identity details. (optional) 
 
             try
             {
@@ -199,7 +201,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **userId** | **string** | The user&#39;s ID. |  |
-| **createUserIdentityRequest** | [**CreateUserIdentityRequest?**](CreateUserIdentityRequest?.md) | The identity details. | [optional]  |
+| **createUserIdentityRequest** | [**CreateUserIdentityRequest**](CreateUserIdentityRequest.md) | The identity details. | [optional]  |
 
 ### Return type
 
@@ -432,7 +434,7 @@ catch (ApiException e)
 
 <a id="getuserdata"></a>
 # **GetUserData**
-> User GetUserData (string id, string? expand = null)
+> User GetUserData (string id, string expand = null)
 
 Get user
 
@@ -463,7 +465,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // string | The user's id.
-            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
 
             try
             {
@@ -507,7 +509,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | The user&#39;s id. |  |
-| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
 
 ### Return type
 
@@ -535,7 +537,7 @@ catch (ApiException e)
 
 <a id="getuseridentities"></a>
 # **GetUserIdentities**
-> GetIdentitiesResponse GetUserIdentities (string userId, string? startingAfter = null, string? endingBefore = null)
+> GetIdentitiesResponse GetUserIdentities (string userId, string startingAfter = null, string endingBefore = null)
 
 Get identities
 
@@ -566,8 +568,8 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var userId = "userId_example";  // string | The user's ID.
-            var startingAfter = "startingAfter_example";  // string? | The ID of the identity to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string? | The ID of the identity to end before. (optional) 
+            var startingAfter = "startingAfter_example";  // string | The ID of the identity to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string | The ID of the identity to end before. (optional) 
 
             try
             {
@@ -611,8 +613,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **userId** | **string** | The user&#39;s ID. |  |
-| **startingAfter** | **string?** | The ID of the identity to start after. | [optional]  |
-| **endingBefore** | **string?** | The ID of the identity to end before. | [optional]  |
+| **startingAfter** | **string** | The ID of the identity to start after. | [optional]  |
+| **endingBefore** | **string** | The ID of the identity to end before. | [optional]  |
 
 ### Return type
 
@@ -739,9 +741,111 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getusersessions"></a>
+# **GetUserSessions**
+> GetUserSessionsResponse GetUserSessions (string userId)
+
+Get user sessions
+
+Retrieve the list of active sessions for a specific user.  <div>   <code>read:user_sessions</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetUserSessionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Get user sessions
+                GetUserSessionsResponse result = apiInstance.GetUserSessions(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.GetUserSessions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetUserSessionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get user sessions
+    ApiResponse<GetUserSessionsResponse> response = apiInstance.GetUserSessionsWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.GetUserSessionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
+
+### Return type
+
+[**GetUserSessionsResponse**](GetUserSessionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successfully retrieved user sessions. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getusers"></a>
 # **GetUsers**
-> UsersResponse GetUsers (int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? username = null, string? expand = null, bool? hasOrganization = null)
+> UsersResponse GetUsers (int? pageSize = null, string userId = null, string nextToken = null, string email = null, string username = null, string expand = null, bool? hasOrganization = null)
 
 Get users
 
@@ -772,11 +876,11 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var userId = "userId_example";  // string? | Filter the results by User ID. The query string should be comma separated and url encoded. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
-            var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
-            var username = "username_example";  // string? | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
-            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var userId = "userId_example";  // string | Filter the results by User ID. The query string should be comma separated and url encoded. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var email = "email_example";  // string | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
+            var username = "username_example";  // string | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
+            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
             var hasOrganization = true;  // bool? | Filter the results by if the user has at least one organization assigned. (optional) 
 
             try
@@ -821,11 +925,11 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **userId** | **string?** | Filter the results by User ID. The query string should be comma separated and url encoded. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
-| **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
-| **username** | **string?** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
-| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **userId** | **string** | Filter the results by User ID. The query string should be comma separated and url encoded. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **email** | **string** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
+| **username** | **string** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
 | **hasOrganization** | **bool?** | Filter the results by if the user has at least one organization assigned. | [optional]  |
 
 ### Return type
@@ -1059,9 +1163,9 @@ catch (ApiException e)
 # **ResetUsersMFA**
 > SuccessResponse ResetUsersMFA (string userId, string factorId)
 
-Reset MFA for a user
+Reset specific environment MFA for a user
 
-Reset a user’s MFA.  <div>   <code>delete:user_mfa</code> </div> 
+Reset a specific environment MFA factor for a user.  <div>   <code>delete:user_mfa</code> </div> 
 
 ### Example
 ```csharp
@@ -1092,7 +1196,7 @@ namespace Example
 
             try
             {
-                // Reset MFA for a user
+                // Reset specific environment MFA for a user
                 SuccessResponse result = apiInstance.ResetUsersMFA(userId, factorId);
                 Debug.WriteLine(result);
             }
@@ -1113,7 +1217,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Reset MFA for a user
+    // Reset specific environment MFA for a user
     ApiResponse<SuccessResponse> response = apiInstance.ResetUsersMFAWithHttpInfo(userId, factorId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -1133,6 +1237,108 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **userId** | **string** | The identifier for the user |  |
 | **factorId** | **string** | The identifier for the MFA factor |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | User&#39;s MFA successfully reset. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="resetusersmfaall"></a>
+# **ResetUsersMFAAll**
+> SuccessResponse ResetUsersMFAAll (string userId)
+
+Reset all environment MFA for a user
+
+Reset all environment MFA factors for a user.  <div>   <code>delete:user_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class ResetUsersMFAAllExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
+
+            try
+            {
+                // Reset all environment MFA for a user
+                SuccessResponse result = apiInstance.ResetUsersMFAAll(userId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.ResetUsersMFAAll: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ResetUsersMFAAllWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Reset all environment MFA for a user
+    ApiResponse<SuccessResponse> response = apiInstance.ResetUsersMFAAllWithHttpInfo(userId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.ResetUsersMFAAllWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The identifier for the user |  |
 
 ### Return type
 

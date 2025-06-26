@@ -18,7 +18,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="addrolescope"></a>
 # **AddRoleScope**
-> AddRoleScopeResponse AddRoleScope (string roleId, AddRoleScopeRequest? addRoleScopeRequest = null)
+> AddRoleScopeResponse AddRoleScope (string roleId, AddRoleScopeRequest addRoleScopeRequest)
 
 Add role scope
 
@@ -49,7 +49,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
             var roleId = "roleId_example";  // string | The role id.
-            var addRoleScopeRequest = new AddRoleScopeRequest?(); // AddRoleScopeRequest? | Add scope to role. (optional) 
+            var addRoleScopeRequest = new AddRoleScopeRequest(); // AddRoleScopeRequest | Add scope to role.
 
             try
             {
@@ -93,7 +93,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **roleId** | **string** | The role id. |  |
-| **addRoleScopeRequest** | [**AddRoleScopeRequest?**](AddRoleScopeRequest?.md) | Add scope to role. | [optional]  |
+| **addRoleScopeRequest** | [**AddRoleScopeRequest**](AddRoleScopeRequest.md) | Add scope to role. |  |
 
 ### Return type
 
@@ -121,7 +121,7 @@ catch (ApiException e)
 
 <a id="createrole"></a>
 # **CreateRole**
-> CreateRolesResponse CreateRole (CreateRoleRequest? createRoleRequest = null)
+> CreateRolesResponse CreateRole (CreateRoleRequest createRoleRequest = null)
 
 Create role
 
@@ -151,7 +151,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
-            var createRoleRequest = new CreateRoleRequest?(); // CreateRoleRequest? | Role details. (optional) 
+            var createRoleRequest = new CreateRoleRequest(); // CreateRoleRequest | Role details. (optional) 
 
             try
             {
@@ -194,7 +194,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createRoleRequest** | [**CreateRoleRequest?**](CreateRoleRequest?.md) | Role details. | [optional]  |
+| **createRoleRequest** | [**CreateRoleRequest**](CreateRoleRequest.md) | Role details. | [optional]  |
 
 ### Return type
 
@@ -527,7 +527,7 @@ catch (ApiException e)
 
 <a id="getrolepermissions"></a>
 # **GetRolePermissions**
-> RolePermissionsResponse GetRolePermissions (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
+> RolePermissionsResponse GetRolePermissions (string roleId, string sort = null, int? pageSize = null, string nextToken = null)
 
 Get role permissions
 
@@ -558,9 +558,9 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
             var roleId = "roleId_example";  // string | The role's public id.
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -604,9 +604,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **roleId** | **string** | The role&#39;s public id. |  |
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -735,7 +735,7 @@ catch (ApiException e)
 
 <a id="getroles"></a>
 # **GetRoles**
-> GetRolesResponse GetRoles (string? sort = null, int? pageSize = null, string? nextToken = null)
+> GetRolesResponse GetRoles (string sort = null, int? pageSize = null, string nextToken = null)
 
 List roles
 
@@ -765,9 +765,9 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -810,9 +810,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -1045,7 +1045,7 @@ catch (ApiException e)
 
 <a id="updateroles"></a>
 # **UpdateRoles**
-> SuccessResponse UpdateRoles (string roleId, UpdateRolesRequest? updateRolesRequest = null)
+> SuccessResponse UpdateRoles (string roleId, UpdateRolesRequest updateRolesRequest = null)
 
 Update role
 
@@ -1076,7 +1076,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
             var roleId = "roleId_example";  // string | The identifier for the role.
-            var updateRolesRequest = new UpdateRolesRequest?(); // UpdateRolesRequest? | Role details. (optional) 
+            var updateRolesRequest = new UpdateRolesRequest(); // UpdateRolesRequest | Role details. (optional) 
 
             try
             {
@@ -1120,7 +1120,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **roleId** | **string** | The identifier for the role. |  |
-| **updateRolesRequest** | [**UpdateRolesRequest?**](UpdateRolesRequest?.md) | Role details. | [optional]  |
+| **updateRolesRequest** | [**UpdateRolesRequest**](UpdateRolesRequest.md) | Role details. | [optional]  |
 
 ### Return type
 

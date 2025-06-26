@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **SamlEntityId** | **string** | SAML Entity ID. | [optional] 
 **SamlAcsUrl** | **string** | Assertion Consumer Service URL. | [optional] 
 **SamlIdpMetadataUrl** | **string** | URL for the IdP metadata. | [optional] 
+**SamlSignInUrl** | **string** | Override the default SSO endpoint with a URL your IdP recognizes. | [optional] 
 **SamlEmailKeyAttr** | **string** | Attribute key for the user’s email. | [optional] 
 **SamlFirstNameKeyAttr** | **string** | Attribute key for the user’s first name. | [optional] 
 **SamlLastNameKeyAttr** | **string** | Attribute key for the user’s last name. | [optional] 

@@ -504,6 +504,19 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test UpdateOrganizationSessions
+        /// </summary>
+        [Fact]
+        public void UpdateOrganizationSessionsTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest = null;
+            //var response = instance.UpdateOrganizationSessions(orgCode, updateOrganizationSessionsRequest);
+            //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
         /// Test UpdateOrganizationUsers
         /// </summary>
         [Fact]

@@ -10,7 +10,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="getconnectedappauthurl"></a>
 # **GetConnectedAppAuthUrl**
-> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string? userId = null, string? orgCode = null, string? overrideCallbackUrl = null)
+> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string userId = null, string orgCode = null, string overrideCallbackUrl = null)
 
 Get Connected App URL
 
@@ -41,9 +41,9 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
             var keyCodeRef = "keyCodeRef_example";  // string | The unique key code reference of the connected app to authenticate against.
-            var userId = "userId_example";  // string? | The id of the user that needs to authenticate to the third-party connected app. (optional) 
-            var orgCode = "orgCode_example";  // string? | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
-            var overrideCallbackUrl = "overrideCallbackUrl_example";  // string? | A URL that overrides the default callback URL setup in your connected app configuration (optional) 
+            var userId = "userId_example";  // string | The id of the user that needs to authenticate to the third-party connected app. (optional) 
+            var orgCode = "orgCode_example";  // string | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
+            var overrideCallbackUrl = "overrideCallbackUrl_example";  // string | A URL that overrides the default callback URL setup in your connected app configuration (optional) 
 
             try
             {
@@ -87,9 +87,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **keyCodeRef** | **string** | The unique key code reference of the connected app to authenticate against. |  |
-| **userId** | **string?** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
-| **orgCode** | **string?** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
-| **overrideCallbackUrl** | **string?** | A URL that overrides the default callback URL setup in your connected app configuration | [optional]  |
+| **userId** | **string** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
+| **orgCode** | **string** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
+| **overrideCallbackUrl** | **string** | A URL that overrides the default callback URL setup in your connected app configuration | [optional]  |
 
 ### Return type
 

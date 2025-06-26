@@ -20,6 +20,9 @@ Name | Type | Description | Notes
 **IsAllowRegistrations** | **bool** | If users become members of this organization when the org code is supplied during authentication. | [optional] 
 **SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
 **SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
+**IsCreateBillingCustomer** | **bool** | If a billing customer is also created for this organization | [optional] 
+**BillingEmail** | **string** | The email address used for billing purposes for the organization | [optional] 
+**BillingPlanCode** | **string** | The billing plan to put the customer on. If not specified, the default plan is used | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -8,7 +8,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="searchusers"></a>
 # **SearchUsers**
-> SearchUsersResponse SearchUsers (int? pageSize = null, string? query = null, Dictionary<string, List<string>>? properties = null, string? startingAfter = null, string? endingBefore = null, string? expand = null)
+> SearchUsersResponse SearchUsers (int? pageSize = null, string query = null, Dictionary<string, List<string>> properties = null, string startingAfter = null, string endingBefore = null, string expand = null)
 
 Search users
 
@@ -39,11 +39,11 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new SearchApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var query = "query_example";  // string? | Search the users by email or name. Use '*' to search all. (optional) 
-            var properties = new Dictionary<string, List<string>>?(); // Dictionary<string, List<string>>? |  (optional) 
-            var startingAfter = "startingAfter_example";  // string? | The ID of the user to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string? | The ID of the user to end before. (optional) 
-            var expand = "expand_example";  // string? | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var query = "query_example";  // string | Search the users by email or name. Use '*' to search all. (optional) 
+            var properties = new Dictionary<string, List<string>>(); // Dictionary<string, List<string>> |  (optional) 
+            var startingAfter = "startingAfter_example";  // string | The ID of the user to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string | The ID of the user to end before. (optional) 
+            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
 
             try
             {
@@ -87,11 +87,11 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **query** | **string?** | Search the users by email or name. Use &#39;*&#39; to search all. | [optional]  |
-| **properties** | [**Dictionary&lt;string, List&lt;string&gt;&gt;?**](List&lt;string&gt;.md) |  | [optional]  |
-| **startingAfter** | **string?** | The ID of the user to start after. | [optional]  |
-| **endingBefore** | **string?** | The ID of the user to end before. | [optional]  |
-| **expand** | **string?** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **query** | **string** | Search the users by email or name. Use &#39;*&#39; to search all. | [optional]  |
+| **properties** | [**Dictionary&lt;string, List&lt;string&gt;&gt;**](List&lt;string&gt;.md) |  | [optional]  |
+| **startingAfter** | **string** | The ID of the user to start after. | [optional]  |
+| **endingBefore** | **string** | The ID of the user to end before. | [optional]  |
+| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
 
 ### Return type
 

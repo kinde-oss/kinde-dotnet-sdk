@@ -317,7 +317,7 @@ catch (ApiException e)
 
 <a id="getconnections"></a>
 # **GetConnections**
-> GetConnectionsResponse GetConnections (int? pageSize = null, string? homeRealmDomain = null, string? startingAfter = null, string? endingBefore = null)
+> GetConnectionsResponse GetConnections (int? pageSize = null, string homeRealmDomain = null, string startingAfter = null, string endingBefore = null)
 
 Get connections
 
@@ -348,9 +348,9 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var homeRealmDomain = myapp.com;  // string? | Filter the results by the home realm domain. (optional) 
-            var startingAfter = "startingAfter_example";  // string? | The ID of the connection to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string? | The ID of the connection to end before. (optional) 
+            var homeRealmDomain = myapp.com;  // string | Filter the results by the home realm domain. (optional) 
+            var startingAfter = "startingAfter_example";  // string | The ID of the connection to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string | The ID of the connection to end before. (optional) 
 
             try
             {
@@ -394,9 +394,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **homeRealmDomain** | **string?** | Filter the results by the home realm domain. | [optional]  |
-| **startingAfter** | **string?** | The ID of the connection to start after. | [optional]  |
-| **endingBefore** | **string?** | The ID of the connection to end before. | [optional]  |
+| **homeRealmDomain** | **string** | Filter the results by the home realm domain. | [optional]  |
+| **startingAfter** | **string** | The ID of the connection to start after. | [optional]  |
+| **endingBefore** | **string** | The ID of the connection to end before. | [optional]  |
 
 ### Return type
 
