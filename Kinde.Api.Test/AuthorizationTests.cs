@@ -1,12 +1,14 @@
-using Kinde.Api.Client;
+﻿using Kinde.Api.Client;
 using Kinde.Api.Enums;
+using Kinde.Api.Flows;
+using Kinde.Api.Model;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
-using Kinde.Api.Model;
 using Kinde.Api.Test.Mocks;
 using Kinde.Api.Test.Mocks.Flows;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using Xunit;
 
@@ -17,6 +19,7 @@ namespace Kinde.Api.Test
     {
         protected static string Token { get { return JsonConvert.SerializeObject(new OauthToken() { AccessToken = "access token", ExpiresIn = 3600 }); } }
         protected static string ExpiredToken { get { return JsonConvert.SerializeObject(new OauthToken() { AccessToken = "expired token", RefreshToken = "refresh token", ExpiresIn = 0 }); } }
+
 
         [Theory]
         [InlineData(System.Net.HttpStatusCode.Forbidden, null, true)]
@@ -223,30 +226,37 @@ namespace Kinde.Api.Test
         {
             // Arrange
             var portalResponse = new GetPortalLink { Url = "https://test.kinde.com/portal/profile" };
-            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            var tokenResponse = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(portalResponse))
+                Content = new StringContent(JsonConvert.SerializeObject(new { access_token = "access token", expires_in = 3600 }))
             };
-            var client = new MockHttpClient(response);
+            var portalResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(portalResponse))
+            };
+
+            // Here: first call returns tokenResponse, second returns portalResponseMessage
+            var handler = new SequenceMessageHandler(tokenResponse, portalResponseMessage);
+            var client = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://jahangeer.kinde.com")
+            };
+
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
-
-            // Mock authentication
-            var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
-            apiClient.GetType().GetProperty("Token", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(apiClient, token);
-
             var options = new GenerateProfileUrlOptions
             {
                 Domain = "https://test.kinde.com",
-                ReturnUrl = "https://myapp.com/callback",
+                ReturnUrl = "https://test.com/callback",
                 SubNav = PortalPage.Profile
             };
 
             // Act
+            await apiClient.Authorize(new MockClientConfiguration());
             var result = await apiClient.GenerateProfileUrl(options);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("https://test.kinde.com/portal/profile", result.Url);
+            Assert.Equal("https://test.kinde.com/portal/profile", result.Url);          
         }
 
         [Fact]
@@ -265,6 +275,79 @@ namespace Kinde.Api.Test
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(() => apiClient.GenerateProfileUrl(options));
+        }
+
+        [Fact]
+        public async Task GenerateProfileUrl_WithNullOptions_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), new HttpClient());
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(
+                () => apiClient.GenerateProfileUrl(null));
+        }
+      
+        [Fact]
+        public async Task GenerateProfileUrl_WithEmptyDomain_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), new HttpClient());
+            var options = new GenerateProfileUrlOptions
+            {
+                Domain = string.Empty,
+                ReturnUrl = "https://myapp.com/return",
+                SubNav = PortalPage.Profile
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(
+                () => apiClient.GenerateProfileUrl(options));
+        }
+               
+        [Fact]
+        public async Task GenerateProfileUrl_WithoutAuthentication_ShouldThrowApplicationException()
+        {
+            // Arrange
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), new HttpClient());
+            var options = new GenerateProfileUrlOptions
+            {
+                Domain = "https://test.kinde.com",
+                ReturnUrl = "https://myapp.com/return",
+                SubNav = PortalPage.Profile
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ApplicationException>(() => apiClient.GenerateProfileUrl(options));
+        }
+      
+        [Fact]
+        public async Task GenerateProfileUrl_WithInvalidJsonResponse_ShouldThrow()
+        {
+            // Arrange
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("not-json")
+            };
+            var httpClient = new MockHttpClient(response);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), httpClient);
+
+            // Simulate authenticated state by setting private Token via reflection
+            var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
+            typeof(KindeClient)
+                .GetProperty("Token", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?.SetValue(apiClient, token);
+
+            var options = new GenerateProfileUrlOptions
+            {
+                Domain = "https://test.kinde.com",
+                ReturnUrl = "https://myapp.com/return",
+                SubNav = PortalPage.Profile
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ApplicationException>(
+                () => apiClient.GenerateProfileUrl(options));
         }
     }
 }
