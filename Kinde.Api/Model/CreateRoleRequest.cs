@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateRoleRequest
     /// </summary>
     [DataContract(Name = "CreateRole_request")]
-    public partial class CreateRoleRequest : IEquatable<CreateRoleRequest>, IValidatableObject
+    public partial class CreateRoleRequest : IEquatable<CreateRoleRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateRoleRequest" /> class.
         /// </summary>
         /// <param name="name">The role&#39;s name..</param>
         /// <param name="description">The role&#39;s description..</param>
@@ -112,9 +108,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateRoleRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateRoleRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateRoleRequest input)
         {
@@ -170,15 +164,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

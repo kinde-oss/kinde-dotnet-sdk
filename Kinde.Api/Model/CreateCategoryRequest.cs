@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateCategoryRequest
     /// </summary>
     [DataContract(Name = "CreateCategory_request")]
-    public partial class CreateCategoryRequest : IEquatable<CreateCategoryRequest>, IValidatableObject
+    public partial class CreateCategoryRequest : IEquatable<CreateCategoryRequest>
     {
         /// <summary>
         /// The context that the category applies to.
@@ -67,12 +64,10 @@ namespace Kinde.Api.Model
         [DataMember(Name = "context", IsRequired = true, EmitDefaultValue = true)]
         public ContextEnum Context { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateCategoryRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateCategoryRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateCategoryRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the category. (required).</param>
         /// <param name="context">The context that the category applies to. (required).</param>
@@ -128,9 +123,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateCategoryRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateCategoryRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateCategoryRequest input)
         {
@@ -168,15 +161,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

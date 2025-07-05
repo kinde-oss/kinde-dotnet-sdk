@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetEventResponse
     /// </summary>
     [DataContract(Name = "get_event_response")]
-    public partial class GetEventResponse : IEquatable<GetEventResponse>, IValidatableObject
+    public partial class GetEventResponse : IEquatable<GetEventResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetEventResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -101,9 +97,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetEventResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetEventResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetEventResponse input)
         {
@@ -154,15 +148,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

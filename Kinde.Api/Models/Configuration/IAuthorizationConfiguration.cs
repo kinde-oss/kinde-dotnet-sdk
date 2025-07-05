@@ -11,6 +11,8 @@ namespace Kinde.Api.Models.Configuration
         public string GrantType { get; set; }
         public bool IsCreateOrganization { get; set; }
         public string OrganizationId { get; set; }
+        public string PlanInterest { get; set; }
+        public string PricingTableKey { get; set; }
         public IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration clientConfiguration);
     }
 }

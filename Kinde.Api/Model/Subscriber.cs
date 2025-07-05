@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Subscriber
     /// </summary>
     [DataContract(Name = "subscriber")]
-    public partial class Subscriber : IEquatable<Subscriber>, IValidatableObject
+    public partial class Subscriber : IEquatable<Subscriber>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Subscriber" /> class.
@@ -55,7 +52,6 @@ namespace Kinde.Api.Model
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets PreferredEmail
         /// </summary>
         [DataMember(Name = "preferred_email", EmitDefaultValue = false)]
         public string PreferredEmail { get; set; }
@@ -170,15 +166,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

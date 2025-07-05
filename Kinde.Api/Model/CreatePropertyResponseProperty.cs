@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreatePropertyResponseProperty
     /// </summary>
     [DataContract(Name = "create_property_response_property")]
-    public partial class CreatePropertyResponseProperty : IEquatable<CreatePropertyResponseProperty>, IValidatableObject
+    public partial class CreatePropertyResponseProperty : IEquatable<CreatePropertyResponseProperty>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreatePropertyResponseProperty" /> class.
         /// </summary>
         /// <param name="id">The property&#39;s ID..</param>
         public CreatePropertyResponseProperty(string id = default(string))
@@ -82,9 +78,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreatePropertyResponseProperty instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreatePropertyResponseProperty to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreatePropertyResponseProperty input)
         {
@@ -117,15 +111,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

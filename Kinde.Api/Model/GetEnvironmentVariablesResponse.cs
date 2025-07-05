@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetEnvironmentVariablesResponse
     /// </summary>
     [DataContract(Name = "get_environment_variables_response")]
-    public partial class GetEnvironmentVariablesResponse : IEquatable<GetEnvironmentVariablesResponse>, IValidatableObject
+    public partial class GetEnvironmentVariablesResponse : IEquatable<GetEnvironmentVariablesResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetEnvironmentVariablesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
         /// <param name="hasMore">Whether more records exist..</param>
-        /// <param name="environmentVariables">environmentVariables.</param>
         public GetEnvironmentVariablesResponse(string code = default(string), string message = default(string), bool hasMore = default(bool), List<EnvironmentVariable> environmentVariables = default(List<EnvironmentVariable>))
         {
             this.Code = code;
@@ -72,7 +67,6 @@ namespace Kinde.Api.Model
         public bool HasMore { get; set; }
 
         /// <summary>
-        /// Gets or Sets EnvironmentVariables
         /// </summary>
         [DataMember(Name = "environment_variables", EmitDefaultValue = false)]
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
@@ -113,9 +107,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetEnvironmentVariablesResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetEnvironmentVariablesResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetEnvironmentVariablesResponse input)
         {
@@ -172,15 +164,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

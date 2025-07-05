@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateApplicationRequest
     /// </summary>
     [DataContract(Name = "updateApplication_request")]
-    public partial class UpdateApplicationRequest : IEquatable<UpdateApplicationRequest>, IValidatableObject
+    public partial class UpdateApplicationRequest : IEquatable<UpdateApplicationRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateApplicationRequest" /> class.
         /// </summary>
         /// <param name="name">The application&#39;s name..</param>
         /// <param name="languageKey">The application&#39;s language key..</param>
@@ -132,9 +128,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateApplicationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateApplicationRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateApplicationRequest input)
         {
@@ -214,15 +208,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

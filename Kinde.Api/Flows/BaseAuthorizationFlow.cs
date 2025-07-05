@@ -55,6 +55,16 @@ namespace Kinde.Api.Flows
             if (register)
             {
                 parameters.Add("start_page", "registration");
+                
+                if (!string.IsNullOrEmpty(Configuration.PlanInterest))
+                {
+                    parameters.Add("plan_interest", Configuration.PlanInterest);
+                }
+                
+                if (!string.IsNullOrEmpty(Configuration.PricingTableKey))
+                {
+                    parameters.Add("pricing_table_key", Configuration.PricingTableKey);
+                }
             }
 
             if (RequiresRedirection)

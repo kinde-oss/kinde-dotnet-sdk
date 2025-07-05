@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationResponse
     /// </summary>
     [DataContract(Name = "get_organization_response")]
-    public partial class GetOrganizationResponse : IEquatable<GetOrganizationResponse>, IValidatableObject
+    public partial class GetOrganizationResponse : IEquatable<GetOrganizationResponse>
     {
         /// <summary>
-        /// Whether the environment is forced into light mode, dark mode or user preference
         /// </summary>
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         [JsonConverter(typeof(StringEnumConverter))]
@@ -53,7 +49,6 @@ namespace Kinde.Api.Model
             Dark = 2,
 
             /// <summary>
-            /// Enum UserPreference for value: user_preference
             /// </summary>
             [EnumMember(Value = "user_preference")]
             UserPreference = 3
@@ -61,7 +56,6 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// Whether the environment is forced into light mode, dark mode or user preference
         /// </summary>
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         [DataMember(Name = "theme_code", EmitDefaultValue = false)]
@@ -100,33 +94,21 @@ namespace Kinde.Api.Model
         [DataMember(Name = "color_scheme", EmitDefaultValue = false)]
         public ColorSchemeEnum? ColorScheme { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationResponse" /> class.
         /// </summary>
         /// <param name="code">The unique identifier for the organization..</param>
         /// <param name="name">The organization&#39;s name..</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
         /// <param name="isDefault">Whether the organization is the default organization..</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems..</param>
-        /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="logo">The organization&#39;s logo URL..</param>
         /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes..</param>
         /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers.</param>
-        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG.</param>
         /// <param name="linkColor">linkColor.</param>
-        /// <param name="backgroundColor">backgroundColor.</param>
         /// <param name="buttonColor">buttonColor.</param>
-        /// <param name="buttonTextColor">buttonTextColor.</param>
         /// <param name="linkColorDark">linkColorDark.</param>
-        /// <param name="backgroundColorDark">backgroundColorDark.</param>
-        /// <param name="buttonTextColorDark">buttonTextColorDark.</param>
-        /// <param name="buttonColorDark">buttonColorDark.</param>
-        /// <param name="buttonBorderRadius">The border radius for buttons. Value is px, Kinde transforms to rem for rendering.</param>
-        /// <param name="cardBorderRadius">The border radius for cards. Value is px, Kinde transforms to rem for rendering.</param>
-        /// <param name="inputBorderRadius">The border radius for inputs. Value is px, Kinde transforms to rem for rendering.</param>
         /// <param name="themeCode">Whether the environment is forced into light mode, dark mode or user preference.</param>
         /// <param name="colorScheme">The color scheme for the environment used for meta tags based on the theme code.</param>
         /// <param name="createdOn">Date of organization creation in ISO 8601 format..</param>
-        /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
         /// <param name="billing">billing.</param>
@@ -214,7 +196,6 @@ namespace Kinde.Api.Model
         /// The organization&#39;s logo URL.
         /// </summary>
         /// <value>The organization&#39;s logo URL.</value>
-        /// <example>https://yoursubdomain.kinde.com/logo?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "logo", EmitDefaultValue = true)]
         public string Logo { get; set; }
 
@@ -222,7 +203,6 @@ namespace Kinde.Api.Model
         /// The organization&#39;s logo URL to be used for dark themes.
         /// </summary>
         /// <value>The organization&#39;s logo URL to be used for dark themes.</value>
-        /// <example>https://yoursubdomain.kinde.com/logo_dark?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "logo_dark", EmitDefaultValue = true)]
         public string LogoDark { get; set; }
 
@@ -230,7 +210,6 @@ namespace Kinde.Api.Model
         /// The organization&#39;s SVG favicon URL. Optimal format for most browsers
         /// </summary>
         /// <value>The organization&#39;s SVG favicon URL. Optimal format for most browsers</value>
-        /// <example>https://yoursubdomain.kinde.com/favicon_svg?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "favicon_svg", EmitDefaultValue = true)]
         public string FaviconSvg { get; set; }
 
@@ -238,7 +217,6 @@ namespace Kinde.Api.Model
         /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
         /// </summary>
         /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
-        /// <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
         public string FaviconFallback { get; set; }
 
@@ -249,43 +227,36 @@ namespace Kinde.Api.Model
         public GetEnvironmentResponseEnvironmentLinkColor LinkColor { get; set; }
 
         /// <summary>
-        /// Gets or Sets BackgroundColor
         /// </summary>
         [DataMember(Name = "background_color", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentBackgroundColor BackgroundColor { get; set; }
 
         /// <summary>
-        /// Gets or Sets ButtonColor
         /// </summary>
         [DataMember(Name = "button_color", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentLinkColor ButtonColor { get; set; }
 
         /// <summary>
-        /// Gets or Sets ButtonTextColor
         /// </summary>
         [DataMember(Name = "button_text_color", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentBackgroundColor ButtonTextColor { get; set; }
 
         /// <summary>
-        /// Gets or Sets LinkColorDark
         /// </summary>
         [DataMember(Name = "link_color_dark", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentLinkColor LinkColorDark { get; set; }
 
         /// <summary>
-        /// Gets or Sets BackgroundColorDark
         /// </summary>
         [DataMember(Name = "background_color_dark", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentLinkColor BackgroundColorDark { get; set; }
 
         /// <summary>
-        /// Gets or Sets ButtonTextColorDark
         /// </summary>
         [DataMember(Name = "button_text_color_dark", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentLinkColor ButtonTextColorDark { get; set; }
 
         /// <summary>
-        /// Gets or Sets ButtonColorDark
         /// </summary>
         [DataMember(Name = "button_color_dark", EmitDefaultValue = true)]
         public GetEnvironmentResponseEnvironmentLinkColor ButtonColorDark { get; set; }
@@ -413,9 +384,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetOrganizationResponse input)
         {
@@ -675,15 +644,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

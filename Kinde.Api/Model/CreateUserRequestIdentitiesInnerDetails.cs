@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,10 +29,9 @@ namespace Kinde.Api.Model
     /// Additional details required to create the user.
     /// </summary>
     [DataContract(Name = "createUser_request_identities_inner_details")]
-    public partial class CreateUserRequestIdentitiesInnerDetails : IEquatable<CreateUserRequestIdentitiesInnerDetails>, IValidatableObject
+    public partial class CreateUserRequestIdentitiesInnerDetails : IEquatable<CreateUserRequestIdentitiesInnerDetails>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInnerDetails" /> class.
         /// </summary>
         /// <param name="email">The email address of the user..</param>
         /// <param name="phone">The phone number of the user..</param>
@@ -116,9 +113,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateUserRequestIdentitiesInnerDetails instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserRequestIdentitiesInnerDetails to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateUserRequestIdentitiesInnerDetails input)
         {
@@ -178,15 +173,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

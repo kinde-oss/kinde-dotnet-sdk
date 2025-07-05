@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// NotFoundResponseErrors
     /// </summary>
     [DataContract(Name = "not_found_response_errors")]
-    public partial class NotFoundResponseErrors : IEquatable<NotFoundResponseErrors>, IValidatableObject
+    public partial class NotFoundResponseErrors : IEquatable<NotFoundResponseErrors>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NotFoundResponseErrors" /> class.
         /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
@@ -92,9 +88,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if NotFoundResponseErrors instances are equal
         /// </summary>
-        /// <param name="input">Instance of NotFoundResponseErrors to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(NotFoundResponseErrors input)
         {
@@ -136,15 +130,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

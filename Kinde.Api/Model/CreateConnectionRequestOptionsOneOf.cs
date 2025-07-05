@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,14 +29,12 @@ namespace Kinde.Api.Model
     /// Social connection options (e.g., Google SSO).
     /// </summary>
     [DataContract(Name = "CreateConnection_request_options_oneOf")]
-    public partial class CreateConnectionRequestOptionsOneOf : IEquatable<CreateConnectionRequestOptionsOneOf>, IValidatableObject
+    public partial class CreateConnectionRequestOptionsOneOf : IEquatable<CreateConnectionRequestOptionsOneOf>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf" /> class.
         /// </summary>
         /// <param name="clientId">OAuth client ID..</param>
         /// <param name="clientSecret">OAuth client secret..</param>
-        /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
         public CreateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool))
         {
             this.ClientId = clientId;
@@ -50,7 +46,6 @@ namespace Kinde.Api.Model
         /// OAuth client ID.
         /// </summary>
         /// <value>OAuth client ID.</value>
-        /// <example>hji7db2146af332akfldfded22</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -58,7 +53,6 @@ namespace Kinde.Api.Model
         /// OAuth client secret.
         /// </summary>
         /// <value>OAuth client secret.</value>
-        /// <example>19fkjdalg521l23fassf3039d4ae18b</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 
@@ -105,9 +99,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionRequestOptionsOneOf instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionRequestOptionsOneOf to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateConnectionRequestOptionsOneOf input)
         {
@@ -154,15 +146,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

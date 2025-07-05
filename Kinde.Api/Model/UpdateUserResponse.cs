@@ -21,27 +21,22 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateUserResponse
     /// </summary>
     [DataContract(Name = "update_user_response")]
-    public partial class UpdateUserResponse : IEquatable<UpdateUserResponse>, IValidatableObject
+    public partial class UpdateUserResponse : IEquatable<UpdateUserResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateUserResponse" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the user in Kinde..</param>
         /// <param name="givenName">User&#39;s first name..</param>
         /// <param name="familyName">User&#39;s last name..</param>
         /// <param name="email">User&#39;s preferred email..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
-        /// <param name="isPasswordResetRequested">Whether a password reset has been requested..</param>
         /// <param name="picture">User&#39;s profile picture URL..</param>
         public UpdateUserResponse(string id = default(string), string givenName = default(string), string familyName = default(string), string email = default(string), bool isSuspended = default(bool), bool isPasswordResetRequested = default(bool), string picture = default(string))
         {
@@ -142,9 +137,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateUserResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateUserResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateUserResponse input)
         {
@@ -223,15 +216,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

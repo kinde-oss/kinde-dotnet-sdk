@@ -21,23 +21,18 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateUserRequest
     /// </summary>
     [DataContract(Name = "createUser_request")]
-    public partial class CreateUserRequest : IEquatable<CreateUserRequest>, IValidatableObject
+    public partial class CreateUserRequest : IEquatable<CreateUserRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateUserRequest" /> class.
         /// </summary>
         /// <param name="profile">profile.</param>
-        /// <param name="organizationCode">The unique code associated with the organization you want the user to join..</param>
         /// <param name="providedId">An external id to reference the user..</param>
         /// <param name="identities">Array of identities to assign to the created user.</param>
         public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), string organizationCode = default(string), string providedId = default(string), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
@@ -112,9 +107,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateUserRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateUserRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateUserRequest input)
         {
@@ -175,15 +168,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

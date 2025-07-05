@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateMeterUsageRecordRequest
     /// </summary>
     [DataContract(Name = "createMeterUsageRecord_request")]
-    public partial class CreateMeterUsageRecordRequest : IEquatable<CreateMeterUsageRecordRequest>, IValidatableObject
+    public partial class CreateMeterUsageRecordRequest : IEquatable<CreateMeterUsageRecordRequest>
     {
         /// <summary>
         /// Absolutes overrides the current usage
@@ -61,19 +58,14 @@ namespace Kinde.Api.Model
         [DataMember(Name = "meter_type_code", EmitDefaultValue = false)]
         public MeterTypeCodeEnum? MeterTypeCode { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateMeterUsageRecordRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateMeterUsageRecordRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateMeterUsageRecordRequest" /> class.
         /// </summary>
-        /// <param name="customerAgreementId">The billing agreement against which to record usage (required).</param>
-        /// <param name="billingFeatureCode">The code of the feature within the agreement against which to record usage (required).</param>
         /// <param name="meterValue">The value of usage to record (required).</param>
-        /// <param name="meterUsageTimestamp">The date and time the usage needs to be recorded for (defaults to current date/time).</param>
         /// <param name="meterTypeCode">Absolutes overrides the current usage.</param>
-        public CreateMeterUsageRecordRequest(string customerAgreementId = default(string), string billingFeatureCode = default(string), string meterValue = default(string), DateTime meterUsageTimestamp = default(DateTime), MeterTypeCodeEnum? meterTypeCode = default(MeterTypeCodeEnum?))
+        public CreateMeterUsageRecordRequest(string customerAgreementId = default(string), string billingFeatureCode = default(string), string meterValue = default(string), DateTimeOffset meterUsageTimestamp = default(DateTimeOffset), MeterTypeCodeEnum? meterTypeCode = default(MeterTypeCodeEnum?))
         {
             // to ensure "customerAgreementId" is required (not null)
             if (customerAgreementId == null)
@@ -101,7 +93,6 @@ namespace Kinde.Api.Model
         /// The billing agreement against which to record usage
         /// </summary>
         /// <value>The billing agreement against which to record usage</value>
-        /// <example>agreement_0195ac80a14c2ca2cec97d026d864de0</example>
         [DataMember(Name = "customer_agreement_id", IsRequired = true, EmitDefaultValue = true)]
         public string CustomerAgreementId { get; set; }
 
@@ -127,7 +118,7 @@ namespace Kinde.Api.Model
         /// <value>The date and time the usage needs to be recorded for (defaults to current date/time)</value>
         /// <example>2024-11-18T13:32:03+11:00</example>
         [DataMember(Name = "meter_usage_timestamp", EmitDefaultValue = false)]
-        public DateTime MeterUsageTimestamp { get; set; }
+        public DateTimeOffset MeterUsageTimestamp { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -166,9 +157,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateMeterUsageRecordRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateMeterUsageRecordRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateMeterUsageRecordRequest input)
         {
@@ -233,15 +222,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
