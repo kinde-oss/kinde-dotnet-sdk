@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,21 +29,12 @@ namespace Kinde.Api.Model
     /// SAML connection options (e.g., Cloudflare SAML).
     /// </summary>
     [DataContract(Name = "ReplaceConnection_request_options_oneOf_1")]
-    public partial class ReplaceConnectionRequestOptionsOneOf1 : IEquatable<ReplaceConnectionRequestOptionsOneOf1>, IValidatableObject
+    public partial class ReplaceConnectionRequestOptionsOneOf1 : IEquatable<ReplaceConnectionRequestOptionsOneOf1>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
-        /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
         /// <param name="samlAcsUrl">Assertion Consumer Service URL..</param>
-        /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
-        /// <param name="samlEmailKeyAttr">Attribute key for the user’s email..</param>
-        /// <param name="samlFirstNameKeyAttr">Attribute key for the user’s first name..</param>
-        /// <param name="samlLastNameKeyAttr">Attribute key for the user’s last name..</param>
-        /// <param name="isCreateMissingUser">Create user if they don’t exist..</param>
-        /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
-        /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
         public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string))
         {
             this.HomeRealmDomains = homeRealmDomains;
@@ -88,7 +77,6 @@ namespace Kinde.Api.Model
         /// URL for the IdP metadata.
         /// </summary>
         /// <value>URL for the IdP metadata.</value>
-        /// <example>https://kinde.com/saml/metadata</example>
         [DataMember(Name = "saml_idp_metadata_url", EmitDefaultValue = false)]
         public string SamlIdpMetadataUrl { get; set; }
 
@@ -128,9 +116,6 @@ namespace Kinde.Api.Model
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        /// <example>-----BEGIN CERTIFICATE-----
-        /// MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
-        /// -----END CERTIFICATE-----</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -138,9 +123,6 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        /// <example>-----BEGIN PRIVATE KEY-----
-        /// MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-        /// -----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
 
@@ -186,9 +168,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if ReplaceConnectionRequestOptionsOneOf1 instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReplaceConnectionRequestOptionsOneOf1 to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(ReplaceConnectionRequestOptionsOneOf1 input)
         {
@@ -299,15 +279,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

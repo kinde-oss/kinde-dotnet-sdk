@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateApplicationRequest
     /// </summary>
     [DataContract(Name = "createApplication_request")]
-    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>, IValidatableObject
+    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>
     {
         /// <summary>
         /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.
@@ -67,12 +64,10 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
         public TypeEnum Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateApplicationRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
         /// <param name="name">The application&#39;s name. (required).</param>
         /// <param name="type">The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications. (required).</param>
@@ -129,9 +124,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateApplicationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateApplicationRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateApplicationRequest input)
         {
@@ -169,15 +162,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

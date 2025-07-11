@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetRoleResponseRole
     /// </summary>
     [DataContract(Name = "get_role_response_role")]
-    public partial class GetRoleResponseRole : IEquatable<GetRoleResponseRole>, IValidatableObject
+    public partial class GetRoleResponseRole : IEquatable<GetRoleResponseRole>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetRoleResponseRole" /> class.
         /// </summary>
         /// <param name="id">The role&#39;s ID..</param>
         /// <param name="key">The role identifier to use in code..</param>
@@ -127,9 +123,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetRoleResponseRole instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetRoleResponseRole to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetRoleResponseRole input)
         {
@@ -194,15 +188,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

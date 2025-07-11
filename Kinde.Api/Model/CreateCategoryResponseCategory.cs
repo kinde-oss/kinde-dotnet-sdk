@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateCategoryResponseCategory
     /// </summary>
     [DataContract(Name = "create_category_response_category")]
-    public partial class CreateCategoryResponseCategory : IEquatable<CreateCategoryResponseCategory>, IValidatableObject
+    public partial class CreateCategoryResponseCategory : IEquatable<CreateCategoryResponseCategory>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateCategoryResponseCategory" /> class.
         /// </summary>
         /// <param name="id">The category&#39;s ID..</param>
         public CreateCategoryResponseCategory(string id = default(string))
@@ -82,9 +78,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateCategoryResponseCategory instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateCategoryResponseCategory to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateCategoryResponseCategory input)
         {
@@ -117,15 +111,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

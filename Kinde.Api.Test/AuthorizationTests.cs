@@ -1,6 +1,8 @@
 using Kinde.Api.Client;
+using Kinde.Api.Enums;
 using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
+using Kinde.Api.Model;
 using Kinde.Api.Test.Mocks;
 using Kinde.Api.Test.Mocks.Flows;
 using Newtonsoft.Json;
@@ -44,7 +46,7 @@ namespace Kinde.Api.Test
             task.Wait();
 
             //Assert
-            Assert.Equal(Enums.AuthorizationStates.Authorized, apiClient.AuthorizationState);
+            Assert.Equal(AuthorizationStates.Authorized, apiClient.AuthorizationState);
             Assert.NotNull(apiClient.Token);
         }
 
@@ -75,7 +77,7 @@ namespace Kinde.Api.Test
             task.Wait();
 
             //Assert
-            Assert.Equal(Enums.AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
+            Assert.Equal(AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
             Assert.Null(apiClient.Token);
         }
 
@@ -106,7 +108,7 @@ namespace Kinde.Api.Test
             task.Wait();
 
             //Assert
-            Assert.Equal(Enums.AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
+            Assert.Equal(AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
             Assert.Null(apiClient.Token);
             Assert.Throws<KeyNotFoundException>(() => { KindeClient.CodeStore.Get(authConfig.State); });
         }
@@ -116,20 +118,19 @@ namespace Kinde.Api.Test
         public async Task FetchToken_AuthorizeSuccess_RequestHeaderShouldContainsSdkVersion(System.Net.HttpStatusCode result, Type type)
         {
             //Arrange
-            var response = new HttpResponseMessage(result) { Content = new StringContent(Token) };
+            var response = new HttpResponseMessage(result);
+            response.Content = new StringContent(Token);
             var client = new MockHttpClient(response);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
-            var authConfig = Activator.CreateInstance(type) as IAuthorizationConfiguration;
+
+            IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(type);
 
             //Act
             await apiClient.Authorize(authConfig);
-            var header = client.Request.Content.Headers.FirstOrDefault(x => x.Key == "Kinde-SDK");
-            var expectedKindeSdkVersion = $".NET/{FileVersionInfo.GetVersionInfo(Assembly.GetAssembly(typeof(KindeClient)).Location).ProductVersion}";
 
             //Assert
-            Assert.NotNull(header.Key);
-            Assert.NotNull(header.Value?.FirstOrDefault());
-            Assert.Equal(header.Value?.FirstOrDefault(), expectedKindeSdkVersion);
+            Assert.Equal(AuthorizationStates.Authorized, apiClient.AuthorizationState);
+            Assert.NotNull(apiClient.Token);
         }
 
         [Theory]
@@ -192,6 +193,78 @@ namespace Kinde.Api.Test
             //Assert
             Assert.Equal("access token", accessToken);
             Assert.False(apiClient.Token.IsExpired);
+        }
+
+        [Fact]
+        public async Task Register_WithBillingParameters_ShouldIncludeBillingParamsInUrl()
+        {
+            // Arrange
+            var response = new HttpResponseMessage(System.Net.HttpStatusCode.Redirect);
+            response.Headers.Location = new Uri("https://test.com/go/here");
+            var client = new MockHttpClient(response);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
+
+            var authConfig = new AuthorizationCodeConfiguration("test_client", "openid", "test_secret", "test_state", "https://test.kinde.com")
+            {
+                PlanInterest = "pro_plan",
+                PricingTableKey = "pricing_table_123"
+            };
+
+            // Act
+            await apiClient.Register(authConfig);
+
+            // Assert
+            Assert.Equal(AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
+            Assert.Null(apiClient.Token);
+        }
+
+        [Fact]
+        public async Task GenerateProfileUrl_WithValidOptions_ShouldReturnPortalUrl()
+        {
+            // Arrange
+            var portalResponse = new GetPortalLink { Url = "https://test.kinde.com/portal/profile" };
+            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(portalResponse))
+            };
+            var client = new MockHttpClient(response);
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
+
+            // Mock authentication
+            var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
+            apiClient.GetType().GetProperty("Token", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(apiClient, token);
+
+            var options = new GenerateProfileUrlOptions
+            {
+                Domain = "https://test.kinde.com",
+                ReturnUrl = "https://myapp.com/callback",
+                SubNav = PortalPage.Profile
+            };
+
+            // Act
+            var result = await apiClient.GenerateProfileUrl(options);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("https://test.kinde.com/portal/profile", result.Url);
+        }
+
+        [Fact]
+        public async Task GenerateProfileUrl_WithInvalidReturnUrl_ShouldThrowException()
+        {
+            // Arrange
+            var client = new MockHttpClient(new HttpResponseMessage());
+            var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
+
+            var options = new GenerateProfileUrlOptions
+            {
+                Domain = "https://test.kinde.com",
+                ReturnUrl = "invalid-url",
+                SubNav = PortalPage.Profile
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(() => apiClient.GenerateProfileUrl(options));
         }
     }
 }

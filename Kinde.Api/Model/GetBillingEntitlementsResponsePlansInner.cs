@@ -21,24 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetBillingEntitlementsResponsePlansInner
     /// </summary>
     [DataContract(Name = "get_billing_entitlements_response_plans_inner")]
-    public partial class GetBillingEntitlementsResponsePlansInner : IEquatable<GetBillingEntitlementsResponsePlansInner>, IValidatableObject
+    public partial class GetBillingEntitlementsResponsePlansInner : IEquatable<GetBillingEntitlementsResponsePlansInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponsePlansInner" /> class.
         /// </summary>
         /// <param name="code">The plan code the billing customer is subscribed to.</param>
         /// <param name="subscribedOn">subscribedOn.</param>
-        public GetBillingEntitlementsResponsePlansInner(string code = default(string), DateTime subscribedOn = default(DateTime))
+        public GetBillingEntitlementsResponsePlansInner(string code = default(string), DateTimeOffset subscribedOn = default(DateTimeOffset))
         {
             this.Code = code;
             this.SubscribedOn = subscribedOn;
@@ -52,11 +48,10 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets SubscribedOn
         /// </summary>
         /// <example>2024-11-18T13:32:03+11:00</example>
         [DataMember(Name = "subscribed_on", EmitDefaultValue = false)]
-        public DateTime SubscribedOn { get; set; }
+        public DateTimeOffset SubscribedOn { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -92,9 +87,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetBillingEntitlementsResponsePlansInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetBillingEntitlementsResponsePlansInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetBillingEntitlementsResponsePlansInner input)
         {
@@ -136,15 +129,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

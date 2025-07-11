@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,7 +29,7 @@ namespace Kinde.Api.Model
     /// Scopes
     /// </summary>
     [DataContract(Name = "scopes")]
-    public partial class Scopes : IEquatable<Scopes>, IValidatableObject
+    public partial class Scopes : IEquatable<Scopes>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Scopes" /> class.
@@ -52,7 +50,6 @@ namespace Kinde.Api.Model
         /// Scope ID.
         /// </summary>
         /// <value>Scope ID.</value>
-        /// <example>api_scope_019541f3fa0c874fc47b3ae73585b21c</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -76,7 +73,6 @@ namespace Kinde.Api.Model
         /// API ID.
         /// </summary>
         /// <value>API ID.</value>
-        /// <example>3635b4431f174de6b789c67481bd0c7a</example>
         [DataMember(Name = "api_id", EmitDefaultValue = false)]
         public string ApiId { get; set; }
 
@@ -178,15 +174,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

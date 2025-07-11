@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,7 +29,7 @@ namespace Kinde.Api.Model
     /// Property
     /// </summary>
     [DataContract(Name = "property")]
-    public partial class Property : IEquatable<Property>, IValidatableObject
+    public partial class Property : IEquatable<Property>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Property" /> class.
@@ -41,7 +39,6 @@ namespace Kinde.Api.Model
         /// <param name="name">name.</param>
         /// <param name="isPrivate">isPrivate.</param>
         /// <param name="description">description.</param>
-        /// <param name="isKindeProperty">isKindeProperty.</param>
         public Property(string id = default(string), string key = default(string), string name = default(string), bool isPrivate = default(bool), string description = default(string), bool isKindeProperty = default(bool))
         {
             this.Id = id;
@@ -77,13 +74,11 @@ namespace Kinde.Api.Model
         public bool IsPrivate { get; set; }
 
         /// <summary>
-        /// Gets or Sets Description
         /// </summary>
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsKindeProperty
         /// </summary>
         [DataMember(Name = "is_kinde_property", EmitDefaultValue = true)]
         public bool IsKindeProperty { get; set; }
@@ -198,15 +193,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

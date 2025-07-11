@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateApplicationResponseApplication
     /// </summary>
     [DataContract(Name = "create_application_response_application")]
-    public partial class CreateApplicationResponseApplication : IEquatable<CreateApplicationResponseApplication>, IValidatableObject
+    public partial class CreateApplicationResponseApplication : IEquatable<CreateApplicationResponseApplication>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier..</param>
         /// <param name="clientId">The application&#39;s client ID..</param>
@@ -50,7 +46,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -58,7 +53,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -66,7 +60,6 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
-        /// <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 
@@ -105,9 +98,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateApplicationResponseApplication instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateApplicationResponseApplication to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateApplicationResponseApplication input)
         {
@@ -158,15 +149,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

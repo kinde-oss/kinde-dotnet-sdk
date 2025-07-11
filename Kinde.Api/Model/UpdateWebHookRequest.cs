@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateWebHookRequest
     /// </summary>
     [DataContract(Name = "UpdateWebHook_request")]
-    public partial class UpdateWebHookRequest : IEquatable<UpdateWebHookRequest>, IValidatableObject
+    public partial class UpdateWebHookRequest : IEquatable<UpdateWebHookRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateWebHookRequest" /> class.
         /// </summary>
         /// <param name="eventTypes">Array of event type keys.</param>
         /// <param name="name">The webhook name.</param>
@@ -61,7 +57,6 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// The webhook description
         /// </summary>
         /// <value>The webhook description</value>
         [DataMember(Name = "description", EmitDefaultValue = true)]
@@ -102,9 +97,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateWebHookRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateWebHookRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateWebHookRequest input)
         {
@@ -156,15 +149,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

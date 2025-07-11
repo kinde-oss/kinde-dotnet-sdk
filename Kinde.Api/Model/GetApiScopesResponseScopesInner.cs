@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApiScopesResponseScopesInner
     /// </summary>
     [DataContract(Name = "get_api_scopes_response_scopes_inner")]
-    public partial class GetApiScopesResponseScopesInner : IEquatable<GetApiScopesResponseScopesInner>, IValidatableObject
+    public partial class GetApiScopesResponseScopesInner : IEquatable<GetApiScopesResponseScopesInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApiScopesResponseScopesInner" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the API scope..</param>
         /// <param name="key">The scope&#39;s reference key..</param>
@@ -50,7 +46,6 @@ namespace Kinde.Api.Model
         /// Unique ID of the API scope.
         /// </summary>
         /// <value>Unique ID of the API scope.</value>
-        /// <example>api_scope_01939128c3d7193ae87c4755213c07c6</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -105,9 +100,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApiScopesResponseScopesInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApiScopesResponseScopesInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApiScopesResponseScopesInner input)
         {
@@ -158,15 +151,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

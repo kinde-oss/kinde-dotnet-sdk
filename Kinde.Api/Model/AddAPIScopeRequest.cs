@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// AddAPIScopeRequest
     /// </summary>
     [DataContract(Name = "addAPIScope_request")]
-    public partial class AddAPIScopeRequest : IEquatable<AddAPIScopeRequest>, IValidatableObject
+    public partial class AddAPIScopeRequest : IEquatable<AddAPIScopeRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddAPIScopeRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected AddAPIScopeRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddAPIScopeRequest" /> class.
         /// </summary>
         /// <param name="key">The key reference for the scope (1-64 characters, no white space). (required).</param>
         /// <param name="description">Description of the api scope purpose..</param>
@@ -104,9 +99,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if AddAPIScopeRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of AddAPIScopeRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(AddAPIScopeRequest input)
         {
@@ -148,15 +141,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

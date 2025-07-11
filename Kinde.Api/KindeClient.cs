@@ -4,6 +4,7 @@ using Kinde.Api.Models.Configuration;
 using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
+using Kinde.Api.Model;
 
 namespace Kinde.Api.Client
 {
@@ -268,6 +269,95 @@ namespace Kinde.Api.Client
         public int? GetIntegerFlag(string code, int? defaultValue = null)
         {
             return User?.GetIntegerFlag(code, defaultValue);
+        }
+
+        /// <summary>
+        /// Generates a URL to the user profile portal
+        /// </summary>
+        /// <param name="options">Configuration options</param>
+        /// <returns>Object containing the URL to redirect to</returns>
+        public async Task<GetPortalLink> GenerateProfileUrl(GenerateProfileUrlOptions options)
+        {
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options), "Options cannot be null");
+            }
+
+            if (string.IsNullOrEmpty(options.Domain))
+            {
+                throw new ArgumentException("Domain is required", nameof(options));
+            }
+
+            if (string.IsNullOrEmpty(options.ReturnUrl))
+            {
+                throw new ArgumentException("ReturnUrl is required", nameof(options));
+            }
+
+            // Validate that returnUrl is an absolute URL
+            if (!Uri.IsWellFormedUriString(options.ReturnUrl, UriKind.Absolute))
+            {
+                throw new ArgumentException("ReturnUrl must be an absolute URL", nameof(options));
+            }
+
+            // Check if user is authenticated
+            if (!IsAuthenticated)
+            {
+                throw new ApplicationException("User must be authenticated to generate profile URL");
+            }
+
+            var token = await GetToken();
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new ApplicationException("Access token not found");
+            }
+
+            // Build the request URL with query parameters
+            var queryParams = new List<string>
+            {
+                $"sub_nav={Uri.EscapeDataString(options.SubNav.ToString().ToLower())}",
+                $"return_url={Uri.EscapeDataString(options.ReturnUrl)}"
+            };
+
+            var requestUrl = $"{options.Domain.TrimEnd('/')}/account_api/v1/portal_link?{string.Join("&", queryParams)}";
+
+            // Create HTTP request
+            using var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            // Make the request
+            var response = await HttpClient.SendAsync(request);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException($"Failed to fetch profile URL: {response.StatusCode} {response.ReasonPhrase}");
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(content))
+            {
+                throw new ApplicationException("Empty response received from API");
+            }
+
+            try
+            {
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<GetPortalLink>(content);
+                if (result == null || string.IsNullOrEmpty(result.Url))
+                {
+                    throw new ApplicationException("Invalid URL received from API");
+                }
+
+                // Validate the returned URL
+                if (!Uri.IsWellFormedUriString(result.Url, UriKind.Absolute))
+                {
+                    throw new ApplicationException($"Invalid URL format received from API: {result.Url}");
+                }
+
+                return result;
+            }
+            catch (Newtonsoft.Json.JsonException ex)
+            {
+                throw new ApplicationException($"Failed to parse API response: {ex.Message}");
+            }
         }
 
         #endregion

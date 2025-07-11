@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateWebhookResponseWebhook
     /// </summary>
     [DataContract(Name = "update_webhook_response_webhook")]
-    public partial class UpdateWebhookResponseWebhook : IEquatable<UpdateWebhookResponseWebhook>, IValidatableObject
+    public partial class UpdateWebhookResponseWebhook : IEquatable<UpdateWebhookResponseWebhook>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateWebhookResponseWebhook" /> class.
         /// </summary>
         /// <param name="id">id.</param>
         public UpdateWebhookResponseWebhook(string id = default(string))
@@ -81,9 +77,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateWebhookResponseWebhook instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateWebhookResponseWebhook to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateWebhookResponseWebhook input)
         {
@@ -116,15 +110,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

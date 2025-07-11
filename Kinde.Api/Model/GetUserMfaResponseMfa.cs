@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetUserMfaResponseMfa
     /// </summary>
     [DataContract(Name = "get_user_mfa_response_mfa")]
-    public partial class GetUserMfaResponseMfa : IEquatable<GetUserMfaResponseMfa>, IValidatableObject
+    public partial class GetUserMfaResponseMfa : IEquatable<GetUserMfaResponseMfa>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserMfaResponseMfa" /> class.
         /// </summary>
         /// <param name="id">The MFA&#39;s identifier..</param>
         /// <param name="type">The type of MFA (e.g. email, SMS, authenticator app)..</param>
@@ -43,7 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="isVerified">Whether the MFA is verified or not..</param>
         /// <param name="usageCount">The number of times MFA has been used..</param>
         /// <param name="lastUsedOn">The timestamp when the MFA was last used..</param>
-        public GetUserMfaResponseMfa(string id = default(string), string type = default(string), DateTime createdOn = default(DateTime), string name = default(string), bool isVerified = default(bool), int usageCount = default(int), DateTime lastUsedOn = default(DateTime))
+        public GetUserMfaResponseMfa(string id = default(string), string type = default(string), DateTimeOffset createdOn = default(DateTimeOffset), string name = default(string), bool isVerified = default(bool), int usageCount = default(int), DateTimeOffset lastUsedOn = default(DateTimeOffset))
         {
             this.Id = id;
             this.Type = type;
@@ -58,7 +54,6 @@ namespace Kinde.Api.Model
         /// The MFA&#39;s identifier.
         /// </summary>
         /// <value>The MFA&#39;s identifier.</value>
-        /// <example>mfa_01933d1ca1f093e7fad48ebcdb65a871</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -76,7 +71,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was created.</value>
         /// <example>2024-11-18T13:31:46.795085+11:00</example>
         [DataMember(Name = "created_on", EmitDefaultValue = false)]
-        public DateTime CreatedOn { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }
 
         /// <summary>
         /// The identifier used for MFA (e.g. email address, phone number).
@@ -108,7 +103,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was last used.</value>
         /// <example>2024-11-18T13:32:07.225380+11:00</example>
         [DataMember(Name = "last_used_on", EmitDefaultValue = false)]
-        public DateTime LastUsedOn { get; set; }
+        public DateTimeOffset LastUsedOn { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -149,9 +144,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetUserMfaResponseMfa instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetUserMfaResponseMfa to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetUserMfaResponseMfa input)
         {
@@ -230,15 +223,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

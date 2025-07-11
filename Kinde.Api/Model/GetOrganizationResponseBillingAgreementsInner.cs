@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationResponseBillingAgreementsInner
     /// </summary>
     [DataContract(Name = "get_organization_response_billing_agreements_inner")]
-    public partial class GetOrganizationResponseBillingAgreementsInner : IEquatable<GetOrganizationResponseBillingAgreementsInner>, IValidatableObject
+    public partial class GetOrganizationResponseBillingAgreementsInner : IEquatable<GetOrganizationResponseBillingAgreementsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationResponseBillingAgreementsInner" /> class.
         /// </summary>
         /// <param name="planCode">The code of the plan from which this agreement is taken from.</param>
         /// <param name="agreementId">The id of the billing agreement in Kinde.</param>
@@ -94,9 +90,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationResponseBillingAgreementsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationResponseBillingAgreementsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetOrganizationResponseBillingAgreementsInner input)
         {
@@ -138,15 +132,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

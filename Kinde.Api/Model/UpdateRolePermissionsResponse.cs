@@ -21,25 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateRolePermissionsResponse
     /// </summary>
     [DataContract(Name = "update_role_permissions_response")]
-    public partial class UpdateRolePermissionsResponse : IEquatable<UpdateRolePermissionsResponse>, IValidatableObject
+    public partial class UpdateRolePermissionsResponse : IEquatable<UpdateRolePermissionsResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateRolePermissionsResponse" /> class.
         /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
-        /// <param name="permissionsAdded">permissionsAdded.</param>
-        /// <param name="permissionsRemoved">permissionsRemoved.</param>
         public UpdateRolePermissionsResponse(string code = default(string), string message = default(string), List<string> permissionsAdded = default(List<string>), List<string> permissionsRemoved = default(List<string>))
         {
             this.Code = code;
@@ -61,13 +55,11 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets PermissionsAdded
         /// </summary>
         [DataMember(Name = "permissions_added", EmitDefaultValue = false)]
         public List<string> PermissionsAdded { get; set; }
 
         /// <summary>
-        /// Gets or Sets PermissionsRemoved
         /// </summary>
         [DataMember(Name = "permissions_removed", EmitDefaultValue = false)]
         public List<string> PermissionsRemoved { get; set; }
@@ -108,9 +100,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateRolePermissionsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateRolePermissionsResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateRolePermissionsResponse input)
         {
@@ -172,15 +162,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

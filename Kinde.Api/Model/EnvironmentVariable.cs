@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// EnvironmentVariable
     /// </summary>
     [DataContract(Name = "environment_variable")]
-    public partial class EnvironmentVariable : IEquatable<EnvironmentVariable>, IValidatableObject
+    public partial class EnvironmentVariable : IEquatable<EnvironmentVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentVariable" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the environment variable..</param>
         /// <param name="key">The name of the environment variable..</param>
@@ -54,7 +50,6 @@ namespace Kinde.Api.Model
         /// The unique ID for the environment variable.
         /// </summary>
         /// <value>The unique ID for the environment variable.</value>
-        /// <example>env_var_0192b1941f125645fa15bf28a662a0b3</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -127,9 +122,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if EnvironmentVariable instances are equal
         /// </summary>
-        /// <param name="input">Instance of EnvironmentVariable to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(EnvironmentVariable input)
         {
@@ -194,15 +187,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

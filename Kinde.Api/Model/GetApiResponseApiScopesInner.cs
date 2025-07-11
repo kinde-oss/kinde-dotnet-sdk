@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApiResponseApiScopesInner
     /// </summary>
     [DataContract(Name = "get_api_response_api_scopes_inner")]
-    public partial class GetApiResponseApiScopesInner : IEquatable<GetApiResponseApiScopesInner>, IValidatableObject
+    public partial class GetApiResponseApiScopesInner : IEquatable<GetApiResponseApiScopesInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApiResponseApiScopesInner" /> class.
         /// </summary>
         /// <param name="id">The ID of the scope..</param>
         /// <param name="key">The reference key for the scope..</param>
@@ -48,7 +44,6 @@ namespace Kinde.Api.Model
         /// The ID of the scope.
         /// </summary>
         /// <value>The ID of the scope.</value>
-        /// <example>api_scope_01939222ef24200668b9f5829af001ce</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -94,9 +89,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApiResponseApiScopesInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApiResponseApiScopesInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApiResponseApiScopesInner input)
         {
@@ -138,15 +131,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
