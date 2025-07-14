@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApplicationResponse
     /// </summary>
     [DataContract(Name = "get_application_response")]
-    public partial class GetApplicationResponse : IEquatable<GetApplicationResponse>, IValidatableObject
+    public partial class GetApplicationResponse : IEquatable<GetApplicationResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApplicationResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -61,7 +57,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Application
         /// </summary>
         [DataMember(Name = "application", EmitDefaultValue = false)]
         public GetApplicationResponseApplication Application { get; set; }
@@ -101,9 +96,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApplicationResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApplicationResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApplicationResponse input)
         {
@@ -154,15 +147,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

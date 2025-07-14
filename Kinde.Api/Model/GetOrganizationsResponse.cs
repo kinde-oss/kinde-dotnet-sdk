@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationsResponse
     /// </summary>
     [DataContract(Name = "get_organizations_response")]
-    public partial class GetOrganizationsResponse : IEquatable<GetOrganizationsResponse>, IValidatableObject
+    public partial class GetOrganizationsResponse : IEquatable<GetOrganizationsResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationsResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
@@ -65,7 +61,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets Organizations
         /// </summary>
         [DataMember(Name = "organizations", EmitDefaultValue = false)]
         public List<OrganizationItemSchema> Organizations { get; set; }
@@ -74,7 +69,6 @@ namespace Kinde.Api.Model
         /// Pagination token.
         /// </summary>
         /// <value>Pagination token.</value>
-        /// <example>Mjo5Om1hbWVfYZNj</example>
         [DataMember(Name = "next_token", EmitDefaultValue = false)]
         public string NextToken { get; set; }
 
@@ -114,9 +108,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationsResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationsResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetOrganizationsResponse input)
         {
@@ -177,15 +169,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

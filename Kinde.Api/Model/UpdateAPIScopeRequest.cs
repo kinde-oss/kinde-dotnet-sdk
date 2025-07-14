@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateAPIScopeRequest
     /// </summary>
     [DataContract(Name = "updateAPIScope_request")]
-    public partial class UpdateAPIScopeRequest : IEquatable<UpdateAPIScopeRequest>, IValidatableObject
+    public partial class UpdateAPIScopeRequest : IEquatable<UpdateAPIScopeRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateAPIScopeRequest" /> class.
         /// </summary>
         /// <param name="description">Description of the api scope purpose..</param>
         public UpdateAPIScopeRequest(string description = default(string))
@@ -83,9 +79,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateAPIScopeRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateAPIScopeRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateAPIScopeRequest input)
         {
@@ -118,15 +112,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersRequestUsersInner
     /// </summary>
     [DataContract(Name = "UpdateOrganizationUsers_request_users_inner")]
-    public partial class UpdateOrganizationUsersRequestUsersInner : IEquatable<UpdateOrganizationUsersRequestUsersInner>, IValidatableObject
+    public partial class UpdateOrganizationUsersRequestUsersInner : IEquatable<UpdateOrganizationUsersRequestUsersInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequestUsersInner" /> class.
         /// </summary>
         /// <param name="id">The users id..</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the user from the organization..</param>
@@ -52,7 +48,6 @@ namespace Kinde.Api.Model
         /// The users id.
         /// </summary>
         /// <value>The users id.</value>
-        /// <example>kp_057ee6debc624c70947b6ba512908c35</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -114,9 +109,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersRequestUsersInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersRequestUsersInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateOrganizationUsersRequestUsersInner input)
         {
@@ -178,15 +171,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

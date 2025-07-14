@@ -21,24 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetOrganizationUsersResponse
     /// </summary>
     [DataContract(Name = "get_organization_users_response")]
-    public partial class GetOrganizationUsersResponse : IEquatable<GetOrganizationUsersResponse>, IValidatableObject
+    public partial class GetOrganizationUsersResponse : IEquatable<GetOrganizationUsersResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
-        /// <param name="organizationUsers">organizationUsers.</param>
         /// <param name="nextToken">Pagination token..</param>
         public GetOrganizationUsersResponse(string code = default(string), string message = default(string), List<OrganizationUser> organizationUsers = default(List<OrganizationUser>), string nextToken = default(string))
         {
@@ -65,7 +60,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets OrganizationUsers
         /// </summary>
         [DataMember(Name = "organization_users", EmitDefaultValue = false)]
         public List<OrganizationUser> OrganizationUsers { get; set; }
@@ -113,9 +107,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationUsersResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationUsersResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetOrganizationUsersResponse input)
         {
@@ -176,15 +168,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

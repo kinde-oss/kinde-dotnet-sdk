@@ -32,6 +32,10 @@ namespace Kinde.Api.Models.Configuration
 
         public string GrantType { get; set; }
 
+        public string PlanInterest { get; set; }
+
+        public string PricingTableKey { get; set; }
+
         public abstract IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration clientConfiguration);
 
         protected bool IsStateValid(string state)

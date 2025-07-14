@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetBusinessResponseBusiness
     /// </summary>
     [DataContract(Name = "get_business_response_business")]
-    public partial class GetBusinessResponseBusiness : IEquatable<GetBusinessResponseBusiness>, IValidatableObject
+    public partial class GetBusinessResponseBusiness : IEquatable<GetBusinessResponseBusiness>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetBusinessResponseBusiness" /> class.
         /// </summary>
         /// <param name="code">The unique ID for the business..</param>
         /// <param name="name">Your business&#39;s name..</param>
@@ -45,7 +41,6 @@ namespace Kinde.Api.Model
         /// <param name="privacyUrl">Your Privacy policy URL..</param>
         /// <param name="termsUrl">Your Terms and Conditions URL..</param>
         /// <param name="hasClickwrap">Whether your business uses clickwrap agreements..</param>
-        /// <param name="hasKindeBranding">Whether your business shows Kinde branding..</param>
         /// <param name="createdOn">Date of business creation in ISO 8601 format..</param>
         public GetBusinessResponseBusiness(string code = default(string), string name = default(string), string phone = default(string), string email = default(string), string industry = default(string), string timezone = default(string), string privacyUrl = default(string), string termsUrl = default(string), bool hasClickwrap = default(bool), bool hasKindeBranding = default(bool), string createdOn = default(string))
         {
@@ -193,9 +188,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetBusinessResponseBusiness instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetBusinessResponseBusiness to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetBusinessResponseBusiness input)
         {
@@ -310,15 +303,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

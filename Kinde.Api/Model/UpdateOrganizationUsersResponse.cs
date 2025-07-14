@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationUsersResponse
     /// </summary>
     [DataContract(Name = "update_organization_users_response")]
-    public partial class UpdateOrganizationUsersResponse : IEquatable<UpdateOrganizationUsersResponse>, IValidatableObject
+    public partial class UpdateOrganizationUsersResponse : IEquatable<UpdateOrganizationUsersResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="message">message.</param>
         /// <param name="code">code.</param>
@@ -65,19 +61,16 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets UsersAdded
         /// </summary>
         [DataMember(Name = "users_added", EmitDefaultValue = false)]
         public List<string> UsersAdded { get; set; }
 
         /// <summary>
-        /// Gets or Sets UsersUpdated
         /// </summary>
         [DataMember(Name = "users_updated", EmitDefaultValue = false)]
         public List<string> UsersUpdated { get; set; }
 
         /// <summary>
-        /// Gets or Sets UsersRemoved
         /// </summary>
         [DataMember(Name = "users_removed", EmitDefaultValue = false)]
         public List<string> UsersRemoved { get; set; }
@@ -119,9 +112,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationUsersResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationUsersResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateOrganizationUsersResponse input)
         {
@@ -193,15 +184,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

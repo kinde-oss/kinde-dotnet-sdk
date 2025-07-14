@@ -21,27 +21,23 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetBillingAgreementsResponseAgreementsInner
     /// </summary>
     [DataContract(Name = "get_billing_agreements_response_agreements_inner")]
-    public partial class GetBillingAgreementsResponseAgreementsInner : IEquatable<GetBillingAgreementsResponseAgreementsInner>, IValidatableObject
+    public partial class GetBillingAgreementsResponseAgreementsInner : IEquatable<GetBillingAgreementsResponseAgreementsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetBillingAgreementsResponseAgreementsInner" /> class.
         /// </summary>
         /// <param name="id">The friendly id of an agreement.</param>
         /// <param name="planCode">The plan code the billing customer is subscribed to.</param>
         /// <param name="expiresOn">The date the agreement expired (and was no longer active).</param>
         /// <param name="billingGroupId">The friendly id of the billing group this agreement&#39;s plan is part of.</param>
         /// <param name="entitlements">A list of billing entitlements that is part of this agreement.</param>
-        public GetBillingAgreementsResponseAgreementsInner(string id = default(string), string planCode = default(string), DateTime expiresOn = default(DateTime), string billingGroupId = default(string), List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner> entitlements = default(List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>))
+        public GetBillingAgreementsResponseAgreementsInner(string id = default(string), string planCode = default(string), DateTimeOffset expiresOn = default(DateTimeOffset), string billingGroupId = default(string), List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner> entitlements = default(List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>))
         {
             this.Id = id;
             this.PlanCode = planCode;
@@ -54,7 +50,6 @@ namespace Kinde.Api.Model
         /// The friendly id of an agreement
         /// </summary>
         /// <value>The friendly id of an agreement</value>
-        /// <example>agreement_0195ac80a14c2ca2cec97d026d864de0</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -71,13 +66,12 @@ namespace Kinde.Api.Model
         /// <value>The date the agreement expired (and was no longer active)</value>
         /// <example>2024-11-18T13:32:03+11:00</example>
         [DataMember(Name = "expires_on", EmitDefaultValue = false)]
-        public DateTime ExpiresOn { get; set; }
+        public DateTimeOffset ExpiresOn { get; set; }
 
         /// <summary>
         /// The friendly id of the billing group this agreement&#39;s plan is part of
         /// </summary>
         /// <value>The friendly id of the billing group this agreement&#39;s plan is part of</value>
-        /// <example>sbg_0195abf6773fdae18d5da72281a3fde2</example>
         [DataMember(Name = "billing_group_id", EmitDefaultValue = false)]
         public string BillingGroupId { get; set; }
 
@@ -125,9 +119,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetBillingAgreementsResponseAgreementsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetBillingAgreementsResponseAgreementsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetBillingAgreementsResponseAgreementsInner input)
         {
@@ -197,15 +189,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,20 +29,13 @@ namespace Kinde.Api.Model
     /// Azure AD connection options.
     /// </summary>
     [DataContract(Name = "CreateConnection_request_options_oneOf_1")]
-    public partial class CreateConnectionRequestOptionsOneOf1 : IEquatable<CreateConnectionRequestOptionsOneOf1>, IValidatableObject
+    public partial class CreateConnectionRequestOptionsOneOf1 : IEquatable<CreateConnectionRequestOptionsOneOf1>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
         /// <param name="clientId">Client ID..</param>
         /// <param name="clientSecret">Client secret..</param>
-        /// <param name="homeRealmDomains">List of domains to limit authentication..</param>
         /// <param name="entraIdDomain">Domain for Entra ID..</param>
-        /// <param name="isUseCommonEndpoint">Use https://login.windows.net/common instead of a default endpoint..</param>
-        /// <param name="isSyncUserProfileOnLogin">Sync user profile data with IDP..</param>
-        /// <param name="isRetrieveProviderUserGroups">Include user group info from MS Entra ID..</param>
-        /// <param name="isExtendedAttributesRequired">Include additional user profile information..</param>
-        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
         public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool))
         {
             this.ClientId = clientId;
@@ -62,7 +53,6 @@ namespace Kinde.Api.Model
         /// Client ID.
         /// </summary>
         /// <value>Client ID.</value>
-        /// <example>hji7db2146af332akfldfded22</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
@@ -70,7 +60,6 @@ namespace Kinde.Api.Model
         /// Client secret.
         /// </summary>
         /// <value>Client secret.</value>
-        /// <example>19fkjdalg521l23fassf3039d4ae18b</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
 
@@ -171,9 +160,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionRequestOptionsOneOf1 instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionRequestOptionsOneOf1 to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateConnectionRequestOptionsOneOf1 input)
         {
@@ -259,15 +246,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

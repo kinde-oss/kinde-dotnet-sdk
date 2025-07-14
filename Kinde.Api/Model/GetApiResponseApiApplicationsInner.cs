@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApiResponseApiApplicationsInner
     /// </summary>
     [DataContract(Name = "get_api_response_api_applications_inner")]
-    public partial class GetApiResponseApiApplicationsInner : IEquatable<GetApiResponseApiApplicationsInner>, IValidatableObject
+    public partial class GetApiResponseApiApplicationsInner : IEquatable<GetApiResponseApiApplicationsInner>
     {
         /// <summary>
         /// The application&#39;s type.
@@ -41,7 +38,6 @@ namespace Kinde.Api.Model
         public enum TypeEnum
         {
             /// <summary>
-            /// Enum MachineToMachineM2M for value: Machine to machine (M2M)
             /// </summary>
             [EnumMember(Value = "Machine to machine (M2M)")]
             MachineToMachineM2M = 1,
@@ -53,7 +49,6 @@ namespace Kinde.Api.Model
             BackEndWeb = 2,
 
             /// <summary>
-            /// Enum FrontEndAndMobile for value: Front-end and mobile
             /// </summary>
             [EnumMember(Value = "Front-end and mobile")]
             FrontEndAndMobile = 3
@@ -68,7 +63,6 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApiResponseApiApplicationsInner" /> class.
         /// </summary>
         /// <param name="id">The Client ID of the application..</param>
         /// <param name="name">The application&#39;s name..</param>
@@ -86,7 +80,6 @@ namespace Kinde.Api.Model
         /// The Client ID of the application.
         /// </summary>
         /// <value>The Client ID of the application.</value>
-        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -142,9 +135,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApiResponseApiApplicationsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApiResponseApiApplicationsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApiResponseApiApplicationsInner input)
         {
@@ -200,15 +191,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

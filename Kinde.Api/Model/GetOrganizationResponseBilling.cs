@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
@@ -31,12 +29,10 @@ namespace Kinde.Api.Model
     /// The billing information if the organization is a billing customer.
     /// </summary>
     [DataContract(Name = "get_organization_response_billing")]
-    public partial class GetOrganizationResponseBilling : IEquatable<GetOrganizationResponseBilling>, IValidatableObject
+    public partial class GetOrganizationResponseBilling : IEquatable<GetOrganizationResponseBilling>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetOrganizationResponseBilling" /> class.
         /// </summary>
-        /// <param name="billingCustomerId">billingCustomerId.</param>
         /// <param name="agreements">The billing agreements the billing customer is currently subscribed to.</param>
         public GetOrganizationResponseBilling(string billingCustomerId = default(string), List<GetOrganizationResponseBillingAgreementsInner> agreements = default(List<GetOrganizationResponseBillingAgreementsInner>))
         {
@@ -45,7 +41,6 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets BillingCustomerId
         /// </summary>
         [DataMember(Name = "billing_customer_id", EmitDefaultValue = false)]
         public string BillingCustomerId { get; set; }
@@ -91,9 +86,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetOrganizationResponseBilling instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetOrganizationResponseBilling to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetOrganizationResponseBilling input)
         {
@@ -136,15 +129,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

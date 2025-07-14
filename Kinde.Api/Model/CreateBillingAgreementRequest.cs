@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateBillingAgreementRequest
     /// </summary>
     [DataContract(Name = "createBillingAgreement_request")]
-    public partial class CreateBillingAgreementRequest : IEquatable<CreateBillingAgreementRequest>, IValidatableObject
+    public partial class CreateBillingAgreementRequest : IEquatable<CreateBillingAgreementRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateBillingAgreementRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         /// <param name="customerId">The ID of the billing customer to create a new agreement for (required).</param>
         /// <param name="planCode">The code of the billing plan the new agreement will be based on (required).</param>
@@ -67,7 +62,6 @@ namespace Kinde.Api.Model
         /// The ID of the billing customer to create a new agreement for
         /// </summary>
         /// <value>The ID of the billing customer to create a new agreement for</value>
-        /// <example>customer_0195ac80a14c2ca2cec97d026d864de0</example>
         [DataMember(Name = "customer_id", IsRequired = true, EmitDefaultValue = true)]
         public string CustomerId { get; set; }
 
@@ -131,9 +125,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateBillingAgreementRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateBillingAgreementRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateBillingAgreementRequest input)
         {
@@ -185,15 +177,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

@@ -21,26 +21,21 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateBusinessRequest
     /// </summary>
     [DataContract(Name = "updateBusiness_request")]
-    public partial class UpdateBusinessRequest : IEquatable<UpdateBusinessRequest>, IValidatableObject
+    public partial class UpdateBusinessRequest : IEquatable<UpdateBusinessRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateBusinessRequest" /> class.
         /// </summary>
         /// <param name="businessName">The name of the business..</param>
         /// <param name="email">The email address of the business..</param>
         /// <param name="industryKey">The key of the industry of your business. Can be retrieved from the /industries endpoint..</param>
         /// <param name="isClickWrap">Whether the business is using clickwrap agreements..</param>
-        /// <param name="isShowKindeBranding">Whether the business is showing Kinde branding. Requires a paid plan..</param>
         /// <param name="kindePerkCode">The Kinde perk code for the business..</param>
         /// <param name="phone">The phone number of the business..</param>
         /// <param name="privacyUrl">The URL to the business&#39;s privacy policy..</param>
@@ -181,9 +176,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateBusinessRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateBusinessRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateBusinessRequest input)
         {
@@ -297,15 +290,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

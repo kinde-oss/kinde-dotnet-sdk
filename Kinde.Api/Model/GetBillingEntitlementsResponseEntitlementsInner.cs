@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetBillingEntitlementsResponseEntitlementsInner
     /// </summary>
     [DataContract(Name = "get_billing_entitlements_response_entitlements_inner")]
-    public partial class GetBillingEntitlementsResponseEntitlementsInner : IEquatable<GetBillingEntitlementsResponseEntitlementsInner>, IValidatableObject
+    public partial class GetBillingEntitlementsResponseEntitlementsInner : IEquatable<GetBillingEntitlementsResponseEntitlementsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponseEntitlementsInner" /> class.
         /// </summary>
         /// <param name="id">The friendly id of an entitlement.</param>
         /// <param name="fixedCharge">The price charged if this is an entitlement for a fixed charged.</param>
@@ -42,8 +38,6 @@ namespace Kinde.Api.Model
         /// <param name="unitAmount">The price charged for this entitlement in cents.</param>
         /// <param name="featureCode">The feature code of the feature corresponding to this entitlement.</param>
         /// <param name="featureName">The feature name of the feature corresponding to this entitlement.</param>
-        /// <param name="entitlementLimitMax">The maximum number of units of the feature the customer is entitled to.</param>
-        /// <param name="entitlementLimitMin">The minimum number of units of the feature the customer is entitled to.</param>
         public GetBillingEntitlementsResponseEntitlementsInner(string id = default(string), int fixedCharge = default(int), string priceName = default(string), int unitAmount = default(int), string featureCode = default(string), string featureName = default(string), int entitlementLimitMax = default(int), int entitlementLimitMin = default(int))
         {
             this.Id = id;
@@ -57,10 +51,8 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The friendly id of an entitlement
         /// </summary>
         /// <value>The friendly id of an entitlement</value>
-        /// <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -73,7 +65,6 @@ namespace Kinde.Api.Model
         public int FixedCharge { get; set; }
 
         /// <summary>
-        /// The name of the price associated with the entitlement
         /// </summary>
         /// <value>The name of the price associated with the entitlement</value>
         /// <example>Pro gym</example>
@@ -88,7 +79,6 @@ namespace Kinde.Api.Model
         public int UnitAmount { get; set; }
 
         /// <summary>
-        /// The feature code of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature code of the feature corresponding to this entitlement</value>
         /// <example>CcdkvEXpbg6UY</example>
@@ -96,7 +86,6 @@ namespace Kinde.Api.Model
         public string FeatureCode { get; set; }
 
         /// <summary>
-        /// The feature name of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature name of the feature corresponding to this entitlement</value>
         /// <example>Pro Gym</example>
@@ -157,9 +146,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetBillingEntitlementsResponseEntitlementsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetBillingEntitlementsResponseEntitlementsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetBillingEntitlementsResponseEntitlementsInner input)
         {
@@ -239,15 +226,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

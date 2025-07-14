@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateSubscriberSuccessResponse
     /// </summary>
     [DataContract(Name = "create_subscriber_success_response")]
-    public partial class CreateSubscriberSuccessResponse : IEquatable<CreateSubscriberSuccessResponse>, IValidatableObject
+    public partial class CreateSubscriberSuccessResponse : IEquatable<CreateSubscriberSuccessResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateSubscriberSuccessResponse" /> class.
         /// </summary>
         /// <param name="subscriber">subscriber.</param>
         public CreateSubscriberSuccessResponse(CreateSubscriberSuccessResponseSubscriber subscriber = default(CreateSubscriberSuccessResponseSubscriber))
@@ -43,7 +39,6 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets Subscriber
         /// </summary>
         [DataMember(Name = "subscriber", EmitDefaultValue = false)]
         public CreateSubscriberSuccessResponseSubscriber Subscriber { get; set; }
@@ -81,9 +76,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateSubscriberSuccessResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateSubscriberSuccessResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateSubscriberSuccessResponse input)
         {
@@ -116,15 +109,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

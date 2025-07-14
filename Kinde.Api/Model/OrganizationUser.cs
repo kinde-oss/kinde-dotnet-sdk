@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// OrganizationUser
     /// </summary>
     [DataContract(Name = "organization_user")]
-    public partial class OrganizationUser : IEquatable<OrganizationUser>, IValidatableObject
+    public partial class OrganizationUser : IEquatable<OrganizationUser>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationUser" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the user..</param>
         /// <param name="email">The user&#39;s email address..</param>
@@ -62,7 +58,6 @@ namespace Kinde.Api.Model
         /// The unique ID for the user.
         /// </summary>
         /// <value>The unique ID for the user.</value>
-        /// <example>kp:97c2ba24217d48e3b96a799b76cf2c74</example>
         [DataMember(Name = "id", EmitDefaultValue = true)]
         public string Id { get; set; }
 
@@ -170,9 +165,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if OrganizationUser instances are equal
         /// </summary>
-        /// <param name="input">Instance of OrganizationUser to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(OrganizationUser input)
         {
@@ -278,15 +271,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

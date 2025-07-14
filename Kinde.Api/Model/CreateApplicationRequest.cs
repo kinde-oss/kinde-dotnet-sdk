@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateApplicationRequest
     /// </summary>
     [DataContract(Name = "createApplication_request")]
-    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>, IValidatableObject
+    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>
     {
         /// <summary>
         /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications.
@@ -67,16 +64,15 @@ namespace Kinde.Api.Model
         [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
         public TypeEnum Type { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateApplicationRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
         /// <param name="name">The application&#39;s name. (required).</param>
         /// <param name="type">The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, and &#x60;m2m&#x60; for machine-to-machine applications. (required).</param>
-        public CreateApplicationRequest(string name = default(string), TypeEnum type = default(TypeEnum))
+        /// <param name="orgCode">Scope an M2M application to an org (Plus plan required)..</param>
+        public CreateApplicationRequest(string name = default(string), TypeEnum type = default(TypeEnum), string orgCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -85,6 +81,7 @@ namespace Kinde.Api.Model
             }
             this.Name = name;
             this.Type = type;
+            this.OrgCode = orgCode;
         }
 
         /// <summary>
@@ -96,6 +93,13 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// Scope an M2M application to an org (Plus plan required).
+        /// </summary>
+        /// <value>Scope an M2M application to an org (Plus plan required).</value>
+        [DataMember(Name = "org_code", EmitDefaultValue = true)]
+        public string OrgCode { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -105,6 +109,7 @@ namespace Kinde.Api.Model
             sb.Append("class CreateApplicationRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  OrgCode: ").Append(OrgCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,9 +134,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateApplicationRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateApplicationRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateApplicationRequest input)
         {
@@ -148,6 +151,11 @@ namespace Kinde.Api.Model
                 (
                     this.Type == input.Type ||
                     this.Type.Equals(input.Type)
+                ) && 
+                (
+                    this.OrgCode == input.OrgCode ||
+                    (this.OrgCode != null &&
+                    this.OrgCode.Equals(input.OrgCode))
                 );
         }
 
@@ -165,19 +173,14 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.OrgCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.OrgCode.GetHashCode();
+                }
                 return hashCode;
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

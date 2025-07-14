@@ -14,8 +14,8 @@ namespace Kinde.Api.Test
         protected static string Token { get { return JsonConvert.SerializeObject(new OauthToken() { AccessToken = Guid.NewGuid().ToString(), ExpiresIn = 3600 }); } }
 
         public KindeClient client;
-
-        public MockHttpClient _mockClient;
+        public MockHttpMessageHandler _mockHandler;
+        public HttpClient _httpClient;
 
         [Theory]
         [InlineData(typeof(MockAuthCodeConfiguration))]
@@ -28,14 +28,28 @@ namespace Kinde.Api.Test
             var config = new MockIdentityProviderConfiguration();
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.Redirect);
             response.Headers.Location = new Uri("https://test.tes");
-            _mockClient = new MockHttpClient(response);
-            client = KindeClientFactory.Instance.GetOrCreate("123", config, _mockClient);
+            _mockHandler = new MockHttpMessageHandler(response);
+            _httpClient = new HttpClient(_mockHandler);
+            client = KindeClientFactory.Instance.GetOrCreate("123", config, _httpClient);
 
             await client.Authorize((IAuthorizationConfiguration)authConfig);
 
+            // Create a new handler with the token response for the token exchange
             var resp = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             resp.Content = new StringContent(Token);
-            _mockClient.Result = resp;
+            var tokenHandler = new MockHttpMessageHandler(resp);
+            var tokenClient = new HttpClient(tokenHandler);
+            
+            // Update the AuthorizationFlow's HttpClient to use the token response
+            var authFlow = client.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(client);
+            if (authFlow != null)
+            {
+                authFlow.GetType().GetProperty("HttpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(authFlow, tokenClient);
+            }
+            else
+            {
+                throw new InvalidOperationException("Failed to access AuthorizationFlow via reflection");
+            }
 
             //Act
             KindeClient.OnCodeReceived("here_is_code", authConfig.State);

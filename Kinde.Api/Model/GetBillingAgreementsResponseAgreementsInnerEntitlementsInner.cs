@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetBillingAgreementsResponseAgreementsInnerEntitlementsInner
     /// </summary>
     [DataContract(Name = "get_billing_agreements_response_agreements_inner_entitlements_inner")]
-    public partial class GetBillingAgreementsResponseAgreementsInnerEntitlementsInner : IEquatable<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>, IValidatableObject
+    public partial class GetBillingAgreementsResponseAgreementsInnerEntitlementsInner : IEquatable<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" /> class.
         /// </summary>
         /// <param name="featureCode">The feature code of the feature corresponding to this entitlement.</param>
         /// <param name="entitlementId">The friendly id of an entitlement.</param>
@@ -45,7 +41,6 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The feature code of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature code of the feature corresponding to this entitlement</value>
         /// <example>CcdkvEXpbg6UY</example>
@@ -53,10 +48,8 @@ namespace Kinde.Api.Model
         public string FeatureCode { get; set; }
 
         /// <summary>
-        /// The friendly id of an entitlement
         /// </summary>
         /// <value>The friendly id of an entitlement</value>
-        /// <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example>
         [DataMember(Name = "entitlement_id", EmitDefaultValue = false)]
         public string EntitlementId { get; set; }
 
@@ -94,9 +87,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetBillingAgreementsResponseAgreementsInnerEntitlementsInner instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetBillingAgreementsResponseAgreementsInnerEntitlementsInner to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetBillingAgreementsResponseAgreementsInnerEntitlementsInner input)
         {
@@ -138,15 +129,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

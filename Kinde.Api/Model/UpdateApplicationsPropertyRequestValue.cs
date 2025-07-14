@@ -21,8 +21,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 using System.Reflection;
 
@@ -33,10 +31,9 @@ namespace Kinde.Api.Model
     /// </summary>
     [JsonConverter(typeof(UpdateApplicationsPropertyRequestValueJsonConverter))]
     [DataContract(Name = "updateApplicationsProperty_request_value")]
-    public partial class UpdateApplicationsPropertyRequestValue : AbstractOpenAPISchema, IEquatable<UpdateApplicationsPropertyRequestValue>, IValidatableObject
+    public partial class UpdateApplicationsPropertyRequestValue : AbstractOpenAPISchema, IEquatable<UpdateApplicationsPropertyRequestValue>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateApplicationsPropertyRequestValue" /> class
         /// with the <see cref="string" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of string.</param>
@@ -48,7 +45,6 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateApplicationsPropertyRequestValue" /> class
         /// with the <see cref="bool" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of bool.</param>
@@ -63,7 +59,6 @@ namespace Kinde.Api.Model
         private Object _actualInstance;
 
         /// <summary>
-        /// Gets or Sets ActualInstance
         /// </summary>
         public override Object ActualInstance
         {
@@ -90,7 +85,6 @@ namespace Kinde.Api.Model
 
         /// <summary>
         /// Get the actual instance of `string`. If the actual instance is not `string`,
-        /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of string</returns>
         public string GetString()
@@ -100,7 +94,6 @@ namespace Kinde.Api.Model
 
         /// <summary>
         /// Get the actual instance of `bool`. If the actual instance is not `bool`,
-        /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of bool</returns>
         public bool GetBool()
@@ -131,10 +124,8 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Converts the JSON string into an instance of UpdateApplicationsPropertyRequestValue
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        /// <returns>An instance of UpdateApplicationsPropertyRequestValue</returns>
         public static UpdateApplicationsPropertyRequestValue FromJson(string jsonString)
         {
             UpdateApplicationsPropertyRequestValue newUpdateApplicationsPropertyRequestValue = null;
@@ -210,9 +201,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateApplicationsPropertyRequestValue instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateApplicationsPropertyRequestValue to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateApplicationsPropertyRequestValue input)
         {
@@ -236,20 +225,9 @@ namespace Kinde.Api.Model
                 return hashCode;
             }
         }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
     /// <summary>
-    /// Custom JSON converter for UpdateApplicationsPropertyRequestValue
     /// </summary>
     public class UpdateApplicationsPropertyRequestValueJsonConverter : JsonConverter
     {

@@ -21,25 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// AuthorizeAppApiResponse
     /// </summary>
     [DataContract(Name = "authorize_app_api_response")]
-    public partial class AuthorizeAppApiResponse : IEquatable<AuthorizeAppApiResponse>, IValidatableObject
+    public partial class AuthorizeAppApiResponse : IEquatable<AuthorizeAppApiResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizeAppApiResponse" /> class.
         /// </summary>
         /// <param name="message">message.</param>
         /// <param name="code">code.</param>
-        /// <param name="applicationsDisconnected">applicationsDisconnected.</param>
-        /// <param name="applicationsConnected">applicationsConnected.</param>
         public AuthorizeAppApiResponse(string message = default(string), string code = default(string), List<string> applicationsDisconnected = default(List<string>), List<string> applicationsConnected = default(List<string>))
         {
             this.Message = message;
@@ -63,13 +57,11 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets ApplicationsDisconnected
         /// </summary>
         [DataMember(Name = "applications_disconnected", EmitDefaultValue = false)]
         public List<string> ApplicationsDisconnected { get; set; }
 
         /// <summary>
-        /// Gets or Sets ApplicationsConnected
         /// </summary>
         [DataMember(Name = "applications_connected", EmitDefaultValue = false)]
         public List<string> ApplicationsConnected { get; set; }
@@ -110,9 +102,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if AuthorizeAppApiResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of AuthorizeAppApiResponse to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(AuthorizeAppApiResponse input)
         {
@@ -174,15 +164,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

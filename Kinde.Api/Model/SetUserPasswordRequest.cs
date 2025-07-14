@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// SetUserPasswordRequest
     /// </summary>
     [DataContract(Name = "SetUserPassword_request")]
-    public partial class SetUserPasswordRequest : IEquatable<SetUserPasswordRequest>, IValidatableObject
+    public partial class SetUserPasswordRequest : IEquatable<SetUserPasswordRequest>
     {
         /// <summary>
         /// The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.
@@ -100,18 +97,15 @@ namespace Kinde.Api.Model
         [DataMember(Name = "salt_position", EmitDefaultValue = false)]
         public SaltPositionEnum? SaltPosition { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected SetUserPasswordRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
         /// <param name="hashedPassword">The hashed password. (required).</param>
         /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt..</param>
         /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt..</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt..</param>
-        /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one..</param>
         public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), bool isTemporaryPassword = default(bool))
         {
             // to ensure "hashedPassword" is required (not null)
@@ -184,9 +178,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if SetUserPasswordRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of SetUserPasswordRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(SetUserPasswordRequest input)
         {
@@ -243,15 +235,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

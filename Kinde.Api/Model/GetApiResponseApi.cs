@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetApiResponseApi
     /// </summary>
     [DataContract(Name = "get_api_response_api")]
-    public partial class GetApiResponseApi : IEquatable<GetApiResponseApi>, IValidatableObject
+    public partial class GetApiResponseApi : IEquatable<GetApiResponseApi>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetApiResponseApi" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the API..</param>
         /// <param name="name">The API’s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
-        /// <param name="isManagementApi">Whether or not it is the Kinde management API..</param>
         /// <param name="scopes">scopes.</param>
         /// <param name="applications">applications.</param>
         public GetApiResponseApi(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApiResponseApiScopesInner> scopes = default(List<GetApiResponseApiScopesInner>), List<GetApiResponseApiApplicationsInner> applications = default(List<GetApiResponseApiApplicationsInner>))
@@ -56,7 +51,6 @@ namespace Kinde.Api.Model
         /// Unique ID of the API.
         /// </summary>
         /// <value>Unique ID of the API.</value>
-        /// <example>7ccd126599aa422a771abcb341596881</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -91,7 +85,6 @@ namespace Kinde.Api.Model
         public List<GetApiResponseApiScopesInner> Scopes { get; set; }
 
         /// <summary>
-        /// Gets or Sets Applications
         /// </summary>
         [DataMember(Name = "applications", EmitDefaultValue = false)]
         public List<GetApiResponseApiApplicationsInner> Applications { get; set; }
@@ -134,9 +127,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if GetApiResponseApi instances are equal
         /// </summary>
-        /// <param name="input">Instance of GetApiResponseApi to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(GetApiResponseApi input)
         {
@@ -212,15 +203,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

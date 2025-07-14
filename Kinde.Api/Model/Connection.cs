@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Connection
     /// </summary>
     [DataContract(Name = "connection")]
-    public partial class Connection : IEquatable<Connection>, IValidatableObject
+    public partial class Connection : IEquatable<Connection>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection" /> class.
@@ -61,7 +58,6 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarConnection
         /// </summary>
         [DataMember(Name = "connection", EmitDefaultValue = false)]
         public ConnectionConnection VarConnection { get; set; }
@@ -154,15 +150,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

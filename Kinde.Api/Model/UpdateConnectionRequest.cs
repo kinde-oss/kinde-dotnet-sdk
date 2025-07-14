@@ -21,24 +21,19 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateConnectionRequest
     /// </summary>
     [DataContract(Name = "UpdateConnection_request")]
-    public partial class UpdateConnectionRequest : IEquatable<UpdateConnectionRequest>, IValidatableObject
+    public partial class UpdateConnectionRequest : IEquatable<UpdateConnectionRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateConnectionRequest" /> class.
         /// </summary>
         /// <param name="name">The internal name of the connection..</param>
         /// <param name="displayName">The public facing name of the connection..</param>
-        /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled..</param>
         /// <param name="options">options.</param>
         public UpdateConnectionRequest(string name = default(string), string displayName = default(string), List<string> enabledApplications = default(List<string>), ReplaceConnectionRequestOptions options = default(ReplaceConnectionRequestOptions))
         {
@@ -68,7 +63,6 @@ namespace Kinde.Api.Model
         /// Client IDs of applications in which this connection is to be enabled.
         /// </summary>
         /// <value>Client IDs of applications in which this connection is to be enabled.</value>
-        /// <example>[&quot;c647dbe20f5944e28af97c9184fded22&quot;,&quot;20bbffaa4c5e492a962273039d4ae18b&quot;]</example>
         [DataMember(Name = "enabled_applications", EmitDefaultValue = false)]
         public List<string> EnabledApplications { get; set; }
 
@@ -114,9 +108,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateConnectionRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateConnectionRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateConnectionRequest input)
         {
@@ -177,15 +169,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

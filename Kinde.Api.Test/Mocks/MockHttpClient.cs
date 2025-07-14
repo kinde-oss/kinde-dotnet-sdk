@@ -1,26 +1,29 @@
-﻿namespace Kinde.Api.Test.Mocks
-{
-    public class MockHttpClient : HttpClient
-    {
-        public HttpResponseMessage Result { get; set; }
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace Kinde.Api.Test.Mocks
+{
+    public class MockHttpMessageHandler : HttpMessageHandler
+    {
+        private HttpResponseMessage _response;
         public HttpRequestMessage Request { get; private set; }
 
-        public MockHttpClient(HttpResponseMessage result) : base()
+        public HttpResponseMessage Result
         {
-            Result = result;
+            get => _response;
+            set => _response = value;
         }
 
-        public override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+        public MockHttpMessageHandler(HttpResponseMessage response)
         {
-            Request = request;
-            return Result;
+            _response = response;
         }
 
-        public override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Request = request;
-            return Task.FromResult(Result);
+            return Task.FromResult(_response);
         }
     }
 }

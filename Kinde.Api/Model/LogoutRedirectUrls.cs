@@ -21,20 +21,16 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// LogoutRedirectUrls
     /// </summary>
     [DataContract(Name = "logout_redirect_urls")]
-    public partial class LogoutRedirectUrls : IEquatable<LogoutRedirectUrls>, IValidatableObject
+    public partial class LogoutRedirectUrls : IEquatable<LogoutRedirectUrls>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogoutRedirectUrls" /> class.
         /// </summary>
         /// <param name="logoutUrls">An application&#39;s logout URLs..</param>
         /// <param name="code">Response code..</param>
@@ -104,9 +100,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if LogoutRedirectUrls instances are equal
         /// </summary>
-        /// <param name="input">Instance of LogoutRedirectUrls to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(LogoutRedirectUrls input)
         {
@@ -158,15 +152,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }

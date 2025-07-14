@@ -21,25 +21,20 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateEnvironmentVariableRequest
     /// </summary>
     [DataContract(Name = "createEnvironmentVariable_request")]
-    public partial class CreateEnvironmentVariableRequest : IEquatable<CreateEnvironmentVariableRequest>, IValidatableObject
+    public partial class CreateEnvironmentVariableRequest : IEquatable<CreateEnvironmentVariableRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateEnvironmentVariableRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected CreateEnvironmentVariableRequest() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateEnvironmentVariableRequest" /> class.
         /// </summary>
         /// <param name="key">The name of the environment variable (max 128 characters). (required).</param>
         /// <param name="value">The value of the new environment variable (max 2048 characters). (required).</param>
@@ -120,9 +115,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if CreateEnvironmentVariableRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateEnvironmentVariableRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(CreateEnvironmentVariableRequest input)
         {
@@ -169,15 +162,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
