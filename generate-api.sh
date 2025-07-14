@@ -50,6 +50,12 @@ generate_client_code() {
         rm -rf "$TEMP_OUTPUT_DIR"
     fi
     
+    # Check if Java is available
+    if ! command -v java &> /dev/null; then
+        echo "Error: Java is required but not found. Please install Java to continue."
+        exit 1
+    fi
+    
     # Generate the client code
     java -jar "$OPENAPI_GENERATOR_JAR" generate \
         --input-spec "$OPENAPI_SPEC_URL" \
@@ -74,14 +80,9 @@ fix_xml_comments() {
     print_status "Fixing problematic XML comments in generated files..."
     
     # Remove problematic XML comments that contain certificate-like content
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/<!--BEGIN CERTIFICATE-->/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/<!--END CERTIFICATE-->/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----BEGIN CERTIFICATE-----/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----END CERTIFICATE-----/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----BEGIN PRIVATE KEY-----/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----END PRIVATE KEY-----/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----BEGIN PUBLIC KEY-----/d' {} \;
-    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i '' '/-----END PUBLIC KEY-----/d' {} \;
+    # Using cross-platform compatible sed syntax
+    find "$TEMP_OUTPUT_DIR" -name "*.cs" -type f -exec sed -i.bak -e '/<!--BEGIN CERTIFICATE-->/d' -e '/<!--END CERTIFICATE-->/d' -e '/-----BEGIN CERTIFICATE-----/d' -e '/-----END CERTIFICATE-----/d' -e '/-----BEGIN PRIVATE KEY-----/d' -e '/-----END PRIVATE KEY-----/d' -e '/-----BEGIN PUBLIC KEY-----/d' -e '/-----END PUBLIC KEY-----/d' {} \;
+    find "$TEMP_OUTPUT_DIR" -name "*.cs.bak" -type f -delete
     
     print_success "XML comments fixed."
 }
