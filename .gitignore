@@ -455,3 +455,6 @@ $RECYCLE.BIN/
 
 Temp/*
 !Temp/kinde-mgmt-api-specs.yaml
+
+# Generated API files
+generated-api-files/
