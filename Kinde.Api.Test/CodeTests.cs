@@ -42,7 +42,14 @@ namespace Kinde.Api.Test
             
             // Update the AuthorizationFlow's HttpClient to use the token response
             var authFlow = client.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(client);
-            authFlow.GetType().GetProperty("HttpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(authFlow, tokenClient);
+            if (authFlow != null)
+            {
+                authFlow.GetType().GetProperty("HttpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(authFlow, tokenClient);
+            }
+            else
+            {
+                throw new InvalidOperationException("Failed to access AuthorizationFlow via reflection");
+            }
 
             //Act
             KindeClient.OnCodeReceived("here_is_code", authConfig.State);

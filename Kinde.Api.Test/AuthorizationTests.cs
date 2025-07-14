@@ -248,7 +248,12 @@ namespace Kinde.Api.Test
             var mockAuthFlow = new MockAuthorizationFlow(token);
             
             // Set the AuthorizationFlow before any HTTP requests are made
-            apiClient.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(apiClient, mockAuthFlow);
+            var authFlowProperty = apiClient.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (authFlowProperty == null)
+            {
+                throw new InvalidOperationException("Failed to access AuthorizationFlow property via reflection");
+            }
+            authFlowProperty.SetValue(apiClient, mockAuthFlow);
 
             var options = new GenerateProfileUrlOptions
             {
@@ -333,7 +338,7 @@ namespace Kinde.Api.Test
             Assert.Equal("error content", response.Content.ReadAsStringAsync().Result);
         }
 
-        [Fact]
+        [Fact(Skip = "Debug test - enable only for troubleshooting")]
         public void MockHttpClient_DebugTest()
         {
             // Arrange

@@ -39,7 +39,6 @@ namespace Kinde.Api.Test.Mocks.Flows
         {
             // Mock implementation - add authorization header
             httpRequestMessage.Headers.TryAddWithoutValidation("cache-control", "no-cache");
-            httpRequestMessage.Headers.TryAddWithoutValidation("User-Agent", "PostmanRuntime/7.29.2");
             httpRequestMessage.Headers.TryAddWithoutValidation("Authorization", "Bearer " + Token.AccessToken);
         }
 
