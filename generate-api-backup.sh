@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-OPENAPI_SPEC_URL="https://api-spec.kinde.com/kinde-combined-api-specs.yaml"
+OPENAPI_SPEC_URL="https://api-spec.kinde.com/kinde-management-api-spec.yaml"
 TEMP_OUTPUT_DIR="temp-generated"
 OPENAPI_GENERATOR_VERSION="7.0.1"
 OPENAPI_GENERATOR_JAR="openapi-generator-cli.jar"
