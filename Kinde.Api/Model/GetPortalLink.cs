@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// GetPortalLink
     /// </summary>
     [DataContract(Name = "getPortalLink")]
     public partial class GetPortalLink : IEquatable<GetPortalLink>

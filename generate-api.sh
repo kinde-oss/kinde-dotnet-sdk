@@ -154,6 +154,7 @@ main() {
     
     download_openapi_generator
     generate_client_code
+    fix_xml_comments
     copy_generated_files
     cleanup
     

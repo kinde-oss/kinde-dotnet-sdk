@@ -21,17 +21,14 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-using FileParameter = Kinde.Api.Client.FileParameter;
 using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateOrganizationSessionsRequest
     /// </summary>
     [DataContract(Name = "UpdateOrganizationSessions_request")]
-    public partial class UpdateOrganizationSessionsRequest : IEquatable<UpdateOrganizationSessionsRequest>, IValidatableObject
+    public partial class UpdateOrganizationSessionsRequest : IEquatable<UpdateOrganizationSessionsRequest>
     {
         /// <summary>
         /// Determines if the session should be persistent or not.
@@ -41,13 +38,11 @@ namespace Kinde.Api.Model
         public enum SsoSessionPersistenceModeEnum
         {
             /// <summary>
-            /// Enum Persistent for value: persistent
             /// </summary>
             [EnumMember(Value = "persistent")]
             Persistent = 1,
 
             /// <summary>
-            /// Enum NonPersistent for value: non-persistent
             /// </summary>
             [EnumMember(Value = "non-persistent")]
             NonPersistent = 2
@@ -61,12 +56,7 @@ namespace Kinde.Api.Model
         [DataMember(Name = "sso_session_persistence_mode", EmitDefaultValue = false)]
         public SsoSessionPersistenceModeEnum? SsoSessionPersistenceMode { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateOrganizationSessionsRequest" /> class.
         /// </summary>
-        /// <param name="isUseOrgSsoSessionPolicy">Whether to use the organization&#39;s SSO session policy override..</param>
-        /// <param name="ssoSessionPersistenceMode">Determines if the session should be persistent or not..</param>
-        /// <param name="isUseOrgAuthenticatedSessionLifetime">Whether to apply the organization&#39;s authenticated session lifetime override..</param>
-        /// <param name="authenticatedSessionLifetime">Authenticated session lifetime in seconds..</param>
         public UpdateOrganizationSessionsRequest(bool isUseOrgSsoSessionPolicy = default(bool), SsoSessionPersistenceModeEnum? ssoSessionPersistenceMode = default(SsoSessionPersistenceModeEnum?), bool isUseOrgAuthenticatedSessionLifetime = default(bool), int authenticatedSessionLifetime = default(int))
         {
             this.IsUseOrgSsoSessionPolicy = isUseOrgSsoSessionPolicy;
@@ -133,9 +123,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Returns true if UpdateOrganizationSessionsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of UpdateOrganizationSessionsRequest to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(UpdateOrganizationSessionsRequest input)
         {
@@ -179,15 +167,6 @@ namespace Kinde.Api.Model
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
