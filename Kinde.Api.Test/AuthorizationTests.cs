@@ -31,7 +31,8 @@ namespace Kinde.Api.Test
             {
                 response.Content = new StringContent(Token);
             }
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(typeof(MockClientConfiguration));
@@ -62,7 +63,8 @@ namespace Kinde.Api.Test
             {
                 response.Headers.Location = new Uri("https://test.com/go/here");
             }
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(typeof(MockAuthCodeConfiguration));
@@ -93,7 +95,8 @@ namespace Kinde.Api.Test
             {
                 response.Headers.Location = new Uri("https://test.com/go/here");
             }
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             MockPKCEConfiguration authConfig = (MockPKCEConfiguration)Activator.CreateInstance(typeof(MockPKCEConfiguration));
@@ -120,7 +123,8 @@ namespace Kinde.Api.Test
             //Arrange
             var response = new HttpResponseMessage(result);
             response.Content = new StringContent(Token);
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             IAuthorizationConfiguration authConfig = (IAuthorizationConfiguration)Activator.CreateInstance(type);
@@ -139,7 +143,8 @@ namespace Kinde.Api.Test
         {
             //Arrange
             var response = new HttpResponseMessage(result) { Content = new StringContent(Token) };
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
             var authConfig = Activator.CreateInstance(type) as IAuthorizationConfiguration;
 
@@ -159,7 +164,8 @@ namespace Kinde.Api.Test
         {
             //Arrange
             var response = new HttpResponseMessage(result) { Content = new StringContent(Token) };
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
             var authConfig = Activator.CreateInstance(type) as IAuthorizationConfiguration;
 
@@ -178,7 +184,8 @@ namespace Kinde.Api.Test
         {
             //Arrange
             var response = new HttpResponseMessage(result) { Content = new StringContent(ExpiredToken) };
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
             var authConfig = Activator.CreateInstance(type) as IAuthorizationConfiguration;
 
@@ -187,7 +194,7 @@ namespace Kinde.Api.Test
             Assert.True(apiClient.Token.IsExpired);
             Assert.Equal("expired token", apiClient.Token.AccessToken);
 
-            client.Result = new HttpResponseMessage(result) { Content = new StringContent(Token) };
+            handler.Result = new HttpResponseMessage(result) { Content = new StringContent(Token) };
             var accessToken = await apiClient.GetToken();
 
             //Assert
@@ -201,7 +208,8 @@ namespace Kinde.Api.Test
             // Arrange
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.Redirect);
             response.Headers.Location = new Uri("https://test.com/go/here");
-            var client = new MockHttpClient(response);
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             var authConfig = new AuthorizationCodeConfiguration("test_client", "openid", "test_secret", "test_state", "https://test.kinde.com")
@@ -227,12 +235,20 @@ namespace Kinde.Api.Test
             {
                 Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(portalResponse))
             };
-            var client = new MockHttpClient(response);
+            
+            // Ensure the response is properly set up
+            response.EnsureSuccessStatusCode();
+            
+            var handler = new MockHttpMessageHandler(response);
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
-            // Mock authentication
+            // Mock authentication by setting up AuthorizationFlow with a valid token
             var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
-            apiClient.GetType().GetProperty("Token", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(apiClient, token);
+            var mockAuthFlow = new MockAuthorizationFlow(token);
+            
+            // Set the AuthorizationFlow before any HTTP requests are made
+            apiClient.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(apiClient, mockAuthFlow);
 
             var options = new GenerateProfileUrlOptions
             {
@@ -247,13 +263,23 @@ namespace Kinde.Api.Test
             // Assert
             Assert.NotNull(result);
             Assert.Equal("https://test.kinde.com/portal/profile", result.Url);
+            
+            // Verify the request was made correctly
+            Assert.NotNull(handler.Request);
+            Assert.Equal(HttpMethod.Get, handler.Request.Method);
+            Assert.Contains("/account_api/v1/portal_link", handler.Request.RequestUri.ToString());
+            Assert.Contains("sub_nav=profile", handler.Request.RequestUri.ToString());
+            Assert.Contains("return_url=", handler.Request.RequestUri.ToString());
+            Assert.NotNull(handler.Request.Headers.Authorization);
+            Assert.Equal("Bearer test_token", handler.Request.Headers.Authorization.ToString());
         }
 
         [Fact]
         public async Task GenerateProfileUrl_WithInvalidReturnUrl_ShouldThrowException()
         {
             // Arrange
-            var client = new MockHttpClient(new HttpResponseMessage());
+            var handler = new MockHttpMessageHandler(new HttpResponseMessage());
+            var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
 
             var options = new GenerateProfileUrlOptions
@@ -265,6 +291,70 @@ namespace Kinde.Api.Test
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(() => apiClient.GenerateProfileUrl(options));
+        }
+
+        [Fact]
+        public void MockHttpClient_ShouldReturnExpectedResponse()
+        {
+            // Arrange
+            var expectedResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new StringContent("test content")
+            };
+            var handler = new MockHttpMessageHandler(expectedResponse);
+            var client = new HttpClient(handler);
+
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://test.com");
+            var response = client.SendAsync(request).Result;
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("test content", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void MockHttpClient_ShouldReturnBadRequest_WhenSetToBadRequest()
+        {
+            // Arrange
+            var expectedResponse = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent("error content")
+            };
+            var handler = new MockHttpMessageHandler(expectedResponse);
+            var client = new HttpClient(handler);
+
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://test.com");
+            var response = client.SendAsync(request).Result;
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal("error content", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void MockHttpClient_DebugTest()
+        {
+            // Arrange
+            var expectedResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new StringContent("test content")
+            };
+            var handler = new MockHttpMessageHandler(expectedResponse);
+            var client = new HttpClient(handler);
+
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://test.com");
+            var response = client.SendAsync(request).Result;
+
+            // Debug output
+            Console.WriteLine($"Expected Status: {expectedResponse.StatusCode}");
+            Console.WriteLine($"Actual Status: {response.StatusCode}");
+            Console.WriteLine($"Expected Content: {expectedResponse.Content.ReadAsStringAsync().Result}");
+            Console.WriteLine($"Actual Content: {response.Content.ReadAsStringAsync().Result}");
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
