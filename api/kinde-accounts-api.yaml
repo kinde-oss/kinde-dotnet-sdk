@@ -1,0 +1,537 @@
+openapi: 3.0.3
+info:
+  title: Kinde Accounts API
+  description: API for querying the current user's permissions, roles, entitlements, and feature flags
+  version: 1.0.0
+  contact:
+    name: Kinde Support
+    url: https://kinde.com/docs
+security:
+  - BearerAuth: []
+servers:
+  - url: https://{domain}/account_api/v1
+    description: Kinde Accounts API
+    variables:
+      domain:
+        description: Your Kinde domain
+        default: your-domain.kinde.com
+paths:
+  /entitlements:
+    get:
+      summary: Get all entitlements
+      description: Retrieve all entitlements for the current user's organization
+      operationId: getEntitlements
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /entitlement/{key}:
+    get:
+      summary: Get specific entitlement
+      description: Retrieve a specific entitlement by key
+      operationId: getEntitlement
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The entitlement key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Entitlement not found
+        '500':
+          description: Internal server error
+  /permissions:
+    get:
+      summary: Get all permissions
+      description: Retrieve all permissions for the current user
+      operationId: getPermissions
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /permission/{key}:
+    get:
+      summary: Get specific permission
+      description: Retrieve a specific permission by key
+      operationId: getPermission
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The permission key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Permission not found
+        '500':
+          description: Internal server error
+  /roles:
+    get:
+      summary: Get all roles
+      description: Retrieve all roles for the current user
+      operationId: getRoles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /feature_flags:
+    get:
+      summary: Get all feature flags
+      description: Retrieve all feature flags for the current user
+      operationId: getFeatureFlags
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureFlagsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /feature_flags/{key}:
+    get:
+      summary: Get specific feature flag
+      description: Retrieve a specific feature flag by key
+      operationId: getFeatureFlag
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The feature flag key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureFlagResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Feature flag not found
+        '500':
+          description: Internal server error
+  /user_organizations:
+    get:
+      summary: Get user organizations
+      description: Retrieve all organizations for the current user
+      operationId: getUserOrganizations
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOrganizationsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /user_profile:
+    get:
+      summary: Get user profile
+      description: Retrieve the current user's profile information
+      operationId: getUserProfile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /current_organization:
+    get:
+      summary: Get current organization
+      description: Retrieve the current organization information
+      operationId: getCurrentOrganization
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentOrganizationResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+          description: Whether there are more items to fetch
+        next_page_starting_after:
+          type: string
+          description: Token for the next page
+      required:
+        - has_more
+        - next_page_starting_after
+    Entitlement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the entitlement
+        fixed_charge:
+          type: number
+          description: Fixed charge amount
+        price_name:
+          type: string
+          description: Name of the price
+        unit_amount:
+          type: number
+          description: Unit amount
+        feature_key:
+          type: string
+          description: Key of the feature
+        feature_name:
+          type: string
+          description: Name of the feature
+        entitlement_limit_max:
+          type: number
+          description: Maximum entitlement limit
+        entitlement_limit_min:
+          type: number
+          description: Minimum entitlement limit
+      required:
+        - id
+        - fixed_charge
+        - price_name
+        - unit_amount
+        - feature_key
+        - feature_name
+        - entitlement_limit_max
+        - entitlement_limit_min
+    Plan:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Plan key
+        subscribed_on:
+          type: string
+          format: date-time
+          description: When the plan was subscribed to
+      required:
+        - key
+        - subscribed_on
+    EntitlementsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        data:
+          type: object
+          properties:
+            org_code:
+              type: string
+              description: Organization code
+            plans:
+              type: array
+              maxItems: 1000
+              items:
+                $ref: '#/components/schemas/Plan'
+            entitlements:
+              type: array
+              maxItems: 1000
+              items:
+                $ref: '#/components/schemas/Entitlement'
+          required:
+            - org_code
+            - plans
+            - entitlements
+      required:
+        - metadata
+        - data
+    EntitlementResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            org_code:
+              type: string
+              description: Organization code
+            entitlement:
+              $ref: '#/components/schemas/Entitlement'
+          required:
+            - org_code
+            - entitlement
+      required:
+        - data
+    Permission:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the permission
+        name:
+          type: string
+          description: Name of the permission
+        description:
+          type: string
+          description: Description of the permission
+      required:
+        - id
+        - name
+    PermissionsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        data:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Permission'
+      required:
+        - metadata
+        - data
+    PermissionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Permission'
+      required:
+        - data
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the role
+        name:
+          type: string
+          description: Name of the role
+        description:
+          type: string
+          description: Description of the role
+      required:
+        - id
+        - name
+    RolesResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        data:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Role'
+      required:
+        - metadata
+        - data
+    FeatureFlag:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the feature flag
+        name:
+          type: string
+          description: Name of the feature flag
+        key:
+          type: string
+          description: Key of the feature flag
+        type:
+          type: string
+          description: Type of the feature flag
+        value:
+          oneOf:
+            - type: string
+            - type: boolean
+            - type: number
+            - type: object
+          description: Value of the feature flag
+      required:
+        - id
+        - name
+        - key
+        - type
+        - value
+    FeatureFlagsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        data:
+          type: object
+          properties:
+            feature_flags:
+              type: array
+              maxItems: 1000
+              items:
+                $ref: '#/components/schemas/FeatureFlag'
+          required:
+            - feature_flags
+      required:
+        - metadata
+        - data
+    FeatureFlagResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/FeatureFlag'
+      required:
+        - data
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the organization
+        name:
+          type: string
+          description: Name of the organization
+        code:
+          type: string
+          description: Code of the organization
+      required:
+        - id
+        - name
+        - code
+    UserOrganizationsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        data:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Organization'
+      required:
+        - metadata
+        - data
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user
+        email:
+          type: string
+          description: Email address of the user
+        given_name:
+          type: string
+          description: Given name of the user
+        family_name:
+          type: string
+          description: Family name of the user
+        picture:
+          type: string
+          description: Profile picture URL
+      required:
+        - id
+        - email
+    UserProfileResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserProfile'
+      required:
+        - data
+    CurrentOrganizationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Organization'
+      required:
+        - data
