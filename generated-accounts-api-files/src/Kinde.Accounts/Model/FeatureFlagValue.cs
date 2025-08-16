@@ -95,25 +95,18 @@ namespace Kinde.Accounts.Model
             }
             set
             {
-                if (value.GetType() == typeof(Object))
+                if (value == null)
                 {
-                    this._actualInstance = value;
+                    throw new ArgumentException("Invalid instance found. Must not be null.");
                 }
-                else if (value.GetType() == typeof(bool))
-                {
-                    this._actualInstance = value;
-                }
-                else if (value.GetType() == typeof(decimal))
-                {
-                    this._actualInstance = value;
-                }
-                else if (value.GetType() == typeof(string))
+                // Accept primitives explicitly; treat everything else as the generic 'object' schema.
+                if (value is string || value is bool || value is decimal)
                 {
                     this._actualInstance = value;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: Object, bool, decimal, string");
+                    this._actualInstance = value; // structured/other types handled as generic object
                 }
             }
         }
@@ -187,106 +180,32 @@ namespace Kinde.Accounts.Model
         /// <returns>An instance of FeatureFlagValue</returns>
         public static FeatureFlagValue FromJson(string jsonString)
         {
-            FeatureFlagValue newFeatureFlagValue = null;
-
             if (string.IsNullOrEmpty(jsonString))
             {
-                return newFeatureFlagValue;
-            }
-            int match = 0;
-            List<string> matchedTypes = new List<string>();
-
-            try
-            {
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(Object).GetProperty("AdditionalProperties") == null)
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<Object>(jsonString, FeatureFlagValue.SerializerSettings));
-                }
-                else
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<Object>(jsonString, FeatureFlagValue.AdditionalPropertiesSerializerSettings));
-                }
-                matchedTypes.Add("Object");
-                match++;
-            }
-            catch (Exception exception)
-            {
-                // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Object: {1}", jsonString, exception.ToString()));
+                return null;
             }
 
-            try
+            var token = JToken.Parse(jsonString);
+            switch (token.Type)
             {
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(bool).GetProperty("AdditionalProperties") == null)
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<bool>(jsonString, FeatureFlagValue.SerializerSettings));
-                }
-                else
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<bool>(jsonString, FeatureFlagValue.AdditionalPropertiesSerializerSettings));
-                }
-                matchedTypes.Add("bool");
-                match++;
+                case JTokenType.Null:
+                    return null;
+                case JTokenType.String:
+                    return new FeatureFlagValue(token.ToObject<string>());
+                case JTokenType.Boolean:
+                    return new FeatureFlagValue(token.ToObject<bool>());
+                case JTokenType.Integer:
+                case JTokenType.Float:
+                    // Use decimal to align with schema and preserve precision.
+                    return new FeatureFlagValue(token.ToObject<decimal>());
+                case JTokenType.Object:
+                case JTokenType.Array:
+                    // Structured values supported via the generic object schema.
+                    return new FeatureFlagValue(token.ToObject<object>());
+                default:
+                    // Fallback: treat as generic object.
+                    return new FeatureFlagValue(token.ToObject<object>());
             }
-            catch (Exception exception)
-            {
-                // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool: {1}", jsonString, exception.ToString()));
-            }
-
-            try
-            {
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(decimal).GetProperty("AdditionalProperties") == null)
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<decimal>(jsonString, FeatureFlagValue.SerializerSettings));
-                }
-                else
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<decimal>(jsonString, FeatureFlagValue.AdditionalPropertiesSerializerSettings));
-                }
-                matchedTypes.Add("decimal");
-                match++;
-            }
-            catch (Exception exception)
-            {
-                // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into decimal: {1}", jsonString, exception.ToString()));
-            }
-
-            try
-            {
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(string).GetProperty("AdditionalProperties") == null)
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<string>(jsonString, FeatureFlagValue.SerializerSettings));
-                }
-                else
-                {
-                    newFeatureFlagValue = new FeatureFlagValue(JsonConvert.DeserializeObject<string>(jsonString, FeatureFlagValue.AdditionalPropertiesSerializerSettings));
-                }
-                matchedTypes.Add("string");
-                match++;
-            }
-            catch (Exception exception)
-            {
-                // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into string: {1}", jsonString, exception.ToString()));
-            }
-
-            if (match == 0)
-            {
-                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
-            }
-            else if (match > 1)
-            {
-                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
-            }
-
-            // deserialization is considered successful at this point if no exception has been thrown.
-            return newFeatureFlagValue;
         }
 
         /// <summary>

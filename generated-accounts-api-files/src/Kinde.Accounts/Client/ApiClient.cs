@@ -414,15 +414,9 @@ namespace Kinde.Accounts.Client
 
             if (response.Cookies != null)
             {
-                foreach (var responseCookies in response.Cookies.Cast<Cookie>())
+                foreach (var c in response.Cookies)
                 {
-                    transformed.Cookies.Add(
-                        new Cookie(
-                            responseCookies.Name,
-                            responseCookies.Value,
-                            responseCookies.Path,
-                            responseCookies.Domain)
-                        );
+                    transformed.Cookies.Add(new Cookie(c.Name, c.Value, c.Path, c.Domain));
                 }
             }
 
@@ -510,24 +504,24 @@ namespace Kinde.Accounts.Client
                 if (response.Cookies != null && response.Cookies.Count > 0)
                 {
                     if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
+                    foreach (var c in response.Cookies)
                     {
                         var cookie = new Cookie(
-                            restResponseCookie.Name,
-                            restResponseCookie.Value,
-                            restResponseCookie.Path,
-                            restResponseCookie.Domain
+                            c.Name,
+                            c.Value,
+                            c.Path,
+                            c.Domain
                         )
                         {
-                            Comment = restResponseCookie.Comment,
-                            CommentUri = restResponseCookie.CommentUri,
-                            Discard = restResponseCookie.Discard,
-                            Expired = restResponseCookie.Expired,
-                            Expires = restResponseCookie.Expires,
-                            HttpOnly = restResponseCookie.HttpOnly,
-                            Port = restResponseCookie.Port,
-                            Secure = restResponseCookie.Secure,
-                            Version = restResponseCookie.Version
+                            Comment = c.Comment,
+                            CommentUri = c.CommentUri,
+                            Discard = c.Discard,
+                            Expired = c.Expired,
+                            Expires = c.Expires,
+                            HttpOnly = c.HttpOnly,
+                            Port = c.Port,
+                            Secure = c.Secure,
+                            Version = c.Version
                         };
 
                         result.Cookies.Add(cookie);
@@ -541,13 +535,24 @@ namespace Kinde.Accounts.Client
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
+            var cookies = new CookieContainer();
+            if (options.Cookies != null && options.Cookies.Count > 0)
+            {
+                foreach (var cookie in options.Cookies)
+                {
+                    cookies.Add(new Cookie(cookie.Name, cookie.Value));
+                }
+            }
+
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
+                CookieContainer = cookies,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
-                UseDefaultCredentials = configuration.UseDefaultCredentials
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
             using (RestClient client = new RestClient(clientOptions,
@@ -595,24 +600,24 @@ namespace Kinde.Accounts.Client
                 if (response.Cookies != null && response.Cookies.Count > 0)
                 {
                     if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
+                    foreach (var c in response.Cookies)
                     {
                         var cookie = new Cookie(
-                            restResponseCookie.Name,
-                            restResponseCookie.Value,
-                            restResponseCookie.Path,
-                            restResponseCookie.Domain
+                            c.Name,
+                            c.Value,
+                            c.Path,
+                            c.Domain
                         )
                         {
-                            Comment = restResponseCookie.Comment,
-                            CommentUri = restResponseCookie.CommentUri,
-                            Discard = restResponseCookie.Discard,
-                            Expired = restResponseCookie.Expired,
-                            Expires = restResponseCookie.Expires,
-                            HttpOnly = restResponseCookie.HttpOnly,
-                            Port = restResponseCookie.Port,
-                            Secure = restResponseCookie.Secure,
-                            Version = restResponseCookie.Version
+                            Comment = c.Comment,
+                            CommentUri = c.CommentUri,
+                            Discard = c.Discard,
+                            Expired = c.Expired,
+                            Expires = c.Expires,
+                            HttpOnly = c.HttpOnly,
+                            Port = c.Port,
+                            Secure = c.Secure,
+                            Version = c.Version
                         };
 
                         result.Cookies.Add(cookie);

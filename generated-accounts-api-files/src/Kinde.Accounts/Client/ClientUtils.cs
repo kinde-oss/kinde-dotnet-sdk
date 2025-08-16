@@ -48,26 +48,28 @@ namespace Kinde.Accounts.Client
         {
             var parameters = new Multimap<string, string>();
 
-            if (value is ICollection collection && collectionFormat == "multi")
+            if (value is IDictionary dictionary)
+            {
+                if (collectionFormat == "deepObject")
+                {
+                    foreach (DictionaryEntry entry in dictionary)
+                    {
+                        parameters.Add($"{name}[{entry.Key}]", ParameterToString(entry.Value));
+                    }
+                }
+                else
+                {
+                    foreach (DictionaryEntry entry in dictionary)
+                    {
+                        parameters.Add(entry.Key?.ToString(), ParameterToString(entry.Value));
+                    }
+                }
+            }
+            else if (value is ICollection collection && collectionFormat == "multi")
             {
                 foreach (var item in collection)
                 {
                     parameters.Add(name, ParameterToString(item));
-                }
-            }
-            else if (value is IDictionary dictionary)
-            {
-                if(collectionFormat == "deepObject") {
-                    foreach (DictionaryEntry entry in dictionary)
-                    {
-                        parameters.Add(name + "[" + entry.Key + "]", ParameterToString(entry.Value));
-                    }
-                }
-                else {
-                    foreach (DictionaryEntry entry in dictionary)
-                    {
-                        parameters.Add(entry.Key.ToString(), ParameterToString(entry.Value));
-                    }
                 }
             }
             else
