@@ -77,9 +77,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all entitlements for the current user&#39;s organization
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>EntitlementsResponse</returns>
-        EntitlementsResponse GetEntitlements(int operationIndex = 0);
+        EntitlementsResponse GetEntitlements(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
 
         /// <summary>
         /// Get all entitlements
@@ -88,9 +90,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all entitlements for the current user&#39;s organization
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of EntitlementsResponse</returns>
-        ApiResponse<EntitlementsResponse> GetEntitlementsWithHttpInfo(int operationIndex = 0);
+        ApiResponse<EntitlementsResponse> GetEntitlementsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
         /// <summary>
         /// Get specific feature flag
         /// </summary>
@@ -121,9 +125,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all feature flags for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>FeatureFlagsResponse</returns>
-        FeatureFlagsResponse GetFeatureFlags(int operationIndex = 0);
+        FeatureFlagsResponse GetFeatureFlags(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
 
         /// <summary>
         /// Get all feature flags
@@ -132,9 +138,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all feature flags for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of FeatureFlagsResponse</returns>
-        ApiResponse<FeatureFlagsResponse> GetFeatureFlagsWithHttpInfo(int operationIndex = 0);
+        ApiResponse<FeatureFlagsResponse> GetFeatureFlagsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
         /// <summary>
         /// Get specific permission
         /// </summary>
@@ -165,9 +173,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all permissions for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>PermissionsResponse</returns>
-        PermissionsResponse GetPermissions(int operationIndex = 0);
+        PermissionsResponse GetPermissions(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
 
         /// <summary>
         /// Get all permissions
@@ -176,9 +186,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all permissions for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of PermissionsResponse</returns>
-        ApiResponse<PermissionsResponse> GetPermissionsWithHttpInfo(int operationIndex = 0);
+        ApiResponse<PermissionsResponse> GetPermissionsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
         /// <summary>
         /// Get all roles
         /// </summary>
@@ -186,9 +198,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all roles for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>RolesResponse</returns>
-        RolesResponse GetRoles(int operationIndex = 0);
+        RolesResponse GetRoles(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
 
         /// <summary>
         /// Get all roles
@@ -197,9 +211,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all roles for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of RolesResponse</returns>
-        ApiResponse<RolesResponse> GetRolesWithHttpInfo(int operationIndex = 0);
+        ApiResponse<RolesResponse> GetRolesWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
         /// <summary>
         /// Get user organizations
         /// </summary>
@@ -207,9 +223,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all organizations for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UserOrganizationsResponse</returns>
-        UserOrganizationsResponse GetUserOrganizations(int operationIndex = 0);
+        UserOrganizationsResponse GetUserOrganizations(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
 
         /// <summary>
         /// Get user organizations
@@ -218,9 +236,11 @@ namespace Kinde.Accounts.Api
         /// Retrieve all organizations for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UserOrganizationsResponse</returns>
-        ApiResponse<UserOrganizationsResponse> GetUserOrganizationsWithHttpInfo(int operationIndex = 0);
+        ApiResponse<UserOrganizationsResponse> GetUserOrganizationsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0);
         /// <summary>
         /// Get user profile
         /// </summary>
@@ -306,10 +326,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all entitlements for the current user&#39;s organization
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EntitlementsResponse</returns>
-        System.Threading.Tasks.Task<EntitlementsResponse> GetEntitlementsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<EntitlementsResponse> GetEntitlementsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get all entitlements
@@ -318,10 +340,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all entitlements for the current user&#39;s organization
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EntitlementsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EntitlementsResponse>> GetEntitlementsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<EntitlementsResponse>> GetEntitlementsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get specific feature flag
         /// </summary>
@@ -354,10 +378,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all feature flags for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FeatureFlagsResponse</returns>
-        System.Threading.Tasks.Task<FeatureFlagsResponse> GetFeatureFlagsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FeatureFlagsResponse> GetFeatureFlagsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get all feature flags
@@ -366,10 +392,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all feature flags for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FeatureFlagsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<FeatureFlagsResponse>> GetFeatureFlagsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<FeatureFlagsResponse>> GetFeatureFlagsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get specific permission
         /// </summary>
@@ -402,10 +430,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all permissions for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of PermissionsResponse</returns>
-        System.Threading.Tasks.Task<PermissionsResponse> GetPermissionsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<PermissionsResponse> GetPermissionsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get all permissions
@@ -414,10 +444,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all permissions for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (PermissionsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<PermissionsResponse>> GetPermissionsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<PermissionsResponse>> GetPermissionsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get all roles
         /// </summary>
@@ -425,10 +457,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all roles for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of RolesResponse</returns>
-        System.Threading.Tasks.Task<RolesResponse> GetRolesAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<RolesResponse> GetRolesAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get all roles
@@ -437,10 +471,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all roles for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (RolesResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<RolesResponse>> GetRolesWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<RolesResponse>> GetRolesWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get user organizations
         /// </summary>
@@ -448,10 +484,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all organizations for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UserOrganizationsResponse</returns>
-        System.Threading.Tasks.Task<UserOrganizationsResponse> GetUserOrganizationsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UserOrganizationsResponse> GetUserOrganizationsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get user organizations
@@ -460,10 +498,12 @@ namespace Kinde.Accounts.Api
         /// Retrieve all organizations for the current user
         /// </remarks>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UserOrganizationsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UserOrganizationsResponse>> GetUserOrganizationsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UserOrganizationsResponse>> GetUserOrganizationsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get user profile
         /// </summary>
@@ -905,11 +945,13 @@ namespace Kinde.Accounts.Api
         /// Get all entitlements Retrieve all entitlements for the current user&#39;s organization
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>EntitlementsResponse</returns>
-        public EntitlementsResponse GetEntitlements(int operationIndex = 0)
+        public EntitlementsResponse GetEntitlements(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
-            Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> localVarResponse = GetEntitlementsWithHttpInfo();
+            Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> localVarResponse = GetEntitlementsWithHttpInfo(startingAfter, limit);
             return localVarResponse.Data;
         }
 
@@ -917,9 +959,11 @@ namespace Kinde.Accounts.Api
         /// Get all entitlements Retrieve all entitlements for the current user&#39;s organization
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of EntitlementsResponse</returns>
-        public Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> GetEntitlementsWithHttpInfo(int operationIndex = 0)
+        public Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> GetEntitlementsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
 
@@ -943,6 +987,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetEntitlements";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -972,12 +1024,14 @@ namespace Kinde.Accounts.Api
         /// Get all entitlements Retrieve all entitlements for the current user&#39;s organization
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EntitlementsResponse</returns>
-        public async System.Threading.Tasks.Task<EntitlementsResponse> GetEntitlementsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EntitlementsResponse> GetEntitlementsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> localVarResponse = await GetEntitlementsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Accounts.Client.ApiResponse<EntitlementsResponse> localVarResponse = await GetEntitlementsWithHttpInfoAsync(startingAfter, limit, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -985,10 +1039,12 @@ namespace Kinde.Accounts.Api
         /// Get all entitlements Retrieve all entitlements for the current user&#39;s organization
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EntitlementsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<EntitlementsResponse>> GetEntitlementsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<EntitlementsResponse>> GetEntitlementsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
@@ -1013,6 +1069,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetEntitlements";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1199,11 +1263,13 @@ namespace Kinde.Accounts.Api
         /// Get all feature flags Retrieve all feature flags for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>FeatureFlagsResponse</returns>
-        public FeatureFlagsResponse GetFeatureFlags(int operationIndex = 0)
+        public FeatureFlagsResponse GetFeatureFlags(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
-            Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> localVarResponse = GetFeatureFlagsWithHttpInfo();
+            Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> localVarResponse = GetFeatureFlagsWithHttpInfo(startingAfter, limit);
             return localVarResponse.Data;
         }
 
@@ -1211,9 +1277,11 @@ namespace Kinde.Accounts.Api
         /// Get all feature flags Retrieve all feature flags for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of FeatureFlagsResponse</returns>
-        public Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> GetFeatureFlagsWithHttpInfo(int operationIndex = 0)
+        public Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> GetFeatureFlagsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
 
@@ -1237,6 +1305,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetFeatureFlags";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1266,12 +1342,14 @@ namespace Kinde.Accounts.Api
         /// Get all feature flags Retrieve all feature flags for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FeatureFlagsResponse</returns>
-        public async System.Threading.Tasks.Task<FeatureFlagsResponse> GetFeatureFlagsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<FeatureFlagsResponse> GetFeatureFlagsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> localVarResponse = await GetFeatureFlagsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse> localVarResponse = await GetFeatureFlagsWithHttpInfoAsync(startingAfter, limit, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1279,10 +1357,12 @@ namespace Kinde.Accounts.Api
         /// Get all feature flags Retrieve all feature flags for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FeatureFlagsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse>> GetFeatureFlagsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<FeatureFlagsResponse>> GetFeatureFlagsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
@@ -1307,6 +1387,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetFeatureFlags";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1493,11 +1581,13 @@ namespace Kinde.Accounts.Api
         /// Get all permissions Retrieve all permissions for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>PermissionsResponse</returns>
-        public PermissionsResponse GetPermissions(int operationIndex = 0)
+        public PermissionsResponse GetPermissions(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
-            Kinde.Accounts.Client.ApiResponse<PermissionsResponse> localVarResponse = GetPermissionsWithHttpInfo();
+            Kinde.Accounts.Client.ApiResponse<PermissionsResponse> localVarResponse = GetPermissionsWithHttpInfo(startingAfter, limit);
             return localVarResponse.Data;
         }
 
@@ -1505,9 +1595,11 @@ namespace Kinde.Accounts.Api
         /// Get all permissions Retrieve all permissions for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of PermissionsResponse</returns>
-        public Kinde.Accounts.Client.ApiResponse<PermissionsResponse> GetPermissionsWithHttpInfo(int operationIndex = 0)
+        public Kinde.Accounts.Client.ApiResponse<PermissionsResponse> GetPermissionsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
 
@@ -1531,6 +1623,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetPermissions";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1560,12 +1660,14 @@ namespace Kinde.Accounts.Api
         /// Get all permissions Retrieve all permissions for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of PermissionsResponse</returns>
-        public async System.Threading.Tasks.Task<PermissionsResponse> GetPermissionsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<PermissionsResponse> GetPermissionsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Accounts.Client.ApiResponse<PermissionsResponse> localVarResponse = await GetPermissionsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Accounts.Client.ApiResponse<PermissionsResponse> localVarResponse = await GetPermissionsWithHttpInfoAsync(startingAfter, limit, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1573,10 +1675,12 @@ namespace Kinde.Accounts.Api
         /// Get all permissions Retrieve all permissions for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (PermissionsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<PermissionsResponse>> GetPermissionsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<PermissionsResponse>> GetPermissionsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
@@ -1601,6 +1705,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetPermissions";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1631,11 +1743,13 @@ namespace Kinde.Accounts.Api
         /// Get all roles Retrieve all roles for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>RolesResponse</returns>
-        public RolesResponse GetRoles(int operationIndex = 0)
+        public RolesResponse GetRoles(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
-            Kinde.Accounts.Client.ApiResponse<RolesResponse> localVarResponse = GetRolesWithHttpInfo();
+            Kinde.Accounts.Client.ApiResponse<RolesResponse> localVarResponse = GetRolesWithHttpInfo(startingAfter, limit);
             return localVarResponse.Data;
         }
 
@@ -1643,9 +1757,11 @@ namespace Kinde.Accounts.Api
         /// Get all roles Retrieve all roles for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of RolesResponse</returns>
-        public Kinde.Accounts.Client.ApiResponse<RolesResponse> GetRolesWithHttpInfo(int operationIndex = 0)
+        public Kinde.Accounts.Client.ApiResponse<RolesResponse> GetRolesWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
 
@@ -1669,6 +1785,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetRoles";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1698,12 +1822,14 @@ namespace Kinde.Accounts.Api
         /// Get all roles Retrieve all roles for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of RolesResponse</returns>
-        public async System.Threading.Tasks.Task<RolesResponse> GetRolesAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<RolesResponse> GetRolesAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Accounts.Client.ApiResponse<RolesResponse> localVarResponse = await GetRolesWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Accounts.Client.ApiResponse<RolesResponse> localVarResponse = await GetRolesWithHttpInfoAsync(startingAfter, limit, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1711,10 +1837,12 @@ namespace Kinde.Accounts.Api
         /// Get all roles Retrieve all roles for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (1-1000, server may cap this) (optional, default to 100)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (RolesResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<RolesResponse>> GetRolesWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<RolesResponse>> GetRolesWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
@@ -1739,6 +1867,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetRoles";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1769,11 +1905,13 @@ namespace Kinde.Accounts.Api
         /// Get user organizations Retrieve all organizations for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UserOrganizationsResponse</returns>
-        public UserOrganizationsResponse GetUserOrganizations(int operationIndex = 0)
+        public UserOrganizationsResponse GetUserOrganizations(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
-            Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> localVarResponse = GetUserOrganizationsWithHttpInfo();
+            Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> localVarResponse = GetUserOrganizationsWithHttpInfo(startingAfter, limit);
             return localVarResponse.Data;
         }
 
@@ -1781,9 +1919,11 @@ namespace Kinde.Accounts.Api
         /// Get user organizations Retrieve all organizations for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UserOrganizationsResponse</returns>
-        public Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> GetUserOrganizationsWithHttpInfo(int operationIndex = 0)
+        public Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> GetUserOrganizationsWithHttpInfo(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0)
         {
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
 
@@ -1807,6 +1947,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetUserOrganizations";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1836,12 +1984,14 @@ namespace Kinde.Accounts.Api
         /// Get user organizations Retrieve all organizations for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UserOrganizationsResponse</returns>
-        public async System.Threading.Tasks.Task<UserOrganizationsResponse> GetUserOrganizationsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UserOrganizationsResponse> GetUserOrganizationsAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> localVarResponse = await GetUserOrganizationsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse> localVarResponse = await GetUserOrganizationsWithHttpInfoAsync(startingAfter, limit, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1849,10 +1999,12 @@ namespace Kinde.Accounts.Api
         /// Get user organizations Retrieve all organizations for the current user
         /// </summary>
         /// <exception cref="Kinde.Accounts.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="startingAfter">Cursor for fetching the next page (use the value returned by metadata.next_page_starting_after) (optional)</param>
+        /// <param name="limit">Maximum number of items to return (server may cap this) (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UserOrganizationsResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse>> GetUserOrganizationsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Accounts.Client.ApiResponse<UserOrganizationsResponse>> GetUserOrganizationsWithHttpInfoAsync(string? startingAfter = default(string?), int? limit = default(int?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Accounts.Client.RequestOptions localVarRequestOptions = new Kinde.Accounts.Client.RequestOptions();
@@ -1877,6 +2029,14 @@ namespace Kinde.Accounts.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (startingAfter != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Accounts.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
 
             localVarRequestOptions.Operation = "DefaultApi.GetUserOrganizations";
             localVarRequestOptions.OperationIndex = operationIndex;

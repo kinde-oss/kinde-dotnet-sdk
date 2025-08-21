@@ -41,7 +41,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <param name="metadata">metadata (required).</param>
         /// <param name="data">data (required).</param>
-        public FeatureFlagsResponse(Metadata metadata = default(Metadata), FeatureFlagsResponseData data = default(FeatureFlagsResponseData))
+        public FeatureFlagsResponse(Metadata metadata = default(Metadata), List<FeatureFlag> data = default(List<FeatureFlag>))
         {
             // to ensure "metadata" is required (not null)
             if (metadata == null)
@@ -67,7 +67,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Data
         /// </summary>
         [DataMember(Name = "data", IsRequired = true, EmitDefaultValue = true)]
-        public FeatureFlagsResponseData Data { get; set; }
+        public List<FeatureFlag> Data { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -121,8 +121,9 @@ namespace Kinde.Accounts.Model
                 ) && 
                 (
                     this.Data == input.Data ||
-                    (this.Data != null &&
-                    this.Data.Equals(input.Data))
+                    this.Data != null &&
+                    input.Data != null &&
+                    this.Data.SequenceEqual(input.Data)
                 );
         }
 

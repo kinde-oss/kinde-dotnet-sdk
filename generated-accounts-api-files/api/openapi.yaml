@@ -21,6 +21,27 @@ paths:
     get:
       description: Retrieve all entitlements for the current user's organization
       operationId: getEntitlements
+      parameters:
+      - description: Cursor for fetching the next page (use the value returned by
+          metadata.next_page_starting_after)
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Maximum number of items to return (1-1000, server may cap this)"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -29,13 +50,23 @@ paths:
                 $ref: '#/components/schemas/EntitlementsResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get all entitlements
   /entitlement/{key}:
     get:
@@ -58,20 +89,55 @@ paths:
                 $ref: '#/components/schemas/EntitlementResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Entitlement not found
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get specific entitlement
   /permissions:
     get:
       description: Retrieve all permissions for the current user
       operationId: getPermissions
+      parameters:
+      - description: Cursor for fetching the next page (use the value returned by
+          metadata.next_page_starting_after)
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Maximum number of items to return (1-1000, server may cap this)"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -80,13 +146,23 @@ paths:
                 $ref: '#/components/schemas/PermissionsResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get all permissions
   /permission/{key}:
     get:
@@ -109,20 +185,55 @@ paths:
                 $ref: '#/components/schemas/PermissionResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Permission not found
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get specific permission
   /roles:
     get:
       description: Retrieve all roles for the current user
       operationId: getRoles
+      parameters:
+      - description: Cursor for fetching the next page (use the value returned by
+          metadata.next_page_starting_after)
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Maximum number of items to return (1-1000, server may cap this)"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -131,18 +242,48 @@ paths:
                 $ref: '#/components/schemas/RolesResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get all roles
   /feature_flags:
     get:
       description: Retrieve all feature flags for the current user
       operationId: getFeatureFlags
+      parameters:
+      - description: Cursor for fetching the next page (use the value returned by
+          metadata.next_page_starting_after)
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Maximum number of items to return (server may cap this)
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -151,10 +292,22 @@ paths:
                 $ref: '#/components/schemas/FeatureFlagsResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
       security:
       - BearerAuth: []
@@ -180,20 +333,54 @@ paths:
                 $ref: '#/components/schemas/FeatureFlagResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Feature flag not found
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get specific feature flag
   /user_organizations:
     get:
       description: Retrieve all organizations for the current user
       operationId: getUserOrganizations
+      parameters:
+      - description: Cursor for fetching the next page (use the value returned by
+          metadata.next_page_starting_after)
+        explode: true
+        in: query
+        name: starting_after
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Maximum number of items to return (server may cap this)
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -202,13 +389,23 @@ paths:
                 $ref: '#/components/schemas/UserOrganizationsResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get user organizations
   /user_profile:
     get:
@@ -222,13 +419,23 @@ paths:
                 $ref: '#/components/schemas/UserProfileResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get user profile
   /current_organization:
     get:
@@ -242,16 +449,45 @@ paths:
                 $ref: '#/components/schemas/CurrentOrganizationResponse'
           description: Successful response
         "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Unauthorized
         "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Forbidden
         "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Internal server error
-      security:
-      - BearerAuth: []
       summary: Get current organization
 components:
   schemas:
+    Error:
+      properties:
+        code:
+          description: Machine-readable error code
+          type: string
+        message:
+          description: Human-readable error description
+          type: string
+        request_id:
+          description: Correlates client errors with server logs
+          type: string
+        details:
+          additionalProperties: true
+          description: Arbitrary error details specific to the error code
+          type: object
+      required:
+      - code
+      - message
+      type: object
     Metadata:
       example:
         next_page_starting_after: next_page_starting_after
@@ -261,11 +497,10 @@ components:
           description: Whether there are more items to fetch
           type: boolean
         next_page_starting_after:
-          description: Token for the next page
+          description: Token for the next page (null when has_more is false)
           type: string
       required:
       - has_more
-      - next_page_starting_after
       type: object
     Entitlement:
       example:
@@ -566,37 +801,39 @@ components:
           next_page_starting_after: next_page_starting_after
           has_more: true
         data:
-          feature_flags:
-          - name: name
-            id: id
-            type: type
-            value: null
-            key: key
-          - name: name
-            id: id
-            type: type
-            value: null
-            key: key
-          - name: name
-            id: id
-            type: type
-            value: null
-            key: key
-          - name: name
-            id: id
-            type: type
-            value: null
-            key: key
-          - name: name
-            id: id
-            type: type
-            value: null
-            key: key
+        - name: name
+          id: id
+          type: type
+          value: null
+          key: key
+        - name: name
+          id: id
+          type: type
+          value: null
+          key: key
+        - name: name
+          id: id
+          type: type
+          value: null
+          key: key
+        - name: name
+          id: id
+          type: type
+          value: null
+          key: key
+        - name: name
+          id: id
+          type: type
+          value: null
+          key: key
       properties:
         metadata:
           $ref: '#/components/schemas/Metadata'
         data:
-          $ref: '#/components/schemas/FeatureFlagsResponse_data'
+          items:
+            $ref: '#/components/schemas/FeatureFlag'
+          maxItems: 1000
+          type: array
       required:
       - data
       - metadata
@@ -824,43 +1061,6 @@ components:
       - type: boolean
       - type: number
       - type: object
-    FeatureFlagsResponse_data:
-      example:
-        feature_flags:
-        - name: name
-          id: id
-          type: type
-          value: null
-          key: key
-        - name: name
-          id: id
-          type: type
-          value: null
-          key: key
-        - name: name
-          id: id
-          type: type
-          value: null
-          key: key
-        - name: name
-          id: id
-          type: type
-          value: null
-          key: key
-        - name: name
-          id: id
-          type: type
-          value: null
-          key: key
-      properties:
-        feature_flags:
-          items:
-            $ref: '#/components/schemas/FeatureFlag'
-          maxItems: 1000
-          type: array
-      required:
-      - feature_flags
-      type: object
   securitySchemes:
     BearerAuth:
       bearerFormat: JWT

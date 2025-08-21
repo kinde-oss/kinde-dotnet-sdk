@@ -40,15 +40,10 @@ namespace Kinde.Accounts.Model
         /// Initializes a new instance of the <see cref="Metadata" /> class.
         /// </summary>
         /// <param name="hasMore">Whether there are more items to fetch (required).</param>
-        /// <param name="nextPageStartingAfter">Token for the next page (required).</param>
+        /// <param name="nextPageStartingAfter">Token for the next page (null when has_more is false).</param>
         public Metadata(bool hasMore = default(bool), string nextPageStartingAfter = default(string))
         {
             this.HasMore = hasMore;
-            // to ensure "nextPageStartingAfter" is required (not null)
-            if (nextPageStartingAfter == null)
-            {
-                throw new ArgumentNullException("nextPageStartingAfter is a required property for Metadata and cannot be null");
-            }
             this.NextPageStartingAfter = nextPageStartingAfter;
         }
 
@@ -60,10 +55,10 @@ namespace Kinde.Accounts.Model
         public bool HasMore { get; set; }
 
         /// <summary>
-        /// Token for the next page
+        /// Token for the next page (null when has_more is false)
         /// </summary>
-        /// <value>Token for the next page</value>
-        [DataMember(Name = "next_page_starting_after", IsRequired = true, EmitDefaultValue = true)]
+        /// <value>Token for the next page (null when has_more is false)</value>
+        [DataMember(Name = "next_page_starting_after", EmitDefaultValue = false)]
         public string NextPageStartingAfter { get; set; }
 
         /// <summary>

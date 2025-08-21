@@ -38,16 +38,20 @@ git add .
 git commit -m "$release_note"
 
 # Sets the new remote
-if ! git remote get-url origin >/dev/null 2>&1; then # 'origin' not defined
+git_remote=$(git remote)
+if [ "$git_remote" = "" ]; then # git remote not defined
 
-    echo "[INFO] Configuring origin without embedding credentials. Ensure a credential helper or gh auth is configured."
-    git remote add origin "https://${git_host}/${git_user_id}/${git_repo_id}.git"
+    if [ "$GIT_TOKEN" = "" ]; then
+        echo "[INFO] \$GIT_TOKEN (environment variable) is not set. Using the git credential in your environment."
+        git remote add origin https://${git_host}/${git_user_id}/${git_repo_id}.git
+    else
+        git remote add origin https://${git_user_id}:"${GIT_TOKEN}"@${git_host}/${git_user_id}/${git_repo_id}.git
+    fi
 
 fi
 
-# Determine current branch (or default to "main" if detached)
-branch="${GIT_BRANCH:-$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)}"
+git pull origin master
 
-echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git (branch: ${branch})"
-# Push and set upstream for future pushes
-git push -u origin "${branch}" 2>&1 | grep -v 'To https'
+# Pushes (Forces) the changes in the local repository up to the remote repository
+echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
+git push origin master 2>&1 | grep -v 'To https'

@@ -426,7 +426,19 @@ namespace Kinde.Accounts.Client
             {
                 foreach (var c in response.Cookies)
                 {
-                    transformed.Cookies.Add(new Cookie(c.Name, c.Value, c.Path, c.Domain));
+                    var cookie = new Cookie(c.Name, c.Value, c.Path, c.Domain)
+                    {
+                        Comment = c.Comment,
+                        CommentUri = c.CommentUri,
+                        Discard = c.Discard,
+                        Expired = c.Expired,
+                        Expires = c.Expires,
+                        HttpOnly = c.HttpOnly,
+                        Port = c.Port,
+                        Secure = c.Secure,
+                        Version = c.Version
+                    };
+                    transformed.Cookies.Add(cookie);
                 }
             }
 
@@ -522,32 +534,7 @@ namespace Kinde.Accounts.Client
                     result.ErrorText = response.ErrorMessage;
                 }
 
-                if (response.Cookies != null && response.Cookies.Count > 0)
-                {
-                    if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var c in response.Cookies)
-                    {
-                        var cookie = new Cookie(
-                            c.Name,
-                            c.Value,
-                            c.Path,
-                            c.Domain
-                        )
-                        {
-                            Comment = c.Comment,
-                            CommentUri = c.CommentUri,
-                            Discard = c.Discard,
-                            Expired = c.Expired,
-                            Expires = c.Expires,
-                            HttpOnly = c.HttpOnly,
-                            Port = c.Port,
-                            Secure = c.Secure,
-                            Version = c.Version
-                        };
-
-                        result.Cookies.Add(cookie);
-                    }
-                }
+                // Cookie mapping now handled in ToApiResponse
                 return result;
             }
         }
@@ -633,32 +620,7 @@ namespace Kinde.Accounts.Client
                     result.ErrorText = response.ErrorMessage;
                 }
 
-                if (response.Cookies != null && response.Cookies.Count > 0)
-                {
-                    if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var c in response.Cookies)
-                    {
-                        var cookie = new Cookie(
-                            c.Name,
-                            c.Value,
-                            c.Path,
-                            c.Domain
-                        )
-                        {
-                            Comment = c.Comment,
-                            CommentUri = c.CommentUri,
-                            Discard = c.Discard,
-                            Expired = c.Expired,
-                            Expires = c.Expires,
-                            HttpOnly = c.HttpOnly,
-                            Port = c.Port,
-                            Secure = c.Secure,
-                            Version = c.Version
-                        };
-
-                        result.Cookies.Add(cookie);
-                    }
-                }
+                // Cookie mapping now handled in ToApiResponse
                 return result;
             }
         }
