@@ -44,9 +44,20 @@ var clientOptions = new RestClientOptions(baseUrl)
 var cookies = new CookieContainer();
 if (options.Cookies != null && options.Cookies.Count > 0)
 {
+    var baseUri = new Uri(baseUrl);
     foreach (var cookie in options.Cookies)
     {
-        cookies.Add(new Cookie(cookie.Name, cookie.Value));
+        if (!string.IsNullOrEmpty(cookie.Domain))
+        {
+            // preserve explicitly set domain
+            cookies.Add(cookie);
+        }
+        else
+        {
+            // fall back to base URL's host and ensure a non-empty path
+            var path = string.IsNullOrEmpty(cookie.Path) ? "/" : cookie.Path;
+            cookies.Add(baseUri, new Cookie(cookie.Name, cookie.Value, path));
+        }
     }
 }
 
@@ -67,9 +78,20 @@ var clientOptions = new RestClientOptions(baseUrl)
 var cookies = new CookieContainer();
 if (options.Cookies != null && options.Cookies.Count > 0)
 {
+    var baseUri = new Uri(baseUrl);
     foreach (var cookie in options.Cookies)
     {
-        cookies.Add(new Cookie(cookie.Name, cookie.Value));
+        if (!string.IsNullOrEmpty(cookie.Domain))
+        {
+            // preserve explicitly set domain
+            cookies.Add(cookie);
+        }
+        else
+        {
+            // fall back to base URL's host and ensure a non-empty path
+            var path = string.IsNullOrEmpty(cookie.Path) ? "/" : cookie.Path;
+            cookies.Add(baseUri, new Cookie(cookie.Name, cookie.Value, path));
+        }
     }
 }
 
