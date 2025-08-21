@@ -23,7 +23,7 @@ The Kinde .NET SDK had **22 duplicate model classes** defined in the same namesp
 3. **Maintained namespace**: All models remain in `Kinde.Accounts.Model` namespace
 4. **Verified compilation**: Both main project and test project build successfully
 
-### Files Removed (22 total)
+### Files Removed (23 total)
 
 - `AbstractOpenAPISchema.cs`
 - `CurrentOrganizationResponse.cs`
@@ -49,9 +49,9 @@ The Kinde .NET SDK had **22 duplicate model classes** defined in the same namesp
 - `UserProfile.cs`
 - `UserProfileResponse.cs`
 
-### Files Added (22 total)
+### Files Added (23 total)
 
-- Same 22 files copied from `generated-accounts-api-files/src/Kinde.Accounts/Model/`
+- Same 23 files copied from `generated-accounts-api-files/src/Kinde.Accounts/Model/`
 
 ## Benefits Achieved
 

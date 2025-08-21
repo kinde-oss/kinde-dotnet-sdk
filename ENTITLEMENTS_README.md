@@ -89,7 +89,7 @@ var isAdmin = await checker.HasRoleAsync("admin");
 var isModerator = await checker.HasRoleAsync("moderator");
 
 // Check feature flags with automatic fallback
-var betaEnabled = await checker.IsFeatureFlagEnabledAsync("beta-features");
+var betaEnabled = await checker.IsFeatureFlagEnabledAsync("beta_features");
 ```
 
 ### Complex Access Control

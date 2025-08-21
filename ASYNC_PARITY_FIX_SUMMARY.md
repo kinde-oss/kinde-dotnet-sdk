@@ -143,7 +143,7 @@ var options = new RequestOptions
 };
 
 // Sync - was working
-var syncResult = await client.GetUserAsync(options);
+var syncResult = client.GetUser(options);
 
 // Async - now also working
 var asyncResult = await client.GetUserAsync(options);
@@ -162,7 +162,7 @@ var config = new Configuration
 };
 
 // Sync - was working
-var syncResult = await client.GetUserAsync(options, config);
+var syncResult = client.GetUser(options, config);
 
 // Async - now also working
 var asyncResult = await client.GetUserAsync(options, config);

@@ -131,9 +131,16 @@ namespace Kinde.Accounts.Client
                 return DateTime.Parse(response.Content, null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            if (type == typeof(string))
             {
-                return Convert.ChangeType(response.Content, type);
+                return response.Content;
+            }
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                if (string.IsNullOrEmpty(response.Content))
+                    return null;
+                var underlying = Nullable.GetUnderlyingType(type);
+                return Convert.ChangeType(response.Content, underlying);
             }
 
             // at this point, it must be a model (json)
@@ -333,10 +340,14 @@ namespace Kinde.Accounts.Client
                 if (options.Data is Stream stream)
                 {
                     var contentType = "application/octet-stream";
-                    if (options.HeaderParameters != null)
+                    if (options.HeaderParameters != null
+                        && options.HeaderParameters.ContainsKey("Content-Type"))
                     {
                         var contentTypes = options.HeaderParameters["Content-Type"];
-                        contentType = contentTypes[0];
+                        if (contentTypes != null && contentTypes.Count > 0)
+                        {
+                            contentType = contentTypes[0];
+                        }
                     }
 
                     var bytes = ClientUtils.ReadAsBytes(stream);
@@ -344,22 +355,21 @@ namespace Kinde.Accounts.Client
                 }
                 else
                 {
-                    if (options.HeaderParameters != null)
+                    bool isJson = true; // default bias to JSON if unspecified
+                    if (options.HeaderParameters != null
+                        && options.HeaderParameters.ContainsKey("Content-Type"))
                     {
                         var contentTypes = options.HeaderParameters["Content-Type"];
-                        if (contentTypes == null || contentTypes.Any(header => header.Contains("application/json")))
-                        {
-                            request.RequestFormat = DataFormat.Json;
-                        }
-                        else
-                        {
-                            // TODO: Generated client user should add additional handlers. RestSharp only supports XML and JSON, with XML as default.
-                        }
+                        isJson = contentTypes != null
+                            && contentTypes.Any(h => h != null && h.IndexOf("application/json", StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                    if (isJson)
+                    {
+                        request.RequestFormat = DataFormat.Json;
                     }
                     else
                     {
-                        // Here, we'll assume JSON APIs are more common. XML can be forced by adding produces/consumes to openapi spec explicitly.
-                        request.RequestFormat = DataFormat.Json;
+                        // TODO: add additional handlers for non-JSON content types if needed.
                     }
 
                     request.AddJsonBody(options.Data);

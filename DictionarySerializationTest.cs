@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Kinde.Accounts;
+using Kinde.Accounts.Client;
 
 namespace DictionarySerializationTest
 {
