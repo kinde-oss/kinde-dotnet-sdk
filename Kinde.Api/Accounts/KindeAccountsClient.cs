@@ -15,7 +15,7 @@ namespace Kinde.Api.Accounts
     /// Client for accessing Kinde Accounts API functionality.
     /// This client provides methods to query the current user's permissions, roles, entitlements, and feature flags.
     /// </summary>
-    public class KindeAccountsClient
+    public class KindeAccountsClient : IKindeAccountsClient
     {
         private readonly DefaultApi _apiClient;
         private readonly Kinde.Api.Client.KindeClient _kindeClient;

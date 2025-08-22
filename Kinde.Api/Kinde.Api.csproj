@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Kinde.SDK</PackageId>
     <OutputType>Library</OutputType>
     <Authors>Kinde</Authors>
@@ -48,6 +48,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../generated-accounts-api-files/src/Kinde.Accounts/Kinde.Accounts.csproj" />
   </ItemGroup>
 
 </Project>

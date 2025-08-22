@@ -15,16 +15,16 @@ namespace Kinde.Api.Models.Tokens
     public class KindeTokenChecker
     {
         private readonly OauthToken _token;
-        private readonly KindeAccountsClient _accountsClient;
+        private readonly IKindeAccountsClient _accountsClient;
         private readonly ILogger<KindeTokenChecker> _logger;
 
         /// <summary>
         /// Creates a new KindeTokenChecker with the provided token and accounts client.
         /// </summary>
         /// <param name="token">The OAuth token to check</param>
-        /// <param name="accountsClient">The KindeAccountsClient for API fallback</param>
+        /// <param name="accountsClient">The IKindeAccountsClient for API fallback</param>
         /// <param name="logger">Optional logger for debugging</param>
-        public KindeTokenChecker(OauthToken token, KindeAccountsClient accountsClient, ILogger<KindeTokenChecker> logger = null)
+        public KindeTokenChecker(OauthToken token, IKindeAccountsClient accountsClient, ILogger<KindeTokenChecker> logger = null)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             _accountsClient = accountsClient ?? throw new ArgumentNullException(nameof(accountsClient));

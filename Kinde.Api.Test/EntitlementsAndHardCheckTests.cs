@@ -12,16 +12,16 @@ namespace Kinde.Api.Test
     public class EntitlementsAndHardCheckTests
     {
         private readonly Mock<ILogger<KindeTokenChecker>> _mockLogger;
-        private readonly Mock<KindeAccountsClient> _mockAccountsClient;
+        private readonly Mock<IKindeAccountsClient> _mockAccountsClient;
         private readonly OauthToken _testToken;
 
         public EntitlementsAndHardCheckTests()
         {
             _mockLogger = new Mock<ILogger<KindeTokenChecker>>();
-            _mockAccountsClient = new Mock<KindeAccountsClient>();
+            _mockAccountsClient = new Mock<IKindeAccountsClient>();
             _testToken = new OauthToken
             {
-                AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJwZXJtaXNzaW9ucyI6WyJyZWFkOnVzZXJzIiwid3JpdGU6dXNlcnMiXSwicm9sZXMiOlsiYWRtaW4iXX0.Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8"
+                AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJwZXJtaXNzaW9ucyI6WyJyZWFkOnVzZXJzIiwid3JpdGU6dXNlcnMiXSwicm9sZXMiOlsiYWRtaW4iXX0.valid_signature_for_testing"
             };
         }
 
@@ -201,7 +201,7 @@ namespace Kinde.Api.Test
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => 
-                new KindeTokenChecker(_testToken, (KindeAccountsClient)null));
+                new KindeTokenChecker(_testToken, (IKindeAccountsClient)null));
         }
 
 
