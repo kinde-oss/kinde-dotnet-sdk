@@ -2,28 +2,28 @@
 
 ## Issue Resolved
 
-The Kinde .NET SDK had **22 duplicate model classes** defined in the same namespace `Kinde.Accounts.Model` across two locations:
+The Kinde .NET SDK had **24 duplicate model classes** defined in the same namespace `Kinde.Accounts.Model` across two locations:
 
-1. **`Kinde.Api/Accounts/`** - Manual implementations
-2. **`generated-accounts-api-files/src/Kinde.Accounts/Model/`** - Generated implementations
+1. **`Kinde.Api/Accounts/`** – Manual implementations
+2. **`generated-accounts-api-files/src/Kinde.Accounts/Model/`** – Generated implementations
 
 ## Problem Impact
 
 - **Compilation conflicts**: Ambiguous reference errors when referencing model types
 - **Runtime ambiguity**: Type resolution issues and potential casting failures
-- **Maintenance burden**: 22 duplicate implementations to maintain
+- **Maintenance burden**: 24 duplicate implementations to maintain
 - **Code duplication**: Inconsistent behavior between implementations
 
 ## Solution Implemented
 
 ### Approach: Use Generated Models as Single Source of Truth
 
-1. **Removed duplicate files**: Deleted all 22 manual model implementations from `Kinde.Api/Accounts/`
-2. **Copied generated models**: Moved generated models to the main project location
+1. **Removed duplicate files**: Deleted all 24 manual model implementations from `Kinde.Api/Accounts/`
+2. **Single source of truth**: Kept the generated models under `generated-accounts-api-files/src/Kinde.Accounts/Model/` as the canonical source
 3. **Maintained namespace**: All models remain in `Kinde.Accounts.Model` namespace
 4. **Verified compilation**: Both main project and test project build successfully
 
-### Files Removed (24 total)
+### Files removed (24 total)
 
 - `AbstractOpenAPISchema.cs`
 - `CurrentOrganizationResponse.cs`
@@ -49,9 +49,9 @@ The Kinde .NET SDK had **22 duplicate model classes** defined in the same namesp
 - `UserProfile.cs`
 - `UserProfileResponse.cs`
 
-### Files Added (24 total)
+### Files added
 
-- Same 24 files copied from `generated-accounts-api-files/src/Kinde.Accounts/Model/`
+None. Models now exist only under `generated-accounts-api-files/src/Kinde.Accounts/Model/`.
 
 ## Benefits Achieved
 
@@ -87,14 +87,14 @@ The Kinde .NET SDK had **22 duplicate model classes** defined in the same namesp
 
 ## Complete Resolution Summary
 
-### Final State:
+### Final state
 - ✅ **Legacy models removed**: All 24 model files removed from `Kinde.Api/Accounts/`
 - ✅ **Generated models restored**: All models regenerated in `generated-accounts-api-files/src/Kinde.Accounts/Model/`
 - ✅ **Single source of truth**: Models exist only in the generated directory
 - ✅ **No compilation conflicts**: No duplicate type definitions across assemblies
 - ✅ **Clean architecture**: Clear separation between generated and core code
 
-### Files Remaining in Main Project:
+### Files remaining in main project
 The main project now contains only core infrastructure files:
 - API clients and interfaces (`ApiClient.cs`, `KindeAccountsClient.cs`, etc.)
 - Configuration and utilities (`Configuration.cs`, `ClientUtils.cs`, etc.)

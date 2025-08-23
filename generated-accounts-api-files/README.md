@@ -28,8 +28,7 @@ Install-Package JsonSubTypes
 Install-Package System.ComponentModel.Annotations
 ```
 
-NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploads to fail. See [RestSharp#742](https://github.com/restsharp/RestSharp/issues/742).
-NOTE: RestSharp for .Net Core creates a new socket for each api call, which can lead to a socket exhaustion problem. See [RestSharp#1406](https://github.com/restsharp/RestSharp/issues/1406).
+Note: Modern RestSharp (v107+) is built on HttpClient and addresses historical connection-management concerns. Reuse a single RestClient (or supply an HttpClient from IHttpClientFactory) and avoid manually setting Content-Type for multipart uploads—let RestSharp handle it.
 
 <a id="installation"></a>
 ## Installation

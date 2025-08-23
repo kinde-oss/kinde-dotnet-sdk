@@ -225,30 +225,30 @@ namespace Kinde.Accounts.Client
         /// <param name="method">Swagger Client Custom HttpMethod</param>
         /// <returns>RestSharp's HttpMethod instance.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private RestSharpMethod Method(HttpMethod method)
+        private RestSharpMethod Method(Kinde.Accounts.Client.HttpMethod method)
         {
             RestSharpMethod other;
             switch (method)
             {
-                case HttpMethod.Get:
+                case Kinde.Accounts.Client.HttpMethod.Get:
                     other = RestSharpMethod.Get;
                     break;
-                case HttpMethod.Post:
+                case Kinde.Accounts.Client.HttpMethod.Post:
                     other = RestSharpMethod.Post;
                     break;
-                case HttpMethod.Put:
+                case Kinde.Accounts.Client.HttpMethod.Put:
                     other = RestSharpMethod.Put;
                     break;
-                case HttpMethod.Delete:
+                case Kinde.Accounts.Client.HttpMethod.Delete:
                     other = RestSharpMethod.Delete;
                     break;
-                case HttpMethod.Head:
+                case Kinde.Accounts.Client.HttpMethod.Head:
                     other = RestSharpMethod.Head;
                     break;
-                case HttpMethod.Options:
+                case Kinde.Accounts.Client.HttpMethod.Options:
                     other = RestSharpMethod.Options;
                     break;
-                case HttpMethod.Patch:
+                case Kinde.Accounts.Client.HttpMethod.Patch:
                     other = RestSharpMethod.Patch;
                     break;
                 default:
@@ -271,7 +271,7 @@ namespace Kinde.Accounts.Client
         /// <returns>[private] A new RestRequest instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         private RestRequest NewRequest(
-            HttpMethod method,
+            Kinde.Accounts.Client.HttpMethod method,
             string path,
             RequestOptions options,
             IReadableConfiguration configuration)
@@ -635,7 +635,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Get, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -650,7 +650,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Post, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -665,7 +665,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Put, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -680,7 +680,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Delete, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -695,7 +695,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Head, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Options, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -725,7 +725,7 @@ namespace Kinde.Accounts.Client
         public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Patch, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Patch, path, options, config), options, config, cancellationToken);
         }
         #endregion IAsynchronousClient
 
@@ -741,7 +741,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Get, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Get, path, options, config), options, config);
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Post, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Post, path, options, config), options, config);
         }
 
         /// <summary>
@@ -769,7 +769,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Put, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Put, path, options, config), options, config);
         }
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Delete, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Delete, path, options, config), options, config);
         }
 
         /// <summary>
@@ -797,7 +797,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Head, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Head, path, options, config), options, config);
         }
 
         /// <summary>
@@ -811,7 +811,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Options, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Options, path, options, config), options, config);
         }
 
         /// <summary>
@@ -825,7 +825,7 @@ namespace Kinde.Accounts.Client
         public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Patch, path, options, config), options, config);
+            return Exec<T>(NewRequest(Kinde.Accounts.Client.HttpMethod.Patch, path, options, config), options, config);
         }
         #endregion ISynchronousClient
     }

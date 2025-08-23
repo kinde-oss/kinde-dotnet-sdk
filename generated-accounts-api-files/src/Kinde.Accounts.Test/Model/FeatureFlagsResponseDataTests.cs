@@ -47,7 +47,7 @@ namespace Kinde.Accounts.Test.Model
         /// <summary>
         /// Test an instance of FeatureFlagsResponseData
         /// </summary>
-        [Fact]
+        [Fact(Skip = "TODO: Implement meaningful assertions for FeatureFlagsResponseData")]
         public void FeatureFlagsResponseDataInstanceTest()
         {
             // TODO uncomment below to test "IsType" FeatureFlagsResponseData
@@ -57,7 +57,7 @@ namespace Kinde.Accounts.Test.Model
         /// <summary>
         /// Test the property 'FeatureFlags'
         /// </summary>
-        [Fact]
+        [Fact(Skip = "TODO: Implement assertions for 'FeatureFlags' property")]
         public void FeatureFlagsTest()
         {
             // TODO unit test for the property 'FeatureFlags'

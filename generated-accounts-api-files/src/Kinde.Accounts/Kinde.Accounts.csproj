@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo><!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Kinde.Accounts</AssemblyName>
     <PackageId>Kinde.Accounts</PackageId>
     <OutputType>Library</OutputType>
@@ -33,4 +33,7 @@
   <ItemGroup>
     <Reference Include="System.Web" />
   </ItemGroup>
+
+
+
 </Project>

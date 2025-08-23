@@ -3,8 +3,8 @@
 ## Properties
 
 Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**Data** | [**FeatureFlag**](FeatureFlag.md) |  | 
+--- | --- | --- | ---
+**Data** | [**FeatureFlag**](FeatureFlag.md) | The requested feature flag. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
