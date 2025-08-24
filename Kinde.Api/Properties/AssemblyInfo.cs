@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("{{packageTitle}}")]
-[assembly: AssemblyDescription("{{packageDescription}}")]
+[assembly: AssemblyTitle("Kinde.SDK")]
+[assembly: AssemblyDescription("The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("{{packageCompany}}")]
-[assembly: AssemblyProduct("{{packageProductName}}")]
-[assembly: AssemblyCopyright("{{packageCopyright}}")]
+[assembly: AssemblyCompany("Kinde")]
+[assembly: AssemblyProduct("Kinde Platform")]
+[assembly: AssemblyCopyright("Kinde")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,13 +29,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("{{packageVersion}}")]
-[assembly: AssemblyFileVersion("{{packageVersion}}")]
-[assembly: AssemblyInformationalVersion("{{packageVersion}}")]
-{{^supportsAsync}}
-// Settings which don't support asynchronous operations rely on non-public constructors
-// This is due to how RestSharp requires the type constraint `where T : new()` in places it probably shouldn't.
-[assembly: InternalsVisibleTo("RestSharp")]
-[assembly: InternalsVisibleTo("Newtonsoft.Json")]
-[assembly: InternalsVisibleTo("JsonSubTypes")]
-{{/supportsAsync}}
+[assembly: AssemblyVersion("2.0.0")]
+[assembly: AssemblyFileVersion("2.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.0")]

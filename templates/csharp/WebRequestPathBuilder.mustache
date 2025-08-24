@@ -20,6 +20,7 @@ namespace {{packageName}}.Client
 
             public void AddPathParameters(Dictionary<string, string> parameters)
             {
+                if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
                     _path = _path.Replace("{" + parameter.Key + "}", Uri.EscapeDataString(parameter.Value));
@@ -28,6 +29,7 @@ namespace {{packageName}}.Client
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
+                if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
                     foreach (var value in parameter.Value)

@@ -90,7 +90,7 @@ namespace Example
                 {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
-            catch (ApiException  e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
@@ -118,7 +118,7 @@ try
 catch (ApiException e)
 {
     Debug.Print("Exception when calling {{classname}}.{{operationId}}WithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print("Status Code: " + e.StatusCode);
     Debug.Print(e.StackTrace);
 }
 ```

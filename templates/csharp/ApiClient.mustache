@@ -333,9 +333,10 @@ namespace {{packageName}}.Client
                 if (options.Data is Stream stream)
                 {
                     var contentType = "application/octet-stream";
-                    if (options.HeaderParameters != null)
+                    if (options.HeaderParameters != null &&
+                        options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) &&
+                        contentTypes != null && contentTypes.Count > 0)
                     {
-                        var contentTypes = options.HeaderParameters["Content-Type"];
                         contentType = contentTypes[0];
                     }
 
@@ -344,21 +345,17 @@ namespace {{packageName}}.Client
                 }
                 else
                 {
-                    if (options.HeaderParameters != null)
+                    if (options.HeaderParameters != null &&
+                        options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) &&
+                        contentTypes != null && contentTypes.Count > 0)
                     {
-                        var contentTypes = options.HeaderParameters["Content-Type"];
-                        if (contentTypes == null || contentTypes.Any(header => header.Contains("application/json")))
-                        {
+                        if (contentTypes.Any(ct => ct != null && ct.IndexOf("application/json", StringComparison.OrdinalIgnoreCase) >= 0))
                             request.RequestFormat = DataFormat.Json;
-                        }
-                        else
-                        {
-                            // TODO: Generated client user should add additional handlers. RestSharp only supports XML and JSON, with XML as default.
-                        }
+                        // else leave RestSharp default or rely on additional handlers if configured externally
                     }
                     else
                     {
-                        // Here, we'll assume JSON APIs are more common. XML can be forced by adding produces/consumes to openapi spec explicitly.
+                        // Assume JSON by default; XML etc. can be forced via explicit produces/consumes.
                         request.RequestFormat = DataFormat.Json;
                     }
 

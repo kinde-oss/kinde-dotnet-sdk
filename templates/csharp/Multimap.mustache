@@ -126,7 +126,12 @@ namespace {{packageName}}.Client
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         public bool Remove(KeyValuePair<TKey, IList<TValue>> item)
         {
-            throw new NotImplementedException();
+            if (_dictionary.TryGetValue(item.Key, out var list) &&
+                EqualityComparer<IList<TValue>>.Default.Equals(list, item.Value))
+            {
+                return _dictionary.Remove(item.Key);
+            }
+            return false;
         }
 
         /// <summary>

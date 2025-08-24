@@ -27,6 +27,11 @@ namespace {{packageName}}.{{clientPackage}}
         /// The raw data returned by the api
         /// </summary>
         public string RawContent { get; }
+
+        /// <summary>
+        /// Numeric HTTP status code for compatibility with existing samples/usages.
+        /// </summary>
+        public int ErrorCode => (int)StatusCode;
         
         /// <summary>
         /// Construct the ApiException from parts of the response

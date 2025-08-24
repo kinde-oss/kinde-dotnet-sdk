@@ -33,6 +33,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="services"></param>
         public ApiFactory(IServiceProvider services)
         {
+            ArgumentNullException.ThrowIfNull(services);
             Services = services;
         }
 

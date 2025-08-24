@@ -318,8 +318,11 @@
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}} != null) {
-                {{model.classname}}JsonConverter {{#lambda.camelcase_param}}{{model.classname}}JsonConverter{{/lambda.camelcase_param}} = ({{model.classname}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}.GetType()));
-                {{#lambda.camelcase_param}}{{model.classname}}JsonConverter{{/lambda.camelcase_param}}.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}, jsonSerializerOptions);
+                var converter = jsonSerializerOptions.Converters.FirstOrDefault(c => c.CanConvert({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}.GetType())) as {{model.classname}}JsonConverter;
+                if (converter != null)
+                    converter.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}, jsonSerializerOptions);
+                else
+                    throw new JsonException($"No converter found for type {{{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}.GetType()}");
             }
 
             {{/mappedModels}}

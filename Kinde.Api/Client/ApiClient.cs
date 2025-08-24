@@ -478,6 +478,13 @@ namespace Kinde.Api.Client
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
 
+                if (configuration.RemoteCertificateValidationCallback != null)
+                {
+                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `RemoteCertificateValidationCallback` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    _httpClientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, errors) => 
+                        configuration.RemoteCertificateValidationCallback(sender, cert, chain, errors);
+                }
+
                 var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
                 if (cookieContainer != null)

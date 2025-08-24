@@ -1,4 +1,14 @@
             // This logic may be modified with the AsModel.mustache template
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : default(T);
+            if (!IsSuccessStatusCode || string.IsNullOrWhiteSpace(RawContent))
+            {
+                return default(T);
+            }
+            try
+            {
+                return System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions);
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                // Consider logging or wrapping in a domain-specific exception.
+                return default(T);
+            }

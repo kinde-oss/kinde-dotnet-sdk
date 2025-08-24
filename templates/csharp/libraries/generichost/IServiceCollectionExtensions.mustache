@@ -49,13 +49,13 @@ namespace {{packageName}}.Extensions
             // ensure that a token provider was provided for this token type
             // if not, default to RateLimitProvider
             var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
-                s.ServiceType.GetGenericTypeDefinition().IsAssignableFrom(typeof(TokenContainer<>))).ToArray();
+                s.ServiceType.GetGenericTypeDefinition() == typeof(TokenContainer<>)).ToArray();
 
             foreach(var containerService in containerServices)
             {
                 var tokenType = containerService.ServiceType.GenericTypeArguments[0];
 
-                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableFrom(typeof(TokenProvider<>).MakeGenericType(tokenType)));
+                var provider = services.FirstOrDefault(s => s.ServiceType == typeof(TokenProvider<>).MakeGenericType(tokenType));
 
                 if (provider == null)
                 {

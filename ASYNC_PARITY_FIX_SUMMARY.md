@@ -170,12 +170,13 @@ var asyncResult = await client.GetUserAsync(options, config);
 
 ## Files Modified
 
-1. **`Kinde.Api/Accounts/ApiClient.cs`**
+1. **`Kinde.Api/Client/ApiClient.cs`**
    - Added cookie handling to `ExecAsync` method
    - Added certificate validation callback to `ExecAsync` method
 
 2. **`generated-accounts-api-files/src/Kinde.Accounts/Client/ApiClient.cs`**
-   - Applied same fixes to maintain consistency with generated code
+   - Already has certificate validation callback configured (uses RestSharp)
+   - Maintains consistency with main client implementation
 
 ## Verification
 
@@ -212,3 +213,12 @@ This fix addresses a common pattern where generated code or async wrappers miss 
 **Status**: ✅ Completed  
 **Risk**: Low  
 **Impact**: High (Positive) - Fixes authentication and certificate validation parity
+
+## Version Compatibility
+
+**Note**: This fix is part of version 2.0.0 which includes a breaking change:
+- **Target Framework**: Changed from `netstandard2.1` to `net9.0`
+- **Package Version**: Bumped from 1.3.1 to 2.0.0
+- **Reason**: Dependencies (RestSharp 110.2.0, Microsoft.Extensions.* 9.0.4) require .NET 6.0+
+
+See `CHANGELOG.md` for detailed migration instructions.

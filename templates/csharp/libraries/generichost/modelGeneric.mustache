@@ -20,7 +20,7 @@
             {{#composedSchemas.anyOf}}
             {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{/composedSchemas.anyOf}}
-            {{name}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
+            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{#allVars}}
             {{^isInherited}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};

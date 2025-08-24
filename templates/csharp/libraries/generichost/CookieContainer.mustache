@@ -12,10 +12,10 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// A class containing a CookieContainer
     /// </summary>
-    {{>visibility}} sealed class CookieContainer
+    {{>visibility}} sealed class CookieContainerProvider
     {
         /// <summary>
-        /// The collection of tokens
+        /// The cookie container used by HTTP handlers
         /// </summary>
         public System.Net.CookieContainer Value { get; } = new System.Net.CookieContainer();
     }
