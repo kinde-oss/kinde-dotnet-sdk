@@ -12,7 +12,7 @@ OPENAPI_GENERATOR_JAR="openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar"
 SPEC_PATH="${1:-${REPO_ROOT}/api/kinde-accounts-api.yaml}"
 OUT_DIR="${OUT_DIR:-${REPO_ROOT}/generated-accounts-api-files}"
 OPENAPI_JAR="${OPENAPI_JAR:-${REPO_ROOT}/${OPENAPI_GENERATOR_JAR}}"
-ADDL_PROPS="${ADDL_PROPS:-packageName=Kinde.Accounts,packageVersion=1.0.0,targetFramework=net9.0,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,library=restsharp}"
+ADDL_PROPS="${ADDL_PROPS:-packageName=Kinde.Accounts,packageVersion=1.0.0,targetFramework=net7.0,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,library=restsharp}"
 
 echo "Generating Accounts API client code..."
 
@@ -66,6 +66,7 @@ java -jar "${OPENAPI_JAR}" generate \
   -i "${SPEC_PATH}" \
   -g csharp \
   -o "${OUT_DIR}" \
-  --additional-properties="${ADDL_PROPS}"
+  --additional-properties="${ADDL_PROPS}" \
+  --template-dir="${REPO_ROOT}/templates/csharp"
 
 echo "Accounts API client code generated successfully: ${OUT_DIR}"

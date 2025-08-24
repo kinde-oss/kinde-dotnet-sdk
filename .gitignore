@@ -458,3 +458,14 @@ Temp/*
 
 # Generated API files
 generated-api-files/
+generated-accounts-api-files/
+
+# OpenAPI Generator artifacts
+openapi-generator-cli-*.jar
+openapi-generator-cli.jar
+
+# OpenAPI Generator cache
+.openapi-generator/
+
+# Note: templates/ directory contains custom templates and should be version controlled
+# Only ignore the generated output, not the source templates
