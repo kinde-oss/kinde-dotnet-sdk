@@ -10,35 +10,41 @@ You can also use the .NET starter kit [here](https://github.com/kinde-starter-k
 
 For details on integrating this SDK into your project, head over to the [Kinde docs](https://kinde.com/docs/) and see the [.NET SDK](https://kinde.com/docs/developer-tools/dotnet-sdk/) doc 👍🏼.
 
-## Entitlements and Hard Check
+## Auth Wrapper Classes
 
-The SDK includes entitlements and hard check functionality that provides automatic fallback from token-based checks to API calls when permissions, roles, or feature flags are not available in the JWT token.
+The SDK includes comprehensive auth wrapper classes that provide simplified access to claims, permissions, feature flags, roles, and entitlements with automatic hard check fallback functionality.
 
 ### Basic Usage
 
 ```csharp
-// Token claims (direct on token)
-var permissions = token.GetPermissions();
-var hasPermission = token.HasPermission("read:users");
+// Create the main Auth client
+var auth = new Auth(kindeClient);
 
-// Hard check with API fallback
-var checker = new KindeTokenChecker(token, accountsClient);
-var hasPermission = await checker.HasPermissionAsync("read:users");
+// Access different functionality through wrapper classes
+var claims = auth.Claims();
+var permissions = auth.Permissions();
+var featureFlags = auth.FeatureFlags();
+var roles = auth.Roles();
+var entitlements = auth.Entitlements();
 
-// Entitlements
-var accountsClient = new KindeAccountsClient(kindeClient);
-var entitlements = await accountsClient.GetEntitlementsAsync();
+// Use the simplified API
+var hasPermission = await permissions.HasPermissionAsync("read:users");
+var hasRole = await roles.HasRoleAsync("admin");
+var isEnabled = await featureFlags.IsFeatureFlagEnabledAsync("beta_features");
+var hasPremium = await entitlements.HasEntitlementAsync("premium_features");
 ```
 
 ### Key Features
 
-- **Token-First Strategy**: Fast in-memory checks when token data is available
-- **Automatic API Fallback**: Falls back to API calls when token data is insufficient
+- **Simplified API**: Clean, intuitive interface following Java SDK patterns
+- **Hard Check Functionality**: Automatic fallback from token to API calls
 - **Comprehensive Error Handling**: Graceful handling of all error scenarios
 - **Async Operations**: All API operations are asynchronous
-- **Backward Compatible**: Works with existing code
+- **Type Safety**: Strongly typed methods with generic support
+- **Logging Support**: Built-in logging for debugging and monitoring
+- **Backward Compatible**: Works with existing SDK functionality
 
-For more details, see the [Entitlements Documentation](ENTITLEMENTS_README.md).
+For more details, see the [Auth Wrappers Documentation](Kinde.Api/Auth/AUTH_WRAPPERS_README.md).
 
 ## Publishing
 
