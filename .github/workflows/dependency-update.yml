@@ -1,0 +1,61 @@
+name: Dependency Update
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Check for outdated packages
+      id: check-outdated
+      run: |
+        OUTDATED=$(dotnet list package --outdated --format json | jq -r '.projects[].frameworks[].topLevelPackages[] | select(.resolvedVersion != .latestVersion) | "\(.id):\(.resolvedVersion)->\(.latestVersion)"')
+        if [ -n "$OUTDATED" ]; then
+          echo "outdated_packages=true" >> $GITHUB_OUTPUT
+          echo "packages=$OUTDATED" >> $GITHUB_OUTPUT
+          echo "Found outdated packages:"
+          echo "$OUTDATED"
+        else
+          echo "outdated_packages=false" >> $GITHUB_OUTPUT
+          echo "No outdated packages found"
+        fi
+    
+    - name: Create Pull Request for Updates
+      if: steps.check-outdated.outputs.outdated_packages == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update dependencies"
+        title: "chore: update dependencies"
+        body: |
+          ## Dependency Updates
+          
+          This PR updates the following packages:
+          
+          ${{ steps.check-outdated.outputs.packages }}
+          
+          ### Changes
+          - Automated dependency updates
+          - All packages updated to their latest versions
+          
+          ### Testing
+          - [ ] Build passes
+          - [ ] Tests pass
+          - [ ] No breaking changes
+        branch: dependency-updates
+        delete-branch: true
+        labels: |
+          dependencies
+          automated

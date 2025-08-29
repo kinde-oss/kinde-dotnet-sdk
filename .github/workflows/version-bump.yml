@@ -1,0 +1,55 @@
+name: Version Bump
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/version-bump.yml'
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Get current version
+      id: current_version
+      run: |
+        VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
+        echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Current version: $VERSION"
+    
+    - name: Calculate new version
+      id: new_version
+      run: |
+        CURRENT_VERSION=${{ steps.current_version.outputs.current_version }}
+        MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
+        MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+        PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
+        NEW_PATCH=$((PATCH + 1))
+        NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "New version: $NEW_VERSION"
+    
+    - name: Update version in csproj
+      run: |
+        sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.new_version.outputs.new_version }}<\/Version>/" Kinde.Api/Kinde.Api.csproj
+    
+    - name: Commit and push version bump
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Kinde.Api/Kinde.Api.csproj
+        git commit -m "Bump version to ${{ steps.new_version.outputs.new_version }} [skip ci]"
+        git push

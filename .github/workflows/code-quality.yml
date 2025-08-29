@@ -1,0 +1,55 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Run code analysis
+      run: dotnet build --configuration Release --verbosity normal
+    
+    - name: Run security analysis
+      run: dotnet list package --vulnerable
+    
+    - name: Check for outdated packages
+      run: dotnet list package --outdated
+    
+    - name: Validate project structure
+      run: |
+        # Check if csproj files exist
+        if [ ! -f "Kinde.Api/Kinde.Api.csproj" ]; then
+          echo "Error: Kinde.Api.csproj not found"
+          exit 1
+        fi
+        
+        if [ ! -f "Kinde.Api.Test/Kinde.Api.Test.csproj" ]; then
+          echo "Error: Kinde.Api.Test.csproj not found"
+          exit 1
+        fi
+        
+        echo "Project structure validation passed"
+    
+    - name: Validate package metadata
+      run: |
+        # Check if required package properties are set
+        grep -q "<PackageId>" Kinde.Api/Kinde.Api.csproj || (echo "Error: PackageId not found" && exit 1)
+        grep -q "<Version>" Kinde.Api/Kinde.Api.csproj || (echo "Error: Version not found" && exit 1)
+        grep -q "<Authors>" Kinde.Api/Kinde.Api.csproj || (echo "Error: Authors not found" && exit 1)
+        grep -q "<Description>" Kinde.Api/Kinde.Api.csproj || (echo "Error: Description not found" && exit 1)
+        echo "Package metadata validation passed"
