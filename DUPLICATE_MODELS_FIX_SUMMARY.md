@@ -58,8 +58,8 @@ None. Models now exist only under `generated-accounts-api-files/src/Kinde.Accoun
 ✅ **Eliminated compilation conflicts**: Single source of truth for all models  
 ✅ **Prevented runtime ambiguity**: No more type resolution issues  
 ✅ **Reduced maintenance burden**: Only one set of models to maintain  
-✅ **Improved consistency**: All models follow same generation rules  
-✅ **Future-proofed**: Prevents similar issues in future generations  
+✅ **Improved consistency**: All models follow the same generation rules  
+✅ **Future-proofed**: Prevents similar issues in future regenerations  
 ✅ **Memory efficiency**: No duplicate type loading  
 
 ## Verification
