@@ -104,9 +104,9 @@ c.Proxy = webProxy;
 {{#useHttpClient}}
 
 ### Connections
-Each ApiClass (properly the ApiClient inside it) will create an instance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
+By default, each ApiClass (specifically its ApiClient) creates its own HttpClient and disposes it when the ApiClass is disposed.
 
-To better manager the connections it's a common practice to reuse the HttpClient and HttpClientHandler (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). To use your own HttpClient instance just pass it to the ApiClass constructor.
+To better manage connections, it's a common practice to reuse the HttpClient and HttpClientHandler (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). If you pass an external HttpClient to the ApiClass constructor, the SDK will not dispose it; ownership remains with the caller.
 
 ```csharp
 HttpClientHandler yourHandler = new HttpClientHandler();
@@ -125,8 +125,10 @@ You'll loose some configuration settings, the features affected are: Setting and
 Here an example of DI setup in a sample web project:
 
 ```csharp
-services.AddHttpClient<YourApiClass>(httpClient =>
-   new PetApi(httpClient));
+// If YourApiClass has a constructor accepting HttpClient:
+services.AddHttpClient<YourApiClass>();
+// Or, to configure:
+// services.AddHttpClient<YourApiClass>(httpClient => { /* configure httpClient */ });
 ```
 
 {{/useHttpClient}}

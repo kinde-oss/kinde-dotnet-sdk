@@ -49,26 +49,35 @@ namespace Kinde.Api.Client
         {
             var parameters = new Multimap<string, string>();
 
-            if (value is ICollection collection && collectionFormat == "multi")
+            // If the value is null, return an empty map
+            if (value == null)
             {
-                foreach (var item in collection)
-                {
-                    parameters.Add(name, ParameterToString(item));
-                }
+                return parameters;
             }
-            else if (value is IDictionary dictionary)
+
+            // Handle dictionaries before generic collections to avoid treating them as collections of entries
+            if (value is IDictionary dictionary)
             {
-                if(collectionFormat == "deepObject") {
+                if (collectionFormat == "deepObject")
+                {
                     foreach (DictionaryEntry entry in dictionary)
                     {
                         parameters.Add(name + "[" + entry.Key + "]", ParameterToString(entry.Value));
                     }
                 }
-                else {
+                else
+                {
                     foreach (DictionaryEntry entry in dictionary)
                     {
                         parameters.Add(entry.Key.ToString(), ParameterToString(entry.Value));
                     }
+                }
+            }
+            else if (value is ICollection collection && collectionFormat == "multi")
+            {
+                foreach (var item in collection)
+                {
+                    parameters.Add(name, ParameterToString(item));
                 }
             }
             else
@@ -158,7 +167,7 @@ namespace Kinde.Api.Client
         /// <returns>The Content-Type header to use.</returns>
         public static string SelectHeaderContentType(string[] contentTypes)
         {
-            if (contentTypes.Length == 0)
+            if (contentTypes == null || contentTypes.Length == 0)
                 return null;
 
             foreach (var contentType in contentTypes)
@@ -179,7 +188,7 @@ namespace Kinde.Api.Client
         /// <returns>The Accept header to use.</returns>
         public static string SelectHeaderAccept(string[] accepts)
         {
-            if (accepts.Length == 0)
+            if (accepts == null || accepts.Length == 0)
                 return null;
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))

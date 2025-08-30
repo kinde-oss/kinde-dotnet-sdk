@@ -32,9 +32,11 @@ namespace {{packageName}}.Client
                 if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
+                    var encodedKey = Uri.EscapeDataString(parameter.Key ?? string.Empty);
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
+                        var encodedVal = Uri.EscapeDataString(value ?? string.Empty);
+                        _query += encodedKey + "=" + encodedVal + "&";
                     }
                 }
             }

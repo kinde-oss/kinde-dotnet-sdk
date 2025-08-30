@@ -58,6 +58,7 @@ using System.Runtime.CompilerServices;
         {
             try
             {
+                options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
                 result = JsonSerializer.Deserialize<T>(json, options);
                 return result != null;
             }
@@ -80,6 +81,7 @@ using System.Runtime.CompilerServices;
         {
             try
             {
+                options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
                 result = JsonSerializer.Deserialize<T>(ref reader, options);
                 return result != null;
             }
@@ -235,7 +237,7 @@ using System.Runtime.CompilerServices;
         /// <returns>The Content-Type header to use.</returns>
         public static string{{nrt?}} SelectHeaderContentType(string[] contentTypes)
         {
-            if (contentTypes.Length == 0)
+            if (contentTypes == null || contentTypes.Length == 0)
                 return null;
 
             foreach (var contentType in contentTypes)
@@ -256,7 +258,7 @@ using System.Runtime.CompilerServices;
         /// <returns>The Accept header to use.</returns>
         public static string{{nrt?}} SelectHeaderAccept(string[] accepts)
         {
-            if (accepts.Length == 0)
+            if (accepts == null || accepts.Length == 0)
                 return null;
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))

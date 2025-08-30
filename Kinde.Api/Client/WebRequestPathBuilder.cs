@@ -29,19 +29,25 @@ namespace Kinde.Api.Client
 
             public void AddPathParameters(Dictionary<string, string> parameters)
             {
+                if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
-                    _path = _path.Replace("{" + parameter.Key + "}", Uri.EscapeDataString(parameter.Value));
+                    var key = parameter.Key ?? string.Empty;
+                    var val = parameter.Value ?? string.Empty;
+                    _path = _path.Replace("{" + key + "}", Uri.EscapeDataString(val));
                 }
             }
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
+                if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
+                    var encodedKey = Uri.EscapeDataString(parameter.Key ?? string.Empty);
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
+                        var encodedVal = Uri.EscapeDataString(value ?? string.Empty);
+                        _query += encodedKey + "=" + encodedVal + "&";
                     }
                 }
             }

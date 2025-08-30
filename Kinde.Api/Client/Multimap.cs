@@ -107,11 +107,21 @@ namespace Kinde.Api.Client
         /// Determines whether Multimap contains the specified item.
         /// </summary>
         /// <param name="item">Key value pair</param>
-        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         /// <returns>true if the Multimap contains the item; otherwise, false.</returns>
         public bool Contains(KeyValuePair<TKey, IList<TValue>> item)
         {
-            throw new NotImplementedException();
+            if (!_dictionary.TryGetValue(item.Key, out var list))
+                return false;
+            if (ReferenceEquals(list, item.Value))
+                return true;
+            if (item.Value == null || list.Count != item.Value.Count)
+                return false;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!EqualityComparer<TValue>.Default.Equals(list[i], item.Value[i]))
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -121,10 +131,16 @@ namespace Kinde.Api.Client
         /// <param name="array">The array that is the destination of the items copied
         ///     from Multimap. The array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         public void CopyTo(KeyValuePair<TKey, IList<TValue>>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            if (array.Length - arrayIndex < _dictionary.Count) throw new ArgumentException("Destination array is not long enough.");
+            var i = arrayIndex;
+            foreach (var kvp in _dictionary)
+            {
+                array[i++] = new KeyValuePair<TKey, IList<TValue>>(kvp.Key, kvp.Value);
+            }
         }
 
         /// <summary>

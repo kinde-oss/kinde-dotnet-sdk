@@ -35,7 +35,8 @@ namespace {{packageName}}.Test.Api
         public {{classname}}Tests()
         {
             {{^nonPublicApi}}
-            instance = new {{classname}}();
+            // TODO: provide required dependencies for {{classname}} before instantiation
+            // instance = new {{classname}}();
             {{/nonPublicApi}}
         }
 

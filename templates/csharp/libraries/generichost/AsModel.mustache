@@ -1,14 +1,29 @@
             // This logic may be modified with the AsModel.mustache template
-            if (!IsSuccessStatusCode || string.IsNullOrWhiteSpace(RawContent))
+            if (!IsSuccessStatusCode)
             {
-                return default(T);
+                // Do not swallow non-success responses.
+                throw new System.Net.Http.HttpRequestException("Non-success HTTP response. Body: " + RawContent);
+            }
+            if (string.IsNullOrWhiteSpace(RawContent) || RawContent.Trim().Equals("null", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return default;
             }
             try
             {
-                return System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions);
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)RawContent;
+                }
+                return System.Text.Json.JsonSerializer.Deserialize<T>(
+                    RawContent,
+                    _jsonSerializerOptions ?? new System.Text.Json.JsonSerializerOptions()
+                );
             }
-            catch (System.Text.Json.JsonException)
+            catch (System.Text.Json.JsonException ex)
             {
-                // Consider logging or wrapping in a domain-specific exception.
-                return default(T);
+                // Surface deserialization failures with context.
+                throw new System.Text.Json.JsonException(
+                    $"Failed to deserialize to {typeof(T).FullName}: {ex.Message}",
+                    ex
+                );
             }

@@ -413,7 +413,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isApiKey}}
             {{#isBasicBasic}}
             // http basic authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if ((!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password)) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + {{packageName}}.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
@@ -440,7 +440,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
                     {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                        localVarRequestOptions.HeaderParameters[headerItem.Key].Add(headerItem.Value);
                     }
                     else
                     {
@@ -625,7 +625,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#isBasic}}
             {{#isBasicBasic}}
             // http basic authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if ((!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password)) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + {{packageName}}.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
@@ -653,7 +653,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {
                     if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
                     {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                        localVarRequestOptions.HeaderParameters[headerItem.Key].Add(headerItem.Value);
                     }
                     else
                     {

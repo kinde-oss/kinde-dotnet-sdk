@@ -94,7 +94,7 @@ namespace Kinde.Api.Client
         public List<Cookie> Cookies { get; set; }
 
         /// <summary>
-        /// The content of this response
+        /// The data type of this response
         /// </summary>
         public Type ResponseType
         {
@@ -102,7 +102,7 @@ namespace Kinde.Api.Client
         }
 
         /// <summary>
-        /// The data type of <see cref="Content"/>
+        /// The content of this response
         /// </summary>
         public object Content
         {

@@ -270,7 +270,7 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 return await {{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (ApiException)
             {
                 return null;
             }

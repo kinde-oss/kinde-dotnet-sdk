@@ -117,7 +117,7 @@ namespace {{packageName}}.{{clientPackage}}
             if (HttpSigningHeader.Count == 0)
                 HttpSigningHeader.Add("(created)");
 
-            var dateTime = DateTime.Now;
+            var dateTime = DateTimeOffset.UtcNow;
             string digest = String.Empty;
 
             if (HashAlgorithm == HashAlgorithmName.SHA256)
@@ -135,7 +135,8 @@ namespace {{packageName}}.{{clientPackage}}
 
             foreach (var header in HttpSigningHeader)
                 if (header.Equals(HEADER_REQUEST_TARGET))
-                    httpSignatureHeader.Add(header.ToLower(), request.RequestUri.ToString());
+                    httpSignatureHeader.Add(header.ToLower(),
+                        $"{request.Method.Method.ToLowerInvariant()} {request.RequestUri.PathAndQuery}");
                 else if (header.Equals(HEADER_EXPIRES))
                 {
                     var expireDateTime = dateTime.AddSeconds(SignatureValidityPeriod);
@@ -149,8 +150,9 @@ namespace {{packageName}}.{{clientPackage}}
                 }
                 else if (header.Equals(HEADER_HOST))
                 {
-                    httpSignatureHeader.Add(header.ToLower(), request.RequestUri.ToString());
-                    HttpSignedRequestHeader.Add(HEADER_HOST, request.RequestUri.ToString());
+                    var host = request.RequestUri.Authority;
+                    httpSignatureHeader.Add(header.ToLower(), host);
+                    HttpSignedRequestHeader.Add(HEADER_HOST, host);
                 }
                 else if (header.Equals(HEADER_CREATED))
                     httpSignatureHeader.Add(header.ToLower(), GetUnixTime(dateTime).ToString());
@@ -166,7 +168,7 @@ namespace {{packageName}}.{{clientPackage}}
                     {
                         if (string.Equals(item.Key, header, StringComparison.OrdinalIgnoreCase))
                         {
-                            httpSignatureHeader.Add(header.ToLower(), item.Value.ToString());
+                            httpSignatureHeader.Add(header.ToLower(), string.Join(", ", item.Value));
                             isHeaderFound = true;
                             break;
                         }
@@ -176,11 +178,17 @@ namespace {{packageName}}.{{clientPackage}}
                         throw new Exception(string.Format("Cannot sign HTTP request.Request does not contain the {0} header.",header));
                 }
 
-            var headersKeysString = String.Join(" ", httpSignatureHeader.Keys);
+            var orderedKeys = new List<string>();
             var headerValuesList = new List<string>();
-
-            foreach (var keyVal in httpSignatureHeader)
-                headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
+            foreach (var h in HttpSigningHeader)
+            {
+                var k = h.ToLower();
+                if (!httpSignatureHeader.TryGetValue(k, out var v))
+                    throw new Exception($"Signed header '{k}' missing from computed map.");
+                orderedKeys.Add(k);
+                headerValuesList.Add($"{k}: {v}");
+            }
+            var headersKeysString = string.Join(" ", orderedKeys);
 
             //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
@@ -235,19 +243,14 @@ namespace {{packageName}}.{{clientPackage}}
             return stringHash;
         }
 
-        private int GetUnixTime(DateTime date2)
+        private long GetUnixTime(DateTimeOffset date2)
         {
-            DateTime date1 = new DateTime(1970, 01, 01);
-            TimeSpan timeSpan = date2 - date1;
-            return (int)timeSpan.TotalSeconds;
+            return date2.ToUnixTimeSeconds();
         }
 
         private string GetRSASignature(byte[] stringToSign)
         {
-            if (KeyPassPhrase == null)
-                throw new NullReferenceException($"{ nameof(KeyPassPhrase) } was null.");
-
-            RSA{{nrt?}} rsa = GetRSAProviderFromPemFile(KeyFilePath, KeyPassPhrase);
+            using RSA{{nrt?}} rsa = GetRSAProviderFromPemFile(KeyFilePath, KeyPassPhrase);
             
             if (rsa == null)
                 return string.Empty;
@@ -275,14 +278,24 @@ namespace {{packageName}}.{{clientPackage}}
             {{#net60OrLater}}
             if (!File.Exists(KeyFilePath))
                 throw new Exception("key file path does not exist.");
-
+            
             var ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
             var ecKeyFooter = "-----END EC PRIVATE KEY-----";
+            var pkcs8Header = "-----BEGIN PRIVATE KEY-----";
+            var pkcs8Footer = "-----END PRIVATE KEY-----";
             var keyStr = File.ReadAllText(KeyFilePath);
-            var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
-            var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
+            
+            byte[] keyBytes;
+            bool isSec1 = keyStr.Contains(ecKeyHeader);
+            bool isPkcs8 = keyStr.Contains(pkcs8Header);
+            if (isSec1)
+                keyBytes = Convert.FromBase64String(keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim());
+            else if (isPkcs8)
+                keyBytes = Convert.FromBase64String(keyStr.Replace(pkcs8Header, "").Replace(pkcs8Footer, "").Trim());
+            else
+                throw new Exception("Unsupported EC key format. Expected EC PRIVATE KEY or PRIVATE KEY.");
+            
             var ecdsa = ECDsa.Create();
-
             var byteCount = 0;
             if (KeyPassPhrase != null)
             {
@@ -291,24 +304,27 @@ namespace {{packageName}}.{{clientPackage}}
                 {
                     // convert secure string to byte array
                     unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(KeyPassPhrase);
-
                     string ptrToStringUni = Marshal.PtrToStringUni(unmanagedString) ?? throw new NullReferenceException();
-
-                    ecdsa.ImportEncryptedPkcs8PrivateKey(Encoding.UTF8.GetBytes(ptrToStringUni), keyBytes, out byteCount);
+                    if (isPkcs8)
+                        ecdsa.ImportEncryptedPkcs8PrivateKey(Encoding.UTF8.GetBytes(ptrToStringUni), keyBytes, out byteCount);
+                    else
+                        throw new Exception("Encrypted SEC1 EC keys are not supported; use encrypted PKCS#8.");
                 }
                 finally
                 {
                     if (unmanagedString != IntPtr.Zero)
-                        Marshal.ZeroFreeBSTR(unmanagedString);
+                        Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
                 }
             }
             else
-                ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
-
-            var signedBytes = ecdsa.SignHash(dataToSign);
-            var derBytes = ConvertToECDSAANS1Format(signedBytes);
-            var signedString = System.Convert.ToBase64String(derBytes);
-
+            {
+                if (isPkcs8) ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
+                else ecdsa.ImportECPrivateKey(keyBytes, out byteCount);
+            }
+            
+            var signedBytes = ecdsa.SignHash(dataToSign); // DER already
+            var signedString = Convert.ToBase64String(signedBytes);
+            
             return signedString;
             {{/net60OrLater}}
             {{^net60OrLater}}
@@ -418,11 +434,12 @@ namespace {{packageName}}.{{clientPackage}}
                 StringReader str = new StringReader(pvkstr);
 
                 //-------- read PEM encryption info. lines and extract salt -----
-                if (!str.ReadLine(){{nrt!}}.StartsWith("Proc-Type: 4,ENCRYPTED"))  // TODO: what do we do here if ReadLine is null?
+                var first = str.ReadLine();
+                if (string.IsNullOrEmpty(first) || !first.StartsWith("Proc-Type: 4,ENCRYPTED"))
                     return null;
                 
-                String saltline = str.ReadLine(){{nrt!}};  // TODO: what do we do here if ReadLine is null?
-                if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
+                String saltline = str.ReadLine();
+                if (string.IsNullOrEmpty(saltline) || !saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
                     return null;
                 
                 String saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
@@ -619,15 +636,15 @@ namespace {{packageName}}.{{clientPackage}}
 
         private byte[]{{nrt?}} DecryptKey(byte[] cipherData, byte[] desKey, byte[] IV)
         {
-            MemoryStream memst = new MemoryStream();
-            TripleDES alg = TripleDES.Create();
+            using var memst = new MemoryStream();
+            using var alg = TripleDES.Create();
             alg.Key = desKey;
             alg.IV = IV;
             try
             {
-                CryptoStream cs = new CryptoStream(memst, alg.CreateDecryptor(), CryptoStreamMode.Write);
+                using var cs = new CryptoStream(memst, alg.CreateDecryptor(), CryptoStreamMode.Write);
                 cs.Write(cipherData, 0, cipherData.Length);
-                cs.Close();
+                cs.FlushFinalBlock();
             }
             catch (Exception)
             {
@@ -651,8 +668,8 @@ namespace {{packageName}}.{{clientPackage}}
             var ecPrivateKeyFooter = "END EC PRIVATE KEY";
             var rsaPrivateKeyHeader = "BEGIN RSA PRIVATE KEY";
             var rsaPrivateFooter = "END RSA PRIVATE KEY";
-            //var pkcs8Header = "BEGIN PRIVATE KEY";
-            //var pkcs8Footer = "END PRIVATE KEY";
+            var pkcs8Header = "BEGIN PRIVATE KEY";
+            var pkcs8Footer = "END PRIVATE KEY";
             var keyType = PrivateKeyType.None;
             var key = File.ReadAllLines(keyFilePath);
 
@@ -660,15 +677,8 @@ namespace {{packageName}}.{{clientPackage}}
                 keyType = PrivateKeyType.RSA;
             else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
                 keyType = PrivateKeyType.ECDSA;
-
-            else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
-            {
-                /* this type of key can hold many type different types of private key, but here due lack of pem header
-                Considering this as EC key
-                */
-                //TODO :- update the key based on oid
-                keyType = PrivateKeyType.ECDSA;
-            }
+            else if (key[0].Contains(pkcs8Header) && key[^1].Contains(pkcs8Footer))
+                keyType = PrivateKeyType.ECDSA; // Could be RSA or EC; resolve later on import if needed
             else
                 throw new Exception("Either the key is invalid or key is not supported");
             

@@ -48,6 +48,7 @@ java -jar "<path>/openapi-generator/modules/openapi-generator-cli/target/openapi
 ```cs
 using System;
 using System.Threading.Tasks;
+using System.Net.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
@@ -93,9 +94,13 @@ namespace YourProject
               });
 
               options.Add{{apiName}}HttpClients(builder: builder => builder
-                .AddRetryPolicy(2)
-                .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
-                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
+                .AddPolicyHandler(Polly.Extensions.Http.HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+                .AddPolicyHandler(Polly.Timeout.TimeoutPolicy<HttpResponseMessage>.CreateAsync(TimeSpan.FromSeconds(5)))
+                .AddPolicyHandler(Polly.Extensions.Http.HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .CircuitBreakerAsync(10, TimeSpan.FromSeconds(30)))
                 // add whatever middleware you prefer
               );
           });

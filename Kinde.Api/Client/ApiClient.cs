@@ -527,7 +527,17 @@ namespace Kinde.Api.Client
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(Kinde.Api.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    try
+                    {
+                        responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    }
+                    catch (Exception ex)
+                    {
+                        var innerEx = ex.InnerException ?? ex;
+                        throw new ApiException(500,
+                            $"Failed to deserialize {typeof(T).Name} from JSON: {innerEx.Message}",
+                            innerEx);
+                    }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {

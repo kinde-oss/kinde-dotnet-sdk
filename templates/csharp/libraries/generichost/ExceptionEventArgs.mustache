@@ -5,20 +5,20 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// Useful for tracking server health
     /// </summary>
-    {{>visibility}} class ExceptionEventArgs : EventArgs
+    {{>visibility}} sealed class ExceptionEventArgs : EventArgs
     {
         /// <summary>
-        /// The ApiResponse
+        /// The exception associated with the event.
         /// </summary>
         public Exception Exception { get; }
 
         /// <summary>
-        /// The ExcepetionEventArgs
+        /// Initializes a new instance of the ExceptionEventArgs class.
         /// </summary>
-        /// <param name="exception"></param>
+        /// <param name="exception">The exception raised by the operation.</param>
         public ExceptionEventArgs(Exception exception)
         {
-            Exception = exception;
+            Exception = exception ?? throw new ArgumentNullException(nameof(exception));
         }
     }
 }

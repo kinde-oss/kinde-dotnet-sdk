@@ -31,8 +31,8 @@ namespace Kinde.Api.Client
         string GetBasePath();
 
         /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
+        /// Provides a factory method hook for the creation of exceptions (may be null).
         /// </summary>
-        ExceptionFactory ExceptionFactory { get; set; }
+        ExceptionFactory? ExceptionFactory { get; set; }
     }
 }

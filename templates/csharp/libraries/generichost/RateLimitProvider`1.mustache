@@ -78,7 +78,7 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
 
         internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
-            await _semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync(cancellation).ConfigureAwait(false);
 
             try
             {
@@ -91,9 +91,7 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
                     if (tokenToRemove != null && AvailableTokens.TryRemove(tokenToRemove, out result))
                         return result;
 
-                    await Task.Delay(40).ConfigureAwait(false);
-
-                    tokenToRemove = AvailableTokens.FirstOrDefault().Value;
+                    await Task.Delay(40, cancellation).ConfigureAwait(false);
                 }
 
                 return result;

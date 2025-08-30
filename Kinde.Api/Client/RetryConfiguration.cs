@@ -22,11 +22,11 @@ namespace Kinde.Api.Client
         /// <summary>
         /// Retry policy
         /// </summary>
-        public static Policy<HttpResponseMessage> RetryPolicy { get; set; }
+        public static Policy<HttpResponseMessage> RetryPolicy { get; set; } = Policy.NoOp<HttpResponseMessage>();
 
         /// <summary>
         /// Async retry policy
         /// </summary>
-        public static AsyncPolicy<HttpResponseMessage> AsyncRetryPolicy { get; set; }
+        public static AsyncPolicy<HttpResponseMessage> AsyncRetryPolicy { get; set; } = Policy.NoOpAsync<HttpResponseMessage>();
     }
 }

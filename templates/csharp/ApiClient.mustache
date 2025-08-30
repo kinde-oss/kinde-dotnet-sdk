@@ -225,30 +225,30 @@ namespace {{packageName}}.Client
         /// <param name="method">Swagger Client Custom HttpMethod</param>
         /// <returns>RestSharp's HttpMethod instance.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private RestSharpMethod Method(HttpMethod method)
+        private RestSharpMethod Method(HttpVerb method)
         {
             RestSharpMethod other;
             switch (method)
             {
-                case HttpMethod.Get:
+                case HttpVerb.Get:
                     other = RestSharpMethod.Get;
                     break;
-                case HttpMethod.Post:
+                case HttpVerb.Post:
                     other = RestSharpMethod.Post;
                     break;
-                case HttpMethod.Put:
+                case HttpVerb.Put:
                     other = RestSharpMethod.Put;
                     break;
-                case HttpMethod.Delete:
+                case HttpVerb.Delete:
                     other = RestSharpMethod.Delete;
                     break;
-                case HttpMethod.Head:
+                case HttpVerb.Head:
                     other = RestSharpMethod.Head;
                     break;
-                case HttpMethod.Options:
+                case HttpVerb.Options:
                     other = RestSharpMethod.Options;
                     break;
-                case HttpMethod.Patch:
+                case HttpVerb.Patch:
                     other = RestSharpMethod.Patch;
                     break;
                 default:
@@ -271,7 +271,7 @@ namespace {{packageName}}.Client
         /// <returns>[private] A new RestRequest instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         private RestRequest NewRequest(
-            HttpMethod method,
+            HttpVerb method,
             string path,
             RequestOptions options,
             IReadableConfiguration configuration)
@@ -434,9 +434,15 @@ namespace {{packageName}}.Client
 
             if (options.Cookies != null && options.Cookies.Count > 0)
             {
+                var uri = new Uri(baseUrl);
                 foreach (var cookie in options.Cookies)
                 {
-                    cookies.Add(new Cookie(cookie.Name, cookie.Value));
+                    cookies.Add(new Cookie(
+                        cookie.Name,
+                        cookie.Value,
+                        string.IsNullOrEmpty(cookie.Path) ? "/" : cookie.Path,
+                        string.IsNullOrEmpty(cookie.Domain) ? uri.Host : cookie.Domain
+                    ));
                 }
             }
 
@@ -555,13 +561,31 @@ namespace {{packageName}}.Client
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
+            var cookies = new CookieContainer();
+
+            if (options.Cookies != null && options.Cookies.Count > 0)
+            {
+                var uri = new Uri(baseUrl);
+                foreach (var cookie in options.Cookies)
+                {
+                    cookies.Add(new Cookie(
+                        cookie.Name,
+                        cookie.Value,
+                        string.IsNullOrEmpty(cookie.Path) ? "/" : cookie.Path,
+                        string.IsNullOrEmpty(cookie.Domain) ? uri.Host : cookie.Domain
+                    ));
+                }
+            }
+
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
+                CookieContainer = cookies,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
-                UseDefaultCredentials = configuration.UseDefaultCredentials
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
             using (RestClient client = new RestClient(clientOptions,
@@ -669,7 +693,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Get, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -684,7 +708,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Post, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -699,7 +723,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Put, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -714,7 +738,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Delete, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -729,7 +753,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Head, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -744,7 +768,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Options, path, options, config), options, config, cancellationToken);
         }
 
         /// <summary>
@@ -776,7 +800,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Get, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Get, path, options, config), options, config);
         }
 
         /// <summary>
@@ -790,7 +814,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Post, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Post, path, options, config), options, config);
         }
 
         /// <summary>
@@ -804,7 +828,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Put, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Put, path, options, config), options, config);
         }
 
         /// <summary>
@@ -818,7 +842,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Delete, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Delete, path, options, config), options, config);
         }
 
         /// <summary>
@@ -832,7 +856,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Head, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Head, path, options, config), options, config);
         }
 
         /// <summary>
@@ -846,7 +870,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Options, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Options, path, options, config), options, config);
         }
 
         /// <summary>

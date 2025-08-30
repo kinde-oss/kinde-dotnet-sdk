@@ -508,13 +508,25 @@ namespace Kinde.Api.Client
 
                     if (inputVariables.ContainsKey(variable.Key))
                     {
-                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                        var rawEnum = serverVariables.ContainsKey("enum_values") ? serverVariables["enum_values"] : null;
+                        var enumValues = rawEnum as IEnumerable<string> ??
+                            (rawEnum as System.Collections.IEnumerable)?.Cast<object>()
+                                .Select(o => o?.ToString())
+                                .Where(s => !string.IsNullOrEmpty(s));
+
+                        if (!inputVariables.TryGetValue(variable.Key, out var providedValue) || providedValue == null)
                         {
-                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                            throw new InvalidOperationException($"Missing value for server URL variable `{variable.Key}`.");
+                        }
+
+                        if (enumValues != null && enumValues.Contains(providedValue))
+                        {
+                            url = url.Replace("{" + variable.Key + "}", providedValue);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                            var allowed = enumValues != null ? "[" + string.Join(", ", enumValues) + "]" : "<unspecified>";
+                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value '{providedValue}'. Must be one of: {allowed}");
                         }
                     }
                     else

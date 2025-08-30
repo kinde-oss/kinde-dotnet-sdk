@@ -1,13 +1,14 @@
 {{>partial_header}}
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace {{packageName}}.{{clientPackage}}
+namespace {{packageName}}.Client
 {
     /// <summary>
-    /// Formatter for 'date' openapi formats ss defined by full-date - RFC3339
+    /// Formatter for the OpenAPI 'date' format as defined by full-date (RFC 3339)
     /// see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types
     /// </summary>
     {{>visibility}} class DateTimeNullableJsonConverter : JsonConverter<DateTime?>
@@ -15,7 +16,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// The formats used to deserialize the date
         /// </summary>
-        public static string[] Formats { get; } = {
+        public static IReadOnlyList<string> Formats { get; } = new[] {
 {{>DateTimeFormats}}
          };
 
@@ -26,15 +27,23 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="typeToConvert"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
+            if (reader.TokenType != JsonTokenType.String)
+                throw new JsonException($"Unexpected token {reader.TokenType} when parsing DateTime.");
 
-            string value = reader.GetString(){{nrt!}};
+            var value = reader.GetString();
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
 
-            foreach(string format in Formats)
-                if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
+            foreach (var format in Formats)
+            {
+                if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture,
+                    DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var result))
                     return result;
+            }
 
             return null;
         }

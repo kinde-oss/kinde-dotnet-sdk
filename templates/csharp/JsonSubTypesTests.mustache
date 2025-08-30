@@ -45,6 +45,8 @@ namespace {{packageName}}.Test.Client
     }
 
     [JsonConverter(typeof(JsonSubtypes), "Kind")]
+    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
+    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     public interface IAnimal
     {
         string Kind { get; }
@@ -61,7 +63,7 @@ namespace {{packageName}}.Test.Client
         public string Breed { get; set; }
     }
 
-    class Cat : IAnimal
+    public class Cat : IAnimal
     {
         public Cat()
         {
@@ -69,7 +71,7 @@ namespace {{packageName}}.Test.Client
         }
 
         public string Kind { get; }
-        bool Declawed { get; set; }
+        public bool Declawed { get; set; }
     }
 
     [JsonConverter(typeof(JsonSubtypes), "Sound")]

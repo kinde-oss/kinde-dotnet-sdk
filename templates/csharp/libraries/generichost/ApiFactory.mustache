@@ -12,9 +12,9 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// A method to create an IApi of type IResult
         /// </summary>
-        /// <typeparam name="IResult"></typeparam>
+        /// <typeparam name="TApi"></typeparam>
         /// <returns></returns>
-        IResult Create<IResult>() where IResult : IApi;
+        TApi Create<TApi>() where TApi : IApi;
     }
 
     /// <summary>
@@ -40,11 +40,11 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// A method to create an IApi of type IResult
         /// </summary>
-        /// <typeparam name="IResult"></typeparam>
+        /// <typeparam name="TApi"></typeparam>
         /// <returns></returns>
-        public IResult Create<IResult>() where IResult : IApi
+        public TApi Create<TApi>() where TApi : IApi
         {
-            return Services.GetRequiredService<IResult>();
+            return Services.GetRequiredService<TApi>();
         }
     }
 }

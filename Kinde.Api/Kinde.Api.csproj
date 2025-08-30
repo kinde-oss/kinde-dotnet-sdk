@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>net9.0</TargetFramework>
     <PackageId>Kinde.SDK</PackageId>
     <OutputType>Library</OutputType>
@@ -22,7 +21,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</PackageProjectUrl>
     <PackageIcon>favicon-3.png</PackageIcon>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <LangVersion>default</LangVersion>

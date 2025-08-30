@@ -16,7 +16,7 @@ namespace {{packageName}}.{{clientPackage}}
     /// </summary>
     {{>visibility}} class BearerToken : TokenBase
     {
-        private string _raw;
+        private readonly string _raw;
 
         /// <summary>
         /// Constructs a BearerToken object.
@@ -25,6 +25,8 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="timeout"></param>
         public BearerToken(string value, TimeSpan? timeout = null) : base(timeout)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Token value cannot be null or whitespace.", nameof(value));
             _raw = value;
         }
 

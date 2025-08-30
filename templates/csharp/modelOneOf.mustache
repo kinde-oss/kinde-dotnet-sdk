@@ -42,18 +42,18 @@
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
 
-        private Object _actualInstance;
+        private object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public override Object ActualInstance
+        public override object ActualInstance
         {
             get
             {
                 return _actualInstance;
             }
-            set
+            protected set
             {
                 {{#oneOf}}
                 {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))

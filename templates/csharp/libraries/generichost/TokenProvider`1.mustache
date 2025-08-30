@@ -19,7 +19,7 @@ namespace {{packageName}}
         /// <summary>
         /// The array of tokens.
         /// </summary>
-        protected TTokenBase[] _tokens;
+        protected readonly TTokenBase[] _tokens;
 
         internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}});
 
@@ -29,10 +29,11 @@ namespace {{packageName}}
         /// <param name="tokens"></param>
         public TokenProvider(IEnumerable<TTokenBase> tokens)
         {
+            if (tokens is null) throw new ArgumentNullException(nameof(tokens));
             _tokens = tokens.ToArray();
 
             if (_tokens.Length == 0)
-                throw new ArgumentException("You did not provide any tokens.");
+                throw new ArgumentException("At least one token must be provided.", nameof(tokens));
         }
     }
 }

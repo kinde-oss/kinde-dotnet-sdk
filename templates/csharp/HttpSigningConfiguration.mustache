@@ -107,9 +107,16 @@ namespace {{packageName}}.Client
                 this.KeyString = ReadApiKeyFromFile(KeyFilePath);
             }
 
-            if(string.IsNullOrEmpty(KeyString))
+            if(string.IsNullOrWhiteSpace(KeyString))
             {
                 throw new Exception("No API key has been provided.");
+            }
+
+            // Validate key format based on expected type
+            var keyType = GetKeyType(KeyString);
+            if (keyType == PrivateKeyType.None)
+            {
+                throw new Exception("Invalid API key format.");
             }
 
             //Hash table to store singed headers
@@ -162,7 +169,7 @@ namespace {{packageName}}.Client
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
 
-            var dateTime = DateTime.Now;
+            var dateTime = DateTimeOffset.UtcNow;
             string Digest = string.Empty;
 
             //get the body
@@ -202,7 +209,7 @@ namespace {{packageName}}.Client
                 }
                 else if (header.Equals(HEADER_DATE))
                 {
-                    var utcDateTime = dateTime.ToUniversalTime().ToString("r");
+                    var utcDateTime = dateTime.ToString("r");
                     HttpSignatureHeader.Add(header.ToLower(), utcDateTime);
                     HttpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
                 }
@@ -227,7 +234,7 @@ namespace {{packageName}}.Client
                     {
                         if (string.Equals(item.Key, header, StringComparison.OrdinalIgnoreCase))
                         {
-                            HttpSignatureHeader.Add(header.ToLower(), item.Value.ToString());
+                            HttpSignatureHeader.Add(header.ToLower(), string.Join(", ", item.Value));
                             isHeaderFound = true;
                             break;
                         }
@@ -239,13 +246,19 @@ namespace {{packageName}}.Client
                 }
 
             }
-            var headersKeysString = string.Join(" ", HttpSignatureHeader.Keys);
+            var orderedKeys = new List<string>();
             var headerValuesList = new List<string>();
-
-            foreach (var keyVal in HttpSignatureHeader)
+            foreach (var h in HttpSigningHeader)
             {
-                headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
+                var k = h.ToLower();
+                if (!HttpSignatureHeader.TryGetValue(k, out var v))
+                {
+                    throw new Exception($"Signed header '{k}' missing from computed map.");
+                }
+                orderedKeys.Add(k);
+                headerValuesList.Add($"{k}: {v}");
             }
+            var headersKeysString = string.Join(" ", orderedKeys);
             //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm, headerValuesString);
@@ -286,7 +299,7 @@ namespace {{packageName}}.Client
 
         private byte[] GetStringHash(HashAlgorithmName hashAlgorithmName, string stringToBeHashed)
         {
-            HashAlgorithm{{nrt?}} hashAlgorithm = null;
+            HashAlgorithm hashAlgorithm = null;
 
             if (hashAlgorithmName == HashAlgorithmName.SHA1)
                 hashAlgorithm = SHA1.Create();
@@ -308,16 +321,14 @@ namespace {{packageName}}.Client
             return stringHash;
         }
 
-        private int GetUnixTime(DateTime date2)
+        private long GetUnixTime(DateTimeOffset date2)
         {
-            DateTime date1 = new DateTime(1970, 01, 01);
-            TimeSpan timeSpan = date2 - date1;
-            return (int)timeSpan.TotalSeconds;
+            return date2.ToUnixTimeSeconds();
         }
 
         private string GetRSASignature(byte[] stringToSign)
         {
-            RSA rsa = GetRSAProviderFromPemFile(KeyString, KeyPassPhrase);
+            using RSA rsa = GetRSAProviderFromPemFile(KeyString, KeyPassPhrase);
             if (SigningAlgorithm == "RSASSA-PSS")
             {
                 var signedbytes = rsa.SignHash(stringToSign, HashAlgorithm, RSASignaturePadding.Pss);
@@ -745,8 +756,8 @@ namespace {{packageName}}.Client
             const string ecPrivateKeyFooter = "END EC PRIVATE KEY";
             const string rsaPrivateKeyHeader = "BEGIN RSA PRIVATE KEY";
             const string rsaPrivateFooter = "END RSA PRIVATE KEY";
-            //var pkcs8Header = "BEGIN PRIVATE KEY";
-            //var pkcs8Footer = "END PRIVATE KEY";
+            const string pkcs8Header = "BEGIN PRIVATE KEY";
+            const string pkcs8Footer = "END PRIVATE KEY";
             PrivateKeyType keyType;
             key = KeyString.TrimEnd().Split('\n');
 
@@ -759,6 +770,10 @@ namespace {{packageName}}.Client
                 key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
             {
                 keyType = PrivateKeyType.ECDSA;
+            }
+            else if (key[0].Contains(pkcs8Header) && key[^1].Contains(pkcs8Footer))
+            {
+                keyType = PrivateKeyType.ECDSA; // Could be RSA or EC; resolve later on import if needed
             }
             else
             {

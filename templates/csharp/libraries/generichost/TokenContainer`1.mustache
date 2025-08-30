@@ -33,6 +33,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="tokens"></param>
         public TokenContainer(System.Collections.Generic.IEnumerable<TTokenBase> tokens)
         {
+            System.ArgumentNullException.ThrowIfNull(tokens);
             Tokens = tokens.ToList();
         }
     }

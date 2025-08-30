@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Security.Authentication;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -52,7 +53,7 @@ namespace {{packageName}}.Client.Auth
                     _grantType = "client_credentials";
                     break;
                 default:
-                    break;
+                    throw new ArgumentException($"Unsupported OAuth flow: {flow}", nameof(flow));
             }
         }
 
@@ -73,6 +74,20 @@ namespace {{packageName}}.Client.Auth
         /// <returns>An authentication token.</returns>
         async Task<string> GetToken()
         {
+            // Enforce HTTPS for token endpoint to avoid sending client credentials over insecure channel
+            if (string.IsNullOrWhiteSpace(_tokenUrl))
+            {
+                throw new AuthenticationException("Token URL is not configured.");
+            }
+            if (!Uri.TryCreate(_tokenUrl, UriKind.Absolute, out var tokenUri))
+            {
+                throw new AuthenticationException($"Token URL is invalid: {_tokenUrl}");
+            }
+            if (!string.Equals(tokenUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new AuthenticationException($"Insecure token URL: {_tokenUrl}. HTTPS is required for OAuth token requests.");
+            }
+
             var client = new RestClient(_tokenUrl,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(_serializerSettings, _configuration)));
 
@@ -81,6 +96,17 @@ namespace {{packageName}}.Client.Auth
                 .AddParameter("client_id", _clientId)
                 .AddParameter("client_secret", _clientSecret);
             var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
+            
+            if (response == null)
+            {
+                throw new AuthenticationException($"Failed to obtain token from {_tokenUrl}: Response was null");
+            }
+            
+            if (string.IsNullOrEmpty(response.AccessToken))
+            {
+                throw new AuthenticationException($"Failed to obtain token from {_tokenUrl}: AccessToken was empty");
+            }
+            
             return $"{response.TokenType} {response.AccessToken}";
         }
     }

@@ -34,6 +34,22 @@ var isEnabled = await featureFlags.IsFeatureFlagEnabledAsync("beta_features");
 var hasPremium = await entitlements.HasEntitlementAsync("premium_features");
 ```
 
+```csharp
+// Token claims (direct on token)
+var permissionsFromToken = token.GetPermissions();
+var hasPermissionFromToken = token.HasPermission("read:users");
+
+// Entitlements client
+var accountsClient = new KindeAccountsClient(kindeClient);
+
+// Hard check with API fallback
+var checker = new KindeTokenChecker(token, accountsClient);
+var hasPermissionResult = await checker.HasPermissionAsync("read:users");
+
+// Entitlements
+var entitlementsDirect = await accountsClient.GetEntitlementsAsync();
+```
+
 ### Key Features
 
 - **Simplified API**: Clean, intuitive interface following Java SDK patterns

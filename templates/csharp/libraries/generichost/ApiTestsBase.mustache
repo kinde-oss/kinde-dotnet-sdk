@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using {{packageName}}.{{clientPackage}};{{#hasImport}}
 using {{packageName}}.{{modelPackage}};{{/hasImport}}
 using {{packageName}}.Extensions;
@@ -29,34 +30,37 @@ namespace {{packageName}}.Test.{{apiPackage}}
             .Configure{{apiName}}((context, services, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
+                // Read token timeout from configuration with a sensible default
+                int tokenTimeoutSeconds = context.Configuration.GetValue<int?>("Test:TokenTimeoutSeconds") ?? 10;
+
                 {{#hasApiKeyMethods}}
-                string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                ApiKeyToken apiKeyToken = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
+                string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                ApiKeyToken apiKeyToken = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(apiKeyToken);
 
                 {{/hasApiKeyMethods}}
                 {{#hasHttpBearerMethods}}
-                string bearerTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                BearerToken bearerToken = new{{^net70OrLater}} BearerToken{{/net70OrLater}}(bearerTokenValue, timeout: TimeSpan.FromSeconds(1));
+                string bearerTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                BearerToken bearerToken = new{{^net70OrLater}} BearerToken{{/net70OrLater}}(bearerTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(bearerToken);
 
                 {{/hasHttpBearerMethods}}
                 {{#hasHttpBasicMethods}}
-                string basicTokenUsername = context.Configuration["<username>"] ?? throw new Exception("Username not found.");
-                string basicTokenPassword = context.Configuration["<password>"] ?? throw new Exception("Password not found.");
-                BasicToken basicToken = new{{^net70OrLater}} BasicToken{{/net70OrLater}}(basicTokenUsername, basicTokenPassword, timeout: TimeSpan.FromSeconds(1));
+                string basicTokenUsername = context.Configuration["<username>"] ?? throw new InvalidOperationException("Username not found in configuration.");
+                string basicTokenPassword = context.Configuration["<password>"] ?? throw new InvalidOperationException("Password not found in configuration.");
+                BasicToken basicToken = new{{^net70OrLater}} BasicToken{{/net70OrLater}}(basicTokenUsername, basicTokenPassword, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(basicToken);
 
                 {{/hasHttpBasicMethods}}
                 {{#hasHttpSignatureMethods}}
                 HttpSigningConfiguration config = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                HttpSignatureToken httpSignatureToken = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config, timeout: TimeSpan.FromSeconds(1));
+                HttpSignatureToken httpSignatureToken = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(httpSignatureToken);
 
                 {{/hasHttpSignatureMethods}}
                 {{#hasOAuthMethods}}
-                string oauthTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue, timeout: TimeSpan.FromSeconds(1));
+                string oauthTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(oauthToken);
                 {{/hasOAuthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}

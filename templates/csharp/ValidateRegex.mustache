@@ -1,8 +1,11 @@
 // {{{name}}} ({{{dataType}}}) pattern
-Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
-var input{{{name}}} = {{#isUuid}}this.{{{name}}}.ToString("D"){{/isUuid}}{{^isUuid}}this.{{{name}}}{{/isUuid}};
-if (string.IsNullOrEmpty(input{{{name}}})) { yield break; } // presence is validated by [Required], not pattern
-if (!regex{{{name}}}.IsMatch(input{{{name}}}))
+System.Text.RegularExpressions.Regex regex{{{name}}} = new System.Text.RegularExpressions.Regex(
+    @"{{{vendorExtensions.x-regex}}}",
+    System.Text.RegularExpressions.RegexOptions.CultureInvariant{{#vendorExtensions.x-modifiers}} | System.Text.RegularExpressions.RegexOptions.{{{.}}}{{/vendorExtensions.x-modifiers}},
+    System.TimeSpan.FromSeconds(2));
+var input{{{name}}}Str = {{#isUuid}}this.{{{name}}}.ToString("D"){{/isUuid}}{{^isUuid}}System.Convert.ToString(this.{{{name}}}, System.Globalization.CultureInfo.InvariantCulture){{/isUuid}};
+if (string.IsNullOrEmpty(input{{{name}}}Str)) { yield break; } // presence is validated by [Required], not pattern
+if (!regex{{{name}}}.IsMatch(input{{{name}}}Str))
 {
     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}.ToString(), new [] { "{{{name}}}" });
 }

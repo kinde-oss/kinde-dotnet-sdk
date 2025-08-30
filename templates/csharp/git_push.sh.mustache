@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 #
 # Usage example: /bin/sh ./git_push.sh wing328 openapi-petstore-perl "minor update" "gitlab.com"
@@ -28,6 +29,11 @@ if [ "$release_note" = "" ]; then
     echo "[INFO] No command line input provided. Set \$release_note to $release_note"
 fi
 
+# Abort if template placeholders remain
+case "$git_host$git_user_id$git_repo_id$release_note" in
+  *"{{"*"}}"*) echo "[ERROR] Unresolved template placeholders detected. Aborting."; exit 1;;
+esac
+
 # Initialize the local directory as a Git repository
 git init
 
@@ -38,8 +44,7 @@ git add .
 git commit -m "$release_note"
 
 # Sets the new remote
-git_remote=$(git remote)
-if [ "$git_remote" = "" ]; then # git remote not defined
+if ! git remote get-url origin >/dev/null 2>&1; then # origin not defined
 
     echo "[INFO] Using the git credentials configured in your environment (credential helper/manager)."
     git remote add origin "https://${git_host}/${git_user_id}/${git_repo_id}.git"
@@ -49,8 +54,11 @@ fi
 # Use DEFAULT_BRANCH env var when provided; fall back to 'main'
 branch="${DEFAULT_BRANCH:-main}"
 
+# Ensure we're on the correct local branch
+git checkout -B "$branch"
+
 git pull --rebase origin "$branch" || true
 
-# Pushes (Forces) the changes in the local repository up to the remote repository
+# Pushes the changes in the local repository up to the remote repository
 echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
-git push --set-upstream origin "$branch"
+git push -u origin "$branch"

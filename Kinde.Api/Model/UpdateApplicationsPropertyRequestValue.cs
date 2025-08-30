@@ -56,17 +56,17 @@ namespace Kinde.Api.Model
         }
 
 
-        private Object _actualInstance;
+        private object _actualInstance;
 
         /// <summary>
         /// </summary>
-        public override Object ActualInstance
+        public override object ActualInstance
         {
             get
             {
                 return _actualInstance;
             }
-            set
+            protected set
             {
                 if (value.GetType() == typeof(bool))
                 {

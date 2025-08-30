@@ -22,6 +22,7 @@ namespace {{packageName}}.Extensions
         /// <param name="builder"></param>
         public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
         {
+            ArgumentNullException.ThrowIfNull(builder);
             builder.ConfigureServices((context, services) => 
             {
                 HostConfiguration config = new HostConfiguration(services);
@@ -40,6 +41,8 @@ namespace {{packageName}}.Extensions
         /// <param name="options"></param>
         public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration> options)
         {
+            ArgumentNullException.ThrowIfNull(builder);
+            ArgumentNullException.ThrowIfNull(options);
             builder.ConfigureServices((context, services) => 
             {
                 HostConfiguration config = new HostConfiguration(services);
