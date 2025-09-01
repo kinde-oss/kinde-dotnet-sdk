@@ -39,7 +39,7 @@ namespace {{packageName}}.Client
             foreach (var format in Formats)
             {
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture,
-                    DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var result))
+                    DateTimeStyles.None, out var result))
                     return result;
             }
 

@@ -88,13 +88,15 @@ namespace {{packageName}}.Client.Auth
                 throw new AuthenticationException($"Insecure token URL: {_tokenUrl}. HTTPS is required for OAuth token requests.");
             }
 
-            var client = new RestClient(_tokenUrl,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(_serializerSettings, _configuration)));
+            var options = new RestClientOptions(_tokenUrl) { MaxTimeout = 10000 };
+            var client = new RestClient(options,
+                configureSerialization: s => s.UseSerializer(() => new CustomJsonCodec(_serializerSettings, _configuration)));
 
             var request = new RestRequest()
                 .AddParameter("grant_type", _grantType)
                 .AddParameter("client_id", _clientId)
                 .AddParameter("client_secret", _clientSecret);
+            request.AddHeader(KnownHeaders.ContentType, "application/x-www-form-urlencoded");
             var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
             
             if (response == null)

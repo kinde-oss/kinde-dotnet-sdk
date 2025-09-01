@@ -1,13 +1,13 @@
 #!/bin/sh
-set -eu
+set -euo pipefail
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 #
 # Usage example: /bin/sh ./git_push.sh wing328 openapi-petstore-perl "minor update" "gitlab.com"
 
-git_user_id=$1
-git_repo_id=$2
-release_note=$3
-git_host=$4
+git_user_id="${1-}"
+git_repo_id="${2-}"
+release_note="${3-}"
+git_host="${4-}"
 
 if [ "$git_host" = "" ]; then
     git_host="{{{gitHost}}}"
@@ -40,8 +40,12 @@ git init
 # Adds the files in the local repository and stages them for commit.
 git add .
 
-# Commits the tracked changes and prepares them to be pushed to a remote repository.
-git commit -m "$release_note"
+# Commit staged changes (allow empty so initial branch exists)
+if git diff --cached --quiet; then
+  git commit --allow-empty -m "$release_note"
+else
+  git commit -m "$release_note"
+fi
 
 # Sets the new remote
 if ! git remote get-url origin >/dev/null 2>&1; then # origin not defined

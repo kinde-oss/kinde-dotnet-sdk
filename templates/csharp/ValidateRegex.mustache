@@ -1,7 +1,13 @@
 // {{{name}}} ({{{dataType}}}) pattern
+// Harden x-modifiers ingestion to avoid codegen-time injection and invalid flags
+System.Text.RegularExpressions.RegexOptions __options{{{name}}} = System.Text.RegularExpressions.RegexOptions.CultureInvariant;
+System.Text.RegularExpressions.RegexOptions __opt;
+{{#vendorExtensions.x-modifiers}}
+if (System.Enum.TryParse<System.Text.RegularExpressions.RegexOptions>("{{{.}}}", true, out __opt)) { __options{{{name}}} |= __opt; }
+{{/vendorExtensions.x-modifiers}}
 System.Text.RegularExpressions.Regex regex{{{name}}} = new System.Text.RegularExpressions.Regex(
     @"{{{vendorExtensions.x-regex}}}",
-    System.Text.RegularExpressions.RegexOptions.CultureInvariant{{#vendorExtensions.x-modifiers}} | System.Text.RegularExpressions.RegexOptions.{{{.}}}{{/vendorExtensions.x-modifiers}},
+    __options{{{name}}},
     System.TimeSpan.FromSeconds(2));
 var input{{{name}}}Str = {{#isUuid}}this.{{{name}}}.ToString("D"){{/isUuid}}{{^isUuid}}System.Convert.ToString(this.{{{name}}}, System.Globalization.CultureInfo.InvariantCulture){{/isUuid}};
 if (string.IsNullOrEmpty(input{{{name}}}Str)) { yield break; } // presence is validated by [Required], not pattern

@@ -41,7 +41,7 @@ namespace {{packageName}}.{{clientPackage}}
         public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request, string headerName)
         {
             if (request is null) throw new ArgumentNullException(nameof(request));
-            var param = {{packageName}}.Client.ClientUtils.Base64Encode(_username + ":" + _password);
+            var param = ClientUtils.Base64Encode(_username + ":" + _password);
             if (string.IsNullOrWhiteSpace(headerName) || string.Equals(headerName, "Authorization", StringComparison.OrdinalIgnoreCase))
             {
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", param);

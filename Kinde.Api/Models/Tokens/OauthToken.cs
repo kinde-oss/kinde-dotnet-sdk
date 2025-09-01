@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Kinde.Api.Models.Tokens
 {
@@ -212,7 +213,11 @@ namespace Kinde.Api.Models.Tokens
                 return false;
 
             var value = GetFeatureFlag(flagKey);
-            return value is bool boolValue && boolValue;
+            if (value is bool b) return b;
+            if (value is Newtonsoft.Json.Linq.JValue jv && jv.Type == Newtonsoft.Json.Linq.JTokenType.Boolean) return jv.Value<bool>();
+            if (value is string s && bool.TryParse(s, out var parsed)) return parsed;
+            if (value is Newtonsoft.Json.Linq.JToken jt && jt.Type == Newtonsoft.Json.Linq.JTokenType.Boolean) return jt.Value<bool>();
+            return false;
         }
 
         /// <summary>

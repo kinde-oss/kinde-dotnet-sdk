@@ -519,13 +519,18 @@ namespace Kinde.Api.Client
                             throw new InvalidOperationException($"Missing value for server URL variable `{variable.Key}`.");
                         }
 
-                        if (enumValues != null && enumValues.Contains(providedValue))
+                        if (enumValues == null)
+                        {
+                            // No enum constraint: accept provided value.
+                            url = url.Replace("{" + variable.Key + "}", providedValue);
+                        }
+                        else if (enumValues.Contains(providedValue))
                         {
                             url = url.Replace("{" + variable.Key + "}", providedValue);
                         }
                         else
                         {
-                            var allowed = enumValues != null ? "[" + string.Join(", ", enumValues) + "]" : "<unspecified>";
+                            var allowed = "[" + string.Join(", ", enumValues) + "]";
                             throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value '{providedValue}'. Must be one of: {allowed}");
                         }
                     }

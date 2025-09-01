@@ -151,9 +151,10 @@ namespace {{packageName}}.Client
 
         public string[] AcceptedContentTypes => RestSharp.ContentType.JsonAccept;
 
-        public SupportsContentType SupportsContentType => contentType =>
-            contentType.Value.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
-            contentType.Value.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
+        public SupportsContentType SupportsContentType => ct =>
+            !string.IsNullOrEmpty(ct) &&
+            (ct.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
+             ct.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase));
 
         public ContentType ContentType { get; set; } = RestSharp.ContentType.Json;
 
@@ -345,21 +346,25 @@ namespace {{packageName}}.Client
                 }
                 else
                 {
-                    if (options.HeaderParameters != null &&
-                        options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) &&
-                        contentTypes != null && contentTypes.Count > 0)
+                    var contentTypes = (options.HeaderParameters != null &&
+                        options.HeaderParameters.TryGetValue("Content-Type", out var cts) &&
+                        cts != null && cts.Count > 0) ? cts : new List<string>();
+
+                    var isJson = contentTypes.Any(ct => ct != null &&
+                        ct.IndexOf("application/json", StringComparison.OrdinalIgnoreCase) >= 0);
+
+                    if (isJson || contentTypes.Count == 0)
                     {
-                        if (contentTypes.Any(ct => ct != null && ct.IndexOf("application/json", StringComparison.OrdinalIgnoreCase) >= 0))
-                            request.RequestFormat = DataFormat.Json;
-                        // else leave RestSharp default or rely on additional handlers if configured externally
+                        request.RequestFormat = DataFormat.Json;
+                        request.AddJsonBody(options.Data);
                     }
                     else
                     {
-                        // Assume JSON by default; XML etc. can be forced via explicit produces/consumes.
-                        request.RequestFormat = DataFormat.Json;
+                        // Fallback: send raw body as provided
+                        var ct = contentTypes[0];
+                        var body = options.Data is string s ? s : JsonConvert.SerializeObject(options.Data, SerializerSettings);
+                        request.AddParameter(ct, body, ParameterType.RequestBody);
                     }
-
-                    request.AddJsonBody(options.Data);
                 }
             }
 
@@ -525,33 +530,6 @@ namespace {{packageName}}.Client
                 {
                     result.ErrorText = response.ErrorMessage;
                 }
-
-                if (response.Cookies != null && response.Cookies.Count > 0)
-                {
-                    if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
-                    {
-                        var cookie = new Cookie(
-                            restResponseCookie.Name,
-                            restResponseCookie.Value,
-                            restResponseCookie.Path,
-                            restResponseCookie.Domain
-                        )
-                        {
-                            Comment = restResponseCookie.Comment,
-                            CommentUri = restResponseCookie.CommentUri,
-                            Discard = restResponseCookie.Discard,
-                            Expired = restResponseCookie.Expired,
-                            Expires = restResponseCookie.Expires,
-                            HttpOnly = restResponseCookie.HttpOnly,
-                            Port = restResponseCookie.Port,
-                            Secure = restResponseCookie.Secure,
-                            Version = restResponseCookie.Version
-                        };
-
-                        result.Cookies.Add(cookie);
-                    }
-                }
                 return result;
             }
         }
@@ -641,6 +619,10 @@ namespace {{packageName}}.Client
                 {
                     response.Data = (T)(object)response.RawBytes;
                 }
+                else if (typeof(T).Name == "String") // for string response
+                {
+                    response.Data = (T)(object)response.Content;
+                }
 
                 InterceptResponse(request, response);
 
@@ -648,33 +630,6 @@ namespace {{packageName}}.Client
                 if (response.ErrorMessage != null)
                 {
                     result.ErrorText = response.ErrorMessage;
-                }
-
-                if (response.Cookies != null && response.Cookies.Count > 0)
-                {
-                    if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                    foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
-                    {
-                        var cookie = new Cookie(
-                            restResponseCookie.Name,
-                            restResponseCookie.Value,
-                            restResponseCookie.Path,
-                            restResponseCookie.Domain
-                        )
-                        {
-                            Comment = restResponseCookie.Comment,
-                            CommentUri = restResponseCookie.CommentUri,
-                            Discard = restResponseCookie.Discard,
-                            Expired = restResponseCookie.Expired,
-                            Expires = restResponseCookie.Expires,
-                            HttpOnly = restResponseCookie.HttpOnly,
-                            Port = restResponseCookie.Port,
-                            Secure = restResponseCookie.Secure,
-                            Version = restResponseCookie.Version
-                        };
-
-                        result.Cookies.Add(cookie);
-                    }
                 }
                 return result;
             }
@@ -783,7 +738,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Patch, path, options, config), options, config, cancellationToken);
+            return ExecAsync<T>(NewRequest(HttpVerb.Patch, path, options, config), options, config, cancellationToken);
         }
         #endregion IAsynchronousClient
         {{/supportsAsync}}
@@ -884,7 +839,7 @@ namespace {{packageName}}.Client
         public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Patch, path, options, config), options, config);
+            return Exec<T>(NewRequest(HttpVerb.Patch, path, options, config), options, config);
         }
         #endregion ISynchronousClient
     }

@@ -144,7 +144,7 @@ namespace {{packageName}}.{{clientPackage}}
                 }
                 else if (header.Equals(HEADER_DATE))
                 {
-                    var utcDateTime = dateTime.ToString("r").ToString();
+                    var utcDateTime = dateTime.ToString("r");
                     httpSignatureHeader.Add(header.ToLower(), utcDateTime);
                     HttpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
                 }
@@ -276,56 +276,48 @@ namespace {{packageName}}.{{clientPackage}}
         private string GetECDSASignature(byte[] dataToSign)
         {
             {{#net60OrLater}}
-            if (!File.Exists(KeyFilePath))
-                throw new Exception("key file path does not exist.");
-            
-            var ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
-            var ecKeyFooter = "-----END EC PRIVATE KEY-----";
-            var pkcs8Header = "-----BEGIN PRIVATE KEY-----";
-            var pkcs8Footer = "-----END PRIVATE KEY-----";
-            var keyStr = File.ReadAllText(KeyFilePath);
-            
-            byte[] keyBytes;
-            bool isSec1 = keyStr.Contains(ecKeyHeader);
-            bool isPkcs8 = keyStr.Contains(pkcs8Header);
-            if (isSec1)
-                keyBytes = Convert.FromBase64String(keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim());
-            else if (isPkcs8)
-                keyBytes = Convert.FromBase64String(keyStr.Replace(pkcs8Header, "").Replace(pkcs8Footer, "").Trim());
-            else
-                throw new Exception("Unsupported EC key format. Expected EC PRIVATE KEY or PRIVATE KEY.");
-            
-            var ecdsa = ECDsa.Create();
-            var byteCount = 0;
-            if (KeyPassPhrase != null)
+            var keyStr = KeyString?.Trim() ?? throw new Exception("No API key has been provided.");
+            using var ecdsa = ECDsa.Create();
+            int byteCount;
+            if (keyStr.Contains("-----BEGIN EC PRIVATE KEY-----"))
             {
-                IntPtr unmanagedString = IntPtr.Zero;
+                // SEC1 EC private key
+                var ecKeyBase64 = keyStr
+                    .Replace("-----BEGIN EC PRIVATE KEY-----", "")
+                    .Replace("-----END EC PRIVATE KEY-----", "")
+                    .Trim();
+                var keyBytes = Convert.FromBase64String(ecKeyBase64);
+                ecdsa.ImportECPrivateKey(keyBytes, out byteCount);
+            }
+            else if (keyStr.Contains("-----BEGIN ENCRYPTED PRIVATE KEY-----"))
+            {
+                if (KeyPassPhrase is null)
+                    throw new Exception("Encrypted EC private key requires KeyPassPhrase.");
+                var pemBytes = Encoding.ASCII.GetBytes(keyStr);
+                var pass = Encoding.UTF8.GetBytes(
+                    new System.Net.NetworkCredential(string.Empty, KeyPassPhrase).Password
+                );
                 try
                 {
-                    // convert secure string to byte array
-                    unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(KeyPassPhrase);
-                    string ptrToStringUni = Marshal.PtrToStringUni(unmanagedString) ?? throw new NullReferenceException();
-                    if (isPkcs8)
-                        ecdsa.ImportEncryptedPkcs8PrivateKey(Encoding.UTF8.GetBytes(ptrToStringUni), keyBytes, out byteCount);
-                    else
-                        throw new Exception("Encrypted SEC1 EC keys are not supported; use encrypted PKCS#8.");
+                    ecdsa.ImportEncryptedPkcs8PrivateKey(pass, pemBytes, out byteCount);
                 }
                 finally
                 {
-                    if (unmanagedString != IntPtr.Zero)
-                        Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+                    Array.Clear(pass, 0, pass.Length);
                 }
+            }
+            else if (keyStr.Contains("-----BEGIN PRIVATE KEY-----"))
+            {
+                // Unencrypted PKCS#8
+                var pemBytes = Encoding.ASCII.GetBytes(keyStr);
+                ecdsa.ImportPkcs8PrivateKey(pemBytes, out byteCount);
             }
             else
             {
-                if (isPkcs8) ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
-                else ecdsa.ImportECPrivateKey(keyBytes, out byteCount);
+                throw new Exception("Unsupported EC key format.");
             }
-            
-            var signedBytes = ecdsa.SignHash(dataToSign); // DER already
-            var signedString = Convert.ToBase64String(signedBytes);
-            
-            return signedString;
+            var derSig = ecdsa.SignHash(dataToSign); // already DER
+            return Convert.ToBase64String(derSig);
             {{/net60OrLater}}
             {{^net60OrLater}}
             throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
@@ -613,7 +605,9 @@ namespace {{packageName}}.{{clientPackage}}
                     result = data00;    //initialize
                 else
                 {
-                    Array.Copy(result{{nrt!}}, hashtarget, result{{nrt!}}.Length); // TODO: what do we do if result is null here?
+                    if (result == null)
+                        throw new InvalidOperationException("Hash result was null during key derivation");
+                    Array.Copy(result, hashtarget, result.Length);
                     Array.Copy(data00, 0, hashtarget, result.Length, data00.Length);
                     result = hashtarget;
                 }
@@ -628,7 +622,8 @@ namespace {{packageName}}.{{clientPackage}}
 
             Array.Clear(psbytes, 0, psbytes.Length);
             Array.Clear(data00, 0, data00.Length);
-            Array.Clear(result{{nrt!}}, 0, result{{nrt!}}.Length); // TODO: what do we do if result is null here?
+            if (result != null)
+                Array.Clear(result, 0, result.Length);
             Array.Clear(hashtarget, 0, hashtarget.Length);
             Array.Clear(keymaterial, 0, keymaterial.Length);
             return deskey;
@@ -678,7 +673,7 @@ namespace {{packageName}}.{{clientPackage}}
             else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
                 keyType = PrivateKeyType.ECDSA;
             else if (key[0].Contains(pkcs8Header) && key[^1].Contains(pkcs8Footer))
-                keyType = PrivateKeyType.ECDSA; // Could be RSA or EC; resolve later on import if needed
+                keyType = PrivateKeyType.None; // PKCS#8: algorithm must be detected on import
             else
                 throw new Exception("Either the key is invalid or key is not supported");
             

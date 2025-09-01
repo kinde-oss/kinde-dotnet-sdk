@@ -331,8 +331,20 @@
             {{#anyOf}}
             if ({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}} != null)
             {
-                {{datatypeWithEnum}}JsonConverter {{datatypeWithEnum}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}.GetType()));
-                {{datatypeWithEnum}}JsonConverter.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}, jsonSerializerOptions);
+                var runtime = {{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}};
+                var converter = jsonSerializerOptions.GetConverter(runtime.GetType());
+                if (converter is {{datatypeWithEnum}}JsonConverter typedConverter)
+                {
+                    typedConverter.WriteProperties(ref writer, runtime, jsonSerializerOptions);
+                }
+                else
+                {
+                    using var __doc = JsonDocument.Parse(JsonSerializer.Serialize(runtime, jsonSerializerOptions));
+                    foreach (var __prop in __doc.RootElement.EnumerateObject())
+                    {
+                        __prop.WriteTo(writer);
+                    }
+                }
             }
 
             {{/anyOf}}
@@ -396,26 +408,26 @@
             {{#isNullable}}
 
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
-                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             else
                 writer.WriteNull("{{baseName}}");
 
             {{/isNullable}}
             {{^isNullable}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             {{/isNullable}}
             {{/isDate}}
             {{#isDateTime}}
             {{#isNullable}}
 
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
-                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             else
                 writer.WriteNull("{{baseName}}");
 
             {{/isNullable}}
             {{^isNullable}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             {{/isNullable}}
             {{/isDateTime}}
             {{#isEnum}}

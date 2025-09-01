@@ -23,6 +23,8 @@ namespace Kinde.Api.Client
             private string _query = "?";
             public WebRequestPathBuilder(string baseUrl, string path)
             {
+                if (baseUrl is null) throw new ArgumentNullException(nameof(baseUrl));
+                if (path is null) throw new ArgumentNullException(nameof(path));
                 _baseUrl = baseUrl;
                 _path = path;
             }
@@ -32,9 +34,10 @@ namespace Kinde.Api.Client
                 if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
-                    var key = parameter.Key ?? string.Empty;
+                    if (string.IsNullOrEmpty(parameter.Key))
+                        continue; // ignore invalid placeholder to avoid replacing "{}"
                     var val = parameter.Value ?? string.Empty;
-                    _path = _path.Replace("{" + key + "}", Uri.EscapeDataString(val));
+                    _path = _path.Replace("{" + parameter.Key + "}", Uri.EscapeDataString(val));
                 }
             }
 
@@ -43,7 +46,11 @@ namespace Kinde.Api.Client
                 if (parameters == null) return;
                 foreach (var parameter in parameters)
                 {
-                    var encodedKey = Uri.EscapeDataString(parameter.Key ?? string.Empty);
+                    // Skip parameters with missing/empty key or no values
+                    if (string.IsNullOrEmpty(parameter.Key) || parameter.Value == null || parameter.Value.Count == 0)
+                        continue;
+
+                    var encodedKey = Uri.EscapeDataString(parameter.Key);
                     foreach (var value in parameter.Value)
                     {
                         var encodedVal = Uri.EscapeDataString(value ?? string.Empty);
@@ -54,7 +61,8 @@ namespace Kinde.Api.Client
 
             public string GetFullUri()
             {
-                return _baseUrl + _path + _query.Substring(0, _query.Length - 1);
+                var query = _query.Length > 1 ? _query.Substring(0, _query.Length - 1) : string.Empty;
+                return _baseUrl + _path + query;
             }
     }
 }

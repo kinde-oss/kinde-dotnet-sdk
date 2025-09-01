@@ -148,10 +148,14 @@ namespace Kinde.Api.Client
         /// </summary>
         /// <param name="item">Key value pair</param>
         /// <returns>true if the item is successfully removed; otherwise, false.</returns>
-        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         public bool Remove(KeyValuePair<TKey, IList<TValue>> item)
         {
-            throw new NotImplementedException();
+            if (_dictionary.TryGetValue(item.Key, out var list) &&
+                EqualityComparer<IList<TValue>>.Default.Equals(list, item.Value))
+            {
+                return _dictionary.Remove(item.Key);
+            }
+            return false;
         }
 
         /// <summary>

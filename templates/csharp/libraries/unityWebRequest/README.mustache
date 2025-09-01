@@ -114,7 +114,7 @@ namespace {{packageName}}Example
             catch (ApiException e)
             {
                 Debug.LogError("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-                Debug.LogError("Status Code: "+ e.ErrorCode);
+                Debug.LogError("Status Code: "+ e.StatusCode);
                 Debug.LogError(e.StackTrace);
             }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}

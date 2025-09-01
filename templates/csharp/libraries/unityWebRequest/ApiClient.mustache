@@ -427,6 +427,10 @@ namespace {{packageName}}.Client
                 {
                     responseData = (T) (object) new MemoryStream(request.downloadHandler.data);
                 }
+                else if (typeof(T).Name == "String") // for string response
+                {
+                    responseData = (T) (object) request.downloadHandler.text;
+                }
 
                 InterceptResponse(request, path, options, configuration, ref responseData);
 

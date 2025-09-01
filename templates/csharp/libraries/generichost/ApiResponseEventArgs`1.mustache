@@ -18,6 +18,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="apiResponse"></param>
         public ApiResponseEventArgs(ApiResponse<T> apiResponse)
         {
+            if (apiResponse == null) throw new ArgumentNullException(nameof(apiResponse));
             ApiResponse = apiResponse;
         }
     }

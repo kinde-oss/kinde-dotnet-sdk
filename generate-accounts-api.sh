@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Cleanup any temp files on exit
+TMP_JAR=""
+TMP_SHA=""
+cleanup() {
+  [[ -n "${TMP_JAR}" && -f "${TMP_JAR}" ]] && rm -f "${TMP_JAR}" || true
+  [[ -n "${TMP_SHA}" && -f "${TMP_SHA}" ]] && rm -f "${TMP_SHA}" || true
+}
+trap cleanup EXIT
+
 # Resolve paths relative to this script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${SCRIPT_DIR}"
@@ -45,9 +54,9 @@ if [ ! -f "${OPENAPI_JAR}" ]; then
   curl -fsSL "${JAR_URL}" -o "${TMP_JAR}"
   if curl -fsSL "${SHA_URL}" -o "${TMP_SHA}"; then
     if command -v sha256sum >/dev/null 2>&1; then
-      echo "$(cat "${TMP_SHA}")  ${TMP_JAR}" | sha256sum -c -
+      echo "$(awk '{print $1}' "${TMP_SHA}")  ${TMP_JAR}" | sha256sum -c -
     elif command -v shasum >/dev/null 2>&1; then
-      echo "$(cat "${TMP_SHA}")  ${TMP_JAR}" | shasum -a 256 -c -
+      echo "$(awk '{print $1}' "${TMP_SHA}")  ${TMP_JAR}" | shasum -a 256 -c -
     else
       echo "Warning: sha256 tools not found; skipping checksum verification." >&2
     fi
@@ -55,7 +64,9 @@ if [ ! -f "${OPENAPI_JAR}" ]; then
     echo "Warning: Unable to retrieve checksum; proceeding without verification." >&2
   fi
   mv -f "${TMP_JAR}" "${OPENAPI_JAR}"
-  rm -f "${TMP_SHA}"
+  rm -f "${TMP_SHA}" || true
+  TMP_JAR=""
+  TMP_SHA=""
 fi
 
 # Create output directory

@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
 using {{packageName}}.{{modelPackage}};
 using System.Runtime.CompilerServices;
+using System.Globalization;
 
 {{>Assembly}}namespace {{packageName}}.{{clientPackage}}
 {
@@ -212,6 +213,35 @@ using System.Runtime.CompilerServices;
         public static string Base64Encode(string text)
         {
             return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+        }
+
+        /// <summary>
+        /// Convert a value to a JSON-conformant string representation without culture-specific formatting.
+        /// - Strings are returned as-is (no additional quoting).
+        /// - Booleans are lower-case (true/false).
+        /// - Numerics use InvariantCulture.
+        /// - DateTime/DateTimeOffset use ISO 8601 (round-trip, UTC).
+        /// - Other types fall back to ToString() with InvariantCulture if possible.
+        /// </summary>
+        public static string{{nrt?}} ToJsonValue(object{{nrt?}} value)
+        {
+            if (value == null) return null;
+
+            switch (value)
+            {
+                case string s:
+                    return s;
+                case bool b:
+                    return b ? "true" : "false";
+                case DateTime dt:
+                    return dt.ToUniversalTime().ToString(ISO8601_DATETIME_FORMAT, CultureInfo.InvariantCulture);
+                case DateTimeOffset dto:
+                    return dto.ToUniversalTime().ToString(ISO8601_DATETIME_FORMAT, CultureInfo.InvariantCulture);
+                case IFormattable f:
+                    return f.ToString(null, CultureInfo.InvariantCulture);
+                default:
+                    return Convert.ToString(value, CultureInfo.InvariantCulture);
+            }
         }
 
         /// <summary>

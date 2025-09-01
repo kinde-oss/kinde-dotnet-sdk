@@ -131,14 +131,28 @@ namespace Kinde.Api.Client
                 return stream;
             }
 
-            if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
+            // DateTime and Nullable<DateTime>
+            if (type == typeof(DateTime) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                 Nullable.GetUnderlyingType(type) == typeof(DateTime)))
             {
-                return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null, System.Globalization.DateTimeStyles.RoundtripKind);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return string.IsNullOrEmpty(content)
+                    ? null
+                    : (object)DateTime.Parse(content, null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            // Primitive and Nullable<Primitive> handling
+            if (type == typeof(string) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) ||
+                type.IsPrimitive)
             {
-                return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var targetType = type;
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    targetType = Nullable.GetUnderlyingType(type);
+                if (string.IsNullOrEmpty(content)) return null;
+                return Convert.ChangeType(content, targetType);
             }
 
             // at this point, it must be a model (json)
@@ -529,7 +543,8 @@ namespace Kinde.Api.Client
                 {
                     try
                     {
-                        responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                        var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { json });
                     }
                     catch (Exception ex)
                     {
@@ -542,6 +557,10 @@ namespace Kinde.Api.Client
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
                     responseData = (T) (object) await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                }
+                else if (typeof(T).Name == "String") // for string response (async parity)
+                {
+                    responseData = (T) (object) await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
 
                 InterceptResponse(req, response);

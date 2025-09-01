@@ -56,16 +56,16 @@ namespace Kinde.Api.Auth
         }
 
         /// <summary>
-        /// Gets the KindeAccountsClient for API calls.
+        /// Gets an accounts client for API calls.
         /// </summary>
-        /// <returns>The KindeAccountsClient instance</returns>
-        public Accounts.KindeAccountsClient GetAccountsClient()
+        /// <returns>An accounts client instance</returns>
+        public Accounts.IKindeAccountsClient GetAccountsClient()
         {
             var client = GetClient();
             if (client == null)
             {
-                _logger?.LogDebug("No KindeClient available for accounts client");
-                return null;
+                _logger?.LogError("KindeClient is not configured; cannot create accounts client.");
+                throw new InvalidOperationException("KindeClient is not configured.");
             }
             return new Accounts.KindeAccountsClient(client);
         }

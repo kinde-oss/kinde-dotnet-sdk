@@ -34,32 +34,45 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 int tokenTimeoutSeconds = context.Configuration.GetValue<int?>("Test:TokenTimeoutSeconds") ?? 10;
 
                 {{#hasApiKeyMethods}}
-                string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                var apiKeyTokenValue = context.Configuration["Test:ApiKey:Token"];
+                if (string.IsNullOrWhiteSpace(apiKeyTokenValue))
+                    throw new InvalidOperationException("Configuration 'Test:ApiKey:Token' is missing or empty.");
                 ApiKeyToken apiKeyToken = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(apiKeyToken);
 
                 {{/hasApiKeyMethods}}
                 {{#hasHttpBearerMethods}}
-                string bearerTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                var bearerTokenValue = context.Configuration["Test:Bearer:Token"];
+                if (string.IsNullOrWhiteSpace(bearerTokenValue))
+                    throw new InvalidOperationException("Configuration 'Test:Bearer:Token' is missing or empty.");
                 BearerToken bearerToken = new{{^net70OrLater}} BearerToken{{/net70OrLater}}(bearerTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(bearerToken);
 
                 {{/hasHttpBearerMethods}}
                 {{#hasHttpBasicMethods}}
-                string basicTokenUsername = context.Configuration["<username>"] ?? throw new InvalidOperationException("Username not found in configuration.");
-                string basicTokenPassword = context.Configuration["<password>"] ?? throw new InvalidOperationException("Password not found in configuration.");
+                var basicTokenUsername = context.Configuration["Test:Basic:Username"];
+                var basicTokenPassword = context.Configuration["Test:Basic:Password"];
+                if (string.IsNullOrWhiteSpace(basicTokenUsername) || string.IsNullOrWhiteSpace(basicTokenPassword))
+                    throw new InvalidOperationException("Configuration 'Test:Basic:Username' or 'Test:Basic:Password' is missing or empty.");
                 BasicToken basicToken = new{{^net70OrLater}} BasicToken{{/net70OrLater}}(basicTokenUsername, basicTokenPassword, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(basicToken);
 
                 {{/hasHttpBasicMethods}}
                 {{#hasHttpSignatureMethods}}
-                HttpSigningConfiguration config = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                var keyId = context.Configuration["Test:HttpSignature:KeyId"];
+                var keyFilePath = context.Configuration["Test:HttpSignature:KeyFilePath"];
+                var signingAlgorithm = context.Configuration["Test:HttpSignature:SigningAlgorithm"] ?? "rsa-pss-sha256";
+                if (string.IsNullOrWhiteSpace(keyId) || string.IsNullOrWhiteSpace(keyFilePath))
+                    throw new InvalidOperationException("Configuration 'Test:HttpSignature:KeyId' or 'Test:HttpSignature:KeyFilePath' is missing or empty.");
+                HttpSigningConfiguration config = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}(keyId, keyFilePath, null, new List<string>(), HashAlgorithmName.SHA256, signingAlgorithm, 0);
                 HttpSignatureToken httpSignatureToken = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(httpSignatureToken);
 
                 {{/hasHttpSignatureMethods}}
                 {{#hasOAuthMethods}}
-                string oauthTokenValue = context.Configuration["<token>"] ?? throw new InvalidOperationException("Token not found in configuration.");
+                var oauthTokenValue = context.Configuration["Test:OAuth:Token"];
+                if (string.IsNullOrWhiteSpace(oauthTokenValue))
+                    throw new InvalidOperationException("Configuration 'Test:OAuth:Token' is missing or empty.");
                 OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue, timeout: TimeSpan.FromSeconds(tokenTimeoutSeconds));
                 options.AddTokens(oauthToken);
                 {{/hasOAuthMethods}}

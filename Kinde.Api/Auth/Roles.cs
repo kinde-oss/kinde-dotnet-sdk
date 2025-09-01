@@ -37,6 +37,7 @@ namespace Kinde.Api.Auth
         /// <returns>True if the user has the role, false otherwise</returns>
         public async Task<bool> HasRoleAsync(string roleKey)
         {
+            roleKey = roleKey?.Trim();
             if (string.IsNullOrWhiteSpace(roleKey))
             {
                 _logger?.LogWarning("Role key cannot be null or empty");
@@ -52,8 +53,7 @@ namespace Kinde.Api.Auth
                     var tokenRoles = token.GetRoles();
                     if (tokenRoles != null && tokenRoles.Any())
                     {
-                        // Check if role is in token
-                        var hasRole = tokenRoles.Contains(roleKey);
+                        var hasRole = tokenRoles.Any(r => string.Equals(r?.Trim(), roleKey, StringComparison.OrdinalIgnoreCase));
                         _logger?.LogDebug("Role '{RoleKey}' found in token: {HasRole}", roleKey, hasRole);
                         return hasRole;
                     }
@@ -64,7 +64,7 @@ namespace Kinde.Api.Auth
                 var accountsClient = GetAccountsClient();
                 if (accountsClient != null)
                 {
-                    return await accountsClient.HasRoleAsync(roleKey);
+                    return await accountsClient.HasRoleAsync(roleKey).ConfigureAwait(false);
                 }
 
                 _logger?.LogWarning("No accounts client available for role check");

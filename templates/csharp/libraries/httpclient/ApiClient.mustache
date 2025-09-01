@@ -528,6 +528,10 @@ namespace {{packageName}}.Client
                 {
                     responseData = (T) (object) await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 }
+                else if (typeof(T).Name == "String") // for string response
+                {
+                    responseData = (T) (object) await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                }
 
                 InterceptResponse(req, response);
 

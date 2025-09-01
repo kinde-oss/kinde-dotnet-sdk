@@ -18,7 +18,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace Kinde.Api.Client
 {
     /// <summary>
-    /// Represents a readable-only configuration contract.
+    /// Represents a read-only configuration contract.
     /// </summary>
     public interface IReadableConfiguration
     {

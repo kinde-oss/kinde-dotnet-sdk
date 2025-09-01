@@ -249,7 +249,7 @@ See `AuthExample.cs` for comprehensive examples of how to use all the wrapper cl
 The auth wrappers depend on:
 - `Kinde.Api.Client`: Core functionality for authentication and session management
 - `Microsoft.Extensions.Logging`: Logging framework
-- .NET Standard 2.1+ for async/await support
+- .NET 9.0+ (match the SDK's target framework)
 
 ## Benefits
 

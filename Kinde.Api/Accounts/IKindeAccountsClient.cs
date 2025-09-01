@@ -18,6 +18,12 @@ namespace Kinde.Api.Accounts
         Task<EntitlementsResponse> GetEntitlementsAsync();
 
         /// <summary>
+        /// Gets all permissions for the current user.
+        /// </summary>
+        /// <returns>A task containing the permissions response</returns>
+        Task<PermissionsResponse> GetPermissionsAsync();
+
+        /// <summary>
         /// Gets a specific entitlement by key.
         /// </summary>
         /// <param name="key">The entitlement key to retrieve</param>
@@ -67,6 +73,12 @@ namespace Kinde.Api.Accounts
         Task<bool> HasAllRolesAsync(IEnumerable<string> roleKeys);
 
         /// <summary>
+        /// Gets all roles for the current user.
+        /// </summary>
+        /// <returns>A task containing the roles response</returns>
+        Task<RolesResponse> GetRolesAsync();
+
+        /// <summary>
         /// Checks if a feature flag is enabled for the current user.
         /// </summary>
         /// <param name="flagKey">The feature flag key to check</param>
@@ -79,5 +91,11 @@ namespace Kinde.Api.Accounts
         /// <param name="flagKey">The feature flag key to retrieve</param>
         /// <returns>A task containing the feature flag value</returns>
         Task<object> GetFeatureFlagValueAsync(string flagKey);
+
+        /// <summary>
+        /// Gets all feature flags for the current user.
+        /// </summary>
+        /// <returns>A task containing the feature flags response</returns>
+        Task<FeatureFlagsResponse> GetFeatureFlagsAsync();
     }
 }

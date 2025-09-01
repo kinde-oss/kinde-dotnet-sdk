@@ -58,10 +58,15 @@ namespace Kinde.Api.Accounts
 
         private void ConfigureApiClient(IApplicationConfiguration configuration, OauthToken token)
         {
-            // Create a new configuration with the correct settings
+            if (string.IsNullOrWhiteSpace(configuration?.Domain))
+                throw new ArgumentException("configuration.Domain cannot be null or empty", nameof(configuration));
+            if (string.IsNullOrWhiteSpace(token?.AccessToken))
+                throw new ArgumentException("token.AccessToken cannot be null or empty", nameof(token));
+
+            var basePath = $"{configuration.Domain.TrimEnd('/')}/account_api/v1";
             var config = new Configuration
             {
-                BasePath = $"{configuration.Domain.TrimEnd('/')}/account_api/v1",
+                BasePath = basePath,
                 AccessToken = token.AccessToken
             };
             

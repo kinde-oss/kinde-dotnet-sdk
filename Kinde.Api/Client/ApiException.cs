@@ -27,8 +27,8 @@ namespace Kinde.Api.Client
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
-        /// <value>The status code (HTTP status code).</value>
-        public int StatusCode { get; set; }
+        /// <value>Alias of ErrorCode (HTTP status code).</value>
+        public int StatusCode { get => ErrorCode; set => ErrorCode = value; }
 
         /// <summary>
         /// Gets or sets the error content (body json object)
@@ -55,7 +55,6 @@ namespace Kinde.Api.Client
         public ApiException(int errorCode, string message) : base(message)
         {
             this.ErrorCode = errorCode;
-            this.StatusCode = errorCode;
         }
 
         /// <summary>
@@ -68,7 +67,6 @@ namespace Kinde.Api.Client
         public ApiException(int errorCode, string message, object errorContent = null, Multimap<string, string> headers = null) : base(message)
         {
             this.ErrorCode = errorCode;
-            this.StatusCode = errorCode;
             this.ErrorContent = errorContent;
             this.Headers = headers;
         }

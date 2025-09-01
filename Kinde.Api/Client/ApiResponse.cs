@@ -31,13 +31,13 @@ namespace Kinde.Api.Client
         Object Content { get; }
 
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// Gets or sets the HTTP headers
+        /// Gets the HTTP headers
         /// </summary>
         /// <value>HTTP headers</value>
         Multimap<string, string> Headers { get; }
@@ -66,13 +66,13 @@ namespace Kinde.Api.Client
         #region Properties
 
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// Gets or sets the HTTP headers
+        /// Gets the HTTP headers
         /// </summary>
         /// <value>HTTP headers</value>
         public Multimap<string, string> Headers { get; }
@@ -128,9 +128,10 @@ namespace Kinde.Api.Client
         public ApiResponse(HttpStatusCode statusCode, Multimap<string, string> headers, T data, string rawContent)
         {
             StatusCode = statusCode;
-            Headers = headers;
+            Headers = headers ?? new Multimap<string, string>();
             Data = data;
             RawContent = rawContent;
+            Cookies = new List<Cookie>();
         }
 
         /// <summary>

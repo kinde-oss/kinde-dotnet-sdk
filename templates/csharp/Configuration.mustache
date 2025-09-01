@@ -597,14 +597,14 @@ namespace {{packageName}}.Client
 
                     if (inputVariables.ContainsKey(variable.Key))
                     {
-                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                        var value = inputVariables[variable.Key];
+                        if (serverVariables.ContainsKey("enum_values"))
                         {
-                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                            var allowed = (List<string>)serverVariables["enum_values"];
+                            if (!allowed.Contains(value))
+                                throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value `{value}`. Must be one of [{string.Join(", ", allowed)}].");
                         }
-                        else
-                        {
-                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
-                        }
+                        url = url.Replace("{" + variable.Key + "}", value);
                     }
                     else
                     {
@@ -685,6 +685,7 @@ namespace {{packageName}}.Client
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
             if (second == null) return first ?? GlobalConfiguration.Instance;
+            if (first == null) first = GlobalConfiguration.Instance;
 
             Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

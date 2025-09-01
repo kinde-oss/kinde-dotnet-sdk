@@ -1,8 +1,21 @@
             // This logic may be modified with the AsModel.mustache template
             if (!IsSuccessStatusCode)
             {
-                // Do not swallow non-success responses.
-                throw new System.Net.Http.HttpRequestException("Non-success HTTP response. Body: " + RawContent);
+                // Do not swallow non-success responses, but avoid leaking full bodies.
+                const int MaxLoggedBodyChars = 2048;
+                var bodyPreview = RawContent is null
+                    ? null
+                    : (RawContent.Length > MaxLoggedBodyChars
+                        ? RawContent.Substring(0, MaxLoggedBodyChars) + "…(truncated)"
+                        : RawContent);
+                // If a StatusCode value is available in scope, prefer the ctor that accepts it.
+                throw new System.Net.Http.HttpRequestException(
+                    "Non-success HTTP response." + (bodyPreview is null ? "" : $" Body (preview): {bodyPreview}")
+                );
+            }
+            if (typeof(T) == typeof(string))
+            {
+                return (T)(object)RawContent;
             }
             if (string.IsNullOrWhiteSpace(RawContent) || RawContent.Trim().Equals("null", System.StringComparison.OrdinalIgnoreCase))
             {
@@ -10,10 +23,6 @@
             }
             try
             {
-                if (typeof(T) == typeof(string))
-                {
-                    return (T)(object)RawContent;
-                }
                 return System.Text.Json.JsonSerializer.Deserialize<T>(
                     RawContent,
                     _jsonSerializerOptions ?? new System.Text.Json.JsonSerializerOptions()

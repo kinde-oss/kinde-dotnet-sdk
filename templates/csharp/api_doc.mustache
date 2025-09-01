@@ -93,7 +93,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print("Status Code: " + e.StatusCode);
                 Debug.Print(e.StackTrace);
             }
         }

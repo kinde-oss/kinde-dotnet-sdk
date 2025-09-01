@@ -71,7 +71,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="key">The entitlement key to retrieve</param>
         /// <returns>Entitlement data map, or null if not found</returns>
-        public async Task<Dictionary<string, object>> GetEntitlementAsync(string key)
+        public async Task<Dictionary<string, object>?> GetEntitlementAsync(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
