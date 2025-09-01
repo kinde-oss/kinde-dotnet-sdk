@@ -38,7 +38,7 @@ namespace Kinde.Api.Client
         }
 
         /// <inheritdoc />
-        public GlobalConfiguration(IDictionary<string, string> defaultHeader, IDictionary<string, string> apiKey, IDictionary<string, string> apiKeyPrefix, string basePath = "http://localhost:3000/api") : base(defaultHeader, apiKey, apiKeyPrefix, basePath)
+        public GlobalConfiguration(IReadOnlyDictionary<string, string> defaultHeader, IReadOnlyDictionary<string, string> apiKey, IReadOnlyDictionary<string, string> apiKeyPrefix, string basePath = "http://localhost:3000/api") : base(defaultHeader, apiKey, apiKeyPrefix, basePath)
         {
         }
 

@@ -316,11 +316,23 @@
             {{#model.discriminator}}
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
-            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}} != null) {
-                JsonSerializer.Serialize(
-                    writer,
-                    {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}},
-                    {{model.classname}}.JsonSerializerOptions ?? jsonSerializerOptions);
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}} != null)
+            {
+                var runtime = {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}};
+                var __options = {{model.classname}}.JsonSerializerOptions ?? jsonSerializerOptions;
+                var __conv = __options.GetConverter(runtime.GetType());
+                if (__conv is {{model.classname}}JsonConverter __typed)
+                {
+                    __typed.WriteProperties(ref writer, runtime, __options);
+                }
+                else
+                {
+                    using var __doc = JsonDocument.Parse(JsonSerializer.SerializeToUtf8Bytes(runtime, runtime.GetType(), __options));
+                    foreach (var __prop in __doc.RootElement.EnumerateObject())
+                    {
+                        __prop.WriteTo(writer);
+                    }
+                }
             }
 
             {{/mappedModels}}

@@ -100,14 +100,29 @@ namespace {{packageName}}.Client
                 return new MemoryStream(request.downloadHandler.data);
             }
 
-            if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
+            // DateTime and Nullable<DateTime>
+            if (type == typeof(DateTime) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                 Nullable.GetUnderlyingType(type) == typeof(DateTime)))
             {
-                return DateTime.Parse(request.downloadHandler.text, null, System.Globalization.DateTimeStyles.RoundtripKind);
+                var text = request.downloadHandler?.text;
+                return string.IsNullOrEmpty(text)
+                    ? null
+                    : (object)DateTime.Parse(text, null, DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            // Primitive and Nullable<Primitive> handling
+            if (type == typeof(string) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) ||
+                type.IsPrimitive)
             {
-                return Convert.ChangeType(request.downloadHandler.text, type);
+                var text = request.downloadHandler?.text;
+                if (type == typeof(string)) return text;
+                var targetType = type;
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    targetType = Nullable.GetUnderlyingType(type);
+                if (string.IsNullOrEmpty(text)) return null;
+                return Convert.ChangeType(text, targetType);
             }
 
             var contentType = request.GetResponseHeader("Content-Type");
@@ -421,7 +436,15 @@ namespace {{packageName}}.Client
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { new ByteArrayContent(request.downloadHandler.data) });
+                    try
+                    {
+                        var json = request.downloadHandler?.text;
+                        responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { json });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new UnexpectedResponseException(request, typeof(T), ex.ToString());
+                    }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {

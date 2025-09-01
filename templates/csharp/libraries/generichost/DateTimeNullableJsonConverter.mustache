@@ -59,7 +59,7 @@ namespace {{packageName}}.Client
             if (dateTimeValue == null)
                 writer.WriteNullValue();
             else
-                writer.WriteStringValue(dateTimeValue.Value.ToString("{{{dateTimeFormat}}}", CultureInfo.InvariantCulture));
+                writer.WriteStringValue(dateTimeValue.Value.ToString("{{{dateFormat}}}", CultureInfo.InvariantCulture));
         }
     }
 }

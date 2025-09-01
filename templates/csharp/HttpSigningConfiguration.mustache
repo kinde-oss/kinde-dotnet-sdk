@@ -136,13 +136,16 @@ namespace {{packageName}}.Client
             {
                 foreach (var pathParam in requestOptions.PathParameters)
                 {
-                    var tempPath = path.Replace(pathParam.Key, "0");
-                    path = string.Format(tempPath, pathParam.Value);
+                    var token = "{" + pathParam.Key + "}";
+                    path = path.Replace(token,
+                        Uri.EscapeDataString(Convert.ToString(pathParam.Value, System.Globalization.CultureInfo.InvariantCulture)));
                 }
             }
 
             // Build query using QueryHelpers to avoid System.Web dependency
             var queryPairs = new List<KeyValuePair<string, string>>();
+            // Guard against null before iterating query parameters
+            if (requestOptions.QueryParameters != null)
             foreach (var parameter in requestOptions.QueryParameters)
             {
                 if (parameter.Value == null || parameter.Value.Count == 0)
@@ -219,18 +222,22 @@ namespace {{packageName}}.Client
                 else
                 {
                     bool isHeaderFound = false;
-                    foreach (var item in requestOptions.HeaderParameters)
-                    {
-                        if (string.Equals(item.Key, header, StringComparison.OrdinalIgnoreCase))
+                    // Only enumerate headers if any were supplied
+                    if (requestOptions.HeaderParameters != null)
+                        foreach (var item in requestOptions.HeaderParameters)
                         {
-                            HttpSignatureHeader.Add(header.ToLower(), string.Join(", ", item.Value));
-                            isHeaderFound = true;
-                            break;
+                            if (string.Equals(item.Key, header, StringComparison.OrdinalIgnoreCase))
+                            {
+                                HttpSignatureHeader.Add(header.ToLower(), string.Join(", ", item.Value));
+                                isHeaderFound = true;
+                                break;
+                            }
                         }
-                    }
                     if (!isHeaderFound)
                     {
-                        throw new Exception(string.Format("Cannot sign HTTP request.Request does not contain the {0} header.",header));
+                        throw new Exception(string.Format(
+                            "Cannot sign HTTP request. Request does not contain the {0} header.",
+                            header));
                     }
                 }
 
@@ -358,7 +365,7 @@ namespace {{packageName}}.Client
             }
             else
             {
-                return string.Empty;
+                throw new NotSupportedException($"Unsupported RSA signing algorithm: {SigningAlgorithm}");
             }
         }
 
@@ -554,7 +561,9 @@ namespace {{packageName}}.Client
                     return null;
                 }
 
-                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                if (keyPassPhrase == null)
+                    throw new InvalidOperationException("Encrypted RSA private key requires KeyPassPhrase.");
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2); // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                 {
                     return null;
@@ -696,6 +705,8 @@ namespace {{packageName}}.Client
             const int HASHLENGTH = 16;    //MD5 bytes
             byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
+            if (secpswd == null)
+                throw new ArgumentNullException(nameof(secpswd), "Passphrase is required for encrypted RSA keys.");
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);

@@ -127,14 +127,28 @@ namespace {{packageName}}.Client
                 return stream;
             }
 
-            if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
+            // DateTime and Nullable<DateTime>
+            if (type == typeof(DateTime) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                 Nullable.GetUnderlyingType(type) == typeof(DateTime)))
             {
-                return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null, System.Globalization.DateTimeStyles.RoundtripKind);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return string.IsNullOrEmpty(content)
+                    ? null
+                    : (object)DateTime.Parse(content, null, DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            // Primitive and Nullable<Primitive> handling (including string)
+            if (type == typeof(string) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) ||
+                type.IsPrimitive)
             {
-                return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (string.IsNullOrEmpty(content)) return null;
+                var targetType = type;
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    targetType = Nullable.GetUnderlyingType(type);
+                return Convert.ChangeType(content, targetType);
             }
 
             // at this point, it must be a model (json)
@@ -522,7 +536,16 @@ namespace {{packageName}}.Client
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    try
+                    {
+                        var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { json });
+                    }
+                    catch (Exception ex)
+                    {
+                        var inner = ex.InnerException ?? ex;
+                        throw new ApiException(500, $"Failed to deserialize {typeof(T).Name} from JSON: {inner.Message}");
+                    }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {

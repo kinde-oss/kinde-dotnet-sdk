@@ -114,20 +114,25 @@ namespace {{packageName}}.{{clientPackage}}
             
             var httpSignatureHeader = new Dictionary<string, string{{nrt?}}>();
 
+            if (HttpSigningHeader == null)
+                HttpSigningHeader = new List<string>();
             if (HttpSigningHeader.Count == 0)
                 HttpSigningHeader.Add("(created)");
 
             var dateTime = DateTimeOffset.UtcNow;
             string digest = String.Empty;
 
+            // Ensure null request bodies are handled safely during hashing
+            var body = requestBody ?? string.Empty;
+
             if (HashAlgorithm == HashAlgorithmName.SHA256)
             {
-                var bodyDigest = GetStringHash(HashAlgorithm, requestBody);
+                var bodyDigest = GetStringHash(HashAlgorithm, body);
                 digest = string.Format("SHA-256={0}", Convert.ToBase64String(bodyDigest));
             }
             else if (HashAlgorithm == HashAlgorithmName.SHA512)
             {
-                var bodyDigest = GetStringHash(HashAlgorithm, requestBody);
+                var bodyDigest = GetStringHash(HashAlgorithm, body);
                 digest = string.Format("SHA-512={0}", Convert.ToBase64String(bodyDigest));
             }
             else
@@ -253,7 +258,7 @@ namespace {{packageName}}.{{clientPackage}}
             using RSA{{nrt?}} rsa = GetRSAProviderFromPemFile(KeyFilePath, KeyPassPhrase);
             
             if (rsa == null)
-                return string.Empty;
+                throw new Exception("Unable to load RSA private key.");
             else if (SigningAlgorithm == "RSASSA-PSS")
             {
                 var signedbytes = rsa.SignHash(stringToSign, HashAlgorithm, RSASignaturePadding.Pss);
@@ -265,7 +270,7 @@ namespace {{packageName}}.{{clientPackage}}
                 return Convert.ToBase64String(signedbytes);
             }
 
-            return string.Empty;
+            throw new NotSupportedException($"Unsupported RSA signing algorithm: {SigningAlgorithm}");
         }
 
         /// <summary>
@@ -276,7 +281,9 @@ namespace {{packageName}}.{{clientPackage}}
         private string GetECDSASignature(byte[] dataToSign)
         {
             {{#net60OrLater}}
-            var keyStr = KeyString?.Trim() ?? throw new Exception("No API key has been provided.");
+            if (!File.Exists(KeyFilePath))
+                throw new Exception("Key file path does not exist.");
+            var keyStr = File.ReadAllText(KeyFilePath).Trim();
             using var ecdsa = ECDsa.Create();
             int byteCount;
             if (keyStr.Contains("-----BEGIN EC PRIVATE KEY-----"))
@@ -454,13 +461,14 @@ namespace {{packageName}}.{{clientPackage}}
                     return null;
                 }
 
-                // TODO: what do we do here if keyPassPhrase is null?
-                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase{{nrt!}}, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                if (keyPassPhrase == null)
+                    throw new InvalidOperationException("Encrypted RSA private key requires KeyPassPhrase.");
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 
                 //------ Decrypt the encrypted 3des-encrypted RSA private key ------
-                byte[]{{nrt?}} rsakey = DecryptKey(binkey, deskey, salt); //OpenSSL uses salt value in PEM header also as 3DES IV
+                byte[] rsakey = DecryptKey(binkey, deskey, salt); // OpenSSL uses salt value in PEM header also as 3DES IV
 
                 return rsakey;
             }
@@ -583,6 +591,8 @@ namespace {{packageName}}.{{clientPackage}}
             int HASHLENGTH = 16;    //MD5 bytes
             byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
+            if (secpswd == null)
+                throw new ArgumentNullException(nameof(secpswd), "Passphrase is required for encrypted RSA keys.");
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);

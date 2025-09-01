@@ -38,14 +38,6 @@ using System.Globalization;
         }
         {{/useCompareNetObjects}}
 
-        /// <summary>
-        /// A delegate for events.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
         /// <summary>
         /// Returns true when deserialization succeeds.
@@ -212,7 +204,8 @@ using System.Globalization;
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            if (text == null) throw new ArgumentNullException(nameof(text));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>

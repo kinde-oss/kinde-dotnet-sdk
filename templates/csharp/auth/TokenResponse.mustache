@@ -7,11 +7,10 @@ namespace {{packageName}}.Client.Auth
     /// <summary>OAuth token response payload.</summary>
     public sealed class TokenResponse
     {
-        [JsonProperty("token_type", Required = Required.Always)]
+        [JsonProperty("token_type", Required = Required.Always, NullValueHandling = NullValueHandling.Ignore)]
         public string TokenType { get; set; } = string.Empty;
 
-        [JsonProperty("access_token", Required = Required.Always)]
-        public string AccessToken { get{ return _accessToken; } set{ _accessToken = value ?? string.Empty; } }
-        private string _accessToken = string.Empty;
+        [JsonProperty("access_token", Required = Required.Always, NullValueHandling = NullValueHandling.Ignore)]
+        public string AccessToken { get; set; } = string.Empty;
     }
 }

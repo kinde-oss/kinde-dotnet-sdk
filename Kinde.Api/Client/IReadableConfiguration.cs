@@ -32,13 +32,13 @@ namespace Kinde.Api.Client
         /// Gets the API key.
         /// </summary>
         /// <value>API key.</value>
-        IDictionary<string, string> ApiKey { get; }
+        IReadOnlyDictionary<string, string> ApiKey { get; }
 
         /// <summary>
         /// Gets the API key prefix.
         /// </summary>
         /// <value>API key prefix.</value>
-        IDictionary<string, string> ApiKeyPrefix { get; }
+        IReadOnlyDictionary<string, string> ApiKeyPrefix { get; }
 
         /// <summary>
         /// Gets the base path.
@@ -57,13 +57,13 @@ namespace Kinde.Api.Client
         /// </summary>
         /// <value>Default header.</value>
         [Obsolete("Use DefaultHeaders instead.")]
-        IDictionary<string, string> DefaultHeader { get; }
+        IReadOnlyDictionary<string, string> DefaultHeader { get; }
 
         /// <summary>
         /// Gets the default headers.
         /// </summary>
         /// <value>Default headers.</value>
-        IDictionary<string, string> DefaultHeaders { get; }
+        IReadOnlyDictionary<string, string> DefaultHeaders { get; }
 
         /// <summary>
         /// Gets the temp folder path.
@@ -110,7 +110,7 @@ namespace Kinde.Api.Client
         /// Get the servers associated with the operation.
         /// </summary>
         /// <value>Operation servers.</value>
-        IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers { get; }
+        IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, object>>> OperationServers { get; }
 
         /// <summary>
         /// Gets the API key with prefix.

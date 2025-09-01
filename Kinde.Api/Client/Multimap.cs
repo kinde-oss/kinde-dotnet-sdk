@@ -150,12 +150,18 @@ namespace Kinde.Api.Client
         /// <returns>true if the item is successfully removed; otherwise, false.</returns>
         public bool Remove(KeyValuePair<TKey, IList<TValue>> item)
         {
-            if (_dictionary.TryGetValue(item.Key, out var list) &&
-                EqualityComparer<IList<TValue>>.Default.Equals(list, item.Value))
-            {
+            if (!_dictionary.TryGetValue(item.Key, out var list))
+                return false;
+            if (ReferenceEquals(list, item.Value))
                 return _dictionary.Remove(item.Key);
+            if (item.Value == null || list.Count != item.Value.Count)
+                return false;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!EqualityComparer<TValue>.Default.Equals(list[i], item.Value[i]))
+                    return false;
             }
-            return false;
+            return _dictionary.Remove(item.Key);
         }
 
         /// <summary>

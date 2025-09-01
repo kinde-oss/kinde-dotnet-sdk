@@ -79,16 +79,19 @@ namespace Kinde.Api.Client
         /// This is the key and value comprising the "secret" for accessing an API.
         /// </summary>
         /// <value>The API key.</value>
-        private IDictionary<string, string> _apiKey;
+        private Dictionary<string, string> _apiKey;
 
         /// <summary>
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         /// </summary>
         /// <value>The prefix of the API key.</value>
-        private IDictionary<string, string> _apiKeyPrefix;
+        private Dictionary<string, string> _apiKeyPrefix;
 
         private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
+
+        // Backing store for exposed read-only DefaultHeaders
+        private Dictionary<string, string> _defaultHeaders;
 
         /// <summary>
         /// Gets or sets the servers defined in the OpenAPI spec.
@@ -100,7 +103,7 @@ namespace Kinde.Api.Client
         /// Gets or sets the operation servers defined in the OpenAPI spec.
         /// </summary>
         /// <value>The operation servers</value>
-        private IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> _operationServers;
+        private IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, object>>> _operationServers;
 
         #endregion Private Members
 
@@ -115,9 +118,9 @@ namespace Kinde.Api.Client
             Proxy = null;
             UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.3.1/csharp");
             BasePath = "https://your_kinde_subdomain.kinde.com";
-            DefaultHeaders = new ConcurrentDictionary<string, string>();
-            ApiKey = new ConcurrentDictionary<string, string>();
-            ApiKeyPrefix = new ConcurrentDictionary<string, string>();
+            _defaultHeaders = new Dictionary<string, string>();
+            _apiKey = new Dictionary<string, string>();
+            _apiKeyPrefix = new Dictionary<string, string>();
             Servers = new List<IReadOnlyDictionary<string, object>>()
             {
                 {
@@ -137,7 +140,7 @@ namespace Kinde.Api.Client
                     }
                 }
             };
-            OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
+            _operationServers = new Dictionary<string, IReadOnlyList<IReadOnlyDictionary<string, object>>>()
             {
             };
 
@@ -150,9 +153,9 @@ namespace Kinde.Api.Client
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration(
-            IDictionary<string, string> defaultHeaders,
-            IDictionary<string, string> apiKey,
-            IDictionary<string, string> apiKeyPrefix,
+            IReadOnlyDictionary<string, string> defaultHeaders,
+            IReadOnlyDictionary<string, string> apiKey,
+            IReadOnlyDictionary<string, string> apiKeyPrefix,
             string basePath = "https://your_kinde_subdomain.kinde.com") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
@@ -168,17 +171,17 @@ namespace Kinde.Api.Client
 
             foreach (var keyValuePair in defaultHeaders)
             {
-                DefaultHeaders.Add(keyValuePair);
+                _defaultHeaders[keyValuePair.Key] = keyValuePair.Value;
             }
 
             foreach (var keyValuePair in apiKey)
             {
-                ApiKey.Add(keyValuePair);
+                _apiKey[keyValuePair.Key] = keyValuePair.Value;
             }
 
             foreach (var keyValuePair in apiKeyPrefix)
             {
-                ApiKeyPrefix.Add(keyValuePair);
+                _apiKeyPrefix[keyValuePair.Key] = keyValuePair.Value;
             }
         }
 
@@ -208,7 +211,7 @@ namespace Kinde.Api.Client
         /// Gets or sets the default header.
         /// </summary>
         [Obsolete("Use DefaultHeaders instead.")]
-        public virtual IDictionary<string, string> DefaultHeader
+        public virtual IReadOnlyDictionary<string, string> DefaultHeader
         {
             get
             {
@@ -216,14 +219,29 @@ namespace Kinde.Api.Client
             }
             set
             {
-                DefaultHeaders = value;
+                if (value == null)
+                {
+                    throw new InvalidOperationException("DefaultHeader collection may not be null.");
+                }
+                _defaultHeaders = new Dictionary<string, string>(value);
             }
         }
 
         /// <summary>
         /// Gets or sets the default headers.
         /// </summary>
-        public virtual IDictionary<string, string> DefaultHeaders { get; set; }
+        public virtual IReadOnlyDictionary<string, string> DefaultHeaders
+        {
+            get { return _defaultHeaders; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("DefaultHeaders collection may not be null.");
+                }
+                _defaultHeaders = new Dictionary<string, string>(value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
@@ -262,9 +280,9 @@ namespace Kinde.Api.Client
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             string apiKeyValue;
-            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
+            _apiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
             string apiKeyPrefix;
-            if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
+            if (_apiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
             {
                 return apiKeyPrefix + " " + apiKeyValue;
             }
@@ -362,7 +380,7 @@ namespace Kinde.Api.Client
         /// </remarks>
         /// </summary>
         /// <value>The prefix of the API key.</value>
-        public virtual IDictionary<string, string> ApiKeyPrefix
+        public virtual IReadOnlyDictionary<string, string> ApiKeyPrefix
         {
             get { return _apiKeyPrefix; }
             set
@@ -371,7 +389,7 @@ namespace Kinde.Api.Client
                 {
                     throw new InvalidOperationException("ApiKeyPrefix collection may not be null.");
                 }
-                _apiKeyPrefix = value;
+                _apiKeyPrefix = new Dictionary<string, string>(value);
             }
         }
 
@@ -379,7 +397,7 @@ namespace Kinde.Api.Client
         /// Gets or sets the API key based on the authentication name.
         /// </summary>
         /// <value>The API key.</value>
-        public virtual IDictionary<string, string> ApiKey
+        public virtual IReadOnlyDictionary<string, string> ApiKey
         {
             get { return _apiKey; }
             set
@@ -388,7 +406,7 @@ namespace Kinde.Api.Client
                 {
                     throw new InvalidOperationException("ApiKey collection may not be null.");
                 }
-                _apiKey = value;
+                _apiKey = new Dictionary<string, string>(value);
             }
         }
 
@@ -413,7 +431,7 @@ namespace Kinde.Api.Client
         /// Gets or sets the operation servers.
         /// </summary>
         /// <value>The operation servers.</value>
-        public virtual IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers
+        public virtual IReadOnlyDictionary<string, IReadOnlyList<IReadOnlyDictionary<string, object>>> OperationServers
         {
             get { return _operationServers; }
             set
@@ -484,6 +502,11 @@ namespace Kinde.Api.Client
         /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
         /// <return>The server URL.</return>
         private string GetServerUrl(IList<IReadOnlyDictionary<string, object>> servers, int index, Dictionary<string, string> inputVariables)
+        {
+            return GetServerUrl((IReadOnlyList<IReadOnlyDictionary<string, object>>)servers, index, inputVariables);
+        }
+
+        private string GetServerUrl(IReadOnlyList<IReadOnlyDictionary<string, object>> servers, int index, Dictionary<string, string> inputVariables)
         {
             if (index < 0 || index >= servers.Count)
             {
@@ -576,7 +599,7 @@ namespace Kinde.Api.Client
         /// <returns></returns>
         public void AddApiKey(string key, string value)
         {
-            ApiKey[key] = value;
+            _apiKey[key] = value;
         }
 
         /// <summary>
@@ -586,7 +609,7 @@ namespace Kinde.Api.Client
         /// <param name="value">Api Key value.</param>
         public void AddApiKeyPrefix(string key, string value)
         {
-            ApiKeyPrefix[key] = value;
+            _apiKeyPrefix[key] = value;
         }
 
         #endregion Methods
