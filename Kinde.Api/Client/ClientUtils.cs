@@ -33,8 +33,8 @@ namespace Kinde.Api.Client
         /// <returns>Filename</returns>
         public static string SanitizeFilename(string filename)
         {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
-            return match.Success ? match.Groups[1].Value : filename;
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            return Path.GetFileName(filename);
         }
 
         /// <summary>

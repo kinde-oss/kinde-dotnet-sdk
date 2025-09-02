@@ -431,6 +431,13 @@ namespace {{packageName}}.Client
                     throw new ConnectionException(request);
                 }
 
+                // Treat any non-2xx as an API error irrespective of content-type.
+                if (request.responseCode < 200 || request.responseCode >= 300)
+                {
+                    var text = request.downloadHandler?.text;
+                    throw new ApiException((int)request.responseCode, request.error, text);
+                }
+
                 object responseData = deserializer.Deserialize<T>(request);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data

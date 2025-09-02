@@ -38,8 +38,8 @@ git add .
 git commit -m "$release_note"
 
 # Sets the new remote
-git_remote=$(git remote)
-if [ "$git_remote" = "" ]; then # git remote not defined
+# Detect the specific 'origin' remote, not just any remote
+if ! git remote get-url origin >/dev/null 2>&1; then # origin not defined
 
     echo "[INFO] Using the git credential in your environment."
     git remote add origin https://${git_host}/${git_user_id}/${git_repo_id}.git
