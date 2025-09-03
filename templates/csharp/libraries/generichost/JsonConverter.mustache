@@ -209,12 +209,44 @@
                         {{/isEnum}}
                         {{/isNumeric}}
                         {{#isDate}}
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                            {
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = null;
+                            }
+                            else if (utf8JsonReader.TokenType == JsonTokenType.String)
+                            {
+                                var __s = utf8JsonReader.GetString();
+                                if (string.IsNullOrEmpty(__s))
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = null;
+                                else if (DateTime.TryParseExact(__s, {{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.None, out var __dt))
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = __dt;
+                                else
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            }
+                            else
+                            {
                                 {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            }
                         {{/isDate}}
                         {{#isDateTime}}
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                            {
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = null;
+                            }
+                            else if (utf8JsonReader.TokenType == JsonTokenType.String)
+                            {
+                                var __s = utf8JsonReader.GetString();
+                                if (string.IsNullOrEmpty(__s))
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = null;
+                                else if (DateTime.TryParseExact(__s, {{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.AssumeUniversal | global::System.Globalization.DateTimeStyles.AdjustToUniversal, out var __dt))
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = __dt;
+                                else
+                                    {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            }
+                            else
+                            {
                                 {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            }
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}

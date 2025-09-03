@@ -58,7 +58,7 @@ namespace Kinde.Api.Client
             // Handle dictionaries before generic collections to avoid treating them as collections of entries
             if (value is IDictionary dictionary)
             {
-                if (collectionFormat == "deepObject")
+                if (string.Equals(collectionFormat, "deepObject", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (DictionaryEntry entry in dictionary)
                     {
@@ -73,7 +73,24 @@ namespace Kinde.Api.Client
                     }
                 }
             }
-            else if (value is ICollection collection && collectionFormat == "multi")
+            else if (IsGenericDictionary(value, out IEnumerable<KeyValuePair<object, object>> genericDict))
+            {
+                if (string.Equals(collectionFormat, "deepObject", StringComparison.OrdinalIgnoreCase))
+                {
+                    foreach (var entry in genericDict)
+                    {
+                        parameters.Add(name + "[" + entry.Key + "]", ParameterToString(entry.Value));
+                    }
+                }
+                else
+                {
+                    foreach (var entry in genericDict)
+                    {
+                        parameters.Add(entry.Key?.ToString(), ParameterToString(entry.Value));
+                    }
+                }
+            }
+            else if (value is ICollection collection && string.Equals(collectionFormat, "multi", StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var item in collection)
                 {
@@ -252,6 +269,47 @@ namespace Kinde.Api.Client
                 return attr.Value;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Detects generic dictionary-like types (IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>)
+        /// and exposes them as enumerable of object/object pairs to avoid generic constraints here.
+        /// </summary>
+        private static bool IsGenericDictionary(object value, out IEnumerable<KeyValuePair<object, object>> enumerable)
+        {
+            enumerable = null;
+            if (value == null) return false;
+
+            var type = value.GetType();
+
+            // Check implemented interfaces for IDictionary<,> or IReadOnlyDictionary<,>
+            foreach (var iface in type.GetInterfaces())
+            {
+                if (iface.IsGenericType)
+                {
+                    var def = iface.GetGenericTypeDefinition();
+                    if (def == typeof(IDictionary<,>) || def == typeof(IReadOnlyDictionary<,>))
+                    {
+                        // Cast via IEnumerable<KeyValuePair<,>> then box to object/object
+                        var kvpEnumerable = (System.Collections.IEnumerable)value;
+                        var list = new List<KeyValuePair<object, object>>();
+                        foreach (var item in kvpEnumerable)
+                        {
+                            if (item == null) { list.Add(new KeyValuePair<object, object>(null, null)); continue; }
+                            var itemType = item.GetType();
+                            var keyProp = itemType.GetProperty("Key");
+                            var valueProp = itemType.GetProperty("Value");
+                            var k = keyProp?.GetValue(item);
+                            var v = valueProp?.GetValue(item);
+                            list.Add(new KeyValuePair<object, object>(k, v));
+                        }
+                        enumerable = list;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

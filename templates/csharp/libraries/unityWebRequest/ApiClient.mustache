@@ -106,9 +106,13 @@ namespace {{packageName}}.Client
                  Nullable.GetUnderlyingType(type) == typeof(DateTime)))
             {
                 var text = request.downloadHandler?.text;
-                return string.IsNullOrEmpty(text)
-                    ? null
-                    : (object)DateTime.Parse(text, null, DateTimeStyles.RoundtripKind);
+                if (string.IsNullOrEmpty(text))
+                {
+                    if (type == typeof(DateTime))
+                        throw new UnexpectedResponseException(request, type);
+                    return null; // Nullable<DateTime>
+                }
+                return (object)DateTime.Parse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
             }
 
             // Primitive and Nullable<Primitive> handling
