@@ -1,5 +1,9 @@
 using Kinde.Api.Client;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kinde.Api.Auth
 {
@@ -69,6 +73,120 @@ namespace Kinde.Api.Auth
         public Entitlements Entitlements()
         {
             return _entitlements;
+        }
+
+        /// <summary>
+        /// Comprehensive hard check: true only if ALL requirements are met across all types.
+        /// This method checks permissions, roles, and feature flags simultaneously.
+        /// </summary>
+        /// <param name="permissions">Required permissions (null/empty = no permission requirement)</param>
+        /// <param name="roles">Required roles (null/empty = no role requirement)</param>
+        /// <param name="featureFlags">Required feature flags (null/empty = no feature flag requirement)</param>
+        /// <returns>True if ALL requirements are met, false otherwise</returns>
+        public async Task<bool> HasAllAsync(List<string> permissions = null, List<string> roles = null, List<string> featureFlags = null)
+        {
+            try
+            {
+                // Check permissions
+                if (permissions != null && permissions.Any())
+                {
+                    bool permissionsOk = await _permissions.HasAllPermissionsAsync(permissions);
+                    if (!permissionsOk)
+                    {
+                        _logger?.LogDebug("HasAll check failed: not all permissions are satisfied");
+                        return false;
+                    }
+                }
+
+                // Check roles
+                if (roles != null && roles.Any())
+                {
+                    bool rolesOk = await _roles.HasAllRolesAsync(roles);
+                    if (!rolesOk)
+                    {
+                        _logger?.LogDebug("HasAll check failed: not all roles are satisfied");
+                        return false;
+                    }
+                }
+
+                // Check feature flags
+                if (featureFlags != null && featureFlags.Any())
+                {
+                    foreach (string flag in featureFlags)
+                    {
+                        if (!await _featureFlags.IsFeatureFlagEnabledAsync(flag))
+                        {
+                            _logger?.LogDebug("HasAll check failed: feature flag '{Flag}' is not enabled", flag);
+                            return false;
+                        }
+                    }
+                }
+
+                _logger?.LogDebug("HasAll check passed: all requirements are satisfied");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error in comprehensive HasAll check");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Comprehensive hard check: true if ANY requirements are met across all types.
+        /// This method checks permissions, roles, and feature flags simultaneously.
+        /// </summary>
+        /// <param name="permissions">Required permissions (null/empty = no permission requirement)</param>
+        /// <param name="roles">Required roles (null/empty = no role requirement)</param>
+        /// <param name="featureFlags">Required feature flags (null/empty = no feature flag requirement)</param>
+        /// <returns>True if ANY requirements are met from each category, false otherwise</returns>
+        public async Task<bool> HasAnyAsync(List<string> permissions = null, List<string> roles = null, List<string> featureFlags = null)
+        {
+            try
+            {
+                // Check permissions
+                bool permissionsOk = (permissions == null || !permissions.Any()) || await _permissions.HasAnyPermissionAsync(permissions);
+                if (!permissionsOk)
+                {
+                    _logger?.LogDebug("HasAny check failed: no permissions are satisfied");
+                    return false;
+                }
+
+                // Check roles
+                bool rolesOk = (roles == null || !roles.Any()) || await _roles.HasAnyRoleAsync(roles);
+                if (!rolesOk)
+                {
+                    _logger?.LogDebug("HasAny check failed: no roles are satisfied");
+                    return false;
+                }
+
+                // Check feature flags
+                if (featureFlags != null && featureFlags.Any())
+                {
+                    bool anyFlagEnabled = false;
+                    foreach (string flag in featureFlags)
+                    {
+                        if (await _featureFlags.IsFeatureFlagEnabledAsync(flag))
+                        {
+                            anyFlagEnabled = true;
+                            break;
+                        }
+                    }
+                    if (!anyFlagEnabled)
+                    {
+                        _logger?.LogDebug("HasAny check failed: no feature flags are enabled");
+                        return false;
+                    }
+                }
+
+                _logger?.LogDebug("HasAny check passed: at least one requirement from each category is satisfied");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error in comprehensive HasAny check");
+                return false;
+            }
         }
 
         /// <summary>

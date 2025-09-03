@@ -240,6 +240,57 @@ If you're migrating from the Java SDK, the .NET wrappers follow the same pattern
 | `auth.roles.hasRole("admin")` | `await auth.Roles().HasRoleAsync("admin")` |
 | `auth.entitlements.hasEntitlement("premium")` | `await auth.Entitlements().HasEntitlementAsync("premium")` |
 
+### New Comprehensive Hard Check Methods
+
+The .NET SDK now includes the same comprehensive hard check methods as the Java SDK:
+
+| Java SDK | .NET SDK |
+|----------|----------|
+| `token.hasAll(permissions, roles, featureFlags)` | `await auth.HasAllAsync(permissions, roles, featureFlags)` |
+| `token.hasAny(permissions, roles, featureFlags)` | `await auth.HasAnyAsync(permissions, roles, featureFlags)` |
+
+### Individual Hard Check Methods
+
+Each auth type now supports individual hard check methods:
+
+| Java SDK | .NET SDK |
+|----------|----------|
+| `token.hasPermission("read:users")` | `await auth.Permissions().HasPermissionHardCheckAsync("read:users")` |
+| `token.hasRole("admin")` | `await auth.Roles().HasRoleHardCheckAsync("admin")` |
+| `token.isFeatureFlagEnabled("beta")` | `await auth.FeatureFlags().IsFeatureFlagEnabledHardCheckAsync("beta")` |
+
+### Usage Examples Comparison
+
+#### Java SDK
+```java
+// Comprehensive check
+boolean canAccessAdmin = token.hasAll(
+    Arrays.asList("read:admin", "write:admin"),
+    Arrays.asList("admin"),
+    Arrays.asList("admin_dashboard")
+);
+
+// Individual hard checks
+boolean hasPermission = token.hasPermission("create:users");
+boolean hasRole = token.hasRole("admin");
+boolean isFlagEnabled = token.isFeatureFlagEnabled("beta_features");
+```
+
+#### .NET SDK
+```csharp
+// Comprehensive check
+bool canAccessAdmin = await auth.HasAllAsync(
+    new List<string> { "read:admin", "write:admin" },
+    new List<string> { "admin" },
+    new List<string> { "admin_dashboard" }
+);
+
+// Individual hard checks
+bool hasPermission = await auth.Permissions().HasPermissionHardCheckAsync("create:users");
+bool hasRole = await auth.Roles().HasRoleHardCheckAsync("admin");
+bool isFlagEnabled = await auth.FeatureFlags().IsFeatureFlagEnabledHardCheckAsync("beta_features");
+```
+
 ## Examples
 
 See `AuthExample.cs` for comprehensive examples of how to use all the wrapper classes.

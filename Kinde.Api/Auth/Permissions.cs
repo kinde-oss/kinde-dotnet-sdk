@@ -211,5 +211,106 @@ namespace Kinde.Api.Auth
                 return new List<string>();
             }
         }
+
+        // ========== Hard Check Methods Implementation ==========
+
+        /// <summary>
+        /// Strictly check if the user has a specific permission (hard check).
+        /// This method enforces stricter validation than the basic HasPermissionAsync.
+        /// </summary>
+        /// <param name="permissionKey">The permission key to check</param>
+        /// <returns>True if the hard-check passes, false otherwise</returns>
+        public async Task<bool> HasPermissionHardCheckAsync(string permissionKey)
+        {
+            if (string.IsNullOrWhiteSpace(permissionKey))
+            {
+                _logger?.LogWarning("Permission key cannot be null or empty for hard check");
+                return false;
+            }
+
+            try
+            {
+                // First, try to get permissions from token
+                var token = GetToken();
+                if (token != null)
+                {
+                    var tokenPermissions = token.GetPermissions();
+                    if (tokenPermissions != null && tokenPermissions.Any())
+                    {
+                        // Check if permission is in token
+                        var hasPermission = tokenPermissions.Contains(permissionKey);
+                        _logger?.LogDebug("Permission '{PermissionKey}' hard check in token: {HasPermission}", permissionKey, hasPermission);
+                        if (hasPermission)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Fall back to API call for hard check
+                _logger?.LogDebug("Permission '{PermissionKey}' not in token, falling back to API for hard check", permissionKey);
+                var accountsClient = GetAccountsClient();
+                if (accountsClient != null)
+                {
+                    var hasPermission = await accountsClient.HasPermissionAsync(permissionKey);
+                    _logger?.LogDebug("Permission '{PermissionKey}' hard check from API: {HasPermission}", permissionKey, hasPermission);
+                    return hasPermission;
+                }
+
+                _logger?.LogWarning("No accounts client available for permission hard check");
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error in permission hard check for '{PermissionKey}'", permissionKey);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hard check: true if any key passes HasPermissionHardCheckAsync.
+        /// </summary>
+        /// <param name="permissionKeys">The permission keys to check</param>
+        /// <returns>True if any permission passes hard check, false otherwise</returns>
+        public async Task<bool> HasAnyPermissionHardCheckAsync(IEnumerable<string> permissionKeys)
+        {
+            if (permissionKeys == null || !permissionKeys.Any())
+            {
+                _logger?.LogWarning("Permission keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in permissionKeys)
+            {
+                if (await HasPermissionHardCheckAsync(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Hard check: true only if all keys pass HasPermissionHardCheckAsync.
+        /// </summary>
+        /// <param name="permissionKeys">The permission keys to check</param>
+        /// <returns>True if all permissions pass hard check, false otherwise</returns>
+        public async Task<bool> HasAllPermissionsHardCheckAsync(IEnumerable<string> permissionKeys)
+        {
+            if (permissionKeys == null || !permissionKeys.Any())
+            {
+                _logger?.LogWarning("Permission keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in permissionKeys)
+            {
+                if (!await HasPermissionHardCheckAsync(key))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

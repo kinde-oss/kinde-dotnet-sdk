@@ -211,5 +211,105 @@ namespace Kinde.Api.Auth
                 return new List<string>();
             }
         }
+
+        // ========== Hard Check Methods Implementation ==========
+
+        /// <summary>
+        /// Strictly check if the user has a specific role (hard check).
+        /// This method enforces stricter validation than the basic HasRoleAsync.
+        /// </summary>
+        /// <param name="roleKey">The role key to check</param>
+        /// <returns>True if the hard-check passes, false otherwise</returns>
+        public async Task<bool> HasRoleHardCheckAsync(string roleKey)
+        {
+            if (string.IsNullOrWhiteSpace(roleKey))
+            {
+                _logger?.LogWarning("Role key cannot be null or empty for hard check");
+                return false;
+            }
+
+            try
+            {
+                // First, try to get roles from token
+                var token = GetToken();
+                if (token != null)
+                {
+                    var tokenRoles = token.GetRoles();
+                    if (tokenRoles != null && tokenRoles.Any())
+                    {
+                        var hasRole = tokenRoles.Any(r => string.Equals(r?.Trim(), roleKey, StringComparison.OrdinalIgnoreCase));
+                        _logger?.LogDebug("Role '{RoleKey}' hard check in token: {HasRole}", roleKey, hasRole);
+                        if (hasRole)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Fall back to API call for hard check
+                _logger?.LogDebug("Role '{RoleKey}' not in token, falling back to API for hard check", roleKey);
+                var accountsClient = GetAccountsClient();
+                if (accountsClient != null)
+                {
+                    var hasRole = await accountsClient.HasRoleAsync(roleKey);
+                    _logger?.LogDebug("Role '{RoleKey}' hard check from API: {HasRole}", roleKey, hasRole);
+                    return hasRole;
+                }
+
+                _logger?.LogWarning("No accounts client available for role hard check");
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error in role hard check for '{RoleKey}'", roleKey);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hard check: true if any key passes HasRoleHardCheckAsync.
+        /// </summary>
+        /// <param name="roleKeys">The role keys to check</param>
+        /// <returns>True if any role passes hard check, false otherwise</returns>
+        public async Task<bool> HasAnyRoleHardCheckAsync(IEnumerable<string> roleKeys)
+        {
+            if (roleKeys == null || !roleKeys.Any())
+            {
+                _logger?.LogWarning("Role keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in roleKeys)
+            {
+                if (await HasRoleHardCheckAsync(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Hard check: true only if all keys pass HasRoleHardCheckAsync.
+        /// </summary>
+        /// <param name="roleKeys">The role keys to check</param>
+        /// <returns>True if all roles pass hard check, false otherwise</returns>
+        public async Task<bool> HasAllRolesHardCheckAsync(IEnumerable<string> roleKeys)
+        {
+            if (roleKeys == null || !roleKeys.Any())
+            {
+                _logger?.LogWarning("Role keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in roleKeys)
+            {
+                if (!await HasRoleHardCheckAsync(key))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

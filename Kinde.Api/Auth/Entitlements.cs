@@ -207,7 +207,7 @@ namespace Kinde.Api.Auth
         /// Only returns true when:
         /// - The entitlement exists AND
         /// - type == "boolean" AND the boolean value resolves to true AND
-        /// - If usage limits are provided, limitUsed < limitMax.
+        /// - If usage limits are provided, limitUsed &lt; limitMax.
         /// </summary>
         /// <param name="entitlementKey">The entitlement key to check</param>
         /// <returns>True if the hard-check passes, false otherwise</returns>
@@ -329,7 +329,19 @@ namespace Kinde.Api.Auth
                     value = p; return true;
                 }
             }
-            catch { }
+            catch (FormatException)
+            {
+                // Expected for invalid string formats, no logging needed
+            }
+            catch (OverflowException)
+            {
+                // Expected for values outside long range, no logging needed
+            }
+            catch (Exception)
+            {
+                // Unexpected exception, but this is a utility method that should not fail
+                // In a production environment, you might want to log this
+            }
 
             value = 0; return false;
         }

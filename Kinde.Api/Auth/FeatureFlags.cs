@@ -184,8 +184,8 @@ namespace Kinde.Api.Auth
         /// <summary>
         /// Get all feature flags for the current user.
         /// </summary>
-        /// <returns>Dictionary of feature flag key-value pairs, or empty dictionary if none found</returns>
-        public async Task<Dictionary<string, object>> GetFeatureFlagsAsync()
+        /// <returns>List of feature flag names, or empty list if none found</returns>
+        public async Task<List<string>> GetFeatureFlagsAsync()
         {
             try
             {
@@ -196,11 +196,7 @@ namespace Kinde.Api.Auth
                     var tokenFlags = token.GetFeatureFlags();
                     if (tokenFlags != null && tokenFlags.Any())
                     {
-                        var flags = new Dictionary<string, object>();
-                        foreach (var flag in tokenFlags)
-                        {
-                            flags[flag.Key] = flag.Value;
-                        }
+                        var flags = tokenFlags.Keys.ToList();
                         _logger?.LogDebug("Retrieved {Count} feature flags from token", flags.Count);
                         return flags;
                     }
@@ -212,26 +208,120 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetFeatureFlagsAsync();
-                    var flags = new Dictionary<string, object>();
-                    if (response.Data != null)
-                    {
-                        foreach (var flag in response.Data)
-                        {
-                            flags[flag.Key] = flag.Value;
-                        }
-                    }
+                    var flags = response.Data?.Select(f => f.Key).ToList() ?? new List<string>();
                     _logger?.LogDebug("Retrieved {Count} feature flags from API", flags.Count);
                     return flags;
                 }
 
                 _logger?.LogWarning("No accounts client available for feature flags retrieval");
-                return new Dictionary<string, object>();
+                return new List<string>();
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, "Error retrieving feature flags");
-                return new Dictionary<string, object>();
+                return new List<string>();
             }
+        }
+
+        // ========== Hard Check Methods Implementation ==========
+
+        /// <summary>
+        /// Strictly check if a feature flag is enabled (hard check).
+        /// This method enforces stricter validation than the basic IsFeatureFlagEnabledAsync.
+        /// </summary>
+        /// <param name="flagKey">The feature flag key to check</param>
+        /// <returns>True if the hard-check passes, false otherwise</returns>
+        public async Task<bool> IsFeatureFlagEnabledHardCheckAsync(string flagKey)
+        {
+            if (string.IsNullOrWhiteSpace(flagKey))
+            {
+                _logger?.LogWarning("Feature flag key cannot be null or empty for hard check");
+                return false;
+            }
+
+            try
+            {
+                // First, try to get feature flags from token
+                var token = GetToken();
+                if (token != null)
+                {
+                    var tokenFlags = token.GetFeatureFlags();
+                    if (tokenFlags != null && tokenFlags.Any())
+                    {
+                        // Check if flag is in token
+                        var isEnabled = token.IsFeatureFlagEnabled(flagKey);
+                        _logger?.LogDebug("Feature flag '{FlagKey}' hard check in token: {IsEnabled}", flagKey, isEnabled);
+                        if (isEnabled)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Fall back to API call for hard check
+                _logger?.LogDebug("Feature flag '{FlagKey}' not in token, falling back to API for hard check", flagKey);
+                var accountsClient = GetAccountsClient();
+                if (accountsClient != null)
+                {
+                    var isEnabled = await accountsClient.IsFeatureFlagEnabledAsync(flagKey);
+                    _logger?.LogDebug("Feature flag '{FlagKey}' hard check from API: {IsEnabled}", flagKey, isEnabled);
+                    return isEnabled;
+                }
+
+                _logger?.LogWarning("No accounts client available for feature flag hard check");
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error in feature flag hard check for '{FlagKey}'", flagKey);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hard check: true if any key passes IsFeatureFlagEnabledHardCheckAsync.
+        /// </summary>
+        /// <param name="flagKeys">The feature flag keys to check</param>
+        /// <returns>True if any feature flag passes hard check, false otherwise</returns>
+        public async Task<bool> IsAnyFeatureFlagEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        {
+            if (flagKeys == null || !flagKeys.Any())
+            {
+                _logger?.LogWarning("Feature flag keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in flagKeys)
+            {
+                if (await IsFeatureFlagEnabledHardCheckAsync(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Hard check: true only if all keys pass IsFeatureFlagEnabledHardCheckAsync.
+        /// </summary>
+        /// <param name="flagKeys">The feature flag keys to check</param>
+        /// <returns>True if all feature flags pass hard check, false otherwise</returns>
+        public async Task<bool> AreAllFeatureFlagsEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        {
+            if (flagKeys == null || !flagKeys.Any())
+            {
+                _logger?.LogWarning("Feature flag keys cannot be null or empty for hard check");
+                return false;
+            }
+
+            foreach (string key in flagKeys)
+            {
+                if (!await IsFeatureFlagEnabledHardCheckAsync(key))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

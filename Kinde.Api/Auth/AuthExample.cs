@@ -180,6 +180,138 @@ namespace Kinde.Api.Auth
         }
 
         /// <summary>
+        /// Example of using comprehensive hard check methods.
+        /// </summary>
+        public async Task DemonstrateComprehensiveHardCheckAsync()
+        {
+            Console.WriteLine("=== Comprehensive Hard Check Example ===");
+
+            // Check if user has ALL requirements across all types
+            var hasAllRequirements = await _auth.HasAllAsync(
+                new List<string> { "read:users", "write:users" },  // permissions
+                new List<string> { "admin" },                       // roles
+                new List<string> { "user-management" }             // feature flags
+            );
+            Console.WriteLine($"Has ALL requirements: {hasAllRequirements}");
+
+            // Check if user has ANY requirements across all types
+            var hasAnyRequirements = await _auth.HasAnyAsync(
+                new List<string> { "read:users", "delete:users" }, // permissions
+                new List<string> { "admin", "moderator" },         // roles
+                new List<string> { "user-management", "basic" }    // feature flags
+            );
+            Console.WriteLine($"Has ANY requirements: {hasAnyRequirements}");
+
+            // Check with only some types specified
+            var hasPermissionsAndRoles = await _auth.HasAllAsync(
+                new List<string> { "read:users" },                 // permissions
+                new List<string> { "user" },                       // roles
+                null                                               // no feature flag requirement
+            );
+            Console.WriteLine($"Has permissions and roles: {hasPermissionsAndRoles}");
+        }
+
+        /// <summary>
+        /// Example of using individual hard check methods for each auth type.
+        /// </summary>
+        public async Task DemonstrateIndividualHardCheckAsync()
+        {
+            Console.WriteLine("=== Individual Hard Check Example ===");
+
+            // Permission hard checks
+            var hasPermissionHardCheck = await _auth.Permissions().HasPermissionHardCheckAsync("create:users");
+            Console.WriteLine($"Has permission (hard check): {hasPermissionHardCheck}");
+
+            var hasAnyPermissionHardCheck = await _auth.Permissions().HasAnyPermissionHardCheckAsync(
+                new List<string> { "create:users", "read:users", "update:users" });
+            Console.WriteLine($"Has any permission (hard check): {hasAnyPermissionHardCheck}");
+
+            var hasAllPermissionsHardCheck = await _auth.Permissions().HasAllPermissionsHardCheckAsync(
+                new List<string> { "read:users", "write:users" });
+            Console.WriteLine($"Has all permissions (hard check): {hasAllPermissionsHardCheck}");
+
+            // Role hard checks
+            var hasRoleHardCheck = await _auth.Roles().HasRoleHardCheckAsync("admin");
+            Console.WriteLine($"Has role (hard check): {hasRoleHardCheck}");
+
+            var hasAnyRoleHardCheck = await _auth.Roles().HasAnyRoleHardCheckAsync(
+                new List<string> { "admin", "moderator" });
+            Console.WriteLine($"Has any role (hard check): {hasAnyRoleHardCheck}");
+
+            var hasAllRolesHardCheck = await _auth.Roles().HasAllRolesHardCheckAsync(
+                new List<string> { "user", "verified" });
+            Console.WriteLine($"Has all roles (hard check): {hasAllRolesHardCheck}");
+
+            // Feature flag hard checks
+            var isFeatureFlagEnabledHardCheck = await _auth.FeatureFlags().IsFeatureFlagEnabledHardCheckAsync("beta_features");
+            Console.WriteLine($"Feature flag enabled (hard check): {isFeatureFlagEnabledHardCheck}");
+
+            var isAnyFeatureFlagEnabledHardCheck = await _auth.FeatureFlags().IsAnyFeatureFlagEnabledHardCheckAsync(
+                new List<string> { "beta_features", "premium_features" });
+            Console.WriteLine($"Any feature flag enabled (hard check): {isAnyFeatureFlagEnabledHardCheck}");
+
+            var areAllFeatureFlagsEnabledHardCheck = await _auth.FeatureFlags().AreAllFeatureFlagsEnabledHardCheckAsync(
+                new List<string> { "basic_features", "standard_features" });
+            Console.WriteLine($"All feature flags enabled (hard check): {areAllFeatureFlagsEnabledHardCheck}");
+
+            // Entitlement hard checks
+            var hasEntitlementHardCheck = await _auth.Entitlements().HasEntitlementHardCheckAsync("premium_features");
+            Console.WriteLine($"Has entitlement (hard check): {hasEntitlementHardCheck}");
+
+            var hasAnyEntitlementHardCheck = await _auth.Entitlements().HasAnyEntitlementHardCheckAsync(
+                new List<string> { "premium_features", "advanced_analytics" });
+            Console.WriteLine($"Has any entitlement (hard check): {hasAnyEntitlementHardCheck}");
+
+            var hasAllEntitlementsHardCheck = await _auth.Entitlements().HasAllEntitlementsHardCheckAsync(
+                new List<string> { "basic_features", "standard_features" });
+            Console.WriteLine($"Has all entitlements (hard check): {hasAllEntitlementsHardCheck}");
+        }
+
+        /// <summary>
+        /// Example of real-world usage scenarios using hard check methods.
+        /// </summary>
+        public async Task DemonstrateRealWorldScenariosAsync()
+        {
+            Console.WriteLine("=== Real-World Scenarios Example ===");
+
+            // Scenario 1: Admin dashboard access
+            var canAccessAdminDashboard = await _auth.HasAllAsync(
+                new List<string> { "read:admin", "write:admin" },
+                new List<string> { "admin" },
+                new List<string> { "admin_dashboard" }
+            );
+            Console.WriteLine($"Can access admin dashboard: {canAccessAdminDashboard}");
+
+            // Scenario 2: User management operations
+            var canManageUsers = await _auth.HasAllAsync(
+                new List<string> { "read:users", "write:users", "delete:users" },
+                new List<string> { "admin", "moderator" },
+                new List<string> { "user_management" }
+            );
+            Console.WriteLine($"Can manage users: {canManageUsers}");
+
+            // Scenario 3: Analytics access (any from each category)
+            var canViewAnalytics = await _auth.HasAnyAsync(
+                new List<string> { "read:analytics", "read:reports" },
+                new List<string> { "admin", "analyst" },
+                new List<string> { "analytics", "advanced_analytics" }
+            );
+            Console.WriteLine($"Can view analytics: {canViewAnalytics}");
+
+            // Scenario 4: Beta features access
+            var canAccessBetaFeatures = await _auth.FeatureFlags().IsFeatureFlagEnabledHardCheckAsync("beta_features");
+            Console.WriteLine($"Can access beta features: {canAccessBetaFeatures}");
+
+            // Scenario 5: Premium content access
+            var canAccessPremiumContent = await _auth.HasAllAsync(
+                new List<string> { "access:premium" },
+                null, // no specific role requirement
+                new List<string> { "premium_features" }
+            ) && await _auth.Entitlements().HasEntitlementHardCheckAsync("premium_features");
+            Console.WriteLine($"Can access premium content: {canAccessPremiumContent}");
+        }
+
+        /// <summary>
         /// Run all examples.
         /// </summary>
         public async Task RunAllExamplesAsync()
@@ -202,6 +334,15 @@ namespace Kinde.Api.Auth
                 Console.WriteLine();
 
                 await DemonstrateComplexAccessControlAsync();
+                Console.WriteLine();
+
+                await DemonstrateComprehensiveHardCheckAsync();
+                Console.WriteLine();
+
+                await DemonstrateIndividualHardCheckAsync();
+                Console.WriteLine();
+
+                await DemonstrateRealWorldScenariosAsync();
                 Console.WriteLine();
 
                 Console.WriteLine("All examples completed successfully!");
