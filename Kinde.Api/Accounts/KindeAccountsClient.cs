@@ -83,7 +83,46 @@ namespace Kinde.Api.Accounts
         {
             try
             {
-                return await _apiClient.GetEntitlementsAsync();
+                // Page through all entitlements to ensure complete results
+                var allEntitlements = new List<Entitlement>();
+                var plans = new List<Plan>();
+                string startingAfter = null;
+                bool hasMore;
+                string orgCode = null;
+
+                const int pageLimit = 1000; // request larger pages to reduce round trips (server may cap)
+
+                do
+                {
+                    var page = await _apiClient.GetEntitlementsAsync(startingAfter, pageLimit);
+                    if (page?.Data?.Entitlements != null)
+                    {
+                        allEntitlements.AddRange(page.Data.Entitlements);
+                    }
+
+                    // Capture org code and plans from the first page
+                    if (orgCode == null && page?.Data?.OrgCode != null)
+                    {
+                        orgCode = page.Data.OrgCode;
+                    }
+                    if (plans.Count == 0 && page?.Data?.Plans != null)
+                    {
+                        plans.AddRange(page.Data.Plans);
+                    }
+
+                    hasMore = page?.Metadata?.HasMore == true;
+                    startingAfter = page?.Metadata?.NextPageStartingAfter;
+                } while (hasMore && !string.IsNullOrEmpty(startingAfter));
+
+                // Build a single response mirroring the API models
+                var metadata = new Metadata(hasMore: false, nextPageStartingAfter: null);
+                var data = new EntitlementsResponseData(
+                    orgCode: orgCode ?? string.Empty,
+                    plans: plans,
+                    entitlements: allEntitlements
+                );
+
+                return new EntitlementsResponse(metadata, data);
             }
             catch (Exception ex)
             {

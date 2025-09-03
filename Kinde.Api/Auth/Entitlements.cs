@@ -203,6 +203,138 @@ namespace Kinde.Api.Auth
         }
 
         /// <summary>
+        /// Strictly check if the user has a specific entitlement (hard check).
+        /// Only returns true when:
+        /// - The entitlement exists AND
+        /// - type == "boolean" AND the boolean value resolves to true AND
+        /// - If usage limits are provided, limitUsed < limitMax.
+        /// </summary>
+        /// <param name="entitlementKey">The entitlement key to check</param>
+        /// <returns>True if the hard-check passes, false otherwise</returns>
+        public async Task<bool> HasEntitlementHardCheckAsync(string entitlementKey)
+        {
+            var entitlement = await GetEntitlementAsync(entitlementKey);
+            if (entitlement == null)
+            {
+                return false;
+            }
+
+            // Require type strictly boolean
+            if (!entitlement.TryGetValue("type", out var typeObj) ||
+                !string.Equals(typeObj?.ToString(), "boolean", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            // Resolve boolean value strictly to true
+            bool enabled = false;
+
+            if (entitlement.TryGetValue("status", out var statusObj))
+            {
+                if (statusObj is bool sb)
+                {
+                    enabled = sb;
+                }
+                else
+                {
+                    var s = statusObj?.ToString();
+                    enabled = string.Equals(s, "true", StringComparison.OrdinalIgnoreCase) || s == "1" ||
+                              string.Equals(s, "yes", StringComparison.OrdinalIgnoreCase) ||
+                              string.Equals(s, "on", StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            if (!enabled && entitlement.TryGetValue("value", out var valueObj))
+            {
+                var v = valueObj?.ToString();
+                enabled = string.Equals(v, "true", StringComparison.OrdinalIgnoreCase) || v == "1" ||
+                          string.Equals(v, "yes", StringComparison.OrdinalIgnoreCase) ||
+                          string.Equals(v, "on", StringComparison.OrdinalIgnoreCase);
+            }
+
+            if (!enabled)
+            {
+                return false;
+            }
+
+            // If limits are present, enforce usage < max
+            if (entitlement.TryGetValue("limitMax", out var maxObj) && entitlement.TryGetValue("limitUsed", out var usedObj))
+            {
+                if (TryToLong(maxObj, out var max) && TryToLong(usedObj, out var used))
+                {
+                    if (max > 0 && used >= max)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Hard check: true if any key passes HasEntitlementHardCheckAsync.
+        /// </summary>
+        public async Task<bool> HasAnyEntitlementHardCheckAsync(IEnumerable<string> entitlementKeys)
+        {
+            if (entitlementKeys == null || !entitlementKeys.Any())
+            {
+                return false;
+            }
+
+            foreach (var key in entitlementKeys)
+            {
+                if (await HasEntitlementHardCheckAsync(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Hard check: true only if all keys pass HasEntitlementHardCheckAsync.
+        /// </summary>
+        public async Task<bool> HasAllEntitlementsHardCheckAsync(IEnumerable<string> entitlementKeys)
+        {
+            if (entitlementKeys == null || !entitlementKeys.Any())
+            {
+                return false;
+            }
+
+            foreach (var key in entitlementKeys)
+            {
+                if (!await HasEntitlementHardCheckAsync(key))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static bool TryToLong(object obj, out long value)
+        {
+            try
+            {
+                if (obj is long l)
+                {
+                    value = l; return true;
+                }
+                if (obj is int i)
+                {
+                    value = i; return true;
+                }
+                if (obj is string s && long.TryParse(s, out var p))
+                {
+                    value = p; return true;
+                }
+            }
+            catch { }
+
+            value = 0; return false;
+        }
+
+        /// <summary>
         /// Convert EntitlementResponse to a Dictionary for consistent API.
         /// </summary>
         /// <param name="entitlement">The entitlement response to convert</param>
