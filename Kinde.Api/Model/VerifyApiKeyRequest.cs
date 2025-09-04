@@ -27,24 +27,32 @@ namespace Kinde.Api.Model
 {
     /// <summary>
     /// </summary>
-    [DataContract(Name = "users_response_users_inner_billing")]
-    public partial class UsersResponseUsersInnerBilling : IEquatable<UsersResponseUsersInnerBilling>
+    [DataContract(Name = "verifyApiKey_request")]
+    public partial class VerifyApiKeyRequest : IEquatable<VerifyApiKeyRequest>
     {
         /// <summary>
         /// </summary>
-        /// <param name="customerId">The billing customer id..</param>
-        public UsersResponseUsersInnerBilling(string customerId = default(string))
+        [JsonConstructorAttribute]
+        protected VerifyApiKeyRequest() { }
+        /// <summary>
+        /// </summary>
+        /// <param name="apiKey">The API key to verify. (required).</param>
+        public VerifyApiKeyRequest(string apiKey = default(string))
         {
-            this.CustomerId = customerId;
+            // to ensure "apiKey" is required (not null)
+            if (apiKey == null)
+            {
+                throw new ArgumentNullException("apiKey is a required property for VerifyApiKeyRequest and cannot be null");
+            }
+            this.ApiKey = apiKey;
         }
 
         /// <summary>
-        /// The billing customer id.
+        /// The API key to verify.
         /// </summary>
-        /// <value>The billing customer id.</value>
-        /// <example>customer_1245adbc6789</example>
-        [DataMember(Name = "customer_id", EmitDefaultValue = false)]
-        public string CustomerId { get; set; }
+        /// <value>The API key to verify.</value>
+        [DataMember(Name = "api_key", IsRequired = true, EmitDefaultValue = true)]
+        public string ApiKey { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,8 +61,8 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UsersResponseUsersInnerBilling {\n");
-            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
+            sb.Append("class VerifyApiKeyRequest {\n");
+            sb.Append("  ApiKey: ").Append(ApiKey).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -75,13 +83,13 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UsersResponseUsersInnerBilling);
+            return this.Equals(input as VerifyApiKeyRequest);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Boolean</returns>
-        public bool Equals(UsersResponseUsersInnerBilling input)
+        public bool Equals(VerifyApiKeyRequest input)
         {
             if (input == null)
             {
@@ -89,9 +97,9 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.CustomerId == input.CustomerId ||
-                    (this.CustomerId != null &&
-                    this.CustomerId.Equals(input.CustomerId))
+                    this.ApiKey == input.ApiKey ||
+                    (this.ApiKey != null &&
+                    this.ApiKey.Equals(input.ApiKey))
                 );
         }
 
@@ -104,9 +112,9 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.CustomerId != null)
+                if (this.ApiKey != null)
                 {
-                    hashCode = (hashCode * 59) + this.CustomerId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ApiKey.GetHashCode();
                 }
                 return hashCode;
             }

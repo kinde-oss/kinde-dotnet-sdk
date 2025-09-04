@@ -27,24 +27,32 @@ namespace Kinde.Api.Model
 {
     /// <summary>
     /// </summary>
-    [DataContract(Name = "users_response_users_inner_billing")]
-    public partial class UsersResponseUsersInnerBilling : IEquatable<UsersResponseUsersInnerBilling>
+    [DataContract(Name = "rotate_api_key_response_api_key")]
+    public partial class RotateApiKeyResponseApiKey : IEquatable<RotateApiKeyResponseApiKey>
     {
         /// <summary>
         /// </summary>
-        /// <param name="customerId">The billing customer id..</param>
-        public UsersResponseUsersInnerBilling(string customerId = default(string))
+        /// <param name="id">The unique ID for the API key..</param>
+        /// <param name="key">The new API key value (only shown once)..</param>
+        public RotateApiKeyResponseApiKey(string id = default(string), string key = default(string))
         {
-            this.CustomerId = customerId;
+            this.Id = id;
+            this.Key = key;
         }
 
         /// <summary>
-        /// The billing customer id.
+        /// The unique ID for the API key.
         /// </summary>
-        /// <value>The billing customer id.</value>
-        /// <example>customer_1245adbc6789</example>
-        [DataMember(Name = "customer_id", EmitDefaultValue = false)]
-        public string CustomerId { get; set; }
+        /// <value>The unique ID for the API key.</value>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The new API key value (only shown once).
+        /// </summary>
+        /// <value>The new API key value (only shown once).</value>
+        [DataMember(Name = "key", EmitDefaultValue = false)]
+        public string Key { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,8 +61,9 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UsersResponseUsersInnerBilling {\n");
-            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
+            sb.Append("class RotateApiKeyResponseApiKey {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -75,13 +84,13 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UsersResponseUsersInnerBilling);
+            return this.Equals(input as RotateApiKeyResponseApiKey);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Boolean</returns>
-        public bool Equals(UsersResponseUsersInnerBilling input)
+        public bool Equals(RotateApiKeyResponseApiKey input)
         {
             if (input == null)
             {
@@ -89,9 +98,14 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.CustomerId == input.CustomerId ||
-                    (this.CustomerId != null &&
-                    this.CustomerId.Equals(input.CustomerId))
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
+                    this.Key == input.Key ||
+                    (this.Key != null &&
+                    this.Key.Equals(input.Key))
                 );
         }
 
@@ -104,9 +118,13 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.CustomerId != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.CustomerId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.Key != null)
+                {
+                    hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
                 return hashCode;
             }

@@ -27,24 +27,42 @@ namespace Kinde.Api.Model
 {
     /// <summary>
     /// </summary>
-    [DataContract(Name = "users_response_users_inner_billing")]
-    public partial class UsersResponseUsersInnerBilling : IEquatable<UsersResponseUsersInnerBilling>
+    [DataContract(Name = "rotate_api_key_response")]
+    public partial class RotateApiKeyResponse : IEquatable<RotateApiKeyResponse>
     {
         /// <summary>
         /// </summary>
-        /// <param name="customerId">The billing customer id..</param>
-        public UsersResponseUsersInnerBilling(string customerId = default(string))
+        /// <param name="code">Response code..</param>
+        /// <param name="message">Response message..</param>
+        /// <param name="apiKey">apiKey.</param>
+        public RotateApiKeyResponse(string code = default(string), string message = default(string), RotateApiKeyResponseApiKey apiKey = default(RotateApiKeyResponseApiKey))
         {
-            this.CustomerId = customerId;
+            this.Code = code;
+            this.Message = message;
+            this.ApiKey = apiKey;
         }
 
         /// <summary>
-        /// The billing customer id.
+        /// Response code.
         /// </summary>
-        /// <value>The billing customer id.</value>
-        /// <example>customer_1245adbc6789</example>
-        [DataMember(Name = "customer_id", EmitDefaultValue = false)]
-        public string CustomerId { get; set; }
+        /// <value>Response code.</value>
+        /// <example>API_KEY_ROTATED</example>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Response message.
+        /// </summary>
+        /// <value>Response message.</value>
+        /// <example>API key rotated successfully</example>
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ApiKey
+        /// </summary>
+        [DataMember(Name = "api_key", EmitDefaultValue = false)]
+        public RotateApiKeyResponseApiKey ApiKey { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,8 +71,10 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class UsersResponseUsersInnerBilling {\n");
-            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
+            sb.Append("class RotateApiKeyResponse {\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  ApiKey: ").Append(ApiKey).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -75,13 +95,13 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as UsersResponseUsersInnerBilling);
+            return this.Equals(input as RotateApiKeyResponse);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Boolean</returns>
-        public bool Equals(UsersResponseUsersInnerBilling input)
+        public bool Equals(RotateApiKeyResponse input)
         {
             if (input == null)
             {
@@ -89,9 +109,19 @@ namespace Kinde.Api.Model
             }
             return 
                 (
-                    this.CustomerId == input.CustomerId ||
-                    (this.CustomerId != null &&
-                    this.CustomerId.Equals(input.CustomerId))
+                    this.Code == input.Code ||
+                    (this.Code != null &&
+                    this.Code.Equals(input.Code))
+                ) && 
+                (
+                    this.Message == input.Message ||
+                    (this.Message != null &&
+                    this.Message.Equals(input.Message))
+                ) && 
+                (
+                    this.ApiKey == input.ApiKey ||
+                    (this.ApiKey != null &&
+                    this.ApiKey.Equals(input.ApiKey))
                 );
         }
 
@@ -104,9 +134,17 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.CustomerId != null)
+                if (this.Code != null)
                 {
-                    hashCode = (hashCode * 59) + this.CustomerId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
+                if (this.Message != null)
+                {
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
+                if (this.ApiKey != null)
+                {
+                    hashCode = (hashCode * 59) + this.ApiKey.GetHashCode();
                 }
                 return hashCode;
             }
