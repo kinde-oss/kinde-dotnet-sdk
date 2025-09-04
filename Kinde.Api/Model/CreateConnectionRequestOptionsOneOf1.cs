@@ -36,7 +36,8 @@ namespace Kinde.Api.Model
         /// <param name="clientId">Client ID..</param>
         /// <param name="clientSecret">Client secret..</param>
         /// <param name="entraIdDomain">Domain for Entra ID..</param>
-        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool))
+        /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
+        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
@@ -47,6 +48,9 @@ namespace Kinde.Api.Model
             this.IsRetrieveProviderUserGroups = isRetrieveProviderUserGroups;
             this.IsExtendedAttributesRequired = isExtendedAttributesRequired;
             this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
+            this.IsCreateMissingUser = isCreateMissingUser;
+            this.IsForceShowSsoButton = isForceShowSsoButton;
+            this.UpstreamParams = upstreamParams;
         }
 
         /// <summary>
@@ -120,6 +124,30 @@ namespace Kinde.Api.Model
         public bool IsAutoJoinOrganizationEnabled { get; set; }
 
         /// <summary>
+        /// Create a user record in Kinde if the user signing in does not exist.
+        /// </summary>
+        /// <value>Create a user record in Kinde if the user signing in does not exist.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_create_missing_user", EmitDefaultValue = true)]
+        public bool IsCreateMissingUser { get; set; }
+
+        /// <summary>
+        /// Force showing the SSO button for this connection.
+        /// </summary>
+        /// <value>Force showing the SSO button for this connection.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
+        public bool IsForceShowSsoButton { get; set; }
+
+        /// <summary>
+        /// Additional upstream parameters to pass to the identity provider.
+        /// </summary>
+        /// <value>Additional upstream parameters to pass to the identity provider.</value>
+        /// <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example>
+        [DataMember(Name = "upstream_params", EmitDefaultValue = false)]
+        public Dictionary<string, Object> UpstreamParams { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -136,6 +164,9 @@ namespace Kinde.Api.Model
             sb.Append("  IsRetrieveProviderUserGroups: ").Append(IsRetrieveProviderUserGroups).Append("\n");
             sb.Append("  IsExtendedAttributesRequired: ").Append(IsExtendedAttributesRequired).Append("\n");
             sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
+            sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
+            sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
+            sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -209,6 +240,20 @@ namespace Kinde.Api.Model
                 (
                     this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
                     this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
+                ) && 
+                (
+                    this.IsCreateMissingUser == input.IsCreateMissingUser ||
+                    this.IsCreateMissingUser.Equals(input.IsCreateMissingUser)
+                ) && 
+                (
+                    this.IsForceShowSsoButton == input.IsForceShowSsoButton ||
+                    this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
+                ) && 
+                (
+                    this.UpstreamParams == input.UpstreamParams ||
+                    this.UpstreamParams != null &&
+                    input.UpstreamParams != null &&
+                    this.UpstreamParams.SequenceEqual(input.UpstreamParams)
                 );
         }
 
@@ -242,6 +287,12 @@ namespace Kinde.Api.Model
                 hashCode = (hashCode * 59) + this.IsRetrieveProviderUserGroups.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsExtendedAttributesRequired.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
+                if (this.UpstreamParams != null)
+                {
+                    hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
+                }
                 return hashCode;
             }
         }

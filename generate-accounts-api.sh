@@ -21,7 +21,7 @@ OPENAPI_GENERATOR_JAR="openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar"
 SPEC_PATH="${1:-${REPO_ROOT}/api/kinde-accounts-api.yaml}"
 OUT_DIR="${OUT_DIR:-${REPO_ROOT}/generated-accounts-api-files}"
 OPENAPI_JAR="${OPENAPI_JAR:-${REPO_ROOT}/${OPENAPI_GENERATOR_JAR}}"
-ADDL_PROPS="${ADDL_PROPS:-packageName=Kinde.Accounts,packageVersion=2.0.0,targetFramework=net9.0,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false}"
+ADDL_PROPS="${ADDL_PROPS:-packageName=Kinde.Accounts,packageVersion=2.0.0,targetFramework=net7.0,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false}"
 
 echo "Generating Accounts API client code..."
 
@@ -75,7 +75,7 @@ mkdir -p "${OUT_DIR}"
 # Generate code using OpenAPI generator
 java -jar "${OPENAPI_JAR}" generate \
   -i "${SPEC_PATH}" \
-  -g csharp-netcore \
+  -g csharp \
   -o "${OUT_DIR}" \
   --library generichost \
   --additional-properties="${ADDL_PROPS}" \

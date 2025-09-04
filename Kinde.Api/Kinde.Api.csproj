@@ -50,9 +50,11 @@
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
 
+  <!-- Temporarily commented out due to build issues with generated accounts API
   <ItemGroup>
     <ProjectReference Include="../generated-accounts-api-files/src/Kinde.Accounts/Kinde.Accounts.csproj" />
   </ItemGroup>
+  -->
 
   <ItemGroup>
     <Compile Remove="Auth/AuthExample.cs" />

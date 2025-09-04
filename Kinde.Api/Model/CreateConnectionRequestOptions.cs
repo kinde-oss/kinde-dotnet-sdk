@@ -60,17 +60,17 @@ namespace Kinde.Api.Model
         }
 
 
-        private object _actualInstance;
+        private Object _actualInstance;
 
         /// <summary>
         /// </summary>
-        public override object ActualInstance
+        public override Object ActualInstance
         {
             get
             {
                 return _actualInstance;
             }
-            protected set
+            set
             {
                 if (value.GetType() == typeof(CreateConnectionRequestOptionsOneOf))
                 {

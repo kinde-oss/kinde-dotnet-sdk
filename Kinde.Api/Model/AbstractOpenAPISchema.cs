@@ -21,7 +21,7 @@ namespace Kinde.Api.Model
     {
         /// <summary>
         /// </summary>
-        internal static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -37,7 +37,7 @@ namespace Kinde.Api.Model
 
         /// <summary>
         /// </summary>
-        internal static readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new JsonSerializerSettings
+        static public readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -54,7 +54,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets the actual instance
         /// </summary>
-        public abstract object ActualInstance { get; protected set; }
+        public abstract Object ActualInstance { get; set; }
 
         /// <summary>
         /// Gets or Sets IsNullable to indicate whether the instance is nullable
