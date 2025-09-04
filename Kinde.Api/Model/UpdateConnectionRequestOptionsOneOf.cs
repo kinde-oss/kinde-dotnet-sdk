@@ -28,8 +28,8 @@ namespace Kinde.Api.Model
     /// <summary>
     /// Azure AD connection options.
     /// </summary>
-    [DataContract(Name = "CreateConnection_request_options_oneOf_1")]
-    public partial class CreateConnectionRequestOptionsOneOf1 : IEquatable<CreateConnectionRequestOptionsOneOf1>
+    [DataContract(Name = "UpdateConnection_request_options_oneOf")]
+    public partial class UpdateConnectionRequestOptionsOneOf : IEquatable<UpdateConnectionRequestOptionsOneOf>
     {
         /// <summary>
         /// </summary>
@@ -37,7 +37,7 @@ namespace Kinde.Api.Model
         /// <param name="clientSecret">Client secret..</param>
         /// <param name="entraIdDomain">Domain for Entra ID..</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
-        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>))
+        public UpdateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
@@ -47,7 +47,6 @@ namespace Kinde.Api.Model
             this.IsSyncUserProfileOnLogin = isSyncUserProfileOnLogin;
             this.IsRetrieveProviderUserGroups = isRetrieveProviderUserGroups;
             this.IsExtendedAttributesRequired = isExtendedAttributesRequired;
-            this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
             this.IsCreateMissingUser = isCreateMissingUser;
             this.IsForceShowSsoButton = isForceShowSsoButton;
             this.UpstreamParams = upstreamParams;
@@ -116,17 +115,9 @@ namespace Kinde.Api.Model
         public bool IsExtendedAttributesRequired { get; set; }
 
         /// <summary>
-        /// Users automatically join organization when using this connection.
+        /// Create users if they don&#39;t exist in the system.
         /// </summary>
-        /// <value>Users automatically join organization when using this connection.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_auto_join_organization_enabled", EmitDefaultValue = true)]
-        public bool IsAutoJoinOrganizationEnabled { get; set; }
-
-        /// <summary>
-        /// Create a user record in Kinde if the user signing in does not exist.
-        /// </summary>
-        /// <value>Create a user record in Kinde if the user signing in does not exist.</value>
+        /// <value>Create users if they don&#39;t exist in the system.</value>
         /// <example>true</example>
         [DataMember(Name = "is_create_missing_user", EmitDefaultValue = true)]
         public bool IsCreateMissingUser { get; set; }
@@ -154,7 +145,7 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateConnectionRequestOptionsOneOf1 {\n");
+            sb.Append("class UpdateConnectionRequestOptionsOneOf {\n");
             sb.Append("  ClientId: ").Append(ClientId).Append("\n");
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
@@ -163,7 +154,6 @@ namespace Kinde.Api.Model
             sb.Append("  IsSyncUserProfileOnLogin: ").Append(IsSyncUserProfileOnLogin).Append("\n");
             sb.Append("  IsRetrieveProviderUserGroups: ").Append(IsRetrieveProviderUserGroups).Append("\n");
             sb.Append("  IsExtendedAttributesRequired: ").Append(IsExtendedAttributesRequired).Append("\n");
-            sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
             sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
@@ -187,13 +177,13 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateConnectionRequestOptionsOneOf1);
+            return this.Equals(input as UpdateConnectionRequestOptionsOneOf);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateConnectionRequestOptionsOneOf1 input)
+        public bool Equals(UpdateConnectionRequestOptionsOneOf input)
         {
             if (input == null)
             {
@@ -236,10 +226,6 @@ namespace Kinde.Api.Model
                 (
                     this.IsExtendedAttributesRequired == input.IsExtendedAttributesRequired ||
                     this.IsExtendedAttributesRequired.Equals(input.IsExtendedAttributesRequired)
-                ) && 
-                (
-                    this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
-                    this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
                 ) && 
                 (
                     this.IsCreateMissingUser == input.IsCreateMissingUser ||
@@ -286,7 +272,6 @@ namespace Kinde.Api.Model
                 hashCode = (hashCode * 59) + this.IsSyncUserProfileOnLogin.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsRetrieveProviderUserGroups.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsExtendedAttributesRequired.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
                 if (this.UpstreamParams != null)

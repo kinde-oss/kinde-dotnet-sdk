@@ -33,7 +33,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// </summary>
         /// <param name="id">The unique ID for the API..</param>
-        /// <param name="name">The API’s name..</param>
+        /// <param name="name">The API&#39;s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
         /// <param name="scopes">scopes.</param>
         public GetApisResponseApisInner(string id = default(string), string name = default(string), string audience = default(string), bool isManagementApi = default(bool), List<GetApisResponseApisInnerScopesInner> scopes = default(List<GetApisResponseApisInnerScopesInner>))
@@ -53,9 +53,9 @@ namespace Kinde.Api.Model
         public string Id { get; set; }
 
         /// <summary>
-        /// The API’s name.
+        /// The API&#39;s name.
         /// </summary>
-        /// <value>The API’s name.</value>
+        /// <value>The API&#39;s name.</value>
         /// <example>Example API</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }

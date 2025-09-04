@@ -445,9 +445,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>GetOrganizationResponse</returns>
-        GetOrganizationResponse GetOrganization(string? code = default(string?), int operationIndex = 0);
+        GetOrganizationResponse GetOrganization(string? code = default(string?), string? expand = default(string?), int operationIndex = 0);
 
         /// <summary>
         /// Get organization
@@ -457,9 +458,10 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
-        ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?), int operationIndex = 0);
+        ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?), string? expand = default(string?), int operationIndex = 0);
         /// <summary>
         /// Get connections
         /// </summary>
@@ -1406,10 +1408,11 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationResponse</returns>
-        System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), string? expand = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get organization
@@ -1419,10 +1422,11 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), string? expand = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get connections
         /// </summary>
@@ -4953,11 +4957,12 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>GetOrganizationResponse</returns>
-        public GetOrganizationResponse GetOrganization(string? code = default(string?), int operationIndex = 0)
+        public GetOrganizationResponse GetOrganization(string? code = default(string?), string? expand = default(string?), int operationIndex = 0)
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = GetOrganizationWithHttpInfo(code);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = GetOrganizationWithHttpInfo(code, expand);
             return localVarResponse.Data;
         }
 
@@ -4966,9 +4971,10 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?), int operationIndex = 0)
+        public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string? code = default(string?), string? expand = default(string?), int operationIndex = 0)
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -4995,6 +5001,10 @@ namespace Kinde.Api.Api
             if (code != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
+            }
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
             }
 
             localVarRequestOptions.Operation = "OrganizationsApi.GetOrganization";
@@ -5026,12 +5036,13 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationResponse</returns>
-        public async System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string? code = default(string?), string? expand = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, expand, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -5040,10 +5051,11 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string? code = default(string?), string? expand = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -5071,6 +5083,10 @@ namespace Kinde.Api.Api
             if (code != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
+            }
+            if (expand != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
             }
 
             localVarRequestOptions.Operation = "OrganizationsApi.GetOrganization";

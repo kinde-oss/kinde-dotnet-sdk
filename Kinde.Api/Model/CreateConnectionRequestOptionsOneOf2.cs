@@ -36,7 +36,8 @@ namespace Kinde.Api.Model
         /// <param name="samlEntityId">SAML Entity ID..</param>
         /// <param name="samlAcsUrl">Assertion Consumer Service URL..</param>
         /// <param name="samlSignInUrl">Override the default SSO endpoint with a URL your IdP recognizes..</param>
-        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool))
+        /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
+        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
@@ -47,6 +48,8 @@ namespace Kinde.Api.Model
             this.SamlFirstNameKeyAttr = samlFirstNameKeyAttr;
             this.SamlLastNameKeyAttr = samlLastNameKeyAttr;
             this.IsCreateMissingUser = isCreateMissingUser;
+            this.IsForceShowSsoButton = isForceShowSsoButton;
+            this.UpstreamParams = upstreamParams;
             this.SamlSigningCertificate = samlSigningCertificate;
             this.SamlSigningPrivateKey = samlSigningPrivateKey;
             this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
@@ -123,6 +126,22 @@ namespace Kinde.Api.Model
         public bool IsCreateMissingUser { get; set; }
 
         /// <summary>
+        /// Force showing the SSO button for this connection.
+        /// </summary>
+        /// <value>Force showing the SSO button for this connection.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
+        public bool IsForceShowSsoButton { get; set; }
+
+        /// <summary>
+        /// Additional upstream parameters to pass to the identity provider.
+        /// </summary>
+        /// <value>Additional upstream parameters to pass to the identity provider.</value>
+        /// <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example>
+        [DataMember(Name = "upstream_params", EmitDefaultValue = false)]
+        public Dictionary<string, Object> UpstreamParams { get; set; }
+
+        /// <summary>
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
@@ -161,6 +180,8 @@ namespace Kinde.Api.Model
             sb.Append("  SamlFirstNameKeyAttr: ").Append(SamlFirstNameKeyAttr).Append("\n");
             sb.Append("  SamlLastNameKeyAttr: ").Append(SamlLastNameKeyAttr).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
+            sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
+            sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
             sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
             sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
@@ -243,6 +264,16 @@ namespace Kinde.Api.Model
                     this.IsCreateMissingUser.Equals(input.IsCreateMissingUser)
                 ) && 
                 (
+                    this.IsForceShowSsoButton == input.IsForceShowSsoButton ||
+                    this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
+                ) && 
+                (
+                    this.UpstreamParams == input.UpstreamParams ||
+                    this.UpstreamParams != null &&
+                    input.UpstreamParams != null &&
+                    this.UpstreamParams.SequenceEqual(input.UpstreamParams)
+                ) && 
+                (
                     this.SamlSigningCertificate == input.SamlSigningCertificate ||
                     (this.SamlSigningCertificate != null &&
                     this.SamlSigningCertificate.Equals(input.SamlSigningCertificate))
@@ -300,6 +331,11 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.SamlLastNameKeyAttr.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
+                if (this.UpstreamParams != null)
+                {
+                    hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
+                }
                 if (this.SamlSigningCertificate != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlSigningCertificate.GetHashCode();

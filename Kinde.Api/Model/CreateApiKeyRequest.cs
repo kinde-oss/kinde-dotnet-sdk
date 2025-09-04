@@ -27,81 +27,71 @@ namespace Kinde.Api.Model
 {
     /// <summary>
     /// </summary>
-    [DataContract(Name = "createApplication_request")]
-    public partial class CreateApplicationRequest : IEquatable<CreateApplicationRequest>
+    [DataContract(Name = "createApiKey_request")]
+    public partial class CreateApiKeyRequest : IEquatable<CreateApiKeyRequest>
     {
-        /// <summary>
-        /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT.
-        /// </summary>
-        /// <value>The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT.</value>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum TypeEnum
-        {
-            /// <summary>
-            /// Enum Reg for value: reg
-            /// </summary>
-            [EnumMember(Value = "reg")]
-            Reg = 1,
-
-            /// <summary>
-            /// Enum Spa for value: spa
-            /// </summary>
-            [EnumMember(Value = "spa")]
-            Spa = 2,
-
-            /// <summary>
-            /// Enum M2m for value: m2m
-            /// </summary>
-            [EnumMember(Value = "m2m")]
-            M2m = 3,
-
-            /// <summary>
-            /// Enum Device for value: device
-            /// </summary>
-            [EnumMember(Value = "device")]
-            Device = 4
-        }
-
-
-        /// <summary>
-        /// The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT.
-        /// </summary>
-        /// <value>The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT.</value>
-        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
-        public TypeEnum Type { get; set; }
         /// <summary>
         /// </summary>
         [JsonConstructorAttribute]
-        protected CreateApplicationRequest() { }
+        protected CreateApiKeyRequest() { }
         /// <summary>
         /// </summary>
-        /// <param name="name">The application&#39;s name. (required).</param>
-        /// <param name="type">The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT. (required).</param>
-        /// <param name="orgCode">Scope an M2M application to an org (Plus plan required)..</param>
-        public CreateApplicationRequest(string name = default(string), TypeEnum type = default(TypeEnum), string orgCode = default(string))
+        /// <param name="name">The name of the API key. (required).</param>
+        /// <param name="apiId">The ID of the API this key is associated with. (required).</param>
+        /// <param name="scopeIds">Array of scope IDs to associate with this API key..</param>
+        /// <param name="userId">The ID of the user to associate with this API key (for user-level keys)..</param>
+        /// <param name="orgCode">The organization code to associate with this API key (for organization-level keys)..</param>
+        public CreateApiKeyRequest(string name = default(string), string apiId = default(string), List<string> scopeIds = default(List<string>), string userId = default(string), string orgCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
             {
-                throw new ArgumentNullException("name is a required property for CreateApplicationRequest and cannot be null");
+                throw new ArgumentNullException("name is a required property for CreateApiKeyRequest and cannot be null");
             }
             this.Name = name;
-            this.Type = type;
+            // to ensure "apiId" is required (not null)
+            if (apiId == null)
+            {
+                throw new ArgumentNullException("apiId is a required property for CreateApiKeyRequest and cannot be null");
+            }
+            this.ApiId = apiId;
+            this.ScopeIds = scopeIds;
+            this.UserId = userId;
             this.OrgCode = orgCode;
         }
 
         /// <summary>
-        /// The application&#39;s name.
+        /// The name of the API key.
         /// </summary>
-        /// <value>The application&#39;s name.</value>
-        /// <example>React Native app</example>
+        /// <value>The name of the API key.</value>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Scope an M2M application to an org (Plus plan required).
+        /// The ID of the API this key is associated with.
         /// </summary>
-        /// <value>Scope an M2M application to an org (Plus plan required).</value>
+        /// <value>The ID of the API this key is associated with.</value>
+        [DataMember(Name = "api_id", IsRequired = true, EmitDefaultValue = true)]
+        public string ApiId { get; set; }
+
+        /// <summary>
+        /// Array of scope IDs to associate with this API key.
+        /// </summary>
+        /// <value>Array of scope IDs to associate with this API key.</value>
+        [DataMember(Name = "scope_ids", EmitDefaultValue = true)]
+        public List<string> ScopeIds { get; set; }
+
+        /// <summary>
+        /// The ID of the user to associate with this API key (for user-level keys).
+        /// </summary>
+        /// <value>The ID of the user to associate with this API key (for user-level keys).</value>
+        [DataMember(Name = "user_id", EmitDefaultValue = true)]
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// The organization code to associate with this API key (for organization-level keys).
+        /// </summary>
+        /// <value>The organization code to associate with this API key (for organization-level keys).</value>
         [DataMember(Name = "org_code", EmitDefaultValue = true)]
         public string OrgCode { get; set; }
 
@@ -112,9 +102,11 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateApplicationRequest {\n");
+            sb.Append("class CreateApiKeyRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  ApiId: ").Append(ApiId).Append("\n");
+            sb.Append("  ScopeIds: ").Append(ScopeIds).Append("\n");
+            sb.Append("  UserId: ").Append(UserId).Append("\n");
             sb.Append("  OrgCode: ").Append(OrgCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -136,13 +128,13 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateApplicationRequest);
+            return this.Equals(input as CreateApiKeyRequest);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateApplicationRequest input)
+        public bool Equals(CreateApiKeyRequest input)
         {
             if (input == null)
             {
@@ -155,8 +147,20 @@ namespace Kinde.Api.Model
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.Type == input.Type ||
-                    this.Type.Equals(input.Type)
+                    this.ApiId == input.ApiId ||
+                    (this.ApiId != null &&
+                    this.ApiId.Equals(input.ApiId))
+                ) && 
+                (
+                    this.ScopeIds == input.ScopeIds ||
+                    this.ScopeIds != null &&
+                    input.ScopeIds != null &&
+                    this.ScopeIds.SequenceEqual(input.ScopeIds)
+                ) && 
+                (
+                    this.UserId == input.UserId ||
+                    (this.UserId != null &&
+                    this.UserId.Equals(input.UserId))
                 ) && 
                 (
                     this.OrgCode == input.OrgCode ||
@@ -178,7 +182,18 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.ApiId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ApiId.GetHashCode();
+                }
+                if (this.ScopeIds != null)
+                {
+                    hashCode = (hashCode * 59) + this.ScopeIds.GetHashCode();
+                }
+                if (this.UserId != null)
+                {
+                    hashCode = (hashCode * 59) + this.UserId.GetHashCode();
+                }
                 if (this.OrgCode != null)
                 {
                     hashCode = (hashCode * 59) + this.OrgCode.GetHashCode();

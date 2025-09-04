@@ -94,16 +94,12 @@ copy_model_files() {
     # Create Model directory if it doesn't exist
     mkdir -p "Kinde.Api/Model"
     
-    # Copy only existing Model files to preserve project structure
+    # Copy all Model files (including new ones to fix missing type errors)
     for file in "$TEMP_OUTPUT_DIR"/src/Kinde.Api/Model/*.cs; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            if [ -f "Kinde.Api/Model/$filename" ]; then
-                cp "$file" "Kinde.Api/Model/"
-                print_status "Updated Model file: $filename"
-            else
-                print_warning "Skipped new Model file: $filename (not in existing project)"
-            fi
+            cp "$file" "Kinde.Api/Model/"
+            print_status "Updated Model file: $filename"
         fi
     done
     
@@ -117,16 +113,12 @@ copy_enums_files() {
     # Create Enums directory if it doesn't exist
     mkdir -p "Kinde.Api/Enums"
     
-    # Copy only existing Enums files to preserve project structure
+    # Copy all Enums files (including new ones)
     for file in "$TEMP_OUTPUT_DIR"/src/Kinde.Api/Enums/*.cs; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            if [ -f "Kinde.Api/Enums/$filename" ]; then
-                cp "$file" "Kinde.Api/Enums/"
-                print_status "Updated Enums file: $filename"
-            else
-                print_warning "Skipped new Enums file: $filename (not in existing project)"
-            fi
+            cp "$file" "Kinde.Api/Enums/"
+            print_status "Updated Enums file: $filename"
         fi
     done
     
