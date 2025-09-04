@@ -131,7 +131,7 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>User</returns>
         User GetUserData(string id, string? expand = default(string?), int operationIndex = 0);
@@ -144,7 +144,7 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of User</returns>
         ApiResponse<User> GetUserDataWithHttpInfo(string id, string? expand = default(string?), int operationIndex = 0);
@@ -233,11 +233,12 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UsersResponse</returns>
-        UsersResponse GetUsers(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0);
+        UsersResponse GetUsers(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0);
 
         /// <summary>
         /// Get users
@@ -251,11 +252,12 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0);
+        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0);
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
@@ -600,7 +602,7 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
@@ -614,7 +616,7 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
@@ -710,12 +712,13 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get users
@@ -729,12 +732,13 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
@@ -1737,7 +1741,7 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>User</returns>
         public User GetUserData(string id, string? expand = default(string?), int operationIndex = 0)
@@ -1751,7 +1755,7 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of User</returns>
         public Kinde.Api.Client.ApiResponse<User> GetUserDataWithHttpInfo(string id, string? expand = default(string?), int operationIndex = 0)
@@ -1819,7 +1823,7 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
@@ -1834,7 +1838,7 @@ namespace Kinde.Api.Api
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot;, \&quot;identities\&quot; and/or \&quot;billing\&quot;. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
@@ -2405,13 +2409,14 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>UsersResponse</returns>
-        public UsersResponse GetUsers(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0)
+        public UsersResponse GetUsers(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0)
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, phone, expand, hasOrganization);
             return localVarResponse.Data;
         }
 
@@ -2424,11 +2429,12 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0)
+        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0)
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -2471,6 +2477,10 @@ namespace Kinde.Api.Api
             if (username != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "username", username));
+            }
+            if (phone != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "phone", phone));
             }
             if (expand != null)
             {
@@ -2514,14 +2524,15 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, operationIndex, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, phone, expand, hasOrganization, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2534,12 +2545,13 @@ namespace Kinde.Api.Api
         /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
         /// <param name="email">Filter the results by email address. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string? userId = default(string?), string? nextToken = default(string?), string? email = default(string?), string? username = default(string?), string? phone = default(string?), string? expand = default(string?), bool? hasOrganization = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
@@ -2583,6 +2595,10 @@ namespace Kinde.Api.Api
             if (username != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "username", username));
+            }
+            if (phone != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "phone", phone));
             }
             if (expand != null)
             {

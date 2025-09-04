@@ -91,34 +91,28 @@ fix_xml_comments() {
 copy_generated_files() {
     print_status "Copying generated files to the main project..."
     
-    # Copy Model files (only existing ones to avoid new incompatible files)
+    # Copy Model files (including new ones to fix missing type errors)
     if [ -d "$TEMP_OUTPUT_DIR/src/Kinde.Api/Model" ]; then
         print_status "Copying Model files..."
+        mkdir -p "Kinde.Api/Model"
         for file in "$TEMP_OUTPUT_DIR/src/Kinde.Api/Model"/*.cs; do
             if [ -f "$file" ]; then
                 filename=$(basename "$file")
-                if [ -f "Kinde.Api/Model/$filename" ]; then
-                    cp "$file" "Kinde.Api/Model/$filename"
-                    print_status "Updated: $filename"
-                else
-                    print_status "Skipped new file: $filename (not in existing project)"
-                fi
+                cp "$file" "Kinde.Api/Model/$filename"
+                print_status "Updated: $filename"
             fi
         done
     fi
     
-    # Copy Enums files (only existing ones)
+    # Copy Enums files (including new ones)
     if [ -d "$TEMP_OUTPUT_DIR/src/Kinde.Api/Enums" ]; then
         print_status "Copying Enums files..."
+        mkdir -p "Kinde.Api/Enums"
         for file in "$TEMP_OUTPUT_DIR/src/Kinde.Api/Enums"/*.cs; do
             if [ -f "$file" ]; then
                 filename=$(basename "$file")
-                if [ -f "Kinde.Api/Enums/$filename" ]; then
-                    cp "$file" "Kinde.Api/Enums/$filename"
-                    print_status "Updated: $filename"
-                else
-                    print_status "Skipped new file: $filename (not in existing project)"
-                fi
+                cp "$file" "Kinde.Api/Enums/$filename"
+                print_status "Updated: $filename"
             fi
         done
     fi

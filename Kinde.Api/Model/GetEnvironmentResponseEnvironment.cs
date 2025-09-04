@@ -226,9 +226,9 @@ namespace Kinde.Api.Model
         public string FaviconSvg { get; set; }
 
         /// <summary>
-        /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
+        /// The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG
         /// </summary>
-        /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
+        /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
         [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
         public string FaviconFallback { get; set; }
 
