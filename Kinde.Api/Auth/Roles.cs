@@ -62,13 +62,7 @@ namespace Kinde.Api.Auth
                 // Fall back to API call
                 _logger?.LogDebug("No roles in token, falling back to API for role: {RoleKey}", roleKey);
                 var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
-                {
-                    return await accountsClient.HasRoleAsync(roleKey).ConfigureAwait(false);
-                }
-
-                _logger?.LogWarning("No accounts client available for role check");
-                return false;
+                return await accountsClient.HasRoleAsync(roleKey).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -112,13 +106,7 @@ namespace Kinde.Api.Auth
                 // Fall back to API call
                 _logger?.LogDebug("No roles in token, falling back to API for any role check");
                 var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
-                {
-                    return await accountsClient.HasAnyRoleAsync(roleKeys);
-                }
-
-                _logger?.LogWarning("No accounts client available for any role check");
-                return false;
+                return await accountsClient.HasAnyRoleAsync(roleKeys);
             }
             catch (Exception e)
             {
@@ -162,13 +150,7 @@ namespace Kinde.Api.Auth
                 // Fall back to API call
                 _logger?.LogDebug("No roles in token, falling back to API for all roles check");
                 var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
-                {
-                    return await accountsClient.HasAllRolesAsync(roleKeys);
-                }
-
-                _logger?.LogWarning("No accounts client available for all roles check");
-                return false;
+                return await accountsClient.HasAllRolesAsync(roleKeys);
             }
             catch (Exception e)
             {
@@ -255,15 +237,9 @@ namespace Kinde.Api.Auth
                 // Fall back to API call for hard check
                 _logger?.LogDebug("Role '{RoleKey}' not in token, falling back to API for hard check", roleKey);
                 var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
-                {
-                    var hasRole = await accountsClient.HasRoleAsync(roleKey);
-                    _logger?.LogDebug("Role '{RoleKey}' hard check from API: {HasRole}", roleKey, hasRole);
-                    return hasRole;
-                }
-
-                _logger?.LogWarning("No accounts client available for role hard check");
-                return false;
+                var apiHasRole = await accountsClient.HasRoleAsync(roleKey);
+                _logger?.LogDebug("Role '{RoleKey}' hard check from API: {HasRole}", roleKey, apiHasRole);
+                return apiHasRole;
             }
             catch (Exception e)
             {

@@ -335,7 +335,7 @@ namespace Kinde.Api.Test
             var roles = new List<string> { "admin", "moderator" };
             var featureFlags = new List<string> { "user-management", "basic" };
 
-            // Create mock wrappers where only one permission is true
+            // Create mock wrappers where at least one requirement from each category is met
             var mockPermissions = new MockPermissions(new Dictionary<string, bool>
             {
                 { "read:users", true }, // This should make HasAny return true
@@ -343,12 +343,12 @@ namespace Kinde.Api.Test
             });
             var mockRoles = new MockRoles(new Dictionary<string, bool>
             {
-                { "admin", false },
+                { "admin", true },        // ensure roles category passes
                 { "moderator", false }
             });
             var mockFeatureFlags = new MockFeatureFlags(new Dictionary<string, bool>
             {
-                { "user-management", false },
+                { "user-management", true }, // ensure flags category passes
                 { "basic", false }
             });
 

@@ -40,11 +40,6 @@ namespace Kinde.Api.Auth
             try
             {
                 var accountsClient = GetAccountsClient();
-                if (accountsClient == null)
-                {
-                    _logger?.LogDebug("No accounts client available for entitlements retrieval");
-                    return new List<Dictionary<string, object>>();
-                }
 
                 var response = await accountsClient.GetEntitlementsAsync();
                 var entitlements = new List<Dictionary<string, object>>();
@@ -83,11 +78,6 @@ namespace Kinde.Api.Auth
             try
             {
                 var accountsClient = GetAccountsClient();
-                if (accountsClient == null)
-                {
-                    _logger?.LogDebug("No accounts client available for entitlement retrieval");
-                    return null;
-                }
 
                 var response = await accountsClient.GetEntitlementAsync(key);
                 if (response.Data?.Entitlement != null)
@@ -205,10 +195,12 @@ namespace Kinde.Api.Auth
 
         /// <summary>
         /// Strictly check if the user has a specific entitlement (hard check).
-        /// Only returns true when:
-        /// - The entitlement exists AND
-        /// - type == "boolean" AND the boolean value resolves to true AND
-        /// - If usage limits are provided, limitUsed &lt; limitMax.
+        /// This method enforces stricter validation than the basic HasEntitlementAsync.
+        /// 
+        /// Hard check requirements:
+        /// - Entitlement exists and has a valid limitMax > 0
+        /// - Note: Full type/value validation and limit enforcement are not available
+        ///   with the current API model which lacks Type, Value, and EntitlementLimitUsed
         /// </summary>
         /// <param name="entitlementKey">The entitlement key to check</param>
         /// <returns>True if the hard-check passes, false otherwise</returns>
@@ -220,57 +212,22 @@ namespace Kinde.Api.Auth
                 return false;
             }
 
-            // Require type strictly boolean
-            if (!entitlement.TryGetValue("type", out var typeObj) ||
-                !string.Equals(typeObj?.ToString(), "boolean", StringComparison.OrdinalIgnoreCase))
+            // With the current API model, we can only validate that the entitlement exists
+            // and has a valid limitMax > 0. Full type/value validation and limit enforcement
+            // require additional properties (Type, Value, EntitlementLimitUsed) that are not
+            // available in the current Kinde.Accounts.Model.Entitlement class.
+            
+            // Check if entitlement has a valid limitMax > 0
+            if (entitlement.TryGetValue("limitMax", out var maxObj))
             {
-                return false;
-            }
-
-            // Resolve boolean value strictly to true
-            bool enabled = false;
-
-            if (entitlement.TryGetValue("status", out var statusObj))
-            {
-                if (statusObj is bool sb)
+                if (TryToLong(maxObj, out var max))
                 {
-                    enabled = sb;
-                }
-                else
-                {
-                    var s = statusObj?.ToString();
-                    enabled = string.Equals(s, "true", StringComparison.OrdinalIgnoreCase) || s == "1" ||
-                              string.Equals(s, "yes", StringComparison.OrdinalIgnoreCase) ||
-                              string.Equals(s, "on", StringComparison.OrdinalIgnoreCase);
+                    return max > 0;
                 }
             }
 
-            if (!enabled && entitlement.TryGetValue("value", out var valueObj))
-            {
-                var v = valueObj?.ToString();
-                enabled = string.Equals(v, "true", StringComparison.OrdinalIgnoreCase) || v == "1" ||
-                          string.Equals(v, "yes", StringComparison.OrdinalIgnoreCase) ||
-                          string.Equals(v, "on", StringComparison.OrdinalIgnoreCase);
-            }
-
-            if (!enabled)
-            {
-                return false;
-            }
-
-            // If limits are present, enforce usage < max
-            if (entitlement.TryGetValue("limitMax", out var maxObj) && entitlement.TryGetValue("limitUsed", out var usedObj))
-            {
-                if (TryToLong(maxObj, out var max) && TryToLong(usedObj, out var used))
-                {
-                    if (max > 0 && used >= max)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            // If no limitMax or invalid limitMax, consider entitlement as not available
+            return false;
         }
 
         /// <summary>
@@ -366,11 +323,12 @@ namespace Kinde.Api.Auth
                 result["unitAmount"] = entitlement.UnitAmount;
                 result["limitMax"] = entitlement.EntitlementLimitMax;
                 result["limitMin"] = entitlement.EntitlementLimitMin;
-
-                // For entitlements, we consider them "enabled" if they have a valid limitMax > 0
-                // This is a business logic decision - entitlements with limits are considered active
-                bool enabled = entitlement.EntitlementLimitMax > 0;
-                result["status"] = enabled;
+                // Note: EntitlementLimitUsed is not available in the current Entitlement model
+                // This means the hard check limit enforcement will not work until the API provides this data
+                
+                // Note: Type and Value are not available in the current Entitlement model
+                // This means proper boolean type checking and value validation cannot be performed
+                // The hard check will only validate limitMax > 0 for now
             }
 
             return result;

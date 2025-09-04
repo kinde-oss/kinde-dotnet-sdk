@@ -1,6 +1,7 @@
 using Kinde.Api.Client;
 using Kinde.Api.Models.Tokens;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,7 +148,27 @@ namespace Kinde.Api.Auth
                 if (value is T typedValue)
                     return typedValue;
 
-                // Try to convert the value to the target type
+                // Unwrap JSON values
+                if (value is Newtonsoft.Json.Linq.JValue jv) value = jv.Value;
+                if (value is Newtonsoft.Json.Linq.JToken jt && jt is not Newtonsoft.Json.Linq.JValue)
+                    value = jt.ToObject<object>();
+
+                // Special-case booleans
+                if (typeof(T) == typeof(bool))
+                {
+                    if (value is bool vb) return (T)(object)vb;
+                    if (value is sbyte or byte or short or ushort or int or uint or long or ulong or float or double or decimal)
+                        return (T)(object)(Convert.ToDouble(value) != 0d);
+                    var s = value?.ToString();
+                    return (T)(object)(
+                        string.Equals(s, "true", StringComparison.OrdinalIgnoreCase) ||
+                        s == "1" ||
+                        string.Equals(s, "yes", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(s, "on", StringComparison.OrdinalIgnoreCase)
+                    );
+                }
+
+                // Fallback
                 return (T)Convert.ChangeType(value, typeof(T));
             }
             catch (Exception e)

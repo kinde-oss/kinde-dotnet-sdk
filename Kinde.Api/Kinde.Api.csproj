@@ -54,4 +54,8 @@
     <ProjectReference Include="../generated-accounts-api-files/src/Kinde.Accounts/Kinde.Accounts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Auth/AuthExample.cs" />
+  </ItemGroup>
+
 </Project>
