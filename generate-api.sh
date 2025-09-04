@@ -94,6 +94,7 @@ copy_generated_files() {
     # Copy Model files (including new ones to fix missing type errors)
     if [ -d "$TEMP_OUTPUT_DIR/src/Kinde.Api/Model" ]; then
         print_status "Copying Model files..."
+        mkdir -p "Kinde.Api/Model"
         for file in "$TEMP_OUTPUT_DIR/src/Kinde.Api/Model"/*.cs; do
             if [ -f "$file" ]; then
                 filename=$(basename "$file")
@@ -106,6 +107,7 @@ copy_generated_files() {
     # Copy Enums files (including new ones)
     if [ -d "$TEMP_OUTPUT_DIR/src/Kinde.Api/Enums" ]; then
         print_status "Copying Enums files..."
+        mkdir -p "Kinde.Api/Enums"
         for file in "$TEMP_OUTPUT_DIR/src/Kinde.Api/Enums"/*.cs; do
             if [ -f "$file" ]; then
                 filename=$(basename "$file")
