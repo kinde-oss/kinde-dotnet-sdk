@@ -35,7 +35,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="flagKey">The feature flag key to check</param>
         /// <returns>True if the feature flag is enabled, false otherwise</returns>
-        public async Task<bool> IsFeatureFlagEnabledAsync(string flagKey)
+        public virtual async Task<bool> IsFeatureFlagEnabledAsync(string flagKey)
         {
             if (string.IsNullOrWhiteSpace(flagKey))
             {
@@ -52,10 +52,13 @@ namespace Kinde.Api.Auth
                     var tokenFlags = token.GetFeatureFlags();
                     if (tokenFlags != null && tokenFlags.Any())
                     {
-                        // Check if flag is in token
-                        var isEnabled = token.IsFeatureFlagEnabled(flagKey);
-                        _logger?.LogDebug("Feature flag '{FlagKey}' found in token: {IsEnabled}", flagKey, isEnabled);
-                        return isEnabled;
+                        if (tokenFlags.ContainsKey(flagKey))
+                        {
+                            var isEnabled = token.IsFeatureFlagEnabled(flagKey);
+                            _logger?.LogDebug("Feature flag '{FlagKey}' found in token: {IsEnabled}", flagKey, isEnabled);
+                            return isEnabled;
+                        }
+                        _logger?.LogDebug("Feature flag '{FlagKey}' not present in token; falling back to API", flagKey);
                     }
                 }
 
@@ -99,10 +102,13 @@ namespace Kinde.Api.Auth
                     var tokenFlags = token.GetFeatureFlags();
                     if (tokenFlags != null && tokenFlags.Any())
                     {
-                        // Get flag value from token
                         var value = token.GetFeatureFlag(flagKey);
-                        _logger?.LogDebug("Feature flag '{FlagKey}' value found in token: {Value}", flagKey, value);
-                        return value;
+                        if (value != null)
+                        {
+                            _logger?.LogDebug("Feature flag '{FlagKey}' value found in token: {Value}", flagKey, value);
+                            return value;
+                        }
+                        _logger?.LogDebug("Feature flag '{FlagKey}' not present in token; falling back to API", flagKey);
                     }
                 }
 
@@ -182,6 +188,54 @@ namespace Kinde.Api.Auth
         }
 
         /// <summary>
+        /// Check if any of the specified feature flags are enabled.
+        /// </summary>
+        /// <param name="flagKeys">The feature flag keys to check</param>
+        /// <returns>True if any of the feature flags are enabled, false otherwise</returns>
+        public virtual async Task<bool> IsAnyFeatureFlagEnabledAsync(IEnumerable<string> flagKeys)
+        {
+            if (flagKeys == null || !flagKeys.Any())
+            {
+                _logger?.LogWarning("Feature flag keys cannot be null or empty");
+                return false;
+            }
+
+            foreach (string flagKey in flagKeys)
+            {
+                if (await IsFeatureFlagEnabledAsync(flagKey))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if all of the specified feature flags are enabled.
+        /// </summary>
+        /// <param name="flagKeys">The feature flag keys to check</param>
+        /// <returns>True if all of the feature flags are enabled, false otherwise</returns>
+        public virtual async Task<bool> AreAllFeatureFlagsEnabledAsync(IEnumerable<string> flagKeys)
+        {
+            if (flagKeys == null || !flagKeys.Any())
+            {
+                _logger?.LogWarning("Feature flag keys cannot be null or empty");
+                return false;
+            }
+
+            foreach (string flagKey in flagKeys)
+            {
+                if (!await IsFeatureFlagEnabledAsync(flagKey))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Get all feature flags for the current user.
         /// </summary>
         /// <returns>List of feature flag names, or empty list if none found</returns>
@@ -231,7 +285,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="flagKey">The feature flag key to check</param>
         /// <returns>True if the hard-check passes, false otherwise</returns>
-        public async Task<bool> IsFeatureFlagEnabledHardCheckAsync(string flagKey)
+        public virtual async Task<bool> IsFeatureFlagEnabledHardCheckAsync(string flagKey)
         {
             if (string.IsNullOrWhiteSpace(flagKey))
             {
@@ -283,7 +337,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="flagKeys">The feature flag keys to check</param>
         /// <returns>True if any feature flag passes hard check, false otherwise</returns>
-        public async Task<bool> IsAnyFeatureFlagEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        public virtual async Task<bool> IsAnyFeatureFlagEnabledHardCheckAsync(IEnumerable<string> flagKeys)
         {
             if (flagKeys == null || !flagKeys.Any())
             {
@@ -306,7 +360,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="flagKeys">The feature flag keys to check</param>
         /// <returns>True if all feature flags pass hard check, false otherwise</returns>
-        public async Task<bool> AreAllFeatureFlagsEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        public virtual async Task<bool> AreAllFeatureFlagsEnabledHardCheckAsync(IEnumerable<string> flagKeys)
         {
             if (flagKeys == null || !flagKeys.Any())
             {

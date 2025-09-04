@@ -35,7 +35,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKey">The permission key to check</param>
         /// <returns>True if the user has the permission, false otherwise</returns>
-        public async Task<bool> HasPermissionAsync(string permissionKey)
+        public virtual async Task<bool> HasPermissionAsync(string permissionKey)
         {
             if (string.IsNullOrWhiteSpace(permissionKey))
             {
@@ -82,7 +82,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKeys">The permission keys to check</param>
         /// <returns>True if the user has any of the permissions, false otherwise</returns>
-        public async Task<bool> HasAnyPermissionAsync(IEnumerable<string> permissionKeys)
+        public virtual async Task<bool> HasAnyPermissionAsync(IEnumerable<string> permissionKeys)
         {
             if (permissionKeys == null || !permissionKeys.Any())
             {
@@ -129,7 +129,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKeys">The permission keys to check</param>
         /// <returns>True if the user has all of the permissions, false otherwise</returns>
-        public async Task<bool> HasAllPermissionsAsync(IEnumerable<string> permissionKeys)
+        public virtual async Task<bool> HasAllPermissionsAsync(IEnumerable<string> permissionKeys)
         {
             if (permissionKeys == null || !permissionKeys.Any())
             {
@@ -220,7 +220,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKey">The permission key to check</param>
         /// <returns>True if the hard-check passes, false otherwise</returns>
-        public async Task<bool> HasPermissionHardCheckAsync(string permissionKey)
+        public virtual async Task<bool> HasPermissionHardCheckAsync(string permissionKey)
         {
             if (string.IsNullOrWhiteSpace(permissionKey))
             {
@@ -272,7 +272,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKeys">The permission keys to check</param>
         /// <returns>True if any permission passes hard check, false otherwise</returns>
-        public async Task<bool> HasAnyPermissionHardCheckAsync(IEnumerable<string> permissionKeys)
+        public virtual async Task<bool> HasAnyPermissionHardCheckAsync(IEnumerable<string> permissionKeys)
         {
             if (permissionKeys == null || !permissionKeys.Any())
             {
@@ -295,7 +295,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="permissionKeys">The permission keys to check</param>
         /// <returns>True if all permissions pass hard check, false otherwise</returns>
-        public async Task<bool> HasAllPermissionsHardCheckAsync(IEnumerable<string> permissionKeys)
+        public virtual async Task<bool> HasAllPermissionsHardCheckAsync(IEnumerable<string> permissionKeys)
         {
             if (permissionKeys == null || !permissionKeys.Any())
             {

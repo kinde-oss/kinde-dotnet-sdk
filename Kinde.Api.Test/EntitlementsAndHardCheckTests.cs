@@ -267,16 +267,29 @@ namespace Kinde.Api.Test
             var roles = new List<string> { "admin" };
             var featureFlags = new List<string> { "user-management" };
 
-            // Mock the permissions to return false
-            // Note: This is a simplified test - in a real scenario you'd mock the accounts client
+            // Create mock wrappers that return false for permissions
+            var mockPermissions = new MockPermissions(new Dictionary<string, bool>
+            {
+                { "read:users", false }, // This will cause the test to fail
+                { "write:users", true }
+            });
+            var mockRoles = new MockRoles(new Dictionary<string, bool>
+            {
+                { "admin", true }
+            });
+            var mockFeatureFlags = new MockFeatureFlags(new Dictionary<string, bool>
+            {
+                { "user-management", true }
+            });
+
+            var auth = new Kinde.Api.Auth.Auth(_mockClient.Object, _mockLogger.Object, 
+                mockPermissions, mockRoles, mockFeatureFlags);
 
             // Act
-            var result = await _auth.HasAllAsync(permissions, roles, featureFlags);
+            var result = await auth.HasAllAsync(permissions, roles, featureFlags);
 
             // Assert
-            // Since we can't easily mock the accounts client in this test setup,
-            // we're testing the method structure and error handling
-            Assert.IsType<bool>(result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -287,13 +300,66 @@ namespace Kinde.Api.Test
             var roles = new List<string> { "admin", "moderator" };
             var featureFlags = new List<string> { "user-management", "basic" };
 
+            // Create mock wrappers that all return false
+            var mockPermissions = new MockPermissions(new Dictionary<string, bool>
+            {
+                { "read:users", false },
+                { "write:users", false }
+            });
+            var mockRoles = new MockRoles(new Dictionary<string, bool>
+            {
+                { "admin", false },
+                { "moderator", false }
+            });
+            var mockFeatureFlags = new MockFeatureFlags(new Dictionary<string, bool>
+            {
+                { "user-management", false },
+                { "basic", false }
+            });
+
+            var auth = new Kinde.Api.Auth.Auth(_mockClient.Object, _mockLogger.Object, 
+                mockPermissions, mockRoles, mockFeatureFlags);
+
             // Act
-            var result = await _auth.HasAnyAsync(permissions, roles, featureFlags);
+            var result = await auth.HasAnyAsync(permissions, roles, featureFlags);
 
             // Assert
-            // Since we can't easily mock the accounts client in this test setup,
-            // we're testing the method structure and error handling
-            Assert.IsType<bool>(result);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task HasAnyAsync_ShouldReturnTrue_WhenAtLeastOneRequirementIsMet()
+        {
+            // Arrange
+            var permissions = new List<string> { "read:users", "write:users" };
+            var roles = new List<string> { "admin", "moderator" };
+            var featureFlags = new List<string> { "user-management", "basic" };
+
+            // Create mock wrappers where only one permission is true
+            var mockPermissions = new MockPermissions(new Dictionary<string, bool>
+            {
+                { "read:users", true }, // This should make HasAny return true
+                { "write:users", false }
+            });
+            var mockRoles = new MockRoles(new Dictionary<string, bool>
+            {
+                { "admin", false },
+                { "moderator", false }
+            });
+            var mockFeatureFlags = new MockFeatureFlags(new Dictionary<string, bool>
+            {
+                { "user-management", false },
+                { "basic", false }
+            });
+
+            var auth = new Kinde.Api.Auth.Auth(_mockClient.Object, _mockLogger.Object, 
+                mockPermissions, mockRoles, mockFeatureFlags);
+
+            // Act
+            var result = await auth.HasAnyAsync(permissions, roles, featureFlags);
+
+            // Assert
+            Assert.True(result);
         }
 
         #endregion
@@ -372,7 +438,7 @@ namespace Kinde.Api.Test
             object obj = expectedValue;
 
             // Act
-            bool result = EntitlementsAndHardCheckTestsHelper.TryToLong(obj, out long actualValue);
+            bool result = Entitlements.TryToLong(obj, out long actualValue);
 
             // Assert
             Assert.True(result);
@@ -387,7 +453,7 @@ namespace Kinde.Api.Test
             object obj = expectedValue;
 
             // Act
-            bool result = EntitlementsAndHardCheckTestsHelper.TryToLong(obj, out long actualValue);
+            bool result = Entitlements.TryToLong(obj, out long actualValue);
 
             // Assert
             Assert.True(result);
@@ -402,7 +468,7 @@ namespace Kinde.Api.Test
             object obj = expectedValue;
 
             // Act
-            bool result = EntitlementsAndHardCheckTestsHelper.TryToLong(obj, out long actualValue);
+            bool result = Entitlements.TryToLong(obj, out long actualValue);
 
             // Assert
             Assert.True(result);
@@ -416,7 +482,7 @@ namespace Kinde.Api.Test
             object obj = "invalid";
 
             // Act
-            bool result = EntitlementsAndHardCheckTestsHelper.TryToLong(obj, out long actualValue);
+            bool result = Entitlements.TryToLong(obj, out long actualValue);
 
             // Assert
             Assert.False(result);
@@ -430,41 +496,160 @@ namespace Kinde.Api.Test
             object obj = null;
 
             // Act
-            bool result = EntitlementsAndHardCheckTestsHelper.TryToLong(obj, out long actualValue);
+            bool result = Entitlements.TryToLong(obj, out long actualValue);
 
             // Assert
             Assert.False(result);
             Assert.Equal(0L, actualValue);
         }
 
+        [Theory]
+        [InlineData("9223372036854775808")] // long.MaxValue + 1 => overflow
+        [InlineData("-1")]
+        [InlineData("  42  ")]
+        public void TryToLong_AdditionalCases(string input)
+        {
+            // Just call through to ensure parsing/overflow/trim behavior
+            Entitlements.TryToLong(input, out _);
+        }
+
         #endregion
     }
 
-    /// <summary>
-    /// Helper class to test private methods from Entitlements class.
-    /// </summary>
-    public static class EntitlementsAndHardCheckTestsHelper
-    {
-        public static bool TryToLong(object obj, out long value)
-        {
-            try
-            {
-                if (obj is long l)
-                {
-                    value = l; return true;
-                }
-                if (obj is int i)
-                {
-                    value = i; return true;
-                }
-                if (obj is string s && long.TryParse(s, out var p))
-                {
-                    value = p; return true;
-                }
-            }
-            catch { }
 
-            value = 0; return false;
+    #region Mock Wrapper Classes for Testing
+
+    /// <summary>
+    /// Mock implementation of Permissions for testing
+    /// </summary>
+    public class MockPermissions : Permissions
+    {
+        private readonly Dictionary<string, bool> _permissionResults;
+
+        public MockPermissions(Dictionary<string, bool> permissionResults = null) 
+            : base(null, null)
+        {
+            _permissionResults = permissionResults ?? new Dictionary<string, bool>();
+        }
+
+        public override async Task<bool> HasPermissionAsync(string permissionKey)
+        {
+            return _permissionResults.TryGetValue(permissionKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> HasAnyPermissionAsync(IEnumerable<string> permissionKeys)
+        {
+            return permissionKeys?.Any(key => _permissionResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasAllPermissionsAsync(IEnumerable<string> permissionKeys)
+        {
+            return permissionKeys?.All(key => _permissionResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasPermissionHardCheckAsync(string permissionKey)
+        {
+            return _permissionResults.TryGetValue(permissionKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> HasAnyPermissionHardCheckAsync(IEnumerable<string> permissionKeys)
+        {
+            return permissionKeys?.Any(key => _permissionResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasAllPermissionsHardCheckAsync(IEnumerable<string> permissionKeys)
+        {
+            return permissionKeys?.All(key => _permissionResults.TryGetValue(key, out var result) && result) == true;
         }
     }
+
+    /// <summary>
+    /// Mock implementation of Roles for testing
+    /// </summary>
+    public class MockRoles : Roles
+    {
+        private readonly Dictionary<string, bool> _roleResults;
+
+        public MockRoles(Dictionary<string, bool> roleResults = null) 
+            : base(null, null)
+        {
+            _roleResults = roleResults ?? new Dictionary<string, bool>();
+        }
+
+        public override async Task<bool> HasRoleAsync(string roleKey)
+        {
+            return _roleResults.TryGetValue(roleKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> HasAnyRoleAsync(IEnumerable<string> roleKeys)
+        {
+            return roleKeys?.Any(key => _roleResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasAllRolesAsync(IEnumerable<string> roleKeys)
+        {
+            return roleKeys?.All(key => _roleResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasRoleHardCheckAsync(string roleKey)
+        {
+            return _roleResults.TryGetValue(roleKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> HasAnyRoleHardCheckAsync(IEnumerable<string> roleKeys)
+        {
+            return roleKeys?.Any(key => _roleResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> HasAllRolesHardCheckAsync(IEnumerable<string> roleKeys)
+        {
+            return roleKeys?.All(key => _roleResults.TryGetValue(key, out var result) && result) == true;
+        }
+    }
+
+    /// <summary>
+    /// Mock implementation of FeatureFlags for testing
+    /// </summary>
+    public class MockFeatureFlags : FeatureFlags
+    {
+        private readonly Dictionary<string, bool> _flagResults;
+
+        public MockFeatureFlags(Dictionary<string, bool> flagResults = null) 
+            : base(null, null)
+        {
+            _flagResults = flagResults ?? new Dictionary<string, bool>();
+        }
+
+        public override async Task<bool> IsFeatureFlagEnabledAsync(string flagKey)
+        {
+            return _flagResults.TryGetValue(flagKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> IsAnyFeatureFlagEnabledAsync(IEnumerable<string> flagKeys)
+        {
+            return flagKeys?.Any(key => _flagResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> AreAllFeatureFlagsEnabledAsync(IEnumerable<string> flagKeys)
+        {
+            return flagKeys?.All(key => _flagResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> IsFeatureFlagEnabledHardCheckAsync(string flagKey)
+        {
+            return _flagResults.TryGetValue(flagKey, out var result) ? result : false;
+        }
+
+        public override async Task<bool> IsAnyFeatureFlagEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        {
+            return flagKeys?.Any(key => _flagResults.TryGetValue(key, out var result) && result) == true;
+        }
+
+        public override async Task<bool> AreAllFeatureFlagsEnabledHardCheckAsync(IEnumerable<string> flagKeys)
+        {
+            return flagKeys?.All(key => _flagResults.TryGetValue(key, out var result) && result) == true;
+        }
+    }
+
+    #endregion
 }

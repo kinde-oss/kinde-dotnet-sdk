@@ -35,7 +35,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKey">The role key to check</param>
         /// <returns>True if the user has the role, false otherwise</returns>
-        public async Task<bool> HasRoleAsync(string roleKey)
+        public virtual async Task<bool> HasRoleAsync(string roleKey)
         {
             roleKey = roleKey?.Trim();
             if (string.IsNullOrWhiteSpace(roleKey))
@@ -82,7 +82,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKeys">The role keys to check</param>
         /// <returns>True if the user has any of the roles, false otherwise</returns>
-        public async Task<bool> HasAnyRoleAsync(IEnumerable<string> roleKeys)
+        public virtual async Task<bool> HasAnyRoleAsync(IEnumerable<string> roleKeys)
         {
             if (roleKeys == null || !roleKeys.Any())
             {
@@ -100,7 +100,10 @@ namespace Kinde.Api.Auth
                     if (tokenRoles != null && tokenRoles.Any())
                     {
                         // Check if any role is in token
-                        var hasAnyRole = roleKeys.Any(key => tokenRoles.Contains(key));
+                        var normalized = new HashSet<string>(
+                            tokenRoles.Where(r => !string.IsNullOrWhiteSpace(r)).Select(r => r.Trim()),
+                            StringComparer.OrdinalIgnoreCase);
+                        var hasAnyRole = roleKeys.Any(key => !string.IsNullOrWhiteSpace(key) && normalized.Contains(key.Trim()));
                         _logger?.LogDebug("Any role check in token: {HasAnyRole}", hasAnyRole);
                         return hasAnyRole;
                     }
@@ -129,7 +132,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKeys">The role keys to check</param>
         /// <returns>True if the user has all of the roles, false otherwise</returns>
-        public async Task<bool> HasAllRolesAsync(IEnumerable<string> roleKeys)
+        public virtual async Task<bool> HasAllRolesAsync(IEnumerable<string> roleKeys)
         {
             if (roleKeys == null || !roleKeys.Any())
             {
@@ -147,7 +150,10 @@ namespace Kinde.Api.Auth
                     if (tokenRoles != null && tokenRoles.Any())
                     {
                         // Check if all roles are in token
-                        var hasAllRoles = roleKeys.All(key => tokenRoles.Contains(key));
+                        var normalized = new HashSet<string>(
+                            tokenRoles.Where(r => !string.IsNullOrWhiteSpace(r)).Select(r => r.Trim()),
+                            StringComparer.OrdinalIgnoreCase);
+                        var hasAllRoles = roleKeys.All(key => !string.IsNullOrWhiteSpace(key) && normalized.Contains(key.Trim()));
                         _logger?.LogDebug("All roles check in token: {HasAllRoles}", hasAllRoles);
                         return hasAllRoles;
                     }
@@ -220,7 +226,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKey">The role key to check</param>
         /// <returns>True if the hard-check passes, false otherwise</returns>
-        public async Task<bool> HasRoleHardCheckAsync(string roleKey)
+        public virtual async Task<bool> HasRoleHardCheckAsync(string roleKey)
         {
             if (string.IsNullOrWhiteSpace(roleKey))
             {
@@ -271,7 +277,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKeys">The role keys to check</param>
         /// <returns>True if any role passes hard check, false otherwise</returns>
-        public async Task<bool> HasAnyRoleHardCheckAsync(IEnumerable<string> roleKeys)
+        public virtual async Task<bool> HasAnyRoleHardCheckAsync(IEnumerable<string> roleKeys)
         {
             if (roleKeys == null || !roleKeys.Any())
             {
@@ -294,7 +300,7 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="roleKeys">The role keys to check</param>
         /// <returns>True if all roles pass hard check, false otherwise</returns>
-        public async Task<bool> HasAllRolesHardCheckAsync(IEnumerable<string> roleKeys)
+        public virtual async Task<bool> HasAllRolesHardCheckAsync(IEnumerable<string> roleKeys)
         {
             if (roleKeys == null || !roleKeys.Any())
             {

@@ -20,14 +20,16 @@ namespace Kinde.Api.Auth
         private readonly Entitlements _entitlements;
         private readonly KindeClient _client;
 
-        public Auth(KindeClient client = null, ILogger logger = null) : base(logger)
+        public Auth(KindeClient client = null, ILogger logger = null, 
+                   Permissions permissions = null, Roles roles = null,
+                   FeatureFlags featureFlags = null, Entitlements entitlements = null) : base(logger)
         {
             _client = client;
             _claims = new Claims(client, logger);
-            _permissions = new Permissions(client, logger);
-            _featureFlags = new FeatureFlags(client, logger);
-            _roles = new Roles(client, logger);
-            _entitlements = new Entitlements(client, logger);
+            _permissions = permissions ?? new Permissions(client, logger);
+            _featureFlags = featureFlags ?? new FeatureFlags(client, logger);
+            _roles = roles ?? new Roles(client, logger);
+            _entitlements = entitlements ?? new Entitlements(client, logger);
         }
 
         /// <summary>

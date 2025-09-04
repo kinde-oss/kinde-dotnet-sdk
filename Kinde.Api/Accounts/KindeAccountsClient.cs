@@ -414,7 +414,13 @@ namespace Kinde.Api.Accounts
             try
             {
                 var value = await GetFeatureFlagValueAsync(flagKey);
-                return value is bool boolValue && boolValue;
+                if (value is bool b) 
+                    return b;
+                var s = value?.ToString();
+                return string.Equals(s, "true", StringComparison.OrdinalIgnoreCase) ||
+                       s == "1" ||
+                       string.Equals(s, "yes", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(s, "on", StringComparison.OrdinalIgnoreCase);
             }
             catch (Exception ex)
             {

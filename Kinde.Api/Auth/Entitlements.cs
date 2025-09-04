@@ -1,5 +1,6 @@
 using Kinde.Api.Client;
 using Kinde.Api.Models.Tokens;
+using Kinde.Accounts.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -312,7 +313,7 @@ namespace Kinde.Api.Auth
             return true;
         }
 
-        private static bool TryToLong(object obj, out long value)
+        internal static bool TryToLong(object obj, out long value)
         {
             try
             {
@@ -351,44 +352,25 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <param name="entitlement">The entitlement response to convert</param>
         /// <returns>Dictionary representation of the entitlement</returns>
-        private Dictionary<string, object> ConvertEntitlementToMap(dynamic entitlement)
+        private Dictionary<string, object> ConvertEntitlementToMap(Kinde.Accounts.Model.Entitlement entitlement)
         {
             var result = new Dictionary<string, object>();
 
             if (entitlement != null)
             {
-                // Extract properties from the entitlement object
-                if (entitlement.FeatureKey != null)
-                    result["key"] = entitlement.FeatureKey;
-                if (entitlement.FeatureName != null)
-                    result["name"] = entitlement.FeatureName;
-                if (entitlement.Description != null)
-                    result["description"] = entitlement.Description;
-                if (entitlement.Type != null)
-                    result["type"] = entitlement.Type;
-                if (entitlement.Value != null)
-                    result["value"] = entitlement.Value;
-                if (entitlement.OrgCode != null)
-                    result["orgCode"] = entitlement.OrgCode;
-                if (entitlement.Plans != null)
-                    result["plans"] = entitlement.Plans;
-                if (entitlement.EntitlementLimitMax != null)
-                    result["limitMax"] = entitlement.EntitlementLimitMax;
-                if (entitlement.EntitlementLimitUsed != null)
-                    result["limitUsed"] = entitlement.EntitlementLimitUsed;
+                if (entitlement.FeatureKey != null) result["key"] = entitlement.FeatureKey;
+                if (entitlement.FeatureName != null) result["name"] = entitlement.FeatureName;
+                if (entitlement.Id != null) result["id"] = entitlement.Id;
+                if (entitlement.PriceName != null) result["priceName"] = entitlement.PriceName;
+                result["fixedCharge"] = entitlement.FixedCharge;
+                result["unitAmount"] = entitlement.UnitAmount;
+                result["limitMax"] = entitlement.EntitlementLimitMax;
+                result["limitMin"] = entitlement.EntitlementLimitMin;
 
-                // Derive a boolean status for easy checks when type is boolean
-                if (entitlement.Type != null && entitlement.Type.ToString().Equals("boolean", StringComparison.OrdinalIgnoreCase))
-                {
-                    var value = entitlement.Value?.ToString();
-                    var enabled = value != null && (
-                        value.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                        value.Equals("1") ||
-                        value.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
-                        value.Equals("on", StringComparison.OrdinalIgnoreCase)
-                    );
-                    result["status"] = enabled;
-                }
+                // For entitlements, we consider them "enabled" if they have a valid limitMax > 0
+                // This is a business logic decision - entitlements with limits are considered active
+                bool enabled = entitlement.EntitlementLimitMax > 0;
+                result["status"] = enabled;
             }
 
             return result;
