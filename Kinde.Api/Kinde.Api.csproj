@@ -9,7 +9,7 @@
     <Product>Kinde Platform</Product>
     <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
     <Copyright>Kinde</Copyright>
-    <Version>1.3.1</Version>
+    <Version>1.4.1</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
