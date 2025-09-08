@@ -128,8 +128,20 @@ namespace Kinde.Api.Auth
                 if (value is T typedValue)
                     return typedValue;
 
-                // Try to convert the value to the target type
-                return (T)Convert.ChangeType(value, typeof(T));
+                // Bool: accept "true"/"false" and "1"/"0"
+                if (typeof(T) == typeof(bool))
+                {
+                    var s = Convert.ToString(value)?.Trim();
+                    var b = bool.TryParse(s, out var parsed) ? parsed : string.Equals(s, "1", StringComparison.Ordinal);
+                    return (T)(object)b;
+                }
+                // Enums: parse names case-insensitively
+                if (typeof(T).IsEnum)
+                {
+                    return (T)Enum.Parse(typeof(T), Convert.ToString(value), ignoreCase: true);
+                }
+                // Fallback using invariant culture
+                return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
             }
             catch (Exception e)
             {
