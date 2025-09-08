@@ -28,10 +28,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Dependencies\favicon-3.png"/>
+    <None Remove="Dependencies\favicon-3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="Dependencies\favicon-3.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -40,17 +40,18 @@
 
   <ItemGroup>
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Polly" Version="8.5.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../generated-accounts-api-files/Kinde.Accounts/Kinde.Accounts.csproj" />
-  </ItemGroup>
 
 </Project>

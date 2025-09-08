@@ -60,9 +60,9 @@ namespace Kinde.Api.Auth
                 var response = await accountsClient.GetEntitlementsAsync();
                 var entitlements = new List<Dictionary<string, object>>();
 
-                    if (response.Data?.Entitlements != null)
+                    if (response?.Entitlements != null)
                     {
-                        foreach (var entitlement in response.Data.Entitlements)
+                        foreach (var entitlement in response.Entitlements)
                         {
                             entitlements.Add(ConvertEntitlementToMap(entitlement));
                         }
@@ -101,9 +101,9 @@ namespace Kinde.Api.Auth
                 }
 
                 var response = await accountsClient.GetEntitlementAsync(key);
-                if (response.Data?.Entitlement != null)
+                if (response?.Entitlement != null)
                 {
-                    var entitlement = ConvertEntitlementToMap(response.Data.Entitlement);
+                    var entitlement = ConvertEntitlementToMap(response.Entitlement);
                     _logger?.LogDebug("Retrieved entitlement '{Key}'", key);
                     return entitlement;
                 }

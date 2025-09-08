@@ -159,24 +159,62 @@ fix_xml_comments() {
 copy_generated_files() {
     print_status "Copying generated Account API files to the main project..."
     
-    # Create final output directory
-    mkdir -p "${FINAL_OUTPUT_DIR}"
+    # Create Accounts API directory in the main project
+    mkdir -p "Kinde.Api/Accounts"
     
-    # Copy all generated files
-    if [ -d "${TEMP_OUTPUT_DIR}/src" ]; then
-        cp -r "${TEMP_OUTPUT_DIR}/src"/* "${FINAL_OUTPUT_DIR}/"
-        print_success "Account API files copied successfully"
-    else
-        print_error "Generated source files not found in ${TEMP_OUTPUT_DIR}/src"
-        exit 1
+    # Copy API files to the main project Accounts directory
+    if [ -d "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Api" ]; then
+        print_status "Copying Account API files..."
+        mkdir -p "Kinde.Api/Accounts/Api"
+        cp -r "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Api"/* "Kinde.Api/Accounts/Api/"
+        print_success "Account API files copied to Kinde.Api/Accounts/Api/"
+    fi
+    
+    # Copy Model files to the main project
+    if [ -d "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Model" ]; then
+        print_status "Copying Account API Model files..."
+        mkdir -p "Kinde.Api/Accounts/Model"
+        cp -r "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Model"/* "Kinde.Api/Accounts/Model/"
+        print_success "Account API Model files copied to Kinde.Api/Accounts/Model/"
+    fi
+    
+    # Copy Client files to the main project
+    if [ -d "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Client" ]; then
+        print_status "Copying Account API Client files..."
+        mkdir -p "Kinde.Api/Accounts/Client"
+        cp -r "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Client"/* "Kinde.Api/Accounts/Client/"
+        print_success "Account API Client files copied to Kinde.Api/Accounts/Client/"
+    fi
+    
+    # Copy Extensions files to the main project
+    if [ -d "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Extensions" ]; then
+        print_status "Copying Account API Extensions files..."
+        mkdir -p "Kinde.Api/Accounts/Extensions"
+        cp -r "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Extensions"/* "Kinde.Api/Accounts/Extensions/"
+        print_success "Account API Extensions files copied to Kinde.Api/Accounts/Extensions/"
+    fi
+    
+    # Copy the project file
+    if [ -f "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Kinde.Accounts.csproj" ]; then
+        print_status "Copying Account API project file..."
+        cp "${TEMP_OUTPUT_DIR}/src/Kinde.Accounts/Kinde.Accounts.csproj" "Kinde.Api/Accounts/Kinde.Accounts.csproj"
+        print_success "Account API project file copied"
     fi
     
     # Copy additional files if they exist
     for file in README.md .gitignore; do
         if [ -f "${TEMP_OUTPUT_DIR}/${file}" ]; then
-            cp "${TEMP_OUTPUT_DIR}/${file}" "${FINAL_OUTPUT_DIR}/"
+            cp "${TEMP_OUTPUT_DIR}/${file}" "Kinde.Api/Accounts/"
         fi
     done
+    
+    # Also copy to generated-accounts-api-files for reference (like the main script does)
+    print_status "Copying Account API files to generated-accounts-api-files directory for reference..."
+    mkdir -p "${FINAL_OUTPUT_DIR}"
+    if [ -d "${TEMP_OUTPUT_DIR}/src" ]; then
+        cp -r "${TEMP_OUTPUT_DIR}/src"/* "${FINAL_OUTPUT_DIR}/"
+        print_success "Account API files copied to generated-accounts-api-files for reference"
+    fi
 }
 
 # Copy missing client files for Account API
@@ -184,7 +222,7 @@ copy_missing_client_files() {
     print_status "Copying missing Client files for Account API..."
     
     # Copy Option.cs if it doesn't exist in the accounts project
-    local accounts_client_dir="${FINAL_OUTPUT_DIR}/Kinde.Accounts/Client"
+    local accounts_client_dir="Kinde.Api/Accounts/Client"
     if [ ! -f "${accounts_client_dir}/Option.cs" ]; then
         if [ -f "Kinde.Api/Client/Option.cs" ]; then
             cp "Kinde.Api/Client/Option.cs" "${accounts_client_dir}/Option.cs"
@@ -259,6 +297,105 @@ EOF
     print_success "Account API Client files updated successfully"
 }
 
+# Fix resilience issues in generated extensions
+fix_resilience_issues() {
+    print_status "Fixing resilience issues in generated extensions..."
+    
+    local extensions_file="Kinde.Api/Accounts/Extensions/IHttpClientBuilderExtensions.cs"
+    
+    if [ -f "${extensions_file}" ]; then
+        # Replace the deprecated Polly.Extensions.Http with modern Microsoft.Extensions.Http.Resilience
+        sed -i '' 's/using Polly.Extensions.Http;/using Microsoft.Extensions.Http.Resilience;/' "${extensions_file}"
+        
+        # Replace the old extension methods with modern resilience patterns
+        cat > "${extensions_file}" << 'EOF'
+/*
+ * Kinde Account API
+ *
+ *  Provides endpoints to operate on an authenticated user.  ## Intro  ## How to use  1. Get a user access token - this can be obtained when a user signs in via the methods you've setup in Kinde (e.g. Google, passwordless, etc).  2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK. 
+ *
+ * The version of the OpenAPI document: 1
+ * Contact: support@kinde.com
+ * Generated by: https://github.com/openapitools/openapi-generator.git
+ */
+
+#nullable enable
+
+using System;
+using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
+using Polly;
+
+namespace Kinde.Accounts.Extensions
+{
+    /// <summary>
+    /// Extension methods for IHttpClientBuilder
+    /// </summary>
+    public static class IHttpClientBuilderExtensions
+    {
+        /// <summary>
+        /// Adds a retry policy to your clients using modern resilience patterns.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="retries"></param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddRetryPolicy(this IHttpClientBuilder client, int retries)
+        {
+            client.AddStandardResilienceHandler(options =>
+            {
+                options.Retry.MaxRetryAttempts = retries;
+            });
+
+            return client;
+        }
+
+        /// <summary>
+        /// Adds a timeout policy to your clients using modern resilience patterns.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTimeoutPolicy(this IHttpClientBuilder client, TimeSpan timeout)
+        {
+            client.AddStandardResilienceHandler(options =>
+            {
+                options.TotalRequestTimeout.Timeout = timeout;
+            });
+
+            return client;
+        }
+
+        /// <summary>
+        /// Adds a circuit breaker policy to your clients using modern resilience patterns.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="handledEventsAllowedBeforeBreaking"></param>
+        /// <param name="durationOfBreak"></param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddCircuitBreakerPolicy(this IHttpClientBuilder client, int handledEventsAllowedBeforeBreaking, TimeSpan durationOfBreak)
+        {
+            client.AddStandardResilienceHandler(options =>
+            {
+                options.CircuitBreaker.FailureRatio = 0.5; // 50% failure ratio
+                options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(30);
+                options.CircuitBreaker.MinimumThroughput = handledEventsAllowedBeforeBreaking;
+                options.CircuitBreaker.BreakDuration = durationOfBreak;
+            });
+
+            return client;
+        }
+
+    }
+}
+EOF
+        
+        print_success "Resilience issues fixed in IHttpClientBuilderExtensions.cs"
+    else
+        print_warning "IHttpClientBuilderExtensions.cs not found, skipping resilience fix"
+    fi
+}
+
 # Clean up temporary files
 cleanup_temp_files() {
     print_status "Cleaning up temporary files..."
@@ -281,10 +418,12 @@ main() {
     fix_xml_comments
     copy_generated_files
     copy_missing_client_files
+    fix_resilience_issues
     cleanup_temp_files
     
     print_success "Kinde Account API generation completed successfully!"
-    print_status "Generated Account API files are available in: ${FINAL_OUTPUT_DIR}"
+    print_status "Account API files have been copied to: Kinde.Api/Accounts/"
+    print_status "Reference files are available in: ${FINAL_OUTPUT_DIR}"
     print_status "Run 'dotnet build' to verify the build is successful."
 }
 

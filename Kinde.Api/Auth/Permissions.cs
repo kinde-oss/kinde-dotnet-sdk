@@ -63,7 +63,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetPermissionsAsync();
-                    var hasPermission = response.Data?.Permissions?.Any(p => p.Name == permissionKey) ?? false;
+                    var hasPermission = response?.Permissions?.Any(p => p.Name == permissionKey) ?? false;
                     return hasPermission;
                 }
 
@@ -98,7 +98,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetPermissionsAsync();
-                    var hasAnyPermission = permissionKeys.Any(key => response.Data?.Permissions?.Any(p => p.Name == key) ?? false);
+                    var hasAnyPermission = permissionKeys.Any(key => response?.Permissions?.Any(p => p.Name == key) ?? false);
                     return hasAnyPermission;
                 }
 
@@ -133,7 +133,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetPermissionsAsync();
-                    var hasAllPermissions = permissionKeys.All(key => response.Data?.Permissions?.Any(p => p.Name == key) ?? false);
+                    var hasAllPermissions = permissionKeys.All(key => response?.Permissions?.Any(p => p.Name == key) ?? false);
                     return hasAllPermissions;
                 }
 
@@ -161,7 +161,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetPermissionsAsync();
-                    var permissions = response.Data?.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
+                    var permissions = response?.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
                     _logger?.LogDebug("Retrieved {Count} permissions from API", permissions.Count);
                     return permissions;
                 }

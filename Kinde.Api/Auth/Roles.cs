@@ -67,7 +67,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetRolesAsync();
-                    var hasRole = response.Data?.Roles?.Any(r => string.Equals(r.Name?.Trim(), roleKey, StringComparison.OrdinalIgnoreCase)) ?? false;
+                    var hasRole = response?.Roles?.Any(r => string.Equals(r.Name?.Trim(), roleKey, StringComparison.OrdinalIgnoreCase)) ?? false;
                     return hasRole;
                 }
 
@@ -102,7 +102,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetRolesAsync();
-                    var hasAnyRole = roleKeys.Any(key => response.Data?.Roles?.Any(r => string.Equals(r.Name?.Trim(), key, StringComparison.OrdinalIgnoreCase)) ?? false);
+                    var hasAnyRole = roleKeys.Any(key => response?.Roles?.Any(r => string.Equals(r.Name?.Trim(), key, StringComparison.OrdinalIgnoreCase)) ?? false);
                     return hasAnyRole;
                 }
 
@@ -137,7 +137,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetRolesAsync();
-                    var hasAllRoles = roleKeys.All(key => response.Data?.Roles?.Any(r => string.Equals(r.Name?.Trim(), key, StringComparison.OrdinalIgnoreCase)) ?? false);
+                    var hasAllRoles = roleKeys.All(key => response?.Roles?.Any(r => string.Equals(r.Name?.Trim(), key, StringComparison.OrdinalIgnoreCase)) ?? false);
                     return hasAllRoles;
                 }
 
@@ -165,7 +165,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetRolesAsync();
-                    var roles = response.Data?.Roles?.Select(r => r.Name).ToList() ?? new List<string>();
+                    var roles = response?.Roles?.Select(r => r.Name).ToList() ?? new List<string>();
                     _logger?.LogDebug("Retrieved {Count} roles from API", roles.Count);
                     return roles;
                 }

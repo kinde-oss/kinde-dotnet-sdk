@@ -51,7 +51,7 @@ namespace Kinde.Api.Auth
             var featureFlagsApi = new FeatureFlagsApi(loggerFactory.CreateLogger<FeatureFlagsApi>(), loggerFactory, httpClient, null, new FeatureFlagsApiEvents(), null);
             
             // Create the accounts client with the individual API clients
-            return new KindeAccountsClient(billingApi, permissionsApi, rolesApi, featureFlagsApi, loggerFactory.CreateLogger<KindeAccountsClient>());
+            return new KindeAccountsClient(loggerFactory, billingApi, permissionsApi, rolesApi, featureFlagsApi);
         }
 
         /// <summary>

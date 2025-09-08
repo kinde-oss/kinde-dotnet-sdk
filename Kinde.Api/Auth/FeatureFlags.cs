@@ -63,7 +63,7 @@ namespace Kinde.Api.Auth
                 if (accountsClient != null)
                 {
                     var response = await accountsClient.GetFeatureFlagsAsync();
-                    var flag = response.Data?.FeatureFlags?.FirstOrDefault(f => f.Key == flagKey);
+                    var flag = response?.FeatureFlags?.FirstOrDefault(f => f.Key == flagKey);
                     var isEnabled = flag?.Value?.ToString()?.ToLower() == "true" || flag?.Value?.ToString() == "1";
                     return isEnabled;
                 }
@@ -183,9 +183,9 @@ namespace Kinde.Api.Auth
                 {
                     var response = await accountsClient.GetFeatureFlagsAsync();
                     var flags = new Dictionary<string, object>();
-                    if (response.Data?.FeatureFlags != null)
+                    if (response?.FeatureFlags != null)
                     {
-                        foreach (var flag in response.Data.FeatureFlags)
+                        foreach (var flag in response.FeatureFlags)
                         {
                             flags[flag.Key] = flag.Value;
                         }
