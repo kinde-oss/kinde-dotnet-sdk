@@ -282,10 +282,10 @@ namespace Kinde.Api.Auth
                 var accountsClient = GetAccountsClient();
                 if (accountsClient != null)
                 {
-                    var response = await accountsClient.GetFeatureFlagsAsync();
-                    var flags = response.Data?.Select(f => f.Key).ToList() ?? new List<string>();
-                    _logger?.LogDebug("Retrieved {Count} feature flags from API", flags.Count);
-                    return flags;
+                    var flags = await accountsClient.GetFeatureFlagsAsync();
+                    var flagsList = flags?.Select(f => f.ToString()).ToList() ?? new List<string>();
+                    _logger?.LogDebug("Retrieved {Count} feature flags from API", flagsList.Count);
+                    return flagsList;
                 }
 
                 _logger?.LogWarning("No accounts client available for feature flags retrieval");

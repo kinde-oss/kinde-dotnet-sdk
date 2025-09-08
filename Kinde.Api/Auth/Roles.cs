@@ -184,10 +184,10 @@ namespace Kinde.Api.Auth
                 var accountsClient = GetAccountsClient();
                 if (accountsClient != null)
                 {
-                    var response = await accountsClient.GetRolesAsync();
-                    var roles = response.Data?.Select(r => r.Name).ToList() ?? new List<string>();
-                    _logger?.LogDebug("Retrieved {Count} roles from API", roles.Count);
-                    return roles;
+                    var roles = await accountsClient.GetRolesAsync();
+                    var rolesList = roles?.ToList() ?? new List<string>();
+                    _logger?.LogDebug("Retrieved {Count} roles from API", rolesList.Count);
+                    return rolesList;
                 }
 
                 _logger?.LogWarning("No accounts client available for roles retrieval");

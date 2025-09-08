@@ -196,10 +196,10 @@ namespace Kinde.Api.Auth
                 var accountsClient = GetAccountsClient();
                 if (accountsClient != null)
                 {
-                    var response = await accountsClient.GetPermissionsAsync();
-                    var permissions = response.Data?.Select(p => p.Name).ToList() ?? new List<string>();
-                    _logger?.LogDebug("Retrieved {Count} permissions from API", permissions.Count);
-                    return permissions;
+                    var permissions = await accountsClient.GetPermissionsAsync();
+                    var permissionsList = permissions?.ToList() ?? new List<string>();
+                    _logger?.LogDebug("Retrieved {Count} permissions from API", permissionsList.Count);
+                    return permissionsList;
                 }
 
                 _logger?.LogWarning("No accounts client available for permissions retrieval");
