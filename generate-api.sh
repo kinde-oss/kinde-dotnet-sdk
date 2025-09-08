@@ -8,8 +8,8 @@ set -e
 # Configuration
 OPENAPI_SPEC_URL="https://api-spec.kinde.com/kinde-management-api-spec.yaml"
 TEMP_OUTPUT_DIR="temp-generated"
-OPENAPI_GENERATOR_VERSION="7.0.1"
-OPENAPI_GENERATOR_JAR="openapi-generator-cli.jar"
+OPENAPI_GENERATOR_VERSION="7.15.0"
+OPENAPI_GENERATOR_JAR="openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar"
 API_COPY_DIR="generated-api-files"
 
 # Colors for output
@@ -62,11 +62,12 @@ generate_client_code() {
         --generator-name csharp \
         --output "$TEMP_OUTPUT_DIR" \
         --additional-properties=packageName=Kinde.Api \
-        --additional-properties=targetFramework=netstandard2.1 \
+        --additional-properties=targetFramework=net8.0 \
         --additional-properties=nullableReferenceTypes=true \
         --additional-properties=useDateTimeOffset=true \
         --additional-properties=useCollection=false \
         --additional-properties=returnICollection=false \
+        --additional-properties=useOneOfInterfaces=true \
         --additional-properties=arrayType=List \
         --additional-properties=netCoreProjectFile=true \
         --additional-properties=validatable=false \
@@ -136,6 +137,81 @@ copy_generated_files() {
 }
 
 # Clean up temporary files
+copy_missing_client_files() {
+    print_status "Copying missing Client files..."
+    
+    # Copy Option.cs if it doesn't exist
+    if [ ! -f "Kinde.Api/Client/Option.cs" ]; then
+        if [ -f "../kinde-dotnet-sdk/Kinde.Api/Client/Option.cs" ]; then
+            cp "../kinde-dotnet-sdk/Kinde.Api/Client/Option.cs" "Kinde.Api/Client/Option.cs"
+            print_status "Copied Option.cs from main SDK"
+        fi
+    fi
+    
+    # Update ClientUtils.cs with TryDeserialize methods if they don't exist
+    if ! grep -q "TryDeserialize" "Kinde.Api/Client/ClientUtils.cs"; then
+        print_status "Adding TryDeserialize methods to ClientUtils.cs..."
+        
+        # Add System.Text.Json import if not present
+        if ! grep -q "using System.Text.Json;" "Kinde.Api/Client/ClientUtils.cs"; then
+            sed -i '' '/using System.Text.RegularExpressions;/a\
+using System.Text.Json;
+' "Kinde.Api/Client/ClientUtils.cs"
+        fi
+        
+        # Add TryDeserialize methods before the closing brace
+        cat >> "Kinde.Api/Client/ClientUtils.cs" << 'EOF'
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, out T? result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(json, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, out T? result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(ref reader, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+EOF
+        print_status "Added TryDeserialize methods to ClientUtils.cs"
+    fi
+    
+    print_success "Client files updated successfully."
+}
+
 cleanup() {
     print_status "Cleaning up temporary files..."
     rm -rf "$TEMP_OUTPUT_DIR"
@@ -150,6 +226,7 @@ main() {
     generate_client_code
     fix_xml_comments
     copy_generated_files
+    copy_missing_client_files
     cleanup
     
     print_success "OpenAPI generation completed successfully!"

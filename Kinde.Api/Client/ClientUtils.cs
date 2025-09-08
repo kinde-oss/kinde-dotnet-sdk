@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Kinde.Api.Client
@@ -243,6 +244,50 @@ namespace Kinde.Api.Client
                 return attr.Value;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, out T? result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(json, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, out T? result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(ref reader, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
         }
     }
 }
