@@ -93,8 +93,27 @@ namespace Kinde.Api.Auth
                 if (claim is T typedClaim)
                     return typedClaim;
 
-                // Try to convert the claim to the target type
-                return (T)Convert.ChangeType(claim, typeof(T));
+                var s = claim as string ?? claim?.ToString();
+                if (s is null) return default;
+
+                var t = typeof(T);
+                if (t == typeof(string)) return (T)(object)s;
+                if (t == typeof(bool) && bool.TryParse(s, out var b)) return (T)(object)b;
+                if (t == typeof(int) && int.TryParse(s, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out var i)) return (T)(object)i;
+                if (t == typeof(long) && long.TryParse(s, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out var l)) return (T)(object)l;
+                if (t == typeof(double) && double.TryParse(s, System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands, System.Globalization.CultureInfo.InvariantCulture, out var d)) return (T)(object)d;
+                if (t == typeof(decimal) && decimal.TryParse(s, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var m)) return (T)(object)m;
+                if (t == typeof(Guid) && Guid.TryParse(s, out var g)) return (T)(object)g;
+                if (t == typeof(DateTimeOffset))
+                {
+                    if (long.TryParse(s, out var seconds)) return (T)(object)DateTimeOffset.FromUnixTimeSeconds(seconds);
+                    if (DateTimeOffset.TryParse(s, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal | System.Globalization.DateTimeStyles.AdjustToUniversal, out var dto)) return (T)(object)dto;
+                }
+                if (t.IsEnum)
+                {
+                    try { return (T)Enum.Parse(t, s, ignoreCase: true); } catch { }
+                }
+                return (T)Convert.ChangeType(s, t, System.Globalization.CultureInfo.InvariantCulture);
             }
             catch (Exception e)
             {
