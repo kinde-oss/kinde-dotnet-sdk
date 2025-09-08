@@ -256,12 +256,27 @@ namespace Kinde.Api.Client
         /// <returns></returns>
         public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, out T? result)
         {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                result = default;
+                return false;
+            }
             try
             {
                 result = JsonSerializer.Deserialize<T>(json, options);
-                return result != null;
+                return true; // success even when result is null for reference/nullable types
             }
-            catch (Exception)
+            catch (JsonException)
+            {
+                result = default;
+                return false;
+            }
+            catch (NotSupportedException)
+            {
+                result = default;
+                return false;
+            }
+            catch (OverflowException)
             {
                 result = default;
                 return false;
