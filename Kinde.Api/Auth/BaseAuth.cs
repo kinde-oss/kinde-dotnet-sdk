@@ -24,21 +24,7 @@ namespace Kinde.Api.Auth
         /// Gets the KindeClient from the current context.
         /// </summary>
         /// <returns>The KindeClient instance if available</returns>
-        protected virtual KindeClient GetClient()
-        {
-            try
-            {
-                // For now, we'll need to pass the client explicitly
-                // In a future implementation, this could use dependency injection
-                _logger?.LogDebug("Getting KindeClient from context");
-                return null; // This will be overridden by derived classes
-            }
-            catch (Exception e)
-            {
-                _logger?.LogDebug("Could not get KindeClient from context: {Message}", e.Message);
-                return null;
-            }
-        }
+        protected abstract KindeClient GetClient();
 
         /// <summary>
         /// Gets the token for the current user.
