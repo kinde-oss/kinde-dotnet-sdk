@@ -3,7 +3,9 @@ using Kinde.Api.Models.Tokens;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Kinde.Api.Auth
@@ -45,17 +47,9 @@ namespace Kinde.Api.Auth
 
             try
             {
-                var token = GetToken();
-                if (token == null)
-                {
-                    _logger?.LogDebug("No token available for claim retrieval");
-                    return null;
-                }
-
-                // Note: OauthToken doesn't have GetAllClaims method in this version
-                // Claims extraction from token is not available
-                _logger?.LogDebug("Claim extraction from token not available in this version");
-                return null;
+                var claims = ReadClaimsFromCurrentToken();
+                var claim = claims.FirstOrDefault(c => string.Equals(c.Type, claimName, StringComparison.Ordinal));
+                return claim?.Value;
             }
             catch (Exception e)
             {
@@ -72,17 +66,8 @@ namespace Kinde.Api.Auth
         {
             try
             {
-                var token = GetToken();
-                if (token == null)
-                {
-                    _logger?.LogDebug("No token available for claims retrieval");
-                    return new Dictionary<string, object>();
-                }
-
-                // Note: OauthToken doesn't have GetAllClaims method in this version
-                // Claims extraction from token is not available
-                _logger?.LogDebug("Claims extraction from token not available in this version");
-                return new Dictionary<string, object>();
+                var claims = ReadClaimsFromCurrentToken();
+                return claims.ToDictionary(c => c.Type, c => (object)c.Value);
             }
             catch (Exception e)
             {
@@ -126,6 +111,47 @@ namespace Kinde.Api.Auth
         public bool HasClaim(string claimName)
         {
             return GetClaim(claimName) != null;
+        }
+
+        /// <summary>
+        /// Reads claims from the current JWT token.
+        /// </summary>
+        /// <returns>Enumerable of claims from the token, or empty if no valid token</returns>
+        private IEnumerable<Claim> ReadClaimsFromCurrentToken()
+        {
+            var token = GetToken();
+            if (token == null)
+            {
+                _logger?.LogDebug("No token available for claims");
+                return Enumerable.Empty<Claim>();
+            }
+
+            var tokenString = token.IdToken ?? token.AccessToken;
+            if (string.IsNullOrWhiteSpace(tokenString))
+            {
+                _logger?.LogDebug("Token string is empty");
+                return Enumerable.Empty<Claim>();
+            }
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                
+                // Validate that we can read the token before attempting to parse it
+                if (!handler.CanReadToken(tokenString))
+                {
+                    _logger?.LogDebug("Token cannot be read as JWT");
+                    return Enumerable.Empty<Claim>();
+                }
+
+                var jwt = handler.ReadJwtToken(tokenString);
+                return jwt.Claims ?? Enumerable.Empty<Claim>();
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, "Error parsing JWT token for claims");
+                return Enumerable.Empty<Claim>();
+            }
         }
     }
 }
