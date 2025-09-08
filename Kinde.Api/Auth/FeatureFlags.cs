@@ -57,18 +57,18 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use API call for feature flag checking
-                _logger?.LogDebug("Checking feature flag via API: {FlagKey}", flagKey);
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                // Use KindeClient's built-in feature flag checking
+                _logger?.LogDebug("Checking feature flag via KindeClient: {FlagKey}", flagKey);
+                var client = GetClient();
+                if (client != null)
                 {
-                    var response = await accountsClient.GetFeatureFlagsAsync();
-                    var flag = response?.FeatureFlags?.FirstOrDefault(f => f.Key == flagKey);
+                    var flag = client.GetFlag(flagKey);
                     var isEnabled = flag?.Value?.ToString()?.ToLower() == "true" || flag?.Value?.ToString() == "1";
+                    _logger?.LogDebug("Feature flag '{FlagKey}' check result: {IsEnabled}", flagKey, isEnabled);
                     return isEnabled;
                 }
 
-                _logger?.LogWarning("No accounts client available for feature flag check");
+                _logger?.LogWarning("No KindeClient available for feature flag check");
                 return false;
             }
             catch (Exception e)
@@ -93,15 +93,18 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use API call for feature flag value
-                _logger?.LogDebug("Getting feature flag value via API: {FlagKey}", flagKey);
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                // Use KindeClient's built-in feature flag value retrieval
+                _logger?.LogDebug("Getting feature flag value via KindeClient: {FlagKey}", flagKey);
+                var client = GetClient();
+                if (client != null)
                 {
-                    return await accountsClient.GetFeatureFlagValueAsync(flagKey);
+                    var flag = client.GetFlag(flagKey);
+                    var value = flag?.Value;
+                    _logger?.LogDebug("Feature flag '{FlagKey}' value: {Value}", flagKey, value);
+                    return value;
                 }
 
-                _logger?.LogWarning("No accounts client available for feature flag value retrieval");
+                _logger?.LogWarning("No KindeClient available for feature flag value retrieval");
                 return null;
             }
             catch (Exception e)

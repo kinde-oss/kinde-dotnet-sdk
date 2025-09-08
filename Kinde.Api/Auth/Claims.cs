@@ -3,9 +3,7 @@ using Kinde.Api.Models.Tokens;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Kinde.Api.Auth
@@ -47,9 +45,23 @@ namespace Kinde.Api.Auth
 
             try
             {
-                var claims = ReadClaimsFromCurrentToken();
-                var claim = claims.FirstOrDefault(c => string.Equals(c.Type, claimName, StringComparison.Ordinal));
-                return claim?.Value;
+                var client = GetClient();
+                if (client == null)
+                {
+                    _logger?.LogDebug("No KindeClient available for claim retrieval");
+                    return null;
+                }
+
+                // Use KindeClient's built-in GetClaim method
+                var kindeClaim = client.GetClaim(claimName);
+                if (kindeClaim != null)
+                {
+                    _logger?.LogDebug("Claim '{ClaimName}' found via KindeClient", claimName);
+                    return kindeClaim.Value;
+                }
+
+                _logger?.LogDebug("Claim '{ClaimName}' not found via KindeClient", claimName);
+                return null;
             }
             catch (Exception e)
             {
@@ -66,13 +78,59 @@ namespace Kinde.Api.Auth
         {
             try
             {
-                var claims = ReadClaimsFromCurrentToken();
-                return claims.ToDictionary(c => c.Type, c => (object)c.Value);
+                var client = GetClient();
+                if (client == null)
+                {
+                    _logger?.LogDebug("No KindeClient available for claims retrieval");
+                    return new Dictionary<string, object>();
+                }
+
+                // Get the token from the client and parse it directly
+                var token = GetToken();
+                if (token?.AccessToken == null)
+                {
+                    _logger?.LogDebug("No access token available for claims retrieval");
+                    return new Dictionary<string, object>();
+                }
+
+                // Parse JWT token to extract all claims
+                var claims = ParseJwtClaims(token.AccessToken);
+                _logger?.LogDebug("Retrieved {Count} claims from token", claims?.Count ?? 0);
+                return claims ?? new Dictionary<string, object>();
             }
             catch (Exception e)
             {
                 _logger?.LogError(e, "Error retrieving all claims");
                 return new Dictionary<string, object>();
+            }
+        }
+
+        /// <summary>
+        /// Parse JWT token to extract all claims.
+        /// </summary>
+        /// <param name="accessToken">The JWT access token</param>
+        /// <returns>Dictionary of all claims, or null if parsing fails</returns>
+        private Dictionary<string, object> ParseJwtClaims(string accessToken)
+        {
+            if (string.IsNullOrWhiteSpace(accessToken))
+                return null;
+
+            try
+            {
+                var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(accessToken);
+                
+                var claims = new Dictionary<string, object>();
+                foreach (var claim in jwtToken.Claims)
+                {
+                    claims[claim.Type] = claim.Value;
+                }
+                
+                return claims;
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -132,45 +190,5 @@ namespace Kinde.Api.Auth
             return GetClaim(claimName) != null;
         }
 
-        /// <summary>
-        /// Reads claims from the current JWT token.
-        /// </summary>
-        /// <returns>Enumerable of claims from the token, or empty if no valid token</returns>
-        private IEnumerable<Claim> ReadClaimsFromCurrentToken()
-        {
-            var token = GetToken();
-            if (token == null)
-            {
-                _logger?.LogDebug("No token available for claims");
-                return Enumerable.Empty<Claim>();
-            }
-
-            var tokenString = token.IdToken ?? token.AccessToken;
-            if (string.IsNullOrWhiteSpace(tokenString))
-            {
-                _logger?.LogDebug("Token string is empty");
-                return Enumerable.Empty<Claim>();
-            }
-
-            try
-            {
-                var handler = new JwtSecurityTokenHandler();
-                
-                // Validate that we can read the token before attempting to parse it
-                if (!handler.CanReadToken(tokenString))
-                {
-                    _logger?.LogDebug("Token cannot be read as JWT");
-                    return Enumerable.Empty<Claim>();
-                }
-
-                var jwt = handler.ReadJwtToken(tokenString);
-                return jwt.Claims ?? Enumerable.Empty<Claim>();
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError(e, "Error parsing JWT token for claims");
-                return Enumerable.Empty<Claim>();
-            }
-        }
     }
 }

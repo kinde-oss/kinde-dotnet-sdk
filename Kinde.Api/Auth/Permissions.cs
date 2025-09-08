@@ -57,17 +57,18 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use API call for permission checking
-                _logger?.LogDebug("Checking permission via API: {PermissionKey}", permissionKey);
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                // Use KindeClient's built-in permission checking
+                _logger?.LogDebug("Checking permission via KindeClient: {PermissionKey}", permissionKey);
+                var client = GetClient();
+                if (client != null)
                 {
-                    var response = await accountsClient.GetPermissionsAsync();
-                    var hasPermission = response?.Permissions?.Any(p => p.Name == permissionKey) ?? false;
+                    var permission = client.GetPermission(permissionKey);
+                    var hasPermission = permission != null;
+                    _logger?.LogDebug("Permission '{PermissionKey}' check result: {HasPermission}", permissionKey, hasPermission);
                     return hasPermission;
                 }
 
-                _logger?.LogWarning("No accounts client available for permission check");
+                _logger?.LogWarning("No KindeClient available for permission check");
                 return false;
             }
             catch (Exception e)
@@ -155,18 +156,18 @@ namespace Kinde.Api.Auth
         {
             try
             {
-                // Use API call for permission retrieval
-                _logger?.LogDebug("Retrieving permissions via API");
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                // Use KindeClient's built-in permission retrieval
+                _logger?.LogDebug("Retrieving permissions via KindeClient");
+                var client = GetClient();
+                if (client != null)
                 {
-                    var response = await accountsClient.GetPermissionsAsync();
-                    var permissions = response?.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
-                    _logger?.LogDebug("Retrieved {Count} permissions from API", permissions.Count);
+                var permissionsCollection = client.GetPermissions();
+                var permissions = permissionsCollection?.Permissions ?? new List<string>();
+                _logger?.LogDebug("Retrieved {Count} permissions from KindeClient", permissions.Count);
                     return permissions;
                 }
 
-                _logger?.LogWarning("No accounts client available for permissions retrieval");
+                _logger?.LogWarning("No KindeClient available for permissions retrieval");
                 return new List<string>();
             }
             catch (Exception e)
