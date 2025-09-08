@@ -23,6 +23,7 @@ namespace Kinde.Api.Auth
         public Auth(KindeClient client, HttpClient httpClient, ILogger logger = null) : base(logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
             
             // Create the accounts client internally
             _accountsClient = CreateAccountsClient(httpClient);
