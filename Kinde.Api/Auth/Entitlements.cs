@@ -203,15 +203,8 @@ namespace Kinde.Api.Auth
                 return false;
             }
 
-            foreach (var key in entitlementKeys)
-            {
-                if (!await HasEntitlementAsync(key))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            var results = await Task.WhenAll(entitlementKeys.Select(HasEntitlementAsync));
+            return results.All(r => r);
         }
 
         /// <summary>
