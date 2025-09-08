@@ -5,6 +5,10 @@ using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
 using Kinde.Api.Model;
+using Kinde.Api.Auth;
+using Kinde.Api.Accounts;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Kinde.Api.Client
 {
@@ -41,6 +45,11 @@ namespace Kinde.Api.Client
         /// </summary>
         public IApplicationConfiguration IdentityProviderConfiguration { get; set; }
 
+        /// <summary>
+        /// Returns the authentication helper for permissions, roles, feature flags, and entitlements
+        /// </summary>
+        public Kinde.Api.Auth.Auth Auth { get; private set; }
+
         #endregion
 
         /// <summary>
@@ -52,6 +61,21 @@ namespace Kinde.Api.Client
         {
             IdentityProviderConfiguration = identityProviderConfiguration;
             CodeStore = new AuthorizationCodeStore<string, string>();
+            
+            // Initialize the accounts client and Auth helper
+            InitializeAuthComponents();
+        }
+
+        /// <summary>
+        /// Initializes the accounts client and Auth helper components
+        /// </summary>
+        private void InitializeAuthComponents()
+        {
+            // Create a logger factory for the Auth helper
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning));
+            
+            // Create the Auth helper - it will create the accounts client internally
+            Auth = new Kinde.Api.Auth.Auth(this, HttpClient, loggerFactory.CreateLogger<Kinde.Api.Auth.Auth>());
         }
 
         #region Authorization flows
