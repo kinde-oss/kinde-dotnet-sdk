@@ -21,7 +21,7 @@ namespace Kinde.Api.Auth
         public Roles(KindeClient client, IKindeAccountsClient accountsClient, bool forceApi, ILogger logger = null) : base(forceApi, logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _accountsClient = accountsClient ?? throw new ArgumentNullException(nameof(accountsClient));
+            _accountsClient = accountsClient; // Can be null when ForceApi is false
         }
 
         /// <summary>
@@ -62,9 +62,28 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Checking role via API (hard check): {RoleKey}", roleKey);
-                    var hasRole = await _accountsClient.HasRoleAsync(roleKey);
-                    _logger?.LogDebug("Role '{RoleKey}' API check result: {HasRole}", roleKey, hasRole);
-                    return hasRole;
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // For token-based role checking, we'll use the claims approach
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var claim = client.GetClaim("roles");
+                            if (claim != null)
+                            {
+                                var roles = claim.Value?.ToString();
+                                var hasRole = !string.IsNullOrEmpty(roles) && roles.Contains(roleKey);
+                                _logger?.LogDebug("Role '{RoleKey}' token check result: {HasRole}", roleKey, hasRole);
+                                return hasRole;
+                            }
+                        }
+                        _logger?.LogWarning("No KindeClient available for role check");
+                        return false;
+                    }
+                    var apiHasRole = await _accountsClient.HasRoleAsync(roleKey);
+                    _logger?.LogDebug("Role '{RoleKey}' API check result: {HasRole}", roleKey, apiHasRole);
+                    return apiHasRole;
                 }
                 else
                 {
@@ -79,9 +98,9 @@ namespace Kinde.Api.Auth
                         if (claim != null)
                         {
                             var roles = claim.Value?.ToString();
-                            var hasRole = !string.IsNullOrEmpty(roles) && roles.Contains(roleKey);
-                            _logger?.LogDebug("Role '{RoleKey}' token check result: {HasRole}", roleKey, hasRole);
-                            return hasRole;
+                            var tokenHasRole = !string.IsNullOrEmpty(roles) && roles.Contains(roleKey);
+                            _logger?.LogDebug("Role '{RoleKey}' token check result: {HasRole}", roleKey, tokenHasRole);
+                            return tokenHasRole;
                         }
                     }
 
@@ -115,9 +134,28 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Checking any role via API (hard check)");
-                    var hasAnyRole = await _accountsClient.HasAnyRoleAsync(roleKeys);
-                    _logger?.LogDebug("Any role API check result: {HasAnyRole}", hasAnyRole);
-                    return hasAnyRole;
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use token-based approach for role checking
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var claim = client.GetClaim("roles");
+                            if (claim != null)
+                            {
+                                var roles = claim.Value?.ToString();
+                                var hasAnyRole = !string.IsNullOrEmpty(roles) && roleKeys.Any(key => roles.Contains(key));
+                                _logger?.LogDebug("Any role token check result: {HasAnyRole}", hasAnyRole);
+                                return hasAnyRole;
+                            }
+                        }
+                        _logger?.LogWarning("No KindeClient available for any role check");
+                        return false;
+                    }
+                    var apiHasAnyRole = await _accountsClient.HasAnyRoleAsync(roleKeys);
+                    _logger?.LogDebug("Any role API check result: {HasAnyRole}", apiHasAnyRole);
+                    return apiHasAnyRole;
                 }
                 else
                 {
@@ -130,9 +168,9 @@ namespace Kinde.Api.Auth
                         if (claim != null)
                         {
                             var roles = claim.Value?.ToString();
-                            var hasAnyRole = !string.IsNullOrEmpty(roles) && roleKeys.Any(key => roles.Contains(key));
-                            _logger?.LogDebug("Any role token check result: {HasAnyRole}", hasAnyRole);
-                            return hasAnyRole;
+                            var tokenHasAnyRole = !string.IsNullOrEmpty(roles) && roleKeys.Any(key => roles.Contains(key));
+                            _logger?.LogDebug("Any role token check result: {HasAnyRole}", tokenHasAnyRole);
+                            return tokenHasAnyRole;
                         }
                     }
 
@@ -166,9 +204,28 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Checking all roles via API (hard check)");
-                    var hasAllRoles = await _accountsClient.HasAllRolesAsync(roleKeys);
-                    _logger?.LogDebug("All roles API check result: {HasAllRoles}", hasAllRoles);
-                    return hasAllRoles;
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use token-based approach for role checking
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var claim = client.GetClaim("roles");
+                            if (claim != null)
+                            {
+                                var roles = claim.Value?.ToString();
+                                var hasAllRoles = !string.IsNullOrEmpty(roles) && roleKeys.All(key => roles.Contains(key));
+                                _logger?.LogDebug("All roles token check result: {HasAllRoles}", hasAllRoles);
+                                return hasAllRoles;
+                            }
+                        }
+                        _logger?.LogWarning("No KindeClient available for all roles check");
+                        return false;
+                    }
+                    var apiHasAllRoles = await _accountsClient.HasAllRolesAsync(roleKeys);
+                    _logger?.LogDebug("All roles API check result: {HasAllRoles}", apiHasAllRoles);
+                    return apiHasAllRoles;
                 }
                 else
                 {
@@ -181,9 +238,9 @@ namespace Kinde.Api.Auth
                         if (claim != null)
                         {
                             var roles = claim.Value?.ToString();
-                            var hasAllRoles = !string.IsNullOrEmpty(roles) && roleKeys.All(key => roles.Contains(key));
-                            _logger?.LogDebug("All roles token check result: {HasAllRoles}", hasAllRoles);
-                            return hasAllRoles;
+                            var tokenHasAllRoles = !string.IsNullOrEmpty(roles) && roleKeys.All(key => roles.Contains(key));
+                            _logger?.LogDebug("All roles token check result: {HasAllRoles}", tokenHasAllRoles);
+                            return tokenHasAllRoles;
                         }
                     }
 
@@ -210,10 +267,29 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Retrieving roles via API (hard check)");
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use token-based approach for role retrieval
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var claim = client.GetClaim("roles");
+                            if (claim != null)
+                            {
+                            var roles = claim.Value?.ToString();
+                            var tokenRoleList = !string.IsNullOrEmpty(roles) ? roles.Split(',').Select(r => r.Trim()).ToList() : new List<string>();
+                            _logger?.LogDebug("Retrieved {Count} roles from KindeClient", tokenRoleList.Count);
+                            return tokenRoleList;
+                            }
+                        }
+                        _logger?.LogWarning("No KindeClient available for roles retrieval");
+                        return new List<string>();
+                    }
                     var response = await _accountsClient.GetRolesAsync();
-                    var roles = response?.Roles?.Select(r => r.Key).ToList() ?? new List<string>();
-                    _logger?.LogDebug("Retrieved {Count} roles from API", roles.Count);
-                    return roles;
+                    var apiRoles = response?.Roles?.Select(r => r.Key).ToList() ?? new List<string>();
+                    _logger?.LogDebug("Retrieved {Count} roles from API", apiRoles.Count);
+                    return apiRoles;
                 }
                 else
                 {

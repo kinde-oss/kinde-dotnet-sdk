@@ -25,14 +25,32 @@ namespace Kinde.Api.Auth
             _client = client ?? throw new ArgumentNullException(nameof(client));
             if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
             
-            // Create the accounts client internally with bearer token support
-            _accountsClient = CreateAccountsClient(httpClient);
+            // Only create the accounts client if ForceApi is enabled
+            _accountsClient = forceApi ? CreateAccountsClient(httpClient) : null;
             
             _claims = new Claims(client, forceApi, logger);
             _permissions = new Permissions(client, _accountsClient, forceApi, logger);
             _featureFlags = new FeatureFlags(client, _accountsClient, forceApi, logger);
             _roles = new Roles(client, _accountsClient, forceApi, logger);
             _entitlements = new Entitlements(client, _accountsClient, forceApi, logger);
+        }
+
+        /// <summary>
+        /// Gets the accounts client, creating it if necessary when ForceApi is enabled
+        /// </summary>
+        /// <param name="httpClient">The HttpClient to use for API calls</param>
+        /// <returns>IKindeAccountsClient instance or null if ForceApi is disabled</returns>
+        private IKindeAccountsClient GetOrCreateAccountsClient(HttpClient httpClient)
+        {
+            if (!ShouldUseApi())
+                return null;
+                
+            if (_accountsClient == null)
+            {
+                return CreateAccountsClient(httpClient);
+            }
+            
+            return _accountsClient;
         }
 
         /// <summary>

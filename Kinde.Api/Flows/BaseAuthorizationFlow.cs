@@ -79,11 +79,28 @@ namespace Kinde.Api.Flows
             if (RequiresRedirection)
             {
                 var url = BuildUrl(IdentityProviderConfiguration.Domain + "/oauth2/auth", parameters);
-                await UserActionsResolver.SetLoginUrl(url, ((IRedirectAuthorizationConfiguration)Configuration).State);
-                HttpClient = httpClient;
-                KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
-                AuthorizationState = AuthorizationStates.UserActionsNeeded;
-                return AuthorizationState;
+                
+                // Make HTTP request to validate the authorization URL
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                var response = await httpClient.SendAsync(request);
+                
+                // Check if the response is a redirect (which is expected for authorization flows)
+                if (response.StatusCode == System.Net.HttpStatusCode.Redirect || 
+                    response.StatusCode == System.Net.HttpStatusCode.Found)
+                {
+                    // Valid redirect response - proceed with setting up for user action
+                    await UserActionsResolver.SetLoginUrl(url, ((IRedirectAuthorizationConfiguration)Configuration).State);
+                    HttpClient = httpClient;
+                    KindeClient.CodeStore.ItemAdded += CodeStore_ItemAdded;
+                    AuthorizationState = AuthorizationStates.UserActionsNeeded;
+                    return AuthorizationState;
+                }
+                else
+                {
+                    // Invalid response - authorization failed
+                    AuthorizationState = AuthorizationStates.NonAuthorized;
+                    return AuthorizationState;
+                }
             }
             else
             {

@@ -21,7 +21,7 @@ namespace Kinde.Api.Auth
         public FeatureFlags(KindeClient client, IKindeAccountsClient accountsClient, bool forceApi, ILogger logger = null) : base(forceApi, logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _accountsClient = accountsClient ?? throw new ArgumentNullException(nameof(accountsClient));
+            _accountsClient = accountsClient; // Can be null when ForceApi is false
         }
 
         /// <summary>
@@ -61,6 +61,21 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Checking feature flag via API (hard check): {FlagKey}", flagKey);
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use KindeClient's built-in feature flag checking (token-based)
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var flag = client.GetFlag(flagKey);
+                            var tokenIsEnabled = flag?.Value?.ToString()?.ToLower() == "true" || flag?.Value?.ToString() == "1";
+                            _logger?.LogDebug("Feature flag '{FlagKey}' token check result: {IsEnabled}", flagKey, tokenIsEnabled);
+                            return tokenIsEnabled;
+                        }
+                        _logger?.LogWarning("No KindeClient available for feature flag check");
+                        return false;
+                    }
                     var isEnabled = await _accountsClient.IsFeatureFlagEnabledAsync(flagKey);
                     _logger?.LogDebug("Feature flag '{FlagKey}' API check result: {IsEnabled}", flagKey, isEnabled);
                     return isEnabled;
@@ -108,6 +123,21 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Getting feature flag value via API (hard check): {FlagKey}", flagKey);
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use KindeClient's built-in feature flag value retrieval (token-based)
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var flag = client.GetFlag(flagKey);
+                            var tokenValue = flag?.Value;
+                            _logger?.LogDebug("Feature flag '{FlagKey}' token value: {Value}", flagKey, tokenValue);
+                            return tokenValue;
+                        }
+                        _logger?.LogWarning("No KindeClient available for feature flag value retrieval");
+                        return null;
+                    }
                     var value = await _accountsClient.GetFeatureFlagValueAsync(flagKey);
                     _logger?.LogDebug("Feature flag '{FlagKey}' API value: {Value}", flagKey, value);
                     return value;
@@ -217,6 +247,43 @@ namespace Kinde.Api.Auth
                 {
                     // Use API call for hard check
                     _logger?.LogDebug("Retrieving feature flags via API (hard check)");
+                    if (_accountsClient == null)
+                    {
+                        _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
+                        // Use token-based approach for feature flags
+                        var client = GetClient();
+                        if (client != null)
+                        {
+                            var claim = client.GetClaim("feature_flags");
+                            if (claim != null)
+                            {
+                                var tokenFlags = new Dictionary<string, object>();
+                                if (claim.Value is Dictionary<string, object> flagDict)
+                                {
+                                    tokenFlags = flagDict;
+                                }
+                                else if (claim.Value is string flagString && !string.IsNullOrEmpty(flagString))
+                                {
+                                    // Try to parse as JSON if it's a string
+                                    try
+                                    {
+                                        var parsed = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(flagString);
+                                        if (parsed != null)
+                                            tokenFlags = parsed;
+                                    }
+                                    catch
+                                    {
+                                        // If parsing fails, treat as a single flag
+                                        tokenFlags[flagString] = true;
+                                    }
+                                }
+                                _logger?.LogDebug("Retrieved {Count} feature flags from KindeClient", tokenFlags.Count);
+                                return tokenFlags;
+                            }
+                        }
+                        _logger?.LogWarning("No KindeClient available for feature flags retrieval");
+                        return new Dictionary<string, object>();
+                    }
                     var response = await _accountsClient.GetFeatureFlagsAsync();
                     var flags = new Dictionary<string, object>();
                     if (response?.FeatureFlags != null)
