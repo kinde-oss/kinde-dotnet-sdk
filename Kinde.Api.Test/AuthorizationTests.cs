@@ -23,7 +23,7 @@ namespace Kinde.Api.Test
         [InlineData(System.Net.HttpStatusCode.Redirect, null, true)]
         [InlineData(System.Net.HttpStatusCode.OK, null, true)]
         [InlineData(System.Net.HttpStatusCode.OK, "Token", false)]
-        public void ClientCredentialsTest(System.Net.HttpStatusCode result, string content, bool throws)
+        public async Task ClientCredentialsTest(System.Net.HttpStatusCode result, string content, bool throws)
         {
             //Arrange
             var response = new HttpResponseMessage(result);
@@ -40,11 +40,10 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
-            var task = apiClient.Authorize(authConfig);
-            task.Wait();
+            await apiClient.Authorize(authConfig);
 
             //Assert
             Assert.Equal(AuthorizationStates.Authorized, apiClient.AuthorizationState);
@@ -55,7 +54,7 @@ namespace Kinde.Api.Test
         [InlineData(System.Net.HttpStatusCode.Forbidden, null, true)]
         [InlineData(System.Net.HttpStatusCode.Redirect, null, false)]
         [InlineData(System.Net.HttpStatusCode.OK, null, true)]
-        public void AuthorizationCodeTest(System.Net.HttpStatusCode result, string content, bool throws)
+        public async Task AuthorizationCodeTest(System.Net.HttpStatusCode result, string content, bool throws)
         {
             //Arrange
             var response = new HttpResponseMessage(result);
@@ -72,11 +71,10 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
-            var task = apiClient.Authorize(authConfig);
-            task.Wait();
+            await apiClient.Authorize(authConfig);
 
             //Assert
             Assert.Equal(AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);
@@ -87,7 +85,7 @@ namespace Kinde.Api.Test
         [InlineData(System.Net.HttpStatusCode.Forbidden, null, true)]
         [InlineData(System.Net.HttpStatusCode.Redirect, null, false)]
         [InlineData(System.Net.HttpStatusCode.OK, null, true)]
-        public void PKCETest(System.Net.HttpStatusCode result, string content, bool throws)
+        public async Task PKCETest(System.Net.HttpStatusCode result, string content, bool throws)
         {
             //Arrange
             var response = new HttpResponseMessage(result);
@@ -104,11 +102,10 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
-            var task = apiClient.Authorize(authConfig);
-            task.Wait();
+            await apiClient.Authorize(authConfig);
 
             //Assert
             Assert.Equal(AuthorizationStates.UserActionsNeeded, apiClient.AuthorizationState);

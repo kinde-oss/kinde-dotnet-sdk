@@ -136,6 +136,9 @@ reviews:
     - '!**/*.tfstate.backup'
     - '!Kinde.Api/Api/**'
     - '!Kinde.Api/Model/**'
+    - '!Kinde.Api/Accounts/**'
+    - '!generated-accounts-api-files/**'
+    - '!generated-api-files/**'
   path_instructions: []
   abort_on_close: true
   disable_cache: false

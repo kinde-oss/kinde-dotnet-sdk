@@ -458,3 +458,7 @@ Temp/*
 
 # Generated API files
 generated-api-files/
+generated-accounts-api-files/
+
+# OpenAPI generator JAR files
+openapi-generator-cli-7.15.0.jar
