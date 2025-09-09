@@ -5,5 +5,6 @@
         public string Domain { get; set; }
         public string ReplyUrl { get; set; }
         public string LogoutUrl { get; set; }
+        public bool ForceApi { get; set; }
     }
 }

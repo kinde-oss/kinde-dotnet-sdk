@@ -16,7 +16,7 @@ namespace Kinde.Api.Auth
     {
         private readonly KindeClient _client;
 
-        public Claims(KindeClient client = null, ILogger logger = null) : base(logger)
+        public Claims(KindeClient client = null, bool forceApi = false, ILogger logger = null) : base(forceApi, logger)
         {
             _client = client;
         }
@@ -45,6 +45,13 @@ namespace Kinde.Api.Auth
 
             try
             {
+                if (ShouldUseApi())
+                {
+                    // For API mode, we would need to implement API-based claim retrieval
+                    // Since claims are typically token-based, we'll fall back to token parsing
+                    _logger?.LogDebug("ForceApi is enabled, but claims are typically token-based. Using token parsing for claim: {ClaimName}", claimName);
+                }
+
                 var client = GetClient();
                 if (client == null)
                 {

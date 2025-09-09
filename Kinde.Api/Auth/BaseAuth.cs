@@ -14,10 +14,12 @@ namespace Kinde.Api.Auth
     public abstract class BaseAuth
     {
         protected readonly ILogger _logger;
+        protected readonly bool _forceApi;
 
-        protected BaseAuth(ILogger logger = null)
+        protected BaseAuth(bool forceApi, ILogger logger = null)
         {
             _logger = logger;
+            _forceApi = forceApi;
         }
 
         /// <summary>
@@ -25,6 +27,15 @@ namespace Kinde.Api.Auth
         /// </summary>
         /// <returns>The KindeClient instance if available</returns>
         protected abstract KindeClient GetClient();
+
+        /// <summary>
+        /// Determines if API calls should be used instead of token-based operations.
+        /// </summary>
+        /// <returns>True if API calls should be used, false for token-based operations</returns>
+        protected bool ShouldUseApi()
+        {
+            return _forceApi;
+        }
 
         /// <summary>
         /// Gets the token for the current user.

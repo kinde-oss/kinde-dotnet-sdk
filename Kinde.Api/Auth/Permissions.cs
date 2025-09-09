@@ -18,7 +18,7 @@ namespace Kinde.Api.Auth
         private readonly KindeClient _client;
         private readonly IKindeAccountsClient _accountsClient;
 
-        public Permissions(KindeClient client, IKindeAccountsClient accountsClient, ILogger logger = null) : base(logger)
+        public Permissions(KindeClient client, IKindeAccountsClient accountsClient, bool forceApi, ILogger logger = null) : base(forceApi, logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _accountsClient = accountsClient ?? throw new ArgumentNullException(nameof(accountsClient));
@@ -57,19 +57,30 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use KindeClient's built-in permission checking
-                _logger?.LogDebug("Checking permission via KindeClient: {PermissionKey}", permissionKey);
-                var client = GetClient();
-                if (client != null)
+                if (ShouldUseApi())
                 {
-                    var permission = client.GetPermission(permissionKey);
-                    var hasPermission = permission != null;
-                    _logger?.LogDebug("Permission '{PermissionKey}' check result: {HasPermission}", permissionKey, hasPermission);
+                    // Use API call for hard check
+                    _logger?.LogDebug("Checking permission via API (hard check): {PermissionKey}", permissionKey);
+                    var hasPermission = await _accountsClient.HasPermissionAsync(permissionKey);
+                    _logger?.LogDebug("Permission '{PermissionKey}' API check result: {HasPermission}", permissionKey, hasPermission);
                     return hasPermission;
                 }
+                else
+                {
+                    // Use KindeClient's built-in permission checking (token-based)
+                    _logger?.LogDebug("Checking permission via KindeClient (token-based): {PermissionKey}", permissionKey);
+                    var client = GetClient();
+                    if (client != null)
+                    {
+                        var permission = client.GetPermission(permissionKey);
+                        var hasPermission = permission != null;
+                        _logger?.LogDebug("Permission '{PermissionKey}' token check result: {HasPermission}", permissionKey, hasPermission);
+                        return hasPermission;
+                    }
 
-                _logger?.LogWarning("No KindeClient available for permission check");
-                return false;
+                    _logger?.LogWarning("No KindeClient available for permission check");
+                    return false;
+                }
             }
             catch (Exception e)
             {
@@ -93,18 +104,31 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use API call for permission checking
-                _logger?.LogDebug("Checking any permission via API");
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                if (ShouldUseApi())
                 {
-                    var response = await accountsClient.GetPermissionsAsync();
-                    var hasAnyPermission = permissionKeys.Any(key => response?.Permissions?.Any(p => p.Name == key) ?? false);
+                    // Use API call for hard check
+                    _logger?.LogDebug("Checking any permission via API (hard check)");
+                    var hasAnyPermission = await _accountsClient.HasAnyPermissionAsync(permissionKeys);
+                    _logger?.LogDebug("Any permission API check result: {HasAnyPermission}", hasAnyPermission);
                     return hasAnyPermission;
                 }
+                else
+                {
+                    // Use token-based checking
+                    _logger?.LogDebug("Checking any permission via token-based approach");
+                    var client = GetClient();
+                    if (client != null)
+                    {
+                        var permissions = client.GetPermissions();
+                        var userPermissions = permissions?.Permissions ?? new List<string>();
+                        var hasAnyPermission = permissionKeys.Any(key => userPermissions.Contains(key));
+                        _logger?.LogDebug("Any permission token check result: {HasAnyPermission}", hasAnyPermission);
+                        return hasAnyPermission;
+                    }
 
-                _logger?.LogWarning("No accounts client available for any permission check");
-                return false;
+                    _logger?.LogWarning("No KindeClient available for any permission check");
+                    return false;
+                }
             }
             catch (Exception e)
             {
@@ -128,18 +152,31 @@ namespace Kinde.Api.Auth
 
             try
             {
-                // Use API call for permission checking
-                _logger?.LogDebug("Checking all permissions via API");
-                var accountsClient = GetAccountsClient();
-                if (accountsClient != null)
+                if (ShouldUseApi())
                 {
-                    var response = await accountsClient.GetPermissionsAsync();
-                    var hasAllPermissions = permissionKeys.All(key => response?.Permissions?.Any(p => p.Name == key) ?? false);
+                    // Use API call for hard check
+                    _logger?.LogDebug("Checking all permissions via API (hard check)");
+                    var hasAllPermissions = await _accountsClient.HasAllPermissionsAsync(permissionKeys);
+                    _logger?.LogDebug("All permissions API check result: {HasAllPermissions}", hasAllPermissions);
                     return hasAllPermissions;
                 }
+                else
+                {
+                    // Use token-based checking
+                    _logger?.LogDebug("Checking all permissions via token-based approach");
+                    var client = GetClient();
+                    if (client != null)
+                    {
+                        var permissions = client.GetPermissions();
+                        var userPermissions = permissions?.Permissions ?? new List<string>();
+                        var hasAllPermissions = permissionKeys.All(key => userPermissions.Contains(key));
+                        _logger?.LogDebug("All permissions token check result: {HasAllPermissions}", hasAllPermissions);
+                        return hasAllPermissions;
+                    }
 
-                _logger?.LogWarning("No accounts client available for all permissions check");
-                return false;
+                    _logger?.LogWarning("No KindeClient available for all permissions check");
+                    return false;
+                }
             }
             catch (Exception e)
             {
@@ -156,19 +193,31 @@ namespace Kinde.Api.Auth
         {
             try
             {
-                // Use KindeClient's built-in permission retrieval
-                _logger?.LogDebug("Retrieving permissions via KindeClient");
-                var client = GetClient();
-                if (client != null)
+                if (ShouldUseApi())
                 {
-                var permissionsCollection = client.GetPermissions();
-                var permissions = permissionsCollection?.Permissions ?? new List<string>();
-                _logger?.LogDebug("Retrieved {Count} permissions from KindeClient", permissions.Count);
+                    // Use API call for hard check
+                    _logger?.LogDebug("Retrieving permissions via API (hard check)");
+                    var response = await _accountsClient.GetPermissionsAsync();
+                    var permissions = response?.Permissions?.Select(p => p.Key).ToList() ?? new List<string>();
+                    _logger?.LogDebug("Retrieved {Count} permissions from API", permissions.Count);
                     return permissions;
                 }
+                else
+                {
+                    // Use KindeClient's built-in permission retrieval (token-based)
+                    _logger?.LogDebug("Retrieving permissions via KindeClient (token-based)");
+                    var client = GetClient();
+                    if (client != null)
+                    {
+                        var permissionsCollection = client.GetPermissions();
+                        var permissions = permissionsCollection?.Permissions ?? new List<string>();
+                        _logger?.LogDebug("Retrieved {Count} permissions from KindeClient", permissions.Count);
+                        return permissions;
+                    }
 
-                _logger?.LogWarning("No KindeClient available for permissions retrieval");
-                return new List<string>();
+                    _logger?.LogWarning("No KindeClient available for permissions retrieval");
+                    return new List<string>();
+                }
             }
             catch (Exception e)
             {

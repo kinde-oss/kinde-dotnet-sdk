@@ -18,7 +18,7 @@ namespace Kinde.Api.Auth
         private readonly KindeClient _client;
         private readonly IKindeAccountsClient _accountsClient;
 
-        public Entitlements(KindeClient client, IKindeAccountsClient accountsClient, ILogger logger = null) : base(logger)
+        public Entitlements(KindeClient client, IKindeAccountsClient accountsClient, bool forceApi, ILogger logger = null) : base(forceApi, logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _accountsClient = accountsClient ?? throw new ArgumentNullException(nameof(accountsClient));

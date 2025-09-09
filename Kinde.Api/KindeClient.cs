@@ -74,8 +74,8 @@ namespace Kinde.Api.Client
             // Create a logger factory for the Auth helper
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning));
             
-            // Create the Auth helper - it will create the accounts client internally
-            Auth = new Kinde.Api.Auth.Auth(this, HttpClient, loggerFactory.CreateLogger<Kinde.Api.Auth.Auth>());
+            // Create the Auth helper with ForceApi flag from configuration
+            Auth = new Kinde.Api.Auth.Auth(this, HttpClient, IdentityProviderConfiguration.ForceApi, loggerFactory.CreateLogger<Kinde.Api.Auth.Auth>());
         }
 
         #region Authorization flows
