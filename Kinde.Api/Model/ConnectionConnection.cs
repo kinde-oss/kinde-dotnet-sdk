@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ConnectionConnection
     /// </summary>
     public partial class ConnectionConnection
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionConnection" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name</param>
@@ -74,12 +76,14 @@ namespace Kinde.Api.Model
         public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of DisplayName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DisplayNameOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets DisplayName
         /// </summary>
         [JsonPropertyName("display_name")]
         public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
@@ -115,13 +119,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ConnectionConnection" />
     /// </summary>
     public class ConnectionConnectionJsonConverter : JsonConverter<ConnectionConnection>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ConnectionConnection" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ConnectionConnection Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -187,8 +194,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ConnectionConnection" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectionConnection"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ConnectionConnection connectionConnection, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -198,8 +209,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ConnectionConnection" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectionConnection"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ConnectionConnection connectionConnection, JsonSerializerOptions jsonSerializerOptions)
         {
             if (connectionConnection.IdOption.IsSet && connectionConnection.Id == null)

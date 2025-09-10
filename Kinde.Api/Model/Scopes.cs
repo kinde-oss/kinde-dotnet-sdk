@@ -60,6 +60,7 @@ namespace Kinde.Api.Model
         /// Scope ID.
         /// </summary>
         /// <value>Scope ID.</value>
+        /* <example>api_scope_019541f3fa0c874fc47b3ae73585b21c</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -79,6 +80,7 @@ namespace Kinde.Api.Model
         public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -103,6 +105,7 @@ namespace Kinde.Api.Model
         /// API ID.
         /// </summary>
         /// <value>API ID.</value>
+        /* <example>3635b4431f174de6b789c67481bd0c7a</example> */
         [JsonPropertyName("api_id")]
         public string? ApiId { get { return this.ApiIdOption; } set { this.ApiIdOption = new(value); } }
 
@@ -133,6 +136,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Scopes Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -202,6 +206,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="scopes"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Scopes scopes, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -215,6 +221,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="scopes"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Scopes scopes, JsonSerializerOptions jsonSerializerOptions)
         {
             if (scopes.IdOption.IsSet && scopes.Id == null)

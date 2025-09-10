@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// SubscribersSubscriber
     /// </summary>
     public partial class SubscribersSubscriber
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SubscribersSubscriber" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="email">email</param>
@@ -133,13 +135,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="SubscribersSubscriber" />
     /// </summary>
     public class SubscribersSubscriberJsonConverter : JsonConverter<SubscribersSubscriber>
     {
         /// <summary>
+        /// Deserializes json to <see cref="SubscribersSubscriber" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override SubscribersSubscriber Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -212,8 +217,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="SubscribersSubscriber" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="subscribersSubscriber"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SubscribersSubscriber subscribersSubscriber, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -223,8 +232,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="SubscribersSubscriber" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="subscribersSubscriber"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SubscribersSubscriber subscribersSubscriber, JsonSerializerOptions jsonSerializerOptions)
         {
             if (subscribersSubscriber.IdOption.IsSet && subscribersSubscriber.Id == null)

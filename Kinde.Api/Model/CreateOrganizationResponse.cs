@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateOrganizationResponse
     /// </summary>
     public partial class CreateOrganizationResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateOrganizationResponse" /> class.
         /// </summary>
         /// <param name="message">Response message.</param>
         /// <param name="code">Response code.</param>
@@ -76,12 +78,14 @@ namespace Kinde.Api.Model
         public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Organization
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<CreateOrganizationResponseOrganization?> OrganizationOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Organization
         /// </summary>
         [JsonPropertyName("organization")]
         public CreateOrganizationResponseOrganization? Organization { get { return this.OrganizationOption; } set { this.OrganizationOption = new(value); } }
@@ -103,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateOrganizationResponse" />
     /// </summary>
     public class CreateOrganizationResponseJsonConverter : JsonConverter<CreateOrganizationResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateOrganizationResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateOrganizationResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateOrganizationResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateOrganizationResponse createOrganizationResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateOrganizationResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateOrganizationResponse createOrganizationResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createOrganizationResponse.MessageOption.IsSet && createOrganizationResponse.Message == null)

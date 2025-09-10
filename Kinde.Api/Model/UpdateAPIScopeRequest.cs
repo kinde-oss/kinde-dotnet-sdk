@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateAPIScopeRequest
     /// </summary>
     public partial class UpdateAPIScopeRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateAPIScopeRequest" /> class.
         /// </summary>
         /// <param name="description">Description of the api scope purpose.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -70,13 +73,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateAPIScopeRequest" />
     /// </summary>
     public class UpdateAPIScopeRequestJsonConverter : JsonConverter<UpdateAPIScopeRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateAPIScopeRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateAPIScopeRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +127,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateAPIScopeRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateAPIScopeRequest updateAPIScopeRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +142,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateAPIScopeRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIScopeRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateAPIScopeRequest updateAPIScopeRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateAPIScopeRequest.DescriptionOption.IsSet && updateAPIScopeRequest.Description == null)

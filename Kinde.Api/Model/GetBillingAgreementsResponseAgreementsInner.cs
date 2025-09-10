@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBillingAgreementsResponseAgreementsInner
     /// </summary>
     public partial class GetBillingAgreementsResponseAgreementsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBillingAgreementsResponseAgreementsInner" /> class.
         /// </summary>
         /// <param name="id">The friendly id of an agreement</param>
         /// <param name="planCode">The plan code the billing customer is subscribed to</param>
@@ -60,6 +62,7 @@ namespace Kinde.Api.Model
         /// The friendly id of an agreement
         /// </summary>
         /// <value>The friendly id of an agreement</value>
+        /* <example>agreement_0195ac80a14c2ca2cec97d026d864de0</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -93,6 +96,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? ExpiresOn { get { return this.ExpiresOnOption; } set { this.ExpiresOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of BillingGroupId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -102,10 +106,12 @@ namespace Kinde.Api.Model
         /// The friendly id of the billing group this agreement&#39;s plan is part of
         /// </summary>
         /// <value>The friendly id of the billing group this agreement&#39;s plan is part of</value>
+        /* <example>sbg_0195abf6773fdae18d5da72281a3fde2</example> */
         [JsonPropertyName("billing_group_id")]
         public string? BillingGroupId { get { return this.BillingGroupIdOption; } set { this.BillingGroupIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Entitlements
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -137,6 +143,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBillingAgreementsResponseAgreementsInner" />
     /// </summary>
     public class GetBillingAgreementsResponseAgreementsInnerJsonConverter : JsonConverter<GetBillingAgreementsResponseAgreementsInner>
     {
@@ -146,9 +153,11 @@ namespace Kinde.Api.Model
         public static string ExpiresOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetBillingAgreementsResponseAgreementsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBillingAgreementsResponseAgreementsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -221,8 +230,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBillingAgreementsResponseAgreementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingAgreementsResponseAgreementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBillingAgreementsResponseAgreementsInner getBillingAgreementsResponseAgreementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -232,8 +245,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBillingAgreementsResponseAgreementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingAgreementsResponseAgreementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBillingAgreementsResponseAgreementsInner getBillingAgreementsResponseAgreementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBillingAgreementsResponseAgreementsInner.IdOption.IsSet && getBillingAgreementsResponseAgreementsInner.Id == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiKeyResponseApiKey
     /// </summary>
     public partial class GetApiKeyResponseApiKey
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiKeyResponseApiKey" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API key.</param>
         /// <param name="name">The API key&#39;s name.</param>
@@ -43,6 +45,7 @@ namespace Kinde.Api.Model
         /// <param name="createdBy">The name of the user who created the API key.</param>
         /// <param name="apiIds">Array of API IDs associated with this key.</param>
         /// <param name="scopes">Array of scopes associated with this key.</param>
+        /// <param name="verificationCount">Number of times this API key has been verified.</param>
         /// <param name="organizationId">The organization code associated with this key.</param>
         /// <param name="userId">The user ID associated with this key.</param>
         [JsonConstructor]
@@ -79,6 +82,7 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -173,6 +177,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -187,6 +192,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedIp
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -246,6 +252,7 @@ namespace Kinde.Api.Model
         public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of VerificationCount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -260,6 +267,7 @@ namespace Kinde.Api.Model
         public int? VerificationCount { get { return this.VerificationCountOption; } set { this.VerificationCountOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of OrganizationId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -317,6 +325,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiKeyResponseApiKey" />
     /// </summary>
     public class GetApiKeyResponseApiKeyJsonConverter : JsonConverter<GetApiKeyResponseApiKey>
     {
@@ -326,13 +335,16 @@ namespace Kinde.Api.Model
         public static string CreatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize LastVerifiedOn
         /// </summary>
         public static string LastVerifiedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiKeyResponseApiKey Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -454,8 +466,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeyResponseApiKey"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiKeyResponseApiKey getApiKeyResponseApiKey, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -465,8 +481,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeyResponseApiKey"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiKeyResponseApiKey getApiKeyResponseApiKey, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiKeyResponseApiKey.IdOption.IsSet && getApiKeyResponseApiKey.Id == null)

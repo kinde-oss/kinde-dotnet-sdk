@@ -26,11 +26,18 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateApplicationTokensRequest
     /// </summary>
     public partial class UpdateApplicationTokensRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateApplicationTokensRequest" /> class.
         /// </summary>
+        /// <param name="accessTokenLifetime">The lifetime of an access token in seconds.</param>
+        /// <param name="refreshTokenLifetime">The lifetime of a refresh token in seconds.</param>
+        /// <param name="idTokenLifetime">The lifetime of an ID token in seconds.</param>
+        /// <param name="authenticatedSessionLifetime">The lifetime of an authenticated session in seconds.</param>
+        /// <param name="isHasuraMappingEnabled">Enable or disable Hasura mapping.</param>
         [JsonConstructor]
         public UpdateApplicationTokensRequest(Option<int?> accessTokenLifetime = default, Option<int?> refreshTokenLifetime = default, Option<int?> idTokenLifetime = default, Option<int?> authenticatedSessionLifetime = default, Option<bool?> isHasuraMappingEnabled = default)
         {
@@ -45,6 +52,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of AccessTokenLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -59,6 +67,7 @@ namespace Kinde.Api.Model
         public int? AccessTokenLifetime { get { return this.AccessTokenLifetimeOption; } set { this.AccessTokenLifetimeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of RefreshTokenLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -73,6 +82,7 @@ namespace Kinde.Api.Model
         public int? RefreshTokenLifetime { get { return this.RefreshTokenLifetimeOption; } set { this.RefreshTokenLifetimeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IdTokenLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -87,6 +97,7 @@ namespace Kinde.Api.Model
         public int? IdTokenLifetime { get { return this.IdTokenLifetimeOption; } set { this.IdTokenLifetimeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of AuthenticatedSessionLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -101,6 +112,7 @@ namespace Kinde.Api.Model
         public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsHasuraMappingEnabled
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -133,13 +145,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateApplicationTokensRequest" />
     /// </summary>
     public class UpdateApplicationTokensRequestJsonConverter : JsonConverter<UpdateApplicationTokensRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateApplicationTokensRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateApplicationTokensRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -212,8 +227,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateApplicationTokensRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateApplicationTokensRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateApplicationTokensRequest updateApplicationTokensRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -223,8 +242,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateApplicationTokensRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateApplicationTokensRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateApplicationTokensRequest updateApplicationTokensRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateApplicationTokensRequest.AccessTokenLifetimeOption.IsSet)

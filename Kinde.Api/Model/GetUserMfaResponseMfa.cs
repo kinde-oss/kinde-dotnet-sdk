@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetUserMfaResponseMfa
     /// </summary>
     public partial class GetUserMfaResponseMfa
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetUserMfaResponseMfa" /> class.
         /// </summary>
         /// <param name="id">The MFA&#39;s identifier.</param>
         /// <param name="type">The type of MFA (e.g. email, SMS, authenticator app).</param>
@@ -64,6 +66,7 @@ namespace Kinde.Api.Model
         /// The MFA&#39;s identifier.
         /// </summary>
         /// <value>The MFA&#39;s identifier.</value>
+        /* <example>mfa_01933d1ca1f093e7fad48ebcdb65a871</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -113,6 +116,7 @@ namespace Kinde.Api.Model
         public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsVerified
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -127,6 +131,7 @@ namespace Kinde.Api.Model
         public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of UsageCount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -141,6 +146,7 @@ namespace Kinde.Api.Model
         public int? UsageCount { get { return this.UsageCountOption; } set { this.UsageCountOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastUsedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -175,6 +181,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetUserMfaResponseMfa" />
     /// </summary>
     public class GetUserMfaResponseMfaJsonConverter : JsonConverter<GetUserMfaResponseMfa>
     {
@@ -184,13 +191,16 @@ namespace Kinde.Api.Model
         public static string CreatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize LastUsedOn
         /// </summary>
         public static string LastUsedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetUserMfaResponseMfa Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -277,8 +287,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserMfaResponseMfa"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetUserMfaResponseMfa getUserMfaResponseMfa, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -288,8 +302,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserMfaResponseMfa"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetUserMfaResponseMfa getUserMfaResponseMfa, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getUserMfaResponseMfa.IdOption.IsSet && getUserMfaResponseMfa.Id == null)

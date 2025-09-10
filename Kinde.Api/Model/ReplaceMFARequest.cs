@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReplaceMFARequest
     /// </summary>
     public partial class ReplaceMFARequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReplaceMFARequest" /> class.
         /// </summary>
         /// <param name="policy">Specifies whether MFA is required, optional, or not enforced.</param>
         /// <param name="enabledFactors">The MFA methods to enable.</param>
@@ -70,6 +72,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static PolicyEnum PolicyEnumFromString(string value)
         {
             if (value.Equals("required"))
@@ -108,6 +111,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string PolicyEnumToJsonValue(PolicyEnum value)
         {
             if (value == PolicyEnum.Required)
@@ -130,6 +134,7 @@ namespace Kinde.Api.Model
         public PolicyEnum Policy { get; set; }
 
         /// <summary>
+        /// Defines EnabledFactors
         /// </summary>
         public enum EnabledFactorsEnum
         {
@@ -144,14 +149,17 @@ namespace Kinde.Api.Model
             Mfasms = 2,
 
             /// <summary>
+            /// Enum MfaauthenticatorApp for value: mfa:authenticator_app
             /// </summary>
             MfaauthenticatorApp = 3
         }
 
         /// <summary>
+        /// Returns a <see cref="EnabledFactorsEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static EnabledFactorsEnum EnabledFactorsEnumFromString(string value)
         {
             if (value.Equals("mfa:email"))
@@ -167,6 +175,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="EnabledFactorsEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -185,9 +194,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="EnabledFactorsEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string EnabledFactorsEnumToJsonValue(EnabledFactorsEnum? value)
         {
             if (value == EnabledFactorsEnum.Mfaemail)
@@ -225,13 +236,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReplaceMFARequest" />
     /// </summary>
     public class ReplaceMFARequestJsonConverter : JsonConverter<ReplaceMFARequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReplaceMFARequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReplaceMFARequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -291,8 +305,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReplaceMFARequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceMFARequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReplaceMFARequest replaceMFARequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -302,8 +320,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReplaceMFARequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceMFARequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReplaceMFARequest replaceMFARequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (replaceMFARequest.EnabledFactors == null)

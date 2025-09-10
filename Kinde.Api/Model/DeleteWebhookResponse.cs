@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// DeleteWebhookResponse
     /// </summary>
     public partial class DeleteWebhookResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteWebhookResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -87,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="DeleteWebhookResponse" />
     /// </summary>
     public class DeleteWebhookResponseJsonConverter : JsonConverter<DeleteWebhookResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="DeleteWebhookResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override DeleteWebhookResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="DeleteWebhookResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteWebhookResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, DeleteWebhookResponse deleteWebhookResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="DeleteWebhookResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteWebhookResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DeleteWebhookResponse deleteWebhookResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (deleteWebhookResponse.CodeOption.IsSet && deleteWebhookResponse.Code == null)

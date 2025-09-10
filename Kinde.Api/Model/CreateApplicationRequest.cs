@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApplicationRequest
     /// </summary>
     public partial class CreateApplicationRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApplicationRequest" /> class.
         /// </summary>
         /// <param name="name">The application&#39;s name.</param>
         /// <param name="type">The application&#39;s type. Use &#x60;reg&#x60; for regular server rendered applications, &#x60;spa&#x60; for single-page applications, &#x60;m2m&#x60; for machine-to-machine applications, and &#x60;device&#x60; for devices and IoT.</param>
@@ -77,6 +79,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("reg"))
@@ -121,6 +124,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum value)
         {
             if (value == TypeEnum.Reg)
@@ -185,13 +189,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApplicationRequest" />
     /// </summary>
     public class CreateApplicationRequestJsonConverter : JsonConverter<CreateApplicationRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApplicationRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApplicationRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -255,8 +262,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApplicationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApplicationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApplicationRequest createApplicationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -266,8 +277,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApplicationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApplicationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApplicationRequest createApplicationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApplicationRequest.Name == null)

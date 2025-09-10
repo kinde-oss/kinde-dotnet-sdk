@@ -26,13 +26,16 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetOrganizationUsersResponse
     /// </summary>
     public partial class GetOrganizationUsersResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
+        /// <param name="organizationUsers">organizationUsers</param>
         /// <param name="nextToken">Pagination token.</param>
         [JsonConstructor]
         public GetOrganizationUsersResponse(Option<string?> code = default, Option<string?> message = default, Option<List<OrganizationUser>?> organizationUsers = default, Option<string?> nextToken = default)
@@ -77,12 +80,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of OrganizationUsers
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<OrganizationUser>?> OrganizationUsersOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets OrganizationUsers
         /// </summary>
         [JsonPropertyName("organization_users")]
         public List<OrganizationUser>? OrganizationUsers { get { return this.OrganizationUsersOption; } set { this.OrganizationUsersOption = new(value); } }
@@ -119,13 +124,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetOrganizationUsersResponse" />
     /// </summary>
     public class GetOrganizationUsersResponseJsonConverter : JsonConverter<GetOrganizationUsersResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetOrganizationUsersResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetOrganizationUsersResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -191,8 +199,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetOrganizationUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetOrganizationUsersResponse getOrganizationUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -202,8 +214,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetOrganizationUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetOrganizationUsersResponse getOrganizationUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getOrganizationUsersResponse.CodeOption.IsSet && getOrganizationUsersResponse.Code == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEventResponseEvent
     /// </summary>
     public partial class GetEventResponseEvent
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEventResponseEvent" /> class.
         /// </summary>
         /// <param name="type">type</param>
         /// <param name="source">source</param>
@@ -135,13 +137,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEventResponseEvent" />
     /// </summary>
     public class GetEventResponseEventJsonConverter : JsonConverter<GetEventResponseEvent>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEventResponseEvent Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -214,8 +219,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventResponseEvent"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEventResponseEvent getEventResponseEvent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -225,8 +234,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventResponseEvent"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEventResponseEvent getEventResponseEvent, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEventResponseEvent.TypeOption.IsSet && getEventResponseEvent.Type == null)

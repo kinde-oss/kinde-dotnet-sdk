@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateOrganizationPropertiesRequest
     /// </summary>
     public partial class UpdateOrganizationPropertiesRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateOrganizationPropertiesRequest" /> class.
         /// </summary>
         /// <param name="properties">Property keys and values</param>
         [JsonConstructor]
@@ -63,13 +65,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateOrganizationPropertiesRequest" />
     /// </summary>
     public class UpdateOrganizationPropertiesRequestJsonConverter : JsonConverter<UpdateOrganizationPropertiesRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateOrganizationPropertiesRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateOrganizationPropertiesRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -117,8 +122,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateOrganizationPropertiesRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationPropertiesRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -128,8 +137,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateOrganizationPropertiesRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationPropertiesRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateOrganizationPropertiesRequest.Properties == null)

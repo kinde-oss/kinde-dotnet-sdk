@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetSubscribersResponse
     /// </summary>
     public partial class GetSubscribersResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetSubscribersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -76,12 +78,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Subscribers
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<SubscribersSubscriber>?> SubscribersOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Subscribers
         /// </summary>
         [JsonPropertyName("subscribers")]
         public List<SubscribersSubscriber>? Subscribers { get { return this.SubscribersOption; } set { this.SubscribersOption = new(value); } }
@@ -118,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetSubscribersResponse" />
     /// </summary>
     public class GetSubscribersResponseJsonConverter : JsonConverter<GetSubscribersResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetSubscribersResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetSubscribersResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetSubscribersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getSubscribersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetSubscribersResponse getSubscribersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetSubscribersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getSubscribersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetSubscribersResponse getSubscribersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getSubscribersResponse.CodeOption.IsSet && getSubscribersResponse.Code == null)

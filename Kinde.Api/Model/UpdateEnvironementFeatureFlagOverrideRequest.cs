@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateEnvironementFeatureFlagOverrideRequest
     /// </summary>
     public partial class UpdateEnvironementFeatureFlagOverrideRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateEnvironementFeatureFlagOverrideRequest" /> class.
         /// </summary>
         /// <param name="value">The flag override value.</param>
         [JsonConstructor]
@@ -63,13 +65,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateEnvironementFeatureFlagOverrideRequest" />
     /// </summary>
     public class UpdateEnvironementFeatureFlagOverrideRequestJsonConverter : JsonConverter<UpdateEnvironementFeatureFlagOverrideRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateEnvironementFeatureFlagOverrideRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateEnvironementFeatureFlagOverrideRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -117,8 +122,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateEnvironementFeatureFlagOverrideRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -128,8 +137,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateEnvironementFeatureFlagOverrideRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironementFeatureFlagOverrideRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateEnvironementFeatureFlagOverrideRequest.Value == null)

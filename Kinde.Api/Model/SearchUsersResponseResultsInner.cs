@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// SearchUsersResponseResultsInner
     /// </summary>
     public partial class SearchUsersResponseResultsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SearchUsersResponseResultsInner" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the user in Kinde.</param>
         /// <param name="providedId">External ID for user.</param>
@@ -80,10 +82,12 @@ namespace Kinde.Api.Model
         /// Unique ID of the user in Kinde.
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
+        /* <example>kp_0ba7c433e5d648cf992621ce99d42817</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ProvidedId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -158,6 +162,7 @@ namespace Kinde.Api.Model
         public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsSuspended
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -187,6 +192,7 @@ namespace Kinde.Api.Model
         public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of TotalSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -201,6 +207,7 @@ namespace Kinde.Api.Model
         public int? TotalSignIns { get { return this.TotalSignInsOption; } set { this.TotalSignInsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FailedSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -215,6 +222,7 @@ namespace Kinde.Api.Model
         public int? FailedSignIns { get { return this.FailedSignInsOption; } set { this.FailedSignInsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastSignedIn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -244,6 +252,7 @@ namespace Kinde.Api.Model
         public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Organizations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -257,6 +266,7 @@ namespace Kinde.Api.Model
         public List<string>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -270,6 +280,7 @@ namespace Kinde.Api.Model
         public List<UserIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Properties
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -311,13 +322,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="SearchUsersResponseResultsInner" />
     /// </summary>
     public class SearchUsersResponseResultsInnerJsonConverter : JsonConverter<SearchUsersResponseResultsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="SearchUsersResponseResultsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override SearchUsersResponseResultsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -436,8 +450,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="SearchUsersResponseResultsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="searchUsersResponseResultsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SearchUsersResponseResultsInner searchUsersResponseResultsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -447,8 +465,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="SearchUsersResponseResultsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="searchUsersResponseResultsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SearchUsersResponseResultsInner searchUsersResponseResultsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (searchUsersResponseResultsInner.IdOption.IsSet && searchUsersResponseResultsInner.Id == null)

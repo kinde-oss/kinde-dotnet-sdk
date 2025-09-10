@@ -294,7 +294,7 @@ namespace Kinde.Accounts.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/roles", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;

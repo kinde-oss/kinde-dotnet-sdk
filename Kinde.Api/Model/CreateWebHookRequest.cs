@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateWebHookRequest
     /// </summary>
     public partial class CreateWebHookRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateWebHookRequest" /> class.
         /// </summary>
         /// <param name="endpoint">The webhook endpoint url</param>
         /// <param name="eventTypes">Array of event type keys</param>
@@ -69,12 +71,14 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DescriptionOption { get; private set; }
 
         /// <summary>
+        /// The webhook description
         /// </summary>
         /// <value>The webhook description</value>
         [JsonPropertyName("description")]
@@ -98,13 +102,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateWebHookRequest" />
     /// </summary>
     public class CreateWebHookRequestJsonConverter : JsonConverter<CreateWebHookRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateWebHookRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateWebHookRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -176,8 +183,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateWebHookRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createWebHookRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateWebHookRequest createWebHookRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -187,8 +198,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateWebHookRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createWebHookRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateWebHookRequest createWebHookRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createWebHookRequest.Endpoint == null)

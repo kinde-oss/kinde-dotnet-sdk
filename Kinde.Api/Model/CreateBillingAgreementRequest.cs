@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateBillingAgreementRequest
     /// </summary>
     public partial class CreateBillingAgreementRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         /// <param name="customerId">The ID of the billing customer to create a new agreement for</param>
         /// <param name="planCode">The code of the billing plan the new agreement will be based on</param>
@@ -51,6 +53,7 @@ namespace Kinde.Api.Model
         /// The ID of the billing customer to create a new agreement for
         /// </summary>
         /// <value>The ID of the billing customer to create a new agreement for</value>
+        /* <example>customer_0195ac80a14c2ca2cec97d026d864de0</example> */
         [JsonPropertyName("customer_id")]
         public string CustomerId { get; set; }
 
@@ -63,6 +66,7 @@ namespace Kinde.Api.Model
         public string PlanCode { get; set; }
 
         /// <summary>
+        /// Used to track the state of IsInvoiceNow
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -109,13 +113,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateBillingAgreementRequest" />
     /// </summary>
     public class CreateBillingAgreementRequestJsonConverter : JsonConverter<CreateBillingAgreementRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateBillingAgreementRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateBillingAgreementRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -187,8 +194,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateBillingAgreementRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createBillingAgreementRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateBillingAgreementRequest createBillingAgreementRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -198,8 +209,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateBillingAgreementRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createBillingAgreementRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateBillingAgreementRequest createBillingAgreementRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createBillingAgreementRequest.CustomerId == null)

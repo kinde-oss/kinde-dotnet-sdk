@@ -23,7 +23,11 @@ namespace Kinde.Accounts.Client
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
+        #if NET6_0_OR_GREATER
         internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new();
+#else
+        internal Dictionary<string, System.Collections.Concurrent.ConcurrentQueue<TTokenBase>> AvailableTokens { get; } = new();
+#endif
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -34,26 +38,51 @@ namespace Kinde.Accounts.Client
             foreach(TTokenBase token in _tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
 
+            #if NET6_0_OR_GREATER
             global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(_tokens.Length)
             {
                 FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropWrite
             };
 
             AvailableTokens.Add(string.Empty, global::System.Threading.Channels.Channel.CreateBounded<TTokenBase>(options));
+#else
+            // For .NET Standard 2.1, we'll use a simple queue-based approach
+            AvailableTokens.Add(string.Empty, new System.Collections.Concurrent.ConcurrentQueue<TTokenBase>());
+#endif
 
             foreach (var availableToken in AvailableTokens)
                 foreach(TTokenBase token in _tokens)
                 {
+                    #if NET6_0_OR_GREATER
                     token.TokenBecameAvailable += ((sender) => availableToken.Value.Writer.TryWrite((TTokenBase)sender));
+#else
+                    token.TokenBecameAvailable += ((sender) => ((System.Collections.Concurrent.ConcurrentQueue<TTokenBase>)availableToken.Value).Enqueue((TTokenBase)sender));
+#endif
                 }
         }
 
         internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
+            #if NET6_0_OR_GREATER
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase>? tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
 
             return await tokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);
+#else
+            if (!AvailableTokens.TryGetValue(header, out System.Collections.Concurrent.ConcurrentQueue<TTokenBase>? tokens))
+                throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
+
+            // For .NET Standard 2.1, we'll use a simple polling approach
+            while (!cancellation.IsCancellationRequested)
+            {
+                if (tokens.TryDequeue(out TTokenBase? token))
+                    return token;
+
+                await System.Threading.Tasks.Task.Delay(10, cancellation);
+            }
+
+            throw new System.OperationCanceledException();
+#endif
         }
     }
 }

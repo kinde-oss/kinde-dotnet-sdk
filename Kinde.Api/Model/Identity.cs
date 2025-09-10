@@ -70,6 +70,7 @@ namespace Kinde.Api.Model
         /// The unique ID for the identity
         /// </summary>
         /// <value>The unique ID for the identity</value>
+        /* <example>identity_019617f0cd72460a42192cf37b41084f</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -89,6 +90,7 @@ namespace Kinde.Api.Model
         public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsConfirmed
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -118,6 +120,7 @@ namespace Kinde.Api.Model
         public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastLoginOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -132,12 +135,14 @@ namespace Kinde.Api.Model
         public string? LastLoginOn { get { return this.LastLoginOnOption; } set { this.LastLoginOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of TotalLogins
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> TotalLoginsOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets TotalLogins
         /// </summary>
         /* <example>20</example> */
         [JsonPropertyName("total_logins")]
@@ -220,6 +225,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Identity Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -321,6 +327,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="identity"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Identity identity, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -334,6 +342,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="identity"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Identity identity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (identity.IdOption.IsSet && identity.Id == null)

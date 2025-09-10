@@ -26,14 +26,18 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateConnectionRequest
     /// </summary>
     public partial class CreateConnectionRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateConnectionRequest" /> class.
         /// </summary>
         /// <param name="name">The internal name of the connection.</param>
         /// <param name="displayName">The public facing name of the connection.</param>
         /// <param name="strategy">The identity provider identifier for the connection.</param>
+        /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled.</param>
+        /// <param name="organizationCode">Enterprise connections only - the code for organization that manages this connection.</param>
         /// <param name="options">options</param>
         [JsonConstructor]
         public CreateConnectionRequest(Option<string?> name = default, Option<string?> displayName = default, Option<StrategyEnum?> strategy = default, Option<List<string>?> enabledApplications = default, Option<string?> organizationCode = default, Option<CreateConnectionRequestOptions?> options = default)
@@ -66,6 +70,7 @@ namespace Kinde.Api.Model
             Oauth2azureAd = 2,
 
             /// <summary>
+            /// Enum Oauth2bitbucket for value: oauth2:bitbucket
             /// </summary>
             Oauth2bitbucket = 3,
 
@@ -100,6 +105,7 @@ namespace Kinde.Api.Model
             Oauth2linkedin = 9,
 
             /// <summary>
+            /// Enum Oauth2microsoft for value: oauth2:microsoft
             /// </summary>
             Oauth2microsoft = 10,
 
@@ -149,6 +155,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StrategyEnum StrategyEnumFromString(string value)
         {
             if (value.Equals("oauth2:apple"))
@@ -277,6 +284,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string StrategyEnumToJsonValue(StrategyEnum? value)
         {
             if (value == StrategyEnum.Oauth2apple)
@@ -365,6 +373,7 @@ namespace Kinde.Api.Model
         public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of DisplayName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -378,6 +387,7 @@ namespace Kinde.Api.Model
         public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of EnabledApplications
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -391,6 +401,7 @@ namespace Kinde.Api.Model
         public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of OrganizationCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -437,13 +448,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateConnectionRequest" />
     /// </summary>
     public class CreateConnectionRequestJsonConverter : JsonConverter<CreateConnectionRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateConnectionRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateConnectionRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -522,8 +536,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateConnectionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateConnectionRequest createConnectionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -533,8 +551,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateConnectionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateConnectionRequest createConnectionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createConnectionRequest.NameOption.IsSet && createConnectionRequest.Name == null)

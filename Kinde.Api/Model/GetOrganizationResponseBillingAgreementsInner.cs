@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetOrganizationResponseBillingAgreementsInner
     /// </summary>
     public partial class GetOrganizationResponseBillingAgreementsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationResponseBillingAgreementsInner" /> class.
         /// </summary>
         /// <param name="planCode">The code of the plan from which this agreement is taken from</param>
         /// <param name="agreementId">The id of the billing agreement in Kinde</param>
@@ -59,6 +61,7 @@ namespace Kinde.Api.Model
         public string? PlanCode { get { return this.PlanCodeOption; } set { this.PlanCodeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of AgreementId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -88,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetOrganizationResponseBillingAgreementsInner" />
     /// </summary>
     public class GetOrganizationResponseBillingAgreementsInnerJsonConverter : JsonConverter<GetOrganizationResponseBillingAgreementsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetOrganizationResponseBillingAgreementsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetOrganizationResponseBillingAgreementsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -146,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetOrganizationResponseBillingAgreementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationResponseBillingAgreementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetOrganizationResponseBillingAgreementsInner getOrganizationResponseBillingAgreementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -157,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetOrganizationResponseBillingAgreementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationResponseBillingAgreementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetOrganizationResponseBillingAgreementsInner getOrganizationResponseBillingAgreementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getOrganizationResponseBillingAgreementsInner.PlanCodeOption.IsSet && getOrganizationResponseBillingAgreementsInner.PlanCode == null)

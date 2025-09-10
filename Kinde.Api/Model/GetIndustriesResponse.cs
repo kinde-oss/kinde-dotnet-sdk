@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetIndustriesResponse
     /// </summary>
     public partial class GetIndustriesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetIndustriesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -76,12 +78,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Industries
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<GetIndustriesResponseIndustriesInner>?> IndustriesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Industries
         /// </summary>
         [JsonPropertyName("industries")]
         public List<GetIndustriesResponseIndustriesInner>? Industries { get { return this.IndustriesOption; } set { this.IndustriesOption = new(value); } }
@@ -103,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetIndustriesResponse" />
     /// </summary>
     public class GetIndustriesResponseJsonConverter : JsonConverter<GetIndustriesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetIndustriesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetIndustriesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetIndustriesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getIndustriesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetIndustriesResponse getIndustriesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetIndustriesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getIndustriesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetIndustriesResponse getIndustriesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getIndustriesResponse.CodeOption.IsSet && getIndustriesResponse.Code == null)

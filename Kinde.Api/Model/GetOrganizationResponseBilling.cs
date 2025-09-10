@@ -31,7 +31,9 @@ namespace Kinde.Api.Model
     public partial class GetOrganizationResponseBilling
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationResponseBilling" /> class.
         /// </summary>
+        /// <param name="billingCustomerId">billingCustomerId</param>
         /// <param name="agreements">The billing agreements the billing customer is currently subscribed to</param>
         [JsonConstructor]
         public GetOrganizationResponseBilling(Option<string?> billingCustomerId = default, Option<List<GetOrganizationResponseBillingAgreementsInner>?> agreements = default)
@@ -44,17 +46,20 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of BillingCustomerId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> BillingCustomerIdOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets BillingCustomerId
         /// </summary>
         [JsonPropertyName("billing_customer_id")]
         public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Agreements
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -83,13 +88,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetOrganizationResponseBilling" />
     /// </summary>
     public class GetOrganizationResponseBillingJsonConverter : JsonConverter<GetOrganizationResponseBilling>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetOrganizationResponseBilling" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetOrganizationResponseBilling Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -141,8 +149,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetOrganizationResponseBilling" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationResponseBilling"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetOrganizationResponseBilling getOrganizationResponseBilling, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -152,8 +164,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetOrganizationResponseBilling" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationResponseBilling"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetOrganizationResponseBilling getOrganizationResponseBilling, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getOrganizationResponseBilling.BillingCustomerIdOption.IsSet && getOrganizationResponseBilling.BillingCustomerId == null)

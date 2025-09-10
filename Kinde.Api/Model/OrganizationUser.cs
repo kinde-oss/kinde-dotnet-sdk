@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// OrganizationUser
     /// </summary>
     public partial class OrganizationUser
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="OrganizationUser" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the user.</param>
         /// <param name="email">The user&#39;s email address.</param>
@@ -68,6 +70,7 @@ namespace Kinde.Api.Model
         /// The unique ID for the user.
         /// </summary>
         /// <value>The unique ID for the user.</value>
+        /* <example>kp:97c2ba24217d48e3b96a799b76cf2c74</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -162,6 +165,7 @@ namespace Kinde.Api.Model
         public string? JoinedOn { get { return this.JoinedOnOption; } set { this.JoinedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastAccessedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -212,13 +216,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="OrganizationUser" />
     /// </summary>
     public class OrganizationUserJsonConverter : JsonConverter<OrganizationUser>
     {
         /// <summary>
+        /// Deserializes json to <see cref="OrganizationUser" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override OrganizationUser Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -301,8 +308,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="OrganizationUser" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUser"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OrganizationUser organizationUser, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -312,8 +323,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="OrganizationUser" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUser"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OrganizationUser organizationUser, JsonSerializerOptions jsonSerializerOptions)
         {
             if (organizationUser.FullNameOption.IsSet && organizationUser.FullName == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateEnvironmentVariableRequest
     /// </summary>
     public partial class UpdateEnvironmentVariableRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateEnvironmentVariableRequest" /> class.
         /// </summary>
         /// <param name="key">The key to update.</param>
         /// <param name="value">The new value for the environment variable.</param>
@@ -106,13 +108,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateEnvironmentVariableRequest" />
     /// </summary>
     public class UpdateEnvironmentVariableRequestJsonConverter : JsonConverter<UpdateEnvironmentVariableRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateEnvironmentVariableRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -171,8 +176,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironmentVariableRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateEnvironmentVariableRequest updateEnvironmentVariableRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -182,8 +191,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironmentVariableRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateEnvironmentVariableRequest updateEnvironmentVariableRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateEnvironmentVariableRequest.KeyOption.IsSet && updateEnvironmentVariableRequest.Key == null)

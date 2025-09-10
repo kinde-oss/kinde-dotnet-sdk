@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateAPIApplicationsRequestApplicationsInner
     /// </summary>
     public partial class UpdateAPIApplicationsRequestApplicationsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequestApplicationsInner" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s Client ID.</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized.</param>
@@ -47,6 +49,7 @@ namespace Kinde.Api.Model
         /// The application&#39;s Client ID.
         /// </summary>
         /// <value>The application&#39;s Client ID.</value>
+        /* <example>d2db282d6214242b3b145c123f0c123</example> */
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
@@ -81,13 +84,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateAPIApplicationsRequestApplicationsInner" />
     /// </summary>
     public class UpdateAPIApplicationsRequestApplicationsInnerJsonConverter : JsonConverter<UpdateAPIApplicationsRequestApplicationsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateAPIApplicationsRequestApplicationsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateAPIApplicationsRequestApplicationsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -142,8 +148,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateAPIApplicationsRequestApplicationsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIApplicationsRequestApplicationsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateAPIApplicationsRequestApplicationsInner updateAPIApplicationsRequestApplicationsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -153,8 +163,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateAPIApplicationsRequestApplicationsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIApplicationsRequestApplicationsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateAPIApplicationsRequestApplicationsInner updateAPIApplicationsRequestApplicationsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateAPIApplicationsRequestApplicationsInner.Id == null)

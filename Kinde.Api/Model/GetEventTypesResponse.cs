@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEventTypesResponse
     /// </summary>
     public partial class GetEventTypesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEventTypesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -74,12 +76,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of EventTypes
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<EventType>?> EventTypesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets EventTypes
         /// </summary>
         [JsonPropertyName("event_types")]
         public List<EventType>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
@@ -101,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEventTypesResponse" />
     /// </summary>
     public class GetEventTypesResponseJsonConverter : JsonConverter<GetEventTypesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEventTypesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEventTypesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEventTypesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventTypesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEventTypesResponse getEventTypesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEventTypesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventTypesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEventTypesResponse getEventTypesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEventTypesResponse.CodeOption.IsSet && getEventTypesResponse.Code == null)

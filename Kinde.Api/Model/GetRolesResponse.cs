@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetRolesResponse
     /// </summary>
     public partial class GetRolesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetRolesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -120,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetRolesResponse" />
     /// </summary>
     public class GetRolesResponseJsonConverter : JsonConverter<GetRolesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetRolesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetRolesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -192,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetRolesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getRolesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetRolesResponse getRolesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -203,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetRolesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getRolesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetRolesResponse getRolesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getRolesResponse.CodeOption.IsSet && getRolesResponse.Code == null)

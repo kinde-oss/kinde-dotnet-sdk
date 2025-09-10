@@ -424,7 +424,7 @@ namespace Kinde.Accounts.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/v2/user_profile", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
@@ -721,7 +721,7 @@ namespace Kinde.Accounts.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/introspect", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
@@ -1080,7 +1080,7 @@ namespace Kinde.Accounts.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/revoke", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;

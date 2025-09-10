@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReplaceRedirectCallbackURLsRequest
     /// </summary>
     public partial class ReplaceRedirectCallbackURLsRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReplaceRedirectCallbackURLsRequest" /> class.
         /// </summary>
         /// <param name="urls">Array of callback urls.</param>
         [JsonConstructor]
@@ -70,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReplaceRedirectCallbackURLsRequest" />
     /// </summary>
     public class ReplaceRedirectCallbackURLsRequestJsonConverter : JsonConverter<ReplaceRedirectCallbackURLsRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReplaceRedirectCallbackURLsRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReplaceRedirectCallbackURLsRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReplaceRedirectCallbackURLsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceRedirectCallbackURLsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReplaceRedirectCallbackURLsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceRedirectCallbackURLsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReplaceRedirectCallbackURLsRequest replaceRedirectCallbackURLsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (replaceRedirectCallbackURLsRequest.UrlsOption.IsSet && replaceRedirectCallbackURLsRequest.Urls == null)

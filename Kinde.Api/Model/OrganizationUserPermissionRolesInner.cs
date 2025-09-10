@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// OrganizationUserPermissionRolesInner
     /// </summary>
     public partial class OrganizationUserPermissionRolesInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="OrganizationUserPermissionRolesInner" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="key">key</param>
@@ -85,13 +87,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="OrganizationUserPermissionRolesInner" />
     /// </summary>
     public class OrganizationUserPermissionRolesInnerJsonConverter : JsonConverter<OrganizationUserPermissionRolesInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="OrganizationUserPermissionRolesInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override OrganizationUserPermissionRolesInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -143,8 +148,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="OrganizationUserPermissionRolesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUserPermissionRolesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OrganizationUserPermissionRolesInner organizationUserPermissionRolesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -154,8 +163,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="OrganizationUserPermissionRolesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUserPermissionRolesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OrganizationUserPermissionRolesInner organizationUserPermissionRolesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (organizationUserPermissionRolesInner.IdOption.IsSet && organizationUserPermissionRolesInner.Id == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBusinessResponseBusiness
     /// </summary>
     public partial class GetBusinessResponseBusiness
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBusinessResponseBusiness" /> class.
         /// </summary>
         /// <param name="code">The unique ID for the business.</param>
         /// <param name="name">Your business&#39;s name.</param>
@@ -40,6 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="privacyUrl">Your Privacy policy URL.</param>
         /// <param name="termsUrl">Your Terms and Conditions URL.</param>
         /// <param name="hasClickwrap">Whether your business uses clickwrap agreements.</param>
+        /// <param name="hasKindeBranding">Whether your business shows Kinde branding.</param>
         /// <param name="createdOn">Date of business creation in ISO 8601 format.</param>
         [JsonConstructor]
         public GetBusinessResponseBusiness(Option<string?> code = default, Option<string?> name = default, Option<string?> phone = default, Option<string?> email = default, Option<string?> industry = default, Option<string?> timezone = default, Option<string?> privacyUrl = default, Option<string?> termsUrl = default, Option<bool?> hasClickwrap = default, Option<bool?> hasKindeBranding = default, Option<string?> createdOn = default)
@@ -151,6 +154,7 @@ namespace Kinde.Api.Model
         public string? Timezone { get { return this.TimezoneOption; } set { this.TimezoneOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of PrivacyUrl
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -180,6 +184,7 @@ namespace Kinde.Api.Model
         public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of HasClickwrap
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -194,6 +199,7 @@ namespace Kinde.Api.Model
         public bool? HasClickwrap { get { return this.HasClickwrapOption; } set { this.HasClickwrapOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of HasKindeBranding
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -247,13 +253,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBusinessResponseBusiness" />
     /// </summary>
     public class GetBusinessResponseBusinessJsonConverter : JsonConverter<GetBusinessResponseBusiness>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBusinessResponseBusiness Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -350,8 +359,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponseBusiness"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBusinessResponseBusiness getBusinessResponseBusiness, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -361,8 +374,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponseBusiness"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBusinessResponseBusiness getBusinessResponseBusiness, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBusinessResponseBusiness.CodeOption.IsSet && getBusinessResponseBusiness.Code == null)

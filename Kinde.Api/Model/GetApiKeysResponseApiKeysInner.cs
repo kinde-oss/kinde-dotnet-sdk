@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiKeysResponseApiKeysInner
     /// </summary>
     public partial class GetApiKeysResponseApiKeysInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiKeysResponseApiKeysInner" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API key.</param>
         /// <param name="name">The API key&#39;s name.</param>
@@ -74,6 +76,7 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -168,6 +171,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -182,6 +186,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedIp
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -266,6 +271,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiKeysResponseApiKeysInner" />
     /// </summary>
     public class GetApiKeysResponseApiKeysInnerJsonConverter : JsonConverter<GetApiKeysResponseApiKeysInner>
     {
@@ -275,13 +281,16 @@ namespace Kinde.Api.Model
         public static string CreatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize LastVerifiedOn
         /// </summary>
         public static string LastVerifiedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiKeysResponseApiKeysInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -391,8 +400,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponseApiKeysInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiKeysResponseApiKeysInner getApiKeysResponseApiKeysInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -402,8 +415,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponseApiKeysInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiKeysResponseApiKeysInner getApiKeysResponseApiKeysInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiKeysResponseApiKeysInner.IdOption.IsSet && getApiKeysResponseApiKeysInner.Id == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// VerifyApiKeyRequest
     /// </summary>
     public partial class VerifyApiKeyRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="VerifyApiKeyRequest" /> class.
         /// </summary>
         /// <param name="apiKey">The API key to verify.</param>
         [JsonConstructor]
@@ -63,13 +65,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="VerifyApiKeyRequest" />
     /// </summary>
     public class VerifyApiKeyRequestJsonConverter : JsonConverter<VerifyApiKeyRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="VerifyApiKeyRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override VerifyApiKeyRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -117,8 +122,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="VerifyApiKeyRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, VerifyApiKeyRequest verifyApiKeyRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -128,8 +137,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="VerifyApiKeyRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, VerifyApiKeyRequest verifyApiKeyRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (verifyApiKeyRequest.ApiKey == null)

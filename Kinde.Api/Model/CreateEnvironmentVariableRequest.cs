@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateEnvironmentVariableRequest
     /// </summary>
     public partial class CreateEnvironmentVariableRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateEnvironmentVariableRequest" /> class.
         /// </summary>
         /// <param name="key">The name of the environment variable (max 128 characters).</param>
         /// <param name="value">The value of the new environment variable (max 2048 characters).</param>
@@ -93,13 +95,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateEnvironmentVariableRequest" />
     /// </summary>
     public class CreateEnvironmentVariableRequestJsonConverter : JsonConverter<CreateEnvironmentVariableRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateEnvironmentVariableRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -164,8 +169,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createEnvironmentVariableRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateEnvironmentVariableRequest createEnvironmentVariableRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -175,8 +184,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateEnvironmentVariableRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createEnvironmentVariableRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateEnvironmentVariableRequest createEnvironmentVariableRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createEnvironmentVariableRequest.Key == null)

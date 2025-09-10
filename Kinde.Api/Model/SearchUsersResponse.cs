@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// SearchUsersResponse
     /// </summary>
     public partial class SearchUsersResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SearchUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -103,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="SearchUsersResponse" />
     /// </summary>
     public class SearchUsersResponseJsonConverter : JsonConverter<SearchUsersResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="SearchUsersResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override SearchUsersResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="SearchUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="searchUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SearchUsersResponse searchUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="SearchUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="searchUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SearchUsersResponse searchUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (searchUsersResponse.CodeOption.IsSet && searchUsersResponse.Code == null)

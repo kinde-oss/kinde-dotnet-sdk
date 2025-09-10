@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApiKeyResponse
     /// </summary>
     public partial class CreateApiKeyResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApiKeyResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message.</param>
         /// <param name="code">A Kinde generated status code.</param>
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApiKeyResponse" />
     /// </summary>
     public class CreateApiKeyResponseJsonConverter : JsonConverter<CreateApiKeyResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApiKeyResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApiKeyResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApiKeyResponse createApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApiKeyResponse createApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApiKeyResponse.MessageOption.IsSet && createApiKeyResponse.Message == null)

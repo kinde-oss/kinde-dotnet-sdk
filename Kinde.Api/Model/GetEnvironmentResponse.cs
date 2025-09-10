@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEnvironmentResponse
     /// </summary>
     public partial class GetEnvironmentResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEnvironmentResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -76,12 +78,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of VarEnvironment
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironment?> VarEnvironmentOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets VarEnvironment
         /// </summary>
         [JsonPropertyName("environment")]
         public GetEnvironmentResponseEnvironment? VarEnvironment { get { return this.VarEnvironmentOption; } set { this.VarEnvironmentOption = new(value); } }
@@ -103,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEnvironmentResponse" />
     /// </summary>
     public class GetEnvironmentResponseJsonConverter : JsonConverter<GetEnvironmentResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEnvironmentResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEnvironmentResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEnvironmentResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEnvironmentResponse getEnvironmentResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEnvironmentResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEnvironmentResponse getEnvironmentResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEnvironmentResponse.CodeOption.IsSet && getEnvironmentResponse.Code == null)

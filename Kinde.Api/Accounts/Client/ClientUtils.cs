@@ -106,8 +106,10 @@ namespace Kinde.Accounts.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
+            #if NET6_0_OR_GREATER
             if (obj is DateOnly dateOnly)
                 return dateOnly.ToString(format);
+#endif
             if (obj is bool boolean)
                 return boolean
                     ? "true"

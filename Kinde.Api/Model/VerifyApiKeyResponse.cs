@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// VerifyApiKeyResponse
     /// </summary>
     public partial class VerifyApiKeyResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="VerifyApiKeyResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -40,6 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="orgCode">The organization code associated with this key.</param>
         /// <param name="userId">The user ID associated with this key.</param>
         /// <param name="lastVerifiedOn">When the API key was last verified.</param>
+        /// <param name="verificationCount">Number of times this API key has been verified.</param>
         [JsonConstructor]
         public VerifyApiKeyResponse(Option<string?> code = default, Option<string?> message = default, Option<bool?> isValid = default, Option<string?> keyId = default, Option<string?> status = default, Option<List<string>?> scopes = default, Option<string?> orgCode = default, Option<string?> userId = default, Option<DateTimeOffset?> lastVerifiedOn = default, Option<int?> verificationCount = default)
         {
@@ -114,6 +117,7 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("key_id")]
         public string? KeyId { get { return this.KeyIdOption; } set { this.KeyIdOption = new(value); } }
 
@@ -178,6 +182,7 @@ namespace Kinde.Api.Model
         public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -192,6 +197,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of VerificationCount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -229,17 +235,21 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="VerifyApiKeyResponse" />
     /// </summary>
     public class VerifyApiKeyResponseJsonConverter : JsonConverter<VerifyApiKeyResponse>
     {
         /// <summary>
+        /// The format to use to serialize LastVerifiedOn
         /// </summary>
         public static string LastVerifiedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override VerifyApiKeyResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -338,8 +348,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, VerifyApiKeyResponse verifyApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -349,8 +363,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, VerifyApiKeyResponse verifyApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (verifyApiKeyResponse.CodeOption.IsSet && verifyApiKeyResponse.Code == null)

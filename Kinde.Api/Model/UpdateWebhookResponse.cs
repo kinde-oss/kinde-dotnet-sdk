@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateWebhookResponse
     /// </summary>
     public partial class UpdateWebhookResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateWebhookResponse" /> class.
         /// </summary>
         /// <param name="message">message</param>
         /// <param name="code">code</param>
@@ -101,13 +103,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateWebhookResponse" />
     /// </summary>
     public class UpdateWebhookResponseJsonConverter : JsonConverter<UpdateWebhookResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateWebhookResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateWebhookResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +171,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateWebhookResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebhookResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateWebhookResponse updateWebhookResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +186,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateWebhookResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebhookResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateWebhookResponse updateWebhookResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateWebhookResponse.MessageOption.IsSet && updateWebhookResponse.Message == null)

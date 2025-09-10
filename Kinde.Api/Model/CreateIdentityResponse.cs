@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateIdentityResponse
     /// </summary>
     public partial class CreateIdentityResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateIdentityResponse" /> class.
         /// </summary>
         /// <param name="message">message</param>
         /// <param name="code">code</param>
@@ -101,13 +103,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateIdentityResponse" />
     /// </summary>
     public class CreateIdentityResponseJsonConverter : JsonConverter<CreateIdentityResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateIdentityResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateIdentityResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +171,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateIdentityResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createIdentityResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateIdentityResponse createIdentityResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +186,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateIdentityResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createIdentityResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateIdentityResponse createIdentityResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createIdentityResponse.MessageOption.IsSet && createIdentityResponse.Message == null)

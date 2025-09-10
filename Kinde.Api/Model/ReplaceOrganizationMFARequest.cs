@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReplaceOrganizationMFARequest
     /// </summary>
     public partial class ReplaceOrganizationMFARequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReplaceOrganizationMFARequest" /> class.
         /// </summary>
         /// <param name="enabledFactors">The MFA methods to enable.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Defines EnabledFactors
         /// </summary>
         public enum EnabledFactorsEnum
         {
@@ -56,14 +59,17 @@ namespace Kinde.Api.Model
             Mfasms = 2,
 
             /// <summary>
+            /// Enum MfaauthenticatorApp for value: mfa:authenticator_app
             /// </summary>
             MfaauthenticatorApp = 3
         }
 
         /// <summary>
+        /// Returns a <see cref="EnabledFactorsEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static EnabledFactorsEnum EnabledFactorsEnumFromString(string value)
         {
             if (value.Equals("mfa:email"))
@@ -79,6 +85,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="EnabledFactorsEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -97,9 +104,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="EnabledFactorsEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string EnabledFactorsEnumToJsonValue(EnabledFactorsEnum? value)
         {
             if (value == EnabledFactorsEnum.Mfaemail)
@@ -136,13 +145,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReplaceOrganizationMFARequest" />
     /// </summary>
     public class ReplaceOrganizationMFARequestJsonConverter : JsonConverter<ReplaceOrganizationMFARequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReplaceOrganizationMFARequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReplaceOrganizationMFARequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +202,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReplaceOrganizationMFARequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceOrganizationMFARequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +217,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReplaceOrganizationMFARequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceOrganizationMFARequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReplaceOrganizationMFARequest replaceOrganizationMFARequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (replaceOrganizationMFARequest.EnabledFactors == null)

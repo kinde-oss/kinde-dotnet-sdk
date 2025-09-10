@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ConnectedAppsAuthUrl
     /// </summary>
     public partial class ConnectedAppsAuthUrl
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectedAppsAuthUrl" /> class.
         /// </summary>
         /// <param name="url">A URL that is used to authenticate an end-user against a connected app.</param>
         /// <param name="sessionId">A unique identifier for the login session.</param>
@@ -87,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ConnectedAppsAuthUrl" />
     /// </summary>
     public class ConnectedAppsAuthUrlJsonConverter : JsonConverter<ConnectedAppsAuthUrl>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ConnectedAppsAuthUrl" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ConnectedAppsAuthUrl Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ConnectedAppsAuthUrl" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectedAppsAuthUrl"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ConnectedAppsAuthUrl connectedAppsAuthUrl, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ConnectedAppsAuthUrl" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectedAppsAuthUrl"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ConnectedAppsAuthUrl connectedAppsAuthUrl, JsonSerializerOptions jsonSerializerOptions)
         {
             if (connectedAppsAuthUrl.UrlOption.IsSet && connectedAppsAuthUrl.Url == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdatePropertyRequest
     /// </summary>
     public partial class UpdatePropertyRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdatePropertyRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="isPrivate">Whether the property can be included in id and access tokens.</param>
@@ -69,6 +71,7 @@ namespace Kinde.Api.Model
         public string CategoryId { get; set; }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -99,13 +102,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdatePropertyRequest" />
     /// </summary>
     public class UpdatePropertyRequestJsonConverter : JsonConverter<UpdatePropertyRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdatePropertyRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdatePropertyRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -180,8 +186,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdatePropertyRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updatePropertyRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdatePropertyRequest updatePropertyRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -191,8 +201,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdatePropertyRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updatePropertyRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdatePropertyRequest updatePropertyRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updatePropertyRequest.Name == null)

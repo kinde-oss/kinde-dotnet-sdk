@@ -31,6 +31,7 @@ namespace Kinde.Api.Model
     public partial class CreateUserRequestProfile
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateUserRequestProfile" /> class.
         /// </summary>
         /// <param name="givenName">User&#39;s first name.</param>
         /// <param name="familyName">User&#39;s last name.</param>
@@ -61,6 +62,7 @@ namespace Kinde.Api.Model
         public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FamilyName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -104,13 +106,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateUserRequestProfile" />
     /// </summary>
     public class CreateUserRequestProfileJsonConverter : JsonConverter<CreateUserRequestProfile>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateUserRequestProfile" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateUserRequestProfile Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -169,8 +174,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateUserRequestProfile" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequestProfile"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateUserRequestProfile createUserRequestProfile, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -180,8 +189,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateUserRequestProfile" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequestProfile"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateUserRequestProfile createUserRequestProfile, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createUserRequestProfile.GivenNameOption.IsSet && createUserRequestProfile.GivenName == null)

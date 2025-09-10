@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApisResponse
     /// </summary>
     public partial class CreateApisResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApisResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message.</param>
         /// <param name="code">A Kinde generated status code.</param>
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApisResponse" />
     /// </summary>
     public class CreateApisResponseJsonConverter : JsonConverter<CreateApisResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApisResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApisResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApisResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApisResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApisResponse createApisResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApisResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApisResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApisResponse createApisResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApisResponse.MessageOption.IsSet && createApisResponse.Message == null)

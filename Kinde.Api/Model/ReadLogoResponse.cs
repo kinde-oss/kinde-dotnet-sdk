@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReadLogoResponse
     /// </summary>
     public partial class ReadLogoResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReadLogoResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="logos">A list of logos.</param>
@@ -106,13 +108,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReadLogoResponse" />
     /// </summary>
     public class ReadLogoResponseJsonConverter : JsonConverter<ReadLogoResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReadLogoResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReadLogoResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -171,8 +176,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReadLogoResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="readLogoResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReadLogoResponse readLogoResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -182,8 +191,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReadLogoResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="readLogoResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReadLogoResponse readLogoResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (readLogoResponse.CodeOption.IsSet && readLogoResponse.Code == null)

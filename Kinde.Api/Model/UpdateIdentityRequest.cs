@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateIdentityRequest
     /// </summary>
     public partial class UpdateIdentityRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateIdentityRequest" /> class.
         /// </summary>
         /// <param name="isPrimary">Whether the identity is the primary for it&#39;s type</param>
         [JsonConstructor]
@@ -70,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateIdentityRequest" />
     /// </summary>
     public class UpdateIdentityRequestJsonConverter : JsonConverter<UpdateIdentityRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateIdentityRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateIdentityRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateIdentityRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateIdentityRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateIdentityRequest updateIdentityRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateIdentityRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateIdentityRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateIdentityRequest updateIdentityRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateIdentityRequest.IsPrimaryOption.IsSet)

@@ -86,6 +86,7 @@ namespace Kinde.Api.Model
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ProvidedId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -99,6 +100,7 @@ namespace Kinde.Api.Model
         public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of PreferredEmail
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -168,6 +170,7 @@ namespace Kinde.Api.Model
         public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsSuspended
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -195,6 +198,7 @@ namespace Kinde.Api.Model
         public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of TotalSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -208,6 +212,7 @@ namespace Kinde.Api.Model
         public int? TotalSignIns { get { return this.TotalSignInsOption; } set { this.TotalSignInsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FailedSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -221,6 +226,7 @@ namespace Kinde.Api.Model
         public int? FailedSignIns { get { return this.FailedSignInsOption; } set { this.FailedSignInsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastSignedIn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -248,6 +254,7 @@ namespace Kinde.Api.Model
         public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Organizations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -261,6 +268,7 @@ namespace Kinde.Api.Model
         public List<string>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -311,6 +319,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override User Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -445,6 +454,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -458,6 +469,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             if (user.IdOption.IsSet && user.Id == null)

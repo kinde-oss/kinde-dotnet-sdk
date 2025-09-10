@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetUserSessionsResponseSessionsInner
     /// </summary>
     public partial class GetUserSessionsResponseSessionsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetUserSessionsResponseSessionsInner" /> class.
         /// </summary>
         /// <param name="userId">The unique identifier of the user associated with the session.</param>
         /// <param name="orgCode">The organization code associated with the session, if applicable.</param>
@@ -41,6 +43,8 @@ namespace Kinde.Api.Model
         /// <param name="connectionId">The identifier of the connection through which the session was established.</param>
         /// <param name="lastIpAddress">The last known IP address of the user during this session.</param>
         /// <param name="lastUserAgent">The last known user agent (browser or app) used during this session.</param>
+        /// <param name="initialIpAddress">The IP address from which the session was initially started.</param>
+        /// <param name="initialUserAgent">The user agent (browser or app) used when the session was first created.</param>
         [JsonConstructor]
         public GetUserSessionsResponseSessionsInner(Option<string?> userId = default, Option<string?> orgCode = default, Option<string?> clientId = default, Option<DateTimeOffset?> expiresOn = default, Option<string?> sessionId = default, Option<DateTimeOffset?> startedOn = default, Option<DateTimeOffset?> updatedOn = default, Option<string?> connectionId = default, Option<string?> lastIpAddress = default, Option<string?> lastUserAgent = default, Option<string?> initialIpAddress = default, Option<string?> initialUserAgent = default)
         {
@@ -72,6 +76,7 @@ namespace Kinde.Api.Model
         /// The unique identifier of the user associated with the session.
         /// </summary>
         /// <value>The unique identifier of the user associated with the session.</value>
+        /* <example>kp_5fc30d0547734f30aca617450202169f</example> */
         [JsonPropertyName("user_id")]
         public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
 
@@ -101,6 +106,7 @@ namespace Kinde.Api.Model
         /// The client ID used to initiate the session.
         /// </summary>
         /// <value>The client ID used to initiate the session.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
         public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
 
@@ -130,6 +136,7 @@ namespace Kinde.Api.Model
         /// The unique identifier of the session.
         /// </summary>
         /// <value>The unique identifier of the session.</value>
+        /* <example>session_0xc75ec12fe8434ffc9d527794f00692e5</example> */
         [JsonPropertyName("session_id")]
         public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new(value); } }
 
@@ -164,6 +171,7 @@ namespace Kinde.Api.Model
         public DateTimeOffset? UpdatedOn { get { return this.UpdatedOnOption; } set { this.UpdatedOnOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ConnectionId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -173,10 +181,12 @@ namespace Kinde.Api.Model
         /// The identifier of the connection through which the session was established.
         /// </summary>
         /// <value>The identifier of the connection through which the session was established.</value>
+        /* <example>conn_75ab8ec0faae4f73bae9fc64daf120c9</example> */
         [JsonPropertyName("connection_id")]
         public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastIpAddress
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -191,6 +201,7 @@ namespace Kinde.Api.Model
         public string? LastIpAddress { get { return this.LastIpAddressOption; } set { this.LastIpAddressOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastUserAgent
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -205,6 +216,7 @@ namespace Kinde.Api.Model
         public string? LastUserAgent { get { return this.LastUserAgentOption; } set { this.LastUserAgentOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of InitialIpAddress
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -219,6 +231,7 @@ namespace Kinde.Api.Model
         public string? InitialIpAddress { get { return this.InitialIpAddressOption; } set { this.InitialIpAddressOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of InitialUserAgent
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -258,6 +271,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetUserSessionsResponseSessionsInner" />
     /// </summary>
     public class GetUserSessionsResponseSessionsInnerJsonConverter : JsonConverter<GetUserSessionsResponseSessionsInner>
     {
@@ -277,9 +291,11 @@ namespace Kinde.Api.Model
         public static string UpdatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetUserSessionsResponseSessionsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetUserSessionsResponseSessionsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -398,8 +414,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetUserSessionsResponseSessionsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserSessionsResponseSessionsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetUserSessionsResponseSessionsInner getUserSessionsResponseSessionsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -409,8 +429,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetUserSessionsResponseSessionsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserSessionsResponseSessionsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetUserSessionsResponseSessionsInner getUserSessionsResponseSessionsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getUserSessionsResponseSessionsInner.UserIdOption.IsSet && getUserSessionsResponseSessionsInner.UserId == null)

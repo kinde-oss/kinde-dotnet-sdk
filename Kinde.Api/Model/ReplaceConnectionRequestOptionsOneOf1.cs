@@ -31,10 +31,20 @@ namespace Kinde.Api.Model
     public partial class ReplaceConnectionRequestOptionsOneOf1
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
+        /// <param name="homeRealmDomains">List of domains to restrict authentication.</param>
         /// <param name="samlEntityId">SAML Entity ID.</param>
         /// <param name="samlAcsUrl">Assertion Consumer Service URL.</param>
+        /// <param name="samlIdpMetadataUrl">URL for the IdP metadata.</param>
+        /// <param name="samlEmailKeyAttr">Attribute key for the user’s email.</param>
+        /// <param name="samlFirstNameKeyAttr">Attribute key for the user’s first name.</param>
+        /// <param name="samlLastNameKeyAttr">Attribute key for the user’s last name.</param>
+        /// <param name="isCreateMissingUser">Create user if they don’t exist.</param>
+        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection.</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider.</param>
+        /// <param name="samlSigningCertificate">Certificate for signing SAML requests.</param>
+        /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate.</param>
         [JsonConstructor]
         public ReplaceConnectionRequestOptionsOneOf1(Option<List<string>?> homeRealmDomains = default, Option<string?> samlEntityId = default, Option<string?> samlAcsUrl = default, Option<string?> samlIdpMetadataUrl = default, Option<string?> samlEmailKeyAttr = default, Option<string?> samlFirstNameKeyAttr = default, Option<string?> samlLastNameKeyAttr = default, Option<bool?> isCreateMissingUser = default, Option<bool?> isForceShowSsoButton = default, Option<Dictionary<string, Object>?> upstreamParams = default, Option<string?> samlSigningCertificate = default, Option<string?> samlSigningPrivateKey = default)
         {
@@ -56,6 +66,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of HomeRealmDomains
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -70,6 +81,7 @@ namespace Kinde.Api.Model
         public List<string>? HomeRealmDomains { get { return this.HomeRealmDomainsOption; } set { this.HomeRealmDomainsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlEntityId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -84,6 +96,7 @@ namespace Kinde.Api.Model
         public string? SamlEntityId { get { return this.SamlEntityIdOption; } set { this.SamlEntityIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlAcsUrl
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -98,6 +111,7 @@ namespace Kinde.Api.Model
         public string? SamlAcsUrl { get { return this.SamlAcsUrlOption; } set { this.SamlAcsUrlOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlIdpMetadataUrl
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -112,6 +126,7 @@ namespace Kinde.Api.Model
         public string? SamlIdpMetadataUrl { get { return this.SamlIdpMetadataUrlOption; } set { this.SamlIdpMetadataUrlOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlEmailKeyAttr
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -126,6 +141,7 @@ namespace Kinde.Api.Model
         public string? SamlEmailKeyAttr { get { return this.SamlEmailKeyAttrOption; } set { this.SamlEmailKeyAttrOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlFirstNameKeyAttr
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -140,6 +156,7 @@ namespace Kinde.Api.Model
         public string? SamlFirstNameKeyAttr { get { return this.SamlFirstNameKeyAttrOption; } set { this.SamlFirstNameKeyAttrOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlLastNameKeyAttr
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -154,6 +171,7 @@ namespace Kinde.Api.Model
         public string? SamlLastNameKeyAttr { get { return this.SamlLastNameKeyAttrOption; } set { this.SamlLastNameKeyAttrOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsCreateMissingUser
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -168,6 +186,7 @@ namespace Kinde.Api.Model
         public bool? IsCreateMissingUser { get { return this.IsCreateMissingUserOption; } set { this.IsCreateMissingUserOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsForceShowSsoButton
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -182,6 +201,7 @@ namespace Kinde.Api.Model
         public bool? IsForceShowSsoButton { get { return this.IsForceShowSsoButtonOption; } set { this.IsForceShowSsoButtonOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of UpstreamParams
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -196,6 +216,7 @@ namespace Kinde.Api.Model
         public Dictionary<string, Object>? UpstreamParams { get { return this.UpstreamParamsOption; } set { this.UpstreamParamsOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlSigningCertificate
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -205,10 +226,11 @@ namespace Kinde.Api.Model
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        [JsonPropertyName("saml_signing_certificate")]
+[JsonPropertyName("saml_signing_certificate")]
         public string? SamlSigningCertificate { get { return this.SamlSigningCertificateOption; } set { this.SamlSigningCertificateOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SamlSigningPrivateKey
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -218,7 +240,7 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        [JsonPropertyName("saml_signing_private_key")]
+[JsonPropertyName("saml_signing_private_key")]
         public string? SamlSigningPrivateKey { get { return this.SamlSigningPrivateKeyOption; } set { this.SamlSigningPrivateKeyOption = new(value); } }
 
         /// <summary>
@@ -247,13 +269,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReplaceConnectionRequestOptionsOneOf1" />
     /// </summary>
     public class ReplaceConnectionRequestOptionsOneOf1JsonConverter : JsonConverter<ReplaceConnectionRequestOptionsOneOf1>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReplaceConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReplaceConnectionRequestOptionsOneOf1 Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -375,8 +400,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReplaceConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceConnectionRequestOptionsOneOf1"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReplaceConnectionRequestOptionsOneOf1 replaceConnectionRequestOptionsOneOf1, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -386,8 +415,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReplaceConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceConnectionRequestOptionsOneOf1"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReplaceConnectionRequestOptionsOneOf1 replaceConnectionRequestOptionsOneOf1, JsonSerializerOptions jsonSerializerOptions)
         {
             if (replaceConnectionRequestOptionsOneOf1.HomeRealmDomainsOption.IsSet && replaceConnectionRequestOptionsOneOf1.HomeRealmDomains == null)

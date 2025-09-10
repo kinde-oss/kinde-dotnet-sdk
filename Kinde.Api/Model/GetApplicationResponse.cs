@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApplicationResponse
     /// </summary>
     public partial class GetApplicationResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApplicationResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -74,12 +76,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Application
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetApplicationResponseApplication?> ApplicationOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Application
         /// </summary>
         [JsonPropertyName("application")]
         public GetApplicationResponseApplication? Application { get { return this.ApplicationOption; } set { this.ApplicationOption = new(value); } }
@@ -101,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApplicationResponse" />
     /// </summary>
     public class GetApplicationResponseJsonConverter : JsonConverter<GetApplicationResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApplicationResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApplicationResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApplicationResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApplicationResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApplicationResponse getApplicationResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApplicationResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApplicationResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApplicationResponse getApplicationResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApplicationResponse.CodeOption.IsSet && getApplicationResponse.Code == null)

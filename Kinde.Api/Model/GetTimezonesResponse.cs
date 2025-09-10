@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetTimezonesResponse
     /// </summary>
     public partial class GetTimezonesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetTimezonesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetTimezonesResponse" />
     /// </summary>
     public class GetTimezonesResponseJsonConverter : JsonConverter<GetTimezonesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetTimezonesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetTimezonesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetTimezonesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getTimezonesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetTimezonesResponse getTimezonesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetTimezonesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getTimezonesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetTimezonesResponse getTimezonesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getTimezonesResponse.CodeOption.IsSet && getTimezonesResponse.Code == null)

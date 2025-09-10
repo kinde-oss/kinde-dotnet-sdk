@@ -26,15 +26,18 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateBusinessRequest
     /// </summary>
     public partial class UpdateBusinessRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateBusinessRequest" /> class.
         /// </summary>
         /// <param name="businessName">The name of the business.</param>
         /// <param name="email">The email address of the business.</param>
         /// <param name="industryKey">The key of the industry of your business. Can be retrieved from the /industries endpoint.</param>
         /// <param name="isClickWrap">Whether the business is using clickwrap agreements.</param>
+        /// <param name="isShowKindeBranding">Whether the business is showing Kinde branding. Requires a paid plan.</param>
         /// <param name="kindePerkCode">The Kinde perk code for the business.</param>
         /// <param name="phone">The phone number of the business.</param>
         /// <param name="privacyUrl">The URL to the business&#39;s privacy policy.</param>
@@ -59,6 +62,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of BusinessName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -88,6 +92,7 @@ namespace Kinde.Api.Model
         public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IndustryKey
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -102,6 +107,7 @@ namespace Kinde.Api.Model
         public string? IndustryKey { get { return this.IndustryKeyOption; } set { this.IndustryKeyOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsClickWrap
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -116,6 +122,7 @@ namespace Kinde.Api.Model
         public bool? IsClickWrap { get { return this.IsClickWrapOption; } set { this.IsClickWrapOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsShowKindeBranding
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -130,6 +137,7 @@ namespace Kinde.Api.Model
         public bool? IsShowKindeBranding { get { return this.IsShowKindeBrandingOption; } set { this.IsShowKindeBrandingOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of KindePerkCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -158,6 +166,7 @@ namespace Kinde.Api.Model
         public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of PrivacyUrl
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -187,6 +196,7 @@ namespace Kinde.Api.Model
         public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of TimezoneKey
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -224,13 +234,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateBusinessRequest" />
     /// </summary>
     public class UpdateBusinessRequestJsonConverter : JsonConverter<UpdateBusinessRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateBusinessRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateBusinessRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -308,8 +321,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateBusinessRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateBusinessRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateBusinessRequest updateBusinessRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -319,8 +336,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateBusinessRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateBusinessRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateBusinessRequest updateBusinessRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateBusinessRequest.BusinessNameOption.IsSet)

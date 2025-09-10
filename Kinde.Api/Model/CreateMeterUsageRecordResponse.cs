@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateMeterUsageRecordResponse
     /// </summary>
     public partial class CreateMeterUsageRecordResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateMeterUsageRecordResponse" /> class.
         /// </summary>
         /// <param name="message">Response message.</param>
         /// <param name="code">Response code.</param>
@@ -89,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateMeterUsageRecordResponse" />
     /// </summary>
     public class CreateMeterUsageRecordResponseJsonConverter : JsonConverter<CreateMeterUsageRecordResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateMeterUsageRecordResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateMeterUsageRecordResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -147,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateMeterUsageRecordResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createMeterUsageRecordResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateMeterUsageRecordResponse createMeterUsageRecordResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -158,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateMeterUsageRecordResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createMeterUsageRecordResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateMeterUsageRecordResponse createMeterUsageRecordResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createMeterUsageRecordResponse.MessageOption.IsSet && createMeterUsageRecordResponse.Message == null)

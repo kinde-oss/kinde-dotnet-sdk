@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// AddOrganizationUsersRequestUsersInner
     /// </summary>
     public partial class AddOrganizationUsersRequestUsersInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AddOrganizationUsersRequestUsersInner" /> class.
         /// </summary>
         /// <param name="id">The users id.</param>
         /// <param name="roles">Role keys to assign to the user.</param>
@@ -56,6 +58,7 @@ namespace Kinde.Api.Model
         /// The users id.
         /// </summary>
         /// <value>The users id.</value>
+        /* <example>kp_057ee6debc624c70947b6ba512908c35</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
@@ -74,6 +77,7 @@ namespace Kinde.Api.Model
         public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Permissions
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -103,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="AddOrganizationUsersRequestUsersInner" />
     /// </summary>
     public class AddOrganizationUsersRequestUsersInnerJsonConverter : JsonConverter<AddOrganizationUsersRequestUsersInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="AddOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override AddOrganizationUsersRequestUsersInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="AddOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersRequestUsersInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AddOrganizationUsersRequestUsersInner addOrganizationUsersRequestUsersInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="AddOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersRequestUsersInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AddOrganizationUsersRequestUsersInner addOrganizationUsersRequestUsersInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (addOrganizationUsersRequestUsersInner.IdOption.IsSet && addOrganizationUsersRequestUsersInner.Id == null)

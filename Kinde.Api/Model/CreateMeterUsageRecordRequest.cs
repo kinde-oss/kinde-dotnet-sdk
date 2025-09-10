@@ -26,12 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateMeterUsageRecordRequest
     /// </summary>
     public partial class CreateMeterUsageRecordRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateMeterUsageRecordRequest" /> class.
         /// </summary>
+        /// <param name="customerAgreementId">The billing agreement against which to record usage</param>
+        /// <param name="billingFeatureCode">The code of the feature within the agreement against which to record usage</param>
         /// <param name="meterValue">The value of usage to record</param>
+        /// <param name="meterUsageTimestamp">The date and time the usage needs to be recorded for (defaults to current date/time)</param>
         /// <param name="meterTypeCode">Absolutes overrides the current usage</param>
         [JsonConstructor]
         public CreateMeterUsageRecordRequest(string customerAgreementId, string billingFeatureCode, string meterValue, Option<DateTimeOffset?> meterUsageTimestamp = default, Option<MeterTypeCodeEnum?> meterTypeCode = default)
@@ -64,9 +69,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="MeterTypeCodeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static MeterTypeCodeEnum MeterTypeCodeEnumFromString(string value)
         {
             if (value.Equals("absolute"))
@@ -79,6 +86,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="MeterTypeCodeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -94,9 +102,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="MeterTypeCodeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string MeterTypeCodeEnumToJsonValue(MeterTypeCodeEnum? value)
         {
             if (value == MeterTypeCodeEnum.Absolute)
@@ -109,6 +119,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Used to track the state of MeterTypeCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -125,6 +136,7 @@ namespace Kinde.Api.Model
         /// The billing agreement against which to record usage
         /// </summary>
         /// <value>The billing agreement against which to record usage</value>
+        /* <example>agreement_0195ac80a14c2ca2cec97d026d864de0</example> */
         [JsonPropertyName("customer_agreement_id")]
         public string CustomerAgreementId { get; set; }
 
@@ -145,6 +157,7 @@ namespace Kinde.Api.Model
         public string MeterValue { get; set; }
 
         /// <summary>
+        /// Used to track the state of MeterUsageTimestamp
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -177,17 +190,21 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateMeterUsageRecordRequest" />
     /// </summary>
     public class CreateMeterUsageRecordRequestJsonConverter : JsonConverter<CreateMeterUsageRecordRequest>
     {
         /// <summary>
+        /// The format to use to serialize MeterUsageTimestamp
         /// </summary>
         public static string MeterUsageTimestampFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="CreateMeterUsageRecordRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateMeterUsageRecordRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -271,8 +288,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateMeterUsageRecordRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createMeterUsageRecordRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateMeterUsageRecordRequest createMeterUsageRecordRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -282,8 +303,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateMeterUsageRecordRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createMeterUsageRecordRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateMeterUsageRecordRequest createMeterUsageRecordRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createMeterUsageRecordRequest.CustomerAgreementId == null)

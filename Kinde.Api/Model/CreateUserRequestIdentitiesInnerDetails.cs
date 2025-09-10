@@ -31,6 +31,7 @@ namespace Kinde.Api.Model
     public partial class CreateUserRequestIdentitiesInnerDetails
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateUserRequestIdentitiesInnerDetails" /> class.
         /// </summary>
         /// <param name="email">The email address of the user.</param>
         /// <param name="phone">The phone number of the user.</param>
@@ -79,6 +80,7 @@ namespace Kinde.Api.Model
         public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of PhoneCountryId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -125,13 +127,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateUserRequestIdentitiesInnerDetails" />
     /// </summary>
     public class CreateUserRequestIdentitiesInnerDetailsJsonConverter : JsonConverter<CreateUserRequestIdentitiesInnerDetails>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateUserRequestIdentitiesInnerDetails" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateUserRequestIdentitiesInnerDetails Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -197,8 +202,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateUserRequestIdentitiesInnerDetails" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequestIdentitiesInnerDetails"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateUserRequestIdentitiesInnerDetails createUserRequestIdentitiesInnerDetails, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -208,8 +217,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateUserRequestIdentitiesInnerDetails" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequestIdentitiesInnerDetails"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateUserRequestIdentitiesInnerDetails createUserRequestIdentitiesInnerDetails, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createUserRequestIdentitiesInnerDetails.EmailOption.IsSet && createUserRequestIdentitiesInnerDetails.Email == null)

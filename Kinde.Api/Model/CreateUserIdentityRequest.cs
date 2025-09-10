@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateUserIdentityRequest
     /// </summary>
     public partial class CreateUserIdentityRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateUserIdentityRequest" /> class.
         /// </summary>
         /// <param name="value">The email address, social identity, or username of the user.</param>
         /// <param name="type">The identity type</param>
@@ -69,6 +71,7 @@ namespace Kinde.Api.Model
             Phone = 3,
 
             /// <summary>
+            /// Enum Enterprise for value: enterprise
             /// </summary>
             Enterprise = 4,
 
@@ -83,6 +86,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("email"))
@@ -133,6 +137,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum? value)
         {
             if (value == TypeEnum.Email)
@@ -184,6 +189,7 @@ namespace Kinde.Api.Model
         public string? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of PhoneCountryId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -198,6 +204,7 @@ namespace Kinde.Api.Model
         public string? PhoneCountryId { get { return this.PhoneCountryIdOption; } set { this.PhoneCountryIdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ConnectionId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -207,6 +214,7 @@ namespace Kinde.Api.Model
         /// The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.
         /// </summary>
         /// <value>The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.</value>
+        /* <example>conn_019289347f1193da6c0e4d49b97b4bd2</example> */
         [JsonPropertyName("connection_id")]
         public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new(value); } }
 
@@ -228,13 +236,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateUserIdentityRequest" />
     /// </summary>
     public class CreateUserIdentityRequestJsonConverter : JsonConverter<CreateUserIdentityRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateUserIdentityRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateUserIdentityRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -302,8 +313,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateUserIdentityRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserIdentityRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateUserIdentityRequest createUserIdentityRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -313,8 +328,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateUserIdentityRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserIdentityRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateUserIdentityRequest createUserIdentityRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createUserIdentityRequest.ValueOption.IsSet && createUserIdentityRequest.Value == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApiScopesResponse
     /// </summary>
     public partial class CreateApiScopesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApiScopesResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message.</param>
         /// <param name="code">A Kinde generated status code.</param>
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApiScopesResponse" />
     /// </summary>
     public class CreateApiScopesResponseJsonConverter : JsonConverter<CreateApiScopesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApiScopesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApiScopesResponse createApiScopesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApiScopesResponse createApiScopesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApiScopesResponse.MessageOption.IsSet && createApiScopesResponse.Message == null)

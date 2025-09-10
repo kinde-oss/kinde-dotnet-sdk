@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateRolePermissionsRequest
     /// </summary>
     public partial class UpdateRolePermissionsRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateRolePermissionsRequest" /> class.
         /// </summary>
         /// <param name="permissions">Permissions to add or remove from the role.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Permissions
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -69,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateRolePermissionsRequest" />
     /// </summary>
     public class UpdateRolePermissionsRequestJsonConverter : JsonConverter<UpdateRolePermissionsRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateRolePermissionsRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateRolePermissionsRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateRolePermissionsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateRolePermissionsRequest updateRolePermissionsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateRolePermissionsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateRolePermissionsRequest updateRolePermissionsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateRolePermissionsRequest.PermissionsOption.IsSet && updateRolePermissionsRequest.Permissions == null)

@@ -26,12 +26,15 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ConnectedAppsAccessToken
     /// </summary>
     public partial class ConnectedAppsAccessToken
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectedAppsAccessToken" /> class.
         /// </summary>
         /// <param name="accessToken">The access token to access a third-party provider.</param>
+        /// <param name="accessTokenExpiry">The date and time that the access token expires.</param>
         [JsonConstructor]
         public ConnectedAppsAccessToken(Option<string?> accessToken = default, Option<string?> accessTokenExpiry = default)
         {
@@ -43,6 +46,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of AccessToken
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -56,6 +60,7 @@ namespace Kinde.Api.Model
         public string? AccessToken { get { return this.AccessTokenOption; } set { this.AccessTokenOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of AccessTokenExpiry
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -84,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ConnectedAppsAccessToken" />
     /// </summary>
     public class ConnectedAppsAccessTokenJsonConverter : JsonConverter<ConnectedAppsAccessToken>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ConnectedAppsAccessToken" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ConnectedAppsAccessToken Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -142,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ConnectedAppsAccessToken" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectedAppsAccessToken"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ConnectedAppsAccessToken connectedAppsAccessToken, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -153,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ConnectedAppsAccessToken" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="connectedAppsAccessToken"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ConnectedAppsAccessToken connectedAppsAccessToken, JsonSerializerOptions jsonSerializerOptions)
         {
             if (connectedAppsAccessToken.AccessTokenOption.IsSet && connectedAppsAccessToken.AccessToken == null)

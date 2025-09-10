@@ -93,23 +93,27 @@ namespace Kinde.Api.Model
         public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DescriptionOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Description
         /// </summary>
         [JsonPropertyName("description")]
         public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of EventTypes
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> EventTypesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets EventTypes
         /// </summary>
         [JsonPropertyName("event_types")]
         public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
@@ -157,6 +161,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Webhook Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -240,6 +245,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Webhook webhook, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -253,6 +260,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Webhook webhook, JsonSerializerOptions jsonSerializerOptions)
         {
             if (webhook.IdOption.IsSet && webhook.Id == null)

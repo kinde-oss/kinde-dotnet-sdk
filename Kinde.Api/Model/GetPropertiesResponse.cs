@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetPropertiesResponse
     /// </summary>
     public partial class GetPropertiesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetPropertiesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -76,12 +78,14 @@ namespace Kinde.Api.Model
         public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Properties
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Property>?> PropertiesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Properties
         /// </summary>
         [JsonPropertyName("properties")]
         public List<Property>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new(value); } }
@@ -118,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetPropertiesResponse" />
     /// </summary>
     public class GetPropertiesResponseJsonConverter : JsonConverter<GetPropertiesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetPropertiesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetPropertiesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetPropertiesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getPropertiesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetPropertiesResponse getPropertiesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetPropertiesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getPropertiesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetPropertiesResponse getPropertiesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getPropertiesResponse.CodeOption.IsSet && getPropertiesResponse.Code == null)

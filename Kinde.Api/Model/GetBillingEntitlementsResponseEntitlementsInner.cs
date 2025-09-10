@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBillingEntitlementsResponseEntitlementsInner
     /// </summary>
     public partial class GetBillingEntitlementsResponseEntitlementsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponseEntitlementsInner" /> class.
         /// </summary>
         /// <param name="id">The friendly id of an entitlement</param>
         /// <param name="fixedCharge">The price charged if this is an entitlement for a fixed charged</param>
@@ -37,6 +39,8 @@ namespace Kinde.Api.Model
         /// <param name="unitAmount">The price charged for this entitlement in cents</param>
         /// <param name="featureCode">The feature code of the feature corresponding to this entitlement</param>
         /// <param name="featureName">The feature name of the feature corresponding to this entitlement</param>
+        /// <param name="entitlementLimitMax">The maximum number of units of the feature the customer is entitled to</param>
+        /// <param name="entitlementLimitMin">The minimum number of units of the feature the customer is entitled to</param>
         [JsonConstructor]
         public GetBillingEntitlementsResponseEntitlementsInner(Option<string?> id = default, Option<int?> fixedCharge = default, Option<string?> priceName = default, Option<int?> unitAmount = default, Option<string?> featureCode = default, Option<string?> featureName = default, Option<int?> entitlementLimitMax = default, Option<int?> entitlementLimitMin = default)
         {
@@ -61,12 +65,15 @@ namespace Kinde.Api.Model
         public Option<string?> IdOption { get; private set; }
 
         /// <summary>
+        /// The friendly id of an entitlement
         /// </summary>
         /// <value>The friendly id of an entitlement</value>
+        /* <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FixedCharge
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -88,6 +95,7 @@ namespace Kinde.Api.Model
         public Option<string?> PriceNameOption { get; private set; }
 
         /// <summary>
+        /// The name of the price associated with the entitlement
         /// </summary>
         /// <value>The name of the price associated with the entitlement</value>
         /* <example>Pro gym</example> */
@@ -95,6 +103,7 @@ namespace Kinde.Api.Model
         public string? PriceName { get { return this.PriceNameOption; } set { this.PriceNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of UnitAmount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -108,12 +117,14 @@ namespace Kinde.Api.Model
         public int? UnitAmount { get { return this.UnitAmountOption; } set { this.UnitAmountOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FeatureCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FeatureCodeOption { get; private set; }
 
         /// <summary>
+        /// The feature code of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature code of the feature corresponding to this entitlement</value>
         /* <example>CcdkvEXpbg6UY</example> */
@@ -121,12 +132,14 @@ namespace Kinde.Api.Model
         public string? FeatureCode { get { return this.FeatureCodeOption; } set { this.FeatureCodeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of FeatureName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FeatureNameOption { get; private set; }
 
         /// <summary>
+        /// The feature name of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature name of the feature corresponding to this entitlement</value>
         /* <example>Pro Gym</example> */
@@ -134,6 +147,7 @@ namespace Kinde.Api.Model
         public string? FeatureName { get { return this.FeatureNameOption; } set { this.FeatureNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of EntitlementLimitMax
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -147,6 +161,7 @@ namespace Kinde.Api.Model
         public int? EntitlementLimitMax { get { return this.EntitlementLimitMaxOption; } set { this.EntitlementLimitMaxOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of EntitlementLimitMin
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -181,13 +196,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBillingEntitlementsResponseEntitlementsInner" />
     /// </summary>
     public class GetBillingEntitlementsResponseEntitlementsInnerJsonConverter : JsonConverter<GetBillingEntitlementsResponseEntitlementsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBillingEntitlementsResponseEntitlementsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBillingEntitlementsResponseEntitlementsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -281,8 +299,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBillingEntitlementsResponseEntitlementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponseEntitlementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBillingEntitlementsResponseEntitlementsInner getBillingEntitlementsResponseEntitlementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -292,8 +314,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBillingEntitlementsResponseEntitlementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponseEntitlementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBillingEntitlementsResponseEntitlementsInner getBillingEntitlementsResponseEntitlementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBillingEntitlementsResponseEntitlementsInner.IdOption.IsSet && getBillingEntitlementsResponseEntitlementsInner.Id == null)

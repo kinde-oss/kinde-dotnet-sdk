@@ -26,15 +26,18 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateRolesRequest
     /// </summary>
     public partial class UpdateRolesRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateRolesRequest" /> class.
         /// </summary>
         /// <param name="name">The role&#39;s name.</param>
         /// <param name="key">The role identifier to use in code.</param>
         /// <param name="description">The role&#39;s description.</param>
         /// <param name="isDefaultRole">Set role as default for new users.</param>
+        /// <param name="assignmentPermissionId">The public ID of the permission required to assign this role to users. If null, no permission is required.</param>
         [JsonConstructor]
         public UpdateRolesRequest(string name, string key, Option<string?> description = default, Option<bool?> isDefaultRole = default, Option<Guid?> assignmentPermissionId = default)
         {
@@ -63,6 +66,7 @@ namespace Kinde.Api.Model
         public string Key { get; set; }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -76,6 +80,7 @@ namespace Kinde.Api.Model
         public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of IsDefaultRole
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -89,6 +94,7 @@ namespace Kinde.Api.Model
         public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of AssignmentPermissionId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -120,13 +126,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateRolesRequest" />
     /// </summary>
     public class UpdateRolesRequestJsonConverter : JsonConverter<UpdateRolesRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateRolesRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateRolesRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -202,8 +211,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateRolesRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolesRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateRolesRequest updateRolesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -213,8 +226,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateRolesRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolesRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateRolesRequest updateRolesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateRolesRequest.Name == null)

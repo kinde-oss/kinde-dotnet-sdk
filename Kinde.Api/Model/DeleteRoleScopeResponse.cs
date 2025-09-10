@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// DeleteRoleScopeResponse
     /// </summary>
     public partial class DeleteRoleScopeResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteRoleScopeResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -89,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="DeleteRoleScopeResponse" />
     /// </summary>
     public class DeleteRoleScopeResponseJsonConverter : JsonConverter<DeleteRoleScopeResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="DeleteRoleScopeResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override DeleteRoleScopeResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -147,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="DeleteRoleScopeResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteRoleScopeResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, DeleteRoleScopeResponse deleteRoleScopeResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -158,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="DeleteRoleScopeResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteRoleScopeResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DeleteRoleScopeResponse deleteRoleScopeResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (deleteRoleScopeResponse.CodeOption.IsSet && deleteRoleScopeResponse.Code == null)

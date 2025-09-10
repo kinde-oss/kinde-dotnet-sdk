@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateOrganizationUserPermissionRequest
     /// </summary>
     public partial class CreateOrganizationUserPermissionRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateOrganizationUserPermissionRequest" /> class.
         /// </summary>
         /// <param name="permissionId">The permission id.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of PermissionId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -69,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateOrganizationUserPermissionRequest" />
     /// </summary>
     public class CreateOrganizationUserPermissionRequestJsonConverter : JsonConverter<CreateOrganizationUserPermissionRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateOrganizationUserPermissionRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateOrganizationUserPermissionRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateOrganizationUserPermissionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationUserPermissionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateOrganizationUserPermissionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationUserPermissionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createOrganizationUserPermissionRequest.PermissionIdOption.IsSet && createOrganizationUserPermissionRequest.PermissionId == null)
