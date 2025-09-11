@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateSubscriberSuccessResponseSubscriber
     /// </summary>
     public partial class CreateSubscriberSuccessResponseSubscriber
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateSubscriberSuccessResponseSubscriber" /> class.
         /// </summary>
         /// <param name="subscriberId">A unique identifier for the subscriber.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of SubscriberId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -52,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A unique identifier for the subscriber.</value>
         [JsonPropertyName("subscriber_id")]
-        public string? SubscriberId { get { return this.SubscriberIdOption; } set { this.SubscriberIdOption = new(value); } }
+        public string? SubscriberId { get { return this.SubscriberIdOption; } set { this.SubscriberIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -69,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateSubscriberSuccessResponseSubscriber" />
     /// </summary>
     public class CreateSubscriberSuccessResponseSubscriberJsonConverter : JsonConverter<CreateSubscriberSuccessResponseSubscriber>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateSubscriberSuccessResponseSubscriber" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateSubscriberSuccessResponseSubscriber Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateSubscriberSuccessResponseSubscriber" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createSubscriberSuccessResponseSubscriber"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateSubscriberSuccessResponseSubscriber createSubscriberSuccessResponseSubscriber, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateSubscriberSuccessResponseSubscriber" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createSubscriberSuccessResponseSubscriber"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateSubscriberSuccessResponseSubscriber createSubscriberSuccessResponseSubscriber, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createSubscriberSuccessResponseSubscriber.SubscriberIdOption.IsSet && createSubscriberSuccessResponseSubscriber.SubscriberId == null)

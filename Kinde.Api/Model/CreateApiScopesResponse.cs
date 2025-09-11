@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApiScopesResponse
     /// </summary>
     public partial class CreateApiScopesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApiScopesResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message.</param>
         /// <param name="code">A Kinde generated status code.</param>
@@ -58,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -73,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated status code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scope
@@ -86,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Scope
         /// </summary>
         [JsonPropertyName("scope")]
-        public CreateApiScopesResponseScope? Scope { get { return this.ScopeOption; } set { this.ScopeOption = new(value); } }
+        public CreateApiScopesResponseScope? Scope { get { return this.ScopeOption; } set { this.ScopeOption = new Option<CreateApiScopesResponseScope?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApiScopesResponse" />
     /// </summary>
     public class CreateApiScopesResponseJsonConverter : JsonConverter<CreateApiScopesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApiScopesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApiScopesResponse createApiScopesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApiScopesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApiScopesResponse createApiScopesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApiScopesResponse.MessageOption.IsSet && createApiScopesResponse.Message == null)

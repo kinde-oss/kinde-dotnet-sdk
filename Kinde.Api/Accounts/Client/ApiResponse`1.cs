@@ -12,7 +12,6 @@
 #nullable enable
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace Kinde.Accounts.Client
@@ -202,7 +201,7 @@ namespace Kinde.Accounts.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryBadRequest([NotNullWhen(true)]out TType? result);
+        bool TryBadRequest(out TType? result);
     }
 
     /// <summary>
@@ -222,7 +221,7 @@ namespace Kinde.Accounts.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryTooManyRequests([NotNullWhen(true)]out TType? result);
+        bool TryTooManyRequests(out TType? result);
     }
 
     /// <summary>
@@ -242,7 +241,7 @@ namespace Kinde.Accounts.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryUnauthorized([NotNullWhen(true)]out TType? result);
+        bool TryUnauthorized(out TType? result);
     }
 
     /// <summary>
@@ -262,7 +261,7 @@ namespace Kinde.Accounts.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryForbidden([NotNullWhen(true)]out TType? result);
+        bool TryForbidden(out TType? result);
     }
 
     /// <summary>
@@ -282,6 +281,6 @@ namespace Kinde.Accounts.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryOk([NotNullWhen(true)]out TType? result);
+        bool TryOk(out TType? result);
     }
 }

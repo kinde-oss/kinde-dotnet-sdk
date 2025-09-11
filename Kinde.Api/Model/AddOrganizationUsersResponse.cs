@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// AddOrganizationUsersResponse
     /// </summary>
     public partial class AddOrganizationUsersResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AddOrganizationUsersResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -71,18 +73,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of UsersAdded
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> UsersAddedOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets UsersAdded
         /// </summary>
         [JsonPropertyName("users_added")]
-        public List<string>? UsersAdded { get { return this.UsersAddedOption; } set { this.UsersAddedOption = new(value); } }
+        public List<string>? UsersAdded { get { return this.UsersAddedOption; } set { this.UsersAddedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="AddOrganizationUsersResponse" />
     /// </summary>
     public class AddOrganizationUsersResponseJsonConverter : JsonConverter<AddOrganizationUsersResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="AddOrganizationUsersResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override AddOrganizationUsersResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="AddOrganizationUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AddOrganizationUsersResponse addOrganizationUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="AddOrganizationUsersResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AddOrganizationUsersResponse addOrganizationUsersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (addOrganizationUsersResponse.CodeOption.IsSet && addOrganizationUsersResponse.Code == null)

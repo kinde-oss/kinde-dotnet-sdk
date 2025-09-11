@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Error code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Error message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -98,6 +98,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Error Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -153,6 +154,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="error"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Error error, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -166,6 +169,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="error"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Error error, JsonSerializerOptions jsonSerializerOptions)
         {
             if (error.CodeOption.IsSet && error.Code == null)

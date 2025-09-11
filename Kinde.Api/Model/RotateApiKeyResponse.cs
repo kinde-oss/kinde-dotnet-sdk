@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// RotateApiKeyResponse
     /// </summary>
     public partial class RotateApiKeyResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="RotateApiKeyResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -58,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>API_KEY_ROTATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>API key rotated successfully</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApiKey
@@ -86,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ApiKey
         /// </summary>
         [JsonPropertyName("api_key")]
-        public RotateApiKeyResponseApiKey? ApiKey { get { return this.ApiKeyOption; } set { this.ApiKeyOption = new(value); } }
+        public RotateApiKeyResponseApiKey? ApiKey { get { return this.ApiKeyOption; } set { this.ApiKeyOption = new Option<RotateApiKeyResponseApiKey?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="RotateApiKeyResponse" />
     /// </summary>
     public class RotateApiKeyResponseJsonConverter : JsonConverter<RotateApiKeyResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="RotateApiKeyResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override RotateApiKeyResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="RotateApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="rotateApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, RotateApiKeyResponse rotateApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="RotateApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="rotateApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RotateApiKeyResponse rotateApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (rotateApiKeyResponse.CodeOption.IsSet && rotateApiKeyResponse.Code == null)

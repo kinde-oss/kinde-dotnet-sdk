@@ -26,16 +26,19 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateFeatureFlagRequest
     /// </summary>
     public partial class CreateFeatureFlagRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateFeatureFlagRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the flag.</param>
         /// <param name="key">The flag identifier to use in code.</param>
         /// <param name="type">The variable type.</param>
         /// <param name="defaultValue">Default value for the flag used by environments and organizations.</param>
         /// <param name="description">Description of the flag purpose.</param>
+        /// <param name="allowOverrideLevel">Allow the flag to be overridden at a different level.</param>
         [JsonConstructor]
         public CreateFeatureFlagRequest(string name, string key, TypeEnum type, string defaultValue, Option<string?> description = default, Option<AllowOverrideLevelEnum?> allowOverrideLevel = default)
         {
@@ -77,6 +80,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("str"))
@@ -115,6 +119,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum value)
         {
             if (value == TypeEnum.Str)
@@ -159,9 +164,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="AllowOverrideLevelEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static AllowOverrideLevelEnum AllowOverrideLevelEnumFromString(string value)
         {
             if (value.Equals("env"))
@@ -177,6 +184,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="AllowOverrideLevelEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -195,9 +203,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="AllowOverrideLevelEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string AllowOverrideLevelEnumToJsonValue(AllowOverrideLevelEnum? value)
         {
             if (value == AllowOverrideLevelEnum.Env)
@@ -213,6 +223,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Used to track the state of AllowOverrideLevel
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -223,7 +234,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Allow the flag to be overridden at a different level.</value>
         [JsonPropertyName("allow_override_level")]
-        public AllowOverrideLevelEnum? AllowOverrideLevel { get { return this.AllowOverrideLevelOption; } set { this.AllowOverrideLevelOption = new(value); } }
+        public AllowOverrideLevelEnum? AllowOverrideLevel { get { return this.AllowOverrideLevelOption; } set { this.AllowOverrideLevelOption = new Option<AllowOverrideLevelEnum?>(value); } }
 
         /// <summary>
         /// The name of the flag.
@@ -247,6 +258,7 @@ namespace Kinde.Api.Model
         public string DefaultValue { get; set; }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -257,7 +269,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Description of the flag purpose.</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -279,13 +291,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateFeatureFlagRequest" />
     /// </summary>
     public class CreateFeatureFlagRequestJsonConverter : JsonConverter<CreateFeatureFlagRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateFeatureFlagRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateFeatureFlagRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -381,8 +396,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateFeatureFlagRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createFeatureFlagRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateFeatureFlagRequest createFeatureFlagRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -392,8 +411,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateFeatureFlagRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createFeatureFlagRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateFeatureFlagRequest createFeatureFlagRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createFeatureFlagRequest.Name == null)

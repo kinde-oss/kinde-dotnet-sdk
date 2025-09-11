@@ -31,9 +31,11 @@ namespace Kinde.Api.Model
     public partial class CreateConnectionRequestOptionsOneOf
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf" /> class.
         /// </summary>
         /// <param name="clientId">OAuth client ID.</param>
         /// <param name="clientSecret">OAuth client secret.</param>
+        /// <param name="isUseCustomDomain">Use custom domain callback URL.</param>
         [JsonConstructor]
         public CreateConnectionRequestOptionsOneOf(Option<string?> clientId = default, Option<string?> clientSecret = default, Option<bool?> isUseCustomDomain = default)
         {
@@ -56,10 +58,12 @@ namespace Kinde.Api.Model
         /// OAuth client ID.
         /// </summary>
         /// <value>OAuth client ID.</value>
+        /* <example>hji7db2146af332akfldfded22</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ClientSecret
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -69,10 +73,12 @@ namespace Kinde.Api.Model
         /// OAuth client secret.
         /// </summary>
         /// <value>OAuth client secret.</value>
+        /* <example>19fkjdalg521l23fassf3039d4ae18b</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsUseCustomDomain
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -84,7 +90,7 @@ namespace Kinde.Api.Model
         /// <value>Use custom domain callback URL.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_use_custom_domain")]
-        public bool? IsUseCustomDomain { get { return this.IsUseCustomDomainOption; } set { this.IsUseCustomDomainOption = new(value); } }
+        public bool? IsUseCustomDomain { get { return this.IsUseCustomDomainOption; } set { this.IsUseCustomDomainOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,13 +109,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateConnectionRequestOptionsOneOf" />
     /// </summary>
     public class CreateConnectionRequestOptionsOneOfJsonConverter : JsonConverter<CreateConnectionRequestOptionsOneOf>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateConnectionRequestOptionsOneOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateConnectionRequestOptionsOneOf Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +177,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateConnectionRequestOptionsOneOf" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequestOptionsOneOf"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateConnectionRequestOptionsOneOf createConnectionRequestOptionsOneOf, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +192,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateConnectionRequestOptionsOneOf" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequestOptionsOneOf"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateConnectionRequestOptionsOneOf createConnectionRequestOptionsOneOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createConnectionRequestOptionsOneOf.ClientIdOption.IsSet && createConnectionRequestOptionsOneOf.ClientId == null)

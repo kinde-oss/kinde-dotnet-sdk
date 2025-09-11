@@ -56,7 +56,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Data
         /// </summary>
         [JsonPropertyName("data")]
-        public GetEntitlementsResponseData? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public GetEntitlementsResponseData? Data { get { return this.DataOption; } set { this.DataOption = new Option<GetEntitlementsResponseData?>(value); } }
 
         /// <summary>
         /// Used to track the state of Metadata
@@ -69,7 +69,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Metadata
         /// </summary>
         [JsonPropertyName("metadata")]
-        public GetEntitlementsResponseMetadata? Metadata { get { return this.MetadataOption; } set { this.MetadataOption = new(value); } }
+        public GetEntitlementsResponseMetadata? Metadata { get { return this.MetadataOption; } set { this.MetadataOption = new Option<GetEntitlementsResponseMetadata?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

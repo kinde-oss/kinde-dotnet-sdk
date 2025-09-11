@@ -26,14 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEnvironmentResponseEnvironment
     /// </summary>
     public partial class GetEnvironmentResponseEnvironment
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEnvironmentResponseEnvironment" /> class.
         /// </summary>
         /// <param name="code">The unique identifier for the environment.</param>
         /// <param name="name">The environment&#39;s name.</param>
         /// <param name="hotjarSiteId">Your HotJar site ID.</param>
+        /// <param name="googleAnalyticsTag">Your Google Analytics tag.</param>
         /// <param name="isDefault">Whether the environment is the default. Typically this is your production environment.</param>
         /// <param name="isLive">Whether the environment is live.</param>
         /// <param name="kindeDomain">Your domain on Kinde</param>
@@ -41,9 +44,18 @@ namespace Kinde.Api.Model
         /// <param name="logo">The organization&#39;s logo URL.</param>
         /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes.</param>
         /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers</param>
+        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</param>
         /// <param name="linkColor">linkColor</param>
+        /// <param name="backgroundColor">backgroundColor</param>
         /// <param name="buttonColor">buttonColor</param>
+        /// <param name="buttonTextColor">buttonTextColor</param>
         /// <param name="linkColorDark">linkColorDark</param>
+        /// <param name="backgroundColorDark">backgroundColorDark</param>
+        /// <param name="buttonTextColorDark">buttonTextColorDark</param>
+        /// <param name="buttonColorDark">buttonColorDark</param>
+        /// <param name="buttonBorderRadius">The border radius for buttons. Value is px, Kinde transforms to rem for rendering</param>
+        /// <param name="cardBorderRadius">The border radius for cards. Value is px, Kinde transforms to rem for rendering</param>
+        /// <param name="inputBorderRadius">The border radius for inputs. Value is px, Kinde transforms to rem for rendering</param>
         /// <param name="themeCode">Whether the environment is forced into light mode, dark mode or user preference</param>
         /// <param name="colorScheme">The color scheme for the environment used for meta tags based on the theme code</param>
         /// <param name="createdOn">Date of environment creation in ISO 8601 format.</param>
@@ -82,6 +94,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Whether the environment is forced into light mode, dark mode or user preference
         /// </summary>
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         public enum ThemeCodeEnum
@@ -97,6 +110,7 @@ namespace Kinde.Api.Model
             Dark = 2,
 
             /// <summary>
+            /// Enum UserPreference for value: user_preference
             /// </summary>
             UserPreference = 3
         }
@@ -106,6 +120,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ThemeCodeEnum ThemeCodeEnumFromString(string value)
         {
             if (value.Equals("light"))
@@ -144,6 +159,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ThemeCodeEnumToJsonValue(ThemeCodeEnum? value)
         {
             if (value == ThemeCodeEnum.Light)
@@ -166,10 +182,11 @@ namespace Kinde.Api.Model
         public Option<ThemeCodeEnum?> ThemeCodeOption { get; private set; }
 
         /// <summary>
+        /// Whether the environment is forced into light mode, dark mode or user preference
         /// </summary>
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         [JsonPropertyName("theme_code")]
-        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<ThemeCodeEnum?>(value); } }
 
         /// <summary>
         /// The color scheme for the environment used for meta tags based on the theme code
@@ -194,9 +211,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="ColorSchemeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ColorSchemeEnum ColorSchemeEnumFromString(string value)
         {
             if (value.Equals("light"))
@@ -212,6 +231,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="ColorSchemeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -230,9 +250,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="ColorSchemeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ColorSchemeEnumToJsonValue(ColorSchemeEnum? value)
         {
             if (value == ColorSchemeEnum.Light)
@@ -248,6 +270,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Used to track the state of ColorScheme
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -258,7 +281,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The color scheme for the environment used for meta tags based on the theme code</value>
         [JsonPropertyName("color_scheme")]
-        public ColorSchemeEnum? ColorScheme { get { return this.ColorSchemeOption; } set { this.ColorSchemeOption = new(value); } }
+        public ColorSchemeEnum? ColorScheme { get { return this.ColorSchemeOption; } set { this.ColorSchemeOption = new Option<ColorSchemeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -273,7 +296,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier for the environment.</value>
         /* <example>production</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -288,9 +311,10 @@ namespace Kinde.Api.Model
         /// <value>The environment&#39;s name.</value>
         /* <example>Production</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HotjarSiteId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -302,9 +326,10 @@ namespace Kinde.Api.Model
         /// <value>Your HotJar site ID.</value>
         /* <example>404009</example> */
         [JsonPropertyName("hotjar_site_id")]
-        public string? HotjarSiteId { get { return this.HotjarSiteIdOption; } set { this.HotjarSiteIdOption = new(value); } }
+        public string? HotjarSiteId { get { return this.HotjarSiteIdOption; } set { this.HotjarSiteIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of GoogleAnalyticsTag
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -316,7 +341,7 @@ namespace Kinde.Api.Model
         /// <value>Your Google Analytics tag.</value>
         /* <example>G-1234567</example> */
         [JsonPropertyName("google_analytics_tag")]
-        public string? GoogleAnalyticsTag { get { return this.GoogleAnalyticsTagOption; } set { this.GoogleAnalyticsTagOption = new(value); } }
+        public string? GoogleAnalyticsTag { get { return this.GoogleAnalyticsTagOption; } set { this.GoogleAnalyticsTagOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefault
@@ -331,7 +356,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment is the default. Typically this is your production environment.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_default")]
-        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new(value); } }
+        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsLive
@@ -346,9 +371,10 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment is live.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_live")]
-        public bool? IsLive { get { return this.IsLiveOption; } set { this.IsLiveOption = new(value); } }
+        public bool? IsLive { get { return this.IsLiveOption; } set { this.IsLiveOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of KindeDomain
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -360,20 +386,22 @@ namespace Kinde.Api.Model
         /// <value>Your domain on Kinde</value>
         /* <example>example.kinde.com</example> */
         [JsonPropertyName("kinde_domain")]
-        public string? KindeDomain { get { return this.KindeDomainOption; } set { this.KindeDomainOption = new(value); } }
+        public string? KindeDomain { get { return this.KindeDomainOption; } set { this.KindeDomainOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of CustomDomain
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> CustomDomainOption { get; private set; }
 
         /// <summary>
+        /// Your custom domain for the environment
         /// </summary>
         /// <value>Your custom domain for the environment</value>
         /* <example>app.example.com</example> */
         [JsonPropertyName("custom_domain")]
-        public string? CustomDomain { get { return this.CustomDomainOption; } set { this.CustomDomainOption = new(value); } }
+        public string? CustomDomain { get { return this.CustomDomainOption; } set { this.CustomDomainOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Logo
@@ -386,8 +414,9 @@ namespace Kinde.Api.Model
         /// The organization&#39;s logo URL.
         /// </summary>
         /// <value>The organization&#39;s logo URL.</value>
+        /* <example>https://yoursubdomain.kinde.com/logo?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("logo")]
-        public string? Logo { get { return this.LogoOption; } set { this.LogoOption = new(value); } }
+        public string? Logo { get { return this.LogoOption; } set { this.LogoOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LogoDark
@@ -400,10 +429,12 @@ namespace Kinde.Api.Model
         /// The organization&#39;s logo URL to be used for dark themes.
         /// </summary>
         /// <value>The organization&#39;s logo URL to be used for dark themes.</value>
+        /* <example>https://yoursubdomain.kinde.com/logo_dark?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("logo_dark")]
-        public string? LogoDark { get { return this.LogoDarkOption; } set { this.LogoDarkOption = new(value); } }
+        public string? LogoDark { get { return this.LogoDarkOption; } set { this.LogoDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of FaviconSvg
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -413,10 +444,12 @@ namespace Kinde.Api.Model
         /// The organization&#39;s SVG favicon URL. Optimal format for most browsers
         /// </summary>
         /// <value>The organization&#39;s SVG favicon URL. Optimal format for most browsers</value>
+        /* <example>https://yoursubdomain.kinde.com/favicon_svg?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("favicon_svg")]
-        public string? FaviconSvg { get { return this.FaviconSvgOption; } set { this.FaviconSvgOption = new(value); } }
+        public string? FaviconSvg { get { return this.FaviconSvgOption; } set { this.FaviconSvgOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of FaviconFallback
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -426,8 +459,9 @@ namespace Kinde.Api.Model
         /// The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG
         /// </summary>
         /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
+        /* <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("favicon_fallback")]
-        public string? FaviconFallback { get { return this.FaviconFallbackOption; } set { this.FaviconFallbackOption = new(value); } }
+        public string? FaviconFallback { get { return this.FaviconFallbackOption; } set { this.FaviconFallbackOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -440,86 +474,101 @@ namespace Kinde.Api.Model
         /// Gets or Sets LinkColor
         /// </summary>
         [JsonPropertyName("link_color")]
-        public GetEnvironmentResponseEnvironmentLinkColor? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentBackgroundColor?> BackgroundColorOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets BackgroundColor
         /// </summary>
         [JsonPropertyName("background_color")]
-        public GetEnvironmentResponseEnvironmentBackgroundColor? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentBackgroundColor? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<GetEnvironmentResponseEnvironmentBackgroundColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentLinkColor?> ButtonColorOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ButtonColor
         /// </summary>
         [JsonPropertyName("button_color")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentBackgroundColor?> ButtonTextColorOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ButtonTextColor
         /// </summary>
         [JsonPropertyName("button_text_color")]
-        public GetEnvironmentResponseEnvironmentBackgroundColor? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentBackgroundColor? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<GetEnvironmentResponseEnvironmentBackgroundColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LinkColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentLinkColor?> LinkColorDarkOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets LinkColorDark
         /// </summary>
         [JsonPropertyName("link_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentLinkColor?> BackgroundColorDarkOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets BackgroundColorDark
         /// </summary>
         [JsonPropertyName("background_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentLinkColor?> ButtonTextColorDarkOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ButtonTextColorDark
         /// </summary>
         [JsonPropertyName("button_text_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<GetEnvironmentResponseEnvironmentLinkColor?> ButtonColorDarkOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ButtonColorDark
         /// </summary>
         [JsonPropertyName("button_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonBorderRadius
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -531,9 +580,10 @@ namespace Kinde.Api.Model
         /// <value>The border radius for buttons. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>8</example> */
         [JsonPropertyName("button_border_radius")]
-        public int? ButtonBorderRadius { get { return this.ButtonBorderRadiusOption; } set { this.ButtonBorderRadiusOption = new(value); } }
+        public int? ButtonBorderRadius { get { return this.ButtonBorderRadiusOption; } set { this.ButtonBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of CardBorderRadius
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -545,9 +595,10 @@ namespace Kinde.Api.Model
         /// <value>The border radius for cards. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>16</example> */
         [JsonPropertyName("card_border_radius")]
-        public int? CardBorderRadius { get { return this.CardBorderRadiusOption; } set { this.CardBorderRadiusOption = new(value); } }
+        public int? CardBorderRadius { get { return this.CardBorderRadiusOption; } set { this.CardBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of InputBorderRadius
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -559,7 +610,7 @@ namespace Kinde.Api.Model
         /// <value>The border radius for inputs. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>4</example> */
         [JsonPropertyName("input_border_radius")]
-        public int? InputBorderRadius { get { return this.InputBorderRadiusOption; } set { this.InputBorderRadiusOption = new(value); } }
+        public int? InputBorderRadius { get { return this.InputBorderRadiusOption; } set { this.InputBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -574,7 +625,7 @@ namespace Kinde.Api.Model
         /// <value>Date of environment creation in ISO 8601 format.</value>
         /* <example>2021-01-01T00:00:00Z</example> */
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -616,13 +667,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEnvironmentResponseEnvironment" />
     /// </summary>
     public class GetEnvironmentResponseEnvironmentJsonConverter : JsonConverter<GetEnvironmentResponseEnvironment>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEnvironmentResponseEnvironment" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEnvironmentResponseEnvironment Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -792,8 +846,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEnvironmentResponseEnvironment" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironment"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEnvironmentResponseEnvironment getEnvironmentResponseEnvironment, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -803,8 +861,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEnvironmentResponseEnvironment" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironment"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEnvironmentResponseEnvironment getEnvironmentResponseEnvironment, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEnvironmentResponseEnvironment.CodeOption.IsSet && getEnvironmentResponseEnvironment.Code == null)

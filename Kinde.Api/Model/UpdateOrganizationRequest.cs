@@ -26,19 +26,29 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateOrganizationRequest
     /// </summary>
     public partial class UpdateOrganizationRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateOrganizationRequest" /> class.
         /// </summary>
         /// <param name="name">The organization&#39;s name.</param>
         /// <param name="externalId">The organization&#39;s ID.</param>
+        /// <param name="backgroundColor">The organization&#39;s brand settings - background color.</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color.</param>
+        /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color.</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color.</param>
+        /// <param name="backgroundColorDark">The organization&#39;s brand settings - dark mode background color.</param>
+        /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color.</param>
+        /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color.</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color.</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode.</param>
         /// <param name="handle">The organization&#39;s handle.</param>
+        /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</param>
+        /// <param name="isAutoJoinDomainList">Users can sign up to this organization.</param>
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment.</param>
+        /// <param name="isEnableAdvancedOrgs">Activate advanced organization features.</param>
         /// <param name="isEnforceMfa">Enforce MFA for all users in this organization.</param>
         /// <param name="senderName">The name of the organization that will be used in emails</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up.</param>
@@ -86,6 +96,7 @@ namespace Kinde.Api.Model
             Dark = 2,
 
             /// <summary>
+            /// Enum UserPreference for value: user_preference
             /// </summary>
             UserPreference = 3
         }
@@ -95,6 +106,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ThemeCodeEnum ThemeCodeEnumFromString(string value)
         {
             if (value.Equals("light"))
@@ -133,6 +145,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ThemeCodeEnumToJsonValue(ThemeCodeEnum? value)
         {
             if (value == ThemeCodeEnum.Light)
@@ -160,7 +173,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - theme/mode.</value>
         /* <example>light</example> */
         [JsonPropertyName("theme_code")]
-        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<ThemeCodeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -175,9 +188,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s name.</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ExternalId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -189,9 +203,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s ID.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -203,9 +218,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - background color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("background_color")]
-        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -217,9 +233,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - button color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("button_color")]
-        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -231,7 +248,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - button text color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("button_text_color")]
-        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -246,9 +263,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - link color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("link_color")]
-        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -260,9 +278,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode background color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("background_color_dark")]
-        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -274,9 +293,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode button color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("button_color_dark")]
-        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -288,9 +308,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("button_text_color_dark")]
-        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LinkColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -302,7 +323,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode link color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("link_color_dark")]
-        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -317,9 +338,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s handle.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsAllowRegistrations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -331,9 +353,10 @@ namespace Kinde.Api.Model
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
         [JsonPropertyName("is_allow_registrations")]
         [Obsolete]
-        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new(value); } }
+        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsAutoJoinDomainList
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -345,9 +368,10 @@ namespace Kinde.Api.Model
         /// <value>Users can sign up to this organization.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_auto_join_domain_list")]
-        public bool? IsAutoJoinDomainList { get { return this.IsAutoJoinDomainListOption; } set { this.IsAutoJoinDomainListOption = new(value); } }
+        public bool? IsAutoJoinDomainList { get { return this.IsAutoJoinDomainListOption; } set { this.IsAutoJoinDomainListOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of AllowedDomains
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -359,9 +383,10 @@ namespace Kinde.Api.Model
         /// <value>Domains allowed for self-sign up to this environment.</value>
         /* <example>[&quot;https://acme.kinde.com&quot;,&quot;https://acme.com&quot;]</example> */
         [JsonPropertyName("allowed_domains")]
-        public List<string>? AllowedDomains { get { return this.AllowedDomainsOption; } set { this.AllowedDomainsOption = new(value); } }
+        public List<string>? AllowedDomains { get { return this.AllowedDomainsOption; } set { this.AllowedDomainsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsEnableAdvancedOrgs
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -373,9 +398,10 @@ namespace Kinde.Api.Model
         /// <value>Activate advanced organization features.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_enable_advanced_orgs")]
-        public bool? IsEnableAdvancedOrgs { get { return this.IsEnableAdvancedOrgsOption; } set { this.IsEnableAdvancedOrgsOption = new(value); } }
+        public bool? IsEnableAdvancedOrgs { get { return this.IsEnableAdvancedOrgsOption; } set { this.IsEnableAdvancedOrgsOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsEnforceMfa
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -387,9 +413,10 @@ namespace Kinde.Api.Model
         /// <value>Enforce MFA for all users in this organization.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_enforce_mfa")]
-        public bool? IsEnforceMfa { get { return this.IsEnforceMfaOption; } set { this.IsEnforceMfaOption = new(value); } }
+        public bool? IsEnforceMfa { get { return this.IsEnforceMfaOption; } set { this.IsEnforceMfaOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of SenderName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -401,9 +428,10 @@ namespace Kinde.Api.Model
         /// <value>The name of the organization that will be used in emails</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("sender_name")]
-        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new(value); } }
+        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of SenderEmail
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -415,7 +443,7 @@ namespace Kinde.Api.Model
         /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
         /* <example>hello@acmecorp.com</example> */
         [JsonPropertyName("sender_email")]
-        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new(value); } }
+        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -450,13 +478,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateOrganizationRequest" />
     /// </summary>
     public class UpdateOrganizationRequestJsonConverter : JsonConverter<UpdateOrganizationRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateOrganizationRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateOrganizationRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -623,8 +654,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateOrganizationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateOrganizationRequest updateOrganizationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -634,8 +669,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateOrganizationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateOrganizationRequest updateOrganizationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateOrganizationRequest.NameOption.IsSet && updateOrganizationRequest.Name == null)

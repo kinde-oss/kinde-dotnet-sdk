@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiKeysResponseApiKeysInner
     /// </summary>
     public partial class GetApiKeysResponseApiKeysInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiKeysResponseApiKeysInner" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API key.</param>
         /// <param name="name">The API key&#39;s name.</param>
@@ -74,8 +76,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -90,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>The API key&#39;s name.</value>
         /* <example>My API Key</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
@@ -105,7 +108,7 @@ namespace Kinde.Api.Model
         /// <value>The type of API key.</value>
         /* <example>organization</example> */
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Status
@@ -120,7 +123,7 @@ namespace Kinde.Api.Model
         /// <value>The status of the API key.</value>
         /* <example>active</example> */
         [JsonPropertyName("status")]
-        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of KeyPrefix
@@ -135,7 +138,7 @@ namespace Kinde.Api.Model
         /// <value>The first 6 characters of the API key for identification.</value>
         /* <example>kinde_</example> */
         [JsonPropertyName("key_prefix")]
-        public string? KeyPrefix { get { return this.KeyPrefixOption; } set { this.KeyPrefixOption = new(value); } }
+        public string? KeyPrefix { get { return this.KeyPrefixOption; } set { this.KeyPrefixOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of KeySuffix
@@ -150,7 +153,7 @@ namespace Kinde.Api.Model
         /// <value>The last 4 characters of the API key for identification.</value>
         /* <example>abcd</example> */
         [JsonPropertyName("key_suffix")]
-        public string? KeySuffix { get { return this.KeySuffixOption; } set { this.KeySuffixOption = new(value); } }
+        public string? KeySuffix { get { return this.KeySuffixOption; } set { this.KeySuffixOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -165,9 +168,10 @@ namespace Kinde.Api.Model
         /// <value>When the API key was created.</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("created_on")]
-        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -179,9 +183,10 @@ namespace Kinde.Api.Model
         /// <value>When the API key was last verified.</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("last_verified_on")]
-        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
+        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedIp
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -193,7 +198,7 @@ namespace Kinde.Api.Model
         /// <value>The IP address from which the API key was last verified.</value>
         /* <example>192.168.1.1</example> */
         [JsonPropertyName("last_verified_ip")]
-        public string? LastVerifiedIp { get { return this.LastVerifiedIpOption; } set { this.LastVerifiedIpOption = new(value); } }
+        public string? LastVerifiedIp { get { return this.LastVerifiedIpOption; } set { this.LastVerifiedIpOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedBy
@@ -208,7 +213,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the user who created the API key.</value>
         /* <example>John Doe</example> */
         [JsonPropertyName("created_by")]
-        public string? CreatedBy { get { return this.CreatedByOption; } set { this.CreatedByOption = new(value); } }
+        public string? CreatedBy { get { return this.CreatedByOption; } set { this.CreatedByOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApiIds
@@ -223,7 +228,7 @@ namespace Kinde.Api.Model
         /// <value>Array of API IDs associated with this key.</value>
         /* <example>[&quot;api_123&quot;,&quot;api_456&quot;]</example> */
         [JsonPropertyName("api_ids")]
-        public List<string>? ApiIds { get { return this.ApiIdsOption; } set { this.ApiIdsOption = new(value); } }
+        public List<string>? ApiIds { get { return this.ApiIdsOption; } set { this.ApiIdsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -238,7 +243,7 @@ namespace Kinde.Api.Model
         /// <value>Array of scopes associated with this key.</value>
         /* <example>[&quot;read:users&quot;,&quot;write:users&quot;]</example> */
         [JsonPropertyName("scopes")]
-        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -266,6 +271,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiKeysResponseApiKeysInner" />
     /// </summary>
     public class GetApiKeysResponseApiKeysInnerJsonConverter : JsonConverter<GetApiKeysResponseApiKeysInner>
     {
@@ -275,13 +281,16 @@ namespace Kinde.Api.Model
         public static string CreatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize LastVerifiedOn
         /// </summary>
         public static string LastVerifiedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiKeysResponseApiKeysInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -391,8 +400,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponseApiKeysInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiKeysResponseApiKeysInner getApiKeysResponseApiKeysInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -402,8 +415,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiKeysResponseApiKeysInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponseApiKeysInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiKeysResponseApiKeysInner getApiKeysResponseApiKeysInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiKeysResponseApiKeysInner.IdOption.IsSet && getApiKeysResponseApiKeysInner.Id == null)

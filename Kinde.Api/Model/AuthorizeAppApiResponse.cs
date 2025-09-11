@@ -26,13 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// AuthorizeAppApiResponse
     /// </summary>
     public partial class AuthorizeAppApiResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorizeAppApiResponse" /> class.
         /// </summary>
         /// <param name="message">message</param>
         /// <param name="code">code</param>
+        /// <param name="applicationsDisconnected">applicationsDisconnected</param>
+        /// <param name="applicationsConnected">applicationsConnected</param>
         [JsonConstructor]
         public AuthorizeAppApiResponse(Option<string?> message = default, Option<string?> code = default, Option<List<string>?> applicationsDisconnected = default, Option<List<string>?> applicationsConnected = default)
         {
@@ -57,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API applications updated</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -71,29 +75,33 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API_APPLICATIONS_UPDATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ApplicationsDisconnected
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> ApplicationsDisconnectedOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ApplicationsDisconnected
         /// </summary>
         [JsonPropertyName("applications_disconnected")]
-        public List<string>? ApplicationsDisconnected { get { return this.ApplicationsDisconnectedOption; } set { this.ApplicationsDisconnectedOption = new(value); } }
+        public List<string>? ApplicationsDisconnected { get { return this.ApplicationsDisconnectedOption; } set { this.ApplicationsDisconnectedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ApplicationsConnected
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> ApplicationsConnectedOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets ApplicationsConnected
         /// </summary>
         [JsonPropertyName("applications_connected")]
-        public List<string>? ApplicationsConnected { get { return this.ApplicationsConnectedOption; } set { this.ApplicationsConnectedOption = new(value); } }
+        public List<string>? ApplicationsConnected { get { return this.ApplicationsConnectedOption; } set { this.ApplicationsConnectedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -113,13 +121,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="AuthorizeAppApiResponse" />
     /// </summary>
     public class AuthorizeAppApiResponseJsonConverter : JsonConverter<AuthorizeAppApiResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="AuthorizeAppApiResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override AuthorizeAppApiResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -185,8 +196,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="AuthorizeAppApiResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="authorizeAppApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AuthorizeAppApiResponse authorizeAppApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -196,8 +211,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="AuthorizeAppApiResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="authorizeAppApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AuthorizeAppApiResponse authorizeAppApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (authorizeAppApiResponse.MessageOption.IsSet && authorizeAppApiResponse.Message == null)

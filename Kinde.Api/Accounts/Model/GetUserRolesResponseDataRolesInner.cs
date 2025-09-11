@@ -60,7 +60,7 @@ namespace Kinde.Accounts.Model
         /// <value>The friendly ID of a role</value>
         /* <example>role_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -75,7 +75,7 @@ namespace Kinde.Accounts.Model
         /// <value>The name of the role</value>
         /* <example>Admin</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -90,7 +90,7 @@ namespace Kinde.Accounts.Model
         /// <value>The key of the role</value>
         /* <example>admin</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -26,14 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiResponseApi
     /// </summary>
     public partial class GetApiResponseApi
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiResponseApi" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the API.</param>
         /// <param name="name">The API&#39;s name.</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims.</param>
+        /// <param name="isManagementApi">Whether or not it is the Kinde management API.</param>
         /// <param name="scopes">scopes</param>
         /// <param name="applications">applications</param>
         [JsonConstructor]
@@ -61,8 +64,9 @@ namespace Kinde.Api.Model
         /// Unique ID of the API.
         /// </summary>
         /// <value>Unique ID of the API.</value>
+        /* <example>7ccd126599aa422a771abcb341596881</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -77,7 +81,7 @@ namespace Kinde.Api.Model
         /// <value>The API&#39;s name.</value>
         /* <example>Example API</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Audience
@@ -92,9 +96,10 @@ namespace Kinde.Api.Model
         /// <value>A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims.</value>
         /* <example>https://api.example.com</example> */
         [JsonPropertyName("audience")]
-        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new(value); } }
+        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsManagementApi
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -106,7 +111,7 @@ namespace Kinde.Api.Model
         /// <value>Whether or not it is the Kinde management API.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_management_api")]
-        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new(value); } }
+        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -119,18 +124,20 @@ namespace Kinde.Api.Model
         /// Gets or Sets Scopes
         /// </summary>
         [JsonPropertyName("scopes")]
-        public List<GetApiResponseApiScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<GetApiResponseApiScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<GetApiResponseApiScopesInner>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Applications
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<GetApiResponseApiApplicationsInner>?> ApplicationsOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Applications
         /// </summary>
         [JsonPropertyName("applications")]
-        public List<GetApiResponseApiApplicationsInner>? Applications { get { return this.ApplicationsOption; } set { this.ApplicationsOption = new(value); } }
+        public List<GetApiResponseApiApplicationsInner>? Applications { get { return this.ApplicationsOption; } set { this.ApplicationsOption = new Option<List<GetApiResponseApiApplicationsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -152,13 +159,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiResponseApi" />
     /// </summary>
     public class GetApiResponseApiJsonConverter : JsonConverter<GetApiResponseApi>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApiResponseApi" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiResponseApi Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -238,8 +248,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiResponseApi" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiResponseApi"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiResponseApi getApiResponseApi, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -249,8 +263,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiResponseApi" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiResponseApi"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiResponseApi getApiResponseApi, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiResponseApi.IdOption.IsSet && getApiResponseApi.Id == null)

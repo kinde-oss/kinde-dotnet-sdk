@@ -21,7 +21,6 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Kinde.Api.Api
 {
@@ -689,8 +688,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -701,8 +699,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new CreateConnectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -787,7 +785,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsCreated
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.CreateConnectionResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -795,7 +793,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryCreated([NotNullWhen(true)]out Kinde.Api.Model.CreateConnectionResponse? result)
+            public bool TryCreated(out Kinde.Api.Model.CreateConnectionResponse? result)
             {
                 result = null;
 
@@ -825,7 +823,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -833,7 +831,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -863,7 +861,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -871,7 +869,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -901,7 +899,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -909,7 +907,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1056,8 +1054,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("DELETE");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -1068,8 +1065,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new DeleteConnectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -1154,7 +1151,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.SuccessResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1162,7 +1159,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Api.Model.SuccessResponse? result)
+            public bool TryOk(out Kinde.Api.Model.SuccessResponse? result)
             {
                 result = null;
 
@@ -1192,7 +1189,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1200,7 +1197,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1230,7 +1227,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1238,7 +1235,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1268,7 +1265,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsNotFound
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.NotFoundResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1276,7 +1273,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryNotFound([NotNullWhen(true)]out Kinde.Api.Model.NotFoundResponse? result)
+            public bool TryNotFound(out Kinde.Api.Model.NotFoundResponse? result)
             {
                 result = null;
 
@@ -1306,7 +1303,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1314,7 +1311,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1461,8 +1458,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -1473,8 +1469,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new GetConnectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -1559,7 +1555,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.Connection>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1567,7 +1563,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Api.Model.Connection? result)
+            public bool TryOk(out Kinde.Api.Model.Connection? result)
             {
                 result = null;
 
@@ -1597,7 +1593,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1605,7 +1601,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1635,7 +1631,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1643,7 +1639,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1673,7 +1669,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1681,7 +1677,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1849,8 +1845,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -1861,8 +1856,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new GetConnectionsApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -1947,7 +1942,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.GetConnectionsResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1955,7 +1950,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Api.Model.GetConnectionsResponse? result)
+            public bool TryOk(out Kinde.Api.Model.GetConnectionsResponse? result)
             {
                 result = null;
 
@@ -1985,7 +1980,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1993,7 +1988,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2023,7 +2018,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2031,7 +2026,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2207,8 +2202,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Put;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("PUT");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -2219,8 +2213,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new ReplaceConnectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -2305,7 +2299,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.SuccessResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2313,7 +2307,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Api.Model.SuccessResponse? result)
+            public bool TryOk(out Kinde.Api.Model.SuccessResponse? result)
             {
                 result = null;
 
@@ -2343,7 +2337,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2351,7 +2345,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2381,7 +2375,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2389,7 +2383,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2419,7 +2413,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsNotFound
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.NotFoundResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2427,7 +2421,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryNotFound([NotNullWhen(true)]out Kinde.Api.Model.NotFoundResponse? result)
+            public bool TryNotFound(out Kinde.Api.Model.NotFoundResponse? result)
             {
                 result = null;
 
@@ -2457,7 +2451,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2465,7 +2459,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2635,8 +2629,7 @@ namespace Kinde.Api.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("PATCH");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -2647,8 +2640,8 @@ namespace Kinde.Api.Api
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
-                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new UpdateConnectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/connections/{connection_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -2733,7 +2726,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.SuccessResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2741,7 +2734,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Api.Model.SuccessResponse? result)
+            public bool TryOk(out Kinde.Api.Model.SuccessResponse? result)
             {
                 result = null;
 
@@ -2771,7 +2764,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2779,7 +2772,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2809,7 +2802,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2817,7 +2810,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -2847,7 +2840,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsNotFound
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.NotFoundResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2855,7 +2848,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryNotFound([NotNullWhen(true)]out Kinde.Api.Model.NotFoundResponse? result)
+            public bool TryNotFound(out Kinde.Api.Model.NotFoundResponse? result)
             {
                 result = null;
 
@@ -2885,7 +2878,7 @@ namespace Kinde.Api.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Api.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -2893,7 +2886,7 @@ namespace Kinde.Api.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Api.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Api.Model.ErrorResponse? result)
             {
                 result = null;
 

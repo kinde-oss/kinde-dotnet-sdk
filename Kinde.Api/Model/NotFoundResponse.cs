@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// NotFoundResponse
     /// </summary>
     public partial class NotFoundResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="NotFoundResponse" /> class.
         /// </summary>
         /// <param name="errors">errors</param>
         [JsonConstructor]
@@ -52,7 +54,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Errors
         /// </summary>
         [JsonPropertyName("errors")]
-        public NotFoundResponseErrors? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new(value); } }
+        public NotFoundResponseErrors? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new Option<NotFoundResponseErrors?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -69,13 +71,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="NotFoundResponse" />
     /// </summary>
     public class NotFoundResponseJsonConverter : JsonConverter<NotFoundResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="NotFoundResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override NotFoundResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +125,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="NotFoundResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="notFoundResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NotFoundResponse notFoundResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +140,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="NotFoundResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="notFoundResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NotFoundResponse notFoundResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (notFoundResponse.ErrorsOption.IsSet && notFoundResponse.Errors == null)

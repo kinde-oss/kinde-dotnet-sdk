@@ -26,6 +26,7 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiResponse
     /// </summary>
     public partial class GetApiResponse
     {
@@ -59,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -74,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>success_response</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Api
@@ -87,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Api
         /// </summary>
         [JsonPropertyName("api")]
-        public GetApiResponseApi? Api { get { return this.ApiOption; } set { this.ApiOption = new(value); } }
+        public GetApiResponseApi? Api { get { return this.ApiOption; } set { this.ApiOption = new Option<GetApiResponseApi?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -115,6 +116,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -177,6 +179,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="getApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiResponse getApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -190,6 +194,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="getApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiResponse getApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiResponse.CodeOption.IsSet && getApiResponse.Code == null)

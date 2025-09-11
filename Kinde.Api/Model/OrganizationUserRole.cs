@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// OrganizationUserRole
     /// </summary>
     public partial class OrganizationUserRole
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="OrganizationUserRole" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="key">key</param>
@@ -56,7 +58,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -69,7 +71,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Key
         /// </summary>
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -82,7 +84,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,13 +103,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="OrganizationUserRole" />
     /// </summary>
     public class OrganizationUserRoleJsonConverter : JsonConverter<OrganizationUserRole>
     {
         /// <summary>
+        /// Deserializes json to <see cref="OrganizationUserRole" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override OrganizationUserRole Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +171,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="OrganizationUserRole" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUserRole"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OrganizationUserRole organizationUserRole, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +186,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="OrganizationUserRole" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationUserRole"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OrganizationUserRole organizationUserRole, JsonSerializerOptions jsonSerializerOptions)
         {
             if (organizationUserRole.IdOption.IsSet && organizationUserRole.Id == null)

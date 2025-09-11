@@ -63,7 +63,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role&#39;s ID.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role identifier to use in code.</value>
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -91,9 +91,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role&#39;s name.</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -104,9 +105,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role&#39;s description.</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsDefaultRole
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -117,7 +119,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the role is the default role.</value>
         [JsonPropertyName("is_default_role")]
-        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new(value); } }
+        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -147,6 +149,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Roles Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -220,6 +223,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="roles"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Roles roles, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -233,6 +238,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="roles"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Roles roles, JsonSerializerOptions jsonSerializerOptions)
         {
             if (roles.IdOption.IsSet && roles.Id == null)

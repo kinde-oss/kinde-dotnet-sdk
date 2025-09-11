@@ -56,7 +56,7 @@ namespace Kinde.Accounts.Model
         /// <value>Unique URL to redirect the user to.</value>
         /* <example>https://<your_kinde_subdomain>.kinde.com/portal_redirect?key&#x3D;c30d0407030209af82...</example> */
         [JsonPropertyName("url")]
-        public string? Url { get { return this.UrlOption; } set { this.UrlOption = new(value); } }
+        public string? Url { get { return this.UrlOption; } set { this.UrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

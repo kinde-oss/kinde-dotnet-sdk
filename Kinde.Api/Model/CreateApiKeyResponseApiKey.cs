@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApiKeyResponseApiKey
     /// </summary>
     public partial class CreateApiKeyResponseApiKey
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApiKeyResponseApiKey" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API key.</param>
         /// <param name="key">The API key value (only shown once on creation).</param>
@@ -54,8 +56,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -70,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The API key value (only shown once on creation).</value>
         /* <example>k_live_1234567890abcdef</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApiKeyResponseApiKey" />
     /// </summary>
     public class CreateApiKeyResponseApiKeyJsonConverter : JsonConverter<CreateApiKeyResponseApiKey>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApiKeyResponseApiKey Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -146,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiKeyResponseApiKey"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApiKeyResponseApiKey createApiKeyResponseApiKey, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -157,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApiKeyResponseApiKey" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiKeyResponseApiKey"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApiKeyResponseApiKey createApiKeyResponseApiKey, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApiKeyResponseApiKey.IdOption.IsSet && createApiKeyResponseApiKey.Id == null)

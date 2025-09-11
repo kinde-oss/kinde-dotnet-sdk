@@ -26,11 +26,14 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateConnectionRequestOptions
     /// </summary>
     public partial class UpdateConnectionRequestOptions
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateConnectionRequestOptions" /> class.
         /// </summary>
+        /// <param name="createConnectionRequestOptionsOneOf"></param>
         public UpdateConnectionRequestOptions(CreateConnectionRequestOptionsOneOf createConnectionRequestOptionsOneOf)
         {
             CreateConnectionRequestOptionsOneOf = createConnectionRequestOptionsOneOf;
@@ -38,7 +41,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateConnectionRequestOptions" /> class.
         /// </summary>
+        /// <param name="updateConnectionRequestOptionsOneOf"></param>
         public UpdateConnectionRequestOptions(UpdateConnectionRequestOptionsOneOf updateConnectionRequestOptionsOneOf)
         {
             UpdateConnectionRequestOptionsOneOf = updateConnectionRequestOptionsOneOf;
@@ -46,7 +51,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateConnectionRequestOptions" /> class.
         /// </summary>
+        /// <param name="replaceConnectionRequestOptionsOneOf1"></param>
         public UpdateConnectionRequestOptions(ReplaceConnectionRequestOptionsOneOf1 replaceConnectionRequestOptionsOneOf1)
         {
             ReplaceConnectionRequestOptionsOneOf1 = replaceConnectionRequestOptionsOneOf1;
@@ -56,14 +63,17 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Gets or Sets CreateConnectionRequestOptionsOneOf
         /// </summary>
         public CreateConnectionRequestOptionsOneOf? CreateConnectionRequestOptionsOneOf { get; set; }
 
         /// <summary>
+        /// Gets or Sets UpdateConnectionRequestOptionsOneOf
         /// </summary>
         public UpdateConnectionRequestOptionsOneOf? UpdateConnectionRequestOptionsOneOf { get; set; }
 
         /// <summary>
+        /// Gets or Sets ReplaceConnectionRequestOptionsOneOf1
         /// </summary>
         public ReplaceConnectionRequestOptionsOneOf1? ReplaceConnectionRequestOptionsOneOf1 { get; set; }
 
@@ -81,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateConnectionRequestOptions" />
     /// </summary>
     public class UpdateConnectionRequestOptionsJsonConverter : JsonConverter<UpdateConnectionRequestOptions>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateConnectionRequestOptions" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateConnectionRequestOptions Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -159,8 +172,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateConnectionRequestOptions" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateConnectionRequestOptions"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateConnectionRequestOptions updateConnectionRequestOptions, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -170,8 +187,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateConnectionRequestOptions" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateConnectionRequestOptions"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateConnectionRequestOptions updateConnectionRequestOptions, JsonSerializerOptions jsonSerializerOptions)
         {
 

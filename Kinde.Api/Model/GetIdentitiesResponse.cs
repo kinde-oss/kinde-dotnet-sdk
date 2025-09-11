@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetIdentitiesResponse
     /// </summary>
     public partial class GetIdentitiesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetIdentitiesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -59,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,18 +75,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Identity>?> IdentitiesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Identities
         /// </summary>
         [JsonPropertyName("identities")]
-        public List<Identity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<Identity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<Identity>?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -98,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetIdentitiesResponse" />
     /// </summary>
     public class GetIdentitiesResponseJsonConverter : JsonConverter<GetIdentitiesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetIdentitiesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetIdentitiesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetIdentitiesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getIdentitiesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetIdentitiesResponse getIdentitiesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetIdentitiesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getIdentitiesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetIdentitiesResponse getIdentitiesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getIdentitiesResponse.CodeOption.IsSet && getIdentitiesResponse.Code == null)

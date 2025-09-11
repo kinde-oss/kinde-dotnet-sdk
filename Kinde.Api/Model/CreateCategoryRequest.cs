@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateCategoryRequest
     /// </summary>
     public partial class CreateCategoryRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateCategoryRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the category.</param>
         /// <param name="context">The context that the category applies to.</param>
@@ -70,6 +72,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ContextEnum ContextEnumFromString(string value)
         {
             if (value.Equals("org"))
@@ -108,6 +111,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ContextEnumToJsonValue(ContextEnum value)
         {
             if (value == ContextEnum.Org)
@@ -152,13 +156,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateCategoryRequest" />
     /// </summary>
     public class CreateCategoryRequestJsonConverter : JsonConverter<CreateCategoryRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateCategoryRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateCategoryRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -218,8 +225,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateCategoryRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createCategoryRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateCategoryRequest createCategoryRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -229,8 +240,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateCategoryRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createCategoryRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateCategoryRequest createCategoryRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createCategoryRequest.Name == null)

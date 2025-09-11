@@ -26,12 +26,15 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateOrganizationResponseOrganization
     /// </summary>
     public partial class CreateOrganizationResponseOrganization
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateOrganizationResponseOrganization" /> class.
         /// </summary>
         /// <param name="code">The organization&#39;s unique code.</param>
+        /// <param name="billingCustomerId">The billing customer id if the organization was created with the is_create_billing_customer as true</param>
         [JsonConstructor]
         public CreateOrganizationResponseOrganization(Option<string?> code = default, Option<string?> billingCustomerId = default)
         {
@@ -55,9 +58,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s unique code.</value>
         /* <example>org_1ccfb819462</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BillingCustomerId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -69,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The billing customer id if the organization was created with the is_create_billing_customer as true</value>
         /* <example>customer_1245adbc6789</example> */
         [JsonPropertyName("billing_customer_id")]
-        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new(value); } }
+        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateOrganizationResponseOrganization" />
     /// </summary>
     public class CreateOrganizationResponseOrganizationJsonConverter : JsonConverter<CreateOrganizationResponseOrganization>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateOrganizationResponseOrganization" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateOrganizationResponseOrganization Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateOrganizationResponseOrganization" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationResponseOrganization"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateOrganizationResponseOrganization createOrganizationResponseOrganization, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateOrganizationResponseOrganization" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationResponseOrganization"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateOrganizationResponseOrganization createOrganizationResponseOrganization, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createOrganizationResponseOrganization.CodeOption.IsSet && createOrganizationResponseOrganization.Code == null)

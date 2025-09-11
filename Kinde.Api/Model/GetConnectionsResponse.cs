@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetConnectionsResponse
     /// </summary>
     public partial class GetConnectionsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetConnectionsResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -59,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,18 +75,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Connections
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Connection>?> ConnectionsOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Connections
         /// </summary>
         [JsonPropertyName("connections")]
-        public List<Connection>? Connections { get { return this.ConnectionsOption; } set { this.ConnectionsOption = new(value); } }
+        public List<Connection>? Connections { get { return this.ConnectionsOption; } set { this.ConnectionsOption = new Option<List<Connection>?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -98,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetConnectionsResponse" />
     /// </summary>
     public class GetConnectionsResponseJsonConverter : JsonConverter<GetConnectionsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetConnectionsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetConnectionsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetConnectionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getConnectionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetConnectionsResponse getConnectionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetConnectionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getConnectionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetConnectionsResponse getConnectionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getConnectionsResponse.CodeOption.IsSet && getConnectionsResponse.Code == null)

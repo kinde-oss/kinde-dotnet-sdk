@@ -26,16 +26,19 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateUserResponse
     /// </summary>
     public partial class UpdateUserResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateUserResponse" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the user in Kinde.</param>
         /// <param name="givenName">User&#39;s first name.</param>
         /// <param name="familyName">User&#39;s last name.</param>
         /// <param name="email">User&#39;s preferred email.</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not.</param>
+        /// <param name="isPasswordResetRequested">Whether a password reset has been requested.</param>
         /// <param name="picture">User&#39;s profile picture URL.</param>
         [JsonConstructor]
         public UpdateUserResponse(Option<string?> id = default, Option<string?> givenName = default, Option<string?> familyName = default, Option<string?> email = default, Option<bool?> isSuspended = default, Option<bool?> isPasswordResetRequested = default, Option<string?> picture = default)
@@ -64,7 +67,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of GivenName
@@ -78,9 +81,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s first name.</value>
         [JsonPropertyName("given_name")]
-        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new(value); } }
+        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of FamilyName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -91,7 +95,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s last name.</value>
         [JsonPropertyName("family_name")]
-        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new(value); } }
+        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -105,9 +109,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s preferred email.</value>
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsSuspended
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -118,9 +123,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
         [JsonPropertyName("is_suspended")]
-        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new(value); } }
+        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsPasswordResetRequested
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -131,7 +137,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether a password reset has been requested.</value>
         [JsonPropertyName("is_password_reset_requested")]
-        public bool? IsPasswordResetRequested { get { return this.IsPasswordResetRequestedOption; } set { this.IsPasswordResetRequestedOption = new(value); } }
+        public bool? IsPasswordResetRequested { get { return this.IsPasswordResetRequestedOption; } set { this.IsPasswordResetRequestedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -145,7 +151,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s profile picture URL.</value>
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -168,13 +174,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateUserResponse" />
     /// </summary>
     public class UpdateUserResponseJsonConverter : JsonConverter<UpdateUserResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateUserResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateUserResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -258,8 +267,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateUserResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateUserResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateUserResponse updateUserResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -269,8 +282,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateUserResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateUserResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateUserResponse updateUserResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateUserResponse.IdOption.IsSet && updateUserResponse.Id == null)

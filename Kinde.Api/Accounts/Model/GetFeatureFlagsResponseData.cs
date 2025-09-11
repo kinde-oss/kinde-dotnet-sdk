@@ -55,7 +55,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>A list of feature flags</value>
         [JsonPropertyName("feature_flags")]
-        public List<GetFeatureFlagsResponseDataFeatureFlagsInner>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new(value); } }
+        public List<GetFeatureFlagsResponseDataFeatureFlagsInner>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new Option<List<GetFeatureFlagsResponseDataFeatureFlagsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

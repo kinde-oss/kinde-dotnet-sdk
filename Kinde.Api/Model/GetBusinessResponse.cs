@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBusinessResponse
     /// </summary>
     public partial class GetBusinessResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBusinessResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -58,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Business
@@ -86,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Business
         /// </summary>
         [JsonPropertyName("business")]
-        public GetBusinessResponseBusiness? Business { get { return this.BusinessOption; } set { this.BusinessOption = new(value); } }
+        public GetBusinessResponseBusiness? Business { get { return this.BusinessOption; } set { this.BusinessOption = new Option<GetBusinessResponseBusiness?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -105,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBusinessResponse" />
     /// </summary>
     public class GetBusinessResponseJsonConverter : JsonConverter<GetBusinessResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBusinessResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBusinessResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBusinessResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBusinessResponse getBusinessResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBusinessResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBusinessResponse getBusinessResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBusinessResponse.CodeOption.IsSet && getBusinessResponse.Code == null)

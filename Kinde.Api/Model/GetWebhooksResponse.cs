@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetWebhooksResponse
     /// </summary>
     public partial class GetWebhooksResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetWebhooksResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -71,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Webhooks
@@ -84,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Webhooks
         /// </summary>
         [JsonPropertyName("webhooks")]
-        public List<Webhook>? Webhooks { get { return this.WebhooksOption; } set { this.WebhooksOption = new(value); } }
+        public List<Webhook>? Webhooks { get { return this.WebhooksOption; } set { this.WebhooksOption = new Option<List<Webhook>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetWebhooksResponse" />
     /// </summary>
     public class GetWebhooksResponseJsonConverter : JsonConverter<GetWebhooksResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetWebhooksResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetWebhooksResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetWebhooksResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getWebhooksResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetWebhooksResponse getWebhooksResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetWebhooksResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getWebhooksResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetWebhooksResponse getWebhooksResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getWebhooksResponse.CodeOption.IsSet && getWebhooksResponse.Code == null)

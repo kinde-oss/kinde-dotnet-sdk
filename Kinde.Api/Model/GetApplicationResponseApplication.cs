@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApplicationResponseApplication
     /// </summary>
     public partial class GetApplicationResponseApplication
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier.</param>
         /// <param name="name">The application&#39;s name.</param>
@@ -38,6 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="clientSecret">The application&#39;s client secret.</param>
         /// <param name="loginUri">The default login route for resolving session issues.</param>
         /// <param name="homepageUri">The homepage link to your application.</param>
+        /// <param name="hasCancelButton">Whether the application has a cancel button to allow users to exit the auth flow [Beta].</param>
         [JsonConstructor]
         public GetApplicationResponseApplication(Option<string?> id = default, Option<string?> name = default, Option<TypeEnum?> type = default, Option<string?> clientId = default, Option<string?> clientSecret = default, Option<string?> loginUri = default, Option<string?> homepageUri = default, Option<bool?> hasCancelButton = default)
         {
@@ -81,6 +84,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("m2m"))
@@ -119,6 +123,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum? value)
         {
             if (value == TypeEnum.M2m)
@@ -145,7 +150,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s type.</value>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -158,8 +163,9 @@ namespace Kinde.Api.Model
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -174,7 +180,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s name.</value>
         /* <example>My React app</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -187,10 +193,12 @@ namespace Kinde.Api.Model
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ClientSecret
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -200,8 +208,9 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
+        /* <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LoginUri
@@ -216,9 +225,10 @@ namespace Kinde.Api.Model
         /// <value>The default login route for resolving session issues.</value>
         /* <example>https://yourapp.com/api/auth/login</example> */
         [JsonPropertyName("login_uri")]
-        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new(value); } }
+        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HomepageUri
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -230,9 +240,10 @@ namespace Kinde.Api.Model
         /// <value>The homepage link to your application.</value>
         /* <example>https://yourapp.com</example> */
         [JsonPropertyName("homepage_uri")]
-        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new(value); } }
+        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HasCancelButton
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -244,7 +255,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the application has a cancel button to allow users to exit the auth flow [Beta].</value>
         /* <example>false</example> */
         [JsonPropertyName("has_cancel_button")]
-        public bool? HasCancelButton { get { return this.HasCancelButtonOption; } set { this.HasCancelButtonOption = new(value); } }
+        public bool? HasCancelButton { get { return this.HasCancelButtonOption; } set { this.HasCancelButtonOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -268,13 +279,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApplicationResponseApplication" />
     /// </summary>
     public class GetApplicationResponseApplicationJsonConverter : JsonConverter<GetApplicationResponseApplication>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApplicationResponseApplication" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApplicationResponseApplication Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -370,8 +384,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApplicationResponseApplication" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApplicationResponseApplication"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApplicationResponseApplication getApplicationResponseApplication, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -381,8 +399,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApplicationResponseApplication" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApplicationResponseApplication"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApplicationResponseApplication getApplicationResponseApplication, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApplicationResponseApplication.IdOption.IsSet && getApplicationResponseApplication.Id == null)

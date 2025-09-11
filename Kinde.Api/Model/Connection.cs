@@ -26,6 +26,7 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// Connection
     /// </summary>
     public partial class Connection
     {
@@ -58,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -72,18 +73,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of VarConnection
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ConnectionConnection?> VarConnectionOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets VarConnection
         /// </summary>
         [JsonPropertyName("connection")]
-        public ConnectionConnection? VarConnection { get { return this.VarConnectionOption; } set { this.VarConnectionOption = new(value); } }
+        public ConnectionConnection? VarConnection { get { return this.VarConnectionOption; } set { this.VarConnectionOption = new Option<ConnectionConnection?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,6 +114,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Connection Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -173,6 +177,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="connection"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Connection connection, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,6 +192,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="connection"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Connection connection, JsonSerializerOptions jsonSerializerOptions)
         {
             if (connection.CodeOption.IsSet && connection.Code == null)

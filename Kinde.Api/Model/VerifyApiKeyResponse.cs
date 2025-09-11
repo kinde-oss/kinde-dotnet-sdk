@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// VerifyApiKeyResponse
     /// </summary>
     public partial class VerifyApiKeyResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="VerifyApiKeyResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -40,6 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="orgCode">The organization code associated with this key.</param>
         /// <param name="userId">The user ID associated with this key.</param>
         /// <param name="lastVerifiedOn">When the API key was last verified.</param>
+        /// <param name="verificationCount">Number of times this API key has been verified.</param>
         [JsonConstructor]
         public VerifyApiKeyResponse(Option<string?> code = default, Option<string?> message = default, Option<bool?> isValid = default, Option<string?> keyId = default, Option<string?> status = default, Option<List<string>?> scopes = default, Option<string?> orgCode = default, Option<string?> userId = default, Option<DateTimeOffset?> lastVerifiedOn = default, Option<int?> verificationCount = default)
         {
@@ -71,7 +74,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>API_KEY_VERIFIED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -86,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>API key verified</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsValid
@@ -101,7 +104,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the API key is valid.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_valid")]
-        public bool? IsValid { get { return this.IsValidOption; } set { this.IsValidOption = new(value); } }
+        public bool? IsValid { get { return this.IsValidOption; } set { this.IsValidOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of KeyId
@@ -114,8 +117,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the API key.
         /// </summary>
         /// <value>The unique ID for the API key.</value>
+        /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("key_id")]
-        public string? KeyId { get { return this.KeyIdOption; } set { this.KeyIdOption = new(value); } }
+        public string? KeyId { get { return this.KeyIdOption; } set { this.KeyIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Status
@@ -130,7 +134,7 @@ namespace Kinde.Api.Model
         /// <value>The status of the API key.</value>
         /* <example>active</example> */
         [JsonPropertyName("status")]
-        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -145,7 +149,7 @@ namespace Kinde.Api.Model
         /// <value>Array of scopes associated with this key.</value>
         /* <example>[&quot;read:users&quot;,&quot;write:users&quot;]</example> */
         [JsonPropertyName("scopes")]
-        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrgCode
@@ -160,7 +164,7 @@ namespace Kinde.Api.Model
         /// <value>The organization code associated with this key.</value>
         /* <example>org_123</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of UserId
@@ -175,9 +179,10 @@ namespace Kinde.Api.Model
         /// <value>The user ID associated with this key.</value>
         /* <example>user_456</example> */
         [JsonPropertyName("user_id")]
-        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
+        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastVerifiedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -189,9 +194,10 @@ namespace Kinde.Api.Model
         /// <value>When the API key was last verified.</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("last_verified_on")]
-        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
+        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
+        /// Used to track the state of VerificationCount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -203,7 +209,7 @@ namespace Kinde.Api.Model
         /// <value>Number of times this API key has been verified.</value>
         /* <example>42</example> */
         [JsonPropertyName("verification_count")]
-        public int? VerificationCount { get { return this.VerificationCountOption; } set { this.VerificationCountOption = new(value); } }
+        public int? VerificationCount { get { return this.VerificationCountOption; } set { this.VerificationCountOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -229,17 +235,21 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="VerifyApiKeyResponse" />
     /// </summary>
     public class VerifyApiKeyResponseJsonConverter : JsonConverter<VerifyApiKeyResponse>
     {
         /// <summary>
+        /// The format to use to serialize LastVerifiedOn
         /// </summary>
         public static string LastVerifiedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override VerifyApiKeyResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -338,8 +348,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, VerifyApiKeyResponse verifyApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -349,8 +363,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="VerifyApiKeyResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="verifyApiKeyResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, VerifyApiKeyResponse verifyApiKeyResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (verifyApiKeyResponse.CodeOption.IsSet && verifyApiKeyResponse.Code == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetSubscriberResponse
     /// </summary>
     public partial class GetSubscriberResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetSubscriberResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -71,18 +73,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Subscribers
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Subscriber>?> SubscribersOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Subscribers
         /// </summary>
         [JsonPropertyName("subscribers")]
-        public List<Subscriber>? Subscribers { get { return this.SubscribersOption; } set { this.SubscribersOption = new(value); } }
+        public List<Subscriber>? Subscribers { get { return this.SubscribersOption; } set { this.SubscribersOption = new Option<List<Subscriber>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetSubscriberResponse" />
     /// </summary>
     public class GetSubscriberResponseJsonConverter : JsonConverter<GetSubscriberResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetSubscriberResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetSubscriberResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetSubscriberResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getSubscriberResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetSubscriberResponse getSubscriberResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetSubscriberResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getSubscriberResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetSubscriberResponse getSubscriberResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getSubscriberResponse.CodeOption.IsSet && getSubscriberResponse.Code == null)

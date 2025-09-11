@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiKeysResponse
     /// </summary>
     public partial class GetApiKeysResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiKeysResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -60,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -75,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -89,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApiKeys
@@ -102,7 +104,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ApiKeys
         /// </summary>
         [JsonPropertyName("api_keys")]
-        public List<GetApiKeysResponseApiKeysInner>? ApiKeys { get { return this.ApiKeysOption; } set { this.ApiKeysOption = new(value); } }
+        public List<GetApiKeysResponseApiKeysInner>? ApiKeys { get { return this.ApiKeysOption; } set { this.ApiKeysOption = new Option<List<GetApiKeysResponseApiKeysInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -122,13 +124,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiKeysResponse" />
     /// </summary>
     public class GetApiKeysResponseJsonConverter : JsonConverter<GetApiKeysResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApiKeysResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiKeysResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -194,8 +199,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiKeysResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiKeysResponse getApiKeysResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -205,8 +214,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiKeysResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiKeysResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiKeysResponse getApiKeysResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiKeysResponse.CodeOption.IsSet && getApiKeysResponse.Code == null)

@@ -70,8 +70,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the identity
         /// </summary>
         /// <value>The unique ID for the identity</value>
+        /* <example>identity_019617f0cd72460a42192cf37b41084f</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
@@ -86,9 +87,10 @@ namespace Kinde.Api.Model
         /// <value>The type of identity</value>
         /* <example>email</example> */
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsConfirmed
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -100,7 +102,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the identity is confirmed</value>
         /* <example>true</example> */
         [JsonPropertyName("is_confirmed")]
-        public bool? IsConfirmed { get { return this.IsConfirmedOption; } set { this.IsConfirmedOption = new(value); } }
+        public bool? IsConfirmed { get { return this.IsConfirmedOption; } set { this.IsConfirmedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -115,9 +117,10 @@ namespace Kinde.Api.Model
         /// <value>Date of user creation in ISO 8601 format</value>
         /* <example>2025-01-01T00:00:00Z</example> */
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastLoginOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -129,19 +132,21 @@ namespace Kinde.Api.Model
         /// <value>Date of last login in ISO 8601 format</value>
         /* <example>2025-01-05T00:00:00Z</example> */
         [JsonPropertyName("last_login_on")]
-        public string? LastLoginOn { get { return this.LastLoginOnOption; } set { this.LastLoginOnOption = new(value); } }
+        public string? LastLoginOn { get { return this.LastLoginOnOption; } set { this.LastLoginOnOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of TotalLogins
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> TotalLoginsOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets TotalLogins
         /// </summary>
         /* <example>20</example> */
         [JsonPropertyName("total_logins")]
-        public int? TotalLogins { get { return this.TotalLoginsOption; } set { this.TotalLoginsOption = new(value); } }
+        public int? TotalLogins { get { return this.TotalLoginsOption; } set { this.TotalLoginsOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -156,7 +161,7 @@ namespace Kinde.Api.Model
         /// <value>The value of the identity</value>
         /* <example>sally@example.com</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -171,7 +176,7 @@ namespace Kinde.Api.Model
         /// <value>The associated email of the identity</value>
         /* <example>sally@example.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsPrimary
@@ -186,7 +191,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the identity is the primary identity for the user</value>
         /* <example>true</example> */
         [JsonPropertyName("is_primary")]
-        public bool? IsPrimary { get { return this.IsPrimaryOption; } set { this.IsPrimaryOption = new(value); } }
+        public bool? IsPrimary { get { return this.IsPrimaryOption; } set { this.IsPrimaryOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -220,6 +225,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Identity Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -321,6 +327,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="identity"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Identity identity, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -334,6 +342,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="identity"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Identity identity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (identity.IdOption.IsSet && identity.Id == null)

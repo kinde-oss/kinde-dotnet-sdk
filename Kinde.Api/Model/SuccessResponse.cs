@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// SuccessResponse
     /// </summary>
     public partial class SuccessResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SuccessResponse" /> class.
         /// </summary>
         /// <param name="message">message</param>
         /// <param name="code">code</param>
@@ -55,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -69,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="SuccessResponse" />
     /// </summary>
     public class SuccessResponseJsonConverter : JsonConverter<SuccessResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="SuccessResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override SuccessResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="SuccessResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="successResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SuccessResponse successResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="SuccessResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="successResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SuccessResponse successResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (successResponse.MessageOption.IsSet && successResponse.Message == null)

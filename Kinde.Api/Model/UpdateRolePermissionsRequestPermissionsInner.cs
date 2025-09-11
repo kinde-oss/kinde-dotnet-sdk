@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateRolePermissionsRequestPermissionsInner
     /// </summary>
     public partial class UpdateRolePermissionsRequestPermissionsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateRolePermissionsRequestPermissionsInner" /> class.
         /// </summary>
         /// <param name="id">The permission id.</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the permission from the role.</param>
@@ -55,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The permission id.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Operation
@@ -69,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Optional operation, set to &#39;delete&#39; to remove the permission from the role.</value>
         [JsonPropertyName("operation")]
-        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new(value); } }
+        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateRolePermissionsRequestPermissionsInner" />
     /// </summary>
     public class UpdateRolePermissionsRequestPermissionsInnerJsonConverter : JsonConverter<UpdateRolePermissionsRequestPermissionsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateRolePermissionsRequestPermissionsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateRolePermissionsRequestPermissionsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateRolePermissionsRequestPermissionsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsRequestPermissionsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateRolePermissionsRequestPermissionsInner updateRolePermissionsRequestPermissionsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateRolePermissionsRequestPermissionsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsRequestPermissionsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateRolePermissionsRequestPermissionsInner updateRolePermissionsRequestPermissionsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateRolePermissionsRequestPermissionsInner.IdOption.IsSet && updateRolePermissionsRequestPermissionsInner.Id == null)

@@ -26,22 +26,32 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateOrganizationRequest
     /// </summary>
     public partial class CreateOrganizationRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateOrganizationRequest" /> class.
         /// </summary>
         /// <param name="name">The organization&#39;s name.</param>
         /// <param name="featureFlags">The organization&#39;s feature flag settings.</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</param>
+        /// <param name="backgroundColor">The organization&#39;s brand settings - background color.</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color.</param>
+        /// <param name="buttonTextColor">The organization&#39;s brand settings - button text color.</param>
         /// <param name="linkColor">The organization&#39;s brand settings - link color.</param>
+        /// <param name="backgroundColorDark">The organization&#39;s brand settings - dark mode background color.</param>
+        /// <param name="buttonColorDark">The organization&#39;s brand settings - dark mode button color.</param>
+        /// <param name="buttonTextColorDark">The organization&#39;s brand settings - dark mode button text color.</param>
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color.</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls.</param>
+        /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication.</param>
         /// <param name="senderName">The name of the organization that will be used in emails</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up.</param>
+        /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization</param>
         /// <param name="billingEmail">The email address used for billing purposes for the organization</param>
+        /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used</param>
         [JsonConstructor]
         public CreateOrganizationRequest(string name, Option<Dictionary<string, CreateOrganizationRequest.InnerEnum>?> featureFlags = default, Option<string?> externalId = default, Option<string?> backgroundColor = default, Option<string?> buttonColor = default, Option<string?> buttonTextColor = default, Option<string?> linkColor = default, Option<string?> backgroundColorDark = default, Option<string?> buttonColorDark = default, Option<string?> buttonTextColorDark = default, Option<string?> linkColorDark = default, Option<string?> themeCode = default, Option<string?> handle = default, Option<bool?> isAllowRegistrations = default, Option<string?> senderName = default, Option<string?> senderEmail = default, Option<bool?> isCreateBillingCustomer = default, Option<string?> billingEmail = default, Option<string?> billingPlanCode = default)
         {
@@ -96,6 +106,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static InnerEnum InnerEnumFromString(string value)
         {
             if (value.Equals("str"))
@@ -134,6 +145,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string InnerEnumToJsonValue(InnerEnum? value)
         {
             if (value == InnerEnum.Str)
@@ -157,6 +169,7 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// Used to track the state of FeatureFlags
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -167,9 +180,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s feature flag settings.</value>
         [JsonPropertyName("feature_flags")]
-        public Dictionary<string, CreateOrganizationRequest.InnerEnum>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new(value); } }
+        public Dictionary<string, CreateOrganizationRequest.InnerEnum>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new Option<Dictionary<string, CreateOrganizationRequest.InnerEnum>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ExternalId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -181,9 +195,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -194,9 +209,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - background color.</value>
         [JsonPropertyName("background_color")]
-        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -207,9 +223,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - button color.</value>
         [JsonPropertyName("button_color")]
-        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColor
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -220,7 +237,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - button text color.</value>
         [JsonPropertyName("button_text_color")]
-        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -234,9 +251,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - link color.</value>
         [JsonPropertyName("link_color")]
-        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BackgroundColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -247,9 +265,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode background color.</value>
         [JsonPropertyName("background_color_dark")]
-        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -260,9 +279,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button color.</value>
         [JsonPropertyName("button_color_dark")]
-        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ButtonTextColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -273,9 +293,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
         [JsonPropertyName("button_text_color_dark")]
-        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LinkColorDark
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -286,7 +307,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode link color.</value>
         [JsonPropertyName("link_color_dark")]
-        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ThemeCode
@@ -300,7 +321,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.</value>
         [JsonPropertyName("theme_code")]
-        public string? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public string? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -315,9 +336,10 @@ namespace Kinde.Api.Model
         /// <value>A unique handle for the organization - can be used for dynamic callback urls.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsAllowRegistrations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -329,9 +351,10 @@ namespace Kinde.Api.Model
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_allow_registrations")]
-        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new(value); } }
+        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of SenderName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -343,9 +366,10 @@ namespace Kinde.Api.Model
         /// <value>The name of the organization that will be used in emails</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("sender_name")]
-        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new(value); } }
+        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of SenderEmail
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -357,35 +381,40 @@ namespace Kinde.Api.Model
         /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
         /* <example>hello@acmecorp.com</example> */
         [JsonPropertyName("sender_email")]
-        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new(value); } }
+        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsCreateBillingCustomer
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> IsCreateBillingCustomerOption { get; private set; }
 
         /// <summary>
+        /// If a billing customer is also created for this organization
         /// </summary>
         /// <value>If a billing customer is also created for this organization</value>
         /* <example>false</example> */
         [JsonPropertyName("is_create_billing_customer")]
-        public bool? IsCreateBillingCustomer { get { return this.IsCreateBillingCustomerOption; } set { this.IsCreateBillingCustomerOption = new(value); } }
+        public bool? IsCreateBillingCustomer { get { return this.IsCreateBillingCustomerOption; } set { this.IsCreateBillingCustomerOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BillingEmail
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> BillingEmailOption { get; private set; }
 
         /// <summary>
+        /// The email address used for billing purposes for the organization
         /// </summary>
         /// <value>The email address used for billing purposes for the organization</value>
         /* <example>billing@acmecorp.com</example> */
         [JsonPropertyName("billing_email")]
-        public string? BillingEmail { get { return this.BillingEmailOption; } set { this.BillingEmailOption = new(value); } }
+        public string? BillingEmail { get { return this.BillingEmailOption; } set { this.BillingEmailOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of BillingPlanCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -397,7 +426,7 @@ namespace Kinde.Api.Model
         /// <value>The billing plan to put the customer on. If not specified, the default plan is used</value>
         /* <example>pro</example> */
         [JsonPropertyName("billing_plan_code")]
-        public string? BillingPlanCode { get { return this.BillingPlanCodeOption; } set { this.BillingPlanCodeOption = new(value); } }
+        public string? BillingPlanCode { get { return this.BillingPlanCodeOption; } set { this.BillingPlanCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -432,13 +461,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateOrganizationRequest" />
     /// </summary>
     public class CreateOrganizationRequestJsonConverter : JsonConverter<CreateOrganizationRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateOrganizationRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateOrganizationRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -606,8 +638,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateOrganizationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateOrganizationRequest createOrganizationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -617,8 +653,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateOrganizationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createOrganizationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateOrganizationRequest createOrganizationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createOrganizationRequest.Name == null)

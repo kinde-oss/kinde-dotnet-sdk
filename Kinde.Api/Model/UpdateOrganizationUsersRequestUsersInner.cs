@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateOrganizationUsersRequestUsersInner
     /// </summary>
     public partial class UpdateOrganizationUsersRequestUsersInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateOrganizationUsersRequestUsersInner" /> class.
         /// </summary>
         /// <param name="id">The users id.</param>
         /// <param name="operation">Optional operation, set to &#39;delete&#39; to remove the user from the organization.</param>
@@ -58,8 +60,9 @@ namespace Kinde.Api.Model
         /// The users id.
         /// </summary>
         /// <value>The users id.</value>
+        /* <example>kp_057ee6debc624c70947b6ba512908c35</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Operation
@@ -74,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Optional operation, set to &#39;delete&#39; to remove the user from the organization.</value>
         /* <example>delete</example> */
         [JsonPropertyName("operation")]
-        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new(value); } }
+        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Roles
@@ -88,9 +91,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Role keys to assign to the user.</value>
         [JsonPropertyName("roles")]
-        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new(value); } }
+        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Permissions
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -101,7 +105,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Permission keys to assign to the user.</value>
         [JsonPropertyName("permissions")]
-        public List<string>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new(value); } }
+        public List<string>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -121,13 +125,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateOrganizationUsersRequestUsersInner" />
     /// </summary>
     public class UpdateOrganizationUsersRequestUsersInnerJsonConverter : JsonConverter<UpdateOrganizationUsersRequestUsersInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateOrganizationUsersRequestUsersInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -193,8 +200,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationUsersRequestUsersInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateOrganizationUsersRequestUsersInner updateOrganizationUsersRequestUsersInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -204,8 +215,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateOrganizationUsersRequestUsersInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationUsersRequestUsersInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateOrganizationUsersRequestUsersInner updateOrganizationUsersRequestUsersInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateOrganizationUsersRequestUsersInner.IdOption.IsSet && updateOrganizationUsersRequestUsersInner.Id == null)

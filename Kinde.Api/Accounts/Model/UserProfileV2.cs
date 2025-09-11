@@ -76,7 +76,7 @@ namespace Kinde.Accounts.Model
         /// <value>Unique ID of the user in Kinde.</value>
         /* <example>kp_c3143a4b50ad43c88e541d9077681782</example> */
         [JsonPropertyName("sub")]
-        public string? Sub { get { return this.SubOption; } set { this.SubOption = new(value); } }
+        public string? Sub { get { return this.SubOption; } set { this.SubOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ProvidedId
@@ -91,7 +91,7 @@ namespace Kinde.Accounts.Model
         /// <value>Value of the user&#39;s ID in a third-party system when the user is imported into Kinde.</value>
         /* <example>some_external_id</example> */
         [JsonPropertyName("provided_id")]
-        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
+        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -106,7 +106,7 @@ namespace Kinde.Accounts.Model
         /// <value>User&#39;s first and last name separated by a space.</value>
         /* <example>John Snow</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of GivenName
@@ -121,7 +121,7 @@ namespace Kinde.Accounts.Model
         /// <value>User&#39;s first name.</value>
         /* <example>John</example> */
         [JsonPropertyName("given_name")]
-        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new(value); } }
+        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FamilyName
@@ -136,7 +136,7 @@ namespace Kinde.Accounts.Model
         /// <value>User&#39;s last name.</value>
         /* <example>Snow</example> */
         [JsonPropertyName("family_name")]
-        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new(value); } }
+        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of UpdatedAt
@@ -151,7 +151,7 @@ namespace Kinde.Accounts.Model
         /// <value>Date the user was last updated at (In Unix time).</value>
         /* <example>1612345678</example> */
         [JsonPropertyName("updated_at")]
-        public int? UpdatedAt { get { return this.UpdatedAtOption; } set { this.UpdatedAtOption = new(value); } }
+        public int? UpdatedAt { get { return this.UpdatedAtOption; } set { this.UpdatedAtOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -166,7 +166,7 @@ namespace Kinde.Accounts.Model
         /// <value>User&#39;s email address if available.</value>
         /* <example>john.snow@example.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EmailVerified
@@ -181,7 +181,7 @@ namespace Kinde.Accounts.Model
         /// <value>Whether the user&#39;s email address has been verified.</value>
         /* <example>true</example> */
         [JsonPropertyName("email_verified")]
-        public bool? EmailVerified { get { return this.EmailVerifiedOption; } set { this.EmailVerifiedOption = new(value); } }
+        public bool? EmailVerified { get { return this.EmailVerifiedOption; } set { this.EmailVerifiedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -196,7 +196,7 @@ namespace Kinde.Accounts.Model
         /// <value>URL that point&#39;s to the user&#39;s picture or avatar</value>
         /* <example>https://example.com/john_snow.jpg</example> */
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PreferredUsername
@@ -211,7 +211,7 @@ namespace Kinde.Accounts.Model
         /// <value>User&#39;s preferred username.</value>
         /* <example>john_snow</example> */
         [JsonPropertyName("preferred_username")]
-        public string? PreferredUsername { get { return this.PreferredUsernameOption; } set { this.PreferredUsernameOption = new(value); } }
+        public string? PreferredUsername { get { return this.PreferredUsernameOption; } set { this.PreferredUsernameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -226,7 +226,7 @@ namespace Kinde.Accounts.Model
         /// <value>Unique ID of the user in Kinde</value>
         /* <example>kp_c3143a4b50ad43c88e541d9077681782</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

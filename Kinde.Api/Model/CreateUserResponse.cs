@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateUserResponse
     /// </summary>
     public partial class CreateUserResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateUserResponse" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the user in Kinde.</param>
         /// <param name="created">True if the user was successfully created.</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Created
@@ -71,18 +73,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>True if the user was successfully created.</value>
         [JsonPropertyName("created")]
-        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new(value); } }
+        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<UserIdentity>?> IdentitiesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Identities
         /// </summary>
         [JsonPropertyName("identities")]
-        public List<UserIdentity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<UserIdentity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<UserIdentity>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,13 +105,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateUserResponse" />
     /// </summary>
     public class CreateUserResponseJsonConverter : JsonConverter<CreateUserResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateUserResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateUserResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -166,8 +173,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateUserResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateUserResponse createUserResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -177,8 +188,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateUserResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateUserResponse createUserResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createUserResponse.IdOption.IsSet && createUserResponse.Id == null)

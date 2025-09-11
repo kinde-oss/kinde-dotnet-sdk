@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetPropertyValuesResponse
     /// </summary>
     public partial class GetPropertyValuesResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetPropertyValuesResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -59,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,18 +75,20 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Properties
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<PropertyValue>?> PropertiesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Properties
         /// </summary>
         [JsonPropertyName("properties")]
-        public List<PropertyValue>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new(value); } }
+        public List<PropertyValue>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new Option<List<PropertyValue>?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextToken
@@ -98,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Pagination token.</value>
         [JsonPropertyName("next_token")]
-        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new(value); } }
+        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetPropertyValuesResponse" />
     /// </summary>
     public class GetPropertyValuesResponseJsonConverter : JsonConverter<GetPropertyValuesResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetPropertyValuesResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetPropertyValuesResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -190,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetPropertyValuesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getPropertyValuesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetPropertyValuesResponse getPropertyValuesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -201,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetPropertyValuesResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getPropertyValuesResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetPropertyValuesResponse getPropertyValuesResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getPropertyValuesResponse.CodeOption.IsSet && getPropertyValuesResponse.Code == null)

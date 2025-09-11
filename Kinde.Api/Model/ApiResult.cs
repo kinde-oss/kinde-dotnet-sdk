@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The result of the api operation.</value>
         [JsonPropertyName("result")]
-        public string? Result { get { return this.ResultOption; } set { this.ResultOption = new(value); } }
+        public string? Result { get { return this.ResultOption; } set { this.ResultOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,6 +81,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ApiResult Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -129,6 +130,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="apiResult"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ApiResult apiResult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -142,6 +145,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="apiResult"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ApiResult apiResult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apiResult.ResultOption.IsSet && apiResult.Result == null)

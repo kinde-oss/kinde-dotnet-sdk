@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetOrganizationsResponse
     /// </summary>
     public partial class GetOrganizationsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationsResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -60,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -75,18 +77,20 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Organizations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<OrganizationItemSchema>?> OrganizationsOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Organizations
         /// </summary>
         [JsonPropertyName("organizations")]
-        public List<OrganizationItemSchema>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new(value); } }
+        public List<OrganizationItemSchema>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new Option<List<OrganizationItemSchema>?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextToken
@@ -101,7 +105,7 @@ namespace Kinde.Api.Model
         /// <value>Pagination token.</value>
         /* <example>Mjo5Om1hbWVfYZNj</example> */
         [JsonPropertyName("next_token")]
-        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new(value); } }
+        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -121,13 +125,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetOrganizationsResponse" />
     /// </summary>
     public class GetOrganizationsResponseJsonConverter : JsonConverter<GetOrganizationsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetOrganizationsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetOrganizationsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -193,8 +200,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetOrganizationsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetOrganizationsResponse getOrganizationsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -204,8 +215,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetOrganizationsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetOrganizationsResponse getOrganizationsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getOrganizationsResponse.CodeOption.IsSet && getOrganizationsResponse.Code == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UsersResponseUsersInnerBilling
     /// </summary>
     public partial class UsersResponseUsersInnerBilling
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UsersResponseUsersInnerBilling" /> class.
         /// </summary>
         /// <param name="customerId">The billing customer id.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of CustomerId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -53,7 +56,7 @@ namespace Kinde.Api.Model
         /// <value>The billing customer id.</value>
         /* <example>customer_1245adbc6789</example> */
         [JsonPropertyName("customer_id")]
-        public string? CustomerId { get { return this.CustomerIdOption; } set { this.CustomerIdOption = new(value); } }
+        public string? CustomerId { get { return this.CustomerIdOption; } set { this.CustomerIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,13 +73,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UsersResponseUsersInnerBilling" />
     /// </summary>
     public class UsersResponseUsersInnerBillingJsonConverter : JsonConverter<UsersResponseUsersInnerBilling>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UsersResponseUsersInnerBilling" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UsersResponseUsersInnerBilling Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +127,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UsersResponseUsersInnerBilling" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="usersResponseUsersInnerBilling"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UsersResponseUsersInnerBilling usersResponseUsersInnerBilling, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +142,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UsersResponseUsersInnerBilling" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="usersResponseUsersInnerBilling"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UsersResponseUsersInnerBilling usersResponseUsersInnerBilling, JsonSerializerOptions jsonSerializerOptions)
         {
             if (usersResponseUsersInnerBilling.CustomerIdOption.IsSet && usersResponseUsersInnerBilling.CustomerId == null)

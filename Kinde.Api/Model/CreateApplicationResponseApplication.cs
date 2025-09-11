@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApplicationResponseApplication
     /// </summary>
     public partial class CreateApplicationResponseApplication
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApplicationResponseApplication" /> class.
         /// </summary>
         /// <param name="id">The application&#39;s identifier.</param>
         /// <param name="clientId">The application&#39;s client ID.</param>
@@ -56,8 +58,9 @@ namespace Kinde.Api.Model
         /// The application&#39;s identifier.
         /// </summary>
         /// <value>The application&#39;s identifier.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -70,10 +73,12 @@ namespace Kinde.Api.Model
         /// The application&#39;s client ID.
         /// </summary>
         /// <value>The application&#39;s client ID.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ClientSecret
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -83,8 +88,9 @@ namespace Kinde.Api.Model
         /// The application&#39;s client secret.
         /// </summary>
         /// <value>The application&#39;s client secret.</value>
+        /* <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,13 +109,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApplicationResponseApplication" />
     /// </summary>
     public class CreateApplicationResponseApplicationJsonConverter : JsonConverter<CreateApplicationResponseApplication>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApplicationResponseApplication" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApplicationResponseApplication Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -168,8 +177,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApplicationResponseApplication" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApplicationResponseApplication"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApplicationResponseApplication createApplicationResponseApplication, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -179,8 +192,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApplicationResponseApplication" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApplicationResponseApplication"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApplicationResponseApplication createApplicationResponseApplication, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApplicationResponseApplication.IdOption.IsSet && createApplicationResponseApplication.Id == null)

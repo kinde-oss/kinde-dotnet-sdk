@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateAPIApplicationsRequest
     /// </summary>
     public partial class UpdateAPIApplicationsRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateAPIApplicationsRequest" /> class.
         /// </summary>
         /// <param name="applications">applications</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Gets or Sets Applications
         /// </summary>
         [JsonPropertyName("applications")]
         public List<UpdateAPIApplicationsRequestApplicationsInner> Applications { get; set; }
@@ -61,13 +64,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateAPIApplicationsRequest" />
     /// </summary>
     public class UpdateAPIApplicationsRequestJsonConverter : JsonConverter<UpdateAPIApplicationsRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateAPIApplicationsRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateAPIApplicationsRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -115,8 +121,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateAPIApplicationsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIApplicationsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -126,8 +136,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateAPIApplicationsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateAPIApplicationsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateAPIApplicationsRequest updateAPIApplicationsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateAPIApplicationsRequest.Applications == null)

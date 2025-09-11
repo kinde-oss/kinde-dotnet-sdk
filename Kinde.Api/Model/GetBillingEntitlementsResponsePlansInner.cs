@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBillingEntitlementsResponsePlansInner
     /// </summary>
     public partial class GetBillingEntitlementsResponsePlansInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponsePlansInner" /> class.
         /// </summary>
         /// <param name="code">The plan code the billing customer is subscribed to</param>
         /// <param name="subscribedOn">subscribedOn</param>
@@ -55,19 +57,21 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The plan code the billing customer is subscribed to</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of SubscribedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTimeOffset?> SubscribedOnOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets SubscribedOn
         /// </summary>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("subscribed_on")]
-        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new(value); } }
+        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -85,17 +89,21 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBillingEntitlementsResponsePlansInner" />
     /// </summary>
     public class GetBillingEntitlementsResponsePlansInnerJsonConverter : JsonConverter<GetBillingEntitlementsResponsePlansInner>
     {
         /// <summary>
+        /// The format to use to serialize SubscribedOn
         /// </summary>
         public static string SubscribedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetBillingEntitlementsResponsePlansInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBillingEntitlementsResponsePlansInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -147,8 +155,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBillingEntitlementsResponsePlansInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponsePlansInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBillingEntitlementsResponsePlansInner getBillingEntitlementsResponsePlansInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -158,8 +170,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBillingEntitlementsResponsePlansInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponsePlansInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBillingEntitlementsResponsePlansInner getBillingEntitlementsResponsePlansInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBillingEntitlementsResponsePlansInner.CodeOption.IsSet && getBillingEntitlementsResponsePlansInner.Code == null)

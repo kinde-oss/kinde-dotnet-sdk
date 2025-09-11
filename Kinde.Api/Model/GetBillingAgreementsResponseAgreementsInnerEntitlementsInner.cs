@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBillingAgreementsResponseAgreementsInnerEntitlementsInner
     /// </summary>
     public partial class GetBillingAgreementsResponseAgreementsInnerEntitlementsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" /> class.
         /// </summary>
         /// <param name="featureCode">The feature code of the feature corresponding to this entitlement</param>
         /// <param name="entitlementId">The friendly id of an entitlement</param>
@@ -44,29 +46,34 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of FeatureCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FeatureCodeOption { get; private set; }
 
         /// <summary>
+        /// The feature code of the feature corresponding to this entitlement
         /// </summary>
         /// <value>The feature code of the feature corresponding to this entitlement</value>
         /* <example>CcdkvEXpbg6UY</example> */
         [JsonPropertyName("feature_code")]
-        public string? FeatureCode { get { return this.FeatureCodeOption; } set { this.FeatureCodeOption = new(value); } }
+        public string? FeatureCode { get { return this.FeatureCodeOption; } set { this.FeatureCodeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of EntitlementId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> EntitlementIdOption { get; private set; }
 
         /// <summary>
+        /// The friendly id of an entitlement
         /// </summary>
         /// <value>The friendly id of an entitlement</value>
+        /* <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("entitlement_id")]
-        public string? EntitlementId { get { return this.EntitlementIdOption; } set { this.EntitlementIdOption = new(value); } }
+        public string? EntitlementId { get { return this.EntitlementIdOption; } set { this.EntitlementIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" />
     /// </summary>
     public class GetBillingAgreementsResponseAgreementsInnerEntitlementsInnerJsonConverter : JsonConverter<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBillingAgreementsResponseAgreementsInnerEntitlementsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -142,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingAgreementsResponseAgreementsInnerEntitlementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBillingAgreementsResponseAgreementsInnerEntitlementsInner getBillingAgreementsResponseAgreementsInnerEntitlementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -153,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBillingAgreementsResponseAgreementsInnerEntitlementsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingAgreementsResponseAgreementsInnerEntitlementsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBillingAgreementsResponseAgreementsInnerEntitlementsInner getBillingAgreementsResponseAgreementsInnerEntitlementsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBillingAgreementsResponseAgreementsInnerEntitlementsInner.FeatureCodeOption.IsSet && getBillingAgreementsResponseAgreementsInnerEntitlementsInner.FeatureCode == null)

@@ -26,15 +26,18 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// SetUserPasswordRequest
     /// </summary>
     public partial class SetUserPasswordRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
         /// <param name="hashedPassword">The hashed password.</param>
         /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</param>
         /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt.</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt.</param>
+        /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one.</param>
         [JsonConstructor]
         public SetUserPasswordRequest(string hashedPassword, Option<HashingMethodEnum?> hashingMethod = default, Option<string?> salt = default, Option<SaltPositionEnum?> saltPosition = default, Option<bool?> isTemporaryPassword = default)
         {
@@ -76,9 +79,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="HashingMethodEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static HashingMethodEnum HashingMethodEnumFromString(string value)
         {
             if (value.Equals("bcrypt"))
@@ -97,6 +102,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="HashingMethodEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -118,9 +124,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="HashingMethodEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string HashingMethodEnumToJsonValue(HashingMethodEnum? value)
         {
             if (value == HashingMethodEnum.Bcrypt)
@@ -139,6 +147,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Used to track the state of HashingMethod
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -149,7 +158,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
         [JsonPropertyName("hashing_method")]
-        public HashingMethodEnum? HashingMethod { get { return this.HashingMethodOption; } set { this.HashingMethodOption = new(value); } }
+        public HashingMethodEnum? HashingMethod { get { return this.HashingMethodOption; } set { this.HashingMethodOption = new Option<HashingMethodEnum?>(value); } }
 
         /// <summary>
         /// Position of salt in password string. Not required for bcrypt.
@@ -169,9 +178,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="SaltPositionEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static SaltPositionEnum SaltPositionEnumFromString(string value)
         {
             if (value.Equals("prefix"))
@@ -184,6 +195,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Returns a <see cref="SaltPositionEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -199,9 +211,11 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Converts the <see cref="SaltPositionEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string SaltPositionEnumToJsonValue(SaltPositionEnum? value)
         {
             if (value == SaltPositionEnum.Prefix)
@@ -214,6 +228,7 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Used to track the state of SaltPosition
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -224,7 +239,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Position of salt in password string. Not required for bcrypt.</value>
         [JsonPropertyName("salt_position")]
-        public SaltPositionEnum? SaltPosition { get { return this.SaltPositionOption; } set { this.SaltPositionOption = new(value); } }
+        public SaltPositionEnum? SaltPosition { get { return this.SaltPositionOption; } set { this.SaltPositionOption = new Option<SaltPositionEnum?>(value); } }
 
         /// <summary>
         /// The hashed password.
@@ -245,9 +260,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Extra characters added to passwords to make them stronger. Not required for bcrypt.</value>
         [JsonPropertyName("salt")]
-        public string? Salt { get { return this.SaltOption; } set { this.SaltOption = new(value); } }
+        public string? Salt { get { return this.SaltOption; } set { this.SaltOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsTemporaryPassword
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -258,7 +274,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user will be prompted to set a new password after entering this one.</value>
         [JsonPropertyName("is_temporary_password")]
-        public bool? IsTemporaryPassword { get { return this.IsTemporaryPasswordOption; } set { this.IsTemporaryPasswordOption = new(value); } }
+        public bool? IsTemporaryPassword { get { return this.IsTemporaryPasswordOption; } set { this.IsTemporaryPasswordOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -279,13 +295,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="SetUserPasswordRequest" />
     /// </summary>
     public class SetUserPasswordRequestJsonConverter : JsonConverter<SetUserPasswordRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="SetUserPasswordRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override SetUserPasswordRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -365,8 +384,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="SetUserPasswordRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="setUserPasswordRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SetUserPasswordRequest setUserPasswordRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -376,8 +399,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="SetUserPasswordRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="setUserPasswordRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SetUserPasswordRequest setUserPasswordRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (setUserPasswordRequest.HashedPassword == null)

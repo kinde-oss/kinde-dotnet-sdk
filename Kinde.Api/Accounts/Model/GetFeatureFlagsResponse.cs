@@ -54,7 +54,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Data
         /// </summary>
         [JsonPropertyName("data")]
-        public GetFeatureFlagsResponseData? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public GetFeatureFlagsResponseData? Data { get { return this.DataOption; } set { this.DataOption = new Option<GetFeatureFlagsResponseData?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

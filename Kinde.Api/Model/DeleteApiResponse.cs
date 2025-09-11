@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// DeleteApiResponse
     /// </summary>
     public partial class DeleteApiResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteApiResponse" /> class.
         /// </summary>
         /// <param name="message">message</param>
         /// <param name="code">code</param>
@@ -55,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API successfully deleted</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -69,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API_DELETED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="DeleteApiResponse" />
     /// </summary>
     public class DeleteApiResponseJsonConverter : JsonConverter<DeleteApiResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="DeleteApiResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override DeleteApiResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -145,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="DeleteApiResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, DeleteApiResponse deleteApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="DeleteApiResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="deleteApiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DeleteApiResponse deleteApiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (deleteApiResponse.MessageOption.IsSet && deleteApiResponse.Message == null)

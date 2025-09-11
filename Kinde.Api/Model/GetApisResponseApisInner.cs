@@ -26,14 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApisResponseApisInner
     /// </summary>
     public partial class GetApisResponseApisInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApisResponseApisInner" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API.</param>
         /// <param name="name">The API&#39;s name.</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims.</param>
+        /// <param name="isManagementApi">Whether or not it is the Kinde management API.</param>
         /// <param name="scopes">scopes</param>
         [JsonConstructor]
         public GetApisResponseApisInner(Option<string?> id = default, Option<string?> name = default, Option<string?> audience = default, Option<bool?> isManagementApi = default, Option<List<GetApisResponseApisInnerScopesInner>?> scopes = default)
@@ -59,8 +62,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the API.
         /// </summary>
         /// <value>The unique ID for the API.</value>
+        /* <example>7ccd126599aa422a771abcb341596881</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -75,7 +79,7 @@ namespace Kinde.Api.Model
         /// <value>The API&#39;s name.</value>
         /* <example>Example API</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Audience
@@ -90,9 +94,10 @@ namespace Kinde.Api.Model
         /// <value>A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims.</value>
         /* <example>https://api.example.com</example> */
         [JsonPropertyName("audience")]
-        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new(value); } }
+        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsManagementApi
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -104,7 +109,7 @@ namespace Kinde.Api.Model
         /// <value>Whether or not it is the Kinde management API.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_management_api")]
-        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new(value); } }
+        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -117,7 +122,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Scopes
         /// </summary>
         [JsonPropertyName("scopes")]
-        public List<GetApisResponseApisInnerScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<GetApisResponseApisInnerScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<GetApisResponseApisInnerScopesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -138,13 +143,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApisResponseApisInner" />
     /// </summary>
     public class GetApisResponseApisInnerJsonConverter : JsonConverter<GetApisResponseApisInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApisResponseApisInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApisResponseApisInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -217,8 +225,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApisResponseApisInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponseApisInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApisResponseApisInner getApisResponseApisInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -228,8 +240,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApisResponseApisInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponseApisInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApisResponseApisInner getApisResponseApisInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApisResponseApisInner.IdOption.IsSet && getApisResponseApisInner.Id == null)

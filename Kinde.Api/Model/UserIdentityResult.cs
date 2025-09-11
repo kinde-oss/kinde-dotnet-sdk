@@ -31,6 +31,7 @@ namespace Kinde.Api.Model
     public partial class UserIdentityResult
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UserIdentityResult" /> class.
         /// </summary>
         /// <param name="created">True if the user identity was successfully created.</param>
         [JsonConstructor]
@@ -54,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>True if the user identity was successfully created.</value>
         [JsonPropertyName("created")]
-        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new(value); } }
+        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UserIdentityResult" />
     /// </summary>
     public class UserIdentityResultJsonConverter : JsonConverter<UserIdentityResult>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UserIdentityResult" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UserIdentityResult Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -122,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UserIdentityResult" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="userIdentityResult"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UserIdentityResult userIdentityResult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -133,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UserIdentityResult" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="userIdentityResult"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UserIdentityResult userIdentityResult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (userIdentityResult.CreatedOption.IsSet)

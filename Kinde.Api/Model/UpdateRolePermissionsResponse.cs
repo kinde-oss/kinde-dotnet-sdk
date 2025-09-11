@@ -26,13 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateRolePermissionsResponse
     /// </summary>
     public partial class UpdateRolePermissionsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateRolePermissionsResponse" /> class.
         /// </summary>
         /// <param name="code">code</param>
         /// <param name="message">message</param>
+        /// <param name="permissionsAdded">permissionsAdded</param>
+        /// <param name="permissionsRemoved">permissionsRemoved</param>
         [JsonConstructor]
         public UpdateRolePermissionsResponse(Option<string?> code = default, Option<string?> message = default, Option<List<string>?> permissionsAdded = default, Option<List<string>?> permissionsRemoved = default)
         {
@@ -56,7 +60,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -69,29 +73,33 @@ namespace Kinde.Api.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of PermissionsAdded
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> PermissionsAddedOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets PermissionsAdded
         /// </summary>
         [JsonPropertyName("permissions_added")]
-        public List<string>? PermissionsAdded { get { return this.PermissionsAddedOption; } set { this.PermissionsAddedOption = new(value); } }
+        public List<string>? PermissionsAdded { get { return this.PermissionsAddedOption; } set { this.PermissionsAddedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of PermissionsRemoved
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> PermissionsRemovedOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets PermissionsRemoved
         /// </summary>
         [JsonPropertyName("permissions_removed")]
-        public List<string>? PermissionsRemoved { get { return this.PermissionsRemovedOption; } set { this.PermissionsRemovedOption = new(value); } }
+        public List<string>? PermissionsRemoved { get { return this.PermissionsRemovedOption; } set { this.PermissionsRemovedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,13 +119,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateRolePermissionsResponse" />
     /// </summary>
     public class UpdateRolePermissionsResponseJsonConverter : JsonConverter<UpdateRolePermissionsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateRolePermissionsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateRolePermissionsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -183,8 +194,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateRolePermissionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateRolePermissionsResponse updateRolePermissionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -194,8 +209,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateRolePermissionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateRolePermissionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateRolePermissionsResponse updateRolePermissionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateRolePermissionsResponse.CodeOption.IsSet && updateRolePermissionsResponse.Code == null)

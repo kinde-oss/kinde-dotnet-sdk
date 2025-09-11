@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// LogoutRedirectUrls
     /// </summary>
     public partial class LogoutRedirectUrls
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="LogoutRedirectUrls" /> class.
         /// </summary>
         /// <param name="logoutUrls">An application&#39;s logout URLs.</param>
         /// <param name="code">Response code.</param>
@@ -46,6 +48,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of LogoutUrls
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -56,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An application&#39;s logout URLs.</value>
         [JsonPropertyName("logout_urls")]
-        public List<string>? LogoutUrls { get { return this.LogoutUrlsOption; } set { this.LogoutUrlsOption = new(value); } }
+        public List<string>? LogoutUrls { get { return this.LogoutUrlsOption; } set { this.LogoutUrlsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -71,7 +74,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -86,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -105,13 +108,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="LogoutRedirectUrls" />
     /// </summary>
     public class LogoutRedirectUrlsJsonConverter : JsonConverter<LogoutRedirectUrls>
     {
         /// <summary>
+        /// Deserializes json to <see cref="LogoutRedirectUrls" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override LogoutRedirectUrls Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -170,8 +176,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="LogoutRedirectUrls" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="logoutRedirectUrls"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, LogoutRedirectUrls logoutRedirectUrls, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -181,8 +191,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="LogoutRedirectUrls" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="logoutRedirectUrls"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, LogoutRedirectUrls logoutRedirectUrls, JsonSerializerOptions jsonSerializerOptions)
         {
             if (logoutRedirectUrls.LogoutUrlsOption.IsSet && logoutRedirectUrls.LogoutUrls == null)

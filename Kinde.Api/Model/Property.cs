@@ -38,6 +38,7 @@ namespace Kinde.Api.Model
         /// <param name="name">name</param>
         /// <param name="isPrivate">isPrivate</param>
         /// <param name="description">description</param>
+        /// <param name="isKindeProperty">isKindeProperty</param>
         [JsonConstructor]
         public Property(Option<string?> id = default, Option<string?> key = default, Option<string?> name = default, Option<bool?> isPrivate = default, Option<string?> description = default, Option<bool?> isKindeProperty = default)
         {
@@ -63,7 +64,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -76,7 +77,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Key
         /// </summary>
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -89,7 +90,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsPrivate
@@ -102,29 +103,33 @@ namespace Kinde.Api.Model
         /// Gets or Sets IsPrivate
         /// </summary>
         [JsonPropertyName("is_private")]
-        public bool? IsPrivate { get { return this.IsPrivateOption; } set { this.IsPrivateOption = new(value); } }
+        public bool? IsPrivate { get { return this.IsPrivateOption; } set { this.IsPrivateOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DescriptionOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Description
         /// </summary>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsKindeProperty
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> IsKindePropertyOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets IsKindeProperty
         /// </summary>
         [JsonPropertyName("is_kinde_property")]
-        public bool? IsKindeProperty { get { return this.IsKindePropertyOption; } set { this.IsKindePropertyOption = new(value); } }
+        public bool? IsKindeProperty { get { return this.IsKindePropertyOption; } set { this.IsKindePropertyOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -155,6 +160,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Property Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -238,6 +244,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="property"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Property property, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -251,6 +259,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="property"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Property property, JsonSerializerOptions jsonSerializerOptions)
         {
             if (property.IdOption.IsSet && property.Id == null)

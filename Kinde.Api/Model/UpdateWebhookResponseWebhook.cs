@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateWebhookResponseWebhook
     /// </summary>
     public partial class UpdateWebhookResponseWebhook
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateWebhookResponseWebhook" /> class.
         /// </summary>
         /// <param name="id">id</param>
         [JsonConstructor]
@@ -52,7 +54,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -69,13 +71,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateWebhookResponseWebhook" />
     /// </summary>
     public class UpdateWebhookResponseWebhookJsonConverter : JsonConverter<UpdateWebhookResponseWebhook>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateWebhookResponseWebhook Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +125,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebhookResponseWebhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateWebhookResponseWebhook updateWebhookResponseWebhook, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +140,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebhookResponseWebhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateWebhookResponseWebhook updateWebhookResponseWebhook, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateWebhookResponseWebhook.IdOption.IsSet && updateWebhookResponseWebhook.Id == null)

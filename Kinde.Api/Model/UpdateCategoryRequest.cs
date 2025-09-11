@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateCategoryRequest
     /// </summary>
     public partial class UpdateCategoryRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateCategoryRequest" /> class.
         /// </summary>
         /// <param name="name">The name of the category.</param>
         [JsonConstructor]
@@ -53,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The name of the category.</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateCategoryRequest" />
     /// </summary>
     public class UpdateCategoryRequestJsonConverter : JsonConverter<UpdateCategoryRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateCategoryRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateCategoryRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateCategoryRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateCategoryRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateCategoryRequest updateCategoryRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateCategoryRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateCategoryRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateCategoryRequest updateCategoryRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateCategoryRequest.NameOption.IsSet && updateCategoryRequest.Name == null)

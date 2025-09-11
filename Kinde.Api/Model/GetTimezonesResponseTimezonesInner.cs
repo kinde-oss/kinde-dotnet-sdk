@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetTimezonesResponseTimezonesInner
     /// </summary>
     public partial class GetTimezonesResponseTimezonesInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetTimezonesResponseTimezonesInner" /> class.
         /// </summary>
         /// <param name="key">The unique key for the timezone.</param>
         /// <param name="name">The display name for the timezone.</param>
@@ -56,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The unique key for the timezone.</value>
         /* <example>london_greenwich_mean_time</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -71,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The display name for the timezone.</value>
         /* <example>London (Greenwich Mean Time) [+01:00]</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -89,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetTimezonesResponseTimezonesInner" />
     /// </summary>
     public class GetTimezonesResponseTimezonesInnerJsonConverter : JsonConverter<GetTimezonesResponseTimezonesInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetTimezonesResponseTimezonesInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetTimezonesResponseTimezonesInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -147,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetTimezonesResponseTimezonesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getTimezonesResponseTimezonesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetTimezonesResponseTimezonesInner getTimezonesResponseTimezonesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -158,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetTimezonesResponseTimezonesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getTimezonesResponseTimezonesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetTimezonesResponseTimezonesInner getTimezonesResponseTimezonesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getTimezonesResponseTimezonesInner.KeyOption.IsSet && getTimezonesResponseTimezonesInner.Key == null)

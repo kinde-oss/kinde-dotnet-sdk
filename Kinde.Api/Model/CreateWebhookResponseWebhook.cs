@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateWebhookResponseWebhook
     /// </summary>
     public partial class CreateWebhookResponseWebhook
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateWebhookResponseWebhook" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="endpoint">endpoint</param>
@@ -54,7 +56,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Endpoint
@@ -67,7 +69,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Endpoint
         /// </summary>
         [JsonPropertyName("endpoint")]
-        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new(value); } }
+        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -85,13 +87,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateWebhookResponseWebhook" />
     /// </summary>
     public class CreateWebhookResponseWebhookJsonConverter : JsonConverter<CreateWebhookResponseWebhook>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateWebhookResponseWebhook Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -143,8 +148,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createWebhookResponseWebhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateWebhookResponseWebhook createWebhookResponseWebhook, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -154,8 +163,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateWebhookResponseWebhook" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createWebhookResponseWebhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateWebhookResponseWebhook createWebhookResponseWebhook, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createWebhookResponseWebhook.IdOption.IsSet && createWebhookResponseWebhook.Id == null)

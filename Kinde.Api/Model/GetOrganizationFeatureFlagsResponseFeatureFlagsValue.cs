@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetOrganizationFeatureFlagsResponseFeatureFlagsValue
     /// </summary>
     public partial class GetOrganizationFeatureFlagsResponseFeatureFlagsValue
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" /> class.
         /// </summary>
         /// <param name="type">type</param>
         /// <param name="value">value</param>
@@ -69,6 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("str"))
@@ -107,6 +110,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum? value)
         {
             if (value == TypeEnum.Str)
@@ -132,7 +136,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Value
@@ -145,7 +149,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -163,13 +167,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" />
     /// </summary>
     public class GetOrganizationFeatureFlagsResponseFeatureFlagsValueJsonConverter : JsonConverter<GetOrganizationFeatureFlagsResponseFeatureFlagsValue>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetOrganizationFeatureFlagsResponseFeatureFlagsValue Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -223,8 +230,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationFeatureFlagsResponseFeatureFlagsValue"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetOrganizationFeatureFlagsResponseFeatureFlagsValue getOrganizationFeatureFlagsResponseFeatureFlagsValue, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -234,8 +245,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetOrganizationFeatureFlagsResponseFeatureFlagsValue" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getOrganizationFeatureFlagsResponseFeatureFlagsValue"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetOrganizationFeatureFlagsResponseFeatureFlagsValue getOrganizationFeatureFlagsResponseFeatureFlagsValue, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getOrganizationFeatureFlagsResponseFeatureFlagsValue.ValueOption.IsSet && getOrganizationFeatureFlagsResponseFeatureFlagsValue.Value == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBusinessResponseBusiness
     /// </summary>
     public partial class GetBusinessResponseBusiness
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBusinessResponseBusiness" /> class.
         /// </summary>
         /// <param name="code">The unique ID for the business.</param>
         /// <param name="name">Your business&#39;s name.</param>
@@ -40,6 +42,7 @@ namespace Kinde.Api.Model
         /// <param name="privacyUrl">Your Privacy policy URL.</param>
         /// <param name="termsUrl">Your Terms and Conditions URL.</param>
         /// <param name="hasClickwrap">Whether your business uses clickwrap agreements.</param>
+        /// <param name="hasKindeBranding">Whether your business shows Kinde branding.</param>
         /// <param name="createdOn">Date of business creation in ISO 8601 format.</param>
         [JsonConstructor]
         public GetBusinessResponseBusiness(Option<string?> code = default, Option<string?> name = default, Option<string?> phone = default, Option<string?> email = default, Option<string?> industry = default, Option<string?> timezone = default, Option<string?> privacyUrl = default, Option<string?> termsUrl = default, Option<bool?> hasClickwrap = default, Option<bool?> hasKindeBranding = default, Option<string?> createdOn = default)
@@ -73,7 +76,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the business.</value>
         /* <example>bus_c69fb73b091</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -88,7 +91,7 @@ namespace Kinde.Api.Model
         /// <value>Your business&#39;s name.</value>
         /* <example>Tailsforce Ltd</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -103,7 +106,7 @@ namespace Kinde.Api.Model
         /// <value>Phone number associated with business.</value>
         /* <example>555-555-5555</example> */
         [JsonPropertyName("phone")]
-        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
+        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -118,7 +121,7 @@ namespace Kinde.Api.Model
         /// <value>Email address associated with business.</value>
         /* <example>sally@example.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Industry
@@ -133,7 +136,7 @@ namespace Kinde.Api.Model
         /// <value>The industry your business is in.</value>
         /* <example>Healthcare &amp; Medical</example> */
         [JsonPropertyName("industry")]
-        public string? Industry { get { return this.IndustryOption; } set { this.IndustryOption = new(value); } }
+        public string? Industry { get { return this.IndustryOption; } set { this.IndustryOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Timezone
@@ -148,9 +151,10 @@ namespace Kinde.Api.Model
         /// <value>The timezone your business is in.</value>
         /* <example>Los Angeles (Pacific Standard Time)</example> */
         [JsonPropertyName("timezone")]
-        public string? Timezone { get { return this.TimezoneOption; } set { this.TimezoneOption = new(value); } }
+        public string? Timezone { get { return this.TimezoneOption; } set { this.TimezoneOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of PrivacyUrl
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -162,7 +166,7 @@ namespace Kinde.Api.Model
         /// <value>Your Privacy policy URL.</value>
         /* <example>https://example.com/privacy</example> */
         [JsonPropertyName("privacy_url")]
-        public string? PrivacyUrl { get { return this.PrivacyUrlOption; } set { this.PrivacyUrlOption = new(value); } }
+        public string? PrivacyUrl { get { return this.PrivacyUrlOption; } set { this.PrivacyUrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of TermsUrl
@@ -177,9 +181,10 @@ namespace Kinde.Api.Model
         /// <value>Your Terms and Conditions URL.</value>
         /* <example>https://example.com/terms</example> */
         [JsonPropertyName("terms_url")]
-        public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new(value); } }
+        public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HasClickwrap
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -191,9 +196,10 @@ namespace Kinde.Api.Model
         /// <value>Whether your business uses clickwrap agreements.</value>
         /* <example>false</example> */
         [JsonPropertyName("has_clickwrap")]
-        public bool? HasClickwrap { get { return this.HasClickwrapOption; } set { this.HasClickwrapOption = new(value); } }
+        public bool? HasClickwrap { get { return this.HasClickwrapOption; } set { this.HasClickwrapOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HasKindeBranding
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -205,7 +211,7 @@ namespace Kinde.Api.Model
         /// <value>Whether your business shows Kinde branding.</value>
         /* <example>true</example> */
         [JsonPropertyName("has_kinde_branding")]
-        public bool? HasKindeBranding { get { return this.HasKindeBrandingOption; } set { this.HasKindeBrandingOption = new(value); } }
+        public bool? HasKindeBranding { get { return this.HasKindeBrandingOption; } set { this.HasKindeBrandingOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -220,7 +226,7 @@ namespace Kinde.Api.Model
         /// <value>Date of business creation in ISO 8601 format.</value>
         /* <example>2021-01-01T00:00:00Z</example> */
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -247,13 +253,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBusinessResponseBusiness" />
     /// </summary>
     public class GetBusinessResponseBusinessJsonConverter : JsonConverter<GetBusinessResponseBusiness>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBusinessResponseBusiness Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -350,8 +359,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponseBusiness"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBusinessResponseBusiness getBusinessResponseBusiness, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -361,8 +374,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBusinessResponseBusiness" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBusinessResponseBusiness"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBusinessResponseBusiness getBusinessResponseBusiness, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBusinessResponseBusiness.CodeOption.IsSet && getBusinessResponseBusiness.Code == null)

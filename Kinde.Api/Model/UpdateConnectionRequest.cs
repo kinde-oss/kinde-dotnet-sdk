@@ -26,13 +26,16 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateConnectionRequest
     /// </summary>
     public partial class UpdateConnectionRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateConnectionRequest" /> class.
         /// </summary>
         /// <param name="name">The internal name of the connection.</param>
         /// <param name="displayName">The public facing name of the connection.</param>
+        /// <param name="enabledApplications">Client IDs of applications in which this connection is to be enabled.</param>
         /// <param name="options">options</param>
         [JsonConstructor]
         public UpdateConnectionRequest(Option<string?> name = default, Option<string?> displayName = default, Option<List<string>?> enabledApplications = default, Option<UpdateConnectionRequestOptions?> options = default)
@@ -59,9 +62,10 @@ namespace Kinde.Api.Model
         /// <value>The internal name of the connection.</value>
         /* <example>ConnectionA</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of DisplayName
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -73,9 +77,10 @@ namespace Kinde.Api.Model
         /// <value>The public facing name of the connection.</value>
         /* <example>Connection</example> */
         [JsonPropertyName("display_name")]
-        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
+        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of EnabledApplications
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -85,8 +90,9 @@ namespace Kinde.Api.Model
         /// Client IDs of applications in which this connection is to be enabled.
         /// </summary>
         /// <value>Client IDs of applications in which this connection is to be enabled.</value>
+        /* <example>[&quot;c647dbe20f5944e28af97c9184fded22&quot;,&quot;20bbffaa4c5e492a962273039d4ae18b&quot;]</example> */
         [JsonPropertyName("enabled_applications")]
-        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new(value); } }
+        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Options
@@ -99,7 +105,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Options
         /// </summary>
         [JsonPropertyName("options")]
-        public UpdateConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new(value); } }
+        public UpdateConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new Option<UpdateConnectionRequestOptions?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -119,13 +125,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateConnectionRequest" />
     /// </summary>
     public class UpdateConnectionRequestJsonConverter : JsonConverter<UpdateConnectionRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateConnectionRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateConnectionRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -191,8 +200,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateConnectionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateConnectionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateConnectionRequest updateConnectionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -202,8 +215,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateConnectionRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateConnectionRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateConnectionRequest updateConnectionRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateConnectionRequest.NameOption.IsSet && updateConnectionRequest.Name == null)

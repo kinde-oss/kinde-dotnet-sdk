@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// AddOrganizationUsersRequest
     /// </summary>
     public partial class AddOrganizationUsersRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AddOrganizationUsersRequest" /> class.
         /// </summary>
         /// <param name="users">Users to be added to the organization.</param>
         [JsonConstructor]
@@ -53,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Users to be added to the organization.</value>
         [JsonPropertyName("users")]
-        public List<AddOrganizationUsersRequestUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new(value); } }
+        public List<AddOrganizationUsersRequestUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new Option<List<AddOrganizationUsersRequestUsersInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="AddOrganizationUsersRequest" />
     /// </summary>
     public class AddOrganizationUsersRequestJsonConverter : JsonConverter<AddOrganizationUsersRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="AddOrganizationUsersRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override AddOrganizationUsersRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="AddOrganizationUsersRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AddOrganizationUsersRequest addOrganizationUsersRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="AddOrganizationUsersRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addOrganizationUsersRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AddOrganizationUsersRequest addOrganizationUsersRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (addOrganizationUsersRequest.UsersOption.IsSet && addOrganizationUsersRequest.Users == null)

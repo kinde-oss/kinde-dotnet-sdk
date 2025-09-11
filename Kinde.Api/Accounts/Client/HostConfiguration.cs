@@ -42,8 +42,6 @@ namespace Kinde.Accounts.Client
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new DateTimeJsonConverter());
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
-            _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
-            _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new ErrorJsonConverter());
             _jsonOptions.Converters.Add(new ErrorResponseJsonConverter());
             _jsonOptions.Converters.Add(new GetEntitlementResponseJsonConverter());
@@ -75,7 +73,7 @@ namespace Kinde.Accounts.Client
             _jsonOptions.Converters.Add(new TokenErrorResponseJsonConverter());
             _jsonOptions.Converters.Add(new TokenIntrospectJsonConverter());
             _jsonOptions.Converters.Add(new UserProfileV2JsonConverter());
-            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new JsonSerializerOptionsProvider(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<BillingApiEvents>();

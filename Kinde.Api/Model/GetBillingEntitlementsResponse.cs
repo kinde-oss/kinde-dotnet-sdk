@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetBillingEntitlementsResponse
     /// </summary>
     public partial class GetBillingEntitlementsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -62,7 +64,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -77,7 +79,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -91,19 +93,21 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Entitlements
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<GetBillingEntitlementsResponseEntitlementsInner>?> EntitlementsOption { get; private set; }
 
         /// <summary>
+        /// A list of entitlements
         /// </summary>
         /// <value>A list of entitlements</value>
         [JsonPropertyName("entitlements")]
-        public List<GetBillingEntitlementsResponseEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new(value); } }
+        public List<GetBillingEntitlementsResponseEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new Option<List<GetBillingEntitlementsResponseEntitlementsInner>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Plans
@@ -117,7 +121,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A list of plans.</value>
         [JsonPropertyName("plans")]
-        public List<GetBillingEntitlementsResponsePlansInner>? Plans { get { return this.PlansOption; } set { this.PlansOption = new(value); } }
+        public List<GetBillingEntitlementsResponsePlansInner>? Plans { get { return this.PlansOption; } set { this.PlansOption = new Option<List<GetBillingEntitlementsResponsePlansInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -138,13 +142,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetBillingEntitlementsResponse" />
     /// </summary>
     public class GetBillingEntitlementsResponseJsonConverter : JsonConverter<GetBillingEntitlementsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetBillingEntitlementsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetBillingEntitlementsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -217,8 +224,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetBillingEntitlementsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetBillingEntitlementsResponse getBillingEntitlementsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -228,8 +239,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetBillingEntitlementsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getBillingEntitlementsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetBillingEntitlementsResponse getBillingEntitlementsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getBillingEntitlementsResponse.CodeOption.IsSet && getBillingEntitlementsResponse.Code == null)

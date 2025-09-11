@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetUserSessionsResponse
     /// </summary>
     public partial class GetUserSessionsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetUserSessionsResponse" /> class.
         /// </summary>
         /// <param name="code">code</param>
         /// <param name="message">message</param>
@@ -59,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +75,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -87,7 +89,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>false</example> */
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Sessions
@@ -100,7 +102,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Sessions
         /// </summary>
         [JsonPropertyName("sessions")]
-        public List<GetUserSessionsResponseSessionsInner>? Sessions { get { return this.SessionsOption; } set { this.SessionsOption = new(value); } }
+        public List<GetUserSessionsResponseSessionsInner>? Sessions { get { return this.SessionsOption; } set { this.SessionsOption = new Option<List<GetUserSessionsResponseSessionsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -120,13 +122,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetUserSessionsResponse" />
     /// </summary>
     public class GetUserSessionsResponseJsonConverter : JsonConverter<GetUserSessionsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetUserSessionsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetUserSessionsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -192,8 +197,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetUserSessionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserSessionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetUserSessionsResponse getUserSessionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -203,8 +212,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetUserSessionsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserSessionsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetUserSessionsResponse getUserSessionsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getUserSessionsResponse.CodeOption.IsSet && getUserSessionsResponse.Code == null)

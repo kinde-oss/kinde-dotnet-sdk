@@ -26,13 +26,16 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEnvironmentVariableResponse
     /// </summary>
     public partial class GetEnvironmentVariableResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEnvironmentVariableResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
+        /// <param name="environmentVariable">environmentVariable</param>
         [JsonConstructor]
         public GetEnvironmentVariableResponse(Option<string?> code = default, Option<string?> message = default, Option<EnvironmentVariable?> environmentVariable = default)
         {
@@ -57,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -72,18 +75,20 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of EnvironmentVariable
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnvironmentVariable?> EnvironmentVariableOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets EnvironmentVariable
         /// </summary>
         [JsonPropertyName("environment_variable")]
-        public EnvironmentVariable? EnvironmentVariable { get { return this.EnvironmentVariableOption; } set { this.EnvironmentVariableOption = new(value); } }
+        public EnvironmentVariable? EnvironmentVariable { get { return this.EnvironmentVariableOption; } set { this.EnvironmentVariableOption = new Option<EnvironmentVariable?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -102,13 +107,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEnvironmentVariableResponse" />
     /// </summary>
     public class GetEnvironmentVariableResponseJsonConverter : JsonConverter<GetEnvironmentVariableResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEnvironmentVariableResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -167,8 +175,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentVariableResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEnvironmentVariableResponse getEnvironmentVariableResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -178,8 +190,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentVariableResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEnvironmentVariableResponse getEnvironmentVariableResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEnvironmentVariableResponse.CodeOption.IsSet && getEnvironmentVariableResponse.Code == null)

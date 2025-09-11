@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// AddRoleScopeRequest
     /// </summary>
     public partial class AddRoleScopeRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AddRoleScopeRequest" /> class.
         /// </summary>
         /// <param name="scopeId">The scope identifier.</param>
         [JsonConstructor]
@@ -63,13 +65,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="AddRoleScopeRequest" />
     /// </summary>
     public class AddRoleScopeRequestJsonConverter : JsonConverter<AddRoleScopeRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="AddRoleScopeRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override AddRoleScopeRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -117,8 +122,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="AddRoleScopeRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addRoleScopeRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, AddRoleScopeRequest addRoleScopeRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -128,8 +137,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="AddRoleScopeRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="addRoleScopeRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AddRoleScopeRequest addRoleScopeRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (addRoleScopeRequest.ScopeId == null)

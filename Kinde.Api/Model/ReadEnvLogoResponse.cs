@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReadEnvLogoResponse
     /// </summary>
     public partial class ReadEnvLogoResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReadEnvLogoResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="logos">A list of logos.</param>
@@ -58,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Logos
@@ -72,7 +74,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A list of logos.</value>
         [JsonPropertyName("logos")]
-        public List<ReadEnvLogoResponseLogosInner>? Logos { get { return this.LogosOption; } set { this.LogosOption = new(value); } }
+        public List<ReadEnvLogoResponseLogosInner>? Logos { get { return this.LogosOption; } set { this.LogosOption = new Option<List<ReadEnvLogoResponseLogosInner>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -87,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,13 +108,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReadEnvLogoResponse" />
     /// </summary>
     public class ReadEnvLogoResponseJsonConverter : JsonConverter<ReadEnvLogoResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReadEnvLogoResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReadEnvLogoResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -171,8 +176,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReadEnvLogoResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="readEnvLogoResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReadEnvLogoResponse readEnvLogoResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -182,8 +191,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReadEnvLogoResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="readEnvLogoResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReadEnvLogoResponse readEnvLogoResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (readEnvLogoResponse.CodeOption.IsSet && readEnvLogoResponse.Code == null)

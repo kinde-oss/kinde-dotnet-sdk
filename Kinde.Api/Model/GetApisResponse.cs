@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApisResponse
     /// </summary>
     public partial class GetApisResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApisResponse" /> class.
         /// </summary>
         /// <param name="code">Response code.</param>
         /// <param name="message">Response message.</param>
@@ -60,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -75,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextToken
@@ -90,7 +92,7 @@ namespace Kinde.Api.Model
         /// <value>Pagination token.</value>
         /* <example>Njo5Om1hvWVfYXNj</example> */
         [JsonPropertyName("next_token")]
-        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new(value); } }
+        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Apis
@@ -103,7 +105,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Apis
         /// </summary>
         [JsonPropertyName("apis")]
-        public List<GetApisResponseApisInner>? Apis { get { return this.ApisOption; } set { this.ApisOption = new(value); } }
+        public List<GetApisResponseApisInner>? Apis { get { return this.ApisOption; } set { this.ApisOption = new Option<List<GetApisResponseApisInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -123,13 +125,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApisResponse" />
     /// </summary>
     public class GetApisResponseJsonConverter : JsonConverter<GetApisResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApisResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApisResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -195,8 +200,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApisResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApisResponse getApisResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -206,8 +215,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApisResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApisResponse getApisResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApisResponse.CodeOption.IsSet && getApisResponse.Code == null)

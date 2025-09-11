@@ -83,9 +83,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ProvidedId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -96,9 +97,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>External ID for user.</value>
         [JsonPropertyName("provided_id")]
-        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
+        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of PreferredEmail
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -109,7 +111,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Default email address of the user in Kinde.</value>
         [JsonPropertyName("preferred_email")]
-        public string? PreferredEmail { get { return this.PreferredEmailOption; } set { this.PreferredEmailOption = new(value); } }
+        public string? PreferredEmail { get { return this.PreferredEmailOption; } set { this.PreferredEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -123,7 +125,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s primary phone number.</value>
         [JsonPropertyName("phone")]
-        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
+        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Username
@@ -137,7 +139,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Primary username of the user in Kinde.</value>
         [JsonPropertyName("username")]
-        public string? Username { get { return this.UsernameOption; } set { this.UsernameOption = new(value); } }
+        public string? Username { get { return this.UsernameOption; } set { this.UsernameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -151,7 +153,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s last name.</value>
         [JsonPropertyName("last_name")]
-        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
+        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
@@ -165,9 +167,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s first name.</value>
         [JsonPropertyName("first_name")]
-        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
+        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsSuspended
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -178,7 +181,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
         [JsonPropertyName("is_suspended")]
-        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new(value); } }
+        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -192,9 +195,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s profile picture URL.</value>
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of TotalSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -205,9 +209,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Total number of user sign ins.</value>
         [JsonPropertyName("total_sign_ins")]
-        public int? TotalSignIns { get { return this.TotalSignInsOption; } set { this.TotalSignInsOption = new(value); } }
+        public int? TotalSignIns { get { return this.TotalSignInsOption; } set { this.TotalSignInsOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of FailedSignIns
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -218,9 +223,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Number of consecutive failed user sign ins.</value>
         [JsonPropertyName("failed_sign_ins")]
-        public int? FailedSignIns { get { return this.FailedSignInsOption; } set { this.FailedSignInsOption = new(value); } }
+        public int? FailedSignIns { get { return this.FailedSignInsOption; } set { this.FailedSignInsOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastSignedIn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -231,7 +237,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Last sign in date in ISO 8601 format.</value>
         [JsonPropertyName("last_signed_in")]
-        public string? LastSignedIn { get { return this.LastSignedInOption; } set { this.LastSignedInOption = new(value); } }
+        public string? LastSignedIn { get { return this.LastSignedInOption; } set { this.LastSignedInOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -245,9 +251,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Date of user creation in ISO 8601 format.</value>
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Organizations
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -258,9 +265,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of organizations a user belongs to.</value>
         [JsonPropertyName("organizations")]
-        public List<string>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new(value); } }
+        public List<string>? Organizations { get { return this.OrganizationsOption; } set { this.OrganizationsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -271,7 +279,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of identities belonging to the user.</value>
         [JsonPropertyName("identities")]
-        public List<UserIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<UserIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<UserIdentitiesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -311,6 +319,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override User Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -445,6 +454,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -458,6 +469,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             if (user.IdOption.IsSet && user.Id == null)

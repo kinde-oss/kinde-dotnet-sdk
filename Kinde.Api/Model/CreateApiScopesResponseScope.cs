@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateApiScopesResponseScope
     /// </summary>
     public partial class CreateApiScopesResponseScope
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateApiScopesResponseScope" /> class.
         /// </summary>
         /// <param name="id">The unique ID for the API scope.</param>
         [JsonConstructor]
@@ -52,8 +54,9 @@ namespace Kinde.Api.Model
         /// The unique ID for the API scope.
         /// </summary>
         /// <value>The unique ID for the API scope.</value>
+        /* <example>api_scope_0193ab57965aef77b2b687d0ef673713</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,13 +73,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateApiScopesResponseScope" />
     /// </summary>
     public class CreateApiScopesResponseScopeJsonConverter : JsonConverter<CreateApiScopesResponseScope>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateApiScopesResponseScope" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateApiScopesResponseScope Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +127,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateApiScopesResponseScope" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponseScope"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateApiScopesResponseScope createApiScopesResponseScope, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +142,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateApiScopesResponseScope" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createApiScopesResponseScope"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateApiScopesResponseScope createApiScopesResponseScope, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createApiScopesResponseScope.IdOption.IsSet && createApiScopesResponseScope.Id == null)

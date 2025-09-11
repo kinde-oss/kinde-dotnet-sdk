@@ -26,6 +26,7 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UsersResponse
     /// </summary>
     public partial class UsersResponse
     {
@@ -60,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -74,7 +75,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Users
@@ -87,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Users
         /// </summary>
         [JsonPropertyName("users")]
-        public List<UsersResponseUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new(value); } }
+        public List<UsersResponseUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new Option<List<UsersResponseUsersInner>?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextToken
@@ -101,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Pagination token.</value>
         [JsonPropertyName("next_token")]
-        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new(value); } }
+        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -130,6 +131,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UsersResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -199,6 +201,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="usersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UsersResponse usersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -212,6 +216,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="usersResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UsersResponse usersResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (usersResponse.CodeOption.IsSet && usersResponse.Code == null)

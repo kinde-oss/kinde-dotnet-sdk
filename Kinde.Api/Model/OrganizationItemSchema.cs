@@ -26,16 +26,19 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// OrganizationItemSchema
     /// </summary>
     public partial class OrganizationItemSchema
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="OrganizationItemSchema" /> class.
         /// </summary>
         /// <param name="code">The unique identifier for the organization.</param>
         /// <param name="name">The organization&#39;s name.</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls.</param>
         /// <param name="isDefault">Whether the organization is the default organization.</param>
         /// <param name="externalId">The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</param>
+        /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication.</param>
         [JsonConstructor]
         public OrganizationItemSchema(Option<string?> code = default, Option<string?> name = default, Option<string?> handle = default, Option<bool?> isDefault = default, Option<string?> externalId = default, Option<bool?> isAutoMembershipEnabled = default)
         {
@@ -63,7 +66,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier for the organization.</value>
         /* <example>org_1ccfb819462</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -78,7 +81,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s name.</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -93,7 +96,7 @@ namespace Kinde.Api.Model
         /// <value>A unique handle for the organization - can be used for dynamic callback urls.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefault
@@ -108,9 +111,10 @@ namespace Kinde.Api.Model
         /// <value>Whether the organization is the default organization.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_default")]
-        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new(value); } }
+        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ExternalId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -122,9 +126,10 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsAutoMembershipEnabled
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -136,7 +141,7 @@ namespace Kinde.Api.Model
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_auto_membership_enabled")]
-        public bool? IsAutoMembershipEnabled { get { return this.IsAutoMembershipEnabledOption; } set { this.IsAutoMembershipEnabledOption = new(value); } }
+        public bool? IsAutoMembershipEnabled { get { return this.IsAutoMembershipEnabledOption; } set { this.IsAutoMembershipEnabledOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -158,13 +163,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="OrganizationItemSchema" />
     /// </summary>
     public class OrganizationItemSchemaJsonConverter : JsonConverter<OrganizationItemSchema>
     {
         /// <summary>
+        /// Deserializes json to <see cref="OrganizationItemSchema" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override OrganizationItemSchema Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -238,8 +246,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="OrganizationItemSchema" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationItemSchema"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OrganizationItemSchema organizationItemSchema, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -249,8 +261,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="OrganizationItemSchema" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="organizationItemSchema"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OrganizationItemSchema organizationItemSchema, JsonSerializerOptions jsonSerializerOptions)
         {
             if (organizationItemSchema.CodeOption.IsSet && organizationItemSchema.Code == null)

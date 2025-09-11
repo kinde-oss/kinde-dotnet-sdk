@@ -26,11 +26,17 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateOrganizationSessionsRequest
     /// </summary>
     public partial class UpdateOrganizationSessionsRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateOrganizationSessionsRequest" /> class.
         /// </summary>
+        /// <param name="isUseOrgSsoSessionPolicy">Whether to use the organization&#39;s SSO session policy override.</param>
+        /// <param name="ssoSessionPersistenceMode">Determines if the session should be persistent or not.</param>
+        /// <param name="isUseOrgAuthenticatedSessionLifetime">Whether to apply the organization&#39;s authenticated session lifetime override.</param>
+        /// <param name="authenticatedSessionLifetime">Authenticated session lifetime in seconds.</param>
         [JsonConstructor]
         public UpdateOrganizationSessionsRequest(Option<bool?> isUseOrgSsoSessionPolicy = default, Option<SsoSessionPersistenceModeEnum?> ssoSessionPersistenceMode = default, Option<bool?> isUseOrgAuthenticatedSessionLifetime = default, Option<int?> authenticatedSessionLifetime = default)
         {
@@ -50,30 +56,35 @@ namespace Kinde.Api.Model
         public enum SsoSessionPersistenceModeEnum
         {
             /// <summary>
+            /// Enum Persistent for value: persistent
             /// </summary>
             Persistent = 1,
 
             /// <summary>
+            /// Enum NonPersistent for value: non_persistent
             /// </summary>
             NonPersistent = 2
         }
 
         /// <summary>
+        /// Returns a <see cref="SsoSessionPersistenceModeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static SsoSessionPersistenceModeEnum SsoSessionPersistenceModeEnumFromString(string value)
         {
             if (value.Equals("persistent"))
                 return SsoSessionPersistenceModeEnum.Persistent;
 
-            if (value.Equals("non-persistent"))
+            if (value.Equals("non_persistent"))
                 return SsoSessionPersistenceModeEnum.NonPersistent;
 
             throw new NotImplementedException($"Could not convert value to type SsoSessionPersistenceModeEnum: '{value}'");
         }
 
         /// <summary>
+        /// Returns a <see cref="SsoSessionPersistenceModeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -82,28 +93,31 @@ namespace Kinde.Api.Model
             if (value.Equals("persistent"))
                 return SsoSessionPersistenceModeEnum.Persistent;
 
-            if (value.Equals("non-persistent"))
+            if (value.Equals("non_persistent"))
                 return SsoSessionPersistenceModeEnum.NonPersistent;
 
             return null;
         }
 
         /// <summary>
+        /// Converts the <see cref="SsoSessionPersistenceModeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string SsoSessionPersistenceModeEnumToJsonValue(SsoSessionPersistenceModeEnum? value)
         {
             if (value == SsoSessionPersistenceModeEnum.Persistent)
                 return "persistent";
 
             if (value == SsoSessionPersistenceModeEnum.NonPersistent)
-                return "non-persistent";
+                return "non_persistent";
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
+        /// Used to track the state of SsoSessionPersistenceMode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -114,9 +128,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Determines if the session should be persistent or not.</value>
         [JsonPropertyName("sso_session_persistence_mode")]
-        public SsoSessionPersistenceModeEnum? SsoSessionPersistenceMode { get { return this.SsoSessionPersistenceModeOption; } set { this.SsoSessionPersistenceModeOption = new(value); } }
+        public SsoSessionPersistenceModeEnum? SsoSessionPersistenceMode { get { return this.SsoSessionPersistenceModeOption; } set { this.SsoSessionPersistenceModeOption = new Option<SsoSessionPersistenceModeEnum?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsUseOrgSsoSessionPolicy
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -127,9 +142,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether to use the organization&#39;s SSO session policy override.</value>
         [JsonPropertyName("is_use_org_sso_session_policy")]
-        public bool? IsUseOrgSsoSessionPolicy { get { return this.IsUseOrgSsoSessionPolicyOption; } set { this.IsUseOrgSsoSessionPolicyOption = new(value); } }
+        public bool? IsUseOrgSsoSessionPolicy { get { return this.IsUseOrgSsoSessionPolicyOption; } set { this.IsUseOrgSsoSessionPolicyOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsUseOrgAuthenticatedSessionLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -140,9 +156,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether to apply the organization&#39;s authenticated session lifetime override.</value>
         [JsonPropertyName("is_use_org_authenticated_session_lifetime")]
-        public bool? IsUseOrgAuthenticatedSessionLifetime { get { return this.IsUseOrgAuthenticatedSessionLifetimeOption; } set { this.IsUseOrgAuthenticatedSessionLifetimeOption = new(value); } }
+        public bool? IsUseOrgAuthenticatedSessionLifetime { get { return this.IsUseOrgAuthenticatedSessionLifetimeOption; } set { this.IsUseOrgAuthenticatedSessionLifetimeOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of AuthenticatedSessionLifetime
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -154,7 +171,7 @@ namespace Kinde.Api.Model
         /// <value>Authenticated session lifetime in seconds.</value>
         /* <example>86400</example> */
         [JsonPropertyName("authenticated_session_lifetime")]
-        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new(value); } }
+        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -174,13 +191,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateOrganizationSessionsRequest" />
     /// </summary>
     public class UpdateOrganizationSessionsRequestJsonConverter : JsonConverter<UpdateOrganizationSessionsRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateOrganizationSessionsRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateOrganizationSessionsRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -248,8 +268,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateOrganizationSessionsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationSessionsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -259,8 +283,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateOrganizationSessionsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateOrganizationSessionsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateOrganizationSessionsRequest.IsUseOrgSsoSessionPolicyOption.IsSet)

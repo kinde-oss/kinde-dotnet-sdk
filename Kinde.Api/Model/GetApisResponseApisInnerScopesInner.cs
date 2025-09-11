@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApisResponseApisInnerScopesInner
     /// </summary>
     public partial class GetApisResponseApisInnerScopesInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApisResponseApisInnerScopesInner" /> class.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="key">key</param>
@@ -53,8 +55,9 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        /* <example>api_scope_01939128c3d7193ae87c4755213c07c6</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -68,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>create:apis</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -86,13 +89,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApisResponseApisInnerScopesInner" />
     /// </summary>
     public class GetApisResponseApisInnerScopesInnerJsonConverter : JsonConverter<GetApisResponseApisInnerScopesInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApisResponseApisInnerScopesInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApisResponseApisInnerScopesInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -144,8 +150,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApisResponseApisInnerScopesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponseApisInnerScopesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApisResponseApisInnerScopesInner getApisResponseApisInnerScopesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -155,8 +165,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApisResponseApisInnerScopesInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApisResponseApisInnerScopesInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApisResponseApisInnerScopesInner getApisResponseApisInnerScopesInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApisResponseApisInnerScopesInner.IdOption.IsSet && getApisResponseApisInnerScopesInner.Id == null)

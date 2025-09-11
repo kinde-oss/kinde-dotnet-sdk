@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Endpoint
@@ -90,29 +90,33 @@ namespace Kinde.Api.Model
         /// Gets or Sets Endpoint
         /// </summary>
         [JsonPropertyName("endpoint")]
-        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new(value); } }
+        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DescriptionOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets Description
         /// </summary>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of EventTypes
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>?> EventTypesOption { get; private set; }
 
         /// <summary>
+        /// Gets or Sets EventTypes
         /// </summary>
         [JsonPropertyName("event_types")]
-        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
+        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -126,7 +130,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Created on date in ISO 8601 format.</value>
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -157,6 +161,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override Webhook Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -240,6 +245,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Webhook webhook, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -253,6 +260,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webhook"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Webhook webhook, JsonSerializerOptions jsonSerializerOptions)
         {
             if (webhook.IdOption.IsSet && webhook.Id == null)

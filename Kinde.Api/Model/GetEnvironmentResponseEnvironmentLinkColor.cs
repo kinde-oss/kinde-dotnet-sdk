@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEnvironmentResponseEnvironmentLinkColor
     /// </summary>
     public partial class GetEnvironmentResponseEnvironmentLinkColor
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEnvironmentResponseEnvironmentLinkColor" /> class.
         /// </summary>
         /// <param name="raw">raw</param>
         /// <param name="hex">hex</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#0056F1</example> */
         [JsonPropertyName("raw")]
-        public string? Raw { get { return this.RawOption; } set { this.RawOption = new(value); } }
+        public string? Raw { get { return this.RawOption; } set { this.RawOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hex
@@ -71,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#0056F1</example> */
         [JsonPropertyName("hex")]
-        public string? Hex { get { return this.HexOption; } set { this.HexOption = new(value); } }
+        public string? Hex { get { return this.HexOption; } set { this.HexOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hsl
@@ -85,7 +87,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>hsl(220, 100%, 50%)</example> */
         [JsonPropertyName("hsl")]
-        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new(value); } }
+        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -104,13 +106,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEnvironmentResponseEnvironmentLinkColor" />
     /// </summary>
     public class GetEnvironmentResponseEnvironmentLinkColorJsonConverter : JsonConverter<GetEnvironmentResponseEnvironmentLinkColor>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEnvironmentResponseEnvironmentLinkColor" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEnvironmentResponseEnvironmentLinkColor Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -169,8 +174,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEnvironmentResponseEnvironmentLinkColor" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironmentLinkColor"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEnvironmentResponseEnvironmentLinkColor getEnvironmentResponseEnvironmentLinkColor, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -180,8 +189,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEnvironmentResponseEnvironmentLinkColor" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironmentLinkColor"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEnvironmentResponseEnvironmentLinkColor getEnvironmentResponseEnvironmentLinkColor, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEnvironmentResponseEnvironmentLinkColor.RawOption.IsSet && getEnvironmentResponseEnvironmentLinkColor.Raw == null)

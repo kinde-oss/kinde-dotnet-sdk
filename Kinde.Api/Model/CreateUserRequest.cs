@@ -26,12 +26,15 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// CreateUserRequest
     /// </summary>
     public partial class CreateUserRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateUserRequest" /> class.
         /// </summary>
         /// <param name="profile">profile</param>
+        /// <param name="organizationCode">The unique code associated with the organization you want the user to join.</param>
         /// <param name="providedId">An external id to reference the user.</param>
         /// <param name="identities">Array of identities to assign to the created user</param>
         [JsonConstructor]
@@ -57,9 +60,10 @@ namespace Kinde.Api.Model
         /// Gets or Sets Profile
         /// </summary>
         [JsonPropertyName("profile")]
-        public CreateUserRequestProfile? Profile { get { return this.ProfileOption; } set { this.ProfileOption = new(value); } }
+        public CreateUserRequestProfile? Profile { get { return this.ProfileOption; } set { this.ProfileOption = new Option<CreateUserRequestProfile?>(value); } }
 
         /// <summary>
+        /// Used to track the state of OrganizationCode
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -70,9 +74,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The unique code associated with the organization you want the user to join.</value>
         [JsonPropertyName("organization_code")]
-        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new(value); } }
+        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ProvidedId
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -83,9 +88,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An external id to reference the user.</value>
         [JsonPropertyName("provided_id")]
-        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
+        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Identities
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -97,7 +103,7 @@ namespace Kinde.Api.Model
         /// <value>Array of identities to assign to the created user</value>
         /* <example>[{&quot;type&quot;:&quot;email&quot;,&quot;is_verified&quot;:true,&quot;details&quot;:{&quot;email&quot;:&quot;email@email.com&quot;}},{&quot;type&quot;:&quot;phone&quot;,&quot;is_verified&quot;:false,&quot;details&quot;:{&quot;phone&quot;:&quot;+61426148233&quot;,&quot;phone_country_id&quot;:&quot;au&quot;}},{&quot;type&quot;:&quot;username&quot;,&quot;details&quot;:{&quot;username&quot;:&quot;myusername&quot;}}]</example> */
         [JsonPropertyName("identities")]
-        public List<CreateUserRequestIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<CreateUserRequestIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<CreateUserRequestIdentitiesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -117,13 +123,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateUserRequest" />
     /// </summary>
     public class CreateUserRequestJsonConverter : JsonConverter<CreateUserRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateUserRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateUserRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -189,8 +198,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateUserRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateUserRequest createUserRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -200,8 +213,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateUserRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createUserRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateUserRequest createUserRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createUserRequest.ProfileOption.IsSet && createUserRequest.Profile == null)

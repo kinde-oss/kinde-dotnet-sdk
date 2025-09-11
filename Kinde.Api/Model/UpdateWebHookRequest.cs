@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateWebHookRequest
     /// </summary>
     public partial class UpdateWebHookRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateWebHookRequest" /> class.
         /// </summary>
         /// <param name="eventTypes">Array of event type keys</param>
         /// <param name="name">The webhook name</param>
@@ -46,6 +48,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of EventTypes
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -56,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of event type keys</value>
         [JsonPropertyName("event_types")]
-        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
+        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -70,19 +73,21 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The webhook name</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Description
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> DescriptionOption { get; private set; }
 
         /// <summary>
+        /// The webhook description
         /// </summary>
         /// <value>The webhook description</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,13 +106,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateWebHookRequest" />
     /// </summary>
     public class UpdateWebHookRequestJsonConverter : JsonConverter<UpdateWebHookRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateWebHookRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateWebHookRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -163,8 +171,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateWebHookRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebHookRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateWebHookRequest updateWebHookRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,8 +186,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateWebHookRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateWebHookRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateWebHookRequest updateWebHookRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateWebHookRequest.EventTypesOption.IsSet && updateWebHookRequest.EventTypes == null)

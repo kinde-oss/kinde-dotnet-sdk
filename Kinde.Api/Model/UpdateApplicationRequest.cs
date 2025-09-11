@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateApplicationRequest
     /// </summary>
     public partial class UpdateApplicationRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateApplicationRequest" /> class.
         /// </summary>
         /// <param name="name">The application&#39;s name.</param>
         /// <param name="languageKey">The application&#39;s language key.</param>
@@ -63,9 +65,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s name.</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LanguageKey
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -76,9 +79,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s language key.</value>
         [JsonPropertyName("language_key")]
-        public string? LanguageKey { get { return this.LanguageKeyOption; } set { this.LanguageKeyOption = new(value); } }
+        public string? LanguageKey { get { return this.LanguageKeyOption; } set { this.LanguageKeyOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LogoutUris
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -89,9 +93,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s logout uris.</value>
         [JsonPropertyName("logout_uris")]
-        public List<string>? LogoutUris { get { return this.LogoutUrisOption; } set { this.LogoutUrisOption = new(value); } }
+        public List<string>? LogoutUris { get { return this.LogoutUrisOption; } set { this.LogoutUrisOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of RedirectUris
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -102,7 +107,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s redirect uris.</value>
         [JsonPropertyName("redirect_uris")]
-        public List<string>? RedirectUris { get { return this.RedirectUrisOption; } set { this.RedirectUrisOption = new(value); } }
+        public List<string>? RedirectUris { get { return this.RedirectUrisOption; } set { this.RedirectUrisOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of LoginUri
@@ -116,9 +121,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The default login route for resolving session issues.</value>
         [JsonPropertyName("login_uri")]
-        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new(value); } }
+        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HomepageUri
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -129,7 +135,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The homepage link to your application.</value>
         [JsonPropertyName("homepage_uri")]
-        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new(value); } }
+        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -151,13 +157,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateApplicationRequest" />
     /// </summary>
     public class UpdateApplicationRequestJsonConverter : JsonConverter<UpdateApplicationRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateApplicationRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateApplicationRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -237,8 +246,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateApplicationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateApplicationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateApplicationRequest updateApplicationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -248,8 +261,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateApplicationRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateApplicationRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateApplicationRequest updateApplicationRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateApplicationRequest.NameOption.IsSet && updateApplicationRequest.Name == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetApiResponseApiApplicationsInner
     /// </summary>
     public partial class GetApiResponseApiApplicationsInner
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetApiResponseApiApplicationsInner" /> class.
         /// </summary>
         /// <param name="id">The Client ID of the application.</param>
         /// <param name="name">The application&#39;s name.</param>
@@ -54,6 +56,7 @@ namespace Kinde.Api.Model
         public enum TypeEnum
         {
             /// <summary>
+            /// Enum MachineToMachineM2M for value: Machine to machine (M2M)
             /// </summary>
             MachineToMachineM2M = 1,
 
@@ -63,6 +66,7 @@ namespace Kinde.Api.Model
             BackEndWeb = 2,
 
             /// <summary>
+            /// Enum FrontEndAndMobile for value: Front-end and mobile
             /// </summary>
             FrontEndAndMobile = 3,
 
@@ -77,6 +81,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value.Equals("Machine to machine (M2M)"))
@@ -121,6 +126,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum? value)
         {
             if (value == TypeEnum.MachineToMachineM2M)
@@ -151,7 +157,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s type.</value>
         /* <example>Machine to machine (M2M)</example> */
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -164,8 +170,9 @@ namespace Kinde.Api.Model
         /// The Client ID of the application.
         /// </summary>
         /// <value>The Client ID of the application.</value>
+        /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -180,7 +187,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s name.</value>
         /* <example>My M2M app</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsActive
@@ -195,7 +202,7 @@ namespace Kinde.Api.Model
         /// <value>Whether or not the application is authorized to access the API</value>
         /* <example>true</example> */
         [JsonPropertyName("is_active")]
-        public bool? IsActive { get { return this.IsActiveOption; } set { this.IsActiveOption = new(value); } }
+        public bool? IsActive { get { return this.IsActiveOption; } set { this.IsActiveOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -215,13 +222,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetApiResponseApiApplicationsInner" />
     /// </summary>
     public class GetApiResponseApiApplicationsInnerJsonConverter : JsonConverter<GetApiResponseApiApplicationsInner>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetApiResponseApiApplicationsInner" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetApiResponseApiApplicationsInner Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -286,8 +296,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetApiResponseApiApplicationsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiResponseApiApplicationsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetApiResponseApiApplicationsInner getApiResponseApiApplicationsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -297,8 +311,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetApiResponseApiApplicationsInner" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getApiResponseApiApplicationsInner"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetApiResponseApiApplicationsInner getApiResponseApiApplicationsInner, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getApiResponseApiApplicationsInner.IdOption.IsSet && getApiResponseApiApplicationsInner.Id == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetRedirectCallbackUrlsResponse
     /// </summary>
     public partial class GetRedirectCallbackUrlsResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetRedirectCallbackUrlsResponse" /> class.
         /// </summary>
         /// <param name="redirectUrls">An application&#39;s redirect callback URLs.</param>
         [JsonConstructor]
@@ -42,6 +44,7 @@ namespace Kinde.Api.Model
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of RedirectUrls
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -52,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An application&#39;s redirect callback URLs.</value>
         [JsonPropertyName("redirect_urls")]
-        public List<RedirectCallbackUrls>? RedirectUrls { get { return this.RedirectUrlsOption; } set { this.RedirectUrlsOption = new(value); } }
+        public List<RedirectCallbackUrls>? RedirectUrls { get { return this.RedirectUrlsOption; } set { this.RedirectUrlsOption = new Option<List<RedirectCallbackUrls>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -69,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetRedirectCallbackUrlsResponse" />
     /// </summary>
     public class GetRedirectCallbackUrlsResponseJsonConverter : JsonConverter<GetRedirectCallbackUrlsResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetRedirectCallbackUrlsResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetRedirectCallbackUrlsResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -120,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetRedirectCallbackUrlsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getRedirectCallbackUrlsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetRedirectCallbackUrlsResponse getRedirectCallbackUrlsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -131,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetRedirectCallbackUrlsResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getRedirectCallbackUrlsResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetRedirectCallbackUrlsResponse getRedirectCallbackUrlsResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getRedirectCallbackUrlsResponse.RedirectUrlsOption.IsSet && getRedirectCallbackUrlsResponse.RedirectUrls == null)

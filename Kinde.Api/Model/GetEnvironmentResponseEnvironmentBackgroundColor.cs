@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEnvironmentResponseEnvironmentBackgroundColor
     /// </summary>
     public partial class GetEnvironmentResponseEnvironmentBackgroundColor
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" /> class.
         /// </summary>
         /// <param name="raw">raw</param>
         /// <param name="hex">hex</param>
@@ -57,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#ffffff</example> */
         [JsonPropertyName("raw")]
-        public string? Raw { get { return this.RawOption; } set { this.RawOption = new(value); } }
+        public string? Raw { get { return this.RawOption; } set { this.RawOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hex
@@ -71,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#ffffff</example> */
         [JsonPropertyName("hex")]
-        public string? Hex { get { return this.HexOption; } set { this.HexOption = new(value); } }
+        public string? Hex { get { return this.HexOption; } set { this.HexOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hsl
@@ -85,7 +87,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>hsl(0, 0%, 100%)</example> */
         [JsonPropertyName("hsl")]
-        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new(value); } }
+        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -104,13 +106,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" />
     /// </summary>
     public class GetEnvironmentResponseEnvironmentBackgroundColorJsonConverter : JsonConverter<GetEnvironmentResponseEnvironmentBackgroundColor>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEnvironmentResponseEnvironmentBackgroundColor Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -169,8 +174,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironmentBackgroundColor"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEnvironmentResponseEnvironmentBackgroundColor getEnvironmentResponseEnvironmentBackgroundColor, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -180,8 +189,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEnvironmentResponseEnvironmentBackgroundColor" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEnvironmentResponseEnvironmentBackgroundColor"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEnvironmentResponseEnvironmentBackgroundColor getEnvironmentResponseEnvironmentBackgroundColor, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEnvironmentResponseEnvironmentBackgroundColor.RawOption.IsSet && getEnvironmentResponseEnvironmentBackgroundColor.Raw == null)

@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// UpdateEnvironmentVariableResponse
     /// </summary>
     public partial class UpdateEnvironmentVariableResponse
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateEnvironmentVariableResponse" /> class.
         /// </summary>
         /// <param name="message">A Kinde generated message.</param>
         /// <param name="code">A Kinde generated status code.</param>
@@ -56,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated message.</value>
         /* <example>Environment variable updated</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -71,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated status code.</value>
         /* <example>ENVIRONMENT_VARIABLE_UPDATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -89,13 +91,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="UpdateEnvironmentVariableResponse" />
     /// </summary>
     public class UpdateEnvironmentVariableResponseJsonConverter : JsonConverter<UpdateEnvironmentVariableResponse>
     {
         /// <summary>
+        /// Deserializes json to <see cref="UpdateEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override UpdateEnvironmentVariableResponse Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -147,8 +152,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="UpdateEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironmentVariableResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, UpdateEnvironmentVariableResponse updateEnvironmentVariableResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -158,8 +167,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="UpdateEnvironmentVariableResponse" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="updateEnvironmentVariableResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, UpdateEnvironmentVariableResponse updateEnvironmentVariableResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (updateEnvironmentVariableResponse.MessageOption.IsSet && updateEnvironmentVariableResponse.Message == null)

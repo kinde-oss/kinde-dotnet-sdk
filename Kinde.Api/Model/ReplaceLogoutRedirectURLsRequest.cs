@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// ReplaceLogoutRedirectURLsRequest
     /// </summary>
     public partial class ReplaceLogoutRedirectURLsRequest
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReplaceLogoutRedirectURLsRequest" /> class.
         /// </summary>
         /// <param name="urls">Array of logout urls.</param>
         [JsonConstructor]
@@ -53,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of logout urls.</value>
         [JsonPropertyName("urls")]
-        public List<string>? Urls { get { return this.UrlsOption; } set { this.UrlsOption = new(value); } }
+        public List<string>? Urls { get { return this.UrlsOption; } set { this.UrlsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,13 +72,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="ReplaceLogoutRedirectURLsRequest" />
     /// </summary>
     public class ReplaceLogoutRedirectURLsRequestJsonConverter : JsonConverter<ReplaceLogoutRedirectURLsRequest>
     {
         /// <summary>
+        /// Deserializes json to <see cref="ReplaceLogoutRedirectURLsRequest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override ReplaceLogoutRedirectURLsRequest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -121,8 +126,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="ReplaceLogoutRedirectURLsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceLogoutRedirectURLsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -132,8 +141,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="ReplaceLogoutRedirectURLsRequest" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="replaceLogoutRedirectURLsRequest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReplaceLogoutRedirectURLsRequest replaceLogoutRedirectURLsRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (replaceLogoutRedirectURLsRequest.UrlsOption.IsSet && replaceLogoutRedirectURLsRequest.Urls == null)

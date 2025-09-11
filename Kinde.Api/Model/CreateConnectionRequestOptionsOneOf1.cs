@@ -31,10 +31,19 @@ namespace Kinde.Api.Model
     public partial class CreateConnectionRequestOptionsOneOf1
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
         /// <param name="clientId">Client ID.</param>
         /// <param name="clientSecret">Client secret.</param>
+        /// <param name="homeRealmDomains">List of domains to limit authentication.</param>
         /// <param name="entraIdDomain">Domain for Entra ID.</param>
+        /// <param name="isUseCommonEndpoint">Use https://login.windows.net/common instead of a default endpoint.</param>
+        /// <param name="isSyncUserProfileOnLogin">Sync user profile data with IDP.</param>
+        /// <param name="isRetrieveProviderUserGroups">Include user group info from MS Entra ID.</param>
+        /// <param name="isExtendedAttributesRequired">Include additional user profile information.</param>
+        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection.</param>
+        /// <param name="isCreateMissingUser">Create a user record in Kinde if the user signing in does not exist.</param>
+        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection.</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider.</param>
         [JsonConstructor]
         public CreateConnectionRequestOptionsOneOf1(Option<string?> clientId = default, Option<string?> clientSecret = default, Option<List<string>?> homeRealmDomains = default, Option<string?> entraIdDomain = default, Option<bool?> isUseCommonEndpoint = default, Option<bool?> isSyncUserProfileOnLogin = default, Option<bool?> isRetrieveProviderUserGroups = default, Option<bool?> isExtendedAttributesRequired = default, Option<bool?> isAutoJoinOrganizationEnabled = default, Option<bool?> isCreateMissingUser = default, Option<bool?> isForceShowSsoButton = default, Option<Dictionary<string, Object>?> upstreamParams = default)
@@ -67,10 +76,12 @@ namespace Kinde.Api.Model
         /// Client ID.
         /// </summary>
         /// <value>Client ID.</value>
+        /* <example>hji7db2146af332akfldfded22</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ClientSecret
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -80,10 +91,12 @@ namespace Kinde.Api.Model
         /// Client secret.
         /// </summary>
         /// <value>Client secret.</value>
+        /* <example>19fkjdalg521l23fassf3039d4ae18b</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of HomeRealmDomains
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -95,9 +108,10 @@ namespace Kinde.Api.Model
         /// <value>List of domains to limit authentication.</value>
         /* <example>[&quot;@kinde.com&quot;,&quot;@kinde.io&quot;]</example> */
         [JsonPropertyName("home_realm_domains")]
-        public List<string>? HomeRealmDomains { get { return this.HomeRealmDomainsOption; } set { this.HomeRealmDomainsOption = new(value); } }
+        public List<string>? HomeRealmDomains { get { return this.HomeRealmDomainsOption; } set { this.HomeRealmDomainsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of EntraIdDomain
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -109,9 +123,10 @@ namespace Kinde.Api.Model
         /// <value>Domain for Entra ID.</value>
         /* <example>kinde.com</example> */
         [JsonPropertyName("entra_id_domain")]
-        public string? EntraIdDomain { get { return this.EntraIdDomainOption; } set { this.EntraIdDomainOption = new(value); } }
+        public string? EntraIdDomain { get { return this.EntraIdDomainOption; } set { this.EntraIdDomainOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsUseCommonEndpoint
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -123,9 +138,10 @@ namespace Kinde.Api.Model
         /// <value>Use https://login.windows.net/common instead of a default endpoint.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_use_common_endpoint")]
-        public bool? IsUseCommonEndpoint { get { return this.IsUseCommonEndpointOption; } set { this.IsUseCommonEndpointOption = new(value); } }
+        public bool? IsUseCommonEndpoint { get { return this.IsUseCommonEndpointOption; } set { this.IsUseCommonEndpointOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsSyncUserProfileOnLogin
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -137,9 +153,10 @@ namespace Kinde.Api.Model
         /// <value>Sync user profile data with IDP.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_sync_user_profile_on_login")]
-        public bool? IsSyncUserProfileOnLogin { get { return this.IsSyncUserProfileOnLoginOption; } set { this.IsSyncUserProfileOnLoginOption = new(value); } }
+        public bool? IsSyncUserProfileOnLogin { get { return this.IsSyncUserProfileOnLoginOption; } set { this.IsSyncUserProfileOnLoginOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsRetrieveProviderUserGroups
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -151,9 +168,10 @@ namespace Kinde.Api.Model
         /// <value>Include user group info from MS Entra ID.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_retrieve_provider_user_groups")]
-        public bool? IsRetrieveProviderUserGroups { get { return this.IsRetrieveProviderUserGroupsOption; } set { this.IsRetrieveProviderUserGroupsOption = new(value); } }
+        public bool? IsRetrieveProviderUserGroups { get { return this.IsRetrieveProviderUserGroupsOption; } set { this.IsRetrieveProviderUserGroupsOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsExtendedAttributesRequired
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -165,9 +183,10 @@ namespace Kinde.Api.Model
         /// <value>Include additional user profile information.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_extended_attributes_required")]
-        public bool? IsExtendedAttributesRequired { get { return this.IsExtendedAttributesRequiredOption; } set { this.IsExtendedAttributesRequiredOption = new(value); } }
+        public bool? IsExtendedAttributesRequired { get { return this.IsExtendedAttributesRequiredOption; } set { this.IsExtendedAttributesRequiredOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsAutoJoinOrganizationEnabled
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -179,9 +198,10 @@ namespace Kinde.Api.Model
         /// <value>Users automatically join organization when using this connection.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_auto_join_organization_enabled")]
-        public bool? IsAutoJoinOrganizationEnabled { get { return this.IsAutoJoinOrganizationEnabledOption; } set { this.IsAutoJoinOrganizationEnabledOption = new(value); } }
+        public bool? IsAutoJoinOrganizationEnabled { get { return this.IsAutoJoinOrganizationEnabledOption; } set { this.IsAutoJoinOrganizationEnabledOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsCreateMissingUser
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -193,9 +213,10 @@ namespace Kinde.Api.Model
         /// <value>Create a user record in Kinde if the user signing in does not exist.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_create_missing_user")]
-        public bool? IsCreateMissingUser { get { return this.IsCreateMissingUserOption; } set { this.IsCreateMissingUserOption = new(value); } }
+        public bool? IsCreateMissingUser { get { return this.IsCreateMissingUserOption; } set { this.IsCreateMissingUserOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsForceShowSsoButton
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -207,9 +228,10 @@ namespace Kinde.Api.Model
         /// <value>Force showing the SSO button for this connection.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_force_show_sso_button")]
-        public bool? IsForceShowSsoButton { get { return this.IsForceShowSsoButtonOption; } set { this.IsForceShowSsoButtonOption = new(value); } }
+        public bool? IsForceShowSsoButton { get { return this.IsForceShowSsoButtonOption; } set { this.IsForceShowSsoButtonOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of UpstreamParams
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -221,7 +243,7 @@ namespace Kinde.Api.Model
         /// <value>Additional upstream parameters to pass to the identity provider.</value>
         /* <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example> */
         [JsonPropertyName("upstream_params")]
-        public Dictionary<string, Object>? UpstreamParams { get { return this.UpstreamParamsOption; } set { this.UpstreamParamsOption = new(value); } }
+        public Dictionary<string, Object>? UpstreamParams { get { return this.UpstreamParamsOption; } set { this.UpstreamParamsOption = new Option<Dictionary<string, Object>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -249,13 +271,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="CreateConnectionRequestOptionsOneOf1" />
     /// </summary>
     public class CreateConnectionRequestOptionsOneOf1JsonConverter : JsonConverter<CreateConnectionRequestOptionsOneOf1>
     {
         /// <summary>
+        /// Deserializes json to <see cref="CreateConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override CreateConnectionRequestOptionsOneOf1 Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -377,8 +402,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="CreateConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequestOptionsOneOf1"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CreateConnectionRequestOptionsOneOf1 createConnectionRequestOptionsOneOf1, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -388,8 +417,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="CreateConnectionRequestOptionsOneOf1" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="createConnectionRequestOptionsOneOf1"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CreateConnectionRequestOptionsOneOf1 createConnectionRequestOptionsOneOf1, JsonSerializerOptions jsonSerializerOptions)
         {
             if (createConnectionRequestOptionsOneOf1.ClientIdOption.IsSet && createConnectionRequestOptionsOneOf1.ClientId == null)

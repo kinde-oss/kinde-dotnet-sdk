@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Origin
@@ -101,7 +101,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public string? Origin { get { return this.OriginOption; } set { this.OriginOption = new(value); } }
+        public string? Origin { get { return this.OriginOption; } set { this.OriginOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Schema
@@ -114,7 +114,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Schema
         /// </summary>
         [JsonPropertyName("schema")]
-        public Object? Schema { get { return this.SchemaOption; } set { this.SchemaOption = new(value); } }
+        public Object? Schema { get { return this.SchemaOption; } set { this.SchemaOption = new Option<Object?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -144,6 +144,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override EventType Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -220,6 +221,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="eventType"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EventType eventType, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -233,6 +236,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="eventType"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EventType eventType, JsonSerializerOptions jsonSerializerOptions)
         {
             if (eventType.IdOption.IsSet && eventType.Id == null)

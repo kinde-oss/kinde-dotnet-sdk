@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetUserMfaResponseMfa
     /// </summary>
     public partial class GetUserMfaResponseMfa
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetUserMfaResponseMfa" /> class.
         /// </summary>
         /// <param name="id">The MFA&#39;s identifier.</param>
         /// <param name="type">The type of MFA (e.g. email, SMS, authenticator app).</param>
@@ -64,8 +66,9 @@ namespace Kinde.Api.Model
         /// The MFA&#39;s identifier.
         /// </summary>
         /// <value>The MFA&#39;s identifier.</value>
+        /* <example>mfa_01933d1ca1f093e7fad48ebcdb65a871</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
@@ -80,7 +83,7 @@ namespace Kinde.Api.Model
         /// <value>The type of MFA (e.g. email, SMS, authenticator app).</value>
         /* <example>email</example> */
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -95,7 +98,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was created.</value>
         /* <example>2024-11-18T13:31:46.795085+11:00</example> */
         [JsonPropertyName("created_on")]
-        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -110,9 +113,10 @@ namespace Kinde.Api.Model
         /// <value>The identifier used for MFA (e.g. email address, phone number).</value>
         /* <example>sally@gmail.com</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
+        /// Used to track the state of IsVerified
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -124,9 +128,10 @@ namespace Kinde.Api.Model
         /// <value>Whether the MFA is verified or not.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_verified")]
-        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new(value); } }
+        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new Option<bool?>(value); } }
 
         /// <summary>
+        /// Used to track the state of UsageCount
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -138,9 +143,10 @@ namespace Kinde.Api.Model
         /// <value>The number of times MFA has been used.</value>
         /* <example>2</example> */
         [JsonPropertyName("usage_count")]
-        public int? UsageCount { get { return this.UsageCountOption; } set { this.UsageCountOption = new(value); } }
+        public int? UsageCount { get { return this.UsageCountOption; } set { this.UsageCountOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of LastUsedOn
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -152,7 +158,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was last used.</value>
         /* <example>2024-11-18T13:32:07.225380+11:00</example> */
         [JsonPropertyName("last_used_on")]
-        public DateTimeOffset? LastUsedOn { get { return this.LastUsedOnOption; } set { this.LastUsedOnOption = new(value); } }
+        public DateTimeOffset? LastUsedOn { get { return this.LastUsedOnOption; } set { this.LastUsedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -175,6 +181,7 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetUserMfaResponseMfa" />
     /// </summary>
     public class GetUserMfaResponseMfaJsonConverter : JsonConverter<GetUserMfaResponseMfa>
     {
@@ -184,13 +191,16 @@ namespace Kinde.Api.Model
         public static string CreatedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize LastUsedOn
         /// </summary>
         public static string LastUsedOnFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// Deserializes json to <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetUserMfaResponseMfa Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -277,8 +287,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserMfaResponseMfa"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetUserMfaResponseMfa getUserMfaResponseMfa, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -288,8 +302,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetUserMfaResponseMfa" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getUserMfaResponseMfa"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetUserMfaResponseMfa getUserMfaResponseMfa, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getUserMfaResponseMfa.IdOption.IsSet && getUserMfaResponseMfa.Id == null)

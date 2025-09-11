@@ -26,10 +26,12 @@ using Kinde.Api.Client;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    /// GetEventResponseEvent
     /// </summary>
     public partial class GetEventResponseEvent
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GetEventResponseEvent" /> class.
         /// </summary>
         /// <param name="type">type</param>
         /// <param name="source">source</param>
@@ -60,7 +62,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Source
@@ -73,7 +75,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Source
         /// </summary>
         [JsonPropertyName("source")]
-        public string? Source { get { return this.SourceOption; } set { this.SourceOption = new(value); } }
+        public string? Source { get { return this.SourceOption; } set { this.SourceOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EventId
@@ -86,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets EventId
         /// </summary>
         [JsonPropertyName("event_id")]
-        public string? EventId { get { return this.EventIdOption; } set { this.EventIdOption = new(value); } }
+        public string? EventId { get { return this.EventIdOption; } set { this.EventIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Timestamp
@@ -100,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Timestamp in ISO 8601 format.</value>
         [JsonPropertyName("timestamp")]
-        public int? Timestamp { get { return this.TimestampOption; } set { this.TimestampOption = new(value); } }
+        public int? Timestamp { get { return this.TimestampOption; } set { this.TimestampOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Data
@@ -114,7 +116,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Event specific data object.</value>
         [JsonPropertyName("data")]
-        public Object? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public Object? Data { get { return this.DataOption; } set { this.DataOption = new Option<Object?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -135,13 +137,16 @@ namespace Kinde.Api.Model
     }
 
     /// <summary>
+    /// A Json converter for type <see cref="GetEventResponseEvent" />
     /// </summary>
     public class GetEventResponseEventJsonConverter : JsonConverter<GetEventResponseEvent>
     {
         /// <summary>
+        /// Deserializes json to <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         public override GetEventResponseEvent Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
@@ -214,8 +219,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes a <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventResponseEvent"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GetEventResponseEvent getEventResponseEvent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -225,8 +234,12 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
+        /// Serializes the properties of <see cref="GetEventResponseEvent" />
         /// </summary>
         /// <param name="writer"></param>
+        /// <param name="getEventResponseEvent"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetEventResponseEvent getEventResponseEvent, JsonSerializerOptions jsonSerializerOptions)
         {
             if (getEventResponseEvent.TypeOption.IsSet && getEventResponseEvent.Type == null)
