@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>True if the user identity was successfully created.</value>
         [JsonPropertyName("created")]
-        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new(value); } }
+        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

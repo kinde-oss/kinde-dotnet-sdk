@@ -68,7 +68,7 @@ namespace Kinde.Api.Model
         /// <value>The MFA&#39;s identifier.</value>
         /* <example>mfa_01933d1ca1f093e7fad48ebcdb65a871</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
@@ -83,7 +83,7 @@ namespace Kinde.Api.Model
         /// <value>The type of MFA (e.g. email, SMS, authenticator app).</value>
         /* <example>email</example> */
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -98,7 +98,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was created.</value>
         /* <example>2024-11-18T13:31:46.795085+11:00</example> */
         [JsonPropertyName("created_on")]
-        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public DateTimeOffset? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -113,7 +113,7 @@ namespace Kinde.Api.Model
         /// <value>The identifier used for MFA (e.g. email address, phone number).</value>
         /* <example>sally@gmail.com</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsVerified
@@ -128,7 +128,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the MFA is verified or not.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_verified")]
-        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new(value); } }
+        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of UsageCount
@@ -143,7 +143,7 @@ namespace Kinde.Api.Model
         /// <value>The number of times MFA has been used.</value>
         /* <example>2</example> */
         [JsonPropertyName("usage_count")]
-        public int? UsageCount { get { return this.UsageCountOption; } set { this.UsageCountOption = new(value); } }
+        public int? UsageCount { get { return this.UsageCountOption; } set { this.UsageCountOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastUsedOn
@@ -158,7 +158,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the MFA was last used.</value>
         /* <example>2024-11-18T13:32:07.225380+11:00</example> */
         [JsonPropertyName("last_used_on")]
-        public DateTimeOffset? LastUsedOn { get { return this.LastUsedOnOption; } set { this.LastUsedOnOption = new(value); } }
+        public DateTimeOffset? LastUsedOn { get { return this.LastUsedOnOption; } set { this.LastUsedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

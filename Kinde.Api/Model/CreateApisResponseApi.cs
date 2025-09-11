@@ -56,7 +56,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the API.</value>
         /* <example>7ccd126599aa422a771abcb341596881</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

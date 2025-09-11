@@ -70,7 +70,7 @@ namespace Kinde.Accounts.Model
         /// <value>The friendly ID of an entitlement</value>
         /* <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FixedCharge
@@ -84,7 +84,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>The price charged if this is an entitlement for a fixed charged</value>
         [JsonPropertyName("fixed_charge")]
-        public int? FixedCharge { get { return this.FixedChargeOption; } set { this.FixedChargeOption = new(value); } }
+        public int? FixedCharge { get { return this.FixedChargeOption; } set { this.FixedChargeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of PriceName
@@ -99,7 +99,7 @@ namespace Kinde.Accounts.Model
         /// <value>The name of the price associated with the entitlement</value>
         /* <example>Seats</example> */
         [JsonPropertyName("price_name")]
-        public string? PriceName { get { return this.PriceNameOption; } set { this.PriceNameOption = new(value); } }
+        public string? PriceName { get { return this.PriceNameOption; } set { this.PriceNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of UnitAmount
@@ -113,7 +113,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>The price charged for this entitlement in cents</value>
         [JsonPropertyName("unit_amount")]
-        public int? UnitAmount { get { return this.UnitAmountOption; } set { this.UnitAmountOption = new(value); } }
+        public int? UnitAmount { get { return this.UnitAmountOption; } set { this.UnitAmountOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of FeatureKey
@@ -128,7 +128,7 @@ namespace Kinde.Accounts.Model
         /// <value>The key of the feature corresponding to this entitlement</value>
         /* <example>seats</example> */
         [JsonPropertyName("feature_key")]
-        public string? FeatureKey { get { return this.FeatureKeyOption; } set { this.FeatureKeyOption = new(value); } }
+        public string? FeatureKey { get { return this.FeatureKeyOption; } set { this.FeatureKeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FeatureName
@@ -143,7 +143,7 @@ namespace Kinde.Accounts.Model
         /// <value>The name of the feature corresponding to this entitlement</value>
         /* <example>Seats</example> */
         [JsonPropertyName("feature_name")]
-        public string? FeatureName { get { return this.FeatureNameOption; } set { this.FeatureNameOption = new(value); } }
+        public string? FeatureName { get { return this.FeatureNameOption; } set { this.FeatureNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EntitlementLimitMax
@@ -158,7 +158,7 @@ namespace Kinde.Accounts.Model
         /// <value>The maximum number of units of the feature the customer is entitled to</value>
         /* <example>10</example> */
         [JsonPropertyName("entitlement_limit_max")]
-        public int? EntitlementLimitMax { get { return this.EntitlementLimitMaxOption; } set { this.EntitlementLimitMaxOption = new(value); } }
+        public int? EntitlementLimitMax { get { return this.EntitlementLimitMaxOption; } set { this.EntitlementLimitMaxOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of EntitlementLimitMin
@@ -172,7 +172,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>The minimum number of units of the feature the customer is entitled to</value>
         [JsonPropertyName("entitlement_limit_min")]
-        public int? EntitlementLimitMin { get { return this.EntitlementLimitMinOption; } set { this.EntitlementLimitMinOption = new(value); } }
+        public int? EntitlementLimitMin { get { return this.EntitlementLimitMinOption; } set { this.EntitlementLimitMinOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

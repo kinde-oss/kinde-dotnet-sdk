@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The result of the api operation.</value>
         [JsonPropertyName("result")]
-        public string? Result { get { return this.ResultOption; } set { this.ResultOption = new(value); } }
+        public string? Result { get { return this.ResultOption; } set { this.ResultOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

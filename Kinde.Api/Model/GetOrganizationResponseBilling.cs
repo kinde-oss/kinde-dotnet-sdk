@@ -56,7 +56,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets BillingCustomerId
         /// </summary>
         [JsonPropertyName("billing_customer_id")]
-        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new(value); } }
+        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Agreements
@@ -70,7 +70,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The billing agreements the billing customer is currently subscribed to</value>
         [JsonPropertyName("agreements")]
-        public List<GetOrganizationResponseBillingAgreementsInner>? Agreements { get { return this.AgreementsOption; } set { this.AgreementsOption = new(value); } }
+        public List<GetOrganizationResponseBillingAgreementsInner>? Agreements { get { return this.AgreementsOption; } set { this.AgreementsOption = new Option<List<GetOrganizationResponseBillingAgreementsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

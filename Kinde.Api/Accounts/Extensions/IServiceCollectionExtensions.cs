@@ -29,7 +29,7 @@ namespace Kinde.Accounts.Extensions
         /// <param name="options"></param>
         public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
         {
-            HostConfiguration config = new(services);
+            HostConfiguration config = new HostConfiguration(services);
             options(config);
             AddApi(services, config);
         }

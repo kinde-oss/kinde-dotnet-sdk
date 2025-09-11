@@ -28,7 +28,7 @@ namespace Kinde.Accounts.Client
     /// <summary>
     /// Utility functions providing some benefit to API client consumers.
     /// </summary>
-    public static partial class ClientUtils
+    public static class ClientUtils
     {
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Kinde.Accounts.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, out T result)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Kinde.Accounts.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, out T result)
         {
             try
             {
@@ -106,17 +106,13 @@ namespace Kinde.Accounts.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
-            #if NET6_0_OR_GREATER
-            if (obj is DateOnly dateOnly)
-                return dateOnly.ToString(format);
-#endif
             if (obj is bool boolean)
                 return boolean
                     ? "true"
                     : "false";
             if (obj is ICollection collection)
             {
-                List<string?> entries = new();
+                List<string?> entries = new List<string?>();
                 foreach (var entry in collection)
                     entries.Add(ParameterToString(entry));
                 return string.Join(",", entries);
@@ -226,8 +222,7 @@ namespace Kinde.Accounts.Client
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
-        [GeneratedRegex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")]
-        private static partial Regex JsonRegex();
+        private static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
         /// <summary>
         /// Check if the given MIME is a JSON MIME.
@@ -243,7 +238,7 @@ namespace Kinde.Accounts.Client
         {
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
-            return JsonRegex().IsMatch(mime) || mime.Equals("application/json-patch+json");
+            return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
         }
 
         /// <summary>

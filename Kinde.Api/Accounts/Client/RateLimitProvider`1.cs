@@ -23,11 +23,7 @@ namespace Kinde.Accounts.Client
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        #if NET6_0_OR_GREATER
-        internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new();
-#else
-        internal Dictionary<string, System.Collections.Concurrent.ConcurrentQueue<TTokenBase>> AvailableTokens { get; } = new();
-#endif
+        internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>>();
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.

@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#ffffff</example> */
         [JsonPropertyName("raw")]
-        public string? Raw { get { return this.RawOption; } set { this.RawOption = new(value); } }
+        public string? Raw { get { return this.RawOption; } set { this.RawOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hex
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>#ffffff</example> */
         [JsonPropertyName("hex")]
-        public string? Hex { get { return this.HexOption; } set { this.HexOption = new(value); } }
+        public string? Hex { get { return this.HexOption; } set { this.HexOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Hsl
@@ -87,7 +87,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>hsl(0, 0%, 100%)</example> */
         [JsonPropertyName("hsl")]
-        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new(value); } }
+        public string? Hsl { get { return this.HslOption; } set { this.HslOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

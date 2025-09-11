@@ -74,7 +74,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the business.</value>
         /* <example>Tailsforce Ltd</example> */
         [JsonPropertyName("business_name")]
-        public string? BusinessName { get { return this.BusinessNameOption; } set { this.BusinessNameOption = new(value); } }
+        public string? BusinessName { get { return this.BusinessNameOption; } set { this.BusinessNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>The email address of the business.</value>
         /* <example>sally@example.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IndustryKey
@@ -104,7 +104,7 @@ namespace Kinde.Api.Model
         /// <value>The key of the industry of your business. Can be retrieved from the /industries endpoint.</value>
         /* <example>construction</example> */
         [JsonPropertyName("industry_key")]
-        public string? IndustryKey { get { return this.IndustryKeyOption; } set { this.IndustryKeyOption = new(value); } }
+        public string? IndustryKey { get { return this.IndustryKeyOption; } set { this.IndustryKeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsClickWrap
@@ -119,7 +119,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the business is using clickwrap agreements.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_click_wrap")]
-        public bool? IsClickWrap { get { return this.IsClickWrapOption; } set { this.IsClickWrapOption = new(value); } }
+        public bool? IsClickWrap { get { return this.IsClickWrapOption; } set { this.IsClickWrapOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsShowKindeBranding
@@ -134,7 +134,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the business is showing Kinde branding. Requires a paid plan.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_show_kinde_branding")]
-        public bool? IsShowKindeBranding { get { return this.IsShowKindeBrandingOption; } set { this.IsShowKindeBrandingOption = new(value); } }
+        public bool? IsShowKindeBranding { get { return this.IsShowKindeBrandingOption; } set { this.IsShowKindeBrandingOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of KindePerkCode
@@ -148,7 +148,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The Kinde perk code for the business.</value>
         [JsonPropertyName("kinde_perk_code")]
-        public string? KindePerkCode { get { return this.KindePerkCodeOption; } set { this.KindePerkCodeOption = new(value); } }
+        public string? KindePerkCode { get { return this.KindePerkCodeOption; } set { this.KindePerkCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -163,7 +163,7 @@ namespace Kinde.Api.Model
         /// <value>The phone number of the business.</value>
         /* <example>123-456-7890</example> */
         [JsonPropertyName("phone")]
-        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
+        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PrivacyUrl
@@ -178,7 +178,7 @@ namespace Kinde.Api.Model
         /// <value>The URL to the business&#39;s privacy policy.</value>
         /* <example>https://example.com/privacy</example> */
         [JsonPropertyName("privacy_url")]
-        public string? PrivacyUrl { get { return this.PrivacyUrlOption; } set { this.PrivacyUrlOption = new(value); } }
+        public string? PrivacyUrl { get { return this.PrivacyUrlOption; } set { this.PrivacyUrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of TermsUrl
@@ -193,7 +193,7 @@ namespace Kinde.Api.Model
         /// <value>The URL to the business&#39;s terms of service.</value>
         /* <example>https://example.com/terms</example> */
         [JsonPropertyName("terms_url")]
-        public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new(value); } }
+        public string? TermsUrl { get { return this.TermsUrlOption; } set { this.TermsUrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of TimezoneKey
@@ -208,7 +208,7 @@ namespace Kinde.Api.Model
         /// <value>The key of the timezone of your business. Can be retrieved from the /timezones endpoint.</value>
         /* <example>los_angeles_pacific_standard_time</example> */
         [JsonPropertyName("timezone_key")]
-        public string? TimezoneKey { get { return this.TimezoneKeyOption; } set { this.TimezoneKeyOption = new(value); } }
+        public string? TimezoneKey { get { return this.TimezoneKeyOption; } set { this.TimezoneKeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

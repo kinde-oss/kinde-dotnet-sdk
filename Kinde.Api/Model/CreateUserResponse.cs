@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Unique ID of the user in Kinde.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Created
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>True if the user was successfully created.</value>
         [JsonPropertyName("created")]
-        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new(value); } }
+        public bool? Created { get { return this.CreatedOption; } set { this.CreatedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Identities
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Identities
         /// </summary>
         [JsonPropertyName("identities")]
-        public List<UserIdentity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<UserIdentity>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<UserIdentity>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

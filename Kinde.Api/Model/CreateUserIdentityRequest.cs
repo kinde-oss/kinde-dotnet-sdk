@@ -171,7 +171,7 @@ namespace Kinde.Api.Model
         /// <value>The identity type</value>
         /* <example>email</example> */
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Value
@@ -186,7 +186,7 @@ namespace Kinde.Api.Model
         /// <value>The email address, social identity, or username of the user.</value>
         /* <example>sally@example.com</example> */
         [JsonPropertyName("value")]
-        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PhoneCountryId
@@ -201,7 +201,7 @@ namespace Kinde.Api.Model
         /// <value>The country code for the phone number, only required when identity type is &#39;phone&#39;.</value>
         /* <example>au</example> */
         [JsonPropertyName("phone_country_id")]
-        public string? PhoneCountryId { get { return this.PhoneCountryIdOption; } set { this.PhoneCountryIdOption = new(value); } }
+        public string? PhoneCountryId { get { return this.PhoneCountryIdOption; } set { this.PhoneCountryIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ConnectionId
@@ -216,7 +216,7 @@ namespace Kinde.Api.Model
         /// <value>The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;.</value>
         /* <example>conn_019289347f1193da6c0e4d49b97b4bd2</example> */
         [JsonPropertyName("connection_id")]
-        public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new(value); } }
+        public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

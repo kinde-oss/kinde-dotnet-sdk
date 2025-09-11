@@ -78,7 +78,7 @@ namespace Kinde.Api.Model
         /// <value>Generate a final invoice for any un-invoiced metered usage.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_invoice_now")]
-        public bool? IsInvoiceNow { get { return this.IsInvoiceNowOption; } set { this.IsInvoiceNowOption = new(value); } }
+        public bool? IsInvoiceNow { get { return this.IsInvoiceNowOption; } set { this.IsInvoiceNowOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsProrate
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>Generate a proration invoice item that credits remaining unused features.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_prorate")]
-        public bool? IsProrate { get { return this.IsProrateOption; } set { this.IsProrateOption = new(value); } }
+        public bool? IsProrate { get { return this.IsProrateOption; } set { this.IsProrateOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

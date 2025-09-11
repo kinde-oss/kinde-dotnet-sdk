@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Source
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Source
         /// </summary>
         [JsonPropertyName("source")]
-        public string? Source { get { return this.SourceOption; } set { this.SourceOption = new(value); } }
+        public string? Source { get { return this.SourceOption; } set { this.SourceOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EventId
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets EventId
         /// </summary>
         [JsonPropertyName("event_id")]
-        public string? EventId { get { return this.EventIdOption; } set { this.EventIdOption = new(value); } }
+        public string? EventId { get { return this.EventIdOption; } set { this.EventIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Timestamp
@@ -102,7 +102,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Timestamp in ISO 8601 format.</value>
         [JsonPropertyName("timestamp")]
-        public int? Timestamp { get { return this.TimestampOption; } set { this.TimestampOption = new(value); } }
+        public int? Timestamp { get { return this.TimestampOption; } set { this.TimestampOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Data
@@ -116,7 +116,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Event specific data object.</value>
         [JsonPropertyName("data")]
-        public Object? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public Object? Data { get { return this.DataOption; } set { this.DataOption = new Option<Object?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

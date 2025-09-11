@@ -54,7 +54,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Subscriber
         /// </summary>
         [JsonPropertyName("subscriber")]
-        public CreateSubscriberSuccessResponseSubscriber? Subscriber { get { return this.SubscriberOption; } set { this.SubscriberOption = new(value); } }
+        public CreateSubscriberSuccessResponseSubscriber? Subscriber { get { return this.SubscriberOption; } set { this.SubscriberOption = new Option<CreateSubscriberSuccessResponseSubscriber?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

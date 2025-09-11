@@ -76,7 +76,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment variable is sensitive. Secrets are not-readable by you or your team after creation.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_secret")]
-        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new(value); } }
+        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -170,7 +170,7 @@ namespace Kinde.Api.Model
         /// <value>Scope an M2M application to an org (Plus plan required).</value>
         /* <example>org_1234567890abcdef</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

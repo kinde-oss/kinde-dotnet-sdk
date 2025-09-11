@@ -65,7 +65,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s first name.</value>
         [JsonPropertyName("given_name")]
-        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new(value); } }
+        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FamilyName
@@ -79,7 +79,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s last name.</value>
         [JsonPropertyName("family_name")]
-        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new(value); } }
+        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s profile picture.</value>
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsSuspended
@@ -107,7 +107,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
         [JsonPropertyName("is_suspended")]
-        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new(value); } }
+        public bool? IsSuspended { get { return this.IsSuspendedOption; } set { this.IsSuspendedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsPasswordResetRequested
@@ -121,7 +121,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Prompt the user to change their password on next sign in.</value>
         [JsonPropertyName("is_password_reset_requested")]
-        public bool? IsPasswordResetRequested { get { return this.IsPasswordResetRequestedOption; } set { this.IsPasswordResetRequestedOption = new(value); } }
+        public bool? IsPasswordResetRequested { get { return this.IsPasswordResetRequestedOption; } set { this.IsPasswordResetRequestedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of ProvidedId
@@ -135,7 +135,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An external id to reference the user.</value>
         [JsonPropertyName("provided_id")]
-        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
+        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

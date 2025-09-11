@@ -58,7 +58,7 @@ namespace Kinde.Accounts.Model
         /// <value>Whether more records exist.</value>
         /* <example>false</example> */
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextPageStartingAfter
@@ -73,7 +73,7 @@ namespace Kinde.Accounts.Model
         /// <value>The ID of the last record on the current page.</value>
         /* <example>role_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("next_page_starting_after")]
-        public string? NextPageStartingAfter { get { return this.NextPageStartingAfterOption; } set { this.NextPageStartingAfterOption = new(value); } }
+        public string? NextPageStartingAfter { get { return this.NextPageStartingAfterOption; } set { this.NextPageStartingAfterOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

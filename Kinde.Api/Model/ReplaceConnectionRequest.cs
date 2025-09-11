@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>The internal name of the connection.</value>
         /* <example>ConnectionA</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of DisplayName
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>The public-facing name of the connection.</value>
         /* <example>Connection</example> */
         [JsonPropertyName("display_name")]
-        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
+        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EnabledApplications
@@ -92,7 +92,7 @@ namespace Kinde.Api.Model
         /// <value>Client IDs of applications in which this connection is to be enabled.</value>
         /* <example>[&quot;c647dbe20f5944e28af97c9184fded22&quot;,&quot;20bbffaa4c5e492a962273039d4ae18b&quot;]</example> */
         [JsonPropertyName("enabled_applications")]
-        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new(value); } }
+        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Options
@@ -105,7 +105,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Options
         /// </summary>
         [JsonPropertyName("options")]
-        public ReplaceConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new(value); } }
+        public ReplaceConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new Option<ReplaceConnectionRequestOptions?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

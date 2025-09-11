@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -91,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Agreements
@@ -105,7 +105,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A list of billing agreements</value>
         [JsonPropertyName("agreements")]
-        public List<GetBillingAgreementsResponseAgreementsInner>? Agreements { get { return this.AgreementsOption; } set { this.AgreementsOption = new(value); } }
+        public List<GetBillingAgreementsResponseAgreementsInner>? Agreements { get { return this.AgreementsOption; } set { this.AgreementsOption = new Option<List<GetBillingAgreementsResponseAgreementsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

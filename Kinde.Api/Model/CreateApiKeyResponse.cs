@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated message.</value>
         /* <example>API key created</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated status code.</value>
         /* <example>API_KEY_CREATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApiKey
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ApiKey
         /// </summary>
         [JsonPropertyName("api_key")]
-        public CreateApiKeyResponseApiKey? ApiKey { get { return this.ApiKeyOption; } set { this.ApiKeyOption = new(value); } }
+        public CreateApiKeyResponseApiKey? ApiKey { get { return this.ApiKeyOption; } set { this.ApiKeyOption = new Option<CreateApiKeyResponseApiKey?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

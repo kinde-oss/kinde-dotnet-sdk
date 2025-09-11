@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of DisplayName
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets DisplayName
         /// </summary>
         [JsonPropertyName("display_name")]
-        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
+        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Strategy
@@ -99,7 +99,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Strategy
         /// </summary>
         [JsonPropertyName("strategy")]
-        public string? Strategy { get { return this.StrategyOption; } set { this.StrategyOption = new(value); } }
+        public string? Strategy { get { return this.StrategyOption; } set { this.StrategyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The type of identity object created.</value>
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Result
@@ -70,7 +70,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Result
         /// </summary>
         [JsonPropertyName("result")]
-        public UserIdentityResult? Result { get { return this.ResultOption; } set { this.ResultOption = new(value); } }
+        public UserIdentityResult? Result { get { return this.ResultOption; } set { this.ResultOption = new Option<UserIdentityResult?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

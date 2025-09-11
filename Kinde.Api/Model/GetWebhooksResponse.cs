@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Webhooks
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Webhooks
         /// </summary>
         [JsonPropertyName("webhooks")]
-        public List<Webhook>? Webhooks { get { return this.WebhooksOption; } set { this.WebhooksOption = new(value); } }
+        public List<Webhook>? Webhooks { get { return this.WebhooksOption; } set { this.WebhooksOption = new Option<List<Webhook>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

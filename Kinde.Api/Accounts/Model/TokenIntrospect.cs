@@ -63,7 +63,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>Indicates the status of the token.</value>
         [JsonPropertyName("active")]
-        public bool? Active { get { return this.ActiveOption; } set { this.ActiveOption = new(value); } }
+        public bool? Active { get { return this.ActiveOption; } set { this.ActiveOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Aud
@@ -77,7 +77,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>Array of intended token recipients.</value>
         [JsonPropertyName("aud")]
-        public List<string>? Aud { get { return this.AudOption; } set { this.AudOption = new(value); } }
+        public List<string>? Aud { get { return this.AudOption; } set { this.AudOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -92,7 +92,7 @@ namespace Kinde.Accounts.Model
         /// <value>Identifier for the requesting client.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Exp
@@ -107,7 +107,7 @@ namespace Kinde.Accounts.Model
         /// <value>Token expiration timestamp.</value>
         /* <example>1612345678</example> */
         [JsonPropertyName("exp")]
-        public int? Exp { get { return this.ExpOption; } set { this.ExpOption = new(value); } }
+        public int? Exp { get { return this.ExpOption; } set { this.ExpOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Iat
@@ -122,7 +122,7 @@ namespace Kinde.Accounts.Model
         /// <value>Token issuance timestamp.</value>
         /* <example>1612345678</example> */
         [JsonPropertyName("iat")]
-        public int? Iat { get { return this.IatOption; } set { this.IatOption = new(value); } }
+        public int? Iat { get { return this.IatOption; } set { this.IatOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

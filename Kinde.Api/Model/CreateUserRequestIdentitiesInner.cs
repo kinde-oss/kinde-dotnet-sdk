@@ -140,7 +140,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The type of identity to create, e.g. email, username, or phone.</value>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsVerified
@@ -155,7 +155,7 @@ namespace Kinde.Api.Model
         /// <value>Set whether an email or phone identity is verified or not.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_verified")]
-        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new(value); } }
+        public bool? IsVerified { get { return this.IsVerifiedOption; } set { this.IsVerifiedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Details
@@ -168,7 +168,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Details
         /// </summary>
         [JsonPropertyName("details")]
-        public CreateUserRequestIdentitiesInnerDetails? Details { get { return this.DetailsOption; } set { this.DetailsOption = new(value); } }
+        public CreateUserRequestIdentitiesInnerDetails? Details { get { return this.DetailsOption; } set { this.DetailsOption = new Option<CreateUserRequestIdentitiesInnerDetails?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

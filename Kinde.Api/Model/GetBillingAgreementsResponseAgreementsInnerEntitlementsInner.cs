@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The feature code of the feature corresponding to this entitlement</value>
         /* <example>CcdkvEXpbg6UY</example> */
         [JsonPropertyName("feature_code")]
-        public string? FeatureCode { get { return this.FeatureCodeOption; } set { this.FeatureCodeOption = new(value); } }
+        public string? FeatureCode { get { return this.FeatureCodeOption; } set { this.FeatureCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EntitlementId
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The friendly id of an entitlement</value>
         /* <example>entitlement_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("entitlement_id")]
-        public string? EntitlementId { get { return this.EntitlementIdOption; } set { this.EntitlementIdOption = new(value); } }
+        public string? EntitlementId { get { return this.EntitlementIdOption; } set { this.EntitlementIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

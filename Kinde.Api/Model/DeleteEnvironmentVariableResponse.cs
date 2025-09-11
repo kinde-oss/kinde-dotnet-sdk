@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated message.</value>
         /* <example>Environment variable deleted</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated status code.</value>
         /* <example>ENVIRONMENT_VARIABLE_DELETED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

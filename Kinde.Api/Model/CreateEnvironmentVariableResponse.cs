@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated message.</value>
         /* <example>Environment variable created</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>A Kinde generated status code.</value>
         /* <example>VARIABLE_CREATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EnvironmentVariable
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets EnvironmentVariable
         /// </summary>
         [JsonPropertyName("environment_variable")]
-        public CreateEnvironmentVariableResponseEnvironmentVariable? EnvironmentVariable { get { return this.EnvironmentVariableOption; } set { this.EnvironmentVariableOption = new(value); } }
+        public CreateEnvironmentVariableResponseEnvironmentVariable? EnvironmentVariable { get { return this.EnvironmentVariableOption; } set { this.EnvironmentVariableOption = new Option<CreateEnvironmentVariableResponseEnvironmentVariable?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

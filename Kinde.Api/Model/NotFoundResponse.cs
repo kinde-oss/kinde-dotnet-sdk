@@ -54,7 +54,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Errors
         /// </summary>
         [JsonPropertyName("errors")]
-        public NotFoundResponseErrors? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new(value); } }
+        public NotFoundResponseErrors? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new Option<NotFoundResponseErrors?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

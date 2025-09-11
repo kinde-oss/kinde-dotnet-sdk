@@ -234,7 +234,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Allow the flag to be overridden at a different level.</value>
         [JsonPropertyName("allow_override_level")]
-        public AllowOverrideLevelEnum? AllowOverrideLevel { get { return this.AllowOverrideLevelOption; } set { this.AllowOverrideLevelOption = new(value); } }
+        public AllowOverrideLevelEnum? AllowOverrideLevel { get { return this.AllowOverrideLevelOption; } set { this.AllowOverrideLevelOption = new Option<AllowOverrideLevelEnum?>(value); } }
 
         /// <summary>
         /// The name of the flag.
@@ -269,7 +269,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Description of the flag purpose.</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

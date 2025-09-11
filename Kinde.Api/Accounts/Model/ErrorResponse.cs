@@ -54,7 +54,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Errors
         /// </summary>
         [JsonPropertyName("errors")]
-        public List<Error>? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new(value); } }
+        public List<Error>? Errors { get { return this.ErrorsOption; } set { this.ErrorsOption = new Option<List<Error>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

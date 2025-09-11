@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of callback urls.</value>
         [JsonPropertyName("urls")]
-        public List<string>? Urls { get { return this.UrlsOption; } set { this.UrlsOption = new(value); } }
+        public List<string>? Urls { get { return this.UrlsOption; } set { this.UrlsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

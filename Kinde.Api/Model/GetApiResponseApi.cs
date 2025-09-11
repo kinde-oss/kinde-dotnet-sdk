@@ -66,7 +66,7 @@ namespace Kinde.Api.Model
         /// <value>Unique ID of the API.</value>
         /* <example>7ccd126599aa422a771abcb341596881</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -81,7 +81,7 @@ namespace Kinde.Api.Model
         /// <value>The API&#39;s name.</value>
         /* <example>Example API</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Audience
@@ -96,7 +96,7 @@ namespace Kinde.Api.Model
         /// <value>A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims.</value>
         /* <example>https://api.example.com</example> */
         [JsonPropertyName("audience")]
-        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new(value); } }
+        public string? Audience { get { return this.AudienceOption; } set { this.AudienceOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsManagementApi
@@ -111,7 +111,7 @@ namespace Kinde.Api.Model
         /// <value>Whether or not it is the Kinde management API.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_management_api")]
-        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new(value); } }
+        public bool? IsManagementApi { get { return this.IsManagementApiOption; } set { this.IsManagementApiOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -124,7 +124,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Scopes
         /// </summary>
         [JsonPropertyName("scopes")]
-        public List<GetApiResponseApiScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<GetApiResponseApiScopesInner>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<GetApiResponseApiScopesInner>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Applications
@@ -137,7 +137,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Applications
         /// </summary>
         [JsonPropertyName("applications")]
-        public List<GetApiResponseApiApplicationsInner>? Applications { get { return this.ApplicationsOption; } set { this.ApplicationsOption = new(value); } }
+        public List<GetApiResponseApiApplicationsInner>? Applications { get { return this.ApplicationsOption; } set { this.ApplicationsOption = new Option<List<GetApiResponseApiApplicationsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

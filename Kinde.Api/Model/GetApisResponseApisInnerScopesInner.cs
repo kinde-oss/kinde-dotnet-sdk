@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>api_scope_01939128c3d7193ae87c4755213c07c6</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>create:apis</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

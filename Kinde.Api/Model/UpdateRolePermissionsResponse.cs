@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PermissionsAdded
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets PermissionsAdded
         /// </summary>
         [JsonPropertyName("permissions_added")]
-        public List<string>? PermissionsAdded { get { return this.PermissionsAddedOption; } set { this.PermissionsAddedOption = new(value); } }
+        public List<string>? PermissionsAdded { get { return this.PermissionsAddedOption; } set { this.PermissionsAddedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of PermissionsRemoved
@@ -99,7 +99,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets PermissionsRemoved
         /// </summary>
         [JsonPropertyName("permissions_removed")]
-        public List<string>? PermissionsRemoved { get { return this.PermissionsRemovedOption; } set { this.PermissionsRemovedOption = new(value); } }
+        public List<string>? PermissionsRemoved { get { return this.PermissionsRemovedOption; } set { this.PermissionsRemovedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

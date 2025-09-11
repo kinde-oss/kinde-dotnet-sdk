@@ -130,7 +130,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Absolutes overrides the current usage</value>
         [JsonPropertyName("meter_type_code")]
-        public MeterTypeCodeEnum? MeterTypeCode { get { return this.MeterTypeCodeOption; } set { this.MeterTypeCodeOption = new(value); } }
+        public MeterTypeCodeEnum? MeterTypeCode { get { return this.MeterTypeCodeOption; } set { this.MeterTypeCodeOption = new Option<MeterTypeCodeEnum?>(value); } }
 
         /// <summary>
         /// The billing agreement against which to record usage
@@ -169,7 +169,7 @@ namespace Kinde.Api.Model
         /// <value>The date and time the usage needs to be recorded for (defaults to current date/time)</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("meter_usage_timestamp")]
-        public DateTimeOffset? MeterUsageTimestamp { get { return this.MeterUsageTimestampOption; } set { this.MeterUsageTimestampOption = new(value); } }
+        public DateTimeOffset? MeterUsageTimestamp { get { return this.MeterUsageTimestampOption; } set { this.MeterUsageTimestampOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

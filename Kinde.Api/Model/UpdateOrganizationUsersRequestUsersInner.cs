@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>The users id.</value>
         /* <example>kp_057ee6debc624c70947b6ba512908c35</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Operation
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Optional operation, set to &#39;delete&#39; to remove the user from the organization.</value>
         /* <example>delete</example> */
         [JsonPropertyName("operation")]
-        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new(value); } }
+        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Roles
@@ -91,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Role keys to assign to the user.</value>
         [JsonPropertyName("roles")]
-        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new(value); } }
+        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Permissions
@@ -105,7 +105,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Permission keys to assign to the user.</value>
         [JsonPropertyName("permissions")]
-        public List<string>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new(value); } }
+        public List<string>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

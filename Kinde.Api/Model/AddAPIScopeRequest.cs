@@ -66,7 +66,7 @@ namespace Kinde.Api.Model
         /// <value>Description of the api scope purpose.</value>
         /* <example>Scope for reading logs.</example> */
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

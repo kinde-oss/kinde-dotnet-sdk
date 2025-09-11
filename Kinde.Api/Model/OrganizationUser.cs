@@ -72,7 +72,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the user.</value>
         /* <example>kp:97c2ba24217d48e3b96a799b76cf2c74</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -87,7 +87,7 @@ namespace Kinde.Api.Model
         /// <value>The user&#39;s email address.</value>
         /* <example>john.snow@example.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FullName
@@ -102,7 +102,7 @@ namespace Kinde.Api.Model
         /// <value>The user&#39;s full name.</value>
         /* <example>John Snow</example> */
         [JsonPropertyName("full_name")]
-        public string? FullName { get { return this.FullNameOption; } set { this.FullNameOption = new(value); } }
+        public string? FullName { get { return this.FullNameOption; } set { this.FullNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -117,7 +117,7 @@ namespace Kinde.Api.Model
         /// <value>The user&#39;s last name.</value>
         /* <example>Snow</example> */
         [JsonPropertyName("last_name")]
-        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
+        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
@@ -132,7 +132,7 @@ namespace Kinde.Api.Model
         /// <value>The user&#39;s first name.</value>
         /* <example>John</example> */
         [JsonPropertyName("first_name")]
-        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
+        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -147,7 +147,7 @@ namespace Kinde.Api.Model
         /// <value>The user&#39;s profile picture URL.</value>
         /* <example>https://example.com/john_snow.jpg</example> */
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of JoinedOn
@@ -162,7 +162,7 @@ namespace Kinde.Api.Model
         /// <value>The date the user joined the organization.</value>
         /* <example>2021-01-01T00:00:00Z</example> */
         [JsonPropertyName("joined_on")]
-        public string? JoinedOn { get { return this.JoinedOnOption; } set { this.JoinedOnOption = new(value); } }
+        public string? JoinedOn { get { return this.JoinedOnOption; } set { this.JoinedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastAccessedOn
@@ -177,7 +177,7 @@ namespace Kinde.Api.Model
         /// <value>The date the user last accessed the organization.</value>
         /* <example>2022-01-01T00:00:00Z</example> */
         [JsonPropertyName("last_accessed_on")]
-        public string? LastAccessedOn { get { return this.LastAccessedOnOption; } set { this.LastAccessedOnOption = new(value); } }
+        public string? LastAccessedOn { get { return this.LastAccessedOnOption; } set { this.LastAccessedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Roles
@@ -191,7 +191,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The roles the user has in the organization.</value>
         [JsonPropertyName("roles")]
-        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new(value); } }
+        public List<string>? Roles { get { return this.RolesOption; } set { this.RolesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

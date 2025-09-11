@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of scope IDs to associate with this API key.</value>
         [JsonPropertyName("scope_ids")]
-        public List<string>? ScopeIds { get { return this.ScopeIdsOption; } set { this.ScopeIdsOption = new(value); } }
+        public List<string>? ScopeIds { get { return this.ScopeIdsOption; } set { this.ScopeIdsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of UserId
@@ -91,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The ID of the user to associate with this API key (for user-level keys).</value>
         [JsonPropertyName("user_id")]
-        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
+        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrgCode
@@ -105,7 +105,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization code to associate with this API key (for organization-level keys).</value>
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

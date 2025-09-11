@@ -57,7 +57,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>Error.</value>
         [JsonPropertyName("error")]
-        public string? Error { get { return this.ErrorOption; } set { this.ErrorOption = new(value); } }
+        public string? Error { get { return this.ErrorOption; } set { this.ErrorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ErrorDescription
@@ -71,7 +71,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>The error description.</value>
         [JsonPropertyName("error_description")]
-        public string? ErrorDescription { get { return this.ErrorDescriptionOption; } set { this.ErrorDescriptionOption = new(value); } }
+        public string? ErrorDescription { get { return this.ErrorDescriptionOption; } set { this.ErrorDescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Permissions to add or remove from the role.</value>
         [JsonPropertyName("permissions")]
-        public List<UpdateRolePermissionsRequestPermissionsInner>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new(value); } }
+        public List<UpdateRolePermissionsRequestPermissionsInner>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new Option<List<UpdateRolePermissionsRequestPermissionsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

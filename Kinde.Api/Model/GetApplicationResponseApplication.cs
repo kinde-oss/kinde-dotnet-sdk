@@ -150,7 +150,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s type.</value>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -165,7 +165,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s identifier.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -180,7 +180,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s name.</value>
         /* <example>My React app</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -195,7 +195,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s client ID.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientSecret
@@ -210,7 +210,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s client secret.</value>
         /* <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LoginUri
@@ -225,7 +225,7 @@ namespace Kinde.Api.Model
         /// <value>The default login route for resolving session issues.</value>
         /* <example>https://yourapp.com/api/auth/login</example> */
         [JsonPropertyName("login_uri")]
-        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new(value); } }
+        public string? LoginUri { get { return this.LoginUriOption; } set { this.LoginUriOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HomepageUri
@@ -240,7 +240,7 @@ namespace Kinde.Api.Model
         /// <value>The homepage link to your application.</value>
         /* <example>https://yourapp.com</example> */
         [JsonPropertyName("homepage_uri")]
-        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new(value); } }
+        public string? HomepageUri { get { return this.HomepageUriOption; } set { this.HomepageUriOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasCancelButton
@@ -255,7 +255,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the application has a cancel button to allow users to exit the auth flow [Beta].</value>
         /* <example>false</example> */
         [JsonPropertyName("has_cancel_button")]
-        public bool? HasCancelButton { get { return this.HasCancelButtonOption; } set { this.HasCancelButtonOption = new(value); } }
+        public bool? HasCancelButton { get { return this.HasCancelButtonOption; } set { this.HasCancelButtonOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

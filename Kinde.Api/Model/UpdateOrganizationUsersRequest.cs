@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Users to add, update or remove from the organization.</value>
         [JsonPropertyName("users")]
-        public List<UpdateOrganizationUsersRequestUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new(value); } }
+        public List<UpdateOrganizationUsersRequestUsersInner>? Users { get { return this.UsersOption; } set { this.UsersOption = new Option<List<UpdateOrganizationUsersRequestUsersInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

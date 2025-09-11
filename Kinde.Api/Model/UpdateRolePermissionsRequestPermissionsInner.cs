@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The permission id.</value>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Operation
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Optional operation, set to &#39;delete&#39; to remove the permission from the role.</value>
         [JsonPropertyName("operation")]
-        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new(value); } }
+        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -186,7 +186,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         [JsonPropertyName("theme_code")]
-        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<ThemeCodeEnum?>(value); } }
 
         /// <summary>
         /// The color scheme for the environment used for meta tags based on the theme code
@@ -281,7 +281,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The color scheme for the environment used for meta tags based on the theme code</value>
         [JsonPropertyName("color_scheme")]
-        public ColorSchemeEnum? ColorScheme { get { return this.ColorSchemeOption; } set { this.ColorSchemeOption = new(value); } }
+        public ColorSchemeEnum? ColorScheme { get { return this.ColorSchemeOption; } set { this.ColorSchemeOption = new Option<ColorSchemeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -296,7 +296,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier for the environment.</value>
         /* <example>production</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -311,7 +311,7 @@ namespace Kinde.Api.Model
         /// <value>The environment&#39;s name.</value>
         /* <example>Production</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HotjarSiteId
@@ -326,7 +326,7 @@ namespace Kinde.Api.Model
         /// <value>Your HotJar site ID.</value>
         /* <example>404009</example> */
         [JsonPropertyName("hotjar_site_id")]
-        public string? HotjarSiteId { get { return this.HotjarSiteIdOption; } set { this.HotjarSiteIdOption = new(value); } }
+        public string? HotjarSiteId { get { return this.HotjarSiteIdOption; } set { this.HotjarSiteIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of GoogleAnalyticsTag
@@ -341,7 +341,7 @@ namespace Kinde.Api.Model
         /// <value>Your Google Analytics tag.</value>
         /* <example>G-1234567</example> */
         [JsonPropertyName("google_analytics_tag")]
-        public string? GoogleAnalyticsTag { get { return this.GoogleAnalyticsTagOption; } set { this.GoogleAnalyticsTagOption = new(value); } }
+        public string? GoogleAnalyticsTag { get { return this.GoogleAnalyticsTagOption; } set { this.GoogleAnalyticsTagOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefault
@@ -356,7 +356,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment is the default. Typically this is your production environment.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_default")]
-        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new(value); } }
+        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsLive
@@ -371,7 +371,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment is live.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_live")]
-        public bool? IsLive { get { return this.IsLiveOption; } set { this.IsLiveOption = new(value); } }
+        public bool? IsLive { get { return this.IsLiveOption; } set { this.IsLiveOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of KindeDomain
@@ -386,7 +386,7 @@ namespace Kinde.Api.Model
         /// <value>Your domain on Kinde</value>
         /* <example>example.kinde.com</example> */
         [JsonPropertyName("kinde_domain")]
-        public string? KindeDomain { get { return this.KindeDomainOption; } set { this.KindeDomainOption = new(value); } }
+        public string? KindeDomain { get { return this.KindeDomainOption; } set { this.KindeDomainOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of CustomDomain
@@ -401,7 +401,7 @@ namespace Kinde.Api.Model
         /// <value>Your custom domain for the environment</value>
         /* <example>app.example.com</example> */
         [JsonPropertyName("custom_domain")]
-        public string? CustomDomain { get { return this.CustomDomainOption; } set { this.CustomDomainOption = new(value); } }
+        public string? CustomDomain { get { return this.CustomDomainOption; } set { this.CustomDomainOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Logo
@@ -416,7 +416,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s logo URL.</value>
         /* <example>https://yoursubdomain.kinde.com/logo?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("logo")]
-        public string? Logo { get { return this.LogoOption; } set { this.LogoOption = new(value); } }
+        public string? Logo { get { return this.LogoOption; } set { this.LogoOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LogoDark
@@ -431,7 +431,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s logo URL to be used for dark themes.</value>
         /* <example>https://yoursubdomain.kinde.com/logo_dark?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("logo_dark")]
-        public string? LogoDark { get { return this.LogoDarkOption; } set { this.LogoDarkOption = new(value); } }
+        public string? LogoDark { get { return this.LogoDarkOption; } set { this.LogoDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FaviconSvg
@@ -446,7 +446,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s SVG favicon URL. Optimal format for most browsers</value>
         /* <example>https://yoursubdomain.kinde.com/favicon_svg?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("favicon_svg")]
-        public string? FaviconSvg { get { return this.FaviconSvgOption; } set { this.FaviconSvgOption = new(value); } }
+        public string? FaviconSvg { get { return this.FaviconSvgOption; } set { this.FaviconSvgOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FaviconFallback
@@ -461,7 +461,7 @@ namespace Kinde.Api.Model
         /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
         /* <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example> */
         [JsonPropertyName("favicon_fallback")]
-        public string? FaviconFallback { get { return this.FaviconFallbackOption; } set { this.FaviconFallbackOption = new(value); } }
+        public string? FaviconFallback { get { return this.FaviconFallbackOption; } set { this.FaviconFallbackOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -474,7 +474,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets LinkColor
         /// </summary>
         [JsonPropertyName("link_color")]
-        public GetEnvironmentResponseEnvironmentLinkColor? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColor
@@ -487,7 +487,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets BackgroundColor
         /// </summary>
         [JsonPropertyName("background_color")]
-        public GetEnvironmentResponseEnvironmentBackgroundColor? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentBackgroundColor? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<GetEnvironmentResponseEnvironmentBackgroundColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColor
@@ -500,7 +500,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ButtonColor
         /// </summary>
         [JsonPropertyName("button_color")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColor
@@ -513,7 +513,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ButtonTextColor
         /// </summary>
         [JsonPropertyName("button_text_color")]
-        public GetEnvironmentResponseEnvironmentBackgroundColor? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentBackgroundColor? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<GetEnvironmentResponseEnvironmentBackgroundColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColorDark
@@ -526,7 +526,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets LinkColorDark
         /// </summary>
         [JsonPropertyName("link_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColorDark
@@ -539,7 +539,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets BackgroundColorDark
         /// </summary>
         [JsonPropertyName("background_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColorDark
@@ -552,7 +552,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ButtonTextColorDark
         /// </summary>
         [JsonPropertyName("button_text_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColorDark
@@ -565,7 +565,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ButtonColorDark
         /// </summary>
         [JsonPropertyName("button_color_dark")]
-        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public GetEnvironmentResponseEnvironmentLinkColor? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<GetEnvironmentResponseEnvironmentLinkColor?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonBorderRadius
@@ -580,7 +580,7 @@ namespace Kinde.Api.Model
         /// <value>The border radius for buttons. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>8</example> */
         [JsonPropertyName("button_border_radius")]
-        public int? ButtonBorderRadius { get { return this.ButtonBorderRadiusOption; } set { this.ButtonBorderRadiusOption = new(value); } }
+        public int? ButtonBorderRadius { get { return this.ButtonBorderRadiusOption; } set { this.ButtonBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of CardBorderRadius
@@ -595,7 +595,7 @@ namespace Kinde.Api.Model
         /// <value>The border radius for cards. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>16</example> */
         [JsonPropertyName("card_border_radius")]
-        public int? CardBorderRadius { get { return this.CardBorderRadiusOption; } set { this.CardBorderRadiusOption = new(value); } }
+        public int? CardBorderRadius { get { return this.CardBorderRadiusOption; } set { this.CardBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of InputBorderRadius
@@ -610,7 +610,7 @@ namespace Kinde.Api.Model
         /// <value>The border radius for inputs. Value is px, Kinde transforms to rem for rendering</value>
         /* <example>4</example> */
         [JsonPropertyName("input_border_radius")]
-        public int? InputBorderRadius { get { return this.InputBorderRadiusOption; } set { this.InputBorderRadiusOption = new(value); } }
+        public int? InputBorderRadius { get { return this.InputBorderRadiusOption; } set { this.InputBorderRadiusOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -625,7 +625,7 @@ namespace Kinde.Api.Model
         /// <value>Date of environment creation in ISO 8601 format.</value>
         /* <example>2021-01-01T00:00:00Z</example> */
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

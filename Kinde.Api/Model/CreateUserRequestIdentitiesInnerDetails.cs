@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>The email address of the user.</value>
         /* <example>email@email.com</example> */
         [JsonPropertyName("email")]
-        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
+        public string? Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>The phone number of the user.</value>
         /* <example>+61426148233</example> */
         [JsonPropertyName("phone")]
-        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
+        public string? Phone { get { return this.PhoneOption; } set { this.PhoneOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PhoneCountryId
@@ -92,7 +92,7 @@ namespace Kinde.Api.Model
         /// <value>The country code for the phone number.</value>
         /* <example>au</example> */
         [JsonPropertyName("phone_country_id")]
-        public string? PhoneCountryId { get { return this.PhoneCountryIdOption; } set { this.PhoneCountryIdOption = new(value); } }
+        public string? PhoneCountryId { get { return this.PhoneCountryIdOption; } set { this.PhoneCountryIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Username
@@ -107,7 +107,7 @@ namespace Kinde.Api.Model
         /// <value>The username of the user.</value>
         /* <example>myusername</example> */
         [JsonPropertyName("username")]
-        public string? Username { get { return this.UsernameOption; } set { this.UsernameOption = new(value); } }
+        public string? Username { get { return this.UsernameOption; } set { this.UsernameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

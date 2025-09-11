@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The unique key for the timezone.</value>
         /* <example>london_greenwich_mean_time</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The display name for the timezone.</value>
         /* <example>London (Greenwich Mean Time) [+01:00]</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

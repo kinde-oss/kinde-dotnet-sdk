@@ -78,7 +78,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier of the user associated with the session.</value>
         /* <example>kp_5fc30d0547734f30aca617450202169f</example> */
         [JsonPropertyName("user_id")]
-        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
+        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrgCode
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>The organization code associated with the session, if applicable.</value>
         /* <example>org_1ccfb819462</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -108,7 +108,7 @@ namespace Kinde.Api.Model
         /// <value>The client ID used to initiate the session.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ExpiresOn
@@ -123,7 +123,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp indicating when the session will expire.</value>
         /* <example>2025-04-02T13:04:20.315701+11:00</example> */
         [JsonPropertyName("expires_on")]
-        public DateTimeOffset? ExpiresOn { get { return this.ExpiresOnOption; } set { this.ExpiresOnOption = new(value); } }
+        public DateTimeOffset? ExpiresOn { get { return this.ExpiresOnOption; } set { this.ExpiresOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of SessionId
@@ -138,7 +138,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier of the session.</value>
         /* <example>session_0xc75ec12fe8434ffc9d527794f00692e5</example> */
         [JsonPropertyName("session_id")]
-        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new(value); } }
+        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of StartedOn
@@ -153,7 +153,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp when the session was initiated.</value>
         /* <example>2025-04-01T13:04:20.315701+11:00</example> */
         [JsonPropertyName("started_on")]
-        public DateTimeOffset? StartedOn { get { return this.StartedOnOption; } set { this.StartedOnOption = new(value); } }
+        public DateTimeOffset? StartedOn { get { return this.StartedOnOption; } set { this.StartedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of UpdatedOn
@@ -168,7 +168,7 @@ namespace Kinde.Api.Model
         /// <value>The timestamp of the last update to the session.</value>
         /* <example>2025-04-01T13:04:20+11:00</example> */
         [JsonPropertyName("updated_on")]
-        public DateTimeOffset? UpdatedOn { get { return this.UpdatedOnOption; } set { this.UpdatedOnOption = new(value); } }
+        public DateTimeOffset? UpdatedOn { get { return this.UpdatedOnOption; } set { this.UpdatedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of ConnectionId
@@ -183,7 +183,7 @@ namespace Kinde.Api.Model
         /// <value>The identifier of the connection through which the session was established.</value>
         /* <example>conn_75ab8ec0faae4f73bae9fc64daf120c9</example> */
         [JsonPropertyName("connection_id")]
-        public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new(value); } }
+        public string? ConnectionId { get { return this.ConnectionIdOption; } set { this.ConnectionIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastIpAddress
@@ -198,7 +198,7 @@ namespace Kinde.Api.Model
         /// <value>The last known IP address of the user during this session.</value>
         /* <example>192.168.65.1</example> */
         [JsonPropertyName("last_ip_address")]
-        public string? LastIpAddress { get { return this.LastIpAddressOption; } set { this.LastIpAddressOption = new(value); } }
+        public string? LastIpAddress { get { return this.LastIpAddressOption; } set { this.LastIpAddressOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastUserAgent
@@ -213,7 +213,7 @@ namespace Kinde.Api.Model
         /// <value>The last known user agent (browser or app) used during this session.</value>
         /* <example>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36</example> */
         [JsonPropertyName("last_user_agent")]
-        public string? LastUserAgent { get { return this.LastUserAgentOption; } set { this.LastUserAgentOption = new(value); } }
+        public string? LastUserAgent { get { return this.LastUserAgentOption; } set { this.LastUserAgentOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of InitialIpAddress
@@ -228,7 +228,7 @@ namespace Kinde.Api.Model
         /// <value>The IP address from which the session was initially started.</value>
         /* <example>192.168.65.1</example> */
         [JsonPropertyName("initial_ip_address")]
-        public string? InitialIpAddress { get { return this.InitialIpAddressOption; } set { this.InitialIpAddressOption = new(value); } }
+        public string? InitialIpAddress { get { return this.InitialIpAddressOption; } set { this.InitialIpAddressOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of InitialUserAgent
@@ -243,7 +243,7 @@ namespace Kinde.Api.Model
         /// <value>The user agent (browser or app) used when the session was first created.</value>
         /* <example>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36</example> */
         [JsonPropertyName("initial_user_agent")]
-        public string? InitialUserAgent { get { return this.InitialUserAgentOption; } set { this.InitialUserAgentOption = new(value); } }
+        public string? InitialUserAgent { get { return this.InitialUserAgentOption; } set { this.InitialUserAgentOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

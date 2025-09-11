@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An application&#39;s logout URLs.</value>
         [JsonPropertyName("logout_urls")]
-        public List<string>? LogoutUrls { get { return this.LogoutUrlsOption; } set { this.LogoutUrlsOption = new(value); } }
+        public List<string>? LogoutUrls { get { return this.LogoutUrlsOption; } set { this.LogoutUrlsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -74,7 +74,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

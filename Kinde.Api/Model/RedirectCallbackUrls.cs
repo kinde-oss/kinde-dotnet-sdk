@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An application&#39;s redirect URLs.</value>
         [JsonPropertyName("redirect_urls")]
-        public List<string>? RedirectUrls { get { return this.RedirectUrlsOption; } set { this.RedirectUrlsOption = new(value); } }
+        public List<string>? RedirectUrls { get { return this.RedirectUrlsOption; } set { this.RedirectUrlsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -78,7 +78,7 @@ namespace Kinde.Api.Model
         /// <value>List of domains to restrict authentication.</value>
         /* <example>[&quot;@kinde.com&quot;,&quot;@kinde.io&quot;]</example> */
         [JsonPropertyName("home_realm_domains")]
-        public List<string>? HomeRealmDomains { get { return this.HomeRealmDomainsOption; } set { this.HomeRealmDomainsOption = new(value); } }
+        public List<string>? HomeRealmDomains { get { return this.HomeRealmDomainsOption; } set { this.HomeRealmDomainsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlEntityId
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>SAML Entity ID.</value>
         /* <example>https://kinde.com</example> */
         [JsonPropertyName("saml_entity_id")]
-        public string? SamlEntityId { get { return this.SamlEntityIdOption; } set { this.SamlEntityIdOption = new(value); } }
+        public string? SamlEntityId { get { return this.SamlEntityIdOption; } set { this.SamlEntityIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlAcsUrl
@@ -108,7 +108,7 @@ namespace Kinde.Api.Model
         /// <value>Assertion Consumer Service URL.</value>
         /* <example>https://kinde.com/saml/acs</example> */
         [JsonPropertyName("saml_acs_url")]
-        public string? SamlAcsUrl { get { return this.SamlAcsUrlOption; } set { this.SamlAcsUrlOption = new(value); } }
+        public string? SamlAcsUrl { get { return this.SamlAcsUrlOption; } set { this.SamlAcsUrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlIdpMetadataUrl
@@ -123,7 +123,7 @@ namespace Kinde.Api.Model
         /// <value>URL for the IdP metadata.</value>
         /* <example>https://kinde.com/saml/metadata</example> */
         [JsonPropertyName("saml_idp_metadata_url")]
-        public string? SamlIdpMetadataUrl { get { return this.SamlIdpMetadataUrlOption; } set { this.SamlIdpMetadataUrlOption = new(value); } }
+        public string? SamlIdpMetadataUrl { get { return this.SamlIdpMetadataUrlOption; } set { this.SamlIdpMetadataUrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlEmailKeyAttr
@@ -138,7 +138,7 @@ namespace Kinde.Api.Model
         /// <value>Attribute key for the user’s email.</value>
         /* <example>email</example> */
         [JsonPropertyName("saml_email_key_attr")]
-        public string? SamlEmailKeyAttr { get { return this.SamlEmailKeyAttrOption; } set { this.SamlEmailKeyAttrOption = new(value); } }
+        public string? SamlEmailKeyAttr { get { return this.SamlEmailKeyAttrOption; } set { this.SamlEmailKeyAttrOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlFirstNameKeyAttr
@@ -153,7 +153,7 @@ namespace Kinde.Api.Model
         /// <value>Attribute key for the user’s first name.</value>
         /* <example>given_name</example> */
         [JsonPropertyName("saml_first_name_key_attr")]
-        public string? SamlFirstNameKeyAttr { get { return this.SamlFirstNameKeyAttrOption; } set { this.SamlFirstNameKeyAttrOption = new(value); } }
+        public string? SamlFirstNameKeyAttr { get { return this.SamlFirstNameKeyAttrOption; } set { this.SamlFirstNameKeyAttrOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlLastNameKeyAttr
@@ -168,7 +168,7 @@ namespace Kinde.Api.Model
         /// <value>Attribute key for the user’s last name.</value>
         /* <example>family_name</example> */
         [JsonPropertyName("saml_last_name_key_attr")]
-        public string? SamlLastNameKeyAttr { get { return this.SamlLastNameKeyAttrOption; } set { this.SamlLastNameKeyAttrOption = new(value); } }
+        public string? SamlLastNameKeyAttr { get { return this.SamlLastNameKeyAttrOption; } set { this.SamlLastNameKeyAttrOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsCreateMissingUser
@@ -183,7 +183,7 @@ namespace Kinde.Api.Model
         /// <value>Create user if they don’t exist.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_create_missing_user")]
-        public bool? IsCreateMissingUser { get { return this.IsCreateMissingUserOption; } set { this.IsCreateMissingUserOption = new(value); } }
+        public bool? IsCreateMissingUser { get { return this.IsCreateMissingUserOption; } set { this.IsCreateMissingUserOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsForceShowSsoButton
@@ -198,7 +198,7 @@ namespace Kinde.Api.Model
         /// <value>Force showing the SSO button for this connection.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_force_show_sso_button")]
-        public bool? IsForceShowSsoButton { get { return this.IsForceShowSsoButtonOption; } set { this.IsForceShowSsoButtonOption = new(value); } }
+        public bool? IsForceShowSsoButton { get { return this.IsForceShowSsoButtonOption; } set { this.IsForceShowSsoButtonOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of UpstreamParams
@@ -213,7 +213,7 @@ namespace Kinde.Api.Model
         /// <value>Additional upstream parameters to pass to the identity provider.</value>
         /* <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example> */
         [JsonPropertyName("upstream_params")]
-        public Dictionary<string, Object>? UpstreamParams { get { return this.UpstreamParamsOption; } set { this.UpstreamParamsOption = new(value); } }
+        public Dictionary<string, Object>? UpstreamParams { get { return this.UpstreamParamsOption; } set { this.UpstreamParamsOption = new Option<Dictionary<string, Object>?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlSigningCertificate
@@ -227,7 +227,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
 [JsonPropertyName("saml_signing_certificate")]
-        public string? SamlSigningCertificate { get { return this.SamlSigningCertificateOption; } set { this.SamlSigningCertificateOption = new(value); } }
+        public string? SamlSigningCertificate { get { return this.SamlSigningCertificateOption; } set { this.SamlSigningCertificateOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SamlSigningPrivateKey
@@ -241,7 +241,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
 [JsonPropertyName("saml_signing_private_key")]
-        public string? SamlSigningPrivateKey { get { return this.SamlSigningPrivateKeyOption; } set { this.SamlSigningPrivateKeyOption = new(value); } }
+        public string? SamlSigningPrivateKey { get { return this.SamlSigningPrivateKeyOption; } set { this.SamlSigningPrivateKeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

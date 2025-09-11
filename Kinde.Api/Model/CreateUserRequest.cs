@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Profile
         /// </summary>
         [JsonPropertyName("profile")]
-        public CreateUserRequestProfile? Profile { get { return this.ProfileOption; } set { this.ProfileOption = new(value); } }
+        public CreateUserRequestProfile? Profile { get { return this.ProfileOption; } set { this.ProfileOption = new Option<CreateUserRequestProfile?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrganizationCode
@@ -74,7 +74,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The unique code associated with the organization you want the user to join.</value>
         [JsonPropertyName("organization_code")]
-        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new(value); } }
+        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ProvidedId
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>An external id to reference the user.</value>
         [JsonPropertyName("provided_id")]
-        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new(value); } }
+        public string? ProvidedId { get { return this.ProvidedIdOption; } set { this.ProvidedIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Identities
@@ -103,7 +103,7 @@ namespace Kinde.Api.Model
         /// <value>Array of identities to assign to the created user</value>
         /* <example>[{&quot;type&quot;:&quot;email&quot;,&quot;is_verified&quot;:true,&quot;details&quot;:{&quot;email&quot;:&quot;email@email.com&quot;}},{&quot;type&quot;:&quot;phone&quot;,&quot;is_verified&quot;:false,&quot;details&quot;:{&quot;phone&quot;:&quot;+61426148233&quot;,&quot;phone_country_id&quot;:&quot;au&quot;}},{&quot;type&quot;:&quot;username&quot;,&quot;details&quot;:{&quot;username&quot;:&quot;myusername&quot;}}]</example> */
         [JsonPropertyName("identities")]
-        public List<CreateUserRequestIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new(value); } }
+        public List<CreateUserRequestIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<CreateUserRequestIdentitiesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

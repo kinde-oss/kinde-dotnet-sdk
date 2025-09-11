@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The code of the plan from which this agreement is taken from</value>
         /* <example>pro</example> */
         [JsonPropertyName("plan_code")]
-        public string? PlanCode { get { return this.PlanCodeOption; } set { this.PlanCodeOption = new(value); } }
+        public string? PlanCode { get { return this.PlanCodeOption; } set { this.PlanCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of AgreementId
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The id of the billing agreement in Kinde</value>
         /* <example>agreement_a1234b</example> */
         [JsonPropertyName("agreement_id")]
-        public string? AgreementId { get { return this.AgreementIdOption; } set { this.AgreementIdOption = new(value); } }
+        public string? AgreementId { get { return this.AgreementIdOption; } set { this.AgreementIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

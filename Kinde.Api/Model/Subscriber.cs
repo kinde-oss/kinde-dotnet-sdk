@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PreferredEmail
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets PreferredEmail
         /// </summary>
         [JsonPropertyName("preferred_email")]
-        public string? PreferredEmail { get { return this.PreferredEmailOption; } set { this.PreferredEmailOption = new(value); } }
+        public string? PreferredEmail { get { return this.PreferredEmailOption; } set { this.PreferredEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("first_name")]
-        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
+        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -99,7 +99,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("last_name")]
-        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
+        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

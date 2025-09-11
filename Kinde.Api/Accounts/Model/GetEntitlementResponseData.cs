@@ -58,7 +58,7 @@ namespace Kinde.Accounts.Model
         /// <value>The organization code the entitlements are associated with.</value>
         /* <example>org_0195ac80a14e</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Entitlement
@@ -71,7 +71,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Entitlement
         /// </summary>
         [JsonPropertyName("entitlement")]
-        public GetEntitlementResponseDataEntitlement? Entitlement { get { return this.EntitlementOption; } set { this.EntitlementOption = new(value); } }
+        public GetEntitlementResponseDataEntitlement? Entitlement { get { return this.EntitlementOption; } set { this.EntitlementOption = new Option<GetEntitlementResponseDataEntitlement?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -356,7 +356,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The identity provider identifier for the connection.</value>
         [JsonPropertyName("strategy")]
-        public StrategyEnum? Strategy { get { return this.StrategyOption; } set { this.StrategyOption = new(value); } }
+        public StrategyEnum? Strategy { get { return this.StrategyOption; } set { this.StrategyOption = new Option<StrategyEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -370,7 +370,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The internal name of the connection.</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of DisplayName
@@ -384,7 +384,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The public facing name of the connection.</value>
         [JsonPropertyName("display_name")]
-        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new(value); } }
+        public string? DisplayName { get { return this.DisplayNameOption; } set { this.DisplayNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EnabledApplications
@@ -398,7 +398,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Client IDs of applications in which this connection is to be enabled.</value>
         [JsonPropertyName("enabled_applications")]
-        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new(value); } }
+        public List<string>? EnabledApplications { get { return this.EnabledApplicationsOption; } set { this.EnabledApplicationsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrganizationCode
@@ -413,7 +413,7 @@ namespace Kinde.Api.Model
         /// <value>Enterprise connections only - the code for organization that manages this connection.</value>
         /* <example>org_80581732fbe</example> */
         [JsonPropertyName("organization_code")]
-        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new(value); } }
+        public string? OrganizationCode { get { return this.OrganizationCodeOption; } set { this.OrganizationCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Options
@@ -426,7 +426,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Options
         /// </summary>
         [JsonPropertyName("options")]
-        public CreateConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new(value); } }
+        public CreateConnectionRequestOptions? Options { get { return this.OptionsOption; } set { this.OptionsOption = new Option<CreateConnectionRequestOptions?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

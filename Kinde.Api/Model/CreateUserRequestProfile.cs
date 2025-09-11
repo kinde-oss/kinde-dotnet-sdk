@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s first name.</value>
         [JsonPropertyName("given_name")]
-        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new(value); } }
+        public string? GivenName { get { return this.GivenNameOption; } set { this.GivenNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FamilyName
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>User&#39;s last name.</value>
         [JsonPropertyName("family_name")]
-        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new(value); } }
+        public string? FamilyName { get { return this.FamilyNameOption; } set { this.FamilyNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Picture
@@ -87,7 +87,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user&#39;s profile picture.</value>
         [JsonPropertyName("picture")]
-        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new(value); } }
+        public string? Picture { get { return this.PictureOption; } set { this.PictureOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

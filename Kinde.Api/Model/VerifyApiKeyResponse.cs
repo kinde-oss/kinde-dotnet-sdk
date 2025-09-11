@@ -74,7 +74,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>API_KEY_VERIFIED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>API key verified</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsValid
@@ -104,7 +104,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the API key is valid.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_valid")]
-        public bool? IsValid { get { return this.IsValidOption; } set { this.IsValidOption = new(value); } }
+        public bool? IsValid { get { return this.IsValidOption; } set { this.IsValidOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of KeyId
@@ -119,7 +119,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the API key.</value>
         /* <example>api_key_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("key_id")]
-        public string? KeyId { get { return this.KeyIdOption; } set { this.KeyIdOption = new(value); } }
+        public string? KeyId { get { return this.KeyIdOption; } set { this.KeyIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Status
@@ -134,7 +134,7 @@ namespace Kinde.Api.Model
         /// <value>The status of the API key.</value>
         /* <example>active</example> */
         [JsonPropertyName("status")]
-        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public string? Status { get { return this.StatusOption; } set { this.StatusOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Scopes
@@ -149,7 +149,7 @@ namespace Kinde.Api.Model
         /// <value>Array of scopes associated with this key.</value>
         /* <example>[&quot;read:users&quot;,&quot;write:users&quot;]</example> */
         [JsonPropertyName("scopes")]
-        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new(value); } }
+        public List<string>? Scopes { get { return this.ScopesOption; } set { this.ScopesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrgCode
@@ -164,7 +164,7 @@ namespace Kinde.Api.Model
         /// <value>The organization code associated with this key.</value>
         /* <example>org_123</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of UserId
@@ -179,7 +179,7 @@ namespace Kinde.Api.Model
         /// <value>The user ID associated with this key.</value>
         /* <example>user_456</example> */
         [JsonPropertyName("user_id")]
-        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new(value); } }
+        public string? UserId { get { return this.UserIdOption; } set { this.UserIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastVerifiedOn
@@ -194,7 +194,7 @@ namespace Kinde.Api.Model
         /// <value>When the API key was last verified.</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("last_verified_on")]
-        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new(value); } }
+        public DateTimeOffset? LastVerifiedOn { get { return this.LastVerifiedOnOption; } set { this.LastVerifiedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of VerificationCount
@@ -209,7 +209,7 @@ namespace Kinde.Api.Model
         /// <value>Number of times this API key has been verified.</value>
         /* <example>42</example> */
         [JsonPropertyName("verification_count")]
-        public int? VerificationCount { get { return this.VerificationCountOption; } set { this.VerificationCountOption = new(value); } }
+        public int? VerificationCount { get { return this.VerificationCountOption; } set { this.VerificationCountOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

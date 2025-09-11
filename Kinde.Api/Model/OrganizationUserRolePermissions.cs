@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Role
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public string? Role { get { return this.RoleOption; } set { this.RoleOption = new(value); } }
+        public string? Role { get { return this.RoleOption; } set { this.RoleOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Permissions
@@ -84,7 +84,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Permissions
         /// </summary>
         [JsonPropertyName("permissions")]
-        public OrganizationUserRolePermissionsPermissions? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new(value); } }
+        public OrganizationUserRolePermissionsPermissions? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new Option<OrganizationUserRolePermissionsPermissions?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

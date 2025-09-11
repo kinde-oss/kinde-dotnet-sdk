@@ -63,7 +63,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of UsersAdded
@@ -90,7 +90,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets UsersAdded
         /// </summary>
         [JsonPropertyName("users_added")]
-        public List<string>? UsersAdded { get { return this.UsersAddedOption; } set { this.UsersAddedOption = new(value); } }
+        public List<string>? UsersAdded { get { return this.UsersAddedOption; } set { this.UsersAddedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of UsersUpdated
@@ -103,7 +103,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets UsersUpdated
         /// </summary>
         [JsonPropertyName("users_updated")]
-        public List<string>? UsersUpdated { get { return this.UsersUpdatedOption; } set { this.UsersUpdatedOption = new(value); } }
+        public List<string>? UsersUpdated { get { return this.UsersUpdatedOption; } set { this.UsersUpdatedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of UsersRemoved
@@ -116,7 +116,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets UsersRemoved
         /// </summary>
         [JsonPropertyName("users_removed")]
-        public List<string>? UsersRemoved { get { return this.UsersRemovedOption; } set { this.UsersRemovedOption = new(value); } }
+        public List<string>? UsersRemoved { get { return this.UsersRemovedOption; } set { this.UsersRemovedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

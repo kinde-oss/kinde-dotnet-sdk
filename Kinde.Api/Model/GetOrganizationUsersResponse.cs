@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of OrganizationUsers
@@ -90,7 +90,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets OrganizationUsers
         /// </summary>
         [JsonPropertyName("organization_users")]
-        public List<OrganizationUser>? OrganizationUsers { get { return this.OrganizationUsersOption; } set { this.OrganizationUsersOption = new(value); } }
+        public List<OrganizationUser>? OrganizationUsers { get { return this.OrganizationUsersOption; } set { this.OrganizationUsersOption = new Option<List<OrganizationUser>?>(value); } }
 
         /// <summary>
         /// Used to track the state of NextToken
@@ -104,7 +104,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Pagination token.</value>
         [JsonPropertyName("next_token")]
-        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new(value); } }
+        public string? NextToken { get { return this.NextTokenOption; } set { this.NextTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

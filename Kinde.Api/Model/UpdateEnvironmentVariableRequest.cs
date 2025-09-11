@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>The key to update.</value>
         /* <example>MY_API_KEY</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Value
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>The new value for the environment variable.</value>
         /* <example>new-secret-value</example> */
         [JsonPropertyName("value")]
-        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsSecret
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the environment variable is sensitive. Secret variables are not-readable by you or your team after creation.</value>
         [JsonPropertyName("is_secret")]
-        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new(value); } }
+        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

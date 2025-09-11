@@ -56,7 +56,7 @@ namespace Kinde.Api.Model
         /// <value>The billing customer id.</value>
         /* <example>customer_1245adbc6789</example> */
         [JsonPropertyName("customer_id")]
-        public string? CustomerId { get { return this.CustomerIdOption; } set { this.CustomerIdOption = new(value); } }
+        public string? CustomerId { get { return this.CustomerIdOption; } set { this.CustomerIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

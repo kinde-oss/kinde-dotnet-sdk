@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// <value>The role&#39;s ID.</value>
         /* <example>01929904-316d-bb2c-069f-99dfea4ac394</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -79,7 +79,7 @@ namespace Kinde.Api.Model
         /// <value>The role identifier to use in code.</value>
         /* <example>admin</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -94,7 +94,7 @@ namespace Kinde.Api.Model
         /// <value>The role&#39;s name.</value>
         /* <example>Administrator</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Description
@@ -109,7 +109,7 @@ namespace Kinde.Api.Model
         /// <value>The role&#39;s description.</value>
         /* <example>Full access to all resources.</example> */
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefaultRole
@@ -124,7 +124,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the role is the default role.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_default_role")]
-        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new(value); } }
+        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

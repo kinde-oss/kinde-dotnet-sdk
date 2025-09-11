@@ -56,7 +56,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the environment variable.</value>
         /* <example>env_var_0192b194f6156fb7452fe38cfb144958</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

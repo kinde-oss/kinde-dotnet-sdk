@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s identifier.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientId
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s client ID.</value>
         /* <example>3b0b5c6c8fcc464fab397f4969b5f482</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientSecret
@@ -90,7 +90,7 @@ namespace Kinde.Api.Model
         /// <value>The application&#39;s client secret.</value>
         /* <example>sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

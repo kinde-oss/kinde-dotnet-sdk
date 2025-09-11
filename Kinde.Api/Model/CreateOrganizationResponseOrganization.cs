@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s unique code.</value>
         /* <example>org_1ccfb819462</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BillingCustomerId
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The billing customer id if the organization was created with the is_create_billing_customer as true</value>
         /* <example>customer_1245adbc6789</example> */
         [JsonPropertyName("billing_customer_id")]
-        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new(value); } }
+        public string? BillingCustomerId { get { return this.BillingCustomerIdOption; } set { this.BillingCustomerIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

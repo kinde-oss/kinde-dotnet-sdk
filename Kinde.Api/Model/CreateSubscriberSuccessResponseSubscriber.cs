@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A unique identifier for the subscriber.</value>
         [JsonPropertyName("subscriber_id")]
-        public string? SubscriberId { get { return this.SubscriberIdOption; } set { this.SubscriberIdOption = new(value); } }
+        public string? SubscriberId { get { return this.SubscriberIdOption; } set { this.SubscriberIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -62,7 +62,7 @@ namespace Kinde.Accounts.Model
         /// <value>The friendly ID of a property</value>
         /* <example>prop_0195ac80a14e8d71f42b98e75d3c61ad</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -77,7 +77,7 @@ namespace Kinde.Accounts.Model
         /// <value>The name of the property</value>
         /* <example>Company name</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -92,7 +92,7 @@ namespace Kinde.Accounts.Model
         /// <value>The key of the property</value>
         /* <example>company_name</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Value
@@ -105,7 +105,7 @@ namespace Kinde.Accounts.Model
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public GetUserPropertiesResponseDataPropertiesInnerValue? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public GetUserPropertiesResponseDataPropertiesInnerValue? Value { get { return this.ValueOption; } set { this.ValueOption = new Option<GetUserPropertiesResponseDataPropertiesInnerValue?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

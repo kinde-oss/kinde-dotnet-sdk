@@ -58,7 +58,7 @@ namespace Kinde.Accounts.Model
         /// <value>The organization code the roles are associated with.</value>
         /* <example>org_0195ac80a14e</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Roles
@@ -72,7 +72,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>A list of roles</value>
         [JsonPropertyName("roles")]
-        public List<GetUserRolesResponseDataRolesInner>? Roles { get { return this.RolesOption; } set { this.RolesOption = new(value); } }
+        public List<GetUserRolesResponseDataRolesInner>? Roles { get { return this.RolesOption; } set { this.RolesOption = new Option<List<GetUserRolesResponseDataRolesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

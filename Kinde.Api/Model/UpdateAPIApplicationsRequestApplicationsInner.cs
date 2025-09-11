@@ -66,7 +66,7 @@ namespace Kinde.Api.Model
         /// <value>Optional operation, set to &#39;delete&#39; to revoke authorization for the application. If not set, the application will be authorized.</value>
         /* <example>delete</example> */
         [JsonPropertyName("operation")]
-        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new(value); } }
+        public string? Operation { get { return this.OperationOption; } set { this.OperationOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

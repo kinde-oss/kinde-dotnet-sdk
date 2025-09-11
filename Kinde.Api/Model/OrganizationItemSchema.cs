@@ -66,7 +66,7 @@ namespace Kinde.Api.Model
         /// <value>The unique identifier for the organization.</value>
         /* <example>org_1ccfb819462</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -81,7 +81,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s name.</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -96,7 +96,7 @@ namespace Kinde.Api.Model
         /// <value>A unique handle for the organization - can be used for dynamic callback urls.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefault
@@ -111,7 +111,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the organization is the default organization.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_default")]
-        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new(value); } }
+        public bool? IsDefault { get { return this.IsDefaultOption; } set { this.IsDefaultOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of ExternalId
@@ -126,7 +126,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsAutoMembershipEnabled
@@ -141,7 +141,7 @@ namespace Kinde.Api.Model
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_auto_membership_enabled")]
-        public bool? IsAutoMembershipEnabled { get { return this.IsAutoMembershipEnabledOption; } set { this.IsAutoMembershipEnabledOption = new(value); } }
+        public bool? IsAutoMembershipEnabled { get { return this.IsAutoMembershipEnabledOption; } set { this.IsAutoMembershipEnabledOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

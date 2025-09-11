@@ -21,7 +21,6 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using Kinde.Accounts.Client;
 using Kinde.Accounts.Model;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Kinde.Accounts.Api
 {
@@ -412,8 +411,7 @@ namespace Kinde.Accounts.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -425,7 +423,7 @@ namespace Kinde.Accounts.Api
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/v2/user_profile", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new GetUserProfileV2ApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/v2/user_profile", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -510,7 +508,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.UserProfileV2>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -518,7 +516,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Accounts.Model.UserProfileV2? result)
+            public bool TryOk(out Kinde.Accounts.Model.UserProfileV2? result)
             {
                 result = null;
 
@@ -709,8 +707,7 @@ namespace Kinde.Accounts.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -722,7 +719,7 @@ namespace Kinde.Accounts.Api
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/introspect", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new TokenIntrospectionApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/introspect", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -807,7 +804,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.TokenIntrospect>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -815,7 +812,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Accounts.Model.TokenIntrospect? result)
+            public bool TryOk(out Kinde.Accounts.Model.TokenIntrospect? result)
             {
                 result = null;
 
@@ -845,7 +842,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsUnauthorized
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.TokenErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -853,7 +850,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryUnauthorized([NotNullWhen(true)]out Kinde.Accounts.Model.TokenErrorResponse? result)
+            public bool TryUnauthorized(out Kinde.Accounts.Model.TokenErrorResponse? result)
             {
                 result = null;
 
@@ -1068,8 +1065,7 @@ namespace Kinde.Accounts.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -1081,7 +1077,7 @@ namespace Kinde.Accounts.Api
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/revoke", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new TokenRevocationApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/revoke", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -1172,7 +1168,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsBadRequest
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1180,7 +1176,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryBadRequest([NotNullWhen(true)]out Kinde.Accounts.Model.ErrorResponse? result)
+            public bool TryBadRequest(out Kinde.Accounts.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1210,7 +1206,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsUnauthorized
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.TokenErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1218,7 +1214,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryUnauthorized([NotNullWhen(true)]out Kinde.Accounts.Model.TokenErrorResponse? result)
+            public bool TryUnauthorized(out Kinde.Accounts.Model.TokenErrorResponse? result)
             {
                 result = null;
 
@@ -1248,7 +1244,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsForbidden
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1256,7 +1252,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryForbidden([NotNullWhen(true)]out Kinde.Accounts.Model.ErrorResponse? result)
+            public bool TryForbidden(out Kinde.Accounts.Model.ErrorResponse? result)
             {
                 result = null;
 
@@ -1286,7 +1282,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsTooManyRequests
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.ErrorResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -1294,7 +1290,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTooManyRequests([NotNullWhen(true)]out Kinde.Accounts.Model.ErrorResponse? result)
+            public bool TryTooManyRequests(out Kinde.Accounts.Model.ErrorResponse? result)
             {
                 result = null;
 

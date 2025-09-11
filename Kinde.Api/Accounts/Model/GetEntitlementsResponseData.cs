@@ -60,7 +60,7 @@ namespace Kinde.Accounts.Model
         /// <value>The organization code the entitlements are associated with.</value>
         /* <example>org_0195ac80a14e</example> */
         [JsonPropertyName("org_code")]
-        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new(value); } }
+        public string? OrgCode { get { return this.OrgCodeOption; } set { this.OrgCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Plans
@@ -74,7 +74,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>A list of plans the user is subscribed to</value>
         [JsonPropertyName("plans")]
-        public List<GetEntitlementsResponseDataPlansInner>? Plans { get { return this.PlansOption; } set { this.PlansOption = new(value); } }
+        public List<GetEntitlementsResponseDataPlansInner>? Plans { get { return this.PlansOption; } set { this.PlansOption = new Option<List<GetEntitlementsResponseDataPlansInner>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Entitlements
@@ -88,7 +88,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>A list of entitlements</value>
         [JsonPropertyName("entitlements")]
-        public List<GetEntitlementsResponseDataEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new(value); } }
+        public List<GetEntitlementsResponseDataEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new Option<List<GetEntitlementsResponseDataEntitlementsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -61,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>false</example> */
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Sessions
@@ -102,7 +102,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Sessions
         /// </summary>
         [JsonPropertyName("sessions")]
-        public List<GetUserSessionsResponseSessionsInner>? Sessions { get { return this.SessionsOption; } set { this.SessionsOption = new(value); } }
+        public List<GetUserSessionsResponseSessionsInner>? Sessions { get { return this.SessionsOption; } set { this.SessionsOption = new Option<List<GetUserSessionsResponseSessionsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role id.</value>
         [JsonPropertyName("role_id")]
-        public string? RoleId { get { return this.RoleIdOption; } set { this.RoleIdOption = new(value); } }
+        public string? RoleId { get { return this.RoleIdOption; } set { this.RoleIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

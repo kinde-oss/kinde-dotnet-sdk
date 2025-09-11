@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The ID of the scope.</value>
         /* <example>api_scope_01939222ef24200668b9f5829af001ce</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The reference key for the scope.</value>
         /* <example>read:logs</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

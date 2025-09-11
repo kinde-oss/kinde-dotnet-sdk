@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// <value>The type of logo (light or dark).</value>
         /* <example>light</example> */
         [JsonPropertyName("type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of FileName
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the logo file.</value>
         /* <example>kinde_light.jpeg</example> */
         [JsonPropertyName("file_name")]
-        public string? FileName { get { return this.FileNameOption; } set { this.FileNameOption = new(value); } }
+        public string? FileName { get { return this.FileNameOption; } set { this.FileNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -128,7 +128,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Determines if the session should be persistent or not.</value>
         [JsonPropertyName("sso_session_persistence_mode")]
-        public SsoSessionPersistenceModeEnum? SsoSessionPersistenceMode { get { return this.SsoSessionPersistenceModeOption; } set { this.SsoSessionPersistenceModeOption = new(value); } }
+        public SsoSessionPersistenceModeEnum? SsoSessionPersistenceMode { get { return this.SsoSessionPersistenceModeOption; } set { this.SsoSessionPersistenceModeOption = new Option<SsoSessionPersistenceModeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsUseOrgSsoSessionPolicy
@@ -142,7 +142,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether to use the organization&#39;s SSO session policy override.</value>
         [JsonPropertyName("is_use_org_sso_session_policy")]
-        public bool? IsUseOrgSsoSessionPolicy { get { return this.IsUseOrgSsoSessionPolicyOption; } set { this.IsUseOrgSsoSessionPolicyOption = new(value); } }
+        public bool? IsUseOrgSsoSessionPolicy { get { return this.IsUseOrgSsoSessionPolicyOption; } set { this.IsUseOrgSsoSessionPolicyOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsUseOrgAuthenticatedSessionLifetime
@@ -156,7 +156,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether to apply the organization&#39;s authenticated session lifetime override.</value>
         [JsonPropertyName("is_use_org_authenticated_session_lifetime")]
-        public bool? IsUseOrgAuthenticatedSessionLifetime { get { return this.IsUseOrgAuthenticatedSessionLifetimeOption; } set { this.IsUseOrgAuthenticatedSessionLifetimeOption = new(value); } }
+        public bool? IsUseOrgAuthenticatedSessionLifetime { get { return this.IsUseOrgAuthenticatedSessionLifetimeOption; } set { this.IsUseOrgAuthenticatedSessionLifetimeOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of AuthenticatedSessionLifetime
@@ -171,7 +171,7 @@ namespace Kinde.Api.Model
         /// <value>Authenticated session lifetime in seconds.</value>
         /* <example>86400</example> */
         [JsonPropertyName("authenticated_session_lifetime")]
-        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new(value); } }
+        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

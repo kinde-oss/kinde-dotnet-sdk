@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of event type keys</value>
         [JsonPropertyName("event_types")]
-        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
+        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The webhook name</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Description
@@ -87,7 +87,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The webhook description</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

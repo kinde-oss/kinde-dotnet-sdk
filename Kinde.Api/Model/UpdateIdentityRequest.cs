@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the identity is the primary for it&#39;s type</value>
         [JsonPropertyName("is_primary")]
-        public bool? IsPrimary { get { return this.IsPrimaryOption; } set { this.IsPrimaryOption = new(value); } }
+        public bool? IsPrimary { get { return this.IsPrimaryOption; } set { this.IsPrimaryOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

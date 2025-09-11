@@ -173,7 +173,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - theme/mode.</value>
         /* <example>light</example> */
         [JsonPropertyName("theme_code")]
-        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public ThemeCodeEnum? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<ThemeCodeEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -188,7 +188,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s name.</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ExternalId
@@ -203,7 +203,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s ID.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColor
@@ -218,7 +218,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - background color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("background_color")]
-        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColor
@@ -233,7 +233,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - button color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("button_color")]
-        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColor
@@ -248,7 +248,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - button text color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("button_text_color")]
-        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -263,7 +263,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - link color.</value>
         /* <example>#fff</example> */
         [JsonPropertyName("link_color")]
-        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColorDark
@@ -278,7 +278,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode background color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("background_color_dark")]
-        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColorDark
@@ -293,7 +293,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode button color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("button_color_dark")]
-        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColorDark
@@ -308,7 +308,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("button_text_color_dark")]
-        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColorDark
@@ -323,7 +323,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s brand settings - dark mode link color.</value>
         /* <example>#000</example> */
         [JsonPropertyName("link_color_dark")]
-        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -338,7 +338,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s handle.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsAllowRegistrations
@@ -353,7 +353,7 @@ namespace Kinde.Api.Model
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
         [JsonPropertyName("is_allow_registrations")]
         [Obsolete]
-        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new(value); } }
+        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsAutoJoinDomainList
@@ -368,7 +368,7 @@ namespace Kinde.Api.Model
         /// <value>Users can sign up to this organization.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_auto_join_domain_list")]
-        public bool? IsAutoJoinDomainList { get { return this.IsAutoJoinDomainListOption; } set { this.IsAutoJoinDomainListOption = new(value); } }
+        public bool? IsAutoJoinDomainList { get { return this.IsAutoJoinDomainListOption; } set { this.IsAutoJoinDomainListOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of AllowedDomains
@@ -383,7 +383,7 @@ namespace Kinde.Api.Model
         /// <value>Domains allowed for self-sign up to this environment.</value>
         /* <example>[&quot;https://acme.kinde.com&quot;,&quot;https://acme.com&quot;]</example> */
         [JsonPropertyName("allowed_domains")]
-        public List<string>? AllowedDomains { get { return this.AllowedDomainsOption; } set { this.AllowedDomainsOption = new(value); } }
+        public List<string>? AllowedDomains { get { return this.AllowedDomainsOption; } set { this.AllowedDomainsOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsEnableAdvancedOrgs
@@ -398,7 +398,7 @@ namespace Kinde.Api.Model
         /// <value>Activate advanced organization features.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_enable_advanced_orgs")]
-        public bool? IsEnableAdvancedOrgs { get { return this.IsEnableAdvancedOrgsOption; } set { this.IsEnableAdvancedOrgsOption = new(value); } }
+        public bool? IsEnableAdvancedOrgs { get { return this.IsEnableAdvancedOrgsOption; } set { this.IsEnableAdvancedOrgsOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsEnforceMfa
@@ -413,7 +413,7 @@ namespace Kinde.Api.Model
         /// <value>Enforce MFA for all users in this organization.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_enforce_mfa")]
-        public bool? IsEnforceMfa { get { return this.IsEnforceMfaOption; } set { this.IsEnforceMfaOption = new(value); } }
+        public bool? IsEnforceMfa { get { return this.IsEnforceMfaOption; } set { this.IsEnforceMfaOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of SenderName
@@ -428,7 +428,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the organization that will be used in emails</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("sender_name")]
-        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new(value); } }
+        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SenderEmail
@@ -443,7 +443,7 @@ namespace Kinde.Api.Model
         /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
         /* <example>hello@acmecorp.com</example> */
         [JsonPropertyName("sender_email")]
-        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new(value); } }
+        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

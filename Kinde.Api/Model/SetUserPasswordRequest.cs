@@ -158,7 +158,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
         [JsonPropertyName("hashing_method")]
-        public HashingMethodEnum? HashingMethod { get { return this.HashingMethodOption; } set { this.HashingMethodOption = new(value); } }
+        public HashingMethodEnum? HashingMethod { get { return this.HashingMethodOption; } set { this.HashingMethodOption = new Option<HashingMethodEnum?>(value); } }
 
         /// <summary>
         /// Position of salt in password string. Not required for bcrypt.
@@ -239,7 +239,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Position of salt in password string. Not required for bcrypt.</value>
         [JsonPropertyName("salt_position")]
-        public SaltPositionEnum? SaltPosition { get { return this.SaltPositionOption; } set { this.SaltPositionOption = new(value); } }
+        public SaltPositionEnum? SaltPosition { get { return this.SaltPositionOption; } set { this.SaltPositionOption = new Option<SaltPositionEnum?>(value); } }
 
         /// <summary>
         /// The hashed password.
@@ -260,7 +260,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Extra characters added to passwords to make them stronger. Not required for bcrypt.</value>
         [JsonPropertyName("salt")]
-        public string? Salt { get { return this.SaltOption; } set { this.SaltOption = new(value); } }
+        public string? Salt { get { return this.SaltOption; } set { this.SaltOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsTemporaryPassword
@@ -274,7 +274,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The user will be prompted to set a new password after entering this one.</value>
         [JsonPropertyName("is_temporary_password")]
-        public bool? IsTemporaryPassword { get { return this.IsTemporaryPasswordOption; } set { this.IsTemporaryPasswordOption = new(value); } }
+        public bool? IsTemporaryPassword { get { return this.IsTemporaryPasswordOption; } set { this.IsTemporaryPasswordOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -55,7 +55,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The permission id.</value>
         [JsonPropertyName("permission_id")]
-        public string? PermissionId { get { return this.PermissionIdOption; } set { this.PermissionIdOption = new(value); } }
+        public string? PermissionId { get { return this.PermissionIdOption; } set { this.PermissionIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

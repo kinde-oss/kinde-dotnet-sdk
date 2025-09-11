@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>Response code.</value>
         /* <example>OK</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// <value>Response message.</value>
         /* <example>Success</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of HasMore
@@ -91,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether more records exist.</value>
         [JsonPropertyName("has_more")]
-        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new(value); } }
+        public bool? HasMore { get { return this.HasMoreOption; } set { this.HasMoreOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of EnvironmentVariables
@@ -104,7 +104,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets EnvironmentVariables
         /// </summary>
         [JsonPropertyName("environment_variables")]
-        public List<EnvironmentVariable>? EnvironmentVariables { get { return this.EnvironmentVariablesOption; } set { this.EnvironmentVariablesOption = new(value); } }
+        public List<EnvironmentVariable>? EnvironmentVariables { get { return this.EnvironmentVariablesOption; } set { this.EnvironmentVariablesOption = new Option<List<EnvironmentVariable>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

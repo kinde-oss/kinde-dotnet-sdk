@@ -60,7 +60,7 @@ namespace Kinde.Accounts.Model
         /// <value>A unique code for the plan</value>
         /* <example>pro_plan</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -75,7 +75,7 @@ namespace Kinde.Accounts.Model
         /// <value>Name of the plan</value>
         /* <example>Pro</example> */
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SubscribedOn
@@ -90,7 +90,7 @@ namespace Kinde.Accounts.Model
         /// <value>The date the user subscribed to the plan</value>
         /* <example>2025-06-01T12:00Z</example> */
         [JsonPropertyName("subscribed_on")]
-        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new(value); } }
+        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

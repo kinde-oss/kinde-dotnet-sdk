@@ -59,7 +59,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response code.</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -73,7 +73,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Response message.</value>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Permissions
@@ -86,7 +86,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Permissions
         /// </summary>
         [JsonPropertyName("permissions")]
-        public List<OrganizationUserPermission>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new(value); } }
+        public List<OrganizationUserPermission>? Permissions { get { return this.PermissionsOption; } set { this.PermissionsOption = new Option<List<OrganizationUserPermission>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

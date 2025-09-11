@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an access token in seconds.</value>
         /* <example>3600</example> */
         [JsonPropertyName("access_token_lifetime")]
-        public int? AccessTokenLifetime { get { return this.AccessTokenLifetimeOption; } set { this.AccessTokenLifetimeOption = new(value); } }
+        public int? AccessTokenLifetime { get { return this.AccessTokenLifetimeOption; } set { this.AccessTokenLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of RefreshTokenLifetime
@@ -79,7 +79,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of a refresh token in seconds.</value>
         /* <example>86400</example> */
         [JsonPropertyName("refresh_token_lifetime")]
-        public int? RefreshTokenLifetime { get { return this.RefreshTokenLifetimeOption; } set { this.RefreshTokenLifetimeOption = new(value); } }
+        public int? RefreshTokenLifetime { get { return this.RefreshTokenLifetimeOption; } set { this.RefreshTokenLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of IdTokenLifetime
@@ -94,7 +94,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an ID token in seconds.</value>
         /* <example>3600</example> */
         [JsonPropertyName("id_token_lifetime")]
-        public int? IdTokenLifetime { get { return this.IdTokenLifetimeOption; } set { this.IdTokenLifetimeOption = new(value); } }
+        public int? IdTokenLifetime { get { return this.IdTokenLifetimeOption; } set { this.IdTokenLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of AuthenticatedSessionLifetime
@@ -109,7 +109,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an authenticated session in seconds.</value>
         /* <example>86400</example> */
         [JsonPropertyName("authenticated_session_lifetime")]
-        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new(value); } }
+        public int? AuthenticatedSessionLifetime { get { return this.AuthenticatedSessionLifetimeOption; } set { this.AuthenticatedSessionLifetimeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsHasuraMappingEnabled
@@ -124,7 +124,7 @@ namespace Kinde.Api.Model
         /// <value>Enable or disable Hasura mapping.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_hasura_mapping_enabled")]
-        public bool? IsHasuraMappingEnabled { get { return this.IsHasuraMappingEnabledOption; } set { this.IsHasuraMappingEnabledOption = new(value); } }
+        public bool? IsHasuraMappingEnabled { get { return this.IsHasuraMappingEnabledOption; } set { this.IsHasuraMappingEnabledOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

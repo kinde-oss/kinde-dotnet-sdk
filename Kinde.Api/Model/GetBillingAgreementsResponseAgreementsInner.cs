@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// <value>The friendly id of an agreement</value>
         /* <example>agreement_0195ac80a14c2ca2cec97d026d864de0</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of PlanCode
@@ -78,7 +78,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The plan code the billing customer is subscribed to</value>
         [JsonPropertyName("plan_code")]
-        public string? PlanCode { get { return this.PlanCodeOption; } set { this.PlanCodeOption = new(value); } }
+        public string? PlanCode { get { return this.PlanCodeOption; } set { this.PlanCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ExpiresOn
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>The date the agreement expired (and was no longer active)</value>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("expires_on")]
-        public DateTimeOffset? ExpiresOn { get { return this.ExpiresOnOption; } set { this.ExpiresOnOption = new(value); } }
+        public DateTimeOffset? ExpiresOn { get { return this.ExpiresOnOption; } set { this.ExpiresOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Used to track the state of BillingGroupId
@@ -108,7 +108,7 @@ namespace Kinde.Api.Model
         /// <value>The friendly id of the billing group this agreement&#39;s plan is part of</value>
         /* <example>sbg_0195abf6773fdae18d5da72281a3fde2</example> */
         [JsonPropertyName("billing_group_id")]
-        public string? BillingGroupId { get { return this.BillingGroupIdOption; } set { this.BillingGroupIdOption = new(value); } }
+        public string? BillingGroupId { get { return this.BillingGroupIdOption; } set { this.BillingGroupIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Entitlements
@@ -122,7 +122,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A list of billing entitlements that is part of this agreement</value>
         [JsonPropertyName("entitlements")]
-        public List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new(value); } }
+        public List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>? Entitlements { get { return this.EntitlementsOption; } set { this.EntitlementsOption = new Option<List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

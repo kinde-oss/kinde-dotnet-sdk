@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// <value>The unique ID for the environment variable.</value>
         /* <example>env_var_0192b1941f125645fa15bf28a662a0b3</example> */
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -79,7 +79,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the environment variable.</value>
         /* <example>MY_API_KEY</example> */
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Value
@@ -94,7 +94,7 @@ namespace Kinde.Api.Model
         /// <value>The value of the environment variable.</value>
         /* <example>some-secret</example> */
         [JsonPropertyName("value")]
-        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public string? Value { get { return this.ValueOption; } set { this.ValueOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsSecret
@@ -109,7 +109,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment variable is sensitive.</value>
         /* <example>false</example> */
         [JsonPropertyName("is_secret")]
-        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new(value); } }
+        public bool? IsSecret { get { return this.IsSecretOption; } set { this.IsSecretOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -124,7 +124,7 @@ namespace Kinde.Api.Model
         /// <value>The date the environment variable was created.</value>
         /* <example>2021-01-01T00:00:00Z</example> */
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

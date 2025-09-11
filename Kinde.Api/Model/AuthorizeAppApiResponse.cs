@@ -61,7 +61,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API applications updated</example> */
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>API_APPLICATIONS_UPDATED</example> */
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApplicationsDisconnected
@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ApplicationsDisconnected
         /// </summary>
         [JsonPropertyName("applications_disconnected")]
-        public List<string>? ApplicationsDisconnected { get { return this.ApplicationsDisconnectedOption; } set { this.ApplicationsDisconnectedOption = new(value); } }
+        public List<string>? ApplicationsDisconnected { get { return this.ApplicationsDisconnectedOption; } set { this.ApplicationsDisconnectedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of ApplicationsConnected
@@ -101,7 +101,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets ApplicationsConnected
         /// </summary>
         [JsonPropertyName("applications_connected")]
-        public List<string>? ApplicationsConnected { get { return this.ApplicationsConnectedOption; } set { this.ApplicationsConnectedOption = new(value); } }
+        public List<string>? ApplicationsConnected { get { return this.ApplicationsConnectedOption; } set { this.ApplicationsConnectedOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

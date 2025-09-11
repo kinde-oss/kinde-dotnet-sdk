@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The access token to access a third-party provider.</value>
         [JsonPropertyName("access_token")]
-        public string? AccessToken { get { return this.AccessTokenOption; } set { this.AccessTokenOption = new(value); } }
+        public string? AccessToken { get { return this.AccessTokenOption; } set { this.AccessTokenOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of AccessTokenExpiry
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The date and time that the access token expires.</value>
         [JsonPropertyName("access_token_expiry")]
-        public string? AccessTokenExpiry { get { return this.AccessTokenExpiryOption; } set { this.AccessTokenExpiryOption = new(value); } }
+        public string? AccessTokenExpiry { get { return this.AccessTokenExpiryOption; } set { this.AccessTokenExpiryOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

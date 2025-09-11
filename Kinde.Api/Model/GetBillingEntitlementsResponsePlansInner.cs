@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The plan code the billing customer is subscribed to</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SubscribedOn
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /* <example>2024-11-18T13:32:03+11:00</example> */
         [JsonPropertyName("subscribed_on")]
-        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new(value); } }
+        public DateTimeOffset? SubscribedOn { get { return this.SubscribedOnOption; } set { this.SubscribedOnOption = new Option<DateTimeOffset?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -60,7 +60,7 @@ namespace Kinde.Api.Model
         /// <value>OAuth client ID.</value>
         /* <example>hji7db2146af332akfldfded22</example> */
         [JsonPropertyName("client_id")]
-        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new(value); } }
+        public string? ClientId { get { return this.ClientIdOption; } set { this.ClientIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ClientSecret
@@ -75,7 +75,7 @@ namespace Kinde.Api.Model
         /// <value>OAuth client secret.</value>
         /* <example>19fkjdalg521l23fassf3039d4ae18b</example> */
         [JsonPropertyName("client_secret")]
-        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new(value); } }
+        public string? ClientSecret { get { return this.ClientSecretOption; } set { this.ClientSecretOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsUseCustomDomain
@@ -90,7 +90,7 @@ namespace Kinde.Api.Model
         /// <value>Use custom domain callback URL.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_use_custom_domain")]
-        public bool? IsUseCustomDomain { get { return this.IsUseCustomDomainOption; } set { this.IsUseCustomDomainOption = new(value); } }
+        public bool? IsUseCustomDomain { get { return this.IsUseCustomDomainOption; } set { this.IsUseCustomDomainOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

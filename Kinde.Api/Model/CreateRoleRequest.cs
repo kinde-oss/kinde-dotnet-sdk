@@ -63,7 +63,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role&#39;s name.</value>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Description
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role&#39;s description.</value>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Key
@@ -91,7 +91,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The role identifier to use in code.</value>
         [JsonPropertyName("key")]
-        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new(value); } }
+        public string? Key { get { return this.KeyOption; } set { this.KeyOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsDefaultRole
@@ -105,7 +105,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Set role as default for new users.</value>
         [JsonPropertyName("is_default_role")]
-        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new(value); } }
+        public bool? IsDefaultRole { get { return this.IsDefaultRoleOption; } set { this.IsDefaultRoleOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of AssignmentPermissionId
@@ -119,7 +119,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The public ID of the permission required to assign this role to users. If null, no permission is required.</value>
         [JsonPropertyName("assignment_permission_id")]
-        public Guid? AssignmentPermissionId { get { return this.AssignmentPermissionIdOption; } set { this.AssignmentPermissionIdOption = new(value); } }
+        public Guid? AssignmentPermissionId { get { return this.AssignmentPermissionIdOption; } set { this.AssignmentPermissionIdOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -55,7 +55,7 @@ namespace Kinde.Accounts.Model
         /// </summary>
         /// <value>A list of properties</value>
         [JsonPropertyName("properties")]
-        public List<GetUserPropertiesResponseDataPropertiesInner>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new(value); } }
+        public List<GetUserPropertiesResponseDataPropertiesInner>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new Option<List<GetUserPropertiesResponseDataPropertiesInner>?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

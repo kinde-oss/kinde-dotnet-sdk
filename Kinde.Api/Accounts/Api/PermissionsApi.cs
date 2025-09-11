@@ -21,7 +21,6 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using Kinde.Accounts.Client;
 using Kinde.Accounts.Model;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Kinde.Accounts.Api
 {
@@ -282,8 +281,7 @@ namespace Kinde.Accounts.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -295,7 +293,7 @@ namespace Kinde.Accounts.Api
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/permissions", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new GetUserPermissionsApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/permissions", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -380,7 +378,7 @@ namespace Kinde.Accounts.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Kinde.Accounts.Model.GetUserPermissionsResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    : default;
             }
 
             /// <summary>
@@ -388,7 +386,7 @@ namespace Kinde.Accounts.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Kinde.Accounts.Model.GetUserPermissionsResponse? result)
+            public bool TryOk(out Kinde.Accounts.Model.GetUserPermissionsResponse? result)
             {
                 result = null;
 

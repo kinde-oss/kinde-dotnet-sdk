@@ -124,7 +124,8 @@ generate_main_api() {
         --generator-name csharp \
         --output "${MAIN_TEMP_OUTPUT_DIR}" \
         --additional-properties=packageName=Kinde.Api \
-        --additional-properties=targetFramework=net8.0 \
+        --additional-properties="targetFramework=netstandard2.0;netstandard2.1;net8.0" \
+        --additional-properties=multiTarget=true \
         --additional-properties=nullableReferenceTypes=true \
         --additional-properties=useDateTimeOffset=true \
         --additional-properties=useCollection=false \
@@ -155,7 +156,7 @@ generate_accounts_api() {
     mkdir -p "${ACCOUNTS_TEMP_OUTPUT_DIR}"
     
     # Additional properties for .NET 8.0 generation
-    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=net8.0,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,useOneOfInterfaces=true,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
+    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=netstandard2.0;netstandard2.1;net8.0,multiTarget=true,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,useOneOfInterfaces=true,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
     
     # Generate code using OpenAPI generator
     if ! java -jar "${OPENAPI_JAR}" generate \
@@ -182,7 +183,11 @@ fix_xml_comments() {
     
     # Fix accounts API files
     if [ -d "${ACCOUNTS_TEMP_OUTPUT_DIR}" ]; then
-        find "${ACCOUNTS_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i '' 's/&lt;/</g; s/&gt;/>/g; s/&amp;/\&/g' {} \;
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            find "${ACCOUNTS_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i '' 's/&lt;/</g; s/&gt;/>/g; s/&amp;/\&/g' {} \;
+        else
+            find "${ACCOUNTS_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i 's/&lt;/</g; s/&gt;/>/g; s/&amp;/\&/g' {} \;
+        fi
     fi
     
     print_success "XML comments fixed."
@@ -311,9 +316,15 @@ copy_missing_client_files() {
         
         # Add System.Text.Json import if not present
         if ! grep -q "using System.Text.Json;" "Kinde.Api/Client/ClientUtils.cs"; then
-            sed -i '' '/using System.Text.RegularExpressions;/a\
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' '/using System.Text.RegularExpressions;/a\
 using System.Text.Json;
 ' "Kinde.Api/Client/ClientUtils.cs"
+            else
+                sed -i '/using System.Text.RegularExpressions;/a\
+using System.Text.Json;
+' "Kinde.Api/Client/ClientUtils.cs"
+            fi
         fi
         
         # Add TryDeserialize methods before the closing brace
@@ -384,9 +395,15 @@ EOF
         
         # Add System.Text.Json import if not present
         if ! grep -q "using System.Text.Json;" "${client_utils_file}"; then
-            sed -i '' '/using System.Text.RegularExpressions;/a\
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' '/using System.Text.RegularExpressions;/a\
 using System.Text.Json;
 ' "${client_utils_file}"
+            else
+                sed -i '/using System.Text.RegularExpressions;/a\
+using System.Text.Json;
+' "${client_utils_file}"
+            fi
         fi
         
         # Add TryDeserialize methods before the closing brace
@@ -450,7 +467,11 @@ fix_resilience_issues() {
     
     if [ -f "${extensions_file}" ]; then
         # Replace the deprecated Polly.Extensions.Http with modern Microsoft.Extensions.Http.Resilience
-        sed -i '' 's/using Polly.Extensions.Http;/using Microsoft.Extensions.Http.Resilience;/' "${extensions_file}"
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' 's/using Polly.Extensions.Http;/using Microsoft.Extensions.Http.Resilience;/' "${extensions_file}"
+        else
+            sed -i 's/using Polly.Extensions.Http;/using Microsoft.Extensions.Http.Resilience;/' "${extensions_file}"
+        fi
         
         # Replace the old extension methods with modern resilience patterns
         cat > "${extensions_file}" << 'EOF'

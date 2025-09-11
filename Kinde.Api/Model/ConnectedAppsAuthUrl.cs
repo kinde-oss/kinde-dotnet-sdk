@@ -57,7 +57,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A URL that is used to authenticate an end-user against a connected app.</value>
         [JsonPropertyName("url")]
-        public string? Url { get { return this.UrlOption; } set { this.UrlOption = new(value); } }
+        public string? Url { get { return this.UrlOption; } set { this.UrlOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SessionId
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A unique identifier for the login session.</value>
         [JsonPropertyName("session_id")]
-        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new(value); } }
+        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

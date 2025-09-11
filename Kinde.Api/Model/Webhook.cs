@@ -64,7 +64,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public string? Id { get { return this.IdOption; } set { this.IdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -77,7 +77,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption; } set { this.NameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Endpoint
@@ -90,7 +90,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Endpoint
         /// </summary>
         [JsonPropertyName("endpoint")]
-        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new(value); } }
+        public string? Endpoint { get { return this.EndpointOption; } set { this.EndpointOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Description
@@ -103,7 +103,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Description
         /// </summary>
         [JsonPropertyName("description")]
-        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new(value); } }
+        public string? Description { get { return this.DescriptionOption; } set { this.DescriptionOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of EventTypes
@@ -116,7 +116,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets EventTypes
         /// </summary>
         [JsonPropertyName("event_types")]
-        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new(value); } }
+        public List<string>? EventTypes { get { return this.EventTypesOption; } set { this.EventTypesOption = new Option<List<string>?>(value); } }
 
         /// <summary>
         /// Used to track the state of CreatedOn
@@ -130,7 +130,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Created on date in ISO 8601 format.</value>
         [JsonPropertyName("created_on")]
-        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new(value); } }
+        public string? CreatedOn { get { return this.CreatedOnOption; } set { this.CreatedOnOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

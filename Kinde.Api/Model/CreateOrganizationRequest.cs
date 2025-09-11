@@ -180,7 +180,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s feature flag settings.</value>
         [JsonPropertyName("feature_flags")]
-        public Dictionary<string, CreateOrganizationRequest.InnerEnum>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new(value); } }
+        public Dictionary<string, CreateOrganizationRequest.InnerEnum>? FeatureFlags { get { return this.FeatureFlagsOption; } set { this.FeatureFlagsOption = new Option<Dictionary<string, CreateOrganizationRequest.InnerEnum>?>(value); } }
 
         /// <summary>
         /// Used to track the state of ExternalId
@@ -195,7 +195,7 @@ namespace Kinde.Api.Model
         /// <value>The organization&#39;s external identifier - commonly used when migrating from or mapping to other systems.</value>
         /* <example>some1234</example> */
         [JsonPropertyName("external_id")]
-        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new(value); } }
+        public string? ExternalId { get { return this.ExternalIdOption; } set { this.ExternalIdOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColor
@@ -209,7 +209,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - background color.</value>
         [JsonPropertyName("background_color")]
-        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new(value); } }
+        public string? BackgroundColor { get { return this.BackgroundColorOption; } set { this.BackgroundColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColor
@@ -223,7 +223,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - button color.</value>
         [JsonPropertyName("button_color")]
-        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new(value); } }
+        public string? ButtonColor { get { return this.ButtonColorOption; } set { this.ButtonColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColor
@@ -237,7 +237,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - button text color.</value>
         [JsonPropertyName("button_text_color")]
-        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new(value); } }
+        public string? ButtonTextColor { get { return this.ButtonTextColorOption; } set { this.ButtonTextColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColor
@@ -251,7 +251,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - link color.</value>
         [JsonPropertyName("link_color")]
-        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new(value); } }
+        public string? LinkColor { get { return this.LinkColorOption; } set { this.LinkColorOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BackgroundColorDark
@@ -265,7 +265,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode background color.</value>
         [JsonPropertyName("background_color_dark")]
-        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new(value); } }
+        public string? BackgroundColorDark { get { return this.BackgroundColorDarkOption; } set { this.BackgroundColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonColorDark
@@ -279,7 +279,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button color.</value>
         [JsonPropertyName("button_color_dark")]
-        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new(value); } }
+        public string? ButtonColorDark { get { return this.ButtonColorDarkOption; } set { this.ButtonColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ButtonTextColorDark
@@ -293,7 +293,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode button text color.</value>
         [JsonPropertyName("button_text_color_dark")]
-        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new(value); } }
+        public string? ButtonTextColorDark { get { return this.ButtonTextColorDarkOption; } set { this.ButtonTextColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of LinkColorDark
@@ -307,7 +307,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - dark mode link color.</value>
         [JsonPropertyName("link_color_dark")]
-        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new(value); } }
+        public string? LinkColorDark { get { return this.LinkColorDarkOption; } set { this.LinkColorDarkOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of ThemeCode
@@ -321,7 +321,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;.</value>
         [JsonPropertyName("theme_code")]
-        public string? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new(value); } }
+        public string? ThemeCode { get { return this.ThemeCodeOption; } set { this.ThemeCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Handle
@@ -336,7 +336,7 @@ namespace Kinde.Api.Model
         /// <value>A unique handle for the organization - can be used for dynamic callback urls.</value>
         /* <example>acme_corp</example> */
         [JsonPropertyName("handle")]
-        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new(value); } }
+        public string? Handle { get { return this.HandleOption; } set { this.HandleOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsAllowRegistrations
@@ -351,7 +351,7 @@ namespace Kinde.Api.Model
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /* <example>true</example> */
         [JsonPropertyName("is_allow_registrations")]
-        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new(value); } }
+        public bool? IsAllowRegistrations { get { return this.IsAllowRegistrationsOption; } set { this.IsAllowRegistrationsOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of SenderName
@@ -366,7 +366,7 @@ namespace Kinde.Api.Model
         /// <value>The name of the organization that will be used in emails</value>
         /* <example>Acme Corp</example> */
         [JsonPropertyName("sender_name")]
-        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new(value); } }
+        public string? SenderName { get { return this.SenderNameOption; } set { this.SenderNameOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of SenderEmail
@@ -381,7 +381,7 @@ namespace Kinde.Api.Model
         /// <value>The email address that will be used in emails. Requires custom SMTP to be set up.</value>
         /* <example>hello@acmecorp.com</example> */
         [JsonPropertyName("sender_email")]
-        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new(value); } }
+        public string? SenderEmail { get { return this.SenderEmailOption; } set { this.SenderEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of IsCreateBillingCustomer
@@ -396,7 +396,7 @@ namespace Kinde.Api.Model
         /// <value>If a billing customer is also created for this organization</value>
         /* <example>false</example> */
         [JsonPropertyName("is_create_billing_customer")]
-        public bool? IsCreateBillingCustomer { get { return this.IsCreateBillingCustomerOption; } set { this.IsCreateBillingCustomerOption = new(value); } }
+        public bool? IsCreateBillingCustomer { get { return this.IsCreateBillingCustomerOption; } set { this.IsCreateBillingCustomerOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of BillingEmail
@@ -411,7 +411,7 @@ namespace Kinde.Api.Model
         /// <value>The email address used for billing purposes for the organization</value>
         /* <example>billing@acmecorp.com</example> */
         [JsonPropertyName("billing_email")]
-        public string? BillingEmail { get { return this.BillingEmailOption; } set { this.BillingEmailOption = new(value); } }
+        public string? BillingEmail { get { return this.BillingEmailOption; } set { this.BillingEmailOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of BillingPlanCode
@@ -426,7 +426,7 @@ namespace Kinde.Api.Model
         /// <value>The billing plan to put the customer on. If not specified, the default plan is used</value>
         /* <example>pro</example> */
         [JsonPropertyName("billing_plan_code")]
-        public string? BillingPlanCode { get { return this.BillingPlanCodeOption; } set { this.BillingPlanCodeOption = new(value); } }
+        public string? BillingPlanCode { get { return this.BillingPlanCodeOption; } set { this.BillingPlanCodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

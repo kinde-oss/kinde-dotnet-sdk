@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Code
@@ -71,7 +71,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<string?>(value); } }
 
         /// <summary>
         /// Used to track the state of Connection
@@ -84,7 +84,7 @@ namespace Kinde.Api.Model
         /// Gets or Sets Connection
         /// </summary>
         [JsonPropertyName("connection")]
-        public CreateConnectionResponseConnection? Connection { get { return this.ConnectionOption; } set { this.ConnectionOption = new(value); } }
+        public CreateConnectionResponseConnection? Connection { get { return this.ConnectionOption; } set { this.ConnectionOption = new Option<CreateConnectionResponseConnection?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
