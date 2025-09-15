@@ -171,7 +171,7 @@ namespace Kinde.Api.Model
         /// <value>The identity type</value>
         /* <example>email</example> */
         [JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
-        [Newtonsoft.Json.JsonConverter(typeof(Kinde.Api.Converters.NewtonsoftGenericEnumConverter))]
+
         [JsonPropertyName("type")]
         public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 

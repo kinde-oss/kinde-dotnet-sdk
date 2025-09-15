@@ -28,8 +28,6 @@ namespace Kinde.Api.Model
     /// <summary>
     /// CreateUserResponse
     /// </summary>
-    [JsonConverter(typeof(CreateUserResponseJsonConverter))]
-    [Newtonsoft.Json.JsonConverter(typeof(Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter))]
     public partial class CreateUserResponse
     {
         /// <summary>
