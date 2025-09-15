@@ -156,6 +156,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The application&#39;s type.</value>
         /* <example>Machine to machine (M2M)</example> */
+        [JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
+
         [JsonPropertyName("type")]
         public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 

@@ -184,6 +184,51 @@ function fixClientUtils(content, filePath) {
 }
 
 /**
+ * Fix enum serialization by adding GenericEnumConverter to enum properties
+ */
+function fixEnumSerialization(content, filePath) {
+    // Only process Model files that contain enum properties
+    if (!filePath.includes('/Model/') || !filePath.endsWith('.cs')) {
+        return content;
+    }
+
+    let newContent = content;
+    let hasChanges = false;
+
+    // Pattern to match enum properties that don't already have a JsonConverter attribute
+    // This matches properties like: public TypeEnum? Type { get; set; }
+    const enumPropertyPattern = /(\s+)(\[JsonPropertyName\("[^"]+"\)\]\s*)(public\s+(\w+\.)?TypeEnum\??\s+\w+\s*\{\s*get[^}]*\}\s*)/g;
+    
+    const matches = [...newContent.matchAll(enumPropertyPattern)];
+    
+    for (const match of matches) {
+        const fullMatch = match[0];
+        const indentation = match[1];
+        const jsonPropertyAttribute = match[2];
+        const propertyDeclaration = match[3];
+        
+        // Check if this property already has a JsonConverter attribute
+        if (fullMatch.includes('[JsonConverter(')) {
+            continue;
+        }
+        
+        // Add the GenericEnumConverter attribute
+        const replacement = `${indentation}[JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
+${indentation}${jsonPropertyAttribute}${propertyDeclaration}`;
+        
+        newContent = newContent.replace(fullMatch, replacement);
+        hasChanges = true;
+        logInfo(`Added GenericEnumConverter to enum property in ${path.basename(filePath)}`);
+    }
+
+    if (hasChanges) {
+        logSuccess(`Fixed enum serialization in ${path.basename(filePath)}`);
+    }
+
+    return newContent;
+}
+
+/**
  * Fix RateLimitProvider.cs
  */
 function fixRateLimitProvider(content, filePath) {
@@ -272,6 +317,7 @@ function processFile(filePath) {
         newContent = fixHostConfiguration(newContent, filePath);
         newContent = fixClientUtils(newContent, filePath);
         newContent = fixRateLimitProvider(newContent, filePath);
+        newContent = fixEnumSerialization(newContent, filePath);
         
         // Only write if content changed
         if (newContent !== content) {
@@ -361,5 +407,6 @@ module.exports = {
     fixHostConfiguration,
     fixClientUtils,
     fixRateLimitProvider,
+    fixEnumSerialization,
     processFile
 };

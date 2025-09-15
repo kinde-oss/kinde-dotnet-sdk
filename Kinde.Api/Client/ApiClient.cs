@@ -49,6 +49,11 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
+            },
+            // Add our custom enum converter for proper enum serialization
+            Converters = { 
+                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter()
             }
         };
 
@@ -191,6 +196,11 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
+            },
+            // Add our custom enum converter for proper enum serialization
+            Converters = { 
+                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter()
             }
         };
 

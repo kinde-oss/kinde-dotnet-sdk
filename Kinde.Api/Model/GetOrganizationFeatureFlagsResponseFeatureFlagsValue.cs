@@ -135,6 +135,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
+        [JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
+
         [JsonPropertyName("type")]
         public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new Option<TypeEnum?>(value); } }
 
