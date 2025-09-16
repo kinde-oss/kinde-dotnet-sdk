@@ -6,6 +6,9 @@
 #if NET6_0_OR_GREATER
 #if NET6_0_OR_GREATER
 #if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 /*
  * Kinde Account API
  *
@@ -74,6 +77,18 @@ namespace Kinde.Accounts.Client
     }
 }
 
+#else
+// For .NET Standard 2.1, DateOnly is not available
+// This converter is not needed
+#endif
+#else
+// For .NET Standard 2.1, DateOnly is not available
+// This converter is not needed
+#endif
+#else
+// For .NET Standard 2.1, DateOnly is not available
+// This converter is not needed
+#endif
 #else
 // For .NET Standard 2.1, DateOnly is not available
 // This converter is not needed

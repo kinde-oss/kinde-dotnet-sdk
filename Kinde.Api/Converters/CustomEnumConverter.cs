@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Kinde.Api.Model;
+using Kinde.Api.Client;
 using System.Reflection;
 
 namespace Kinde.Api.Converters
@@ -133,7 +134,15 @@ namespace Kinde.Api.Converters
             if (containingType == null)
                 return false;
 
-            var toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { objectType });
+            // Check for TypeEnumToJsonValue method with nullable enum parameter
+            var nullableType = typeof(Nullable<>).MakeGenericType(objectType);
+            var toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { nullableType });
+            if (toJsonMethod == null)
+            {
+                // Also check for non-nullable version
+                toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { objectType });
+            }
+            
             var fromStringMethod = containingType.GetMethod("TypeEnumFromString", new[] { typeof(string) });
 
             return toJsonMethod != null && fromStringMethod != null;
@@ -176,7 +185,15 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Cannot find containing type for enum {objectType.Name}");
             }
 
-            var toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { objectType });
+            // Try to find the TypeEnumToJsonValue method with nullable parameter first
+            var nullableType = typeof(Nullable<>).MakeGenericType(objectType);
+            var toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { nullableType });
+            if (toJsonMethod == null)
+            {
+                // Fall back to non-nullable version
+                toJsonMethod = containingType.GetMethod("TypeEnumToJsonValue", new[] { objectType });
+            }
+            
             if (toJsonMethod == null)
             {
                 throw new Newtonsoft.Json.JsonException($"TypeEnumToJsonValue method not found on {containingType.Name}");
@@ -184,6 +201,196 @@ namespace Kinde.Api.Converters
 
             string jsonValue = (string)toJsonMethod.Invoke(null, new object[] { value })!;
             writer.WriteValue(jsonValue);
+        }
+    }
+
+    /// <summary>
+    /// Newtonsoft.Json converter for Option&lt;T&gt; that applies enum converters to wrapped enum values
+    /// </summary>
+    public class OptionNewtonsoftConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Option<>);
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var valueType = objectType.GetGenericArguments()[0];
+            var value = serializer.Deserialize(reader, valueType);
+            var optionType = typeof(Option<>).MakeGenericType(valueType);
+            return Activator.CreateInstance(optionType, value)!;
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var optionType = value.GetType();
+            var valueType = optionType.GetGenericArguments()[0];
+            var option = (dynamic)value;
+            
+            if (option.IsSet)
+            {
+                // If the wrapped type is an enum, use the enum converter
+                if (valueType.IsEnum)
+                {
+                    var enumConverter = new NewtonsoftGenericEnumConverter();
+                    if (enumConverter.CanConvert(valueType))
+                    {
+                        enumConverter.WriteJson(writer, option.Value, serializer);
+                        return;
+                    }
+                }
+                
+                // Otherwise, serialize normally
+                serializer.Serialize(writer, option.Value);
+            }
+            else
+            {
+                writer.WriteNull();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Newtonsoft.Json converter for CreateUserRequestIdentitiesInner that handles enum serialization
+    /// </summary>
+    public class CreateUserRequestIdentitiesInnerNewtonsoftConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(CreateUserRequestIdentitiesInner);
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var jsonObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+            var identity = new CreateUserRequestIdentitiesInner();
+            
+            if (jsonObject["type"] != null)
+            {
+                var typeString = jsonObject["type"].ToString();
+                identity.Type = CreateUserRequestIdentitiesInner.TypeEnumFromString(typeString);
+            }
+            
+            if (jsonObject["details"] != null)
+            {
+                identity.Details = jsonObject["details"].ToObject<CreateUserRequestIdentitiesInnerDetails>();
+            }
+            
+            if (jsonObject["isVerified"] != null)
+            {
+                identity.IsVerified = jsonObject["isVerified"].ToObject<bool?>();
+            }
+            
+            return identity;
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var identity = (CreateUserRequestIdentitiesInner)value;
+            
+            writer.WriteStartObject();
+            
+            // Write the type enum as a string
+            if (identity.Type.HasValue)
+            {
+                writer.WritePropertyName("type");
+                var typeString = CreateUserRequestIdentitiesInner.TypeEnumToJsonValue(identity.Type.Value);
+                writer.WriteValue(typeString);
+            }
+            
+            // Write other properties
+            if (identity.Details != null)
+            {
+                writer.WritePropertyName("details");
+                serializer.Serialize(writer, identity.Details);
+            }
+            
+            if (identity.IsVerified.HasValue)
+            {
+                writer.WritePropertyName("isVerified");
+                writer.WriteValue(identity.IsVerified.Value);
+            }
+            
+            writer.WriteEndObject();
+        }
+    }
+
+    /// <summary>
+    /// Newtonsoft.Json converter for CreateUserIdentityRequest that handles enum serialization
+    /// </summary>
+    public class CreateUserIdentityRequestNewtonsoftConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(CreateUserIdentityRequest);
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var jsonObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+            var request = new CreateUserIdentityRequest();
+            
+            if (jsonObject["value"] != null)
+            {
+                request.Value = jsonObject["value"].ToString();
+            }
+            
+            if (jsonObject["type"] != null)
+            {
+                var typeString = jsonObject["type"].ToString();
+                request.Type = CreateUserIdentityRequest.TypeEnumFromString(typeString);
+            }
+            
+            if (jsonObject["phone_country_id"] != null)
+            {
+                request.PhoneCountryId = jsonObject["phone_country_id"].ToString();
+            }
+            
+            if (jsonObject["connection_id"] != null)
+            {
+                request.ConnectionId = jsonObject["connection_id"].ToString();
+            }
+            
+            return request;
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var request = (CreateUserIdentityRequest)value;
+            
+            writer.WriteStartObject();
+            
+            // Write the value
+            if (request.ValueOption.IsSet && request.Value != null)
+            {
+                writer.WritePropertyName("value");
+                writer.WriteValue(request.Value);
+            }
+            
+            // Write the type enum as a string
+            if (request.TypeOption.IsSet && request.Type.HasValue)
+            {
+                writer.WritePropertyName("type");
+                var typeString = CreateUserIdentityRequest.TypeEnumToJsonValue(request.Type.Value);
+                writer.WriteValue(typeString);
+            }
+            
+            // Write phone_country_id
+            if (request.PhoneCountryIdOption.IsSet && request.PhoneCountryId != null)
+            {
+                writer.WritePropertyName("phone_country_id");
+                writer.WriteValue(request.PhoneCountryId);
+            }
+            
+            // Write connection_id
+            if (request.ConnectionIdOption.IsSet && request.ConnectionId != null)
+            {
+                writer.WritePropertyName("connection_id");
+                writer.WriteValue(request.ConnectionId);
+            }
+            
+            writer.WriteEndObject();
         }
     }
 }
