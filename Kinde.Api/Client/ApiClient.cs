@@ -49,6 +49,14 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
+            },
+            // Add our custom enum converter for proper enum serialization
+            Converters = { 
+                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
             }
         };
 
@@ -191,6 +199,14 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
+            },
+            // Add our custom enum converter for proper enum serialization
+            Converters = { 
+                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
             }
         };
 

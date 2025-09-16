@@ -126,6 +126,8 @@ namespace Kinde.Api.Model
         /// The property type.
         /// </summary>
         /// <value>The property type.</value>
+        [JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
+
         [JsonPropertyName("type")]
         public TypeEnum Type { get; set; }
 

@@ -184,6 +184,272 @@ function fixClientUtils(content, filePath) {
 }
 
 /**
+ * Fix enum serialization by adding GenericEnumConverter to enum properties
+ */
+function fixEnumSerialization(content, filePath) {
+    // Only process Model files that contain enum properties
+    if (!filePath.includes('/Model/') || !filePath.endsWith('.cs')) {
+        return content;
+    }
+
+    let newContent = content;
+    let hasChanges = false;
+
+    // Pattern to match enum properties that don't already have a JsonConverter attribute
+    // This matches properties like: public TypeEnum? Type { get; set; }
+    const enumPropertyPattern = /(\s+)(\[JsonPropertyName\("[^"]+"\)\]\s*)(public\s+(\w+\.)?TypeEnum\??\s+\w+\s*\{\s*get[^}]*\}\s*)/g;
+    
+    const matches = [...newContent.matchAll(enumPropertyPattern)];
+    
+    for (const match of matches) {
+        const fullMatch = match[0];
+        const indentation = match[1];
+        const jsonPropertyAttribute = match[2];
+        const propertyDeclaration = match[3];
+        
+        // Check if this property already has a JsonConverter attribute
+        if (fullMatch.includes('[JsonConverter(')) {
+            continue;
+        }
+        
+        // Add the GenericEnumConverter attribute
+        const replacement = `${indentation}[JsonConverter(typeof(Kinde.Api.Converters.GenericEnumConverter))]
+${indentation}${jsonPropertyAttribute}${propertyDeclaration}`;
+        
+        newContent = newContent.replace(fullMatch, replacement);
+        hasChanges = true;
+        logInfo(`Added GenericEnumConverter to enum property in ${path.basename(filePath)}`);
+    }
+
+    if (hasChanges) {
+        logSuccess(`Fixed enum serialization in ${path.basename(filePath)}`);
+    }
+
+    return newContent;
+}
+
+/**
+ * Fix Newtonsoft.Json enum serialization by adding custom converters
+ */
+function fixNewtonsoftEnumSerialization(content, filePath) {
+    let newContent = content;
+    let hasChanges = false;
+    
+    // Add the CreateUserRequestIdentitiesInnerNewtonsoftConverter class to CustomEnumConverter.cs
+    if (filePath.includes('CustomEnumConverter.cs')) {
+        // Check if the CreateUserRequestIdentitiesInnerNewtonsoftConverter is already added
+        if (!newContent.includes('CreateUserRequestIdentitiesInnerNewtonsoftConverter')) {
+            // Add the converter class before the closing brace
+            const converterClass = `
+    /// <summary>
+    /// Newtonsoft.Json converter for CreateUserRequestIdentitiesInner that handles enum serialization
+    /// </summary>
+    public class CreateUserRequestIdentitiesInnerNewtonsoftConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(CreateUserRequestIdentitiesInner);
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var jsonObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+            var identity = new CreateUserRequestIdentitiesInner();
+            
+            if (jsonObject["type"] != null)
+            {
+                var typeString = jsonObject["type"].ToString();
+                identity.Type = CreateUserRequestIdentitiesInner.TypeEnumFromString(typeString);
+            }
+            
+            if (jsonObject["details"] != null)
+            {
+                identity.Details = jsonObject["details"].ToObject<CreateUserRequestIdentitiesInnerDetails>();
+            }
+            
+            if (jsonObject["isVerified"] != null)
+            {
+                identity.IsVerified = jsonObject["isVerified"].ToObject<bool?>();
+            }
+            
+            return identity;
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var identity = (CreateUserRequestIdentitiesInner)value;
+            
+            writer.WriteStartObject();
+            
+            // Write the type enum as a string
+            if (identity.Type.HasValue)
+            {
+                writer.WritePropertyName("type");
+                var typeString = CreateUserRequestIdentitiesInner.TypeEnumToJsonValue(identity.Type.Value);
+                writer.WriteValue(typeString);
+            }
+            
+            // Write other properties
+            if (identity.Details != null)
+            {
+                writer.WritePropertyName("details");
+                serializer.Serialize(writer, identity.Details);
+            }
+            
+            if (identity.IsVerified.HasValue)
+            {
+                writer.WritePropertyName("isVerified");
+                writer.WriteValue(identity.IsVerified.Value);
+            }
+            
+            writer.WriteEndObject();
+        }
+    }`;
+
+            // Add the converter class before the final closing brace
+            newContent = newContent.replace(/(\s*)\}$/, `$1${converterClass}\n}`);
+            hasChanges = true;
+            logInfo('Added CreateUserRequestIdentitiesInnerNewtonsoftConverter class to CustomEnumConverter.cs');
+        }
+        
+        // Check if the CreateUserIdentityRequestNewtonsoftConverter is already added
+        if (!newContent.includes('CreateUserIdentityRequestNewtonsoftConverter')) {
+            // Add the CreateUserIdentityRequest converter class before the closing brace
+            const createUserIdentityRequestConverterClass = `
+    /// <summary>
+    /// Newtonsoft.Json converter for CreateUserIdentityRequest that handles enum serialization
+    /// </summary>
+    public class CreateUserIdentityRequestNewtonsoftConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(CreateUserIdentityRequest);
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var jsonObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+            var request = new CreateUserIdentityRequest();
+            
+            if (jsonObject["value"] != null)
+            {
+                request.Value = jsonObject["value"].ToString();
+            }
+            
+            if (jsonObject["type"] != null)
+            {
+                var typeString = jsonObject["type"].ToString();
+                request.Type = CreateUserIdentityRequest.TypeEnumFromString(typeString);
+            }
+            
+            if (jsonObject["phone_country_id"] != null)
+            {
+                request.PhoneCountryId = jsonObject["phone_country_id"].ToString();
+            }
+            
+            if (jsonObject["connection_id"] != null)
+            {
+                request.ConnectionId = jsonObject["connection_id"].ToString();
+            }
+            
+            return request;
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            var request = (CreateUserIdentityRequest)value;
+            
+            writer.WriteStartObject();
+            
+            // Write the value
+            if (request.ValueOption.IsSet && request.Value != null)
+            {
+                writer.WritePropertyName("value");
+                writer.WriteValue(request.Value);
+            }
+            
+            // Write the type enum as a string
+            if (request.TypeOption.IsSet && request.Type.HasValue)
+            {
+                writer.WritePropertyName("type");
+                var typeString = CreateUserIdentityRequest.TypeEnumToJsonValue(request.Type.Value);
+                writer.WriteValue(typeString);
+            }
+            
+            // Write phone_country_id
+            if (request.PhoneCountryIdOption.IsSet && request.PhoneCountryId != null)
+            {
+                writer.WritePropertyName("phone_country_id");
+                writer.WriteValue(request.PhoneCountryId);
+            }
+            
+            // Write connection_id
+            if (request.ConnectionIdOption.IsSet && request.ConnectionId != null)
+            {
+                writer.WritePropertyName("connection_id");
+                writer.WriteValue(request.ConnectionId);
+            }
+            
+            writer.WriteEndObject();
+        }
+    }`;
+
+            // Add the converter class before the final closing brace
+            newContent = newContent.replace(/(\s*)\}$/, `$1${createUserIdentityRequestConverterClass}\n}`);
+            hasChanges = true;
+            logInfo('Added CreateUserIdentityRequestNewtonsoftConverter class to CustomEnumConverter.cs');
+        }
+    }
+    
+    // Add the converter to ApiClient.cs
+    if (filePath.includes('ApiClient.cs')) {
+        // Check if the CreateUserRequestIdentitiesInnerNewtonsoftConverter is already added
+        if (!newContent.includes('CreateUserRequestIdentitiesInnerNewtonsoftConverter')) {
+            // Pattern to match the Converters collection in the JsonSerializerSettings
+            const convertersPattern = /(Converters\s*=\s*\{\s*)(\s*new\s+Kinde\.Api\.Converters\.NewtonsoftGenericEnumConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserResponseNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.OptionNewtonsoftConverter\(\),?\s*)(\s*\})/g;
+            
+            const match = newContent.match(convertersPattern);
+            if (match) {
+                // Add the CreateUserRequestIdentitiesInnerNewtonsoftConverter
+                const replacement = newContent.replace(convertersPattern, 
+                    '$1$2$3$4$5,\n                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter()$6');
+                
+                if (replacement !== newContent) {
+                    newContent = replacement;
+                    hasChanges = true;
+                    logInfo('Added CreateUserRequestIdentitiesInnerNewtonsoftConverter to ApiClient.cs');
+                }
+            }
+        }
+        
+        // Check if the CreateUserIdentityRequestNewtonsoftConverter is already added
+        if (!newContent.includes('CreateUserIdentityRequestNewtonsoftConverter')) {
+            // Pattern to match the Converters collection in the JsonSerializerSettings (updated to include CreateUserRequestIdentitiesInnerNewtonsoftConverter)
+            const convertersPatternWithIdentities = /(Converters\s*=\s*\{\s*)(\s*new\s+Kinde\.Api\.Converters\.NewtonsoftGenericEnumConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserResponseNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.OptionNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserRequestIdentitiesInnerNewtonsoftConverter\(\),?\s*)(\s*\})/g;
+            
+            const matchWithIdentities = newContent.match(convertersPatternWithIdentities);
+            if (matchWithIdentities) {
+                // Add the CreateUserIdentityRequestNewtonsoftConverter
+                const replacement = newContent.replace(convertersPatternWithIdentities, 
+                    '$1$2$3$4$5$6,\n                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()$7');
+                
+                if (replacement !== newContent) {
+                    newContent = replacement;
+                    hasChanges = true;
+                    logInfo('Added CreateUserIdentityRequestNewtonsoftConverter to ApiClient.cs');
+                }
+            }
+        }
+    }
+    
+    if (hasChanges) {
+        logSuccess('Fixed Newtonsoft.Json enum serialization');
+    }
+    
+    return newContent;
+}
+
+/**
  * Fix RateLimitProvider.cs
  */
 function fixRateLimitProvider(content, filePath) {
@@ -272,6 +538,8 @@ function processFile(filePath) {
         newContent = fixHostConfiguration(newContent, filePath);
         newContent = fixClientUtils(newContent, filePath);
         newContent = fixRateLimitProvider(newContent, filePath);
+        newContent = fixEnumSerialization(newContent, filePath);
+        newContent = fixNewtonsoftEnumSerialization(newContent, filePath);
         
         // Only write if content changed
         if (newContent !== content) {
@@ -361,5 +629,6 @@ module.exports = {
     fixHostConfiguration,
     fixClientUtils,
     fixRateLimitProvider,
+    fixEnumSerialization,
     processFile
 };
