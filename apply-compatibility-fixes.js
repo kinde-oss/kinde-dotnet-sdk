@@ -188,7 +188,8 @@ function fixClientUtils(content, filePath) {
  */
 function fixEnumSerialization(content, filePath) {
     // Only process Model files that contain enum properties
-    if (!filePath.includes('/Model/') || !filePath.endsWith('.cs')) {
+    const normalized = filePath.split(path.sep).join('/');
+    if (!normalized.includes('/Model/') || !normalized.endsWith('.cs')) {
         return content;
     }
 
@@ -406,13 +407,13 @@ function fixNewtonsoftEnumSerialization(content, filePath) {
         // Check if the CreateUserRequestIdentitiesInnerNewtonsoftConverter is already added
         if (!newContent.includes('CreateUserRequestIdentitiesInnerNewtonsoftConverter')) {
             // Pattern to match the Converters collection in the JsonSerializerSettings
-            const convertersPattern = /(Converters\s*=\s*\{\s*)(\s*new\s+Kinde\.Api\.Converters\.NewtonsoftGenericEnumConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserResponseNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.OptionNewtonsoftConverter\(\),?\s*)(\s*\})/g;
+            const convertersPattern = /(Converters\s*=\s*\{\s*)(\s*new\s+Kinde\.Api\.Converters\.NewtonsoftGenericEnumConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserResponseNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.OptionNewtonsoftConverter\(\),?\s*)(\s*\})/;
             
             const match = newContent.match(convertersPattern);
             if (match) {
                 // Add the CreateUserRequestIdentitiesInnerNewtonsoftConverter
-                const replacement = newContent.replace(convertersPattern, 
-                    '$1$2$3$4$5,\n                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter()$6');
+                const replacement = newContent.replace(convertersPattern, (_m, g1, g2, g3, g4, g5) =>
+                    `${g1}${g2}${g3}${g4}                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),\n            ${g5}`);
                 
                 if (replacement !== newContent) {
                     newContent = replacement;
@@ -425,13 +426,13 @@ function fixNewtonsoftEnumSerialization(content, filePath) {
         // Check if the CreateUserIdentityRequestNewtonsoftConverter is already added
         if (!newContent.includes('CreateUserIdentityRequestNewtonsoftConverter')) {
             // Pattern to match the Converters collection in the JsonSerializerSettings (updated to include CreateUserRequestIdentitiesInnerNewtonsoftConverter)
-            const convertersPatternWithIdentities = /(Converters\s*=\s*\{\s*)(\s*new\s+Kinde\.Api\.Converters\.NewtonsoftGenericEnumConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserResponseNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.OptionNewtonsoftConverter\(\),?\s*)(\s*new\s+Kinde\.Api\.Converters\.CreateUserRequestIdentitiesInnerNewtonsoftConverter\(\),?\s*)(\s*\})/g;
+            const convertersPatternWithIdentities = /(Converters\s*=\s*\{\s*)([\s\S]*?CreateUserRequestIdentitiesInnerNewtonsoftConverter\(\),?\s*)(\s*\})/;
             
             const matchWithIdentities = newContent.match(convertersPatternWithIdentities);
             if (matchWithIdentities) {
                 // Add the CreateUserIdentityRequestNewtonsoftConverter
-                const replacement = newContent.replace(convertersPatternWithIdentities, 
-                    '$1$2$3$4$5$6,\n                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()$7');
+                const replacement = newContent.replace(convertersPatternWithIdentities, (_m, g1, g2, g3) =>
+                    `${g1}${g2}                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter(),\n            ${g3}`);
                 
                 if (replacement !== newContent) {
                     newContent = replacement;
