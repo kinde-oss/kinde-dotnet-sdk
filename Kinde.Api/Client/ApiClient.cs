@@ -33,6 +33,27 @@ using Polly;
 namespace Kinde.Api.Client
 {
     /// <summary>
+    /// Helper class for creating standard JSON converters
+    /// </summary>
+    internal static class JsonConverterHelper
+    {
+        /// <summary>
+        /// Creates the standard converter collection for JSON serialization
+        /// </summary>
+        public static IList<JsonConverter> CreateStandardConverters()
+        {
+            return new List<JsonConverter>
+            {
+                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
+            };
+        }
+    }
+
+    /// <summary>
     /// To Serialize/Deserialize JSON using our custom logic, but only when ContentType is JSON.
     /// </summary>
     internal class CustomJsonCodec
@@ -51,13 +72,7 @@ namespace Kinde.Api.Client
                 }
             },
             // Add our custom enum converter for proper enum serialization
-            Converters = { 
-                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
-                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
-                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
-            }
+            Converters = JsonConverterHelper.CreateStandardConverters()
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -201,13 +216,7 @@ namespace Kinde.Api.Client
                 }
             },
             // Add our custom enum converter for proper enum serialization
-            Converters = { 
-                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
-                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
-                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
-            }
+            Converters = JsonConverterHelper.CreateStandardConverters()
         };
 
         /// <summary>
