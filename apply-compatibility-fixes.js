@@ -86,6 +86,12 @@ function fixDateOnlyJsonConverter(content, filePath) {
         return content;
     }
     
+    // Check if already wrapped with conditional compilation
+    if (content.startsWith('#if NET6_0_OR_GREATER') && content.includes('#else') && content.endsWith('#endif')) {
+        logInfo('DateOnlyJsonConverter.cs already has compatibility fixes applied');
+        return content;
+    }
+    
     logInfo('Fixing DateOnlyJsonConverter.cs...');
     
     // Wrap the entire file content with conditional compilation
@@ -105,6 +111,12 @@ ${content}
  */
 function fixDateOnlyNullableJsonConverter(content, filePath) {
     if (!filePath.includes('DateOnlyNullableJsonConverter.cs')) {
+        return content;
+    }
+    
+    // Check if already wrapped with conditional compilation
+    if (content.startsWith('#if NET6_0_OR_GREATER') && content.includes('#else') && content.endsWith('#endif')) {
+        logInfo('DateOnlyNullableJsonConverter.cs already has compatibility fixes applied');
         return content;
     }
     
@@ -130,6 +142,12 @@ function fixHostConfiguration(content, filePath) {
         return content;
     }
     
+    // Check if already has conditional compilation around DateOnly converters
+    if (content.includes('#if NET6_0_OR_GREATER') && content.includes('DateOnlyJsonConverter') && content.includes('#endif')) {
+        logInfo('HostConfiguration.cs already has compatibility fixes applied');
+        return content;
+    }
+    
     logInfo('Fixing HostConfiguration.cs...');
     
     // Find and wrap DateOnly converter registrations
@@ -152,6 +170,12 @@ function fixHostConfiguration(content, filePath) {
  */
 function fixClientUtils(content, filePath) {
     if (!filePath.includes('ClientUtils.cs')) {
+        return content;
+    }
+    
+    // Check if already has conditional compilation fixes
+    if (content.includes('#if NET6_0_OR_GREATER') && content.includes('DateOnly') && content.includes('#endif')) {
+        logInfo('ClientUtils.cs already has compatibility fixes applied');
         return content;
     }
     
@@ -455,6 +479,12 @@ function fixNewtonsoftEnumSerialization(content, filePath) {
  */
 function fixRateLimitProvider(content, filePath) {
     if (!filePath.includes('RateLimitProvider')) {
+        return content;
+    }
+    
+    // Check if already has conditional compilation fixes
+    if (content.includes('#if NET6_0_OR_GREATER') && content.includes('System.Threading.Channels') && content.includes('#endif')) {
+        logInfo('RateLimitProvider.cs already has compatibility fixes applied');
         return content;
     }
     
