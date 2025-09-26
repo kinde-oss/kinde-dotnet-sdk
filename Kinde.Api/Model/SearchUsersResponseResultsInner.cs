@@ -48,8 +48,9 @@ namespace Kinde.Api.Model
         /// <param name="organizations">Array of organizations a user belongs to.</param>
         /// <param name="identities">Array of identities belonging to the user.</param>
         /// <param name="properties">The user properties.</param>
+        /// <param name="apiScopes">Array of api scopes belonging to the user.</param>
         [JsonConstructor]
-        public SearchUsersResponseResultsInner(Option<string?> id = default, Option<string?> providedId = default, Option<string?> email = default, Option<string?> username = default, Option<string?> lastName = default, Option<string?> firstName = default, Option<bool?> isSuspended = default, Option<string?> picture = default, Option<int?> totalSignIns = default, Option<int?> failedSignIns = default, Option<string?> lastSignedIn = default, Option<string?> createdOn = default, Option<List<string>?> organizations = default, Option<List<UserIdentitiesInner>?> identities = default, Option<Dictionary<string, string>?> properties = default)
+        public SearchUsersResponseResultsInner(Option<string?> id = default, Option<string?> providedId = default, Option<string?> email = default, Option<string?> username = default, Option<string?> lastName = default, Option<string?> firstName = default, Option<bool?> isSuspended = default, Option<string?> picture = default, Option<int?> totalSignIns = default, Option<int?> failedSignIns = default, Option<string?> lastSignedIn = default, Option<string?> createdOn = default, Option<List<string>?> organizations = default, Option<List<UserIdentitiesInner>?> identities = default, Option<Dictionary<string, string>?> properties = default, Option<List<SearchUsersResponseResultsInnerApiScopesInner>?> apiScopes = default)
         {
             IdOption = id;
             ProvidedIdOption = providedId;
@@ -66,6 +67,7 @@ namespace Kinde.Api.Model
             OrganizationsOption = organizations;
             IdentitiesOption = identities;
             PropertiesOption = properties;
+            ApiScopesOption = apiScopes;
             OnCreated();
         }
 
@@ -294,6 +296,20 @@ namespace Kinde.Api.Model
         public Dictionary<string, string>? Properties { get { return this.PropertiesOption; } set { this.PropertiesOption = new Option<Dictionary<string, string>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ApiScopes
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<SearchUsersResponseResultsInnerApiScopesInner>?> ApiScopesOption { get; private set; }
+
+        /// <summary>
+        /// Array of api scopes belonging to the user.
+        /// </summary>
+        /// <value>Array of api scopes belonging to the user.</value>
+        [JsonPropertyName("api_scopes")]
+        public List<SearchUsersResponseResultsInnerApiScopesInner>? ApiScopes { get { return this.ApiScopesOption; } set { this.ApiScopesOption = new Option<List<SearchUsersResponseResultsInnerApiScopesInner>?>(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -316,6 +332,7 @@ namespace Kinde.Api.Model
             sb.Append("  Organizations: ").Append(Organizations).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("  Properties: ").Append(Properties).Append("\n");
+            sb.Append("  ApiScopes: ").Append(ApiScopes).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -358,6 +375,7 @@ namespace Kinde.Api.Model
             Option<List<string>?> organizations = default;
             Option<List<UserIdentitiesInner>?> identities = default;
             Option<Dictionary<string, string>?> properties = default;
+            Option<List<SearchUsersResponseResultsInnerApiScopesInner>?> apiScopes = default;
 
             while (utf8JsonReader.Read())
             {
@@ -419,6 +437,9 @@ namespace Kinde.Api.Model
                         case "properties":
                             properties = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "api_scopes":
+                            apiScopes = new Option<List<SearchUsersResponseResultsInnerApiScopesInner>?>(JsonSerializer.Deserialize<List<SearchUsersResponseResultsInnerApiScopesInner>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
@@ -446,7 +467,10 @@ namespace Kinde.Api.Model
             if (properties.IsSet && properties.Value == null)
                 throw new ArgumentNullException(nameof(properties), "Property is not nullable for class SearchUsersResponseResultsInner.");
 
-            return new SearchUsersResponseResultsInner(id, providedId, email, username, lastName, firstName, isSuspended, picture, totalSignIns, failedSignIns, lastSignedIn, createdOn, organizations, identities, properties);
+            if (apiScopes.IsSet && apiScopes.Value == null)
+                throw new ArgumentNullException(nameof(apiScopes), "Property is not nullable for class SearchUsersResponseResultsInner.");
+
+            return new SearchUsersResponseResultsInner(id, providedId, email, username, lastName, firstName, isSuspended, picture, totalSignIns, failedSignIns, lastSignedIn, createdOn, organizations, identities, properties, apiScopes);
         }
 
         /// <summary>
@@ -490,6 +514,9 @@ namespace Kinde.Api.Model
 
             if (searchUsersResponseResultsInner.PropertiesOption.IsSet && searchUsersResponseResultsInner.Properties == null)
                 throw new ArgumentNullException(nameof(searchUsersResponseResultsInner.Properties), "Property is required for class SearchUsersResponseResultsInner.");
+
+            if (searchUsersResponseResultsInner.ApiScopesOption.IsSet && searchUsersResponseResultsInner.ApiScopes == null)
+                throw new ArgumentNullException(nameof(searchUsersResponseResultsInner.ApiScopes), "Property is required for class SearchUsersResponseResultsInner.");
 
             if (searchUsersResponseResultsInner.IdOption.IsSet)
                 writer.WriteString("id", searchUsersResponseResultsInner.Id);
@@ -565,6 +592,11 @@ namespace Kinde.Api.Model
             {
                 writer.WritePropertyName("properties");
                 JsonSerializer.Serialize(writer, searchUsersResponseResultsInner.Properties, jsonSerializerOptions);
+            }
+            if (searchUsersResponseResultsInner.ApiScopesOption.IsSet)
+            {
+                writer.WritePropertyName("api_scopes");
+                JsonSerializer.Serialize(writer, searchUsersResponseResultsInner.ApiScopes, jsonSerializerOptions);
             }
         }
     }
