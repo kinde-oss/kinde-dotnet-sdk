@@ -7,6 +7,7 @@ namespace Kinde.Api.Test.Mocks
         public string Domain { get => "https://test.domain.com"; set => throw new NotImplementedException(); }
         public string ReplyUrl { get => "https://test.domain.com/callback"; set => throw new NotImplementedException(); }
         public string LogoutUrl { get => "https://test.domain.com/callback"; set => throw new NotImplementedException(); }
+        public bool ForceApi { get => false; set => throw new NotImplementedException(); }
 
     }
 }

@@ -12,11 +12,14 @@
 
         public string LogoutUrl { get; set; }
 
-        public ApplicationConfiguration(string domain, string replyUrl, string logoutUrl)
+        public bool ForceApi { get; set; } = false;
+
+        public ApplicationConfiguration(string domain, string replyUrl, string logoutUrl, bool forceApi = false)
         {
             Domain = domain;
             ReplyUrl = replyUrl;
             LogoutUrl = logoutUrl;
+            ForceApi = forceApi;
         }
     }
 }

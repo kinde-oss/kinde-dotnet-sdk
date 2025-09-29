@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>Kinde.SDK</PackageId>
     <OutputType>Library</OutputType>
     <Authors>Kinde</Authors>
@@ -9,11 +9,11 @@
     <Product>Kinde Platform</Product>
     <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
     <Copyright>Kinde</Copyright>
-    <Version>1.3.1</Version>
+    <Version>2.0.2</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Minor update</PackageReleaseNotes>
+    <PackageReleaseNotes>Major update: Upgraded to .NET 8.0, updated OpenAPI Generator to v7.15.0, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
@@ -24,14 +24,14 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Dependencies\favicon-3.png"/>
+    <None Remove="Dependencies\favicon-3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="Dependencies\favicon-3.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -40,12 +40,18 @@
 
   <ItemGroup>
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Polly" Version="8.5.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
   </ItemGroup>
+
 
 </Project>
