@@ -64,12 +64,16 @@ print_status "Updating version in Kinde.Api.csproj..."
 sed -i.bak "s/<Version>.*<\/Version>/<Version>$NEW_VERSION<\/Version>/" Kinde.Api/Kinde.Api.csproj
 rm Kinde.Api/Kinde.Api.csproj.bak
 
+# Restore packages using lock file
+print_status "Restoring packages..."
+dotnet restore --locked-mode
+
 # Build and test the project
 print_status "Building project..."
-dotnet build --configuration Release
+dotnet build --configuration Release --no-restore
 
 print_status "Running tests..."
-dotnet test --configuration Release
+dotnet test --configuration Release --no-restore
 
 # Create NuGet package
 print_status "Creating NuGet package..."
