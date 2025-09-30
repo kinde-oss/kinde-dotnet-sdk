@@ -30,6 +30,13 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
     exit 1
 fi
 
+# Ensure we're on main branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+    print_error "This script must be run from the main branch (currently on: $CURRENT_BRANCH)"
+    exit 1
+fi
+
 # Get current version from csproj file
 CURRENT_VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
 
@@ -87,13 +94,6 @@ git commit -m "Bump version to $NEW_VERSION"
 # Create and push tag
 print_status "Creating tag v$NEW_VERSION..."
 git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
-
-# Ensure we're on main branch
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "$CURRENT_BRANCH" != "main" ]; then
-    print_error "This script must be run from the main branch (currently on: $CURRENT_BRANCH)"
-    exit 1
-fi
 
 print_status "Pushing changes and tag..."
 git push origin main
