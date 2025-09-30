@@ -4,6 +4,8 @@
 # This script helps create a new release by creating a git tag
 
 set -e
+set -o pipefail
+
 
 # Colors for output
 RED='\033[0;31m'
@@ -75,6 +77,13 @@ fi
 print_status "Updating version in Kinde.Api.csproj..."
 sed -i.bak "s/<Version>.*<\/Version>/<Version>$NEW_VERSION<\/Version>/" Kinde.Api/Kinde.Api.csproj
 rm Kinde.Api/Kinde.Api.csproj.bak
+
+# Verify the update succeeded
+UPDATED_VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
+if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
+    print_error "Failed to update version in Kinde.Api.csproj"
+    exit 1
+fi
 
 # Restore packages using lock file
 print_status "Restoring packages..."
