@@ -5,6 +5,7 @@
     <RootNamespace>Kinde.Api.Test</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>

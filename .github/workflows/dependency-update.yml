@@ -18,6 +18,14 @@ jobs:
       with:
         dotnet-version: '8.0.x'
     
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+    
     - name: Check for outdated packages
       id: check-outdated
       run: |
