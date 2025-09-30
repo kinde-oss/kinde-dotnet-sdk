@@ -40,6 +40,11 @@ fi
 # Get current version from csproj file
 CURRENT_VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
 
+if [ -z "$CURRENT_VERSION" ]; then
+    print_error "Could not extract version from Kinde.Api/Kinde.Api.csproj"
+    exit 1
+fi
+
 print_status "Current version: $CURRENT_VERSION"
 
 # Check if version parameter is provided
