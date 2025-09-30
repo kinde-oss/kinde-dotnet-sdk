@@ -88,6 +88,13 @@ git commit -m "Bump version to $NEW_VERSION"
 print_status "Creating tag v$NEW_VERSION..."
 git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
 
+# Ensure we're on main branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+    print_error "This script must be run from the main branch (currently on: $CURRENT_BRANCH)"
+    exit 1
+fi
+
 print_status "Pushing changes and tag..."
 git push origin main
 git push origin "v$NEW_VERSION"
