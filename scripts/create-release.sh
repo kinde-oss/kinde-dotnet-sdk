@@ -125,7 +125,9 @@ dotnet pack Kinde.Api/Kinde.Api.csproj --configuration Release --output ./nupkgs
 
 # Commit version change
 print_status "Committing version change..."
-git add Kinde.Api/Kinde.Api.csproj Kinde.Api/packages.lock.json Kinde.Api.Test/packages.lock.json
+git add Kinde.Api/Kinde.Api.csproj
+[ -f Kinde.Api/packages.lock.json ] && git add Kinde.Api/packages.lock.json
+[ -f Kinde.Api.Test/packages.lock.json ] && git add Kinde.Api.Test/packages.lock.json
 git commit -m "Bump version to $NEW_VERSION"
 
 # Create and push tag
