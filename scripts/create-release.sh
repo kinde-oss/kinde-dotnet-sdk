@@ -25,6 +25,16 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Roll back version bump on any error
+on_error() {
+    print_error "Failure occurred. Reverting version change."
+    if [ -f Kinde.Api/Kinde.Api.csproj.bak ]; then
+        mv -f Kinde.Api/Kinde.Api.csproj.bak Kinde.Api/Kinde.Api.csproj
+        print_status "Version change reverted successfully."
+    fi
+}
+trap on_error ERR
+
 # Check if we're in a git repository
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
     print_error "Not in a git repository"
@@ -89,7 +99,7 @@ fi
 # Update version in csproj file
 print_status "Updating version in Kinde.Api.csproj..."
 sed -i.bak "s/<Version>.*<\/Version>/<Version>$NEW_VERSION<\/Version>/" Kinde.Api/Kinde.Api.csproj
-rm Kinde.Api/Kinde.Api.csproj.bak
+# Keep backup until the end; it will be removed after a successful push.
 
 # Verify the update succeeded
 UPDATED_VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
@@ -153,6 +163,9 @@ print_status "Release created successfully!"
 print_status "Tag: v$NEW_VERSION"
 print_status "NuGet package created in: ./nupkgs/"
 print_status "GitHub Actions will now create a release and publish to NuGet.org"
+
+# Cleanup backup created by sed (success path)
+rm -f Kinde.Api/Kinde.Api.csproj.bak
 
 # Show next steps
 echo ""
