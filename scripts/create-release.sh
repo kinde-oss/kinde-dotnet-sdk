@@ -31,10 +31,24 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
     exit 1
 fi
 
-# Ensure we're on main branch
+# Ensure we're on main branch and operate from repo root
+cd "$(git rev-parse --show-toplevel)"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$CURRENT_BRANCH" != "main" ]; then
     print_error "This script must be run from the main branch (currently on: $CURRENT_BRANCH)"
+    exit 1
+fi
+
+# Ensure clean working tree
+if ! git diff --quiet || ! git diff --cached --quiet; then
+    print_error "Working tree is not clean. Commit or stash changes first."
+    exit 1
+fi
+
+# Ensure local main is up-to-date
+git fetch origin --tags --prune
+if ! git merge-base --is-ancestor origin/main HEAD; then
+    print_error "Local main is behind origin/main. Please pull/rebase first."
     exit 1
 fi
 
@@ -107,6 +121,29 @@ git commit -m "Bump version to $NEW_VERSION"
 # Create and push tag
 print_status "Creating tag v$NEW_VERSION..."
 git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
+
+# Final safety checks before pushing
+print_status "Performing final safety checks..."
+
+# Ensure we're still on main branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+    print_error "Branch changed during execution. Must be on main branch (currently on: $CURRENT_BRANCH)"
+    exit 1
+fi
+
+# Ensure working tree is still clean (except for our commit)
+if ! git diff --quiet || ! git diff --cached --quiet; then
+    print_error "Working tree is not clean. Unexpected changes detected."
+    exit 1
+fi
+
+# Ensure we're still up-to-date with origin/main
+git fetch origin --tags --prune
+if ! git merge-base --is-ancestor origin/main HEAD; then
+    print_error "Local main is behind origin/main. Please pull/rebase first."
+    exit 1
+fi
 
 print_status "Pushing changes and tag..."
 git push origin main
