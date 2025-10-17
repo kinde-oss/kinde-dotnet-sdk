@@ -32,6 +32,15 @@ on_error() {
         mv -f Kinde.Api/Kinde.Api.csproj.bak Kinde.Api/Kinde.Api.csproj
         print_status "Version change reverted successfully."
     fi
+    # Reset commit and tag if they were created
+    if git rev-parse "v$NEW_VERSION" >/dev/null 2>&1; then
+        git tag -d "v$NEW_VERSION" 2>/dev/null || true
+        print_status "Tag v$NEW_VERSION deleted."
+    fi
+    if git log -1 --oneline | grep -q "Bump version to"; then
+        git reset --soft HEAD~1
+        print_status "Commit reverted."
+    fi
 }
 trap on_error ERR
 
