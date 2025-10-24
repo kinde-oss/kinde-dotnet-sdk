@@ -1,23 +1,26 @@
 name: Version Bump
 
 on:
-  push:
-    branches: [ main ]
-    paths-ignore:
-      - '**.md'
-      - '.github/workflows/version-bump.yml'
   workflow_dispatch:
     inputs:
-      require_approval:
-        description: 'Require manual approval before version bump'
+      version_type:
+        description: 'Version bump type'
         required: true
-        type: boolean
-        default: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   version-bump:
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     
     steps:
     - uses: actions/checkout@v4
@@ -52,8 +55,19 @@ jobs:
         MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
         MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
         PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
-        NEW_PATCH=$((PATCH + 1))
-        NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+        
+        case "${{ github.event.inputs.version_type }}" in
+          "major")
+            NEW_VERSION="$((MAJOR + 1)).0.0"
+            ;;
+          "minor")
+            NEW_VERSION="$MAJOR.$((MINOR + 1)).0"
+            ;;
+          "patch")
+            NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+            ;;
+        esac
+        
         echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
         echo "New version: $NEW_VERSION"
     
@@ -62,21 +76,18 @@ jobs:
         sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.new_version.outputs.new_version }}<\/Version>/" Kinde.Api/Kinde.Api.csproj
     
     - name: Request Version Bump Approval
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.require_approval == 'true'
       run: |
         echo "🚨 VERSION BUMP APPROVAL REQUIRED 🚨"
         echo "Current version: ${{ steps.current_version.outputs.current_version }}"
         echo "New version: ${{ steps.new_version.outputs.new_version }}"
+        echo "Version type: ${{ github.event.inputs.version_type }}"
         echo ""
-        echo "This will automatically bump the patch version."
         echo "Please review and approve this version bump."
         
     - name: Wait for Version Bump Approval
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.require_approval == 'true'
       uses: hmarr/auto-approve-action@v3
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
-        approval-message: "Version bump from ${{ steps.current_version.outputs.current_version }} to ${{ steps.new_version.outputs.new_version }} is ready for approval. Please review and approve this automatic version bump."
     
     - name: Commit and push version bump
       run: |
