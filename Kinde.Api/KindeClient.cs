@@ -6,7 +6,8 @@ using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
 using Kinde.Api.Model;
 using Kinde.Api.Auth;
-using Kinde.Api.Accounts;
+// NOTE: Temporarily disabled for v6 testing - Accounts API was generated with v7
+// using Kinde.Api.Accounts;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 

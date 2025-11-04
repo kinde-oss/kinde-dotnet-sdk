@@ -13,7 +13,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Major update: Upgraded to .NET 8.0, updated OpenAPI Generator to v7.15.0, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
+    <PackageReleaseNotes>Using OpenAPI Generator v6.6.0 for compatibility testing. Upgraded to .NET 8.0, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
@@ -37,12 +37,32 @@
       <PackagePath>\</PackagePath>
     </EmbeddedResource>
   </ItemGroup>
+  <!-- Temporarily exclude Accounts API and v7-specific converters for v6 testing -->
+  <ItemGroup>
+    <Compile Remove="Accounts\**" />
+    <Compile Remove="Converters\CustomEnumConverter.cs" />
+    <Compile Remove="Converters\CreateUserResponseNewtonsoftConverter.cs" />
+    <Compile Remove="Auth\Entitlements.cs" />
+    <Compile Remove="Auth\Permissions.cs" />
+    <Compile Remove="Auth\FeatureFlags.cs" />
+    <Compile Remove="Auth\Roles.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Accounts\**" />
+    <None Remove="Converters\CustomEnumConverter.cs" />
+    <None Remove="Converters\CreateUserResponseNewtonsoftConverter.cs" />
+    <None Remove="Auth\Entitlements.cs" />
+    <None Remove="Auth\Permissions.cs" />
+    <None Remove="Auth\FeatureFlags.cs" />
+    <None Remove="Auth\Roles.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Polly" Version="8.5.2" />
+    <PackageReference Include="RestSharp" Version="105.1.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4" />

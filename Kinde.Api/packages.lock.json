@@ -107,6 +107,12 @@
           "Polly.Core": "8.5.2"
         }
       },
+      "RestSharp": {
+        "type": "Direct",
+        "requested": "[105.1.0, )",
+        "resolved": "105.1.0",
+        "contentHash": "2DRH1cpTOJwesBOwQ0cIhVHUmupbRKt+tdSatfdvndvsawsGMIEgrbq8yv6g3GM1MRVcb37bT8LACVFsqITDmg=="
+      },
       "System.ComponentModel.Annotations": {
         "type": "Direct",
         "requested": "[5.0.0, )",

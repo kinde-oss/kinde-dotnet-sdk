@@ -58,7 +58,10 @@ namespace Kinde.Api.Auth
         /// the proper dependency injection setup.
         /// </summary>
         /// <returns>An accounts client instance</returns>
-        public virtual Accounts.IKindeAccountsClient GetAccountsClient()
+        /// <remarks>
+        /// NOTE: Temporarily changed return type to object for v6 testing - Accounts API was generated with v7
+        /// </remarks>
+        public virtual object GetAccountsClient()
         {
             _logger?.LogError("GetAccountsClient must be implemented by derived classes with proper dependency injection.");
             throw new NotImplementedException("GetAccountsClient must be implemented by derived classes with proper dependency injection.");

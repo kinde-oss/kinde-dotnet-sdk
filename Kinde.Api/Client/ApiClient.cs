@@ -40,15 +40,21 @@ namespace Kinde.Api.Client
         /// <summary>
         /// Creates the standard converter collection for JSON serialization
         /// </summary>
+        /// <remarks>
+        /// NOTE: Some converters are temporarily excluded for v6 testing
+        /// </remarks>
         public static IList<JsonConverter> CreateStandardConverters()
         {
+            // NOTE: Temporarily disabled for v6 testing - converters were written for v7-generated code
+            // and don't exist or reference v7-specific types
             return new List<JsonConverter>
             {
-                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
-                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
-                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
+                // All converters temporarily excluded for v6 testing
+                // new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
+                // new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
+                // new Kinde.Api.Converters.OptionNewtonsoftConverter(),
+                // new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
+                // new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
             };
         }
     }

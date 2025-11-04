@@ -2,6 +2,15 @@
   "version": 1,
   "dependencies": {
     "net8.0": {
+      "Microsoft.AspNetCore.TestHost": {
+        "type": "Direct",
+        "requested": "[8.0.11, )",
+        "resolved": "8.0.11",
+        "contentHash": "A+Thv9ygVYbHV7yRwgT431An4UmW7F0Sv6GfZRMF+4W7WH8GIXeEnidasT+Q+0tT+rwAkNka020HdsTZzfxdYA==",
+        "dependencies": {
+          "System.IO.Pipelines": "8.0.0"
+        }
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.14.1, )",
@@ -11,6 +20,12 @@
           "Microsoft.CodeCoverage": "17.14.1",
           "Microsoft.TestPlatform.TestHost": "17.14.1"
         }
+      },
+      "Newtonsoft.Json": {
+        "type": "Direct",
+        "requested": "[13.0.3, )",
+        "resolved": "13.0.3",
+        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
       "xunit": {
         "type": "Direct",
@@ -28,6 +43,12 @@
         "requested": "[3.1.4, )",
         "resolved": "3.1.4",
         "contentHash": "5mj99LvCqrq3CNi06xYdyIAXOEh+5b33F2nErCzI5zWiDdLHXiPXEWFSUAF8zlIv0ZWqjZNCwHTQeAPYbF3pCg=="
+      },
+      "YamlDotNet": {
+        "type": "Direct",
+        "requested": "[16.1.1, )",
+        "resolved": "16.1.1",
+        "contentHash": "txedMnFM5vjtbaizES++2P+CIuXJ4Sm7HP9swn4ks1SKFTt1NraFfYMQJiOoI+SfRW4dbpdDT+eNdRYyJeDdww=="
       },
       "JsonSubTypes": {
         "type": "Transitive",
@@ -355,11 +376,6 @@
           "Newtonsoft.Json": "13.0.3"
         }
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
       "Polly": {
         "type": "Transitive",
         "resolved": "8.5.2",
@@ -391,6 +407,11 @@
           "Polly.Core": "8.4.2",
           "System.Threading.RateLimiting": "8.0.0"
         }
+      },
+      "RestSharp": {
+        "type": "Transitive",
+        "resolved": "105.1.0",
+        "contentHash": "2DRH1cpTOJwesBOwQ0cIhVHUmupbRKt+tdSatfdvndvsawsGMIEgrbq8yv6g3GM1MRVcb37bT8LACVFsqITDmg=="
       },
       "System.Collections.Immutable": {
         "type": "Transitive",
@@ -501,6 +522,7 @@
           "Microsoft.Extensions.Logging.Console": "[9.0.4, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Polly": "[8.5.2, )",
+          "RestSharp": "[105.1.0, )",
           "System.ComponentModel.Annotations": "[5.0.0, )",
           "System.IdentityModel.Tokens.Jwt": "[8.8.0, )"
         }

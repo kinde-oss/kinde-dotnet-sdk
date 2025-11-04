@@ -14,10 +14,26 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="YamlDotNet" Version="16.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.11" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Kinde.Api\Kinde.Api.csproj" />
+  </ItemGroup>
+  
+  <!-- Temporarily exclude test files that reference v7-specific converters -->
+  <ItemGroup>
+    <Compile Remove="Converters\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\api\openapi.yaml">
+      <Link>api\openapi.yaml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
   <PropertyGroup>

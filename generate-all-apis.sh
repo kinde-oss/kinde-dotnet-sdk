@@ -49,7 +49,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${SCRIPT_DIR}"
 
 # Configuration
-OPENAPI_GENERATOR_VERSION="7.15.0"
+OPENAPI_GENERATOR_VERSION="6.6.0"
 OPENAPI_GENERATOR_JAR="openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar"
 OPENAPI_JAR="${REPO_ROOT}/${OPENAPI_GENERATOR_JAR}"
 
@@ -119,6 +119,9 @@ generate_main_api() {
     fi
     
     # Generate the client code
+    # Note: Version 6.6.0 doesn't support all v7 properties, so we remove:
+    # - nullableReferenceTypes (v7 feature)
+    # - useOneOfInterfaces (v7 feature)
     java -jar "${OPENAPI_JAR}" generate \
         --input-spec "${MAIN_API_SPEC_URL}" \
         --generator-name csharp \
@@ -126,11 +129,9 @@ generate_main_api() {
         --additional-properties=packageName=Kinde.Api \
         --additional-properties="targetFramework=netstandard2.0;netstandard2.1;net8.0" \
         --additional-properties=multiTarget=true \
-        --additional-properties=nullableReferenceTypes=true \
         --additional-properties=useDateTimeOffset=true \
         --additional-properties=useCollection=false \
         --additional-properties=returnICollection=false \
-        --additional-properties=useOneOfInterfaces=true \
         --additional-properties=arrayType=List \
         --additional-properties=netCoreProjectFile=true \
         --additional-properties=validatable=false \
@@ -156,7 +157,8 @@ generate_accounts_api() {
     mkdir -p "${ACCOUNTS_TEMP_OUTPUT_DIR}"
     
     # Additional properties for .NET 8.0 generation
-    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=netstandard2.0;netstandard2.1;net8.0,multiTarget=true,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,useOneOfInterfaces=true,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
+    # Note: Version 6.6.0 doesn't support nullableReferenceTypes and useOneOfInterfaces (v7 features)
+    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=netstandard2.0;netstandard2.1;net8.0,multiTarget=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
     
     # Generate code using OpenAPI generator
     if ! java -jar "${OPENAPI_JAR}" generate \
