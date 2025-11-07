@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Kinde.Api.Model;
 using Kinde.Api.Client;
 
 namespace Kinde.Api.Converters
 {
     /// <summary>
-    /// Newtonsoft.Json converter for CreateUserResponse that handles the Option<List<UserIdentity>> structure
+    /// Newtonsoft.Json converter for CreateUserResponse that handles the Option<> structure
     /// </summary>
     public class CreateUserResponseNewtonsoftConverter : Newtonsoft.Json.JsonConverter<CreateUserResponse>
     {
@@ -24,54 +24,27 @@ namespace Kinde.Api.Converters
 
             string? id = null;
             bool? created = null;
-            List<UserIdentity>? identities = null;
+            List<UserIdentity> identities = null;
 
-            while (reader.Read())
+            var jsonObject = JObject.Load(reader);
+
+            if (jsonObject["id"] != null)
             {
-                if (reader.TokenType == Newtonsoft.Json.JsonToken.EndObject)
-                    break;
+                id = jsonObject["id"].ToObject<string>();
+            }
 
-                if (reader.TokenType == Newtonsoft.Json.JsonToken.PropertyName)
-                {
-                    string? propertyName = reader.Value?.ToString();
-                    reader.Read();
+            if (jsonObject["created"] != null)
+            {
+                created = jsonObject["created"].ToObject<bool?>();
+            }
 
-                    switch (propertyName)
-                    {
-                        case "id":
-                            id = reader.Value?.ToString();
-                            break;
-                        case "created":
-                            created = reader.Value != null ? Convert.ToBoolean(reader.Value) : null;
-                            break;
-                        case "identities":
-                            if (reader.TokenType == Newtonsoft.Json.JsonToken.StartArray)
-                            {
-                                identities = new List<UserIdentity>();
-                                while (reader.Read() && reader.TokenType != Newtonsoft.Json.JsonToken.EndArray)
-                                {
-                                    if (reader.TokenType == Newtonsoft.Json.JsonToken.StartObject)
-                                    {
-                                        var identity = serializer.Deserialize<UserIdentity>(reader);
-                                        if (identity != null)
-                                        {
-                                            identities.Add(identity);
-                                        }
-                                    }
-                                }
-                            }
-                            break;
-                        default:
-                            reader.Skip();
-                            break;
-                    }
-                }
+            if (jsonObject["identities"] != null)
+            {
+                identities = jsonObject["identities"].ToObject<List<UserIdentity>>(serializer);
             }
 
             return new CreateUserResponse(
-                id: id != null ? new Option<string?>(id) : default,
-                created: created != null ? new Option<bool?>(created) : default,
-                identities: identities != null ? new Option<List<UserIdentity>?>(identities) : default
+                id: id != null ? new Option<string?>(id) : default, created: created != null ? new Option<bool?>(created) : default, identities: identities != null ? new Option<List<UserIdentity>?>(identities) : default
             );
         }
 
@@ -82,7 +55,7 @@ namespace Kinde.Api.Converters
             if (value.IdOption.IsSet && value.Id != null)
             {
                 writer.WritePropertyName("id");
-                writer.WriteValue(value.Id);
+                serializer.Serialize(writer, value.Id);
             }
 
             if (value.CreatedOption.IsSet && value.Created != null)

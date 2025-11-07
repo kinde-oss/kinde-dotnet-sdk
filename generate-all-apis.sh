@@ -580,6 +580,31 @@ apply_compatibility_fixes() {
     fi
 }
 
+# Generate converters for Response models
+generate_converters() {
+    print_header "=== Generating Newtonsoft.Json Converters ==="
+    print_status "Generating converters for Response models with Option<> properties..."
+    
+    if [ ! -f "generate-converters.py" ]; then
+        print_error "generate-converters.py not found in the project root"
+        exit 1
+    fi
+    
+    # Check if Python 3 is available
+    if ! command -v python3 &> /dev/null; then
+        print_error "Python 3 is required but not found. Please install Python 3 to continue."
+        exit 1
+    fi
+    
+    # Run the converter generator
+    if python3 generate-converters.py; then
+        print_success "Converters generated successfully"
+    else
+        print_error "Failed to generate converters"
+        exit 1
+    fi
+}
+
 # Clean up temporary files
 cleanup_temp_files() {
     print_status "Cleaning up temporary files..."
@@ -602,6 +627,7 @@ main() {
     copy_accounts_api_files
     copy_missing_client_files
     fix_resilience_issues
+    generate_converters
     apply_compatibility_fixes
     cleanup_temp_files
     

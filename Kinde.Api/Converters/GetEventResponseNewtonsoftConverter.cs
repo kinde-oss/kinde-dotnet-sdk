@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Kinde.Api.Model;
+using Kinde.Api.Client;
+
+namespace Kinde.Api.Converters
+{
+    /// <summary>
+    /// Newtonsoft.Json converter for GetEventResponse that handles the Option<> structure
+    /// </summary>
+    public class GetEventResponseNewtonsoftConverter : Newtonsoft.Json.JsonConverter<GetEventResponse>
+    {
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
+
+        public override GetEventResponse ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, GetEventResponse existingValue, bool hasExistingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            if (reader.TokenType != Newtonsoft.Json.JsonToken.StartObject)
+            {
+                throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
+            }
+
+            string? code = null;
+            string? message = null;
+            GetEventResponseEvent? @event = null;
+
+            var jsonObject = JObject.Load(reader);
+
+            if (jsonObject["code"] != null)
+            {
+                code = jsonObject["code"].ToObject<string>();
+            }
+
+            if (jsonObject["message"] != null)
+            {
+                message = jsonObject["message"].ToObject<string>();
+            }
+
+            if (jsonObject["event"] != null)
+            {
+                @event = jsonObject["event"].ToObject<GetEventResponseEvent>(serializer);
+            }
+
+            return new GetEventResponse(
+                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, @event: @event != null ? new Option<GetEventResponseEvent?>(@event) : default
+            );
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetEventResponse value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            writer.WriteStartObject();
+
+            if (value.CodeOption.IsSet && value.Code != null)
+            {
+                writer.WritePropertyName("code");
+                serializer.Serialize(writer, value.Code);
+            }
+
+            if (value.MessageOption.IsSet && value.Message != null)
+            {
+                writer.WritePropertyName("message");
+                serializer.Serialize(writer, value.Message);
+            }
+
+            if (value.EventOption.IsSet && value.Event != null)
+            {
+                writer.WritePropertyName("event");
+                serializer.Serialize(writer, value.Event);
+            }
+
+            writer.WriteEndObject();
+        }
+    }
+}

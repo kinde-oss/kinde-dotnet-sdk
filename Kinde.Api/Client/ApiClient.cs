@@ -33,6 +33,56 @@ using Polly;
 namespace Kinde.Api.Client
 {
     /// <summary>
+    /// Custom contract resolver that respects [JsonPropertyName] attributes from System.Text.Json
+    /// and ensures Option<> properties use the OptionNewtonsoftConverter
+    /// </summary>
+    internal class JsonPropertyNameContractResolver : DefaultContractResolver
+    {
+        private static readonly Kinde.Api.Converters.OptionNewtonsoftConverter _optionConverter = new Kinde.Api.Converters.OptionNewtonsoftConverter();
+        
+        public JsonPropertyNameContractResolver()
+        {
+            // Use camelCase naming strategy like the original, but allow [JsonPropertyName] to override
+            NamingStrategy = new CamelCaseNamingStrategy
+            {
+                OverrideSpecifiedNames = false
+            };
+        }
+        
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            var property = base.CreateProperty(member, memberSerialization);
+            
+            // Check for [JsonPropertyName] attribute (System.Text.Json)
+            var jsonPropertyNameAttr = member.GetCustomAttribute(
+                Type.GetType("System.Text.Json.Serialization.JsonPropertyNameAttribute, System.Text.Json"));
+            if (jsonPropertyNameAttr != null)
+            {
+                var nameProperty = jsonPropertyNameAttr.GetType().GetProperty("Name");
+                if (nameProperty != null)
+                {
+                    var name = nameProperty.GetValue(jsonPropertyNameAttr) as string;
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        property.PropertyName = name;
+                    }
+                }
+            }
+            
+            // If the property type is Option<>, ensure it uses the OptionNewtonsoftConverter
+            // This is critical for nested objects that don't have custom converters
+            if (property.PropertyType.IsGenericType && 
+                property.PropertyType.GetGenericTypeDefinition() == typeof(Option<>))
+            {
+                property.Converter = _optionConverter;
+                property.MemberConverter = _optionConverter;
+            }
+            
+            return property;
+        }
+    }
+
+    /// <summary>
     /// Helper class for creating standard JSON converters
     /// </summary>
     internal static class JsonConverterHelper
@@ -44,11 +94,130 @@ namespace Kinde.Api.Client
         {
             return new List<JsonConverter>
             {
+                // Generic converters
                 new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
-                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
                 new Kinde.Api.Converters.OptionNewtonsoftConverter(),
+                
+                // Request/Identity converters (manually maintained)
                 new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
+                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter(),
+                
+                // Request converters (alphabetically ordered)
+                new Kinde.Api.Converters.AddAPIScopeRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.AddOrganizationUsersRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApiKeyRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApplicationRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateBillingAgreementRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateConnectionRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateEnvironmentVariableRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateFeatureFlagRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateMeterUsageRecordRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateOrganizationRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateOrganizationUserPermissionRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateOrganizationUserRoleRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreatePermissionRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreatePropertyRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateRoleRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateWebHookRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.ReplaceConnectionRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.ReplaceLogoutRedirectURLsRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.ReplaceRedirectCallbackURLsRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.SetUserPasswordRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateAPIScopeRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateApplicationRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateApplicationTokensRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateBusinessRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateCategoryRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateConnectionRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateEnvironmentVariableRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateIdentityRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateOrganizationRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateOrganizationSessionsRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateOrganizationUsersRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdatePropertyRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateRolePermissionsRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateRolesRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateUserRequestNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateWebHookRequestNewtonsoftConverter(),
+                
+                // Response converters (alphabetically ordered)
+                new Kinde.Api.Converters.AddOrganizationUsersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.AddRoleScopeResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.AuthorizeAppApiResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApiKeyResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApiScopesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApisResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateApplicationResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateCategoryResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateConnectionResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateEnvironmentVariableResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateIdentityResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateMeterUsageRecordResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateOrganizationResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreatePropertyResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateRolesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateSubscriberSuccessResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.CreateWebhookResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.DeleteApiResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.DeleteEnvironmentVariableResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.DeleteRoleScopeResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.DeleteWebhookResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApiKeyResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApiKeysResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApiResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApiScopeResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApiScopesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApisResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApplicationResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetApplicationsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetBillingAgreementsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetBillingEntitlementsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetBusinessResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetCategoriesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetConnectionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEnvironmentFeatureFlagsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEnvironmentResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEnvironmentVariableResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEnvironmentVariablesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEventResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetEventTypesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetIdentitiesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetIndustriesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationFeatureFlagsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationUsersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationsUserPermissionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetOrganizationsUserRolesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetPermissionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetPropertiesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetPropertyValuesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetRoleResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetRolesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetSubscriberResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetSubscribersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetTimezonesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetUserMfaResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetUserSessionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.GetWebhooksResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.NotFoundResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.OrganizationUserNewtonsoftConverter(),
+                new Kinde.Api.Converters.ReadEnvLogoResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.ReadLogoResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.RolePermissionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.RoleScopesResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.RotateApiKeyResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.SearchUsersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.SuccessResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateEnvironmentVariableResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateOrganizationUsersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateRolePermissionsResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateUserResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UpdateWebhookResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.UsersResponseNewtonsoftConverter(),
+                new Kinde.Api.Converters.VerifyApiKeyResponseNewtonsoftConverter()
             };
         }
     }
@@ -64,13 +233,7 @@ namespace Kinde.Api.Client
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = false
-                }
-            },
+            ContractResolver = new JsonPropertyNameContractResolver(),
             // Add our custom enum converter for proper enum serialization
             Converters = JsonConverterHelper.CreateStandardConverters()
         };
@@ -159,7 +322,11 @@ namespace Kinde.Api.Client
                 return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            // Check if this is a nullable enum - if so, let it go through JSON deserialization to use enum converters
+            var underlyingType = Nullable.GetUnderlyingType(type);
+            var isNullableEnum = underlyingType != null && underlyingType.IsEnum;
+            
+            if (type == typeof(string) || (type.Name.StartsWith("System.Nullable") && !isNullableEnum)) // return primitive type (but not nullable enums)
             {
                 return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
             }
@@ -208,13 +375,7 @@ namespace Kinde.Api.Client
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = false
-                }
-            },
+            ContractResolver = new JsonPropertyNameContractResolver(),
             // Add our custom enum converter for proper enum serialization
             Converters = JsonConverterHelper.CreateStandardConverters()
         };

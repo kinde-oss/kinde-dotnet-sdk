@@ -48,8 +48,9 @@ namespace Kinde.Api.Model
         /// <param name="createdOn">Date of user creation in ISO 8601 format.</param>
         /// <param name="organizations">Array of organizations a user belongs to.</param>
         /// <param name="identities">Array of identities belonging to the user.</param>
+        /// <param name="billing">billing</param>
         [JsonConstructor]
-        public User(Option<string?> id = default, Option<string?> providedId = default, Option<string?> preferredEmail = default, Option<string?> phone = default, Option<string?> username = default, Option<string?> lastName = default, Option<string?> firstName = default, Option<bool?> isSuspended = default, Option<string?> picture = default, Option<int?> totalSignIns = default, Option<int?> failedSignIns = default, Option<string?> lastSignedIn = default, Option<string?> createdOn = default, Option<List<string>?> organizations = default, Option<List<UserIdentitiesInner>?> identities = default)
+        public User(Option<string?> id = default, Option<string?> providedId = default, Option<string?> preferredEmail = default, Option<string?> phone = default, Option<string?> username = default, Option<string?> lastName = default, Option<string?> firstName = default, Option<bool?> isSuspended = default, Option<string?> picture = default, Option<int?> totalSignIns = default, Option<int?> failedSignIns = default, Option<string?> lastSignedIn = default, Option<string?> createdOn = default, Option<List<string>?> organizations = default, Option<List<UserIdentitiesInner>?> identities = default, Option<UserBilling?> billing = default)
         {
             IdOption = id;
             ProvidedIdOption = providedId;
@@ -66,6 +67,7 @@ namespace Kinde.Api.Model
             CreatedOnOption = createdOn;
             OrganizationsOption = organizations;
             IdentitiesOption = identities;
+            BillingOption = billing;
             OnCreated();
         }
 
@@ -282,6 +284,19 @@ namespace Kinde.Api.Model
         public List<UserIdentitiesInner>? Identities { get { return this.IdentitiesOption; } set { this.IdentitiesOption = new Option<List<UserIdentitiesInner>?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Billing
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<UserBilling?> BillingOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Billing
+        /// </summary>
+        [JsonPropertyName("billing")]
+        public UserBilling? Billing { get { return this.BillingOption; } set { this.BillingOption = new Option<UserBilling?>(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -304,6 +319,7 @@ namespace Kinde.Api.Model
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("  Organizations: ").Append(Organizations).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
+            sb.Append("  Billing: ").Append(Billing).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -346,6 +362,7 @@ namespace Kinde.Api.Model
             Option<string?> createdOn = default;
             Option<List<string>?> organizations = default;
             Option<List<UserIdentitiesInner>?> identities = default;
+            Option<UserBilling?> billing = default;
 
             while (utf8JsonReader.Read())
             {
@@ -407,6 +424,9 @@ namespace Kinde.Api.Model
                         case "identities":
                             identities = new Option<List<UserIdentitiesInner>?>(JsonSerializer.Deserialize<List<UserIdentitiesInner>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "billing":
+                            billing = new Option<UserBilling?>(JsonSerializer.Deserialize<UserBilling>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
@@ -446,7 +466,10 @@ namespace Kinde.Api.Model
             if (identities.IsSet && identities.Value == null)
                 throw new ArgumentNullException(nameof(identities), "Property is not nullable for class User.");
 
-            return new User(id, providedId, preferredEmail, phone, username, lastName, firstName, isSuspended, picture, totalSignIns, failedSignIns, lastSignedIn, createdOn, organizations, identities);
+            if (billing.IsSet && billing.Value == null)
+                throw new ArgumentNullException(nameof(billing), "Property is not nullable for class User.");
+
+            return new User(id, providedId, preferredEmail, phone, username, lastName, firstName, isSuspended, picture, totalSignIns, failedSignIns, lastSignedIn, createdOn, organizations, identities, billing);
         }
 
         /// <summary>
@@ -502,6 +525,9 @@ namespace Kinde.Api.Model
 
             if (user.IdentitiesOption.IsSet && user.Identities == null)
                 throw new ArgumentNullException(nameof(user.Identities), "Property is required for class User.");
+
+            if (user.BillingOption.IsSet && user.Billing == null)
+                throw new ArgumentNullException(nameof(user.Billing), "Property is required for class User.");
 
             if (user.IdOption.IsSet)
                 writer.WriteString("id", user.Id);
@@ -563,6 +589,11 @@ namespace Kinde.Api.Model
             {
                 writer.WritePropertyName("identities");
                 JsonSerializer.Serialize(writer, user.Identities, jsonSerializerOptions);
+            }
+            if (user.BillingOption.IsSet)
+            {
+                writer.WritePropertyName("billing");
+                JsonSerializer.Serialize(writer, user.Billing, jsonSerializerOptions);
             }
         }
     }

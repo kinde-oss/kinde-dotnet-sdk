@@ -62,7 +62,7 @@ namespace Kinde.Accounts.Api
         /// Get entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a the user currently has access to 
+        /// Returns all the entitlements the user currently has access to 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
@@ -75,7 +75,7 @@ namespace Kinde.Accounts.Api
         /// Get entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a the user currently has access to 
+        /// Returns all the entitlements the user currently has access to 
         /// </remarks>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the entitlement to start after. (optional)</param>
@@ -542,7 +542,7 @@ namespace Kinde.Accounts.Api
         partial void OnErrorGetEntitlements(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<int?> pageSize, Option<string?> startingAfter);
 
         /// <summary>
-        /// Get entitlements Returns all the entitlements a the user currently has access to 
+        /// Get entitlements Returns all the entitlements the user currently has access to 
         /// </summary>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
         /// <param name="startingAfter">The ID of the entitlement to start after. (optional)</param>
@@ -561,7 +561,7 @@ namespace Kinde.Accounts.Api
         }
 
         /// <summary>
-        /// Get entitlements Returns all the entitlements a the user currently has access to 
+        /// Get entitlements Returns all the entitlements the user currently has access to 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
