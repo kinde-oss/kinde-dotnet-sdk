@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            bool isPrivate = default(bool);
-            string categoryId = default(string);
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? description = default(string?);
+            if (jsonObject["description"] != null)
+            {
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            bool isPrivate = default(bool);
             if (jsonObject["is_private"] != null)
             {
                 isPrivate = jsonObject["is_private"].ToObject<bool>(serializer);
             }
-
+            string categoryId = default(string);
             if (jsonObject["category_id"] != null)
             {
                 categoryId = jsonObject["category_id"].ToObject<string>();
             }
 
-            if (jsonObject["description"] != null)
-            {
-                description = jsonObject["description"].ToObject<string>();
-            }
-
             return new UpdatePropertyRequest(
-                name: name, isPrivate: isPrivate, categoryId: categoryId, description: description != null ? new Option<string?>(description) : default
-            );
+                description: description != null ? new Option<string?>(description) : default,                 name: name,                 isPrivate: isPrivate,                 categoryId: categoryId            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdatePropertyRequest value, Newtonsoft.Json.JsonSerializer serializer)

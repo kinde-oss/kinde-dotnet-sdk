@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using {{ model.namespace }};
+{% if model.namespace.startswith('Kinde.Accounts') %}
+using Kinde.Accounts.Client;
+{% else %}
+using Kinde.Api.Client;
+{% endif %}
+
+{% if model.namespace.startswith('Kinde.Accounts') %}
+namespace Kinde.Api.Accounts.Converters
+{% else %}
+namespace Kinde.Api.Converters
+{% endif %}
+{
+    /// <summary>
+    /// Newtonsoft.Json converter for {{ model.name }} that handles the Option<> structure
+    /// </summary>
+    public class {{ model.name }}NewtonsoftConverter : Newtonsoft.Json.JsonConverter<{{ model.name }}>
+    {
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
+
+        public override {{ model.name }} ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, {{ model.name }} existingValue, bool hasExistingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            if (reader.TokenType != Newtonsoft.Json.JsonToken.StartObject)
+            {
+                throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
+            }
+
+            var jsonObject = JObject.Load(reader);
+
+{% for prop in model.properties + model.required_params %}
+            {% if prop.is_dictionary %}
+            {{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %} {{ prop.name }} = default({{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %});
+            if (jsonObject["{{ prop.json_name }}"] != null)
+            {
+                {{ prop.name }} = jsonObject["{{ prop.json_name }}"].ToObject<{{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %}>(serializer);
+            }
+            {% elif prop.is_list %}
+            {{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %} {{ prop.name }} = default({{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %});
+            if (jsonObject["{{ prop.json_name }}"] != null)
+            {
+                {{ prop.name }} = jsonObject["{{ prop.json_name }}"].ToObject<{{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %}>(serializer);
+            }
+            {% elif prop.is_string %}
+            {{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %} {{ prop.name }} = default({{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %});
+            if (jsonObject["{{ prop.json_name }}"] != null)
+            {
+                {{ prop.name }} = jsonObject["{{ prop.json_name }}"].ToObject<{{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %}>();
+            }
+            {% elif prop.is_enum %}
+            {{ model.name }}.{{ prop.enum_type }}{% if prop.is_nullable %}?{% endif %} {{ prop.name }} = default({{ model.name }}.{{ prop.enum_type }}{% if prop.is_nullable %}?{% endif %});
+            if (jsonObject["{{ prop.json_name }}"] != null)
+            {
+                var {{ prop.name }}Str = jsonObject["{{ prop.json_name }}"].ToObject<string>();
+                if (!string.IsNullOrEmpty({{ prop.name }}Str))
+                {
+                    {{ prop.name }} = {{ model.name }}.{{ prop.enum_type }}FromString({{ prop.name }}Str);
+                }
+            }
+            {% else %}
+            {{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %} {{ prop.name }} = default({{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %});
+            if (jsonObject["{{ prop.json_name }}"] != null)
+            {
+                {{ prop.name }} = jsonObject["{{ prop.json_name }}"].ToObject<{{ prop.csharp_type }}{% if prop.is_nullable %}?{% endif %}>(serializer);
+            }
+            {% endif %}
+{% endfor %}
+
+            return new {{ model.name }}(
+{% for prop in model.properties %}
+                {{ prop.name }}: {% if prop.is_option %}{{ prop.name }} != null ? new Option<{% if prop.is_dictionary or prop.is_list %}{{ prop.csharp_type }}{% elif prop.is_enum %}{{ model.name }}.{{ prop.enum_type }}{% else %}{{ prop.csharp_type }}{% endif %}{% if prop.is_nullable or prop.is_list %}?{% endif %}>({{ prop.name }}) : default{% else %}{% if prop.is_nullable %}{{ prop.name }} != null ? new Option<{% if prop.is_enum %}{{ model.name }}.{{ prop.enum_type }}{% else %}{{ prop.csharp_type }}{% endif %}?>({{ prop.name }}) : default{% else %}{{ prop.name }}{% endif %}{% endif %}{% if not (loop.last and model.required_params|length == 0) %}, {% endif %}
+{% endfor %}
+{% if model.required_params %}
+{% for param in model.required_params %}
+                {{ param.name }}: {{ param.name }}{% if not loop.last %}, {% endif %}
+{% endfor %}
+{% endif %}
+            );
+        }
+
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, {{ model.name }} value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            writer.WriteStartObject();
+
+{% for prop in model.properties %}
+            if (value.{{ prop.pascal_name }}Option.IsSet{% if prop.is_nullable %} && value.{{ prop.pascal_name }} != null{% endif %})
+            {
+                writer.WritePropertyName("{{ prop.json_name }}");
+{% if prop.is_enum and not prop.is_dictionary and not prop.is_list %}
+                var {{ prop.name }}Str = {{ model.name }}.{{ prop.enum_type }}ToJsonValue(value.{{ prop.pascal_name }}.Value);
+                writer.WriteValue({{ prop.name }}Str);
+{% else %}
+                serializer.Serialize(writer, value.{{ prop.pascal_name }});
+{% endif %}
+            }
+{% endfor %}
+
+            writer.WriteEndObject();
+        }
+    }
+}

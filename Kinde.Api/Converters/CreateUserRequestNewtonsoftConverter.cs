@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            CreateUserRequestProfile? profile = null;
-            string? organizationCode = null;
-            string? providedId = null;
-            List<CreateUserRequestIdentitiesInner> identities = null;
-
             var jsonObject = JObject.Load(reader);
 
+            CreateUserRequestProfile? profile = default(CreateUserRequestProfile?);
             if (jsonObject["profile"] != null)
             {
-                profile = jsonObject["profile"].ToObject<CreateUserRequestProfile>(serializer);
+                profile = jsonObject["profile"].ToObject<CreateUserRequestProfile?>(serializer);
             }
-
+            string? organizationCode = default(string?);
             if (jsonObject["organization_code"] != null)
             {
-                organizationCode = jsonObject["organization_code"].ToObject<string>();
+                organizationCode = jsonObject["organization_code"].ToObject<string?>();
             }
-
+            string? providedId = default(string?);
             if (jsonObject["provided_id"] != null)
             {
-                providedId = jsonObject["provided_id"].ToObject<string>();
+                providedId = jsonObject["provided_id"].ToObject<string?>();
             }
-
+            List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>);
             if (jsonObject["identities"] != null)
             {
                 identities = jsonObject["identities"].ToObject<List<CreateUserRequestIdentitiesInner>>(serializer);
             }
 
             return new CreateUserRequest(
-                profile: profile != null ? new Option<CreateUserRequestProfile?>(profile) : default, organizationCode: organizationCode != null ? new Option<string?>(organizationCode) : default, providedId: providedId != null ? new Option<string?>(providedId) : default, identities: identities != null ? new Option<List<CreateUserRequestIdentitiesInner>?>(identities) : default
-            );
+                profile: profile != null ? new Option<CreateUserRequestProfile?>(profile) : default,                 organizationCode: organizationCode != null ? new Option<string?>(organizationCode) : default,                 providedId: providedId != null ? new Option<string?>(providedId) : default,                 identities: identities != null ? new Option<List<CreateUserRequestIdentitiesInner>?>(identities) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateUserRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,20 +58,17 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("profile");
                 serializer.Serialize(writer, value.Profile);
             }
-
             if (value.OrganizationCodeOption.IsSet && value.OrganizationCode != null)
             {
                 writer.WritePropertyName("organization_code");
                 serializer.Serialize(writer, value.OrganizationCode);
             }
-
             if (value.ProvidedIdOption.IsSet && value.ProvidedId != null)
             {
                 writer.WritePropertyName("provided_id");
                 serializer.Serialize(writer, value.ProvidedId);
             }
-
-            if (value.IdentitiesOption.IsSet && value.Identities != null)
+            if (value.IdentitiesOption.IsSet)
             {
                 writer.WritePropertyName("identities");
                 serializer.Serialize(writer, value.Identities);

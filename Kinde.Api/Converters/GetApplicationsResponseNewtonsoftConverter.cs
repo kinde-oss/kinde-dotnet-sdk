@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<Applications> applications = null;
-            string? nextToken = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<Applications> applications = default(List<Applications>);
             if (jsonObject["applications"] != null)
             {
                 applications = jsonObject["applications"].ToObject<List<Applications>>(serializer);
             }
-
+            string? nextToken = default(string?);
             if (jsonObject["next_token"] != null)
             {
-                nextToken = jsonObject["next_token"].ToObject<string>();
+                nextToken = jsonObject["next_token"].ToObject<string?>();
             }
 
             return new GetApplicationsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, applications: applications != null ? new Option<List<Applications>?>(applications) : default, nextToken: nextToken != null ? new Option<string?>(nextToken) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 applications: applications != null ? new Option<List<Applications>?>(applications) : default,                 nextToken: nextToken != null ? new Option<string?>(nextToken) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetApplicationsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,19 +58,16 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.ApplicationsOption.IsSet && value.Applications != null)
+            if (value.ApplicationsOption.IsSet)
             {
                 writer.WritePropertyName("applications");
                 serializer.Serialize(writer, value.Applications);
             }
-
             if (value.NextTokenOption.IsSet && value.NextToken != null)
             {
                 writer.WritePropertyName("next_token");

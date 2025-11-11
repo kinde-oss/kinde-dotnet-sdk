@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            CreateSubscriberSuccessResponseSubscriber? subscriber = null;
-
             var jsonObject = JObject.Load(reader);
 
+            CreateSubscriberSuccessResponseSubscriber? subscriber = default(CreateSubscriberSuccessResponseSubscriber?);
             if (jsonObject["subscriber"] != null)
             {
-                subscriber = jsonObject["subscriber"].ToObject<CreateSubscriberSuccessResponseSubscriber>(serializer);
+                subscriber = jsonObject["subscriber"].ToObject<CreateSubscriberSuccessResponseSubscriber?>(serializer);
             }
 
             return new CreateSubscriberSuccessResponse(
-                subscriber: subscriber != null ? new Option<CreateSubscriberSuccessResponseSubscriber?>(subscriber) : default
-            );
+                subscriber: subscriber != null ? new Option<CreateSubscriberSuccessResponseSubscriber?>(subscriber) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateSubscriberSuccessResponse value, Newtonsoft.Json.JsonSerializer serializer)

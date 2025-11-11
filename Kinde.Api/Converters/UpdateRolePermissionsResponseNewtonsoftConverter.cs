@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<string> permissionsAdded = null;
-            List<string> permissionsRemoved = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<string> permissionsAdded = default(List<string>);
             if (jsonObject["permissions_added"] != null)
             {
                 permissionsAdded = jsonObject["permissions_added"].ToObject<List<string>>(serializer);
             }
-
+            List<string> permissionsRemoved = default(List<string>);
             if (jsonObject["permissions_removed"] != null)
             {
                 permissionsRemoved = jsonObject["permissions_removed"].ToObject<List<string>>(serializer);
             }
 
             return new UpdateRolePermissionsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, permissionsAdded: permissionsAdded != null ? new Option<List<string>?>(permissionsAdded) : default, permissionsRemoved: permissionsRemoved != null ? new Option<List<string>?>(permissionsRemoved) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 permissionsAdded: permissionsAdded != null ? new Option<List<string>?>(permissionsAdded) : default,                 permissionsRemoved: permissionsRemoved != null ? new Option<List<string>?>(permissionsRemoved) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateRolePermissionsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,20 +58,17 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.PermissionsAddedOption.IsSet && value.PermissionsAdded != null)
+            if (value.PermissionsAddedOption.IsSet)
             {
                 writer.WritePropertyName("permissions_added");
                 serializer.Serialize(writer, value.PermissionsAdded);
             }
-
-            if (value.PermissionsRemovedOption.IsSet && value.PermissionsRemoved != null)
+            if (value.PermissionsRemovedOption.IsSet)
             {
                 writer.WritePropertyName("permissions_removed");
                 serializer.Serialize(writer, value.PermissionsRemoved);

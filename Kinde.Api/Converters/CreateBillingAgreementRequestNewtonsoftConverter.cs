@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string customerId = default(string);
-            string planCode = default(string);
-            bool? isInvoiceNow = null;
-            bool? isProrate = null;
-
             var jsonObject = JObject.Load(reader);
 
+            bool? isInvoiceNow = default(bool?);
+            if (jsonObject["is_invoice_now"] != null)
+            {
+                isInvoiceNow = jsonObject["is_invoice_now"].ToObject<bool?>(serializer);
+            }
+            bool? isProrate = default(bool?);
+            if (jsonObject["is_prorate"] != null)
+            {
+                isProrate = jsonObject["is_prorate"].ToObject<bool?>(serializer);
+            }
+            string customerId = default(string);
             if (jsonObject["customer_id"] != null)
             {
                 customerId = jsonObject["customer_id"].ToObject<string>();
             }
-
+            string planCode = default(string);
             if (jsonObject["plan_code"] != null)
             {
                 planCode = jsonObject["plan_code"].ToObject<string>();
             }
 
-            if (jsonObject["is_invoice_now"] != null)
-            {
-                isInvoiceNow = jsonObject["is_invoice_now"].ToObject<bool?>();
-            }
-
-            if (jsonObject["is_prorate"] != null)
-            {
-                isProrate = jsonObject["is_prorate"].ToObject<bool?>();
-            }
-
             return new CreateBillingAgreementRequest(
-                customerId: customerId, planCode: planCode, isInvoiceNow: isInvoiceNow != null ? new Option<bool?>(isInvoiceNow) : default, isProrate: isProrate != null ? new Option<bool?>(isProrate) : default
-            );
+                isInvoiceNow: isInvoiceNow != null ? new Option<bool?>(isInvoiceNow) : default,                 isProrate: isProrate != null ? new Option<bool?>(isProrate) : default,                 customerId: customerId,                 planCode: planCode            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateBillingAgreementRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -61,13 +56,12 @@ namespace Kinde.Api.Converters
             if (value.IsInvoiceNowOption.IsSet && value.IsInvoiceNow != null)
             {
                 writer.WritePropertyName("is_invoice_now");
-                writer.WriteValue(value.IsInvoiceNow.Value);
+                serializer.Serialize(writer, value.IsInvoiceNow);
             }
-
             if (value.IsProrateOption.IsSet && value.IsProrate != null)
             {
                 writer.WritePropertyName("is_prorate");
-                writer.WriteValue(value.IsProrate.Value);
+                serializer.Serialize(writer, value.IsProrate);
             }
 
             writer.WriteEndObject();

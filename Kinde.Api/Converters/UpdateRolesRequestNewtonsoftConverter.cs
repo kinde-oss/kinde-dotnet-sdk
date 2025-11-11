@@ -22,42 +22,36 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            string key = default(string);
-            string? description = null;
-            bool? isDefaultRole = null;
-            Guid? assignmentPermissionId = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? description = default(string?);
+            if (jsonObject["description"] != null)
+            {
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            bool? isDefaultRole = default(bool?);
+            if (jsonObject["is_default_role"] != null)
+            {
+                isDefaultRole = jsonObject["is_default_role"].ToObject<bool?>(serializer);
+            }
+            Guid? assignmentPermissionId = default(Guid?);
+            if (jsonObject["assignment_permission_id"] != null)
+            {
+                assignmentPermissionId = jsonObject["assignment_permission_id"].ToObject<Guid?>(serializer);
+            }
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            string key = default(string);
             if (jsonObject["key"] != null)
             {
                 key = jsonObject["key"].ToObject<string>();
             }
 
-            if (jsonObject["description"] != null)
-            {
-                description = jsonObject["description"].ToObject<string>();
-            }
-
-            if (jsonObject["is_default_role"] != null)
-            {
-                isDefaultRole = jsonObject["is_default_role"].ToObject<bool?>();
-            }
-
-            if (jsonObject["assignment_permission_id"] != null)
-            {
-                assignmentPermissionId = jsonObject["assignment_permission_id"].ToObject<Guid>(serializer);
-            }
-
             return new UpdateRolesRequest(
-                name: name, key: key, description: description != null ? new Option<string?>(description) : default, isDefaultRole: isDefaultRole != null ? new Option<bool?>(isDefaultRole) : default, assignmentPermissionId: assignmentPermissionId != null ? new Option<Guid?>(assignmentPermissionId) : default
-            );
+                description: description != null ? new Option<string?>(description) : default,                 isDefaultRole: isDefaultRole != null ? new Option<bool?>(isDefaultRole) : default,                 assignmentPermissionId: assignmentPermissionId != null ? new Option<Guid?>(assignmentPermissionId) : default,                 name: name,                 key: key            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateRolesRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -69,13 +63,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("description");
                 serializer.Serialize(writer, value.Description);
             }
-
             if (value.IsDefaultRoleOption.IsSet && value.IsDefaultRole != null)
             {
                 writer.WritePropertyName("is_default_role");
-                writer.WriteValue(value.IsDefaultRole.Value);
+                serializer.Serialize(writer, value.IsDefaultRole);
             }
-
             if (value.AssignmentPermissionIdOption.IsSet && value.AssignmentPermissionId != null)
             {
                 writer.WritePropertyName("assignment_permission_id");

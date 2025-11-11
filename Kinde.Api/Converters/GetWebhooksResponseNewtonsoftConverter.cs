@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<Webhook> webhooks = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<Webhook> webhooks = default(List<Webhook>);
             if (jsonObject["webhooks"] != null)
             {
                 webhooks = jsonObject["webhooks"].ToObject<List<Webhook>>(serializer);
             }
 
             return new GetWebhooksResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, webhooks: webhooks != null ? new Option<List<Webhook>?>(webhooks) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 webhooks: webhooks != null ? new Option<List<Webhook>?>(webhooks) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetWebhooksResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.WebhooksOption.IsSet && value.Webhooks != null)
+            if (value.WebhooksOption.IsSet)
             {
                 writer.WritePropertyName("webhooks");
                 serializer.Serialize(writer, value.Webhooks);

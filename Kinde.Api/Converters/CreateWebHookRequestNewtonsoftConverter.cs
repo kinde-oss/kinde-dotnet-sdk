@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string endpoint = default(string);
-            List<string> eventTypes = default(List<string>);
-            string name = default(string);
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? description = default(string?);
+            if (jsonObject["description"] != null)
+            {
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            string endpoint = default(string);
             if (jsonObject["endpoint"] != null)
             {
                 endpoint = jsonObject["endpoint"].ToObject<string>();
             }
-
+            List<string> eventTypes = default(List<string>);
             if (jsonObject["event_types"] != null)
             {
                 eventTypes = jsonObject["event_types"].ToObject<List<string>>(serializer);
             }
-
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
 
-            if (jsonObject["description"] != null)
-            {
-                description = jsonObject["description"].ToObject<string>();
-            }
-
             return new CreateWebHookRequest(
-                endpoint: endpoint, eventTypes: eventTypes, name: name, description: description != null ? new Option<string?>(description) : default
-            );
+                description: description != null ? new Option<string?>(description) : default,                 endpoint: endpoint,                 eventTypes: eventTypes,                 name: name            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateWebHookRequest value, Newtonsoft.Json.JsonSerializer serializer)

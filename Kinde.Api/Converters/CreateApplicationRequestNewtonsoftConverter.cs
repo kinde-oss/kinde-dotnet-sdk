@@ -22,17 +22,19 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            CreateApplicationRequest.TypeEnum type = default(CreateApplicationRequest.TypeEnum);
-            string? orgCode = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? orgCode = default(string?);
+            if (jsonObject["org_code"] != null)
+            {
+                orgCode = jsonObject["org_code"].ToObject<string?>();
+            }
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            CreateApplicationRequest.TypeEnum type = default(CreateApplicationRequest.TypeEnum);
             if (jsonObject["type"] != null)
             {
                 var typeStr = jsonObject["type"].ToObject<string>();
@@ -42,14 +44,8 @@ namespace Kinde.Api.Converters
                 }
             }
 
-            if (jsonObject["org_code"] != null)
-            {
-                orgCode = jsonObject["org_code"].ToObject<string>();
-            }
-
             return new CreateApplicationRequest(
-                name: name, type: type, orgCode: orgCode != null ? new Option<string?>(orgCode) : default
-            );
+                orgCode: orgCode != null ? new Option<string?>(orgCode) : default,                 name: name,                 type: type            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateApplicationRequest value, Newtonsoft.Json.JsonSerializer serializer)

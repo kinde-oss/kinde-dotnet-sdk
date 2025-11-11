@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            GetBusinessResponseBusiness? business = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            GetBusinessResponseBusiness? business = default(GetBusinessResponseBusiness?);
             if (jsonObject["business"] != null)
             {
-                business = jsonObject["business"].ToObject<GetBusinessResponseBusiness>(serializer);
+                business = jsonObject["business"].ToObject<GetBusinessResponseBusiness?>(serializer);
             }
 
             return new GetBusinessResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, business: business != null ? new Option<GetBusinessResponseBusiness?>(business) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 business: business != null ? new Option<GetBusinessResponseBusiness?>(business) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetBusinessResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.BusinessOption.IsSet && value.Business != null)
             {
                 writer.WritePropertyName("business");

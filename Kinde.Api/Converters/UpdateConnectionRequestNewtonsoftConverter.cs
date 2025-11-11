@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? name = null;
-            string? displayName = null;
-            List<string> enabledApplications = null;
-            UpdateConnectionRequestOptions? options = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? name = default(string?);
             if (jsonObject["name"] != null)
             {
-                name = jsonObject["name"].ToObject<string>();
+                name = jsonObject["name"].ToObject<string?>();
             }
-
+            string? displayName = default(string?);
             if (jsonObject["display_name"] != null)
             {
-                displayName = jsonObject["display_name"].ToObject<string>();
+                displayName = jsonObject["display_name"].ToObject<string?>();
             }
-
+            List<string> enabledApplications = default(List<string>);
             if (jsonObject["enabled_applications"] != null)
             {
                 enabledApplications = jsonObject["enabled_applications"].ToObject<List<string>>(serializer);
             }
-
+            UpdateConnectionRequestOptions? options = default(UpdateConnectionRequestOptions?);
             if (jsonObject["options"] != null)
             {
-                options = jsonObject["options"].ToObject<UpdateConnectionRequestOptions>(serializer);
+                options = jsonObject["options"].ToObject<UpdateConnectionRequestOptions?>(serializer);
             }
 
             return new UpdateConnectionRequest(
-                name: name != null ? new Option<string?>(name) : default, displayName: displayName != null ? new Option<string?>(displayName) : default, enabledApplications: enabledApplications != null ? new Option<List<string>?>(enabledApplications) : default, options: options != null ? new Option<UpdateConnectionRequestOptions?>(options) : default
-            );
+                name: name != null ? new Option<string?>(name) : default,                 displayName: displayName != null ? new Option<string?>(displayName) : default,                 enabledApplications: enabledApplications != null ? new Option<List<string>?>(enabledApplications) : default,                 options: options != null ? new Option<UpdateConnectionRequestOptions?>(options) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateConnectionRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,19 +58,16 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("name");
                 serializer.Serialize(writer, value.Name);
             }
-
             if (value.DisplayNameOption.IsSet && value.DisplayName != null)
             {
                 writer.WritePropertyName("display_name");
                 serializer.Serialize(writer, value.DisplayName);
             }
-
-            if (value.EnabledApplicationsOption.IsSet && value.EnabledApplications != null)
+            if (value.EnabledApplicationsOption.IsSet)
             {
                 writer.WritePropertyName("enabled_applications");
                 serializer.Serialize(writer, value.EnabledApplications);
             }
-
             if (value.OptionsOption.IsSet && value.Options != null)
             {
                 writer.WritePropertyName("options");

@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            NotFoundResponseErrors? errors = null;
-
             var jsonObject = JObject.Load(reader);
 
+            NotFoundResponseErrors? errors = default(NotFoundResponseErrors?);
             if (jsonObject["errors"] != null)
             {
-                errors = jsonObject["errors"].ToObject<NotFoundResponseErrors>(serializer);
+                errors = jsonObject["errors"].ToObject<NotFoundResponseErrors?>(serializer);
             }
 
             return new NotFoundResponse(
-                errors: errors != null ? new Option<NotFoundResponseErrors?>(errors) : default
-            );
+                errors: errors != null ? new Option<NotFoundResponseErrors?>(errors) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, NotFoundResponse value, Newtonsoft.Json.JsonSerializer serializer)

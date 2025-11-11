@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            CreateApplicationResponseApplication? application = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            CreateApplicationResponseApplication? application = default(CreateApplicationResponseApplication?);
             if (jsonObject["application"] != null)
             {
-                application = jsonObject["application"].ToObject<CreateApplicationResponseApplication>(serializer);
+                application = jsonObject["application"].ToObject<CreateApplicationResponseApplication?>(serializer);
             }
 
             return new CreateApplicationResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, application: application != null ? new Option<CreateApplicationResponseApplication?>(application) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 application: application != null ? new Option<CreateApplicationResponseApplication?>(application) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateApplicationResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.ApplicationOption.IsSet && value.Application != null)
             {
                 writer.WritePropertyName("application");

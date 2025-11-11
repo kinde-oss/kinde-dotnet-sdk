@@ -22,25 +22,23 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<AddOrganizationUsersRequestUsersInner> users = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<AddOrganizationUsersRequestUsersInner> users = default(List<AddOrganizationUsersRequestUsersInner>);
             if (jsonObject["users"] != null)
             {
                 users = jsonObject["users"].ToObject<List<AddOrganizationUsersRequestUsersInner>>(serializer);
             }
 
             return new AddOrganizationUsersRequest(
-                users: users != null ? new Option<List<AddOrganizationUsersRequestUsersInner>?>(users) : default
-            );
+                users: users != null ? new Option<List<AddOrganizationUsersRequestUsersInner>?>(users) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, AddOrganizationUsersRequest value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.UsersOption.IsSet && value.Users != null)
+            if (value.UsersOption.IsSet)
             {
                 writer.WritePropertyName("users");
                 serializer.Serialize(writer, value.Users);

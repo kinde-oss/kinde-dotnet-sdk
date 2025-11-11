@@ -22,25 +22,23 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<RedirectCallbackUrls> redirectUrls = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<RedirectCallbackUrls> redirectUrls = default(List<RedirectCallbackUrls>);
             if (jsonObject["redirect_urls"] != null)
             {
                 redirectUrls = jsonObject["redirect_urls"].ToObject<List<RedirectCallbackUrls>>(serializer);
             }
 
             return new GetRedirectCallbackUrlsResponse(
-                redirectUrls: redirectUrls != null ? new Option<List<RedirectCallbackUrls>?>(redirectUrls) : default
-            );
+                redirectUrls: redirectUrls != null ? new Option<List<RedirectCallbackUrls>?>(redirectUrls) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetRedirectCallbackUrlsResponse value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.RedirectUrlsOption.IsSet && value.RedirectUrls != null)
+            if (value.RedirectUrlsOption.IsSet)
             {
                 writer.WritePropertyName("redirect_urls");
                 serializer.Serialize(writer, value.RedirectUrls);

@@ -22,24 +22,21 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
 
             return new DeleteApiResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, DeleteApiResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -51,7 +48,6 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");

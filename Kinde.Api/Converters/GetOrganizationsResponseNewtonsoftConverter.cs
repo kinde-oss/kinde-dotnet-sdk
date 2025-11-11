@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<OrganizationItemSchema> organizations = null;
-            string? nextToken = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<OrganizationItemSchema> organizations = default(List<OrganizationItemSchema>);
             if (jsonObject["organizations"] != null)
             {
                 organizations = jsonObject["organizations"].ToObject<List<OrganizationItemSchema>>(serializer);
             }
-
+            string? nextToken = default(string?);
             if (jsonObject["next_token"] != null)
             {
-                nextToken = jsonObject["next_token"].ToObject<string>();
+                nextToken = jsonObject["next_token"].ToObject<string?>();
             }
 
             return new GetOrganizationsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, organizations: organizations != null ? new Option<List<OrganizationItemSchema>?>(organizations) : default, nextToken: nextToken != null ? new Option<string?>(nextToken) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 organizations: organizations != null ? new Option<List<OrganizationItemSchema>?>(organizations) : default,                 nextToken: nextToken != null ? new Option<string?>(nextToken) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetOrganizationsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,19 +58,16 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.OrganizationsOption.IsSet && value.Organizations != null)
+            if (value.OrganizationsOption.IsSet)
             {
                 writer.WritePropertyName("organizations");
                 serializer.Serialize(writer, value.Organizations);
             }
-
             if (value.NextTokenOption.IsSet && value.NextToken != null)
             {
                 writer.WritePropertyName("next_token");

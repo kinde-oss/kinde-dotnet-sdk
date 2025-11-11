@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<ReplaceOrganizationMFARequest.EnabledFactorsEnum> enabledFactors = default(List<ReplaceOrganizationMFARequest.EnabledFactorsEnum>);
-
             var jsonObject = JObject.Load(reader);
 
+            List<ReplaceOrganizationMFARequest.EnabledFactorsEnum> enabledFactors = default(List<ReplaceOrganizationMFARequest.EnabledFactorsEnum>);
             if (jsonObject["enabled_factors"] != null)
             {
                 enabledFactors = jsonObject["enabled_factors"].ToObject<List<ReplaceOrganizationMFARequest.EnabledFactorsEnum>>(serializer);
             }
 
             return new ReplaceOrganizationMFARequest(
-                enabledFactors: enabledFactors
-            );
+                enabledFactors: enabledFactors            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, ReplaceOrganizationMFARequest value, Newtonsoft.Json.JsonSerializer serializer)

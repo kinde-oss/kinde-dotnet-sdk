@@ -585,8 +585,11 @@ generate_converters() {
     print_header "=== Generating Newtonsoft.Json Converters ==="
     print_status "Generating converters for Response models with Option<> properties..."
     
-    if [ ! -f "generate-converters.py" ]; then
-        print_error "generate-converters.py not found in the project root"
+    local generator_dir="${REPO_ROOT}/tools/converter-generator"
+    local generator_script="${generator_dir}/generate_converters.py"
+    
+    if [ ! -f "${generator_script}" ]; then
+        print_error "Converter generator not found at ${generator_script}"
         exit 1
     fi
     
@@ -596,13 +599,178 @@ generate_converters() {
         exit 1
     fi
     
-    # Run the converter generator
-    if python3 generate-converters.py; then
-        print_success "Converters generated successfully"
+    # Check if virtual environment exists, if not create it
+    local venv_dir="${generator_dir}/venv"
+    if [ ! -d "${venv_dir}" ]; then
+        print_status "Creating Python virtual environment..."
+        cd "${generator_dir}"
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -q -r requirements.txt
+        cd "${REPO_ROOT}"
+    fi
+    
+    # Activate virtual environment and run generator for Kinde.Api
+    print_status "Generating converters for Kinde.Api (Management API)..."
+    cd "${generator_dir}"
+    source venv/bin/activate
+    if python generate_converters.py --config config-kind-api.yaml; then
+        print_success "Kinde.Api converters generated successfully"
     else
-        print_error "Failed to generate converters"
+        print_error "Failed to generate Kinde.Api converters"
+        cd "${REPO_ROOT}"
         exit 1
     fi
+    
+    # Run generator for Kinde.Accounts (Frontend API)
+    print_status "Generating converters for Kinde.Accounts (Frontend API)..."
+    if python generate_converters.py --config config-accounts-api.yaml; then
+        print_success "Kinde.Accounts converters generated successfully"
+    else
+        print_error "Failed to generate Kinde.Accounts converters"
+        cd "${REPO_ROOT}"
+        exit 1
+    fi
+    
+    cd "${REPO_ROOT}"
+    print_success "All converters generated successfully"
+}
+
+# Generate integration tests from OpenAPI specifications
+generate_integration_tests() {
+    print_header "=== Generating Integration Tests ==="
+    print_status "Generating integration tests for all API endpoints..."
+    
+    local generator_dir="${REPO_ROOT}/tools/test-generator"
+    local generator_script="${generator_dir}/generate_integration_tests.py"
+    
+    if [ ! -f "${generator_script}" ]; then
+        print_warning "Test generator not found at ${generator_script}, skipping test generation"
+        return 0
+    fi
+    
+    # Check if Python 3 is available
+    if ! command -v python3 &> /dev/null; then
+        print_warning "Python 3 is required for test generation but not found. Skipping."
+        return 0
+    fi
+    
+    # Check if virtual environment exists, if not create it
+    local venv_dir="${generator_dir}/venv"
+    if [ ! -d "${venv_dir}" ]; then
+        print_status "Creating Python virtual environment for test generator..."
+        cd "${generator_dir}"
+        if [ -f "setup-venv.sh" ]; then
+            bash setup-venv.sh
+        else
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+        fi
+        cd "${REPO_ROOT}"
+    fi
+    
+    # Activate virtual environment and run generator
+    print_status "Generating integration tests for Management API..."
+    cd "${generator_dir}"
+    source venv/bin/activate
+    
+    # Use the OpenAPI spec from the API directory or download it
+    local main_spec="${REPO_ROOT}/api/openapi.yaml"
+    if [ ! -f "${main_spec}" ]; then
+        # Try to download it
+        print_status "Downloading OpenAPI spec..."
+        mkdir -p "${REPO_ROOT}/api"
+        if curl -fsSL "${MAIN_API_SPEC_URL}" -o "${main_spec}"; then
+            print_success "OpenAPI spec downloaded"
+        else
+            print_warning "Could not download OpenAPI spec, skipping test generation"
+            cd "${REPO_ROOT}"
+            return 0
+        fi
+    fi
+    
+    local test_output="${REPO_ROOT}/Kinde.Api.Test/Integration/GeneratedConverterIntegrationTests.cs"
+    
+    if python generate_integration_tests.py \
+        --spec "${main_spec}" \
+        --output "${test_output}" \
+        --namespace "Kinde.Api.Test.Integration"; then
+        print_success "Management API integration tests generated successfully"
+    else
+        print_warning "Failed to generate Management API integration tests"
+    fi
+    
+    cd "${REPO_ROOT}"
+    print_success "Integration test generation completed"
+}
+
+# Generate mock responses from OpenAPI specifications
+generate_mock_responses() {
+    print_header "=== Generating Mock Responses ==="
+    print_status "Generating mock responses for integration tests..."
+    
+    local generator_dir="${REPO_ROOT}/tools/test-generator"
+    local generator_script="${generator_dir}/generate_mock_responses.py"
+    
+    if [ ! -f "${generator_script}" ]; then
+        print_warning "Mock response generator not found at ${generator_script}, skipping mock response generation"
+        return 0
+    fi
+    
+    # Check if Python 3 is available
+    if ! command -v python3 &> /dev/null; then
+        print_warning "Python 3 is required for mock response generation but not found. Skipping."
+        return 0
+    fi
+    
+    # Use existing virtual environment from test generator
+    local venv_dir="${generator_dir}/venv"
+    if [ ! -d "${venv_dir}" ]; then
+        print_status "Creating Python virtual environment for mock response generator..."
+        cd "${generator_dir}"
+        if [ -f "setup-venv.sh" ]; then
+            bash setup-venv.sh
+        else
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+        fi
+        cd "${REPO_ROOT}"
+    fi
+    
+    # Activate virtual environment and run generator
+    print_status "Generating mock responses for Management API..."
+    cd "${generator_dir}"
+    source venv/bin/activate
+    
+    # Use the OpenAPI spec from the API directory or download it
+    local main_spec="${REPO_ROOT}/api/openapi.yaml"
+    if [ ! -f "${main_spec}" ]; then
+        # Try to download it
+        print_status "Downloading OpenAPI spec..."
+        mkdir -p "${REPO_ROOT}/api"
+        if curl -fsSL "${MAIN_API_SPEC_URL}" -o "${main_spec}"; then
+            print_success "OpenAPI spec downloaded"
+        else
+            print_warning "Could not download OpenAPI spec, skipping mock response generation"
+            cd "${REPO_ROOT}"
+            return 0
+        fi
+    fi
+    
+    local mock_output="${REPO_ROOT}/Kinde.Api.Test/Integration/GeneratedMockResponses.cs"
+    
+    if python generate_mock_responses.py \
+        --spec "${main_spec}" \
+        --output "${mock_output}"; then
+        print_success "Mock responses generated successfully"
+    else
+        print_warning "Failed to generate mock responses"
+    fi
+    
+    cd "${REPO_ROOT}"
+    print_success "Mock response generation completed"
 }
 
 # Clean up temporary files
@@ -628,6 +796,11 @@ main() {
     copy_missing_client_files
     fix_resilience_issues
     generate_converters
+    
+    # Generate integration tests
+    generate_integration_tests
+    # Generate mock responses
+    generate_mock_responses
     apply_compatibility_fixes
     cleanup_temp_files
     

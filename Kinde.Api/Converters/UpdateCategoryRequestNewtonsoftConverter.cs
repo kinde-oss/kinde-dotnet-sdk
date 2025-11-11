@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? name = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? name = default(string?);
             if (jsonObject["name"] != null)
             {
-                name = jsonObject["name"].ToObject<string>();
+                name = jsonObject["name"].ToObject<string?>();
             }
 
             return new UpdateCategoryRequest(
-                name: name != null ? new Option<string?>(name) : default
-            );
+                name: name != null ? new Option<string?>(name) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateCategoryRequest value, Newtonsoft.Json.JsonSerializer serializer)

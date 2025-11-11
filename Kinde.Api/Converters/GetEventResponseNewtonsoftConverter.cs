@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            GetEventResponseEvent? @event = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            GetEventResponseEvent @event = default(GetEventResponseEvent);
             if (jsonObject["event"] != null)
             {
                 @event = jsonObject["event"].ToObject<GetEventResponseEvent>(serializer);
             }
 
             return new GetEventResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, @event: @event != null ? new Option<GetEventResponseEvent?>(@event) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 @event: @event != null ? new Option<GetEventResponseEvent>(@event) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetEventResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.EventOption.IsSet && value.Event != null)
+            if (value.EventOption.IsSet)
             {
                 writer.WritePropertyName("event");
                 serializer.Serialize(writer, value.Event);

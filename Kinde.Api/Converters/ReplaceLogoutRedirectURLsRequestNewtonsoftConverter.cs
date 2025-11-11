@@ -22,25 +22,23 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<string> urls = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<string> urls = default(List<string>);
             if (jsonObject["urls"] != null)
             {
                 urls = jsonObject["urls"].ToObject<List<string>>(serializer);
             }
 
             return new ReplaceLogoutRedirectURLsRequest(
-                urls: urls != null ? new Option<List<string>?>(urls) : default
-            );
+                urls: urls != null ? new Option<List<string>?>(urls) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, ReplaceLogoutRedirectURLsRequest value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.UrlsOption.IsSet && value.Urls != null)
+            if (value.UrlsOption.IsSet)
             {
                 writer.WritePropertyName("urls");
                 serializer.Serialize(writer, value.Urls);

@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<UsersResponseUsersInner> users = null;
-            string? nextToken = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<UsersResponseUsersInner> users = default(List<UsersResponseUsersInner>);
             if (jsonObject["users"] != null)
             {
                 users = jsonObject["users"].ToObject<List<UsersResponseUsersInner>>(serializer);
             }
-
+            string? nextToken = default(string?);
             if (jsonObject["next_token"] != null)
             {
-                nextToken = jsonObject["next_token"].ToObject<string>();
+                nextToken = jsonObject["next_token"].ToObject<string?>();
             }
 
             return new UsersResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, users: users != null ? new Option<List<UsersResponseUsersInner>?>(users) : default, nextToken: nextToken != null ? new Option<string?>(nextToken) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 users: users != null ? new Option<List<UsersResponseUsersInner>?>(users) : default,                 nextToken: nextToken != null ? new Option<string?>(nextToken) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UsersResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,19 +58,16 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.UsersOption.IsSet && value.Users != null)
+            if (value.UsersOption.IsSet)
             {
                 writer.WritePropertyName("users");
                 serializer.Serialize(writer, value.Users);
             }
-
             if (value.NextTokenOption.IsSet && value.NextToken != null)
             {
                 writer.WritePropertyName("next_token");

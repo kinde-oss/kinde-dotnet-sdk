@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-            CreateConnectionResponseConnection? connection = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            CreateConnectionResponseConnection? connection = default(CreateConnectionResponseConnection?);
             if (jsonObject["connection"] != null)
             {
-                connection = jsonObject["connection"].ToObject<CreateConnectionResponseConnection>(serializer);
+                connection = jsonObject["connection"].ToObject<CreateConnectionResponseConnection?>(serializer);
             }
 
             return new CreateConnectionResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default, connection: connection != null ? new Option<CreateConnectionResponseConnection?>(connection) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default,                 connection: connection != null ? new Option<CreateConnectionResponseConnection?>(connection) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateConnectionResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.ConnectionOption.IsSet && value.Connection != null)
             {
                 writer.WritePropertyName("connection");

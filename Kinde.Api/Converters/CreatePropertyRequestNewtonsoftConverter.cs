@@ -22,26 +22,24 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            string key = default(string);
-            CreatePropertyRequest.TypeEnum type = default(CreatePropertyRequest.TypeEnum);
-            CreatePropertyRequest.ContextEnum context = default(CreatePropertyRequest.ContextEnum);
-            bool isPrivate = default(bool);
-            string categoryId = default(string);
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? description = default(string?);
+            if (jsonObject["description"] != null)
+            {
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            string key = default(string);
             if (jsonObject["key"] != null)
             {
                 key = jsonObject["key"].ToObject<string>();
             }
-
+            CreatePropertyRequest.TypeEnum type = default(CreatePropertyRequest.TypeEnum);
             if (jsonObject["type"] != null)
             {
                 var typeStr = jsonObject["type"].ToObject<string>();
@@ -50,7 +48,7 @@ namespace Kinde.Api.Converters
                     type = CreatePropertyRequest.TypeEnumFromString(typeStr);
                 }
             }
-
+            CreatePropertyRequest.ContextEnum context = default(CreatePropertyRequest.ContextEnum);
             if (jsonObject["context"] != null)
             {
                 var contextStr = jsonObject["context"].ToObject<string>();
@@ -59,25 +57,19 @@ namespace Kinde.Api.Converters
                     context = CreatePropertyRequest.ContextEnumFromString(contextStr);
                 }
             }
-
+            bool isPrivate = default(bool);
             if (jsonObject["is_private"] != null)
             {
                 isPrivate = jsonObject["is_private"].ToObject<bool>(serializer);
             }
-
+            string categoryId = default(string);
             if (jsonObject["category_id"] != null)
             {
                 categoryId = jsonObject["category_id"].ToObject<string>();
             }
 
-            if (jsonObject["description"] != null)
-            {
-                description = jsonObject["description"].ToObject<string>();
-            }
-
             return new CreatePropertyRequest(
-                name: name, key: key, type: type, context: context, isPrivate: isPrivate, categoryId: categoryId, description: description != null ? new Option<string?>(description) : default
-            );
+                description: description != null ? new Option<string?>(description) : default,                 name: name,                 key: key,                 type: type,                 context: context,                 isPrivate: isPrivate,                 categoryId: categoryId            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreatePropertyRequest value, Newtonsoft.Json.JsonSerializer serializer)

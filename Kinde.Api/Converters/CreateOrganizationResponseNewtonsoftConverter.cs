@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-            CreateOrganizationResponseOrganization? organization = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            CreateOrganizationResponseOrganization? organization = default(CreateOrganizationResponseOrganization?);
             if (jsonObject["organization"] != null)
             {
-                organization = jsonObject["organization"].ToObject<CreateOrganizationResponseOrganization>(serializer);
+                organization = jsonObject["organization"].ToObject<CreateOrganizationResponseOrganization?>(serializer);
             }
 
             return new CreateOrganizationResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default, organization: organization != null ? new Option<CreateOrganizationResponseOrganization?>(organization) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default,                 organization: organization != null ? new Option<CreateOrganizationResponseOrganization?>(organization) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateOrganizationResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.OrganizationOption.IsSet && value.Organization != null)
             {
                 writer.WritePropertyName("organization");

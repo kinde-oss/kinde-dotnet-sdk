@@ -22,60 +22,52 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            string apiId = default(string);
-            List<string> scopeIds = null;
-            string? userId = null;
-            string? orgCode = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<string> scopeIds = default(List<string>);
+            if (jsonObject["scope_ids"] != null)
+            {
+                scopeIds = jsonObject["scope_ids"].ToObject<List<string>>(serializer);
+            }
+            string? userId = default(string?);
+            if (jsonObject["user_id"] != null)
+            {
+                userId = jsonObject["user_id"].ToObject<string?>();
+            }
+            string? orgCode = default(string?);
+            if (jsonObject["org_code"] != null)
+            {
+                orgCode = jsonObject["org_code"].ToObject<string?>();
+            }
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            string apiId = default(string);
             if (jsonObject["api_id"] != null)
             {
                 apiId = jsonObject["api_id"].ToObject<string>();
             }
 
-            if (jsonObject["scope_ids"] != null)
-            {
-                scopeIds = jsonObject["scope_ids"].ToObject<List<string>>(serializer);
-            }
-
-            if (jsonObject["user_id"] != null)
-            {
-                userId = jsonObject["user_id"].ToObject<string>();
-            }
-
-            if (jsonObject["org_code"] != null)
-            {
-                orgCode = jsonObject["org_code"].ToObject<string>();
-            }
-
             return new CreateApiKeyRequest(
-                name: name, apiId: apiId, scopeIds: scopeIds != null ? new Option<List<string>?>(scopeIds) : default, userId: userId != null ? new Option<string?>(userId) : default, orgCode: orgCode != null ? new Option<string?>(orgCode) : default
-            );
+                scopeIds: scopeIds != null ? new Option<List<string>?>(scopeIds) : default,                 userId: userId != null ? new Option<string?>(userId) : default,                 orgCode: orgCode != null ? new Option<string?>(orgCode) : default,                 name: name,                 apiId: apiId            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateApiKeyRequest value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.ScopeIdsOption.IsSet && value.ScopeIds != null)
+            if (value.ScopeIdsOption.IsSet)
             {
                 writer.WritePropertyName("scope_ids");
                 serializer.Serialize(writer, value.ScopeIds);
             }
-
             if (value.UserIdOption.IsSet && value.UserId != null)
             {
                 writer.WritePropertyName("user_id");
                 serializer.Serialize(writer, value.UserId);
             }
-
             if (value.OrgCodeOption.IsSet && value.OrgCode != null)
             {
                 writer.WritePropertyName("org_code");

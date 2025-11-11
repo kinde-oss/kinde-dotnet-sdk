@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            string? nextToken = null;
-            List<GetApisResponseApisInner> apis = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? nextToken = default(string?);
             if (jsonObject["next_token"] != null)
             {
-                nextToken = jsonObject["next_token"].ToObject<string>();
+                nextToken = jsonObject["next_token"].ToObject<string?>();
             }
-
+            List<GetApisResponseApisInner> apis = default(List<GetApisResponseApisInner>);
             if (jsonObject["apis"] != null)
             {
                 apis = jsonObject["apis"].ToObject<List<GetApisResponseApisInner>>(serializer);
             }
 
             return new GetApisResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, nextToken: nextToken != null ? new Option<string?>(nextToken) : default, apis: apis != null ? new Option<List<GetApisResponseApisInner>?>(apis) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 nextToken: nextToken != null ? new Option<string?>(nextToken) : default,                 apis: apis != null ? new Option<List<GetApisResponseApisInner>?>(apis) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetApisResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,20 +58,17 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.NextTokenOption.IsSet && value.NextToken != null)
             {
                 writer.WritePropertyName("next_token");
                 serializer.Serialize(writer, value.NextToken);
             }
-
-            if (value.ApisOption.IsSet && value.Apis != null)
+            if (value.ApisOption.IsSet)
             {
                 writer.WritePropertyName("apis");
                 serializer.Serialize(writer, value.Apis);

@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string key = default(string);
-            string value = default(string);
-            bool? isSecret = null;
-
             var jsonObject = JObject.Load(reader);
 
+            bool? isSecret = default(bool?);
+            if (jsonObject["is_secret"] != null)
+            {
+                isSecret = jsonObject["is_secret"].ToObject<bool?>(serializer);
+            }
+            string key = default(string);
             if (jsonObject["key"] != null)
             {
                 key = jsonObject["key"].ToObject<string>();
             }
-
+            string value = default(string);
             if (jsonObject["value"] != null)
             {
                 value = jsonObject["value"].ToObject<string>();
             }
 
-            if (jsonObject["is_secret"] != null)
-            {
-                isSecret = jsonObject["is_secret"].ToObject<bool?>();
-            }
-
             return new CreateEnvironmentVariableRequest(
-                key: key, value: value, isSecret: isSecret != null ? new Option<bool?>(isSecret) : default
-            );
+                isSecret: isSecret != null ? new Option<bool?>(isSecret) : default,                 key: key,                 value: value            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateEnvironmentVariableRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -55,7 +51,7 @@ namespace Kinde.Api.Converters
             if (value.IsSecretOption.IsSet && value.IsSecret != null)
             {
                 writer.WritePropertyName("is_secret");
-                writer.WriteValue(value.IsSecret.Value);
+                serializer.Serialize(writer, value.IsSecret);
             }
 
             writer.WriteEndObject();

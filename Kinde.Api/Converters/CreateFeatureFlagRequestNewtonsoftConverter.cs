@@ -22,39 +22,9 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            string key = default(string);
-            CreateFeatureFlagRequest.TypeEnum type = default(CreateFeatureFlagRequest.TypeEnum);
-            string defaultValue = default(string);
-            CreateFeatureFlagRequest.AllowOverrideLevelEnum? allowOverrideLevel = null;
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
-            if (jsonObject["name"] != null)
-            {
-                name = jsonObject["name"].ToObject<string>();
-            }
-
-            if (jsonObject["key"] != null)
-            {
-                key = jsonObject["key"].ToObject<string>();
-            }
-
-            if (jsonObject["type"] != null)
-            {
-                var typeStr = jsonObject["type"].ToObject<string>();
-                if (!string.IsNullOrEmpty(typeStr))
-                {
-                    type = CreateFeatureFlagRequest.TypeEnumFromString(typeStr);
-                }
-            }
-
-            if (jsonObject["default_value"] != null)
-            {
-                defaultValue = jsonObject["default_value"].ToObject<string>();
-            }
-
+            CreateFeatureFlagRequest.AllowOverrideLevelEnum? allowOverrideLevel = default(CreateFeatureFlagRequest.AllowOverrideLevelEnum?);
             if (jsonObject["allow_override_level"] != null)
             {
                 var allowOverrideLevelStr = jsonObject["allow_override_level"].ToObject<string>();
@@ -63,15 +33,38 @@ namespace Kinde.Api.Converters
                     allowOverrideLevel = CreateFeatureFlagRequest.AllowOverrideLevelEnumFromString(allowOverrideLevelStr);
                 }
             }
-
+            string? description = default(string?);
             if (jsonObject["description"] != null)
             {
-                description = jsonObject["description"].ToObject<string>();
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            string name = default(string);
+            if (jsonObject["name"] != null)
+            {
+                name = jsonObject["name"].ToObject<string>();
+            }
+            string key = default(string);
+            if (jsonObject["key"] != null)
+            {
+                key = jsonObject["key"].ToObject<string>();
+            }
+            CreateFeatureFlagRequest.TypeEnum type = default(CreateFeatureFlagRequest.TypeEnum);
+            if (jsonObject["type"] != null)
+            {
+                var typeStr = jsonObject["type"].ToObject<string>();
+                if (!string.IsNullOrEmpty(typeStr))
+                {
+                    type = CreateFeatureFlagRequest.TypeEnumFromString(typeStr);
+                }
+            }
+            string defaultValue = default(string);
+            if (jsonObject["default_value"] != null)
+            {
+                defaultValue = jsonObject["default_value"].ToObject<string>();
             }
 
             return new CreateFeatureFlagRequest(
-                name: name, key: key, type: type, defaultValue: defaultValue, allowOverrideLevel: allowOverrideLevel != null ? new Option<CreateFeatureFlagRequest.AllowOverrideLevelEnum?>(allowOverrideLevel) : default, description: description != null ? new Option<string?>(description) : default
-            );
+                allowOverrideLevel: allowOverrideLevel != null ? new Option<CreateFeatureFlagRequest.AllowOverrideLevelEnum?>(allowOverrideLevel) : default,                 description: description != null ? new Option<string?>(description) : default,                 name: name,                 key: key,                 type: type,                 defaultValue: defaultValue            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateFeatureFlagRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -81,10 +74,9 @@ namespace Kinde.Api.Converters
             if (value.AllowOverrideLevelOption.IsSet && value.AllowOverrideLevel != null)
             {
                 writer.WritePropertyName("allow_override_level");
-                var allowoverridelevelStr = CreateFeatureFlagRequest.AllowOverrideLevelEnumToJsonValue(value.AllowOverrideLevel.Value);
-                writer.WriteValue(allowoverridelevelStr);
+                var allowOverrideLevelStr = CreateFeatureFlagRequest.AllowOverrideLevelEnumToJsonValue(value.AllowOverrideLevel.Value);
+                writer.WriteValue(allowOverrideLevelStr);
             }
-
             if (value.DescriptionOption.IsSet && value.Description != null)
             {
                 writer.WritePropertyName("description");

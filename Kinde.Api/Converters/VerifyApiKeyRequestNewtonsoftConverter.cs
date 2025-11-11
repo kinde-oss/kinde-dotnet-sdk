@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string apiKey = default(string);
-
             var jsonObject = JObject.Load(reader);
 
+            string apiKey = default(string);
             if (jsonObject["api_key"] != null)
             {
                 apiKey = jsonObject["api_key"].ToObject<string>();
             }
 
             return new VerifyApiKeyRequest(
-                apiKey: apiKey
-            );
+                apiKey: apiKey            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, VerifyApiKeyRequest value, Newtonsoft.Json.JsonSerializer serializer)

@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            GetApiScopesResponseScopesInner? scope = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            GetApiScopesResponseScopesInner? scope = default(GetApiScopesResponseScopesInner?);
             if (jsonObject["scope"] != null)
             {
-                scope = jsonObject["scope"].ToObject<GetApiScopesResponseScopesInner>(serializer);
+                scope = jsonObject["scope"].ToObject<GetApiScopesResponseScopesInner?>(serializer);
             }
 
             return new GetApiScopeResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, scope: scope != null ? new Option<GetApiScopesResponseScopesInner?>(scope) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 scope: scope != null ? new Option<GetApiScopesResponseScopesInner?>(scope) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetApiScopeResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.ScopeOption.IsSet && value.Scope != null)
             {
                 writer.WritePropertyName("scope");

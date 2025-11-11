@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<OrganizationUserPermission> permissions = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<OrganizationUserPermission> permissions = default(List<OrganizationUserPermission>);
             if (jsonObject["permissions"] != null)
             {
                 permissions = jsonObject["permissions"].ToObject<List<OrganizationUserPermission>>(serializer);
             }
 
             return new GetOrganizationsUserPermissionsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, permissions: permissions != null ? new Option<List<OrganizationUserPermission>?>(permissions) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 permissions: permissions != null ? new Option<List<OrganizationUserPermission>?>(permissions) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetOrganizationsUserPermissionsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.PermissionsOption.IsSet && value.Permissions != null)
+            if (value.PermissionsOption.IsSet)
             {
                 writer.WritePropertyName("permissions");
                 serializer.Serialize(writer, value.Permissions);

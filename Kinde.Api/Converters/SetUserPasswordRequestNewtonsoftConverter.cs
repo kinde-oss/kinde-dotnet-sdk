@@ -22,19 +22,9 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string hashedPassword = default(string);
-            SetUserPasswordRequest.HashingMethodEnum? hashingMethod = null;
-            SetUserPasswordRequest.SaltPositionEnum? saltPosition = null;
-            string? salt = null;
-            bool? isTemporaryPassword = null;
-
             var jsonObject = JObject.Load(reader);
 
-            if (jsonObject["hashed_password"] != null)
-            {
-                hashedPassword = jsonObject["hashed_password"].ToObject<string>();
-            }
-
+            SetUserPasswordRequest.HashingMethodEnum? hashingMethod = default(SetUserPasswordRequest.HashingMethodEnum?);
             if (jsonObject["hashing_method"] != null)
             {
                 var hashingMethodStr = jsonObject["hashing_method"].ToObject<string>();
@@ -43,7 +33,7 @@ namespace Kinde.Api.Converters
                     hashingMethod = SetUserPasswordRequest.HashingMethodEnumFromString(hashingMethodStr);
                 }
             }
-
+            SetUserPasswordRequest.SaltPositionEnum? saltPosition = default(SetUserPasswordRequest.SaltPositionEnum?);
             if (jsonObject["salt_position"] != null)
             {
                 var saltPositionStr = jsonObject["salt_position"].ToObject<string>();
@@ -52,20 +42,24 @@ namespace Kinde.Api.Converters
                     saltPosition = SetUserPasswordRequest.SaltPositionEnumFromString(saltPositionStr);
                 }
             }
-
+            string? salt = default(string?);
             if (jsonObject["salt"] != null)
             {
-                salt = jsonObject["salt"].ToObject<string>();
+                salt = jsonObject["salt"].ToObject<string?>();
             }
-
+            bool? isTemporaryPassword = default(bool?);
             if (jsonObject["is_temporary_password"] != null)
             {
-                isTemporaryPassword = jsonObject["is_temporary_password"].ToObject<bool?>();
+                isTemporaryPassword = jsonObject["is_temporary_password"].ToObject<bool?>(serializer);
+            }
+            string hashedPassword = default(string);
+            if (jsonObject["hashed_password"] != null)
+            {
+                hashedPassword = jsonObject["hashed_password"].ToObject<string>();
             }
 
             return new SetUserPasswordRequest(
-                hashedPassword: hashedPassword, hashingMethod: hashingMethod != null ? new Option<SetUserPasswordRequest.HashingMethodEnum?>(hashingMethod) : default, saltPosition: saltPosition != null ? new Option<SetUserPasswordRequest.SaltPositionEnum?>(saltPosition) : default, salt: salt != null ? new Option<string?>(salt) : default, isTemporaryPassword: isTemporaryPassword != null ? new Option<bool?>(isTemporaryPassword) : default
-            );
+                hashingMethod: hashingMethod != null ? new Option<SetUserPasswordRequest.HashingMethodEnum?>(hashingMethod) : default,                 saltPosition: saltPosition != null ? new Option<SetUserPasswordRequest.SaltPositionEnum?>(saltPosition) : default,                 salt: salt != null ? new Option<string?>(salt) : default,                 isTemporaryPassword: isTemporaryPassword != null ? new Option<bool?>(isTemporaryPassword) : default,                 hashedPassword: hashedPassword            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, SetUserPasswordRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -75,27 +69,24 @@ namespace Kinde.Api.Converters
             if (value.HashingMethodOption.IsSet && value.HashingMethod != null)
             {
                 writer.WritePropertyName("hashing_method");
-                var hashingmethodStr = SetUserPasswordRequest.HashingMethodEnumToJsonValue(value.HashingMethod.Value);
-                writer.WriteValue(hashingmethodStr);
+                var hashingMethodStr = SetUserPasswordRequest.HashingMethodEnumToJsonValue(value.HashingMethod.Value);
+                writer.WriteValue(hashingMethodStr);
             }
-
             if (value.SaltPositionOption.IsSet && value.SaltPosition != null)
             {
                 writer.WritePropertyName("salt_position");
-                var saltpositionStr = SetUserPasswordRequest.SaltPositionEnumToJsonValue(value.SaltPosition.Value);
-                writer.WriteValue(saltpositionStr);
+                var saltPositionStr = SetUserPasswordRequest.SaltPositionEnumToJsonValue(value.SaltPosition.Value);
+                writer.WriteValue(saltPositionStr);
             }
-
             if (value.SaltOption.IsSet && value.Salt != null)
             {
                 writer.WritePropertyName("salt");
                 serializer.Serialize(writer, value.Salt);
             }
-
             if (value.IsTemporaryPasswordOption.IsSet && value.IsTemporaryPassword != null)
             {
                 writer.WritePropertyName("is_temporary_password");
-                writer.WriteValue(value.IsTemporaryPassword.Value);
+                serializer.Serialize(writer, value.IsTemporaryPassword);
             }
 
             writer.WriteEndObject();

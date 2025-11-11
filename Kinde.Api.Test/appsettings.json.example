@@ -1,0 +1,11 @@
+{
+  "KindeManagementApi": {
+    "UseMockMode": false,
+    "Domain": "https://your-business.kinde.com",
+    "ClientId": "your_m2m_client_id_here",
+    "ClientSecret": "your_m2m_client_secret_here",
+    "Audience": "https://your-business.kinde.com/api",
+    "Scope": "read:users read:organizations read:applications read:roles read:permissions read:properties"
+  }
+}
+

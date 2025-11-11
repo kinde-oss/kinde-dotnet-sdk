@@ -22,16 +22,14 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            CreateCategoryRequest.ContextEnum context = default(CreateCategoryRequest.ContextEnum);
-
             var jsonObject = JObject.Load(reader);
 
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            CreateCategoryRequest.ContextEnum context = default(CreateCategoryRequest.ContextEnum);
             if (jsonObject["context"] != null)
             {
                 var contextStr = jsonObject["context"].ToObject<string>();
@@ -42,8 +40,7 @@ namespace Kinde.Api.Converters
             }
 
             return new CreateCategoryRequest(
-                name: name, context: context
-            );
+                name: name,                 context: context            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateCategoryRequest value, Newtonsoft.Json.JsonSerializer serializer)

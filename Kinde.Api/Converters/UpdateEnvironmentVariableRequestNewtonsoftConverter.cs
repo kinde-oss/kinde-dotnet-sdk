@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? key = null;
-            string? value = null;
-            bool? isSecret = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? key = default(string?);
             if (jsonObject["key"] != null)
             {
-                key = jsonObject["key"].ToObject<string>();
+                key = jsonObject["key"].ToObject<string?>();
             }
-
+            string? value = default(string?);
             if (jsonObject["value"] != null)
             {
-                value = jsonObject["value"].ToObject<string>();
+                value = jsonObject["value"].ToObject<string?>();
             }
-
+            bool? isSecret = default(bool?);
             if (jsonObject["is_secret"] != null)
             {
-                isSecret = jsonObject["is_secret"].ToObject<bool?>();
+                isSecret = jsonObject["is_secret"].ToObject<bool?>(serializer);
             }
 
             return new UpdateEnvironmentVariableRequest(
-                key: key != null ? new Option<string?>(key) : default, value: value != null ? new Option<string?>(value) : default, isSecret: isSecret != null ? new Option<bool?>(isSecret) : default
-            );
+                key: key != null ? new Option<string?>(key) : default,                 value: value != null ? new Option<string?>(value) : default,                 isSecret: isSecret != null ? new Option<bool?>(isSecret) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateEnvironmentVariableRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,17 +53,15 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("key");
                 serializer.Serialize(writer, value.Key);
             }
-
             if (value.ValueOption.IsSet && value.Value != null)
             {
                 writer.WritePropertyName("value");
                 serializer.Serialize(writer, value.Value);
             }
-
             if (value.IsSecretOption.IsSet && value.IsSecret != null)
             {
                 writer.WritePropertyName("is_secret");
-                writer.WriteValue(value.IsSecret.Value);
+                serializer.Serialize(writer, value.IsSecret);
             }
 
             writer.WriteEndObject();

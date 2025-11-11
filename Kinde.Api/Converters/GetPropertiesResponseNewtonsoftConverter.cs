@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<Property> properties = null;
-            bool? hasMore = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<Property> properties = default(List<Property>);
             if (jsonObject["properties"] != null)
             {
                 properties = jsonObject["properties"].ToObject<List<Property>>(serializer);
             }
-
+            bool? hasMore = default(bool?);
             if (jsonObject["has_more"] != null)
             {
-                hasMore = jsonObject["has_more"].ToObject<bool?>();
+                hasMore = jsonObject["has_more"].ToObject<bool?>(serializer);
             }
 
             return new GetPropertiesResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, properties: properties != null ? new Option<List<Property>?>(properties) : default, hasMore: hasMore != null ? new Option<bool?>(hasMore) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 properties: properties != null ? new Option<List<Property>?>(properties) : default,                 hasMore: hasMore != null ? new Option<bool?>(hasMore) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetPropertiesResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,23 +58,20 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.PropertiesOption.IsSet && value.Properties != null)
+            if (value.PropertiesOption.IsSet)
             {
                 writer.WritePropertyName("properties");
                 serializer.Serialize(writer, value.Properties);
             }
-
             if (value.HasMoreOption.IsSet && value.HasMore != null)
             {
                 writer.WritePropertyName("has_more");
-                writer.WriteValue(value.HasMore.Value);
+                serializer.Serialize(writer, value.HasMore);
             }
 
             writer.WriteEndObject();

@@ -1,0 +1,21 @@
+# Configuration for Kinde.Api converter generation
+
+# Models to exclude from converter generation
+excluded_models:
+  - CreateUserRequestIdentitiesInner  # Manually maintained
+  - CreateUserIdentityRequest  # Manually maintained
+  - ErrorResponse
+
+# Directories (relative to project root)
+model_dir: "Kinde.Api/Model"
+converter_dir: "Kinde.Api/Converters"
+
+# Validation settings
+validate_generated: true
+compile_check: true
+
+# Generation settings
+generate_inner_models: true
+generate_request_models: true
+generate_response_models: true
+

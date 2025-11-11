@@ -22,24 +22,21 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string name = default(string);
-            string audience = default(string);
-
             var jsonObject = JObject.Load(reader);
 
+            string name = default(string);
             if (jsonObject["name"] != null)
             {
                 name = jsonObject["name"].ToObject<string>();
             }
-
+            string audience = default(string);
             if (jsonObject["audience"] != null)
             {
                 audience = jsonObject["audience"].ToObject<string>();
             }
 
             return new AddAPIsRequest(
-                name: name, audience: audience
-            );
+                name: name,                 audience: audience            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, AddAPIsRequest value, Newtonsoft.Json.JsonSerializer serializer)

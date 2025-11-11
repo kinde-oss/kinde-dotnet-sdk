@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<UpdateAPIApplicationsRequestApplicationsInner> applications = default(List<UpdateAPIApplicationsRequestApplicationsInner>);
-
             var jsonObject = JObject.Load(reader);
 
+            List<UpdateAPIApplicationsRequestApplicationsInner> applications = default(List<UpdateAPIApplicationsRequestApplicationsInner>);
             if (jsonObject["applications"] != null)
             {
                 applications = jsonObject["applications"].ToObject<List<UpdateAPIApplicationsRequestApplicationsInner>>(serializer);
             }
 
             return new UpdateAPIApplicationsRequest(
-                applications: applications
-            );
+                applications: applications            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateAPIApplicationsRequest value, Newtonsoft.Json.JsonSerializer serializer)

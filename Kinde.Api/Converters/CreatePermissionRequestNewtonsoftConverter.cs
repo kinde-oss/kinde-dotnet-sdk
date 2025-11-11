@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? name = null;
-            string? description = null;
-            string? key = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? name = default(string?);
             if (jsonObject["name"] != null)
             {
-                name = jsonObject["name"].ToObject<string>();
+                name = jsonObject["name"].ToObject<string?>();
             }
-
+            string? description = default(string?);
             if (jsonObject["description"] != null)
             {
-                description = jsonObject["description"].ToObject<string>();
+                description = jsonObject["description"].ToObject<string?>();
             }
-
+            string? key = default(string?);
             if (jsonObject["key"] != null)
             {
-                key = jsonObject["key"].ToObject<string>();
+                key = jsonObject["key"].ToObject<string?>();
             }
 
             return new CreatePermissionRequest(
-                name: name != null ? new Option<string?>(name) : default, description: description != null ? new Option<string?>(description) : default, key: key != null ? new Option<string?>(key) : default
-            );
+                name: name != null ? new Option<string?>(name) : default,                 description: description != null ? new Option<string?>(description) : default,                 key: key != null ? new Option<string?>(key) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreatePermissionRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("name");
                 serializer.Serialize(writer, value.Name);
             }
-
             if (value.DescriptionOption.IsSet && value.Description != null)
             {
                 writer.WritePropertyName("description");
                 serializer.Serialize(writer, value.Description);
             }
-
             if (value.KeyOption.IsSet && value.Key != null)
             {
                 writer.WritePropertyName("key");

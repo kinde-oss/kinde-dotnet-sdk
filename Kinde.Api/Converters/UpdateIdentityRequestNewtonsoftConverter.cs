@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            bool? isPrimary = null;
-
             var jsonObject = JObject.Load(reader);
 
+            bool? isPrimary = default(bool?);
             if (jsonObject["is_primary"] != null)
             {
-                isPrimary = jsonObject["is_primary"].ToObject<bool?>();
+                isPrimary = jsonObject["is_primary"].ToObject<bool?>(serializer);
             }
 
             return new UpdateIdentityRequest(
-                isPrimary: isPrimary != null ? new Option<bool?>(isPrimary) : default
-            );
+                isPrimary: isPrimary != null ? new Option<bool?>(isPrimary) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateIdentityRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -43,7 +41,7 @@ namespace Kinde.Api.Converters
             if (value.IsPrimaryOption.IsSet && value.IsPrimary != null)
             {
                 writer.WritePropertyName("is_primary");
-                writer.WriteValue(value.IsPrimary.Value);
+                serializer.Serialize(writer, value.IsPrimary);
             }
 
             writer.WriteEndObject();

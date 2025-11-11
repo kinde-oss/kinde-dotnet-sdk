@@ -22,11 +22,9 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            ReplaceMFARequest.PolicyEnum policy = default(ReplaceMFARequest.PolicyEnum);
-            List<ReplaceMFARequest.EnabledFactorsEnum> enabledFactors = default(List<ReplaceMFARequest.EnabledFactorsEnum>);
-
             var jsonObject = JObject.Load(reader);
 
+            ReplaceMFARequest.PolicyEnum policy = default(ReplaceMFARequest.PolicyEnum);
             if (jsonObject["policy"] != null)
             {
                 var policyStr = jsonObject["policy"].ToObject<string>();
@@ -35,15 +33,14 @@ namespace Kinde.Api.Converters
                     policy = ReplaceMFARequest.PolicyEnumFromString(policyStr);
                 }
             }
-
+            List<ReplaceMFARequest.EnabledFactorsEnum> enabledFactors = default(List<ReplaceMFARequest.EnabledFactorsEnum>);
             if (jsonObject["enabled_factors"] != null)
             {
                 enabledFactors = jsonObject["enabled_factors"].ToObject<List<ReplaceMFARequest.EnabledFactorsEnum>>(serializer);
             }
 
             return new ReplaceMFARequest(
-                policy: policy, enabledFactors: enabledFactors
-            );
+                policy: policy,                 enabledFactors: enabledFactors            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, ReplaceMFARequest value, Newtonsoft.Json.JsonSerializer serializer)

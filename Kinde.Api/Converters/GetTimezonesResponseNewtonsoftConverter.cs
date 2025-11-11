@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<GetTimezonesResponseTimezonesInner> timezones = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<GetTimezonesResponseTimezonesInner> timezones = default(List<GetTimezonesResponseTimezonesInner>);
             if (jsonObject["timezones"] != null)
             {
                 timezones = jsonObject["timezones"].ToObject<List<GetTimezonesResponseTimezonesInner>>(serializer);
             }
 
             return new GetTimezonesResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, timezones: timezones != null ? new Option<List<GetTimezonesResponseTimezonesInner>?>(timezones) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 timezones: timezones != null ? new Option<List<GetTimezonesResponseTimezonesInner>?>(timezones) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetTimezonesResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.TimezonesOption.IsSet && value.Timezones != null)
+            if (value.TimezonesOption.IsSet)
             {
                 writer.WritePropertyName("timezones");
                 serializer.Serialize(writer, value.Timezones);

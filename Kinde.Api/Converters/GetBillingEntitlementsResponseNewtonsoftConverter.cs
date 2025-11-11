@@ -22,42 +22,36 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            bool? hasMore = null;
-            List<GetBillingEntitlementsResponseEntitlementsInner> entitlements = null;
-            List<GetBillingEntitlementsResponsePlansInner> plans = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            bool? hasMore = default(bool?);
             if (jsonObject["has_more"] != null)
             {
-                hasMore = jsonObject["has_more"].ToObject<bool?>();
+                hasMore = jsonObject["has_more"].ToObject<bool?>(serializer);
             }
-
+            List<GetBillingEntitlementsResponseEntitlementsInner> entitlements = default(List<GetBillingEntitlementsResponseEntitlementsInner>);
             if (jsonObject["entitlements"] != null)
             {
                 entitlements = jsonObject["entitlements"].ToObject<List<GetBillingEntitlementsResponseEntitlementsInner>>(serializer);
             }
-
+            List<GetBillingEntitlementsResponsePlansInner> plans = default(List<GetBillingEntitlementsResponsePlansInner>);
             if (jsonObject["plans"] != null)
             {
                 plans = jsonObject["plans"].ToObject<List<GetBillingEntitlementsResponsePlansInner>>(serializer);
             }
 
             return new GetBillingEntitlementsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, hasMore: hasMore != null ? new Option<bool?>(hasMore) : default, entitlements: entitlements != null ? new Option<List<GetBillingEntitlementsResponseEntitlementsInner>?>(entitlements) : default, plans: plans != null ? new Option<List<GetBillingEntitlementsResponsePlansInner>?>(plans) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 hasMore: hasMore != null ? new Option<bool?>(hasMore) : default,                 entitlements: entitlements != null ? new Option<List<GetBillingEntitlementsResponseEntitlementsInner>?>(entitlements) : default,                 plans: plans != null ? new Option<List<GetBillingEntitlementsResponsePlansInner>?>(plans) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetBillingEntitlementsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -69,26 +63,22 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.HasMoreOption.IsSet && value.HasMore != null)
             {
                 writer.WritePropertyName("has_more");
-                writer.WriteValue(value.HasMore.Value);
+                serializer.Serialize(writer, value.HasMore);
             }
-
-            if (value.EntitlementsOption.IsSet && value.Entitlements != null)
+            if (value.EntitlementsOption.IsSet)
             {
                 writer.WritePropertyName("entitlements");
                 serializer.Serialize(writer, value.Entitlements);
             }
-
-            if (value.PlansOption.IsSet && value.Plans != null)
+            if (value.PlansOption.IsSet)
             {
                 writer.WritePropertyName("plans");
                 serializer.Serialize(writer, value.Plans);

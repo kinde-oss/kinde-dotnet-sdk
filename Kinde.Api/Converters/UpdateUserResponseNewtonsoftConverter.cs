@@ -22,54 +22,46 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? id = null;
-            string? givenName = null;
-            string? familyName = null;
-            string? email = null;
-            bool? isSuspended = null;
-            bool? isPasswordResetRequested = null;
-            string? picture = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? id = default(string?);
             if (jsonObject["id"] != null)
             {
-                id = jsonObject["id"].ToObject<string>();
+                id = jsonObject["id"].ToObject<string?>();
             }
-
+            string? givenName = default(string?);
             if (jsonObject["given_name"] != null)
             {
-                givenName = jsonObject["given_name"].ToObject<string>();
+                givenName = jsonObject["given_name"].ToObject<string?>();
             }
-
+            string? familyName = default(string?);
             if (jsonObject["family_name"] != null)
             {
-                familyName = jsonObject["family_name"].ToObject<string>();
+                familyName = jsonObject["family_name"].ToObject<string?>();
             }
-
+            string? email = default(string?);
             if (jsonObject["email"] != null)
             {
-                email = jsonObject["email"].ToObject<string>();
+                email = jsonObject["email"].ToObject<string?>();
             }
-
+            bool? isSuspended = default(bool?);
             if (jsonObject["is_suspended"] != null)
             {
-                isSuspended = jsonObject["is_suspended"].ToObject<bool?>();
+                isSuspended = jsonObject["is_suspended"].ToObject<bool?>(serializer);
             }
-
+            bool? isPasswordResetRequested = default(bool?);
             if (jsonObject["is_password_reset_requested"] != null)
             {
-                isPasswordResetRequested = jsonObject["is_password_reset_requested"].ToObject<bool?>();
+                isPasswordResetRequested = jsonObject["is_password_reset_requested"].ToObject<bool?>(serializer);
             }
-
+            string? picture = default(string?);
             if (jsonObject["picture"] != null)
             {
-                picture = jsonObject["picture"].ToObject<string>();
+                picture = jsonObject["picture"].ToObject<string?>();
             }
 
             return new UpdateUserResponse(
-                id: id != null ? new Option<string?>(id) : default, givenName: givenName != null ? new Option<string?>(givenName) : default, familyName: familyName != null ? new Option<string?>(familyName) : default, email: email != null ? new Option<string?>(email) : default, isSuspended: isSuspended != null ? new Option<bool?>(isSuspended) : default, isPasswordResetRequested: isPasswordResetRequested != null ? new Option<bool?>(isPasswordResetRequested) : default, picture: picture != null ? new Option<string?>(picture) : default
-            );
+                id: id != null ? new Option<string?>(id) : default,                 givenName: givenName != null ? new Option<string?>(givenName) : default,                 familyName: familyName != null ? new Option<string?>(familyName) : default,                 email: email != null ? new Option<string?>(email) : default,                 isSuspended: isSuspended != null ? new Option<bool?>(isSuspended) : default,                 isPasswordResetRequested: isPasswordResetRequested != null ? new Option<bool?>(isPasswordResetRequested) : default,                 picture: picture != null ? new Option<string?>(picture) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateUserResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -81,37 +73,31 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("id");
                 serializer.Serialize(writer, value.Id);
             }
-
             if (value.GivenNameOption.IsSet && value.GivenName != null)
             {
                 writer.WritePropertyName("given_name");
                 serializer.Serialize(writer, value.GivenName);
             }
-
             if (value.FamilyNameOption.IsSet && value.FamilyName != null)
             {
                 writer.WritePropertyName("family_name");
                 serializer.Serialize(writer, value.FamilyName);
             }
-
             if (value.EmailOption.IsSet && value.Email != null)
             {
                 writer.WritePropertyName("email");
                 serializer.Serialize(writer, value.Email);
             }
-
             if (value.IsSuspendedOption.IsSet && value.IsSuspended != null)
             {
                 writer.WritePropertyName("is_suspended");
-                writer.WriteValue(value.IsSuspended.Value);
+                serializer.Serialize(writer, value.IsSuspended);
             }
-
             if (value.IsPasswordResetRequestedOption.IsSet && value.IsPasswordResetRequested != null)
             {
                 writer.WritePropertyName("is_password_reset_requested");
-                writer.WriteValue(value.IsPasswordResetRequested.Value);
+                serializer.Serialize(writer, value.IsPasswordResetRequested);
             }
-
             if (value.PictureOption.IsSet && value.Picture != null)
             {
                 writer.WritePropertyName("picture");

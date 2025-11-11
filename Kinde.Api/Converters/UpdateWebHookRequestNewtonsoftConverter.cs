@@ -22,48 +22,42 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<string> eventTypes = null;
-            string? name = null;
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<string> eventTypes = default(List<string>);
             if (jsonObject["event_types"] != null)
             {
                 eventTypes = jsonObject["event_types"].ToObject<List<string>>(serializer);
             }
-
+            string? name = default(string?);
             if (jsonObject["name"] != null)
             {
-                name = jsonObject["name"].ToObject<string>();
+                name = jsonObject["name"].ToObject<string?>();
             }
-
+            string? description = default(string?);
             if (jsonObject["description"] != null)
             {
-                description = jsonObject["description"].ToObject<string>();
+                description = jsonObject["description"].ToObject<string?>();
             }
 
             return new UpdateWebHookRequest(
-                eventTypes: eventTypes != null ? new Option<List<string>?>(eventTypes) : default, name: name != null ? new Option<string?>(name) : default, description: description != null ? new Option<string?>(description) : default
-            );
+                eventTypes: eventTypes != null ? new Option<List<string>?>(eventTypes) : default,                 name: name != null ? new Option<string?>(name) : default,                 description: description != null ? new Option<string?>(description) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateWebHookRequest value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.EventTypesOption.IsSet && value.EventTypes != null)
+            if (value.EventTypesOption.IsSet)
             {
                 writer.WritePropertyName("event_types");
                 serializer.Serialize(writer, value.EventTypes);
             }
-
             if (value.NameOption.IsSet && value.Name != null)
             {
                 writer.WritePropertyName("name");
                 serializer.Serialize(writer, value.Name);
             }
-
             if (value.DescriptionOption.IsSet && value.Description != null)
             {
                 writer.WritePropertyName("description");

@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string scopeId = default(string);
-
             var jsonObject = JObject.Load(reader);
 
+            string scopeId = default(string);
             if (jsonObject["scope_id"] != null)
             {
                 scopeId = jsonObject["scope_id"].ToObject<string>();
             }
 
             return new AddRoleScopeRequest(
-                scopeId: scopeId
-            );
+                scopeId: scopeId            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, AddRoleScopeRequest value, Newtonsoft.Json.JsonSerializer serializer)

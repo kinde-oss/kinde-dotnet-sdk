@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<SearchUsersResponseResultsInner> results = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<SearchUsersResponseResultsInner> results = default(List<SearchUsersResponseResultsInner>);
             if (jsonObject["results"] != null)
             {
                 results = jsonObject["results"].ToObject<List<SearchUsersResponseResultsInner>>(serializer);
             }
 
             return new SearchUsersResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, results: results != null ? new Option<List<SearchUsersResponseResultsInner>?>(results) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 results: results != null ? new Option<List<SearchUsersResponseResultsInner>?>(results) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, SearchUsersResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.ResultsOption.IsSet && value.Results != null)
+            if (value.ResultsOption.IsSet)
             {
                 writer.WritePropertyName("results");
                 serializer.Serialize(writer, value.Results);

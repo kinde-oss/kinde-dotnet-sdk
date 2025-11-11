@@ -22,18 +22,16 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? permissionId = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? permissionId = default(string?);
             if (jsonObject["permission_id"] != null)
             {
-                permissionId = jsonObject["permission_id"].ToObject<string>();
+                permissionId = jsonObject["permission_id"].ToObject<string?>();
             }
 
             return new CreateOrganizationUserPermissionRequest(
-                permissionId: permissionId != null ? new Option<string?>(permissionId) : default
-            );
+                permissionId: permissionId != null ? new Option<string?>(permissionId) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateOrganizationUserPermissionRequest value, Newtonsoft.Json.JsonSerializer serializer)

@@ -22,25 +22,23 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            List<UpdateRolePermissionsRequestPermissionsInner> permissions = null;
-
             var jsonObject = JObject.Load(reader);
 
+            List<UpdateRolePermissionsRequestPermissionsInner> permissions = default(List<UpdateRolePermissionsRequestPermissionsInner>);
             if (jsonObject["permissions"] != null)
             {
                 permissions = jsonObject["permissions"].ToObject<List<UpdateRolePermissionsRequestPermissionsInner>>(serializer);
             }
 
             return new UpdateRolePermissionsRequest(
-                permissions: permissions != null ? new Option<List<UpdateRolePermissionsRequestPermissionsInner>?>(permissions) : default
-            );
+                permissions: permissions != null ? new Option<List<UpdateRolePermissionsRequestPermissionsInner>?>(permissions) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateRolePermissionsRequest value, Newtonsoft.Json.JsonSerializer serializer)
         {
             writer.WriteStartObject();
 
-            if (value.PermissionsOption.IsSet && value.Permissions != null)
+            if (value.PermissionsOption.IsSet)
             {
                 writer.WritePropertyName("permissions");
                 serializer.Serialize(writer, value.Permissions);

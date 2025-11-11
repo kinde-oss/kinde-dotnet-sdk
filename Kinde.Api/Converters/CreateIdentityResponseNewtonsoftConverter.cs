@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-            CreateIdentityResponseIdentity? identity = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            CreateIdentityResponseIdentity? identity = default(CreateIdentityResponseIdentity?);
             if (jsonObject["identity"] != null)
             {
-                identity = jsonObject["identity"].ToObject<CreateIdentityResponseIdentity>(serializer);
+                identity = jsonObject["identity"].ToObject<CreateIdentityResponseIdentity?>(serializer);
             }
 
             return new CreateIdentityResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default, identity: identity != null ? new Option<CreateIdentityResponseIdentity?>(identity) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default,                 identity: identity != null ? new Option<CreateIdentityResponseIdentity?>(identity) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateIdentityResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.IdentityOption.IsSet && value.Identity != null)
             {
                 writer.WritePropertyName("identity");

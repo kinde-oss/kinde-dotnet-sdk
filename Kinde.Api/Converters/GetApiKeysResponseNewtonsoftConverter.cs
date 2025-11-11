@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            bool? hasMore = null;
-            List<GetApiKeysResponseApiKeysInner> apiKeys = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            bool? hasMore = default(bool?);
             if (jsonObject["has_more"] != null)
             {
-                hasMore = jsonObject["has_more"].ToObject<bool?>();
+                hasMore = jsonObject["has_more"].ToObject<bool?>(serializer);
             }
-
+            List<GetApiKeysResponseApiKeysInner> apiKeys = default(List<GetApiKeysResponseApiKeysInner>);
             if (jsonObject["api_keys"] != null)
             {
                 apiKeys = jsonObject["api_keys"].ToObject<List<GetApiKeysResponseApiKeysInner>>(serializer);
             }
 
             return new GetApiKeysResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, hasMore: hasMore != null ? new Option<bool?>(hasMore) : default, apiKeys: apiKeys != null ? new Option<List<GetApiKeysResponseApiKeysInner>?>(apiKeys) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 hasMore: hasMore != null ? new Option<bool?>(hasMore) : default,                 apiKeys: apiKeys != null ? new Option<List<GetApiKeysResponseApiKeysInner>?>(apiKeys) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetApiKeysResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,20 +58,17 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.HasMoreOption.IsSet && value.HasMore != null)
             {
                 writer.WritePropertyName("has_more");
-                writer.WriteValue(value.HasMore.Value);
+                serializer.Serialize(writer, value.HasMore);
             }
-
-            if (value.ApiKeysOption.IsSet && value.ApiKeys != null)
+            if (value.ApiKeysOption.IsSet)
             {
                 writer.WritePropertyName("api_keys");
                 serializer.Serialize(writer, value.ApiKeys);

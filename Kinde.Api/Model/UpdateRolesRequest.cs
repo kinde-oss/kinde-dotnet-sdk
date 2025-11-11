@@ -37,7 +37,7 @@ namespace Kinde.Api.Model
         /// <param name="key">The role identifier to use in code.</param>
         /// <param name="description">The role&#39;s description.</param>
         /// <param name="isDefaultRole">Set role as default for new users.</param>
-        /// <param name="assignmentPermissionId">The public ID of the permission required to assign this role to users. If null, no permission is required.</param>
+        /// <param name="assignmentPermissionId">The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required.</param>
         [JsonConstructor]
         public UpdateRolesRequest(string name, string key, Option<string?> description = default, Option<bool?> isDefaultRole = default, Option<Guid?> assignmentPermissionId = default)
         {
@@ -101,9 +101,9 @@ namespace Kinde.Api.Model
         public Option<Guid?> AssignmentPermissionIdOption { get; private set; }
 
         /// <summary>
-        /// The public ID of the permission required to assign this role to users. If null, no permission is required.
+        /// The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required.
         /// </summary>
-        /// <value>The public ID of the permission required to assign this role to users. If null, no permission is required.</value>
+        /// <value>The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required.</value>
         [JsonPropertyName("assignment_permission_id")]
         public Guid? AssignmentPermissionId { get { return this.AssignmentPermissionIdOption; } set { this.AssignmentPermissionIdOption = new Option<Guid?>(value); } }
 

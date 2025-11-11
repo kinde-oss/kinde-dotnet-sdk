@@ -22,42 +22,36 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            int? accessTokenLifetime = null;
-            int? refreshTokenLifetime = null;
-            int? idTokenLifetime = null;
-            int? authenticatedSessionLifetime = null;
-            bool? isHasuraMappingEnabled = null;
-
             var jsonObject = JObject.Load(reader);
 
+            int? accessTokenLifetime = default(int?);
             if (jsonObject["access_token_lifetime"] != null)
             {
-                accessTokenLifetime = jsonObject["access_token_lifetime"].ToObject<int?>();
+                accessTokenLifetime = jsonObject["access_token_lifetime"].ToObject<int?>(serializer);
             }
-
+            int? refreshTokenLifetime = default(int?);
             if (jsonObject["refresh_token_lifetime"] != null)
             {
-                refreshTokenLifetime = jsonObject["refresh_token_lifetime"].ToObject<int?>();
+                refreshTokenLifetime = jsonObject["refresh_token_lifetime"].ToObject<int?>(serializer);
             }
-
+            int? idTokenLifetime = default(int?);
             if (jsonObject["id_token_lifetime"] != null)
             {
-                idTokenLifetime = jsonObject["id_token_lifetime"].ToObject<int?>();
+                idTokenLifetime = jsonObject["id_token_lifetime"].ToObject<int?>(serializer);
             }
-
+            int? authenticatedSessionLifetime = default(int?);
             if (jsonObject["authenticated_session_lifetime"] != null)
             {
-                authenticatedSessionLifetime = jsonObject["authenticated_session_lifetime"].ToObject<int?>();
+                authenticatedSessionLifetime = jsonObject["authenticated_session_lifetime"].ToObject<int?>(serializer);
             }
-
+            bool? isHasuraMappingEnabled = default(bool?);
             if (jsonObject["is_hasura_mapping_enabled"] != null)
             {
-                isHasuraMappingEnabled = jsonObject["is_hasura_mapping_enabled"].ToObject<bool?>();
+                isHasuraMappingEnabled = jsonObject["is_hasura_mapping_enabled"].ToObject<bool?>(serializer);
             }
 
             return new UpdateApplicationTokensRequest(
-                accessTokenLifetime: accessTokenLifetime != null ? new Option<int?>(accessTokenLifetime) : default, refreshTokenLifetime: refreshTokenLifetime != null ? new Option<int?>(refreshTokenLifetime) : default, idTokenLifetime: idTokenLifetime != null ? new Option<int?>(idTokenLifetime) : default, authenticatedSessionLifetime: authenticatedSessionLifetime != null ? new Option<int?>(authenticatedSessionLifetime) : default, isHasuraMappingEnabled: isHasuraMappingEnabled != null ? new Option<bool?>(isHasuraMappingEnabled) : default
-            );
+                accessTokenLifetime: accessTokenLifetime != null ? new Option<int?>(accessTokenLifetime) : default,                 refreshTokenLifetime: refreshTokenLifetime != null ? new Option<int?>(refreshTokenLifetime) : default,                 idTokenLifetime: idTokenLifetime != null ? new Option<int?>(idTokenLifetime) : default,                 authenticatedSessionLifetime: authenticatedSessionLifetime != null ? new Option<int?>(authenticatedSessionLifetime) : default,                 isHasuraMappingEnabled: isHasuraMappingEnabled != null ? new Option<bool?>(isHasuraMappingEnabled) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, UpdateApplicationTokensRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -67,31 +61,27 @@ namespace Kinde.Api.Converters
             if (value.AccessTokenLifetimeOption.IsSet && value.AccessTokenLifetime != null)
             {
                 writer.WritePropertyName("access_token_lifetime");
-                writer.WriteValue(value.AccessTokenLifetime.Value);
+                serializer.Serialize(writer, value.AccessTokenLifetime);
             }
-
             if (value.RefreshTokenLifetimeOption.IsSet && value.RefreshTokenLifetime != null)
             {
                 writer.WritePropertyName("refresh_token_lifetime");
-                writer.WriteValue(value.RefreshTokenLifetime.Value);
+                serializer.Serialize(writer, value.RefreshTokenLifetime);
             }
-
             if (value.IdTokenLifetimeOption.IsSet && value.IdTokenLifetime != null)
             {
                 writer.WritePropertyName("id_token_lifetime");
-                writer.WriteValue(value.IdTokenLifetime.Value);
+                serializer.Serialize(writer, value.IdTokenLifetime);
             }
-
             if (value.AuthenticatedSessionLifetimeOption.IsSet && value.AuthenticatedSessionLifetime != null)
             {
                 writer.WritePropertyName("authenticated_session_lifetime");
-                writer.WriteValue(value.AuthenticatedSessionLifetime.Value);
+                serializer.Serialize(writer, value.AuthenticatedSessionLifetime);
             }
-
             if (value.IsHasuraMappingEnabledOption.IsSet && value.IsHasuraMappingEnabled != null)
             {
                 writer.WritePropertyName("is_hasura_mapping_enabled");
-                writer.WriteValue(value.IsHasuraMappingEnabled.Value);
+                serializer.Serialize(writer, value.IsHasuraMappingEnabled);
             }
 
             writer.WriteEndObject();

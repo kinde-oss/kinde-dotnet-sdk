@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            CreateRolesResponseRole? role = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            CreateRolesResponseRole? role = default(CreateRolesResponseRole?);
             if (jsonObject["role"] != null)
             {
-                role = jsonObject["role"].ToObject<CreateRolesResponseRole>(serializer);
+                role = jsonObject["role"].ToObject<CreateRolesResponseRole?>(serializer);
             }
 
             return new CreateRolesResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, role: role != null ? new Option<CreateRolesResponseRole?>(role) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 role: role != null ? new Option<CreateRolesResponseRole?>(role) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateRolesResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.RoleOption.IsSet && value.Role != null)
             {
                 writer.WritePropertyName("role");

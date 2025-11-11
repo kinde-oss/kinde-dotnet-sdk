@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-            CreateEnvironmentVariableResponseEnvironmentVariable? environmentVariable = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            CreateEnvironmentVariableResponseEnvironmentVariable? environmentVariable = default(CreateEnvironmentVariableResponseEnvironmentVariable?);
             if (jsonObject["environment_variable"] != null)
             {
-                environmentVariable = jsonObject["environment_variable"].ToObject<CreateEnvironmentVariableResponseEnvironmentVariable>(serializer);
+                environmentVariable = jsonObject["environment_variable"].ToObject<CreateEnvironmentVariableResponseEnvironmentVariable?>(serializer);
             }
 
             return new CreateEnvironmentVariableResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default, environmentVariable: environmentVariable != null ? new Option<CreateEnvironmentVariableResponseEnvironmentVariable?>(environmentVariable) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default,                 environmentVariable: environmentVariable != null ? new Option<CreateEnvironmentVariableResponseEnvironmentVariable?>(environmentVariable) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateEnvironmentVariableResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.EnvironmentVariableOption.IsSet && value.EnvironmentVariable != null)
             {
                 writer.WritePropertyName("environment_variable");

@@ -22,24 +22,21 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string key = default(string);
-            string? description = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? description = default(string?);
+            if (jsonObject["description"] != null)
+            {
+                description = jsonObject["description"].ToObject<string?>();
+            }
+            string key = default(string);
             if (jsonObject["key"] != null)
             {
                 key = jsonObject["key"].ToObject<string>();
             }
 
-            if (jsonObject["description"] != null)
-            {
-                description = jsonObject["description"].ToObject<string>();
-            }
-
             return new AddAPIScopeRequest(
-                key: key, description: description != null ? new Option<string?>(description) : default
-            );
+                description: description != null ? new Option<string?>(description) : default,                 key: key            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, AddAPIScopeRequest value, Newtonsoft.Json.JsonSerializer serializer)

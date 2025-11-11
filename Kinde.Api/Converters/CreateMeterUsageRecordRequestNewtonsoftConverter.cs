@@ -22,29 +22,9 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string customerAgreementId = default(string);
-            string billingFeatureCode = default(string);
-            string meterValue = default(string);
-            CreateMeterUsageRecordRequest.MeterTypeCodeEnum? meterTypeCode = null;
-            DateTimeOffset? meterUsageTimestamp = null;
-
             var jsonObject = JObject.Load(reader);
 
-            if (jsonObject["customer_agreement_id"] != null)
-            {
-                customerAgreementId = jsonObject["customer_agreement_id"].ToObject<string>();
-            }
-
-            if (jsonObject["billing_feature_code"] != null)
-            {
-                billingFeatureCode = jsonObject["billing_feature_code"].ToObject<string>();
-            }
-
-            if (jsonObject["meter_value"] != null)
-            {
-                meterValue = jsonObject["meter_value"].ToObject<string>();
-            }
-
+            CreateMeterUsageRecordRequest.MeterTypeCodeEnum? meterTypeCode = default(CreateMeterUsageRecordRequest.MeterTypeCodeEnum?);
             if (jsonObject["meter_type_code"] != null)
             {
                 var meterTypeCodeStr = jsonObject["meter_type_code"].ToObject<string>();
@@ -53,15 +33,29 @@ namespace Kinde.Api.Converters
                     meterTypeCode = CreateMeterUsageRecordRequest.MeterTypeCodeEnumFromString(meterTypeCodeStr);
                 }
             }
-
+            DateTimeOffset? meterUsageTimestamp = default(DateTimeOffset?);
             if (jsonObject["meter_usage_timestamp"] != null)
             {
-                meterUsageTimestamp = jsonObject["meter_usage_timestamp"].ToObject<DateTimeOffset?>();
+                meterUsageTimestamp = jsonObject["meter_usage_timestamp"].ToObject<DateTimeOffset?>(serializer);
+            }
+            string customerAgreementId = default(string);
+            if (jsonObject["customer_agreement_id"] != null)
+            {
+                customerAgreementId = jsonObject["customer_agreement_id"].ToObject<string>();
+            }
+            string billingFeatureCode = default(string);
+            if (jsonObject["billing_feature_code"] != null)
+            {
+                billingFeatureCode = jsonObject["billing_feature_code"].ToObject<string>();
+            }
+            string meterValue = default(string);
+            if (jsonObject["meter_value"] != null)
+            {
+                meterValue = jsonObject["meter_value"].ToObject<string>();
             }
 
             return new CreateMeterUsageRecordRequest(
-                customerAgreementId: customerAgreementId, billingFeatureCode: billingFeatureCode, meterValue: meterValue, meterTypeCode: meterTypeCode != null ? new Option<CreateMeterUsageRecordRequest.MeterTypeCodeEnum?>(meterTypeCode) : default, meterUsageTimestamp: meterUsageTimestamp != null ? new Option<DateTimeOffset?>(meterUsageTimestamp) : default
-            );
+                meterTypeCode: meterTypeCode != null ? new Option<CreateMeterUsageRecordRequest.MeterTypeCodeEnum?>(meterTypeCode) : default,                 meterUsageTimestamp: meterUsageTimestamp != null ? new Option<DateTimeOffset?>(meterUsageTimestamp) : default,                 customerAgreementId: customerAgreementId,                 billingFeatureCode: billingFeatureCode,                 meterValue: meterValue            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateMeterUsageRecordRequest value, Newtonsoft.Json.JsonSerializer serializer)
@@ -71,14 +65,13 @@ namespace Kinde.Api.Converters
             if (value.MeterTypeCodeOption.IsSet && value.MeterTypeCode != null)
             {
                 writer.WritePropertyName("meter_type_code");
-                var metertypecodeStr = CreateMeterUsageRecordRequest.MeterTypeCodeEnumToJsonValue(value.MeterTypeCode.Value);
-                writer.WriteValue(metertypecodeStr);
+                var meterTypeCodeStr = CreateMeterUsageRecordRequest.MeterTypeCodeEnumToJsonValue(value.MeterTypeCode.Value);
+                writer.WriteValue(meterTypeCodeStr);
             }
-
             if (value.MeterUsageTimestampOption.IsSet && value.MeterUsageTimestamp != null)
             {
                 writer.WritePropertyName("meter_usage_timestamp");
-                writer.WriteValue(value.MeterUsageTimestamp.Value);
+                serializer.Serialize(writer, value.MeterUsageTimestamp);
             }
 
             writer.WriteEndObject();

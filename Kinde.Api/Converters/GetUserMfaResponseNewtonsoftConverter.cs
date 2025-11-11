@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? message = null;
-            string? code = null;
-            GetUserMfaResponseMfa? mfa = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            GetUserMfaResponseMfa? mfa = default(GetUserMfaResponseMfa?);
             if (jsonObject["mfa"] != null)
             {
-                mfa = jsonObject["mfa"].ToObject<GetUserMfaResponseMfa>(serializer);
+                mfa = jsonObject["mfa"].ToObject<GetUserMfaResponseMfa?>(serializer);
             }
 
             return new GetUserMfaResponse(
-                message: message != null ? new Option<string?>(message) : default, code: code != null ? new Option<string?>(code) : default, mfa: mfa != null ? new Option<GetUserMfaResponseMfa?>(mfa) : default
-            );
+                message: message != null ? new Option<string?>(message) : default,                 code: code != null ? new Option<string?>(code) : default,                 mfa: mfa != null ? new Option<GetUserMfaResponseMfa?>(mfa) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetUserMfaResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,13 +53,11 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
             if (value.CodeOption.IsSet && value.Code != null)
             {
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MfaOption.IsSet && value.Mfa != null)
             {
                 writer.WritePropertyName("mfa");

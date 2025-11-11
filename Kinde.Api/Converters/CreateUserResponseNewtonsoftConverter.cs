@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? id = null;
-            bool? created = null;
-            List<UserIdentity> identities = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? id = default(string?);
             if (jsonObject["id"] != null)
             {
-                id = jsonObject["id"].ToObject<string>();
+                id = jsonObject["id"].ToObject<string?>();
             }
-
+            bool? created = default(bool?);
             if (jsonObject["created"] != null)
             {
-                created = jsonObject["created"].ToObject<bool?>();
+                created = jsonObject["created"].ToObject<bool?>(serializer);
             }
-
+            List<UserIdentity> identities = default(List<UserIdentity>);
             if (jsonObject["identities"] != null)
             {
                 identities = jsonObject["identities"].ToObject<List<UserIdentity>>(serializer);
             }
 
             return new CreateUserResponse(
-                id: id != null ? new Option<string?>(id) : default, created: created != null ? new Option<bool?>(created) : default, identities: identities != null ? new Option<List<UserIdentity>?>(identities) : default
-            );
+                id: id != null ? new Option<string?>(id) : default,                 created: created != null ? new Option<bool?>(created) : default,                 identities: identities != null ? new Option<List<UserIdentity>?>(identities) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, CreateUserResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("id");
                 serializer.Serialize(writer, value.Id);
             }
-
             if (value.CreatedOption.IsSet && value.Created != null)
             {
                 writer.WritePropertyName("created");
-                writer.WriteValue(value.Created.Value);
+                serializer.Serialize(writer, value.Created);
             }
-
-            if (value.IdentitiesOption.IsSet && value.Identities != null)
+            if (value.IdentitiesOption.IsSet)
             {
                 writer.WritePropertyName("identities");
                 serializer.Serialize(writer, value.Identities);

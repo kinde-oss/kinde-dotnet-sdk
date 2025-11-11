@@ -22,30 +22,26 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue> featureFlags = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue> featureFlags = default(Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>);
             if (jsonObject["feature_flags"] != null)
             {
                 featureFlags = jsonObject["feature_flags"].ToObject<Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>>(serializer);
             }
 
             return new GetOrganizationFeatureFlagsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, featureFlags: featureFlags != null ? new Option<Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>?>(featureFlags) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 featureFlags: featureFlags != null ? new Option<Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>>(featureFlags) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetOrganizationFeatureFlagsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -57,14 +53,12 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.FeatureFlagsOption.IsSet && value.FeatureFlags != null)
+            if (value.FeatureFlagsOption.IsSet)
             {
                 writer.WritePropertyName("feature_flags");
                 serializer.Serialize(writer, value.FeatureFlags);

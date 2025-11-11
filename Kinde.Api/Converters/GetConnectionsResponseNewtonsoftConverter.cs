@@ -22,36 +22,31 @@ namespace Kinde.Api.Converters
                 throw new Newtonsoft.Json.JsonException($"Expected StartObject, got {reader.TokenType}");
             }
 
-            string? code = null;
-            string? message = null;
-            List<Connection> connections = null;
-            bool? hasMore = null;
-
             var jsonObject = JObject.Load(reader);
 
+            string? code = default(string?);
             if (jsonObject["code"] != null)
             {
-                code = jsonObject["code"].ToObject<string>();
+                code = jsonObject["code"].ToObject<string?>();
             }
-
+            string? message = default(string?);
             if (jsonObject["message"] != null)
             {
-                message = jsonObject["message"].ToObject<string>();
+                message = jsonObject["message"].ToObject<string?>();
             }
-
+            List<Connection> connections = default(List<Connection>);
             if (jsonObject["connections"] != null)
             {
                 connections = jsonObject["connections"].ToObject<List<Connection>>(serializer);
             }
-
+            bool? hasMore = default(bool?);
             if (jsonObject["has_more"] != null)
             {
-                hasMore = jsonObject["has_more"].ToObject<bool?>();
+                hasMore = jsonObject["has_more"].ToObject<bool?>(serializer);
             }
 
             return new GetConnectionsResponse(
-                code: code != null ? new Option<string?>(code) : default, message: message != null ? new Option<string?>(message) : default, connections: connections != null ? new Option<List<Connection>?>(connections) : default, hasMore: hasMore != null ? new Option<bool?>(hasMore) : default
-            );
+                code: code != null ? new Option<string?>(code) : default,                 message: message != null ? new Option<string?>(message) : default,                 connections: connections != null ? new Option<List<Connection>?>(connections) : default,                 hasMore: hasMore != null ? new Option<bool?>(hasMore) : default            );
         }
 
         public override void WriteJson(Newtonsoft.Json.JsonWriter writer, GetConnectionsResponse value, Newtonsoft.Json.JsonSerializer serializer)
@@ -63,23 +58,20 @@ namespace Kinde.Api.Converters
                 writer.WritePropertyName("code");
                 serializer.Serialize(writer, value.Code);
             }
-
             if (value.MessageOption.IsSet && value.Message != null)
             {
                 writer.WritePropertyName("message");
                 serializer.Serialize(writer, value.Message);
             }
-
-            if (value.ConnectionsOption.IsSet && value.Connections != null)
+            if (value.ConnectionsOption.IsSet)
             {
                 writer.WritePropertyName("connections");
                 serializer.Serialize(writer, value.Connections);
             }
-
             if (value.HasMoreOption.IsSet && value.HasMore != null)
             {
                 writer.WritePropertyName("has_more");
-                writer.WriteValue(value.HasMore.Value);
+                serializer.Serialize(writer, value.HasMore);
             }
 
             writer.WriteEndObject();
