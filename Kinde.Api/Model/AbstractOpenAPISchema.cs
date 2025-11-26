@@ -16,10 +16,12 @@ using Newtonsoft.Json.Serialization;
 namespace Kinde.Api.Model
 {
     /// <summary>
+    ///  Abstract base class for oneOf, anyOf schemas in the OpenAPI specification
     /// </summary>
     public abstract partial class AbstractOpenAPISchema
     {
         /// <summary>
+        ///  Custom JSON serializer
         /// </summary>
         static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
@@ -36,6 +38,7 @@ namespace Kinde.Api.Model
         };
 
         /// <summary>
+        ///  Custom JSON serializer for objects with additional properties
         /// </summary>
         static public readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new JsonSerializerSettings
         {

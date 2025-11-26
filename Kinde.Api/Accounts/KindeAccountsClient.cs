@@ -1,6 +1,7 @@
 using Kinde.Accounts.Api;
 using Kinde.Accounts.Client;
 using Kinde.Accounts.Model;
+using Kinde.Accounts.Model.Responses;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Kinde.Api.Accounts
             {
                 _logger.LogDebug("Getting entitlements for current user");
                 var response = await _billingApi.GetEntitlementsAsync();
-                return response.Ok()?.Data;
+                return response.AsModel()?.Data;
             }
             catch (Exception ex)
             {
@@ -78,7 +79,7 @@ namespace Kinde.Api.Accounts
             {
                 _logger.LogDebug("Getting entitlement: {Key}", key);
                 var response = await _billingApi.GetEntitlementAsync(key);
-                return response.Ok()?.Data;
+                return response.AsModel()?.Data;
             }
             catch (Exception ex)
             {
@@ -101,7 +102,7 @@ namespace Kinde.Api.Accounts
             {
                 _logger.LogDebug("Getting permissions for current user");
                 var response = await _permissionsApi.GetUserPermissionsAsync();
-                return response.Ok()?.Data;
+                return response.AsModel()?.Data;
             }
             catch (Exception ex)
             {
@@ -195,7 +196,7 @@ namespace Kinde.Api.Accounts
             {
                 _logger.LogDebug("Getting roles for current user");
                 var response = await _rolesApi.GetUserRolesAsync();
-                return response.Ok()?.Data;
+                return response.AsModel()?.Data;
             }
             catch (Exception ex)
             {
@@ -289,7 +290,7 @@ namespace Kinde.Api.Accounts
             {
                 _logger.LogDebug("Getting feature flags for current user");
                 var response = await _featureFlagsApi.GetFeatureFlagsAsync();
-                return response.Ok()?.Data;
+                return response.AsModel()?.Data;
             }
             catch (Exception ex)
             {

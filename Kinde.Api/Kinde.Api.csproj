@@ -13,7 +13,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Major update: Upgraded to .NET 8.0, updated OpenAPI Generator to v7.15.0, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
+    <PackageReleaseNotes>Major update: Upgraded to .NET 8.0, updated OpenAPI Generator to v7.0.1, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
