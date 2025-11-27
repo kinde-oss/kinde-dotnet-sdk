@@ -177,6 +177,7 @@ namespace Kinde.Api.Test.Integration
         public virtual void Dispose()
         {
             _httpClient?.Dispose();
+            _mockHandler?.Dispose();
         }
     }
 }
