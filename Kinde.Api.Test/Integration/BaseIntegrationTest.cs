@@ -92,15 +92,15 @@ namespace Kinde.Api.Test.Integration
             var mgmtConfig = Config.ManagementApi;
             
             Console.WriteLine($"[REAL API] Domain: {mgmtConfig.Domain}");
-            Console.WriteLine($"[REAL API] ClientId: {mgmtConfig.ClientId.Substring(0, Math.Min(8, mgmtConfig.ClientId.Length))}...");
+            Console.WriteLine("[REAL API] ClientId: [REDACTED]");
             Console.WriteLine("[REAL API] Requesting access token...");
-            
+
             var tokenStartTime = DateTime.UtcNow;
             var accessToken = GetAccessTokenAsync().GetAwaiter().GetResult();
             var tokenDuration = (DateTime.UtcNow - tokenStartTime).TotalMilliseconds;
-            
+
             Console.WriteLine($"[REAL API] Access token obtained in {tokenDuration:F0}ms");
-            Console.WriteLine($"[REAL API] Token preview: {accessToken.Substring(0, Math.Min(20, accessToken.Length))}...");
+            Console.WriteLine("[REAL API] Access token obtained successfully");
             
             _apiConfiguration = new Configuration
             {
