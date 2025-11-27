@@ -1,0 +1,10 @@
+{
+  "TestMode": "Mock",
+  "KindeManagementApi": {
+    "Domain": "https://your-domain.kinde.com",
+    "ClientId": "your-client-id",
+    "ClientSecret": "your-client-secret",
+    "Audience": "https://your-domain.kinde.com/api"
+  }
+}
+

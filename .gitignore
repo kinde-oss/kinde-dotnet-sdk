@@ -462,3 +462,15 @@ generated-accounts-api-files/
 
 # OpenAPI generator JAR files
 openapi-generator-cli-7.15.0.jar
+
+# Python virtual environment for post-processing scripts
+scripts/venv/
+scripts/__pycache__/
+
+# Test configuration files with secrets
+Kinde.Api.Test/appsettings.json
+Kinde.Api.Test/appsettings.*.json
+!Kinde.Api.Test/appsettings.json.example
+
+# Generated integration tests (optional - uncomment if you want to exclude them from git)
+# Kinde.Api.Test/Integration/Api/Generated/

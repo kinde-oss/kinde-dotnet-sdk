@@ -49,7 +49,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${SCRIPT_DIR}"
 
 # Configuration
-OPENAPI_GENERATOR_VERSION="7.15.0"
+OPENAPI_GENERATOR_VERSION="7.0.1"
 OPENAPI_GENERATOR_JAR="openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar"
 OPENAPI_JAR="${REPO_ROOT}/${OPENAPI_GENERATOR_JAR}"
 
@@ -124,7 +124,7 @@ generate_main_api() {
         --generator-name csharp \
         --output "${MAIN_TEMP_OUTPUT_DIR}" \
         --additional-properties=packageName=Kinde.Api \
-        --additional-properties="targetFramework=netstandard2.0;netstandard2.1;net8.0" \
+        --additional-properties="targetFramework=netstandard2.0;netstandard2.1;net7.0" \
         --additional-properties=multiTarget=true \
         --additional-properties=nullableReferenceTypes=true \
         --additional-properties=useDateTimeOffset=true \
@@ -155,14 +155,15 @@ generate_accounts_api() {
     # Create output directory
     mkdir -p "${ACCOUNTS_TEMP_OUTPUT_DIR}"
     
-    # Additional properties for .NET 8.0 generation
-    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=netstandard2.0;netstandard2.1;net8.0,multiTarget=true,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,useOneOfInterfaces=true,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
+    # Additional properties for .NET generation (using net7.0 as max - 7.0.1 doesn't support net8.0)
+    local addl_props="packageName=Kinde.Accounts,packageVersion=3.0.0,targetFramework=netstandard2.0;netstandard2.1;net7.0,multiTarget=true,nullableReferenceTypes=true,useDateTimeOffset=true,useCollection=false,returnICollection=false,validatable=false,useOneOfInterfaces=true,arrayType=List,netCoreProjectFile=true,hideGenerationTimestamp=true"
     
-    # Generate code using OpenAPI generator
+    # Generate code using OpenAPI generator with generichost library for HttpClient support
     if ! java -jar "${OPENAPI_JAR}" generate \
         -i "${spec_file}" \
         -g csharp \
         -o "${ACCOUNTS_TEMP_OUTPUT_DIR}" \
+        --library generichost \
         --additional-properties="${addl_props}"; then
         print_error "Failed to generate Account API client code"
         exit 1
@@ -171,26 +172,208 @@ generate_accounts_api() {
     print_success "Account API client code generated successfully"
 }
 
-# Fix problematic XML comments in generated files
-fix_xml_comments() {
-    print_status "Fixing problematic XML comments in generated files..."
+# Setup Python virtual environment for post-processing
+setup_python_venv() {
+    print_status "Setting up Python virtual environment for post-processing..."
     
-    # Fix main API files
-    if [ -d "${MAIN_TEMP_OUTPUT_DIR}" ]; then
-        find "${MAIN_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i.bak -e '/<!--BEGIN CERTIFICATE-->/d' -e '/<!--END CERTIFICATE-->/d' -e '/-----BEGIN CERTIFICATE-----/d' -e '/-----END CERTIFICATE-----/d' -e '/-----BEGIN PRIVATE KEY-----/d' -e '/-----END PRIVATE KEY-----/d' -e '/-----BEGIN PUBLIC KEY-----/d' -e '/-----END PUBLIC KEY-----/d' {} \;
-        find "${MAIN_TEMP_OUTPUT_DIR}" -name "*.cs.bak" -type f -delete
+    local scripts_dir="${REPO_ROOT}/scripts"
+    local venv_dir="${scripts_dir}/venv"
+    local setup_script="${scripts_dir}/setup-venv.sh"
+    
+    # Check if Python 3 is available
+    if ! command -v python3 &> /dev/null; then
+        print_warning "Python 3 not found. Post-processing will be skipped."
+        return 1
     fi
     
-    # Fix accounts API files
-    if [ -d "${ACCOUNTS_TEMP_OUTPUT_DIR}" ]; then
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            find "${ACCOUNTS_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i '' 's/&lt;/</g; s/&gt;/>/g; s/&amp;/\&/g' {} \;
+    # Setup venv if it doesn't exist
+    if [ ! -d "${venv_dir}" ]; then
+        if [ -f "${setup_script}" ]; then
+            bash "${setup_script}"
         else
-            find "${ACCOUNTS_TEMP_OUTPUT_DIR}" -name "*.cs" -type f -exec sed -i 's/&lt;/</g; s/&gt;/>/g; s/&amp;/\&/g' {} \;
+            print_status "Creating Python virtual environment..."
+            python3 -m venv "${venv_dir}"
+            if [ -f "${scripts_dir}/requirements.txt" ]; then
+                source "${venv_dir}/bin/activate"
+                pip install --quiet --upgrade pip
+                pip install --quiet -r "${scripts_dir}/requirements.txt"
+                deactivate
+            fi
         fi
     fi
     
-    print_success "XML comments fixed."
+    print_success "Python virtual environment ready"
+    return 0
+}
+
+# Post-process generated code using Python script
+post_process_generated_code() {
+    print_header "=== Post-Processing Generated Code ==="
+    print_status "Applying compatibility fixes to generated code..."
+    
+    local scripts_dir="${REPO_ROOT}/scripts"
+    local venv_dir="${scripts_dir}/venv"
+    local post_process_script="${scripts_dir}/post-process-generated-code.py"
+    
+    # Setup venv if needed
+    if ! setup_python_venv; then
+        print_warning "Skipping post-processing (Python not available)"
+        return 0
+    fi
+    
+    if [ ! -f "${post_process_script}" ]; then
+        print_warning "Post-processing script not found at ${post_process_script}"
+        return 0
+    fi
+    
+    # Activate venv and run post-processing script
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        # Windows
+        source "${venv_dir}/Scripts/activate"
+    else
+        # Unix-like (Linux, macOS)
+        source "${venv_dir}/bin/activate"
+    fi
+    
+    # Process both temp directories
+    local dirs_to_process=()
+    if [ -d "${MAIN_TEMP_OUTPUT_DIR}" ]; then
+        dirs_to_process+=("${MAIN_TEMP_OUTPUT_DIR}")
+    fi
+    if [ -d "${ACCOUNTS_TEMP_OUTPUT_DIR}" ]; then
+        dirs_to_process+=("${ACCOUNTS_TEMP_OUTPUT_DIR}")
+    fi
+    
+    if [ ${#dirs_to_process[@]} -eq 0 ]; then
+        print_warning "No generated code directories found for post-processing"
+        deactivate
+        return 0
+    fi
+    
+    # Run post-processing script
+    if python3 "${post_process_script}" "${dirs_to_process[@]}"; then
+        print_success "Post-processing completed successfully"
+    else
+        print_warning "Post-processing encountered some issues (continuing anyway)"
+    fi
+    
+    deactivate
+}
+
+# Post-process final project files (after copying)
+post_process_final_files() {
+    print_header "=== Post-Processing Final Project Files ==="
+    print_status "Applying compatibility fixes to final project files..."
+    
+    local scripts_dir="${REPO_ROOT}/scripts"
+    local venv_dir="${scripts_dir}/venv"
+    local post_process_script="${scripts_dir}/post-process-generated-code.py"
+    
+    # Check if Python is available
+    if ! command -v python3 &> /dev/null; then
+        print_warning "Python 3 not available, skipping final post-processing"
+        return 0
+    fi
+    
+    if [ ! -f "${post_process_script}" ]; then
+        print_warning "Post-processing script not found"
+        return 0
+    fi
+    
+    # Activate venv and run post-processing on final project directories
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        source "${venv_dir}/Scripts/activate"
+    else
+        source "${venv_dir}/bin/activate"
+    fi
+    
+    # Process final project directories and specific files that need fixes
+    local dirs_to_process=()
+    if [ -d "${REPO_ROOT}/Kinde.Api/Model" ]; then
+        dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Model")
+    fi
+    if [ -d "${REPO_ROOT}/Kinde.Api/Accounts/Model" ]; then
+        dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Accounts/Model")
+    fi
+    if [ -d "${REPO_ROOT}/Kinde.Api/Accounts" ]; then
+        dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Accounts")
+    fi
+    if [ -d "${REPO_ROOT}/Kinde.Api/Auth" ]; then
+        dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Auth")
+    fi
+    
+    if [ ${#dirs_to_process[@]} -gt 0 ]; then
+        if python3 "${post_process_script}" "${dirs_to_process[@]}"; then
+            print_success "Final post-processing completed successfully"
+        else
+            print_warning "Final post-processing encountered some issues (continuing anyway)"
+        fi
+    fi
+    
+    deactivate
+}
+
+# Generate integration tests from OpenAPI specs
+generate_integration_tests() {
+    print_header "=== Generating Integration Tests ==="
+    print_status "Generating comprehensive integration tests from OpenAPI specifications..."
+    
+    local scripts_dir="${REPO_ROOT}/scripts"
+    local venv_dir="${scripts_dir}/venv"
+    local test_gen_script="${scripts_dir}/generate-integration-tests.py"
+    local test_output_dir="${REPO_ROOT}/Kinde.Api.Test/Integration/Api/Generated"
+    
+    # Check if Python is available
+    if ! command -v python3 &> /dev/null; then
+        print_warning "Python 3 not available, skipping test generation"
+        return 0
+    fi
+    
+    if [ ! -f "${test_gen_script}" ]; then
+        print_warning "Test generation script not found at ${test_gen_script}"
+        return 0
+    fi
+    
+    # Setup venv if needed
+    if ! setup_python_venv; then
+        print_warning "Skipping test generation (Python not available)"
+        return 0
+    fi
+    
+    # Activate venv
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        source "${venv_dir}/Scripts/activate"
+    else
+        source "${venv_dir}/bin/activate"
+    fi
+    
+    # Create output directory
+    mkdir -p "${test_output_dir}"
+    
+    # Download main API spec if needed
+    local main_spec_file="${REPO_ROOT}/temp-kinde-management-api-spec.yaml"
+    if [ ! -f "${main_spec_file}" ]; then
+        print_status "Downloading main API specification..."
+        if ! curl -fsSL "${MAIN_API_SPEC_URL}" -o "${main_spec_file}"; then
+            print_warning "Failed to download main API spec, skipping test generation"
+            deactivate
+            return 0
+        fi
+    fi
+    
+    # Generate tests from main API spec
+    if python3 "${test_gen_script}" "${main_spec_file}" "${test_output_dir}"; then
+        print_success "Integration tests generated successfully"
+    else
+        print_warning "Test generation encountered some issues (continuing anyway)"
+    fi
+    
+    deactivate
+    
+    # Clean up temp spec file
+    rm -f "${main_spec_file}"
+    
+    print_success "Integration test generation completed"
 }
 
 # Copy main API generated files to the main project
@@ -591,25 +774,30 @@ cleanup_temp_files() {
 
 # Main execution
 main() {
-    print_header "🚀 Starting Combined Kinde .NET SDK API Generation Process"
+    print_header "🚀 Starting Kinde .NET SDK API Generation Process"
     print_header "=========================================================="
     
     download_openapi_generator
     generate_main_api
-    generate_accounts_api
-    fix_xml_comments
+    # Accounts API is now manually maintained - no longer auto-generated
+    # generate_accounts_api
+    post_process_generated_code
     copy_main_api_files
-    copy_accounts_api_files
+    # Accounts API files are manually maintained - no longer copied from generation
+    # copy_accounts_api_files
     copy_missing_client_files
     fix_resilience_issues
+    # Post-process again on final project directories to ensure fixes are applied
+    post_process_final_files
     apply_compatibility_fixes
+    generate_integration_tests
     cleanup_temp_files
     
-    print_header "✅ Combined API Generation Completed Successfully!"
+    print_header "✅ API Generation Completed Successfully!"
     print_success "📁 Main API files are available in: generated-api-files/Api/"
-    print_success "📁 Account API files are available in: ${ACCOUNTS_FINAL_OUTPUT_DIR}"
     print_success "📁 Model and Enums files have been updated in your project."
     print_success "🔧 .NET Standard 2.1 compatibility fixes have been applied."
+    print_status "📝 Note: Accounts API is manually maintained and not auto-generated."
     print_status "🏗️  Run 'dotnet build' to verify the build is successful."
 }
 

@@ -1,0 +1,2 @@
+# Python dependencies for post-processing scripts
+PyYAML>=6.0
