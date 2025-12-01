@@ -13,7 +13,7 @@ namespace Kinde.Api.Test.Integration.Mocks
     /// </summary>
     public class MockApiResponseHandler : DelegatingHandler
     {
-        private readonly Dictionary<string, HttpResponseMessage> _responses = new Dictionary<string, HttpResponseMessage>();
+        private readonly Dictionary<string, (string Content, HttpStatusCode StatusCode)> _responses = new Dictionary<string, (string, HttpStatusCode)>();
 
         public MockApiResponseHandler()
         {
@@ -26,11 +26,7 @@ namespace Kinde.Api.Test.Integration.Mocks
         {
             var key = $"{method}:{path}";
             var json = JsonConvert.SerializeObject(responseData);
-            var httpResponse = new HttpResponseMessage(statusCode)
-            {
-                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
-            };
-            _responses[key] = httpResponse;
+            _responses[key] = (json, statusCode);
         }
 
         /// <summary>
@@ -39,30 +35,32 @@ namespace Kinde.Api.Test.Integration.Mocks
         public void AddResponse(string method, string path, string jsonContent, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             var key = $"{method}:{path}";
-            var httpResponse = new HttpResponseMessage(statusCode)
-            {
-                Content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json")
-            };
-            _responses[key] = httpResponse;
+            _responses[key] = (jsonContent, statusCode);
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var method = request.Method.Method;
             var path = request.RequestUri?.PathAndQuery ?? "";
-            
+
             // Try exact match first
             var key = $"{method}:{path}";
-            if (_responses.ContainsKey(key))
+            if (_responses.TryGetValue(key, out var response))
             {
-                return Task.FromResult(_responses[key]);
+                return Task.FromResult(new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = new StringContent(response.Content, System.Text.Encoding.UTF8, "application/json")
+                });
             }
 
             // Try path-only match
             key = $"{method}:{request.RequestUri?.AbsolutePath ?? ""}";
-            if (_responses.ContainsKey(key))
+            if (_responses.TryGetValue(key, out response))
             {
-                return Task.FromResult(_responses[key]);
+                return Task.FromResult(new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = new StringContent(response.Content, System.Text.Encoding.UTF8, "application/json")
+                });
             }
 
             // Return 404 if no match found
