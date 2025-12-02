@@ -30,10 +30,10 @@ namespace Kinde.Api.Test.Integration.Serialization
         {
             var assembly = typeof(AbstractOpenAPISchema).Assembly;
             var modelNamespace = typeof(AbstractOpenAPISchema).Namespace;
-            
+
             return assembly.GetTypes()
                 .Where(t => t.Namespace == modelNamespace)
-                .Where(t => t.IsClass && !t.IsAbstract && !t.IsSealed)
+                .Where(t => t.IsClass && !t.IsAbstract)
                 .Where(t => !t.Name.Contains("JsonConverter") && !t.Name.Contains("Tests"))
                 .Where(t => t != typeof(AbstractOpenAPISchema))
                 .Where(t => !typeof(AbstractOpenAPISchema).IsAssignableFrom(t)) // Skip OneOf/AnyOf types
