@@ -142,37 +142,44 @@ namespace Kinde.Api.Test.Integration
             if (_initialized || !_config.UseRealApi)
                 return;
 
+            // Double-check pattern - acquire lock only if not initialized
             lock (_initLock)
             {
                 if (_initialized)
                     return;
+                _initialized = true; // Mark before work to prevent re-entry
+            }
 
-                Console.WriteLine("[TEST FIXTURE] Initializing test resources for Real API mode...");
-                
-                try
-                {
-                    var mgmtConfig = _config.ManagementApi;
-                    
-                    // Get access token
-                    var accessToken = GetAccessTokenAsync().GetAwaiter().GetResult();
-                    
-                    _apiConfiguration = new Configuration
-                    {
-                        BasePath = mgmtConfig.Domain,
-                        AccessToken = accessToken
-                    };
+            // Initialization outside lock to avoid sync-over-async deadlock
+            Console.WriteLine("[TEST FIXTURE] Initializing test resources for Real API mode...");
 
-                    _httpClient = new HttpClient();
-                    
-                    // Create all test resources via API
-                    CreateTestResourcesAsync().GetAwaiter().GetResult();
-                    _initialized = true;
-                }
-                catch (Exception ex)
+            try
+            {
+                var mgmtConfig = _config.ManagementApi;
+
+                // Get access token
+                var accessToken = GetAccessTokenAsync().GetAwaiter().GetResult();
+
+                _apiConfiguration = new Configuration
                 {
-                    Console.WriteLine($"[TEST FIXTURE] Error during initialization: {ex.Message}");
-                    throw;
+                    BasePath = mgmtConfig.Domain,
+                    AccessToken = accessToken
+                };
+
+                _httpClient = new HttpClient();
+
+                // Create all test resources via API
+                CreateTestResourcesAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[TEST FIXTURE] Error during initialization: {ex.Message}");
+                // Reset the initialized flag on failure so retry is possible
+                lock (_initLock)
+                {
+                    _initialized = false;
                 }
+                throw;
             }
         }
 
