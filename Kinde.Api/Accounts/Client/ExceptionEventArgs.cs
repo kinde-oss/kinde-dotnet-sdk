@@ -13,7 +13,7 @@ namespace Kinde.Accounts.Client
         public Exception Exception { get; }
 
         /// <summary>
-        /// The ExceptionEventArgs
+        /// The ExcepetionEventArgs
         /// </summary>
         /// <param name="exception"></param>
         public ExceptionEventArgs(Exception exception)

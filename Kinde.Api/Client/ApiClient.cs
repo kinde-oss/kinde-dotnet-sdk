@@ -34,6 +34,8 @@ namespace Kinde.Api.Client
 {
     /// <summary>
     /// Helper class for creating standard JSON converters
+    /// Note: Custom converters removed for OpenAPI Generator 7.0.1 compatibility.
+    /// 7.0.1 generates code with built-in JsonConverter attributes that handle serialization automatically.
     /// </summary>
     internal static class JsonConverterHelper
     {
@@ -42,14 +44,10 @@ namespace Kinde.Api.Client
         /// </summary>
         public static IList<JsonConverter> CreateStandardConverters()
         {
-            return new List<JsonConverter>
-            {
-                new Kinde.Api.Converters.NewtonsoftGenericEnumConverter(),
-                new Kinde.Api.Converters.CreateUserResponseNewtonsoftConverter(),
-                new Kinde.Api.Converters.OptionNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserRequestIdentitiesInnerNewtonsoftConverter(),
-                new Kinde.Api.Converters.CreateUserIdentityRequestNewtonsoftConverter()
-            };
+            // OpenAPI Generator 7.0.1 generates models with built-in JsonConverter attributes
+            // (e.g., [JsonConverter(typeof(StringEnumConverter))] on enums)
+            // Custom converters are not needed and have been removed.
+            return new List<JsonConverter>();
         }
     }
 
@@ -70,9 +68,9 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            },
-            // Add our custom enum converter for proper enum serialization
-            Converters = JsonConverterHelper.CreateStandardConverters()
+            }
+            // Converters removed - OpenAPI Generator 7.0.1 handles serialization via built-in attributes
+            // Converters = JsonConverterHelper.CreateStandardConverters()
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -214,9 +212,9 @@ namespace Kinde.Api.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            },
-            // Add our custom enum converter for proper enum serialization
-            Converters = JsonConverterHelper.CreateStandardConverters()
+            }
+            // Converters removed - OpenAPI Generator 7.0.1 handles serialization via built-in attributes
+            // Converters = JsonConverterHelper.CreateStandardConverters()
         };
 
         /// <summary>
