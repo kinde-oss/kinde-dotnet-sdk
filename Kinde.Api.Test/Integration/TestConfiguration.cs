@@ -11,7 +11,7 @@ namespace Kinde.Api.Test.Integration
     /// </summary>
     public class TestConfiguration
     {
-        private static TestConfiguration? _instance;
+        private static readonly Lazy<TestConfiguration> _lazyInstance = new Lazy<TestConfiguration>(() => new TestConfiguration());
         private readonly IConfiguration _configuration;
 
         private TestConfiguration()
@@ -83,17 +83,7 @@ namespace Kinde.Api.Test.Integration
             }
         }
 
-        public static TestConfiguration Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new TestConfiguration();
-                }
-                return _instance;
-            }
-        }
+        public static TestConfiguration Instance => _lazyInstance.Value;
 
         /// <summary>
         /// Kinde Management API configuration
