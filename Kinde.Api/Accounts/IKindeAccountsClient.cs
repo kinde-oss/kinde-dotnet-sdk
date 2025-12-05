@@ -1,4 +1,5 @@
 using Kinde.Accounts.Model;
+using Kinde.Accounts.Model.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

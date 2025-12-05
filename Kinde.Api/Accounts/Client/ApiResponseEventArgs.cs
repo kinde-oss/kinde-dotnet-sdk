@@ -5,18 +5,18 @@ namespace Kinde.Accounts.Client
     /// <summary>
     /// Useful for tracking server health
     /// </summary>
-    public class ApiResponseEventArgs : EventArgs
+    public class ApiResponseEventArgs<T> : EventArgs
     {
         /// <summary>
         /// The ApiResponse
         /// </summary>
-        public ApiResponse ApiResponse { get; }
+        public ApiResponse<T> ApiResponse { get; }
 
         /// <summary>
         /// The ApiResponseEventArgs
         /// </summary>
         /// <param name="apiResponse"></param>
-        public ApiResponseEventArgs(ApiResponse apiResponse)
+        public ApiResponseEventArgs(ApiResponse<T> apiResponse)
         {
             ApiResponse = apiResponse;
         }
