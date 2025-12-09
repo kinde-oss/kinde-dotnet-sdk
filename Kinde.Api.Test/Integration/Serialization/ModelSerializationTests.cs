@@ -126,6 +126,187 @@ namespace Kinde.Api.Test.Integration.Serialization
             Assert.Equal(CreateUserRequestIdentitiesInner.TypeEnum.Email, identity.Type);
         }
 
+        #region Negative Test Cases - IsVerified = false
+
+        /// <summary>
+        /// Verifies that IsVerified = false serializes correctly to "is_verified": false
+        /// This ensures false values are not lost or defaulted to true during serialization.
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_IsVerifiedFalse_SerializesCorrectly()
+        {
+            // Arrange - Explicitly set IsVerified to false
+            var identity = new CreateUserRequestIdentitiesInner(
+                type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                isVerified: false,
+                details: new CreateUserRequestIdentitiesInnerDetails(email: "test@example.com")
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(identity, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON (IsVerified=false): {json}");
+
+            // Assert - The JSON should contain "is_verified": false
+            Assert.Contains("\"is_verified\":false", json.Replace(" ", ""));
+            Assert.DoesNotContain("\"is_verified\":true", json.Replace(" ", ""));
+        }
+
+        /// <summary>
+        /// Verifies that GetUserMfaResponseMfa.IsVerified = false serializes correctly
+        /// </summary>
+        [Fact]
+        public void GetUserMfaResponseMfa_IsVerifiedFalse_SerializesCorrectly()
+        {
+            // Arrange - Explicitly set IsVerified to false
+            var mfa = new GetUserMfaResponseMfa(
+                id: "mfa_123",
+                type: "email",
+                isVerified: false
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(mfa, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON (IsVerified=false): {json}");
+
+            // Assert - The JSON should contain "is_verified": false
+            Assert.Contains("\"is_verified\":false", json.Replace(" ", ""));
+            Assert.DoesNotContain("\"is_verified\":true", json.Replace(" ", ""));
+        }
+
+        /// <summary>
+        /// Verifies that JSON with "is_verified": false can be deserialized correctly
+        /// This ensures false values from the API are preserved during deserialization.
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_CanDeserializeFalseFromSnakeCaseJson()
+        {
+            // Arrange - JSON with is_verified: false
+            var json = @"{""type"":""email"",""is_verified"":false,""details"":{""email"":""test@example.com""}}";
+
+            // Act - Deserialize using the API client's serializer settings
+            var identity = JsonConvert.DeserializeObject<CreateUserRequestIdentitiesInner>(json, ApiSerializerSettings);
+
+            // Assert - IsVerified should be false, not defaulted to true
+            Assert.NotNull(identity);
+            Assert.False(identity.IsVerified);
+            Assert.Equal(CreateUserRequestIdentitiesInner.TypeEnum.Email, identity.Type);
+        }
+
+        /// <summary>
+        /// Verifies that a default/uninitialized CreateUserRequestIdentitiesInner has IsVerified = false
+        /// This catches cases where boolean defaults might be incorrectly set.
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_DefaultIsVerified_IsFalse()
+        {
+            // Arrange - Create with default isVerified (should default to false)
+            var identity = new CreateUserRequestIdentitiesInner(
+                type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                details: new CreateUserRequestIdentitiesInnerDetails(email: "test@example.com")
+            );
+
+            // Assert - Default value should be false (C# bool default)
+            Assert.False(identity.IsVerified);
+
+            // Act - Serialize and verify the JSON reflects false
+            var json = JsonConvert.SerializeObject(identity, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON (default IsVerified): {json}");
+
+            // Assert - Should serialize as false
+            Assert.Contains("\"is_verified\":false", json.Replace(" ", ""));
+        }
+
+        /// <summary>
+        /// Verifies round-trip serialization preserves IsVerified = false
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_RoundTrip_PreservesFalse()
+        {
+            // Arrange
+            var original = new CreateUserRequestIdentitiesInner(
+                type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                isVerified: false,
+                details: new CreateUserRequestIdentitiesInnerDetails(email: "roundtrip@example.com")
+            );
+
+            // Act - Serialize then deserialize
+            var json = JsonConvert.SerializeObject(original, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+            var deserialized = JsonConvert.DeserializeObject<CreateUserRequestIdentitiesInner>(json, ApiSerializerSettings);
+
+            // Assert - IsVerified should still be false after round-trip
+            Assert.NotNull(deserialized);
+            Assert.False(deserialized.IsVerified);
+            Assert.Equal(original.Type, deserialized.Type);
+        }
+
+        /// <summary>
+        /// Verifies round-trip serialization preserves IsVerified = true
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_RoundTrip_PreservesTrue()
+        {
+            // Arrange
+            var original = new CreateUserRequestIdentitiesInner(
+                type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                isVerified: true,
+                details: new CreateUserRequestIdentitiesInnerDetails(email: "roundtrip@example.com")
+            );
+
+            // Act - Serialize then deserialize
+            var json = JsonConvert.SerializeObject(original, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+            var deserialized = JsonConvert.DeserializeObject<CreateUserRequestIdentitiesInner>(json, ApiSerializerSettings);
+
+            // Assert - IsVerified should still be true after round-trip
+            Assert.NotNull(deserialized);
+            Assert.True(deserialized.IsVerified);
+            Assert.Equal(original.Type, deserialized.Type);
+        }
+
+        /// <summary>
+        /// Verifies CreateUserRequest with mixed IsVerified values serializes correctly
+        /// </summary>
+        [Fact]
+        public void CreateUserRequest_WithMixedIsVerified_SerializesCorrectly()
+        {
+            // Arrange - Multiple identities with different IsVerified values
+            var request = new CreateUserRequest(
+                profile: new CreateUserRequestProfile(givenName: "Test", familyName: "User"),
+                identities: new List<CreateUserRequestIdentitiesInner>
+                {
+                    new CreateUserRequestIdentitiesInner(
+                        type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                        isVerified: true,
+                        details: new CreateUserRequestIdentitiesInnerDetails(email: "verified@example.com")
+                    ),
+                    new CreateUserRequestIdentitiesInner(
+                        type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                        isVerified: false,
+                        details: new CreateUserRequestIdentitiesInnerDetails(email: "unverified@example.com")
+                    )
+                }
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(request, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+
+            // Assert - Should contain both true and false values
+            Assert.Contains("\"is_verified\":true", json.Replace(" ", ""));
+            Assert.Contains("\"is_verified\":false", json.Replace(" ", ""));
+            
+            // Also verify we can deserialize back correctly
+            var deserialized = JsonConvert.DeserializeObject<CreateUserRequest>(json, ApiSerializerSettings);
+            Assert.NotNull(deserialized);
+            Assert.NotNull(deserialized.Identities);
+            Assert.Equal(2, deserialized.Identities.Count);
+            Assert.True(deserialized.Identities[0].IsVerified);
+            Assert.False(deserialized.Identities[1].IsVerified);
+        }
+
+        #endregion
+
         /// <summary>
         /// Verifies that all properties with DataMember attributes serialize to the correct names
         /// </summary>
