@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Kinde.Api.Client;
 using Kinde.Api.Model;
 using Newtonsoft.Json;
 using Xunit;
@@ -18,10 +19,145 @@ namespace Kinde.Api.Test.Integration.Serialization
     {
         private readonly ITestOutputHelper _output;
 
+        // Use the same serializer settings as the API client to ensure consistency
+        private static readonly JsonSerializerSettings ApiSerializerSettings = new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ContractResolver = new DataMemberContractResolver()
+        };
+
         public ModelSerializationTests(ITestOutputHelper output)
         {
             _output = output;
         }
+
+        #region DataMember Attribute Serialization Tests
+
+        /// <summary>
+        /// Verifies that CreateUserRequestIdentitiesInner.IsVerified serializes to "is_verified" (snake_case)
+        /// This is a critical test for the customer-reported serialization issue.
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_IsVerified_SerializesToSnakeCase()
+        {
+            // Arrange
+            var identity = new CreateUserRequestIdentitiesInner(
+                type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                isVerified: true,
+                details: new CreateUserRequestIdentitiesInnerDetails(email: "test@example.com")
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(identity, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+
+            // Assert - The JSON should contain "is_verified", not "isVerified" or "IsVerified"
+            Assert.Contains("\"is_verified\"", json);
+            Assert.DoesNotContain("\"isVerified\"", json);
+            Assert.DoesNotContain("\"IsVerified\"", json);
+        }
+
+        /// <summary>
+        /// Verifies that GetUserMfaResponseMfa.IsVerified serializes to "is_verified" (snake_case)
+        /// </summary>
+        [Fact]
+        public void GetUserMfaResponseMfa_IsVerified_SerializesToSnakeCase()
+        {
+            // Arrange
+            var mfa = new GetUserMfaResponseMfa(
+                id: "mfa_123",
+                type: "email",
+                isVerified: true
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(mfa, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+
+            // Assert - The JSON should contain "is_verified", not "isVerified" or "IsVerified"
+            Assert.Contains("\"is_verified\"", json);
+            Assert.DoesNotContain("\"isVerified\"", json);
+            Assert.DoesNotContain("\"IsVerified\"", json);
+        }
+
+        /// <summary>
+        /// Verifies that CreateUserRequest with identities serializes is_verified correctly
+        /// </summary>
+        [Fact]
+        public void CreateUserRequest_WithIdentities_SerializesIsVerifiedToSnakeCase()
+        {
+            // Arrange
+            var request = new CreateUserRequest(
+                profile: new CreateUserRequestProfile(),
+                identities: new List<CreateUserRequestIdentitiesInner>
+                {
+                    new CreateUserRequestIdentitiesInner(
+                        type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                        isVerified: true,
+                        details: new CreateUserRequestIdentitiesInnerDetails(email: "test@example.com")
+                    )
+                }
+            );
+
+            // Act - Serialize using the API client's serializer settings
+            var json = JsonConvert.SerializeObject(request, ApiSerializerSettings);
+            _output.WriteLine($"Serialized JSON: {json}");
+
+            // Assert - The JSON should contain "is_verified" in the identities array
+            Assert.Contains("\"is_verified\"", json);
+            Assert.DoesNotContain("\"isVerified\"", json);
+        }
+
+        /// <summary>
+        /// Verifies that JSON with "is_verified" can be deserialized correctly
+        /// </summary>
+        [Fact]
+        public void CreateUserRequestIdentitiesInner_CanDeserializeFromSnakeCaseJson()
+        {
+            // Arrange - JSON as it comes from the API (snake_case)
+            var json = @"{""type"":""email"",""is_verified"":true,""details"":{""email"":""test@example.com""}}";
+
+            // Act - Deserialize using the API client's serializer settings
+            var identity = JsonConvert.DeserializeObject<CreateUserRequestIdentitiesInner>(json, ApiSerializerSettings);
+
+            // Assert
+            Assert.NotNull(identity);
+            Assert.True(identity.IsVerified);
+            Assert.Equal(CreateUserRequestIdentitiesInner.TypeEnum.Email, identity.Type);
+        }
+
+        /// <summary>
+        /// Verifies that all properties with DataMember attributes serialize to the correct names
+        /// </summary>
+        [Theory]
+        [InlineData(typeof(CreateUserRequestIdentitiesInner), "IsVerified", "is_verified")]
+        [InlineData(typeof(GetUserMfaResponseMfa), "IsVerified", "is_verified")]
+        [InlineData(typeof(GetUserMfaResponseMfa), "CreatedOn", "created_on")]
+        [InlineData(typeof(GetUserMfaResponseMfa), "LastUsedOn", "last_used_on")]
+        [InlineData(typeof(GetUserMfaResponseMfa), "UsageCount", "usage_count")]
+        public void DataMemberAttribute_PropertySerializesToCorrectName(Type modelType, string propertyName, string expectedJsonName)
+        {
+            // Arrange
+            var property = modelType.GetProperty(propertyName);
+            Assert.NotNull(property);
+
+            var dataMemberAttr = property.GetCustomAttribute<DataMemberAttribute>();
+            Assert.NotNull(dataMemberAttr);
+
+            // Assert - The DataMember attribute should have the expected name
+            Assert.Equal(expectedJsonName, dataMemberAttr.Name);
+
+            // Also verify that the DataMemberContractResolver would use this name
+            var resolver = new DataMemberContractResolver();
+            var contract = resolver.ResolveContract(modelType) as Newtonsoft.Json.Serialization.JsonObjectContract;
+            Assert.NotNull(contract);
+
+            var jsonProperty = contract.Properties.FirstOrDefault(p => p.UnderlyingName == propertyName);
+            Assert.NotNull(jsonProperty);
+            Assert.Equal(expectedJsonName, jsonProperty.PropertyName);
+        }
+
+        #endregion
 
         /// <summary>
         /// Get all model types from the Kinde.Api.Model namespace

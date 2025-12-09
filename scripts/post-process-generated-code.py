@@ -11,7 +11,8 @@ Fixes applied:
 3. Fixes ApiResponse.Ok()?.Data to use AsModel() for 7.0.1 compatibility
 4. Fixes Accounts API constructor calls (6 params -> 5 params)
 5. Fixes nullable type constructor calls (adds .Value for bool?, int?, etc.)
-6. Other compatibility fixes as needed
+6. Fixes AbstractOpenAPISchema.cs to use DataMemberContractResolver for proper [DataMember] attribute serialization
+7. Other compatibility fixes as needed
 """
 
 import os
@@ -225,6 +226,60 @@ def fix_nullable_constructor_calls(content: str) -> Tuple[str, bool]:
     return content, modified
 
 
+def fix_serializer_contract_resolver(content: str, file_path: str) -> Tuple[str, bool]:
+    """
+    Fix generated files to use DataMemberContractResolver instead of CamelCaseNamingStrategy.
+    
+    OpenAPI Generator 7.0.1 generates models with [DataMember(Name = "snake_case")] attributes.
+    The default CamelCaseNamingStrategy ignores these attributes, causing serialization issues
+    (e.g., "IsVerified" serializes as "isVerified" instead of "is_verified").
+    
+    This fix replaces the CamelCaseNamingStrategy with DataMemberContractResolver which
+    properly reads and uses the DataMember attribute names.
+    
+    Applies to:
+    - ApiClient.cs (generated)
+    - AbstractOpenAPISchema.cs (generated)
+    """
+    # Only apply to specific generated files
+    target_files = ['ApiClient.cs', 'AbstractOpenAPISchema.cs']
+    if not any(target in file_path for target in target_files):
+        return content, False
+    
+    # Check if the file uses CamelCaseNamingStrategy (needs fixing)
+    if 'CamelCaseNamingStrategy' not in content:
+        return content, False
+    
+    # Check if already fixed
+    if 'DataMemberContractResolver' in content:
+        return content, False
+    
+    original = content
+    
+    # For AbstractOpenAPISchema.cs, add using statement for Kinde.Api.Client if not present
+    if 'AbstractOpenAPISchema.cs' in file_path and 'using Kinde.Api.Client;' not in content:
+        content = re.sub(
+            r'(using Newtonsoft\.Json\.Serialization;)',
+            r'\1\nusing Kinde.Api.Client;',
+            content
+        )
+    
+    # Replace the SerializerSettings ContractResolver - handle multi-line format with various whitespace
+    # This pattern matches the full ContractResolver block including nested braces
+    serializer_pattern = re.compile(
+        r'ContractResolver\s*=\s*new\s+DefaultContractResolver\s*'
+        r'\{\s*NamingStrategy\s*=\s*new\s+CamelCaseNamingStrategy\s*'
+        r'\{\s*OverrideSpecifiedNames\s*=\s*false\s*\}\s*\}',
+        re.MULTILINE | re.DOTALL
+    )
+    
+    replacement = 'ContractResolver = new DataMemberContractResolver()'
+    content = serializer_pattern.sub(replacement, content)
+    
+    modified = content != original
+    return content, modified
+
+
 def add_openapi_client_utils_alias(content: str, file_path: str) -> Tuple[str, bool]:
     """
     Add OpenAPIClientUtils alias if the file uses OpenAPIClientUtils but doesn't have the alias.
@@ -310,6 +365,11 @@ def process_file(file_path: Path) -> bool:
         if nullable_fixed:
             modified = True
             log(f"Fixed nullable constructor calls in {file_path.name}", "SUCCESS")
+        
+        content, serializer_fixed = fix_serializer_contract_resolver(content, str(file_path))
+        if serializer_fixed:
+            modified = True
+            log(f"Fixed serializer settings to use DataMemberContractResolver in {file_path.name}", "SUCCESS")
         
         # Write back if modified
         if modified:

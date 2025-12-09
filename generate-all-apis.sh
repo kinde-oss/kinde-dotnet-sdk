@@ -292,6 +292,9 @@ post_process_final_files() {
     if [ -d "${REPO_ROOT}/Kinde.Api/Model" ]; then
         dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Model")
     fi
+    if [ -d "${REPO_ROOT}/Kinde.Api/Client" ]; then
+        dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Client")
+    fi
     if [ -d "${REPO_ROOT}/Kinde.Api/Accounts/Model" ]; then
         dirs_to_process+=("${REPO_ROOT}/Kinde.Api/Accounts/Model")
     fi
