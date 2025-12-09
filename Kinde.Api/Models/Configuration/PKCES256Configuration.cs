@@ -10,7 +10,7 @@ namespace Kinde.Api.Models.Configuration
             CodeVerifier = new SHA256CodeVerifier();
         }
 
-        public PKCES256Configuration(string clientId, string scope, string clientSecret, string? state, string audience) : base(clientId, scope, clientSecret, state, audience)
+        public PKCES256Configuration(string clientId, string clientSecret, string redirectUri, string scope, string? state) : base(clientId, clientSecret, redirectUri, scope, state)
         {
         }
 
