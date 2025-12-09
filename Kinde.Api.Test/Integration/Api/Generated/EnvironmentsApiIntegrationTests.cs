@@ -529,22 +529,12 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                // Logo type must be "light" or "dark" per API requirements
-                var type = "light";
-                
-                // Create a minimal valid 1x1 PNG image
-                byte[] pngBytes = new byte[]
-                {
-                    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
-                    0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
-                    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-                    0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE,
-                    0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, 0x54,
-                    0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00,
-                    0x18, 0xDD, 0x8D, 0xB4,
-                    0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
-                };
-                var logo = new FileParameter("test-logo.png", "image/png", new System.IO.MemoryStream(pngBytes));
+                // WARNING: Real API test - This operation requires existing type
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // WARNING: Using placeholder type - test will likely fail without real resource ID
+                var type = "test-type";
+                var logo = new FileParameter("test-file.txt", new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes("test file content")));
 
                 var api = CreateApi((client, config) => new EnvironmentsApi(client, config));
 
@@ -617,35 +607,13 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                // Logo type must be "light" or "dark" per API requirements
-                var type = "light";
+                // WARNING: Real API test - This operation requires existing type
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // WARNING: Using placeholder type - test will likely fail without real resource ID
+                var type = "test-type";
 
                 var api = CreateApi((client, config) => new EnvironmentsApi(client, config));
-
-                // First, add a logo so we have something to delete
-                byte[] pngBytes = new byte[]
-                {
-                    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
-                    0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
-                    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-                    0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE,
-                    0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, 0x54,
-                    0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00,
-                    0x18, 0xDD, 0x8D, 0xB4,
-                    0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
-                };
-                var logo = new FileParameter("test-logo.png", "image/png", new System.IO.MemoryStream(pngBytes));
-                
-                try
-                {
-                    await api.AddLogoAsync(type, logo);
-                    _output.WriteLine($"Added logo of type '{type}' for delete test");
-                }
-                catch (Exception)
-                {
-                    // Logo might already exist or adding might fail - proceed with delete attempt
-                    _output.WriteLine("Note: Could not add logo (may already exist or not supported)");
-                }
 
                 await api.DeleteLogoAsync(type);
                 // Void method - no response to check
