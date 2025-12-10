@@ -383,18 +383,13 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                var api = CreateApi((client, config) => new RolesApi(client, config));
+                // WARNING: Real API test - This operation requires existing role_id
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // Using test resource from fixture: RoleId
+                var role_id = _fixture.RoleId;
 
-                // Create a temporary role specifically for this delete test
-                // This avoids deleting the shared fixture role which other tests depend on
-                var roleKey = $"del_test_{Guid.NewGuid():N}".Substring(0, 25);
-                var createRequest = new CreateRoleRequest(
-                    name: $"Delete Test Role {Guid.NewGuid():N}",
-                    key: roleKey
-                );
-                var createResponse = await api.CreateRoleAsync(createRequest);
-                var role_id = createResponse?.Role?.Id ?? throw new InvalidOperationException("Failed to create test role");
-                _output.WriteLine($"Created temporary role for delete test: {role_id}");
+                var api = CreateApi((client, config) => new RolesApi(client, config));
 
                 var response = await api.DeleteRoleAsync(role_id);
 

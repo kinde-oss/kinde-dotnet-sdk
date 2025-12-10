@@ -383,14 +383,13 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                var api = CreateApi((client, config) => new OrganizationsApi(client, config));
+                // WARNING: Real API test - This operation requires existing org_code
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // Using test resource from fixture: OrganizationCode
+                var org_code = _fixture.OrganizationCode;
 
-                // Create a temporary organization specifically for this delete test
-                // This avoids deleting the shared fixture organization which other tests depend on
-                var createRequest = new CreateOrganizationRequest(name: $"DeleteTest Org {Guid.NewGuid():N}");
-                var createResponse = await api.CreateOrganizationAsync(createRequest);
-                var org_code = createResponse?.Organization?.Code ?? throw new InvalidOperationException("Failed to create test organization");
-                _output.WriteLine($"Created temporary organization for delete test: {org_code}");
+                var api = CreateApi((client, config) => new OrganizationsApi(client, config));
 
                 await api.DeleteOrganizationAsync(org_code);
                 // Void method - no response to check
@@ -1201,29 +1200,15 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
+                // WARNING: Real API test - This operation requires existing org_code
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // Using test resource from fixture: OrganizationCode
                 var org_code = _fixture.OrganizationCode;
+                // Using test resource from fixture: UserId
                 var user_id = _fixture.UserId;
 
                 var api = CreateApi((client, config) => new OrganizationsApi(client, config));
-
-                // First ensure the user is added to the organization (in case another test removed them)
-                // This makes the test self-contained and order-independent
-                try
-                {
-                    var addUserRequest = new AddOrganizationUsersRequest(
-                        users: new System.Collections.Generic.List<AddOrganizationUsersRequestUsersInner>
-                        {
-                            new AddOrganizationUsersRequestUsersInner(id: user_id)
-                        }
-                    );
-                    await api.AddOrganizationUsersAsync(org_code, addUserRequest);
-                    _output.WriteLine($"Added user {user_id} to organization {org_code} for test");
-                }
-                catch (Exception addEx)
-                {
-                    // User might already be in the organization - that's fine
-                    _output.WriteLine($"Note: Could not add user (may already be added): {addEx.Message}");
-                }
 
                 var response = await api.RemoveOrganizationUserAsync(org_code, user_id);
 
@@ -1231,23 +1216,6 @@ namespace Kinde.Api.Test.Integration.Api.Generated
                 Assert.NotNull(response);
                 _output.WriteLine($"Response received: {response?.GetType().Name}");
                 _output.WriteLine($"Test completed successfully");
-
-                // Re-add the user back to the organization for other tests that depend on this relationship
-                try
-                {
-                    var reAddRequest = new AddOrganizationUsersRequest(
-                        users: new System.Collections.Generic.List<AddOrganizationUsersRequestUsersInner>
-                        {
-                            new AddOrganizationUsersRequestUsersInner(id: user_id)
-                        }
-                    );
-                    await api.AddOrganizationUsersAsync(org_code, reAddRequest);
-                    _output.WriteLine($"Re-added user {user_id} to organization {org_code} after test");
-                }
-                catch (Exception)
-                {
-                    // Best effort - don't fail the test if re-add fails
-                }
             }
             catch (Exception ex)
             {
@@ -2524,37 +2492,8 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             {
                 // Using test resource from fixture: OrganizationCode
                 var org_code = _fixture.OrganizationCode;
-                // Logo type must be "light" or "dark" per API requirements
-                var type = "light";
-                
-                // Create a minimal valid 1x1 red PNG image (smallest valid PNG possible)
-                // PNG file format: signature + IHDR chunk + IDAT chunk + IEND chunk
-                byte[] pngBytes = new byte[]
-                {
-                    // PNG signature (8 bytes)
-                    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
-                    // IHDR chunk (25 bytes total: length(4) + type(4) + data(13) + crc(4))
-                    0x00, 0x00, 0x00, 0x0D, // length: 13
-                    0x49, 0x48, 0x44, 0x52, // type: IHDR
-                    0x00, 0x00, 0x00, 0x01, // width: 1
-                    0x00, 0x00, 0x00, 0x01, // height: 1
-                    0x08, // bit depth: 8
-                    0x02, // color type: 2 (RGB)
-                    0x00, // compression: 0
-                    0x00, // filter: 0
-                    0x00, // interlace: 0
-                    0x90, 0x77, 0x53, 0xDE, // CRC
-                    // IDAT chunk (compressed pixel data for red pixel)
-                    0x00, 0x00, 0x00, 0x0C, // length: 12
-                    0x49, 0x44, 0x41, 0x54, // type: IDAT
-                    0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00,
-                    0x18, 0xDD, 0x8D, 0xB4, // CRC
-                    // IEND chunk (12 bytes)
-                    0x00, 0x00, 0x00, 0x00, // length: 0
-                    0x49, 0x45, 0x4E, 0x44, // type: IEND
-                    0xAE, 0x42, 0x60, 0x82  // CRC
-                };
-                var logo = new FileParameter("test-logo.png", "image/png", new System.IO.MemoryStream(pngBytes));
+                var type = "test-type";
+                var logo = new FileParameter("test-file.txt", new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes("test file content")));
 
                 var api = CreateApi((client, config) => new OrganizationsApi(client, config));
 
@@ -2628,37 +2567,15 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
+                // WARNING: Real API test - This operation requires existing org_code
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // Using test resource from fixture: OrganizationCode
                 var org_code = _fixture.OrganizationCode;
-                // Logo type must be "light" or "dark" per API requirements
-                var type = "light";
+                // WARNING: Using placeholder type - test will likely fail without real resource ID
+                var type = "test-type";
 
                 var api = CreateApi((client, config) => new OrganizationsApi(client, config));
-
-                // First, add a logo so we have something to delete
-                // Create a minimal valid 1x1 PNG image
-                byte[] pngBytes = new byte[]
-                {
-                    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
-                    0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
-                    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-                    0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE,
-                    0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, 0x54,
-                    0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00,
-                    0x18, 0xDD, 0x8D, 0xB4,
-                    0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
-                };
-                var logo = new FileParameter("test-logo.png", "image/png", new System.IO.MemoryStream(pngBytes));
-                
-                try
-                {
-                    await api.AddOrganizationLogoAsync(org_code, type, logo);
-                    _output.WriteLine($"Added logo of type '{type}' to organization for delete test");
-                }
-                catch (Exception)
-                {
-                    // Logo might already exist or adding might fail - proceed with delete attempt
-                    _output.WriteLine("Note: Could not add logo (may already exist or not supported)");
-                }
 
                 await api.DeleteOrganizationLogoAsync(org_code, type);
                 // Void method - no response to check
