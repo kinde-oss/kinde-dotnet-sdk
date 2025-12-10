@@ -1,0 +1,117 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.3.2)'
+        required: true
+        type: string
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+        default: 'This release includes the latest updates to the Kinde .NET SDK.'
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+    
+    - name: Restore dependencies
+      run: dotnet restore --locked-mode
+    
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+    
+    - name: Pack
+      run: dotnet pack Kinde.Api/Kinde.Api.csproj --configuration Release --output ./nupkgs --no-build
+    
+    - name: Upload NuGet packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./nupkgs/
+        retention-days: 30
+    
+    - name: Update version in csproj
+      run: |
+        sed -i "s/<Version>.*<\/Version>/<Version>${{ github.event.inputs.version }}<\/Version>/" Kinde.Api/Kinde.Api.csproj
+    
+    - name: Create git tag
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Kinde.Api/Kinde.Api.csproj Kinde.Api/packages.lock.json Kinde.Api.Test/packages.lock.json
+        git commit -m "Bump version to ${{ github.event.inputs.version }}"
+        git tag -a "v${{ github.event.inputs.version }}" -m "Release version ${{ github.event.inputs.version }}"
+        git push origin main
+        git push origin "v${{ github.event.inputs.version }}"
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.event.inputs.version }}
+        release_name: Release ${{ github.event.inputs.version }}
+        draft: false
+        prerelease: false
+        body: |
+          ## What's Changed
+          
+          ${{ github.event.inputs.release_notes }}
+          
+          ### 📦 NuGet Package
+          The NuGet package is available at: `Kinde.SDK`
+          
+          ### 🔗 Links
+          - [NuGet Package](https://www.nuget.org/packages/Kinde.SDK)
+          - [Documentation](https://github.com/kinde-oss/kinde-dotnet-sdk)
+          
+          ### 📋 Changelog
+          Please refer to the commit history for detailed changes.
+    
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nupkgs/Kinde.SDK.${{ github.event.inputs.version }}.nupkg
+        asset_name: Kinde.SDK.${{ github.event.inputs.version }}.nupkg
+        asset_content_type: application/octet-stream
+
+  # Approval gate for release
+  approve-release:
+    runs-on: ubuntu-latest
+    needs: build-and-package
+    if: always()
+    
+    steps:
+    - name: Request Release Approval
+      uses: hmarr/auto-approve-action@v3
+      if: github.event_name == 'workflow_dispatch'
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        approval-message: "Release ${{ github.event.inputs.version }} is ready for approval. Please review the build artifacts and approve to proceed with the release."
+
