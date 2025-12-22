@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -621,7 +626,54 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class APIsApi : IDisposable, IAPIsApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly string _token;
+            public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
+                => Task.FromResult(_token);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="APIsApi"/> class.
@@ -715,6 +767,7 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -742,6 +795,7 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -857,55 +911,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> AddAPIApplicationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIApplicationScope");
-
-            // verify the required parameter 'applicationId' is set
-            if (applicationId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->AddAPIApplicationScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->AddAPIApplicationScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddAPIApplicationScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddAPIApplicationScopeWithHttpInfoAsync(apiId, applicationId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -945,46 +952,23 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->AddAPIApplicationScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Apis[apiId].Applications[applicationId].Scopes[scopeId].PostAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddAPIApplicationScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddAPIApplicationScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1009,51 +993,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateApiScopesResponse</returns>
         public Kinde.Api.Client.ApiResponse<CreateApiScopesResponse> AddAPIScopeWithHttpInfo(string apiId, AddAPIScopeRequest addAPIScopeRequest)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->AddAPIScope");
-
-            // verify the required parameter 'addAPIScopeRequest' is set
-            if (addAPIScopeRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIScopeRequest' when calling APIsApi->AddAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.Data = addAPIScopeRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<CreateApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddAPIScopeWithHttpInfoAsync(apiId, addAPIScopeRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1088,46 +1029,27 @@ namespace Kinde.Api.Api
             if (addAPIScopeRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIScopeRequest' when calling APIsApi->AddAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.Data = addAPIScopeRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody>(addAPIScopeRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].Scopes.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateApiScopesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateApiScopesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1150,46 +1072,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateApisResponse</returns>
         public Kinde.Api.Client.ApiResponse<CreateApisResponse> AddAPIsWithHttpInfo(AddAPIsRequest addAPIsRequest)
         {
-            // verify the required parameter 'addAPIsRequest' is set
-            if (addAPIsRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIsRequest' when calling APIsApi->AddAPIs");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = addAPIsRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<CreateApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddAPIs", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddAPIsWithHttpInfoAsync(addAPIsRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1218,45 +1102,27 @@ namespace Kinde.Api.Api
             if (addAPIsRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'addAPIsRequest' when calling APIsApi->AddAPIs");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = addAPIsRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Apis.ApisPostRequestBody>(addAPIsRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Apis.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateApisResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateApisResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddAPIs", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddAPIs: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1279,45 +1145,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of DeleteApiResponse</returns>
         public Kinde.Api.Client.ApiResponse<DeleteApiResponse> DeleteAPIWithHttpInfo(string apiId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPI");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<DeleteApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteAPI", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteAPIWithHttpInfoAsync(apiId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1346,44 +1175,24 @@ namespace Kinde.Api.Api
             if (apiId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPI");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<DeleteApiResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<DeleteApiResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteAPI", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteAPI: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1409,55 +1218,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> DeleteAPIAppliationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIAppliationScope");
-
-            // verify the required parameter 'applicationId' is set
-            if (applicationId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->DeleteAPIAppliationScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIAppliationScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteAPIAppliationScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteAPIAppliationScopeWithHttpInfoAsync(apiId, applicationId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1497,46 +1259,23 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIAppliationScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("application_id", Kinde.Api.Client.ClientUtils.ParameterToString(applicationId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Apis[apiId].Applications[applicationId].Scopes[scopeId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteAPIAppliationScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteAPIAppliationScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1560,50 +1299,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> DeleteAPIScopeWithHttpInfo(string apiId, string scopeId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteAPIScopeWithHttpInfoAsync(apiId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1637,45 +1334,23 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Apis[apiId].Scopes[scopeId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1698,45 +1373,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApiResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetApiResponse> GetAPIWithHttpInfo(string apiId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPI");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetAPI", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetAPIWithHttpInfoAsync(apiId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1765,44 +1403,24 @@ namespace Kinde.Api.Api
             if (apiId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPI");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiResponse>("/api/v1/apis/{api_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetAPI", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPI: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1827,50 +1445,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApiScopeResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetApiScopeResponse> GetAPIScopeWithHttpInfo(string apiId, string scopeId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->GetAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetApiScopeResponse>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetAPIScopeWithHttpInfoAsync(apiId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1905,45 +1481,24 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->GetAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].Scopes[scopeId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiScopeResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiScopeResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiScopeResponse>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1966,45 +1521,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApiScopesResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetApiScopesResponse> GetAPIScopesWithHttpInfo(string apiId)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScopes");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetAPIScopes", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetAPIScopesWithHttpInfoAsync(apiId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2033,44 +1551,24 @@ namespace Kinde.Api.Api
             if (apiId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIScopes");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].Scopes.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiScopesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiScopesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApiScopesResponse>("/api/v1/apis/{api_id}/scopes", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetAPIScopes", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPIScopes: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2093,44 +1591,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApisResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string expand = default(string))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (expand != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetAPIs", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetAPIsWithHttpInfoAsync(expand).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2155,47 +1617,34 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kiota.Management.Api.V1.Apis.GetExpandQueryParameterType? kiotaExpand = null;
             if (expand != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
+                    if (Enum.TryParse(expand, true, out Kiota.Management.Api.V1.Apis.GetExpandQueryParameterType parsedExpand))
+                    {
+                        kiotaExpand = parsedExpand;
+                    }
+                }
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                var kiotaResponse = await KiotaClient.Api.V1.Apis.GetAsync(config =>
+                {
+                    config.QueryParameters.Expand = kiotaExpand;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApisResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApisResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPIs: {ex.Message}", ex);
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetApisResponse>("/api/v1/apis", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetAPIs", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2220,51 +1669,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of AuthorizeAppApiResponse</returns>
         public Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse> UpdateAPIApplicationsWithHttpInfo(string apiId, UpdateAPIApplicationsRequest updateAPIApplicationsRequest)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->UpdateAPIApplications");
-
-            // verify the required parameter 'updateAPIApplicationsRequest' is set
-            if (updateAPIApplicationsRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIApplicationsRequest' when calling APIsApi->UpdateAPIApplications");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.Data = updateAPIApplicationsRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<AuthorizeAppApiResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateAPIApplications", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return UpdateAPIApplicationsWithHttpInfoAsync(apiId, updateAPIApplicationsRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2299,46 +1705,27 @@ namespace Kinde.Api.Api
             if (updateAPIApplicationsRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIApplicationsRequest' when calling APIsApi->UpdateAPIApplications");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.Data = updateAPIApplicationsRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody>(updateAPIApplicationsRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].Applications.PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<AuthorizeAppApiResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<AuthorizeAppApiResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<AuthorizeAppApiResponse>("/api/v1/apis/{api_id}/applications", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateAPIApplications", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateAPIApplications: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2364,56 +1751,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> UpdateAPIScopeWithHttpInfo(string apiId, string scopeId, UpdateAPIScopeRequest updateAPIScopeRequest)
         {
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->UpdateAPIScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->UpdateAPIScope");
-
-            // verify the required parameter 'updateAPIScopeRequest' is set
-            if (updateAPIScopeRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIScopeRequest' when calling APIsApi->UpdateAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-            localVarRequestOptions.Data = updateAPIScopeRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return UpdateAPIScopeWithHttpInfoAsync(apiId, scopeId, updateAPIScopeRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2453,47 +1792,26 @@ namespace Kinde.Api.Api
             if (updateAPIScopeRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateAPIScopeRequest' when calling APIsApi->UpdateAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-            localVarRequestOptions.Data = updateAPIScopeRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Apis.Item.Scopes.Item.WithScope_PatchRequestBody>(updateAPIScopeRequest);
+
+                await KiotaClient.Api.V1.Apis[apiId].Scopes[scopeId].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<Object>("/api/v1/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
     }

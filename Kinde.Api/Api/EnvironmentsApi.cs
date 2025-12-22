@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -397,7 +402,54 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class EnvironmentsApi : IDisposable, IEnvironmentsApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly string _token;
+            public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
+                => Task.FromResult(_token);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
@@ -491,6 +543,7 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -518,6 +571,7 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -711,46 +765,28 @@ namespace Kinde.Api.Api
             if (logo == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling EnvironmentsApi->AddLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-            localVarRequestOptions.FileParameters.Add("logo", logo);
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var multipartBody = new Microsoft.Kiota.Abstractions.MultipartBody();
+                multipartBody.AddOrReplacePart("logo", logo.ContentType, logo.Content, logo.Name);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos[type].PutAsync(
+                    multipartBody,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -841,45 +877,24 @@ namespace Kinde.Api.Api
             if (featureFlagKey == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->DeleteEnvironementFeatureFlagOverride");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags[featureFlagKey].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteEnvironementFeatureFlagOverride: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -957,44 +972,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverrides", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteEnvironementFeatureFlagOverrides: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1084,44 +1079,24 @@ namespace Kinde.Api.Api
             if (type == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->DeleteLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos[type].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1199,44 +1174,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetEnvironmentFeatureFlagsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentFeatureFlagsResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetEnvironementFeatureFlags", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEnvironementFeatureFlags: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1313,43 +1268,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetEnvironmentResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEnvironmentResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentResponse>("/api/v1/environment", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetEnvironment", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEnvironment: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1426,43 +1362,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (ReadEnvLogoResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse>> ReadLogoWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<ReadEnvLogoResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ReadEnvLogoResponse>("/api/v1/environment/logos", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ReadLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ReadLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1567,47 +1484,27 @@ namespace Kinde.Api.Api
             if (updateEnvironementFeatureFlagOverrideRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateEnvironementFeatureFlagOverrideRequest' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.Data = updateEnvironementFeatureFlagOverrideRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.EnvironmentNamespace.Feature_flags.Item.WithFeature_flag_keyPatchRequestBody>(updateEnvironementFeatureFlagOverrideRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags[featureFlagKey].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateEnvironementFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateEnvironementFeatureFlagOverride: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
     }

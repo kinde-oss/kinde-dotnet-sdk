@@ -82,9 +82,11 @@ namespace Kinde.Accounts.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class SelfServePortalApi : ISelfServePortalApi
+    public sealed partial class SelfServePortalApi : KiotaAccountsBase, ISelfServePortalApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private readonly HttpClient _httpClient;
+        private readonly TokenProvider<BearerToken> _bearerTokenProvider;
 
         /// <summary>
         /// The logger
@@ -94,7 +96,7 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// The HttpClient
         /// </summary>
-        public HttpClient HttpClient { get; }
+        public HttpClient HttpClient => _httpClient;
 
         /// <summary>
         /// The class containing the events
@@ -104,7 +106,17 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
+        public TokenProvider<BearerToken> BearerTokenProvider => _bearerTokenProvider;
+
+        /// <summary>
+        /// HttpClient for KiotaAccountsBase
+        /// </summary>
+        protected override HttpClient KiotaHttpClient => _httpClient;
+
+        /// <summary>
+        /// BearerTokenProvider for KiotaAccountsBase
+        /// </summary>
+        protected override TokenProvider<BearerToken> KiotaBearerTokenProvider => _bearerTokenProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelfServePortalApi"/> class.
@@ -115,9 +127,9 @@ namespace Kinde.Accounts.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;
+            _httpClient = httpClient;
             Events = selfServePortalApiEvents;
-            BearerTokenProvider = bearerTokenProvider;
+            _bearerTokenProvider = bearerTokenProvider;
         }
 
         partial void FormatGetPortalLink(ref Option<string?> subnav, ref Option<string?> returnUrl);
@@ -201,72 +213,50 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="PortalLink"/></returns>
         public async Task<ApiResponse<PortalLink>> GetPortalLinkAsync(Option<string?> subnav = default, Option<string?> returnUrl = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 FormatGetPortalLink(ref subnav, ref returnUrl);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/account_api/v1/portal_link";
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
 
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    if (subnav.IsSet)
-                        parseQueryStringLocalVar["subnav"] = subnav.Value?.ToString();
-
-                    if (returnUrl.IsSet)
-                        parseQueryStringLocalVar["return_url"] = returnUrl.Value?.ToString();
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Account_api.V1.Portal_link.GetAsync(
+                    config =>
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        if (subnav.IsSet && !string.IsNullOrEmpty(subnav.Value))
+                        {
+                            if (Enum.TryParse<global::Kinde.Api.Kiota.Accounts.Account_api.V1.Portal_link.GetSubnavQueryParameterType>(
+                                subnav.Value.Replace("_", ""), true, out var subnavType))
+                            {
+                                config.QueryParameters.Subnav = subnavType;
+                            }
+                        }
+                        if (returnUrl.IsSet && !string.IsNullOrEmpty(returnUrl.Value))
+                            config.QueryParameters.ReturnUrl = returnUrl.Value;
+                    },
+                    cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<PortalLink> apiResponseLocalVar = new ApiResponse<PortalLink>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/portal_link", requestedAtLocalVar, _jsonSerializerOptions);
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<PortalLink>(kiotaResponse);
+
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<PortalLink>(
+                    "/account_api/v1/portal_link",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
 
                         AfterGetPortalLinkDefaultImplementation(apiResponseLocalVar, subnav, returnUrl);
-
                         Events.ExecuteOnGetPortalLink(apiResponseLocalVar);
 
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
                         return apiResponseLocalVar;
-                    }
-                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorGetPortalLinkDefaultImplementation(e, "/account_api/v1/portal_link", uriBuilderLocalVar.Path, subnav, returnUrl);
+                OnErrorGetPortalLinkDefaultImplementation(e, "/account_api/v1/portal_link", "/account_api/v1/portal_link", subnav, returnUrl);
                 Events.ExecuteOnErrorGetPortalLink(e);
                 throw;
             }

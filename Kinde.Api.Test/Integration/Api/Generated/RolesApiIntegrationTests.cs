@@ -1,15 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kinde.Api.Api;
 using Kinde.Api.Model;
+using Kinde.Api.Client;
 using Kinde.Api.Test.Integration;
 using Xunit;
 using Xunit.Abstractions;
+using KiotaModels = Kinde.Api.Kiota.Management.Models;
 
 namespace Kinde.Api.Test.Integration.Api.Generated
 {
     /// <summary>
-    /// Auto-generated integration tests for RolesApi with both mock and real API support
+    /// Integration tests for RolesApi with both mock and real API support.
     /// </summary>
     public class RolesApiIntegrationTests : BaseIntegrationTest, IClassFixture<TestResourceFixture>
     {
@@ -22,885 +25,243 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             _fixture = fixture;
         }
 
+        #region GetRoles Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetRoles_Mock_Test()
+        public async Task GetRoles_Mock_ReturnsRoles()
         {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_roles_response
             {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
+                Code = "200",
+                Message = "Roles retrieved",
+                Roles = new List<KiotaModels.Roles>
                 {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+                    new KiotaModels.Roles 
+                    { 
+                        Id = "role_1", 
+                        Key = "admin",
+                        Name = "Administrator",
+                        IsDefaultRole = false
+                    },
+                    new KiotaModels.Roles 
+                    { 
+                        Id = "role_2", 
+                        Key = "user",
+                        Name = "User",
+                        IsDefaultRole = true
+                    }
+                },
+                NextToken = "next_page_token"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/roles", kiotaResponse);
 
-                var mockResponse = new GetRolesResponse();
-                mockHandler.AddResponse("GET", "/api/v1/roles", mockResponse);
+            var api = CreateApi((client, config) => new RolesApi(client, config));
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
+            var response = await api.GetRolesAsync();
 
-                // Act
-                var response = await api.GetRolesAsync();
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRoles test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            Assert.NotNull(response.Roles);
+            Assert.Equal(2, response.Roles.Count);
+            Assert.Equal("role_1", response.Roles[0].Id);
+            Assert.Equal("admin", response.Roles[0].Key);
+            Assert.False(response.Roles[0].IsDefaultRole);
+            Assert.True(response.Roles[1].IsDefaultRole);
+            Assert.Equal("next_page_token", response.NextToken);
+            
+            _output.WriteLine($"Mock test successful - Retrieved {response.Roles.Count} roles");
         }
 
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetRoles_Mock_IsDefaultRole_False()
+        {
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_roles_response
+            {
+                Code = "200",
+                Roles = new List<KiotaModels.Roles>
+                {
+                    new KiotaModels.Roles 
+                    { 
+                        Id = "role_not_default", 
+                        Key = "custom",
+                        Name = "Custom Role",
+                        IsDefaultRole = false
+                    }
+                }
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/roles", kiotaResponse);
+
+            var api = CreateApi((client, config) => new RolesApi(client, config));
+
+            var response = await api.GetRolesAsync();
+
+            Assert.NotNull(response);
+            Assert.False(response.Roles[0].IsDefaultRole, "IsDefaultRole should be false!");
+            _output.WriteLine("PASS: IsDefaultRole=false was preserved correctly");
+        }
 
         [Fact]
         [Trait("TestMode", "Real")]
         public async Task GetRoles_Real_Test()
         {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
+            if (!UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var api = CreateApi((client, config) => new RolesApi(client, config));
+            var api = CreateApi((client, config) => new RolesApi(client, config));
+            var response = await api.GetRolesAsync();
 
-                var response = await api.GetRolesAsync();
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRoles test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response);
+            _output.WriteLine($"Real API returned {response.Roles?.Count ?? 0} roles");
         }
 
+        #endregion
+
+        #region CreateRole Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task CreateRole_Mock_Test()
+        public async Task CreateRole_Mock_Created()
         {
-            // Arrange
-            if (UseRealApi)
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Create_roles_response
             {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+                Code = "201",
+                Message = "Role created"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/roles", kiotaResponse);
 
-            // Act & Assert
-            try
+            var api = CreateApi((client, config) => new RolesApi(client, config));
+            var request = new CreateRoleRequest
             {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+                Name = "New Role",
+                Key = "new_role"
+            };
 
-                var mockResponse = new CreateRolesResponse();
-                mockHandler.AddResponse("POST", "/api/v1/roles", mockResponse);
-                var request = new CreateRoleRequest();
+            var response = await api.CreateRoleAsync(request);
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.CreateRoleAsync(request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateRole test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response);
+            Assert.Equal("201", response.Code);
+            Assert.True(mockHandler.WasRequestMade("POST", "/api/v1/roles"));
+            _output.WriteLine("CreateRole completed successfully");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task CreateRole_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var request = new CreateRoleRequest();
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.CreateRoleAsync(request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateRole test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region DeleteRole Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetRole_Mock_Test()
+        public async Task DeleteRole_Mock_Deleted()
         {
-            // Arrange
-            if (UseRealApi)
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Success_response
             {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+                Code = "200",
+                Message = "Role deleted"
+            };
+            mockHandler.AddKiotaResponse("DELETE", "/api/v1/roles/{role_id}", kiotaResponse);
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var api = CreateApi((client, config) => new RolesApi(client, config));
 
-                var role_id = "test-role_id";
-                var mockResponse = new GetRoleResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/roles/{role_id}", mockResponse);
+            var response = await api.DeleteRoleAsync("role_to_delete");
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.GetRoleAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRole test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("DeleteRole completed successfully");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetRole_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.GetRoleAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRole test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Null Handling Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateRoles_Mock_Test()
+        public async Task GetRoles_Mock_NullRolesList_StaysNull()
         {
-            // Arrange
-            if (UseRealApi)
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_roles_response
             {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+                Code = "200",
+                Message = "Success",
+                Roles = null
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/roles", kiotaResponse);
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var api = CreateApi((client, config) => new RolesApi(client, config));
 
-                var role_id = "test-role_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PATCH", $"/api/v1/roles/{role_id}", mockResponse);
-                var request = new UpdateRolesRequest(name: "test-name", key: "test-key");
+            var response = await api.GetRolesAsync();
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.UpdateRolesAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateRoles test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response);
+            Assert.Null(response.Roles);
+            _output.WriteLine("Null roles list preserved correctly");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateRoles_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing role_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-                var request = new UpdateRolesRequest(name: "test-name", key: "test-key");
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.UpdateRolesAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateRoles test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Error Handling Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task DeleteRole_Mock_Test()
+        public async Task DeleteRole_Mock_NotFound_ThrowsException()
         {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var role_id = "test-role_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/roles/{role_id}", mockResponse);
+            mockHandler.AddErrorResponse("DELETE", "/api/v1/roles/{role_id}", 
+                System.Net.HttpStatusCode.NotFound, "not_found", "Role not found");
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
+            var api = CreateApi((client, config) => new RolesApi(client, config));
 
-                // Act
-                var response = await api.DeleteRoleAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteRole test: {ex.Message}");
-                throw;
-            }
+            var exception = await Assert.ThrowsAsync<ApiException>(() => api.DeleteRoleAsync("nonexistent"));
+            Assert.Equal(404, exception.ErrorCode);
+            _output.WriteLine("404 error handled correctly");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task DeleteRole_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Create a temporary role specifically for this delete test
-                // This avoids deleting the shared fixture role which other tests depend on
-                var roleKey = $"del_test_{Guid.NewGuid():N}".Substring(0, 25);
-                var createRequest = new CreateRoleRequest(
-                    name: $"Delete Test Role {Guid.NewGuid():N}",
-                    key: roleKey
-                );
-                var createResponse = await api.CreateRoleAsync(createRequest);
-                var role_id = createResponse?.Role?.Id ?? throw new InvalidOperationException("Failed to create test role");
-                _output.WriteLine($"Created temporary role for delete test: {role_id}");
-
-                var response = await api.DeleteRoleAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteRole test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetRoleScopes_Mock_Test()
+        public async Task CreateRole_Mock_Conflict_ThrowsException()
         {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var role_id = "test-role_id";
-                var mockResponse = new RoleScopesResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/roles/{role_id}/scopes", mockResponse);
+            mockHandler.AddErrorResponse("POST", "/api/v1/roles", 
+                System.Net.HttpStatusCode.Conflict, "conflict", "Role with this key already exists");
 
-                var api = CreateApi((client, config) => new RolesApi(client, config));
+            var api = CreateApi((client, config) => new RolesApi(client, config));
+            var request = new CreateRoleRequest { Name = "Duplicate", Key = "duplicate" };
 
-                // Act
-                var response = await api.GetRoleScopesAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRoleScopes test: {ex.Message}");
-                throw;
-            }
+            var exception = await Assert.ThrowsAsync<ApiException>(() => api.CreateRoleAsync(request));
+            Assert.Equal(409, exception.ErrorCode);
+            _output.WriteLine("409 error handled correctly");
         }
 
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetRoleScopes_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.GetRoleScopesAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRoleScopes test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task AddRoleScope_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var role_id = "test-role_id";
-                var mockResponse = new AddRoleScopeResponse();
-                mockHandler.AddResponse("POST", $"/api/v1/roles/{role_id}/scopes", mockResponse);
-                var request = new AddRoleScopeRequest(scopeId: "test-scope_id");
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.AddRoleScopeAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in AddRoleScope test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task AddRoleScope_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Note: This test requires a valid scope_id - skipping if not available
-                _output.WriteLine("Skipping AddRoleScope test - requires valid scope_id");
-                return;
-
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-                var request = new AddRoleScopeRequest(scopeId: "test-scope_id");
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.AddRoleScopeAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in AddRoleScope test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task DeleteRoleScope_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var role_id = "test-role_id";
-                var scope_id = "test-scope_id";
-                var mockResponse = new DeleteRoleScopeResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/roles/{role_id}/scopes/{scope_id}", mockResponse);
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.DeleteRoleScopeAsync(role_id, scope_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteRoleScope test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task DeleteRoleScope_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing role_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Setup: Add scope to role before testing deletion
-                // Note: This test requires a valid scope_id - skipping if not available
-                _output.WriteLine("Skipping DeleteRoleScope test - requires valid scope to be added first");
-                return;
-
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-                // WARNING: Using placeholder scope_id - test will likely fail without real resource ID
-                var scope_id = "test-scope_id";
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.DeleteRoleScopeAsync(role_id, scope_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteRoleScope test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task GetRolePermissions_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var role_id = "test-role_id";
-                var mockResponse = new RolePermissionsResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/roles/{role_id}/permissions", mockResponse);
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.GetRolePermissionsAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRolePermissions test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetRolePermissions_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.GetRolePermissionsAsync(role_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetRolePermissions test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task UpdateRolePermissions_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var role_id = "test-role_id";
-                var mockResponse = new UpdateRolePermissionsResponse();
-                mockHandler.AddResponse("PATCH", $"/api/v1/roles/{role_id}/permissions", mockResponse);
-                var request = new UpdateRolePermissionsRequest();
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.UpdateRolePermissionsAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateRolePermissions test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateRolePermissions_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing role_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-                var request = new UpdateRolePermissionsRequest();
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.UpdateRolePermissionsAsync(role_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateRolePermissions test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task RemoveRolePermission_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var role_id = "test-role_id";
-                var permission_id = "test-permission_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/roles/{role_id}/permissions/{permission_id}", mockResponse);
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                // Act
-                var response = await api.RemoveRolePermissionAsync(role_id, permission_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RemoveRolePermission test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task RemoveRolePermission_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing role_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Setup: Add permission to role before testing removal
-                var setupApi = CreateApi((client, config) => new RolesApi(client, config));
-                try {{
-                    var permissionInner = new UpdateRolePermissionsRequestPermissionsInner(id: _fixture.PermissionId);
-                    var addRequest = new UpdateRolePermissionsRequest(permissions: new System.Collections.Generic.List<UpdateRolePermissionsRequestPermissionsInner>() {{ permissionInner }});
-                    await setupApi.UpdateRolePermissionsAsync(_fixture.RoleId, addRequest);
-                }} catch (Exception) {{ /* Permission may already be added */ }}
-
-                // Using test resource from fixture: RoleId
-                var role_id = _fixture.RoleId;
-                // Using test resource from fixture: PermissionId
-                var permission_id = _fixture.PermissionId;
-
-                var api = CreateApi((client, config) => new RolesApi(client, config));
-
-                var response = await api.RemoveRolePermissionAsync(role_id, permission_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RemoveRolePermission test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #endregion
     }
 }
