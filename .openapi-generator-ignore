@@ -5,8 +5,8 @@
 # The patterns follow closely to .gitignore or .dockerignore.
 
 # As an example, the C# client generator defines ApiClient.cs.
-# ApiClient.cs is ignored to preserve the GetUsersAsync response buffering fix (response content read once, passed to both Deserialize and ToApiResponse). Do not regenerate this file without re-applying that fix.
-Kinde.Api/Client/ApiClient.cs
+# You can make changes and tell OpenAPI Generator to ignore just this file by uncommenting the following line:
+#ApiClient.cs
 
 # You can match any string of characters against a directory, file or extension with a single asterisk (*):
 #foo/*/qux
