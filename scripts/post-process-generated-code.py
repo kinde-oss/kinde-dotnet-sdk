@@ -293,8 +293,7 @@ def apply_api_client_patch(file_path: Path) -> bool:
     # Must be .../Kinde.Api/Client/ApiClient.cs (main API, not Accounts)
     try:
         kinde_idx = parts.index("Kinde.Api")
-        client_idx = parts.index("Client") if "Client" in parts else -1
-        if client_idx < 0 or client_idx != kinde_idx + 1:
+        if kinde_idx + 1 >= len(parts) or parts[kinde_idx + 1] != "Client":
             return False
     except ValueError:
         return False

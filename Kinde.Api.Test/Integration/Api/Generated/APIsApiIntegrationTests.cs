@@ -874,7 +874,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task DeleteAPIApplicationScope_Mock_Test()
+        public async Task DeleteAPIAppliationScope_Mock_Test()
         {
             // Arrange
             if (UseRealApi)
@@ -908,7 +908,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             }
             catch (Exception ex)
             {
-                _output.WriteLine($"Error in DeleteAPIApplicationScope test: {ex.Message}");
+                _output.WriteLine($"Error in DeleteAPIAppliationScope test: {ex.Message}");
                 throw;
             }
         }
@@ -916,7 +916,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
 
         [Fact]
         [Trait("TestMode", "Real")]
-        public async Task DeleteAPIApplicationScope_Real_Test()
+        public async Task DeleteAPIAppliationScope_Real_Test()
         {
             // Arrange
             if (!UseRealApi)
@@ -947,7 +947,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             }
             catch (Exception ex)
             {
-                _output.WriteLine($"Error in DeleteAPIApplicationScope test: {ex.Message}");
+                _output.WriteLine($"Error in DeleteAPIAppliationScope test: {ex.Message}");
                 throw;
             }
         }
