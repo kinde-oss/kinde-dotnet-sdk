@@ -114,6 +114,12 @@ namespace Kinde.Api.Client
             return result;
         }
 
+        public async Task<T> Deserialize<T>(HttpResponseMessage response, byte[] rawBytes)
+        {
+            var result = (T) await Deserialize(response, typeof(T), rawBytes).ConfigureAwait(false);
+            return result;
+        }
+
         /// <summary>
         /// Deserialize the JSON string into a proper object.
         /// </summary>
@@ -134,18 +140,31 @@ namespace Kinde.Api.Client
         /// <returns>Object representation of the JSON string.</returns>
         internal async Task<object> Deserialize(HttpResponseMessage response, Type type, string rawContent)
         {
+            return await Deserialize(response, type, rawContent != null ? System.Text.Encoding.UTF8.GetBytes(rawContent) : null).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Deserialize the response content into a proper object.
+        /// When rawBytes is provided, use it directly for byte[]/Stream to avoid UTF-8 string round-trip corruption of binary data.
+        /// </summary>
+        internal async Task<object> Deserialize(HttpResponseMessage response, Type type, byte[] rawBytes)
+        {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
             {
-                if (rawContent != null)
+                if (rawBytes != null)
                 {
-                    return System.Text.Encoding.UTF8.GetBytes(rawContent);
+                    return (byte[])rawBytes.Clone();
                 }
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
             else if (type == typeof(FileParameter))
             {
+                if (rawBytes != null)
+                {
+                    return new FileParameter(new MemoryStream(rawBytes));
+                }
                 return new FileParameter(await response.Content.ReadAsStreamAsync().ConfigureAwait(false));
             }
 
@@ -153,9 +172,9 @@ namespace Kinde.Api.Client
             if (type == typeof(Stream))
             {
                 byte[] bytes;
-                if (rawContent != null)
+                if (rawBytes != null)
                 {
-                    bytes = System.Text.Encoding.UTF8.GetBytes(rawContent);
+                    bytes = rawBytes;
                 }
                 else
                 {
@@ -182,7 +201,7 @@ namespace Kinde.Api.Client
                 return stream;
             }
 
-            string contentString = rawContent ?? await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string contentString = rawBytes != null ? System.Text.Encoding.UTF8.GetString(rawBytes) : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
@@ -571,24 +590,25 @@ namespace Kinde.Api.Client
                     return await ToApiResponse<T>(response, default(T), req.RequestUri, errorContent).ConfigureAwait(false);
                 }
 
-                // Buffer the response content before deserialization so it can be read multiple times
-                string rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                
-                object responseData = await deserializer.Deserialize<T>(response, rawContent).ConfigureAwait(false);
+                // Buffer the response content as bytes first so binary responses are not corrupted by UTF-8 string round-trip
+                byte[] rawBytes = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+
+                object responseData = await deserializer.Deserialize<T>(response, rawBytes).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(Kinde.Api.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    // For oneOf/anyOf types, we need to pass the raw content
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { rawContent });
+                    // For oneOf/anyOf types, we need to pass the raw content as string
+                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { System.Text.Encoding.UTF8.GetString(rawBytes) });
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
-                    responseData = (T) (object) new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawContent));
+                    responseData = (T) (object) new MemoryStream(rawBytes);
                 }
 
                 InterceptResponse(req, response);
 
+                string rawContent = System.Text.Encoding.UTF8.GetString(rawBytes);
                 return await ToApiResponse<T>(response, responseData, req.RequestUri, rawContent).ConfigureAwait(false);
             }
             catch (OperationCanceledException original)

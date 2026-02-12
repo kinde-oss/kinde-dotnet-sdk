@@ -11,7 +11,10 @@ Fixes applied:
 3. Fixes ApiResponse.Ok()?.Data to use AsModel() for 7.0.1 compatibility
 4. Fixes Accounts API constructor calls (6 params -> 5 params)
 5. Fixes nullable type constructor calls (adds .Value for bool?, int?, etc.)
-6. Other compatibility fixes as needed
+6. ApiClient.cs: response buffering fix so GetUsersAsync() returns same data as
+   GetUsersWithHttpInfoAsync() (buffer response content once, pass to Deserialize
+   and ToApiResponse). Patch applied from scripts/patches/ApiClient.cs.
+7. Other compatibility fixes as needed
 """
 
 import os
@@ -276,9 +279,46 @@ def add_openapi_client_utils_alias(content: str, file_path: str) -> Tuple[str, b
     return content, True
 
 
+def apply_api_client_patch(file_path: Path) -> bool:
+    """
+    Apply the ApiClient.cs response buffering fix (GetUsersAsync returns all fields).
+    When the generator outputs Kinde.Api/Client/ApiClient.cs, we overwrite it with
+    our patched version from scripts/patches/ApiClient.cs.
+    """
+    if file_path.name != "ApiClient.cs":
+        return False
+    parts = file_path.parts
+    if "Client" not in parts or "Kinde.Api" not in parts:
+        return False
+    # Must be .../Kinde.Api/Client/ApiClient.cs (main API, not Accounts)
+    try:
+        kinde_idx = parts.index("Kinde.Api")
+        if kinde_idx + 1 >= len(parts) or parts[kinde_idx + 1] != "Client":
+            return False
+    except ValueError:
+        return False
+    script_dir = Path(__file__).resolve().parent
+    patch_file = script_dir / "patches" / "ApiClient.cs"
+    if not patch_file.is_file():
+        log(f"Patch file not found: {patch_file}", "WARNING")
+        return False
+    try:
+        patch_content = patch_file.read_text(encoding="utf-8")
+        file_path.write_text(patch_content, encoding="utf-8")
+        log(f"Applied ApiClient.cs response buffering fix to {file_path}", "SUCCESS")
+        return True
+    except Exception as e:
+        log(f"Failed to apply ApiClient patch: {e}", "ERROR")
+        return False
+
+
 def process_file(file_path: Path) -> bool:
     """Process a single C# file and apply all fixes."""
     try:
+        # Apply ApiClient.cs patch first (replaces entire file for Kinde.Api/Client/ApiClient.cs)
+        if apply_api_client_patch(file_path):
+            return True
+
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         
