@@ -1,0 +1,90 @@
+============================================================
+INSTALL KIOTA CLI
+============================================================
+
+# Install Kiota globally on your machine
+> dotnet tool install --global Microsoft.OpenApi.Kiota
+
+# Verify that Kiota was installed successfully
+> kiota --version
+
+
+
+============================================================
+GENERATE C# CLIENT FROM OPENAPI YAML
+============================================================
+
+# Navigate to the directory containing your OpenAPI YAML file
+> cd path/to/your/yaml
+
+# Generate a C# client from the OpenAPI definition
+# --language        : Target programming language
+# --openapi         : Path to your OpenAPI YAML file
+# --output          : Folder where the client will be generated
+# --namespace-name  : Namespace used in generated C# files
+> kiota generate --language CSharp --openapi your-api.yaml --output ./GeneratedClient --namespace-name MyCompany.ApiClient
+
+
+
+============================================================
+CREATE CLASS LIBRARY PROJECT
+============================================================
+
+# Create a new .NET class library to hold the generated client
+> dotnet new classlib -n MyCompany.ApiClient
+
+# Move the generated files into this project directory
+# (If you generated them outside the project folder)
+
+
+
+============================================================
+INSTALL REQUIRED NUGET PACKAGES
+============================================================
+
+# Add core Kiota dependencies required by the generated client
+> dotnet add package Microsoft.Kiota.Abstractions
+> dotnet add package Microsoft.Kiota.Http.HttpClientLibrary
+> dotnet add package Microsoft.Kiota.Serialization.Json
+> dotnet add package Microsoft.Kiota.Serialization.Text
+
+# OPTIONAL: Install Azure authentication support
+# Only required if your API uses Azure AD authentication
+> dotnet add package Microsoft.Kiota.Authentication.Azure
+
+
+
+============================================================
+USE THE GENERATED CLIENT
+============================================================
+
+# Example usage in your application code
+
+------------------------------------------------------------
+using Microsoft.Kiota.Http.HttpClientLibrary;
+using MyCompany.ApiClient;
+
+# Create HTTP adapter (Anonymous provider used here)
+var adapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider());
+
+# Initialize the generated API client
+var client = new ApiClient(adapter);
+
+# Call an endpoint (example: GET /users)
+var users = await client.Api.V1.Apis.GetAsync();
+------------------------------------------------------------
+
+
+
+============================================================
+REGENERATE CLIENT AFTER YAML CHANGES
+============================================================
+
+# Whenever the OpenAPI YAML file is updated,
+# regenerate the client to keep it in sync.
+
+# --clean-output removes old generated files
+# to prevent stale or conflicting code
+> kiota generate --language CSharp --openapi your-api.yaml --output ./GeneratedClient --namespace-name MyCompany.ApiClient --clean-output
+
+
