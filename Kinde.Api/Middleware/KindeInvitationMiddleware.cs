@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Web;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
-using System.Web;
 
 namespace Kinde.Auth.Middleware;
 
@@ -11,12 +10,6 @@ namespace Kinde.Auth.Middleware;
 /// parameter and automatically redirects the user to the Kinde registration
 /// auth-flow (302), so the invitation is processed without the consuming
 /// application needing to handle it manually.
-///
-/// Generated from OpenAPI spec:
-///   operationId: handleInvitationRedirect
-///   path:        GET /api/auth/invitation
-///   tag:         Invitations
-///   x-dotnet-middleware: KindeInvitationMiddleware
 /// </summary>
 public class KindeInvitationMiddleware
 {
@@ -42,6 +35,20 @@ public class KindeInvitationMiddleware
 
         if (!string.IsNullOrEmpty(invitationCode))
         {
+            var isAlreadyOnRegisterPath = context.Request.Path.Value?
+                .Equals(_options.RegisterPath, StringComparison.OrdinalIgnoreCase) ?? false;
+
+            if (isAlreadyOnRegisterPath)
+            {
+                if (_options.IsDebugMode)
+                    _logger.LogDebug(
+                        "KindeInvitationMiddleware: request is already on register path " +
+                        "({Path}), passing through to avoid redirect loop.", context.Request.Path);
+
+                await _next(context);
+                return;
+            }
+
             HandleInvitationCodeRedirect(context, invitationCode);
             return;
         }
@@ -52,8 +59,6 @@ public class KindeInvitationMiddleware
     /// <summary>
     /// Builds the absolute register URL and issues a 302 redirect.
     /// Falls back to the login page if anything goes wrong.
-    ///
-    /// Mirrors handleInvitationCodeRedirect() in the Kinde Next.js SDK.
     /// </summary>
     private void HandleInvitationCodeRedirect(HttpContext context, string invitationCode)
     {
@@ -99,10 +104,8 @@ public class KindeInvitationMiddleware
         return $"{baseUrl}{_options.LoginPath}";
     }
 
-    private string ResolveBaseUrl()
-    {
-        return string.IsNullOrWhiteSpace(_options.RedirectUrlBase)
+    private string ResolveBaseUrl() =>
+        string.IsNullOrWhiteSpace(_options.RedirectUrlBase)
             ? $"{_options.RedirectScheme}://{_options.Domain}"
             : _options.RedirectUrlBase.TrimEnd('/');
-    }
 }

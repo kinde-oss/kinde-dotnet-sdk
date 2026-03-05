@@ -25,14 +25,23 @@ public static class KindeAuthExtensions
         Action<KindeAuthOptions>? configure = null)
     {
         services.AddOptions<KindeAuthOptions>()
-                .BindConfiguration(KindeAuthOptions.SectionName);
+                .BindConfiguration(KindeAuthOptions.SectionName)
+                .Validate(
+                    o => !string.IsNullOrWhiteSpace(o.RedirectUrlBase) || !string.IsNullOrWhiteSpace(o.Domain),
+                    $"{nameof(KindeAuthOptions.RedirectUrlBase)} or {nameof(KindeAuthOptions.Domain)} must be provided.")
+                .Validate(
+                    o => !string.IsNullOrWhiteSpace(o.RegisterPath) && o.RegisterPath.StartsWith('/'),
+                    $"{nameof(KindeAuthOptions.RegisterPath)} must start with '/'.")
+                .Validate(
+                    o => !string.IsNullOrWhiteSpace(o.LoginPath) && o.LoginPath.StartsWith('/'),
+                    $"{nameof(KindeAuthOptions.LoginPath)} must start with '/'.")
+                .ValidateOnStart();
 
         if (configure is not null)
             services.PostConfigure(configure);
 
         return services;
     }
-
     /// <summary>
     /// Adds <see cref="KindeInvitationMiddleware"/> to the request pipeline.
     ///
