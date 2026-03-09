@@ -11,16 +11,6 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
-      "Microsoft.AspNetCore.Http.Abstractions": {
-        "type": "Direct",
-        "requested": "[2.3.9, )",
-        "resolved": "2.3.9",
-        "contentHash": "ULScB/0S9+qvf+yahjR+oQUp0GrvoDHJ9XS5gTqSjLjbjUDnHaJ1s8wo3RJMpaDfb1bawX4OgQM+YmvCUveR4Q==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Http.Features": "2.3.0",
-          "System.Text.Encodings.Web": "8.0.0"
-        }
-      },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
         "requested": "[9.0.4, )",
@@ -131,14 +121,6 @@
         "dependencies": {
           "Microsoft.IdentityModel.JsonWebTokens": "8.8.0",
           "Microsoft.IdentityModel.Tokens": "8.8.0"
-        }
-      },
-      "Microsoft.AspNetCore.Http.Features": {
-        "type": "Transitive",
-        "resolved": "2.3.0",
-        "contentHash": "f10WUgcsKqrkmnz6gt8HeZ7kyKjYN30PO7cSic1lPtH7paPtnQqXPOveul/SIPI43PhRD4trttg4ywnrEmmJpA==",
-        "dependencies": {
-          "Microsoft.Extensions.Primitives": "8.0.0"
         }
       },
       "Microsoft.Bcl.Memory": {

@@ -35,8 +35,24 @@ public class KindeInvitationMiddleware
 
         if (!string.IsNullOrEmpty(invitationCode))
         {
-            var isAlreadyOnRegisterPath = context.Request.Path.Value?
-                .Equals(_options.RegisterPath, StringComparison.OrdinalIgnoreCase) ?? false;
+            var isSafeMethod = HttpMethods.IsGet(context.Request.Method) ||
+                               HttpMethods.IsHead(context.Request.Method);
+
+            if (!isSafeMethod)
+            {
+                if (_options.IsDebugMode)
+                    _logger.LogDebug(
+                        "KindeInvitationMiddleware: invitation_code present but method is " +
+                        "{Method} — skipping redirect to preserve request semantics.",
+                        context.Request.Method);
+
+                await _next(context);
+                return;
+            }
+            var isAlreadyOnRegisterPath = context.Request.Path
+                .StartsWithSegments(
+                    new PathString(_options.RegisterPath),
+                    StringComparison.OrdinalIgnoreCase);
 
             if (isAlreadyOnRegisterPath)
             {
