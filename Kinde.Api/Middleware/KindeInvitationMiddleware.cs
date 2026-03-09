@@ -91,10 +91,9 @@ public class KindeInvitationMiddleware
         }
         catch (Exception ex)
         {
-            if (_options.IsDebugMode)
-                _logger.LogError(ex,
-                    "KindeInvitationMiddleware: error building register redirect URL, " +
-                    "falling back to login");
+            _logger.LogError(ex,
+                "KindeInvitationMiddleware: error building register redirect URL, " +
+                "falling back to login");
 
             context.Response.Redirect(BuildFallbackLoginUrl(), permanent: false);
         }
