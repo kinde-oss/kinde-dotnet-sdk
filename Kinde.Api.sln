@@ -11,10 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kiota", "Kiota", "{827E0CD3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kiota.Api", "src\Kiota.Api\Kiota.Api.csproj", "{0243B9E3-D4CA-4B6D-9A17-29BA64FD4242}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kiota.Api.Tests", "tests\Kiota.Api.Tests\Kiota.Api.Tests.csproj", "{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,25 +57,12 @@ Global
 		{0243B9E3-D4CA-4B6D-9A17-29BA64FD4242}.Release|x64.Build.0 = Release|Any CPU
 		{0243B9E3-D4CA-4B6D-9A17-29BA64FD4242}.Release|x86.ActiveCfg = Release|Any CPU
 		{0243B9E3-D4CA-4B6D-9A17-29BA64FD4242}.Release|x86.Build.0 = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|x64.Build.0 = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Debug|x86.Build.0 = Debug|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|x64.ActiveCfg = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|x64.Build.0 = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|x86.ActiveCfg = Release|Any CPU
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0243B9E3-D4CA-4B6D-9A17-29BA64FD4242} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{C0F5E2A7-6BFE-4C6E-B172-D3E91DA5A936} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BDABFE2-E452-4F5F-8B51-68A3E3F57AEF}
