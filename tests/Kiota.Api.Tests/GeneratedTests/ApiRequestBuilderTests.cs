@@ -5,7 +5,7 @@ using Microsoft.Kiota.Http.HttpClientLibrary;
 
 public class ApiRequestBuilderTests
 {
-    [Fact]
+    [Fact(Skip = "Requires real API credentials")]
     public async Task ApiRequestBuilder_GetAsync_ShouldReturnSomething()
     {
         // Arrange
