@@ -1,0 +1,34 @@
+{
+  "descriptionHash": "F73FEA5DE81D849098680C9A9B26F28B7DE96BAE5ECCB6FF696B33B79607B7E76B72C04F9EE32F54EA6B9224C7553780F3EDE75A2E364E9CEAC8EDF01899AB41",
+  "descriptionLocation": "https://api-spec.kinde.com/kinde-frontend-api-spec.yaml",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.29.0",
+  "clientClassName": "KindeAccountsClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "Kinde.Api.Kiota.Accounts",
+  "language": "CSharp",
+  "usesBackingStore": true,
+  "excludeBackwardCompatible": true,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

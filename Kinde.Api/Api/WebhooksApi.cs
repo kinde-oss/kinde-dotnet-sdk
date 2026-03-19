@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -313,7 +318,54 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class WebhooksApi : IDisposable, IWebhooksApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly string _token;
+            public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
+                => Task.FromResult(_token);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebhooksApi"/> class.
@@ -407,6 +459,7 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -434,6 +487,7 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -615,46 +669,27 @@ namespace Kinde.Api.Api
             if (createWebHookRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createWebHookRequest' when calling WebhooksApi->CreateWebHook");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createWebHookRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Webhooks.WebhooksPostRequestBody>(createWebHookRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Webhooks.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateWebhookResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateWebhookResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateWebhookResponse>("/api/v1/webhooks", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateWebHook", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateWebHook: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -745,45 +780,24 @@ namespace Kinde.Api.Api
             if (webhookId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'webhookId' when calling WebhooksApi->DeleteWebHook");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("webhook_id", Kinde.Api.Client.ClientUtils.ParameterToString(webhookId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Webhooks[webhookId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<DeleteWebhookResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<DeleteWebhookResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteWebhookResponse>("/api/v1/webhooks/{webhook_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteWebHook", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteWebHook: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -874,45 +888,24 @@ namespace Kinde.Api.Api
             if (eventId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'eventId' when calling WebhooksApi->GetEvent");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("event_id", Kinde.Api.Client.ClientUtils.ParameterToString(eventId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Events[eventId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetEventResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEventResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEventResponse>("/api/v1/events/{event_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetEvent", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEvent: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -990,44 +983,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEventTypesResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEventTypesResponse>> GetEventTypesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Event_types.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetEventTypesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEventTypesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEventTypesResponse>("/api/v1/event_types", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetEventTypes", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEventTypes: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1105,44 +1078,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetWebhooksResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetWebhooksResponse>> GetWebHooksWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Webhooks.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetWebhooksResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetWebhooksResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetWebhooksResponse>("/api/v1/webhooks", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetWebHooks", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetWebHooks: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1247,47 +1200,27 @@ namespace Kinde.Api.Api
             if (updateWebHookRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateWebHookRequest' when calling WebhooksApi->UpdateWebHook");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("webhook_id", Kinde.Api.Client.ClientUtils.ParameterToString(webhookId)); // path parameter
-            localVarRequestOptions.Data = updateWebHookRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Webhooks.Item.WithWebhook_PatchRequestBody>(updateWebHookRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Webhooks[webhookId].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<UpdateWebhookResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<UpdateWebhookResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateWebhookResponse>("/api/v1/webhooks/{webhook_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateWebHook", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateWebHook: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
     }
