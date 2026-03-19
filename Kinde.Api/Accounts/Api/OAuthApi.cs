@@ -172,9 +172,11 @@ namespace Kinde.Accounts.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class OAuthApi : IOAuthApi
+    public sealed partial class OAuthApi : KiotaAccountsBase, IOAuthApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private readonly HttpClient _httpClient;
+        private readonly TokenProvider<BearerToken> _bearerTokenProvider;
 
         /// <summary>
         /// The logger
@@ -184,7 +186,7 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// The HttpClient
         /// </summary>
-        public HttpClient HttpClient { get; }
+        public HttpClient HttpClient => _httpClient;
 
         /// <summary>
         /// The class containing the events
@@ -194,7 +196,17 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
+        public TokenProvider<BearerToken> BearerTokenProvider => _bearerTokenProvider;
+
+        /// <summary>
+        /// HttpClient for KiotaAccountsBase
+        /// </summary>
+        protected override HttpClient KiotaHttpClient => _httpClient;
+
+        /// <summary>
+        /// BearerTokenProvider for KiotaAccountsBase
+        /// </summary>
+        protected override TokenProvider<BearerToken> KiotaBearerTokenProvider => _bearerTokenProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OAuthApi"/> class.
@@ -205,9 +217,9 @@ namespace Kinde.Accounts.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;
+            _httpClient = httpClient;
             Events = oAuthApiEvents;
-            BearerTokenProvider = bearerTokenProvider;
+            _bearerTokenProvider = bearerTokenProvider;
         }
 
         /// <summary>
@@ -277,60 +289,35 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UserProfileV2"/></returns>
         public async Task<ApiResponse<UserProfileV2>> GetUserProfileV2Async(System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/oauth2/v2/user_profile";
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
 
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Oauth2.V2.User_profile.GetAsync(
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
 
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<UserProfileV2>(kiotaResponse);
 
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                        ApiResponse<UserProfileV2> apiResponseLocalVar = new ApiResponse<UserProfileV2>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/v2/user_profile", requestedAtLocalVar, _jsonSerializerOptions);
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<UserProfileV2>(
+                    "/oauth2/v2/user_profile",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
 
                         AfterGetUserProfileV2DefaultImplementation(apiResponseLocalVar);
-
                         Events.ExecuteOnGetUserProfileV2(apiResponseLocalVar);
 
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
                         return apiResponseLocalVar;
-                    }
-                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorGetUserProfileV2DefaultImplementation(e, "/oauth2/v2/user_profile", uriBuilderLocalVar.Path);
+                OnErrorGetUserProfileV2DefaultImplementation(e, "/oauth2/v2/user_profile", "/oauth2/v2/user_profile");
                 Events.ExecuteOnErrorGetUserProfileV2(e);
                 throw;
             }
@@ -432,87 +419,55 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="TokenIntrospect"/></returns>
         public async Task<ApiResponse<TokenIntrospect>> TokenIntrospectionAsync(string token, Option<string> tokenTypeHint = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 ValidateTokenIntrospection(token, tokenTypeHint);
-
                 FormatTokenIntrospection(ref token, ref tokenTypeHint);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
+
+                // Create request body
+                var requestBody = new global::Kinde.Api.Kiota.Accounts.Oauth2.Introspect.IntrospectPostRequestBody
                 {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/oauth2/introspect";
+                    Token = token
+                };
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
-
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
-
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
-
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("token", ClientUtils.ParameterToString(token)));
-
-                    if (tokenTypeHint.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("token_type_hint", ClientUtils.ParameterToString(tokenTypeHint.Value)));
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded"
-                    };
-
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json",
-                        "application/json; charset=utf-8"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                // Set token type hint if provided
+                if (tokenTypeHint.IsSet && !string.IsNullOrEmpty(tokenTypeHint.Value))
+                {
+                    if (Enum.TryParse<global::Kinde.Api.Kiota.Accounts.Oauth2.Introspect.IntrospectPostRequestBody_token_type_hint>(
+                        tokenTypeHint.Value.Replace("_", ""), true, out var hint))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                        ApiResponse<TokenIntrospect> apiResponseLocalVar = new ApiResponse<TokenIntrospect>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/introspect", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterTokenIntrospectionDefaultImplementation(apiResponseLocalVar, token, tokenTypeHint);
-
-                        Events.ExecuteOnTokenIntrospection(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
+                        requestBody.TokenTypeHint = hint;
                     }
                 }
+
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Oauth2.Introspect.PostAsync(
+                    requestBody,
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
+
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<TokenIntrospect>(kiotaResponse);
+
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<TokenIntrospect>(
+                    "/oauth2/introspect",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
+
+                AfterTokenIntrospectionDefaultImplementation(apiResponseLocalVar, token, tokenTypeHint);
+                Events.ExecuteOnTokenIntrospection(apiResponseLocalVar);
+
+                return apiResponseLocalVar;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorTokenIntrospectionDefaultImplementation(e, "/oauth2/introspect", uriBuilderLocalVar.Path, token, tokenTypeHint);
+                OnErrorTokenIntrospectionDefaultImplementation(e, "/oauth2/introspect", "/oauth2/introspect", token, tokenTypeHint);
                 Events.ExecuteOnErrorTokenIntrospection(e);
                 throw;
             }
@@ -634,91 +589,58 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object>> TokenRevocationAsync(string clientId, string token, Option<string> clientSecret = default, Option<string> tokenTypeHint = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 ValidateTokenRevocation(clientId, token, clientSecret, tokenTypeHint);
-
                 FormatTokenRevocation(ref clientId, ref token, ref clientSecret, ref tokenTypeHint);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
+
+                // Create request body
+                var requestBody = new global::Kinde.Api.Kiota.Accounts.Oauth2.Revoke.RevokePostRequestBody
                 {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/oauth2/revoke";
+                    ClientId = clientId,
+                    Token = token
+                };
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                // Set optional fields
+                if (clientSecret.IsSet && !string.IsNullOrEmpty(clientSecret.Value))
+                {
+                    requestBody.ClientSecret = clientSecret.Value;
+                }
 
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
-
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
-
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("client_id", ClientUtils.ParameterToString(clientId)));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("token", ClientUtils.ParameterToString(token)));
-
-                    if (clientSecret.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("client_secret", ClientUtils.ParameterToString(clientSecret.Value)));
-
-                    if (tokenTypeHint.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("token_type_hint", ClientUtils.ParameterToString(tokenTypeHint.Value)));
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded"
-                    };
-
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                if (tokenTypeHint.IsSet && !string.IsNullOrEmpty(tokenTypeHint.Value))
+                {
+                    if (Enum.TryParse<global::Kinde.Api.Kiota.Accounts.Oauth2.Revoke.RevokePostRequestBody_token_type_hint>(
+                        tokenTypeHint.Value.Replace("_", ""), true, out var hint))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/oauth2/revoke", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterTokenRevocationDefaultImplementation(apiResponseLocalVar, clientId, token, clientSecret, tokenTypeHint);
-
-                        Events.ExecuteOnTokenRevocation(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
+                        requestBody.TokenTypeHint = hint;
                     }
                 }
+
+                // Call Kiota client - returns void
+                await kiotaClient.Oauth2.Revoke.PostAsync(
+                    requestBody,
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
+
+                // Create API response (successful revocation returns no content)
+                var apiResponseLocalVar = new ApiResponse<object>(
+                    "/oauth2/revoke",
+                    new object(),
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
+
+                AfterTokenRevocationDefaultImplementation(apiResponseLocalVar, clientId, token, clientSecret, tokenTypeHint);
+                Events.ExecuteOnTokenRevocation(apiResponseLocalVar);
+
+                return apiResponseLocalVar;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorTokenRevocationDefaultImplementation(e, "/oauth2/revoke", uriBuilderLocalVar.Path, clientId, token, clientSecret, tokenTypeHint);
+                OnErrorTokenRevocationDefaultImplementation(e, "/oauth2/revoke", "/oauth2/revoke", clientId, token, clientSecret, tokenTypeHint);
                 Events.ExecuteOnErrorTokenRevocation(e);
                 throw;
             }

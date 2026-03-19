@@ -9,11 +9,11 @@
     <Product>Kinde Platform</Product>
     <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
     <Copyright>Kinde</Copyright>
-    <Version>2.0.3</Version>
+    <Version>2.0.4</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Major update: Upgraded to .NET 8.0, updated OpenAPI Generator to v7.0.1, improved performance and modern .NET features support. Breaking change: Requires .NET 8.0 or later.</PackageReleaseNotes>
+    <PackageReleaseNotes>Migration to Kiota-based API client with static facades for backward compatibility. Sync methods deprecated in favor of async. Internal implementation now uses Microsoft Kiota for cleaner API generation.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Existing dependencies -->
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -51,6 +52,17 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
+    
+    <!-- Kiota dependencies for API client generation -->
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.9.*" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.4.*" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.4.0" />
+    
+    <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
+    <PackageReference Include="AutoMapper" Version="13.0.*" />
   </ItemGroup>
 
 

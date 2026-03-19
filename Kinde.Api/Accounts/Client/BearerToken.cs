@@ -25,6 +25,11 @@ namespace Kinde.Accounts.Client
         }
 
         /// <summary>
+        /// Gets the raw token value.
+        /// </summary>
+        public string RawToken => _raw;
+
+        /// <summary>
         /// Places the token in the header.
         /// </summary>
         /// <param name="request"></param>
