@@ -47,10 +47,11 @@ namespace Kinde.Api.Model
         /// <param name="failedSignIns">Number of consecutive failed user sign ins..</param>
         /// <param name="lastSignedIn">Last sign in date in ISO 8601 format..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
+        /// <param name="lastOrganizationSignIns">Array of organization sign-in information for the user..</param>
         /// <param name="organizations">Array of organizations a user belongs to..</param>
         /// <param name="identities">Array of identities belonging to the user..</param>
         /// <param name="billing">billing.</param>
-        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), UsersResponseUsersInnerBilling billing = default(UsersResponseUsersInnerBilling))
+        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<UsersResponseUsersInnerLastOrganizationSignInsInner> lastOrganizationSignIns = default(List<UsersResponseUsersInnerLastOrganizationSignInsInner>), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), UsersResponseUsersInnerBilling billing = default(UsersResponseUsersInnerBilling))
         {
             this.Id = id;
             this.ProvidedId = providedId;
@@ -65,6 +66,7 @@ namespace Kinde.Api.Model
             this.FailedSignIns = failedSignIns;
             this.LastSignedIn = lastSignedIn;
             this.CreatedOn = createdOn;
+            this.LastOrganizationSignIns = lastOrganizationSignIns;
             this.Organizations = organizations;
             this.Identities = identities;
             this.Billing = billing;
@@ -162,6 +164,13 @@ namespace Kinde.Api.Model
         public string CreatedOn { get; set; }
 
         /// <summary>
+        /// Array of organization sign-in information for the user.
+        /// </summary>
+        /// <value>Array of organization sign-in information for the user.</value>
+        [DataMember(Name = "last_organization_sign_ins", EmitDefaultValue = true)]
+        public List<UsersResponseUsersInnerLastOrganizationSignInsInner> LastOrganizationSignIns { get; set; }
+
+        /// <summary>
         /// Array of organizations a user belongs to.
         /// </summary>
         /// <value>Array of organizations a user belongs to.</value>
@@ -202,6 +211,7 @@ namespace Kinde.Api.Model
             sb.Append("  FailedSignIns: ").Append(FailedSignIns).Append("\n");
             sb.Append("  LastSignedIn: ").Append(LastSignedIn).Append("\n");
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
+            sb.Append("  LastOrganizationSignIns: ").Append(LastOrganizationSignIns).Append("\n");
             sb.Append("  Organizations: ").Append(Organizations).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("  Billing: ").Append(Billing).Append("\n");
@@ -305,6 +315,12 @@ namespace Kinde.Api.Model
                     this.CreatedOn.Equals(input.CreatedOn))
                 ) && 
                 (
+                    this.LastOrganizationSignIns == input.LastOrganizationSignIns ||
+                    this.LastOrganizationSignIns != null &&
+                    input.LastOrganizationSignIns != null &&
+                    this.LastOrganizationSignIns.SequenceEqual(input.LastOrganizationSignIns)
+                ) && 
+                (
                     this.Organizations == input.Organizations ||
                     this.Organizations != null &&
                     input.Organizations != null &&
@@ -380,6 +396,10 @@ namespace Kinde.Api.Model
                 if (this.CreatedOn != null)
                 {
                     hashCode = (hashCode * 59) + this.CreatedOn.GetHashCode();
+                }
+                if (this.LastOrganizationSignIns != null)
+                {
+                    hashCode = (hashCode * 59) + this.LastOrganizationSignIns.GetHashCode();
                 }
                 if (this.Organizations != null)
                 {

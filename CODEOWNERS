@@ -1,10 +1,8 @@
 # Default owners for everything
+* @kinde-oss/giants-kinde
 
-@kinde-oss/giants-kinde
-
-# Dependency-related files for this repo
-
+# Dependency-related files - SDK engineers only
 Directory.Build.props @kinde-oss/sdk-engineers
 **/Directory.Build.props @kinde-oss/sdk-engineers
-.csproj @kinde-oss/sdk-engineers
-**/.csproj @kinde-oss/sdk-engineers
+*.csproj @kinde-oss/sdk-engineers
+**/*.csproj @kinde-oss/sdk-engineers
