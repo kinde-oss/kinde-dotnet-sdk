@@ -153,7 +153,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithOrg_codeItemRequestBuilderPatchQueryParameters 
         {
-            /// <summary>Specify additional data to retrieve. Use &quot;billing&quot;.</summary>
+            /// <summary>Additional data to include in the response. Allowed value: &quot;billing&quot;.</summary>
             [QueryParameter("expand")]
             public global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.PatchExpandQueryParameterType? Expand { get; set; }
         }

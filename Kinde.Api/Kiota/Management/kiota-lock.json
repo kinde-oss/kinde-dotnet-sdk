@@ -1,8 +1,8 @@
 {
-  "descriptionHash": "BDED7653FF996B8BAF3B3C756A5B04E893324A7B64E09FBE5317BE48AC364F5DD38D144CA24FB8AF1D8F00A2675EA0EBF524960D243CE9B38DEF7103DCDC7A5A",
+  "descriptionHash": "11248E0312524AA46A9CD044E1EA918FA33811A9C897000602CAA64E58ACF47C570D14F893DD36A1A5F65E294EED86AB7C8162E4C626F9E1175E54E4B6F0A794",
   "descriptionLocation": "https://api-spec.kinde.com/kinde-management-api-spec.yaml",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.29.0",
+  "kiotaVersion": "1.30.0",
   "clientClassName": "KindeManagementClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "Kinde.Api.Kiota.Management",

@@ -262,7 +262,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class UserRequestBuilderGetQueryParameters 
         {
-            /// <summary>Specify additional data to retrieve. Use &quot;organizations&quot;, &quot;identities&quot; and/or &quot;billing&quot;.</summary>
+            /// <summary>Additional data to include in the response. One or more of (comma-separated): &quot;organizations&quot;, &quot;identities&quot;, &quot;billing&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]

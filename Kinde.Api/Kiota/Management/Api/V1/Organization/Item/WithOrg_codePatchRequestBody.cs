@@ -178,6 +178,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             get { return BackingStore?.Get<bool?>("is_auto_join_domain_list"); }
             set { BackingStore?.Set("is_auto_join_domain_list", value); }
         }
+        /// <summary>If users become members of this organization when the org code is supplied during authentication.</summary>
+        public bool? IsAutoMembershipEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_auto_membership_enabled"); }
+            set { BackingStore?.Set("is_auto_membership_enabled", value); }
+        }
         /// <summary>Activate advanced organization features.</summary>
         public bool? IsEnableAdvancedOrgs
         {
@@ -189,6 +195,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
         {
             get { return BackingStore?.Get<bool?>("is_enforce_mfa"); }
             set { BackingStore?.Set("is_enforce_mfa", value); }
+        }
+        /// <summary>Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended.</summary>
+        public bool? IsSuspended
+        {
+            get { return BackingStore?.Get<bool?>("is_suspended"); }
+            set { BackingStore?.Set("is_suspended", value); }
         }
         /// <summary>The organization&apos;s brand settings - link color.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -313,8 +325,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
                 { "handle", n => { Handle = n.GetStringValue(); } },
                 { "is_allow_registrations", n => { IsAllowRegistrations = n.GetBoolValue(); } },
                 { "is_auto_join_domain_list", n => { IsAutoJoinDomainList = n.GetBoolValue(); } },
+                { "is_auto_membership_enabled", n => { IsAutoMembershipEnabled = n.GetBoolValue(); } },
                 { "is_enable_advanced_orgs", n => { IsEnableAdvancedOrgs = n.GetBoolValue(); } },
                 { "is_enforce_mfa", n => { IsEnforceMfa = n.GetBoolValue(); } },
+                { "is_suspended", n => { IsSuspended = n.GetBoolValue(); } },
                 { "link_color", n => { LinkColor = n.GetStringValue(); } },
                 { "link_color_dark", n => { LinkColorDark = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
@@ -341,8 +355,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             writer.WriteStringValue("handle", Handle);
             writer.WriteBoolValue("is_allow_registrations", IsAllowRegistrations);
             writer.WriteBoolValue("is_auto_join_domain_list", IsAutoJoinDomainList);
+            writer.WriteBoolValue("is_auto_membership_enabled", IsAutoMembershipEnabled);
             writer.WriteBoolValue("is_enable_advanced_orgs", IsEnableAdvancedOrgs);
             writer.WriteBoolValue("is_enforce_mfa", IsEnforceMfa);
+            writer.WriteBoolValue("is_suspended", IsSuspended);
             writer.WriteStringValue("link_color", LinkColor);
             writer.WriteStringValue("link_color_dark", LinkColorDark);
             writer.WriteStringValue("name", Name);

@@ -116,11 +116,23 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             get { return BackingStore?.Get<bool?>("is_sync_user_profile_on_login"); }
             set { BackingStore?.Set("is_sync_user_profile_on_login", value); }
         }
+        /// <summary>Trust this connection for account merging.</summary>
+        public bool? IsTrusted
+        {
+            get { return BackingStore?.Get<bool?>("is_trusted"); }
+            set { BackingStore?.Set("is_trusted", value); }
+        }
         /// <summary>Use https://login.windows.net/common instead of a default endpoint.</summary>
         public bool? IsUseCommonEndpoint
         {
             get { return BackingStore?.Get<bool?>("is_use_common_endpoint"); }
             set { BackingStore?.Set("is_use_common_endpoint", value); }
+        }
+        /// <summary>Use custom domain callback URL.</summary>
+        public bool? IsUseCustomDomain
+        {
+            get { return BackingStore?.Get<bool?>("is_use_custom_domain"); }
+            set { BackingStore?.Set("is_use_custom_domain", value); }
         }
         /// <summary>Additional upstream parameters to pass to the identity provider.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -173,7 +185,9 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "is_force_show_sso_button", n => { IsForceShowSsoButton = n.GetBoolValue(); } },
                 { "is_retrieve_provider_user_groups", n => { IsRetrieveProviderUserGroups = n.GetBoolValue(); } },
                 { "is_sync_user_profile_on_login", n => { IsSyncUserProfileOnLogin = n.GetBoolValue(); } },
+                { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
                 { "is_use_common_endpoint", n => { IsUseCommonEndpoint = n.GetBoolValue(); } },
+                { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
                 { "upstream_params", n => { UpstreamParams = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2_upstream_params>(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2_upstream_params.CreateFromDiscriminatorValue); } },
             };
         }
@@ -193,7 +207,9 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteBoolValue("is_force_show_sso_button", IsForceShowSsoButton);
             writer.WriteBoolValue("is_retrieve_provider_user_groups", IsRetrieveProviderUserGroups);
             writer.WriteBoolValue("is_sync_user_profile_on_login", IsSyncUserProfileOnLogin);
+            writer.WriteBoolValue("is_trusted", IsTrusted);
             writer.WriteBoolValue("is_use_common_endpoint", IsUseCommonEndpoint);
+            writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2_upstream_params>("upstream_params", UpstreamParams);
             writer.WriteAdditionalData(AdditionalData);
         }
