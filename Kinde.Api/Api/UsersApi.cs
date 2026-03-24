@@ -227,7 +227,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <returns>UsersResponse</returns>
-        UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?));
+        UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?));
 
         /// <summary>
         /// Get users
@@ -244,7 +244,7 @@ namespace Kinde.Api.Api
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?));
+        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?));
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
@@ -669,7 +669,7 @@ namespace Kinde.Api.Api
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get users
@@ -687,7 +687,7 @@ namespace Kinde.Api.Api
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
@@ -927,7 +927,7 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class UsersApi : IDisposable, IUsersApi
     {
-        
+
         // ===== Kiota Infrastructure =====
         private KindeManagementClient _kiotaClient;
         private HttpClient _kiotaHttpClient;
@@ -960,7 +960,7 @@ namespace Kinde.Api.Api
                             ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory>();
                             ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Text.TextParseNodeFactory>();
                             ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Form.FormParseNodeFactory>();
-                            
+
                             var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
                             var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
                             _kiotaHttpClient ??= new HttpClient();
@@ -979,11 +979,11 @@ namespace Kinde.Api.Api
             private readonly string _token;
             public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
             public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
-            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default)
                 => Task.FromResult(_token);
         }
         // ===== End Kiota Infrastructure =====
-private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersApi"/> class.
@@ -1010,7 +1010,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                 new Kinde.Api.Client.Configuration { BasePath = basePath }
             );
             this.ApiClient = new Kinde.Api.Client.ApiClient(this.Configuration.BasePath);
-            this.Client =  this.ApiClient;
+            this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
@@ -1074,10 +1074,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                 new Kinde.Api.Client.Configuration { BasePath = basePath }
             );
             this.ApiClient = new Kinde.Api.Client.ApiClient(client, this.Configuration.BasePath, handler);
-            this.Client =  this.ApiClient;
+            this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
-            
+
             // Pass HttpClient to Kiota infrastructure for proper mock handler support
             _kiotaHttpClient = client;
         }
@@ -1107,7 +1107,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
-            
+
             // Pass HttpClient to Kiota infrastructure for proper mock handler support
             _kiotaHttpClient = client;
         }
@@ -1252,7 +1252,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             try
             {
                 var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody>(createUserRequest);
-                
+
                 var kiotaResponse = await KiotaClient.Api.V1.User.PostAsync(
                     kiotaRequest,
                     cancellationToken: cancellationToken
@@ -1802,9 +1802,9 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <returns>UsersResponse</returns>
-        public UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?))
+        public UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization, activeSince);
             return localVarResponse.Data;
         }
 
@@ -1820,12 +1820,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?))
+        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?))
         {
-            // ===== Kiota Implementation =====
-            return GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization).GetAwaiter().GetResult();
+            return GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, activeSince).GetAwaiter().GetResult();
         }
-
         /// <summary>
         /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
@@ -1839,11 +1837,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, activeSince, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
+
 
         /// <summary>
         /// Get users The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
@@ -1858,21 +1857,24 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // ===== Kiota Implementation =====
             try
             {
-                var kiotaResponse = await KiotaClient.Api.V1.Users.GetAsync(config =>
-                {
-                    config.QueryParameters.PageSize = pageSize;
-                    config.QueryParameters.UserId = userId;
-                    config.QueryParameters.NextToken = nextToken;
-                    config.QueryParameters.Email = email;
-                    config.QueryParameters.Username = username;
-                    config.QueryParameters.Expand = expand;
-                    config.QueryParameters.HasOrganization = hasOrganization;
-                }, cancellationToken).ConfigureAwait(false);
+                var kiotaResponse = await KiotaClient.Api.V1.Users.GetAsync(
+                    config =>
+                    {
+                        config.QueryParameters.PageSize = pageSize;
+                        config.QueryParameters.UserId = userId;
+                        config.QueryParameters.NextToken = nextToken;
+                        config.QueryParameters.Email = email;
+                        config.QueryParameters.Username = username;
+                        config.QueryParameters.Expand = expand;
+                        config.QueryParameters.HasOrganization = hasOrganization;
+                        config.QueryParameters.ActiveSince = activeSince;
+                    },
+                    cancellationToken
+                ).ConfigureAwait(false);
 
                 var mappedResponse = KiotaMapper.Map<UsersResponse>(kiotaResponse);
                 return new Kinde.Api.Client.ApiResponse<UsersResponse>(
@@ -1886,7 +1888,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetUsers: {ex.Message}", ex);
             }
         }
-
         /// <summary>
         /// Get user&#39;s MFA configuration Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
@@ -2237,7 +2238,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             try
             {
                 var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody>(setUserPasswordRequest);
-                
+
                 var kiotaResponse = await KiotaClient.Api.V1.Users[userId].Password.PutAsync(
                     kiotaRequest,
                     cancellationToken: cancellationToken
@@ -2318,7 +2319,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             try
             {
                 var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(updateUserRequest);
-                
+
                 var kiotaResponse = await KiotaClient.Api.V1.User.PatchAsync(
                     kiotaRequest,
                     config => config.QueryParameters.Id = id,
@@ -2487,7 +2488,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             try
             {
                 var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties.PropertiesPatchRequestBody>(updateOrganizationPropertiesRequest);
-                
+
                 var kiotaResponse = await KiotaClient.Api.V1.Users[userId].Properties.PatchAsync(
                     kiotaRequest,
                     cancellationToken: cancellationToken
