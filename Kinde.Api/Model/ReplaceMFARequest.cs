@@ -116,7 +116,9 @@ namespace Kinde.Api.Model
         /// <value>The MFA methods to enable.</value>
         [DataMember(Name = "enabled_factors", IsRequired = true, EmitDefaultValue = true)]
         public List<ReplaceMFARequest.EnabledFactorsEnum> EnabledFactors { get; set; }
-
+        
+        [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = true)]
+        public bool? IsRecoveryCodesEnabled { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
