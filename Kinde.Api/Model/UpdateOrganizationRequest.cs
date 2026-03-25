@@ -88,7 +88,7 @@ namespace Kinde.Api.Model
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
         /// <param name="isEnableAdvancedOrgs">Activate advanced organization features..</param>
         /// <param name="isEnforceMfa">Enforce MFA for all users in this organization..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isCustomAuthConnectionsEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool))
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isCustomAuthConnectionsEnabled = default(bool?), bool? isAutoJoinDomainList = default(bool?), List<string> allowedDomains = default(List<string>), bool? isEnableAdvancedOrgs = default(bool?), bool? isEnforceMfa = default(bool?))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -204,7 +204,7 @@ namespace Kinde.Api.Model
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
         [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
         [Obsolete]
-        public bool IsAllowRegistrations { get; set; }
+        public bool? IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// Enable custom auth connections for this organization.
@@ -212,7 +212,7 @@ namespace Kinde.Api.Model
         /// <value>Enable custom auth connections for this organization.</value>
         /// <example>true</example>
         [DataMember(Name = "is_custom_auth_connections_enabled", EmitDefaultValue = true)]
-        public bool IsCustomAuthConnectionsEnabled { get; set; }
+        public bool? IsCustomAuthConnectionsEnabled { get; set; }
 
         /// <summary>
         /// Users can sign up to this organization.
@@ -220,7 +220,7 @@ namespace Kinde.Api.Model
         /// <value>Users can sign up to this organization.</value>
         /// <example>true</example>
         [DataMember(Name = "is_auto_join_domain_list", EmitDefaultValue = true)]
-        public bool IsAutoJoinDomainList { get; set; }
+        public bool? IsAutoJoinDomainList { get; set; }
 
         /// <summary>
         /// Domains allowed for self-sign up to this environment.
@@ -236,7 +236,7 @@ namespace Kinde.Api.Model
         /// <value>Activate advanced organization features.</value>
         /// <example>true</example>
         [DataMember(Name = "is_enable_advanced_orgs", EmitDefaultValue = true)]
-        public bool IsEnableAdvancedOrgs { get; set; }
+        public bool? IsEnableAdvancedOrgs { get; set; }
 
         /// <summary>
         /// Enforce MFA for all users in this organization.
@@ -244,7 +244,7 @@ namespace Kinde.Api.Model
         /// <value>Enforce MFA for all users in this organization.</value>
         /// <example>true</example>
         [DataMember(Name = "is_enforce_mfa", EmitDefaultValue = true)]
-        public bool IsEnforceMfa { get; set; }
+        public bool? IsEnforceMfa { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -306,88 +306,88 @@ namespace Kinde.Api.Model
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
-                ) && 
+                ) &&
                 (
                     this.ExternalId == input.ExternalId ||
                     (this.ExternalId != null &&
                     this.ExternalId.Equals(input.ExternalId))
-                ) && 
+                ) &&
                 (
                     this.BackgroundColor == input.BackgroundColor ||
                     (this.BackgroundColor != null &&
                     this.BackgroundColor.Equals(input.BackgroundColor))
-                ) && 
+                ) &&
                 (
                     this.ButtonColor == input.ButtonColor ||
                     (this.ButtonColor != null &&
                     this.ButtonColor.Equals(input.ButtonColor))
-                ) && 
+                ) &&
                 (
                     this.ButtonTextColor == input.ButtonTextColor ||
                     (this.ButtonTextColor != null &&
                     this.ButtonTextColor.Equals(input.ButtonTextColor))
-                ) && 
+                ) &&
                 (
                     this.LinkColor == input.LinkColor ||
                     (this.LinkColor != null &&
                     this.LinkColor.Equals(input.LinkColor))
-                ) && 
+                ) &&
                 (
                     this.BackgroundColorDark == input.BackgroundColorDark ||
                     (this.BackgroundColorDark != null &&
                     this.BackgroundColorDark.Equals(input.BackgroundColorDark))
-                ) && 
+                ) &&
                 (
                     this.ButtonColorDark == input.ButtonColorDark ||
                     (this.ButtonColorDark != null &&
                     this.ButtonColorDark.Equals(input.ButtonColorDark))
-                ) && 
+                ) &&
                 (
                     this.ButtonTextColorDark == input.ButtonTextColorDark ||
                     (this.ButtonTextColorDark != null &&
                     this.ButtonTextColorDark.Equals(input.ButtonTextColorDark))
-                ) && 
+                ) &&
                 (
                     this.LinkColorDark == input.LinkColorDark ||
                     (this.LinkColorDark != null &&
                     this.LinkColorDark.Equals(input.LinkColorDark))
-                ) && 
+                ) &&
                 (
                     this.ThemeCode == input.ThemeCode ||
                     this.ThemeCode.Equals(input.ThemeCode)
-                ) && 
+                ) &&
                 (
                     this.Handle == input.Handle ||
                     (this.Handle != null &&
                     this.Handle.Equals(input.Handle))
-                ) && 
+                ) &&
                 (
                     this.IsAllowRegistrations == input.IsAllowRegistrations ||
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
-                ) && 
+                ) &&
                 (
                     this.IsCustomAuthConnectionsEnabled == input.IsCustomAuthConnectionsEnabled ||
                     this.IsCustomAuthConnectionsEnabled.Equals(input.IsCustomAuthConnectionsEnabled)
-                ) && 
+                ) &&
                 (
                     this.IsAutoJoinDomainList == input.IsAutoJoinDomainList ||
                     this.IsAutoJoinDomainList.Equals(input.IsAutoJoinDomainList)
-                ) && 
+                ) &&
                 (
                     this.AllowedDomains == input.AllowedDomains ||
                     this.AllowedDomains != null &&
                     input.AllowedDomains != null &&
                     this.AllowedDomains.SequenceEqual(input.AllowedDomains)
-                ) && 
+                ) &&
                 (
                     this.IsEnableAdvancedOrgs == input.IsEnableAdvancedOrgs ||
                     this.IsEnableAdvancedOrgs.Equals(input.IsEnableAdvancedOrgs)
-                ) && 
+                ) &&
                 (
                     this.IsEnforceMfa == input.IsEnforceMfa ||
                     this.IsEnforceMfa.Equals(input.IsEnforceMfa)
