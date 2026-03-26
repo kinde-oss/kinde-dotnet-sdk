@@ -30,7 +30,8 @@ public class ApisRequestBuilderTests
         var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetApisResponse);
 
         await client.Api.V1.Apis.GetAsync(config =>
-            config.QueryParameters.Expand = "scopes");
+            config.QueryParameters.ExpandAsGetExpandQueryParameterType =
+                Kiota.Api.Api.V1.Apis.GetExpandQueryParameterType.Scopes);
 
         handler.LastRequest!.RequestUri!.Query.Should().Contain("expand=scopes");
     }
