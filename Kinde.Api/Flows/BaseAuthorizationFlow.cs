@@ -55,12 +55,12 @@ namespace Kinde.Api.Flows
             if (register)
             {
                 parameters.Add("start_page", "registration");
-                
+
                 if (!string.IsNullOrEmpty(Configuration.PlanInterest))
                 {
                     parameters.Add("plan_interest", Configuration.PlanInterest);
                 }
-                
+
                 if (!string.IsNullOrEmpty(Configuration.PricingTableKey))
                 {
                     parameters.Add("pricing_table_key", Configuration.PricingTableKey);
@@ -79,13 +79,13 @@ namespace Kinde.Api.Flows
             if (RequiresRedirection)
             {
                 var url = BuildUrl(IdentityProviderConfiguration.Domain + "/oauth2/auth", parameters);
-                
+
                 // Make HTTP request to validate the authorization URL
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
                 var response = await httpClient.SendAsync(request);
-                
+
                 // Check if the response is a redirect (which is expected for authorization flows)
-                if (response.StatusCode == System.Net.HttpStatusCode.Redirect || 
+                if (response.StatusCode == System.Net.HttpStatusCode.Redirect ||
                     response.StatusCode == System.Net.HttpStatusCode.Found)
                 {
                     // Valid redirect response - proceed with setting up for user action
@@ -228,13 +228,12 @@ namespace Kinde.Api.Flows
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(content))
             {
-                throw new Kinde.Accounts.Client.ApiException(response.ReasonPhrase, response.StatusCode, content);
+                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content);
             }
 
             Token = JsonConvert.DeserializeObject<OauthToken>(content);
             return Token;
         }
-
         public async Task<string> GetOrRefreshToken(HttpClient httpClient)
         {
             if (Token == null)
