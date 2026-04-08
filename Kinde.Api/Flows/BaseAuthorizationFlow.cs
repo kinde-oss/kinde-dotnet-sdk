@@ -228,12 +228,13 @@ namespace Kinde.Api.Flows
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(content))
             {
-                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content, false);
+                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content);
             }
 
             Token = JsonConvert.DeserializeObject<OauthToken>(content);
             return Token;
         }
+
         public async Task<string> GetOrRefreshToken(HttpClient httpClient)
         {
             if (Token == null)
