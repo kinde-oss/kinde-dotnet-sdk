@@ -228,10 +228,7 @@ namespace Kinde.Api.Flows
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(content))
             {
-                throw new Kinde.Accounts.Client.ApiException(
-                                         response.ReasonPhrase,
-                                         response.StatusCode,
-                                         content);
+                throw new Kinde.Accounts.Client.ApiException(response.ReasonPhrase, response.StatusCode, content);
             }
             Token = JsonConvert.DeserializeObject<OauthToken>(content);
             return Token;
