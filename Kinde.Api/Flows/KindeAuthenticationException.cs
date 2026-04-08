@@ -9,11 +9,15 @@ namespace Kinde.Api.Flows
 
         public KindeAuthenticationException(string message) : base(message) { }
 
-        public KindeAuthenticationException(string message, HttpStatusCode statusCode, string? responseContent = null)
+        public KindeAuthenticationException(
+            string message,
+            HttpStatusCode statusCode,
+            string? responseContent = null,
+            bool includeResponseContent = false)
             : base(message)
         {
             StatusCode = statusCode;
-            ResponseContent = responseContent;
+            ResponseContent = includeResponseContent ? responseContent : null;
         }
 
         public KindeAuthenticationException(string message, Exception innerException)

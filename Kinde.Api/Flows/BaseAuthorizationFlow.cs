@@ -228,7 +228,7 @@ namespace Kinde.Api.Flows
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(content))
             {
-                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content);
+                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content, false);
             }
 
             Token = JsonConvert.DeserializeObject<OauthToken>(content);
@@ -238,7 +238,7 @@ namespace Kinde.Api.Flows
         {
             if (Token == null)
             {
-                throw new ApplicationException("Please authorize first");
+                throw new KindeAuthenticationException("Please authorize first");
             }
 
             if (!Token.IsExpired)
