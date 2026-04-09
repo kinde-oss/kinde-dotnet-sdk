@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-namespace Kinde.Auth.Middleware;
+using Kinde.Auth.Middleware;
 
 /// <summary>
 /// ASP.NET Core middleware that detects an <c>invitation_code</c> query

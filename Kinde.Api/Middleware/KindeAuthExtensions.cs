@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Kinde.Auth.Middleware;
+using Kinde.Auth.Middleware;
 
 /// <summary>
 /// Extension methods for wiring up the Kinde invitation-redirect middleware
