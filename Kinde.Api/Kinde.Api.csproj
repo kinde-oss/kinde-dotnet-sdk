@@ -37,9 +37,6 @@
       <PackagePath>\</PackagePath>
     </EmbeddedResource>
   </ItemGroup>
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
 
   <ItemGroup>
     <!-- Existing dependencies -->
