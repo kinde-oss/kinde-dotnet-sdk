@@ -1,6 +1,4 @@
-﻿namespace Kinde.Auth.Middleware;
-
-/// <summary>
+﻿/// <summary>
 /// Configuration options for the Kinde invitation-redirect middleware.
 /// Bind from appsettings.json under the "Kinde" section, or configure inline.
 /// </summary>
