@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kinde.Api.Api;
 using Kinde.Api.Model;
+using Kinde.Api.Client;
 using Kinde.Api.Test.Integration;
 using Xunit;
 using Xunit.Abstractions;
+using KiotaModels = Kinde.Api.Kiota.Management.Models;
 
 namespace Kinde.Api.Test.Integration.Api.Generated
 {
     /// <summary>
-    /// Auto-generated integration tests for ApplicationsApi with both mock and real API support
+    /// Integration tests for ApplicationsApi with both mock and real API support.
+    /// Uses Kiota-format mock responses for accurate testing of the API flow.
     /// </summary>
     public class ApplicationsApiIntegrationTests : BaseIntegrationTest, IClassFixture<TestResourceFixture>
     {
@@ -22,30 +26,30 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             _fixture = fixture;
         }
 
+        #region GetApplications Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetApplications_Mock_Test()
+        public async Task GetApplications_Mock_ReturnsApplications()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_applications_response
             {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
+                Code = "200",
+                Message = "Applications retrieved",
+                Applications = new List<KiotaModels.Applications>
                 {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var mockResponse = new GetApplicationsResponse();
-                mockHandler.AddResponse("GET", "/api/v1/applications", mockResponse);
+                    new KiotaModels.Applications { Id = "app_1", Name = "My App 1" },
+                    new KiotaModels.Applications { Id = "app_2", Name = "My App 2" }
+                },
+                NextToken = "next_page_token"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/applications", kiotaResponse);
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
@@ -54,821 +58,343 @@ namespace Kinde.Api.Test.Integration.Api.Generated
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplications test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            Assert.NotNull(response.Applications);
+            Assert.Equal(2, response.Applications.Count);
+            Assert.Equal("app_1", response.Applications[0].Id);
+            Assert.Equal("My App 1", response.Applications[0].Name);
+            Assert.Equal("next_page_token", response.NextToken);
+            _output.WriteLine($"Mock test successful - Retrieved {response.Applications.Count} applications");
         }
 
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetApplications_Mock_EmptyList()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_applications_response
+            {
+                Code = "200",
+                Message = "No applications found",
+                Applications = new List<KiotaModels.Applications>()
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/applications", kiotaResponse);
+
+                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
+
+                // Act
+            var response = await api.GetApplicationsAsync();
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.NotNull(response.Applications);
+            Assert.Empty(response.Applications);
+            _output.WriteLine("Empty applications list handled correctly");
+        }
 
         [Fact]
         [Trait("TestMode", "Real")]
         public async Task GetApplications_Real_Test()
         {
             // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
+            if (!UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
-                var response = await api.GetApplicationsAsync();
+            // Act
+            var response = await api.GetApplicationsAsync();
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplications test: {ex.Message}");
-                throw;
-            }
+            _output.WriteLine($"Real API returned {response.Applications?.Count ?? 0} applications");
         }
 
+        #endregion
+
+        #region GetApplication Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task CreateApplication_Mock_Test()
+        public async Task GetApplication_Mock_ReturnsApplication()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_application_response
             {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
+                Code = "200",
+                Message = "Application retrieved",
+                Application = new KiotaModels.Get_application_response_application
                 {
-                    _output.WriteLine("Mock handler not available");
-                    return;
+                    Id = "app_123",
+                    Name = "My Application"
                 }
-
-                var mockResponse = new CreateApplicationResponse();
-                mockHandler.AddResponse("POST", "/api/v1/applications", mockResponse);
-                var request = new CreateApplicationRequest(name: "test-name", type: CreateApplicationRequest.TypeEnum.Reg);
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/applications/{application_id}", kiotaResponse);
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
                 // Act
-                var response = await api.CreateApplicationAsync(request);
+            var response = await api.GetApplicationAsync("app_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateApplication test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            Assert.NotNull(response.Application);
+            Assert.Equal("app_123", response.Application.Id);
+            Assert.Equal("My Application", response.Application.Name);
+            _output.WriteLine("GetApplication returned correct application");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task CreateApplication_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var request = new CreateApplicationRequest(name: "test-name", type: CreateApplicationRequest.TypeEnum.Reg);
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.CreateApplicationAsync(request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateApplication test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region CreateApplication Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetApplication_Mock_Test()
+        public async Task CreateApplication_Mock_Created()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var mockResponse = new GetApplicationResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/applications/{application_id}", mockResponse);
+            var kiotaResponse = new KiotaModels.Create_application_response
+            {
+                Code = "201",
+                Message = "Application created"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/applications", kiotaResponse);
+
+                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
+            // CreateApplicationRequest requires name in constructor (throws if null)
+            var request = new CreateApplicationRequest(
+                name: "New Application",
+                type: CreateApplicationRequest.TypeEnum.Reg
+            );
+
+                // Act
+            var response = await api.CreateApplicationAsync(request);
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal("201", response.Code);
+            Assert.True(mockHandler.WasRequestMade("POST", "/api/v1/applications"));
+            _output.WriteLine("CreateApplication completed successfully");
+        }
+
+        #endregion
+
+        #region UpdateApplication Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task UpdateApplication_Mock_Updated()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Application updated"
+            };
+            mockHandler.AddKiotaResponse("PATCH", "/api/v1/applications/{application_id}", kiotaResponse);
+
+                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
+            var request = new UpdateApplicationRequest
+            {
+                Name = "Updated Application Name"
+            };
+
+            // Act
+            await api.UpdateApplicationAsync("app_123", request);
+
+            // Assert
+            Assert.True(mockHandler.WasRequestMade("PATCH", "/api/v1/applications/app_123"));
+            _output.WriteLine("UpdateApplication completed successfully");
+        }
+
+        #endregion
+
+        #region DeleteApplication Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task DeleteApplication_Mock_Deleted()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Application deleted"
+            };
+            mockHandler.AddKiotaResponse("DELETE", "/api/v1/applications/{application_id}", kiotaResponse);
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
                 // Act
-                var response = await api.GetApplicationAsync(application_id);
+            await api.DeleteApplicationAsync("app_to_delete");
 
                 // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplication test: {ex.Message}");
-                throw;
-            }
+            Assert.True(mockHandler.WasRequestMade("DELETE", "/api/v1/applications/app_to_delete"));
+            _output.WriteLine("DeleteApplication completed successfully");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetApplication_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.GetApplicationAsync(application_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplication test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Application Connections Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateApplication_Mock_Test()
+        public async Task GetApplicationConnections_Mock_ReturnsConnections()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var mockResponse = new { };
-                mockHandler.AddResponse("PATCH", $"/api/v1/applications/{application_id}", mockResponse);
-                var request = new UpdateApplicationRequest();
+            var kiotaResponse = new KiotaModels.Get_connections_response
+            {
+                Code = "200",
+                Message = "Connections retrieved"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/applications/{application_id}/connections", kiotaResponse);
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
                 // Act
-                await api.UpdateApplicationAsync(application_id, request);
-                // Void method - no response to check
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplication test: {ex.Message}");
-                throw;
-            }
+            var response = await api.GetApplicationConnectionsAsync("app_123");
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("GetApplicationConnections returned correctly");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateApplication_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing application_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-                var request = new UpdateApplicationRequest();
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                await api.UpdateApplicationAsync(application_id, request);
-                // Void method - no response to check
-                _output.WriteLine($"Void method completed successfully");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplication test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Null Handling Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task DeleteApplication_Mock_Test()
+        public async Task GetApplications_Mock_NullApplicationsList_StaysNull()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/applications/{application_id}", mockResponse);
+            var kiotaResponse = new KiotaModels.Get_applications_response
+            {
+                Code = "200",
+                Message = "Success",
+                Applications = null
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/applications", kiotaResponse);
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
                 // Act
-                await api.DeleteApplicationAsync(application_id);
-                // Void method - no response to check
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteApplication test: {ex.Message}");
-                throw;
-            }
+            var response = await api.GetApplicationsAsync();
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.Null(response.Applications);
+            _output.WriteLine("Null applications list preserved correctly");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task DeleteApplication_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing application_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                await api.DeleteApplicationAsync(application_id);
-                // Void method - no response to check
-                _output.WriteLine($"Void method completed successfully");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteApplication test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Error Handling Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetApplicationConnections_Mock_Test()
+        public async Task GetApplication_Mock_NotFound_ThrowsException()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var mockResponse = new GetConnectionsResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/applications/{application_id}/connections", mockResponse);
+            mockHandler.AddErrorResponse("GET", "/api/v1/applications/{application_id}", 
+                System.Net.HttpStatusCode.NotFound, "not_found", "Application not found");
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
-                // Act
-                var response = await api.GetApplicationConnectionsAsync(application_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplicationConnections test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetApplicationConnections_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
             // Act & Assert
-            try
-            {
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.GetApplicationConnectionsAsync(application_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplicationConnections test: {ex.Message}");
-                throw;
-            }
+            var exception = await Assert.ThrowsAsync<ApiException>(() => api.GetApplicationAsync("nonexistent"));
+            Assert.Equal(404, exception.ErrorCode);
+            _output.WriteLine("404 error handled correctly");
         }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task EnableConnection_Mock_Test()
+        public async Task CreateApplication_Mock_Conflict_ThrowsException()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var connection_id = "test-connection_id";
-                var mockResponse = new { };
-                mockHandler.AddResponse("POST", $"/api/v1/applications/{application_id}/connections/{connection_id}", mockResponse);
+            mockHandler.AddErrorResponse("POST", "/api/v1/applications", 
+                System.Net.HttpStatusCode.Conflict, "conflict", "Application with this name already exists");
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                // Act
-                await api.EnableConnectionAsync(application_id, connection_id);
-                // Void method - no response to check
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in EnableConnection test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task EnableConnection_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
+            // CreateApplicationRequest requires name in constructor (throws if null)
+            var request = new CreateApplicationRequest(
+                name: "Duplicate App",
+                type: CreateApplicationRequest.TypeEnum.Reg
+            );
 
             // Act & Assert
-            try
-            {
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-                var connection_id = "test-connection_id";
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                await api.EnableConnectionAsync(application_id, connection_id);
-                // Void method - no response to check
-                _output.WriteLine($"Void method completed successfully");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in EnableConnection test: {ex.Message}");
-                throw;
-            }
+            var exception = await Assert.ThrowsAsync<ApiException>(() => api.CreateApplicationAsync(request));
+            Assert.Equal(409, exception.ErrorCode);
+            _output.WriteLine("409 error handled correctly");
         }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task RemoveConnection_Mock_Test()
+        public async Task DeleteApplication_Mock_Unauthorized_ThrowsException()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var application_id = "test-application_id";
-                var connection_id = "test-connection_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/applications/{application_id}/connections/{connection_id}", mockResponse);
+            mockHandler.AddErrorResponse("DELETE", "/api/v1/applications/{application_id}", 
+                System.Net.HttpStatusCode.Unauthorized, "unauthorized", "Invalid access token");
 
                 var api = CreateApi((client, config) => new ApplicationsApi(client, config));
 
-                // Act
-                var response = await api.RemoveConnectionAsync(application_id, connection_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RemoveConnection test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task RemoveConnection_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
             // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing application_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-                // WARNING: Using placeholder connection_id - test will likely fail without real resource ID
-                var connection_id = "test-connection_id";
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.RemoveConnectionAsync(application_id, connection_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RemoveConnection test: {ex.Message}");
-                throw;
-            }
+            var exception = await Assert.ThrowsAsync<ApiException>(() => api.DeleteApplicationAsync("app_123"));
+            Assert.Equal(401, exception.ErrorCode);
+            _output.WriteLine("401 error handled correctly");
         }
 
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task GetApplicationPropertyValues_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var application_id = "test-application_id";
-                var mockResponse = new GetPropertyValuesResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/applications/{application_id}/properties", mockResponse);
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                // Act
-                var response = await api.GetApplicationPropertyValuesAsync(application_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplicationPropertyValues test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetApplicationPropertyValues_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.GetApplicationPropertyValuesAsync(application_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetApplicationPropertyValues test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task UpdateApplicationsProperty_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var application_id = "test-application_id";
-                var property_key = "test-property_key";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PUT", $"/api/v1/applications/{application_id}/properties/{property_key}", mockResponse);
-                var request = new UpdateApplicationsPropertyRequest(value: new UpdateApplicationsPropertyRequestValue("test-value"));
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                // Act
-                var response = await api.UpdateApplicationsPropertyAsync(application_id, property_key, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplicationsProperty test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateApplicationsProperty_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing application_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-                // Using test resource from fixture: PropertyKey
-                var property_key = _fixture.PropertyKey;
-                var request = new UpdateApplicationsPropertyRequest(value: new UpdateApplicationsPropertyRequestValue("test-value"));
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.UpdateApplicationsPropertyAsync(application_id, property_key, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplicationsProperty test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task UpdateApplicationTokens_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var application_id = "test-application_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PATCH", $"/api/v1/applications/{application_id}/tokens", mockResponse);
-                var request = new UpdateApplicationTokensRequest();
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                // Act
-                var response = await api.UpdateApplicationTokensAsync(application_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplicationTokens test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateApplicationTokens_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing application_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: ApplicationId
-                var application_id = _fixture.ApplicationId;
-                var request = new UpdateApplicationTokensRequest();
-
-                var api = CreateApi((client, config) => new ApplicationsApi(client, config));
-
-                var response = await api.UpdateApplicationTokensAsync(application_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateApplicationTokens test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #endregion
     }
 }

@@ -134,10 +134,37 @@ namespace Kinde.Accounts.Client
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
         /// <summary>
+        /// Construct the response using pre-mapped data (for Kiota integration)
+        /// </summary>
+        /// <param name="path">The path used when making the request</param>
+        /// <param name="data">The already-mapped response data</param>
+        /// <param name="statusCode">The HTTP status code</param>
+        /// <param name="requestedAt">When the request was made</param>
+        public ApiResponse(string path, T data, HttpStatusCode statusCode, DateTime requestedAt)
+        {
+            StatusCode = statusCode;
+            Headers = new System.Net.Http.HttpResponseMessage().Headers;
+            IsSuccessStatusCode = (int)statusCode >= 200 && (int)statusCode < 300;
+            ReasonPhrase = statusCode.ToString();
+            RawContent = System.Text.Json.JsonSerializer.Serialize(data);
+            Path = path;
+            RequestUri = null;
+            RequestedAt = requestedAt;
+            _jsonSerializerOptions = new System.Text.Json.JsonSerializerOptions();
+            _preMapppedData = data;
+        }
+
+        private T? _preMapppedData;
+
+        /// <summary>
         /// Deserializes the server's response
         /// </summary>
         public T? AsModel()
         {
+            // Return pre-mapped data if available (from Kiota integration)
+            if (_preMapppedData != null)
+                return _preMapppedData;
+
             // This logic may be modified with the AsModel.mustache template
             return IsSuccessStatusCode
                 ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)

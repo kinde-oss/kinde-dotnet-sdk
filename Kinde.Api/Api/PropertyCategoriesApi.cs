@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -201,7 +206,54 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class PropertyCategoriesApi : IDisposable, IPropertyCategoriesApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly string _token;
+            public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
+                => Task.FromResult(_token);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyCategoriesApi"/> class.
@@ -295,6 +347,7 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -322,6 +375,7 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -503,46 +557,33 @@ namespace Kinde.Api.Api
             if (createCategoryRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createCategoryRequest' when calling PropertyCategoriesApi->CreateCategory");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createCategoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Property_categories.Property_categoriesPostRequestBody>(createCategoryRequest);
+
+                // Map the enum property manually
+                if (Enum.TryParse<Kiota.Management.Api.V1.Property_categories.Property_categoriesPostRequestBody_context>(createCategoryRequest.Context.ToString(), true, out var parsedContext))
+                {
+                    kiotaRequest.Context = parsedContext;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Property_categories.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateCategoryResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateCategoryResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateCategoryResponse>("/api/v1/property_categories", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateCategory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateCategory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -652,60 +693,38 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetCategoriesResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetCategoriesResponse>> GetCategoriesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string context = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json; charset=utf-8",
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (pageSize != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (startingAfter != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
-            }
-            if (endingBefore != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "ending_before", endingBefore));
-            }
-            if (context != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "context", context));
-            }
+                // Parse context enum if provided
+                Kiota.Management.Api.V1.Property_categories.GetContextQueryParameterType? kiotaContext = null;
+                if (context != null)
+                {
+                    if (Enum.TryParse<Kiota.Management.Api.V1.Property_categories.GetContextQueryParameterType>(context, true, out var parsedContext))
+                    {
+                        kiotaContext = parsedContext;
+                    }
+                }
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Property_categories.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.StartingAfter = startingAfter;
+                    config.QueryParameters.EndingBefore = endingBefore;
+                    config.QueryParameters.Context = kiotaContext;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetCategoriesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetCategoriesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetCategoriesResponse>("/api/v1/property_categories", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetCategories", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetCategories: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -810,47 +829,27 @@ namespace Kinde.Api.Api
             if (updateCategoryRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateCategoryRequest' when calling PropertyCategoriesApi->UpdateCategory");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("category_id", Kinde.Api.Client.ClientUtils.ParameterToString(categoryId)); // path parameter
-            localVarRequestOptions.Data = updateCategoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Property_categories.Item.WithCategory_PutRequestBody>(updateCategoryRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Property_categories[categoryId].PutAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/property_categories/{category_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateCategory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateCategory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
     }
