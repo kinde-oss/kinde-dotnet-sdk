@@ -128,8 +128,10 @@ namespace Kinde.Api.Model
         /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
+        /// <param name="isSuspended">Whether the organization is currently suspended or not..</param>
+        /// <param name="suspendedOn">The date the organization was suspended in ISO 8601 format. Null if not suspended..</param>
         /// <param name="billing">billing.</param>
-        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), List<string> allowedDomains = default(List<string>), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?), string senderName = default(string), string senderEmail = default(string), GetOrganizationResponseBilling billing = default(GetOrganizationResponseBilling))
+        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), List<string> allowedDomains = default(List<string>), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?), string senderName = default(string), string senderEmail = default(string), bool isSuspended = default(bool), string suspendedOn = default(string), GetOrganizationResponseBilling billing = default(GetOrganizationResponseBilling))
         {
             this.Code = code;
             this.Name = name;
@@ -159,6 +161,8 @@ namespace Kinde.Api.Model
             this.IsAllowRegistrations = isAllowRegistrations;
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
+            this.IsSuspended = isSuspended;
+            this.SuspendedOn = suspendedOn;
             this.Billing = billing;
         }
 
@@ -356,6 +360,22 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
+        /// Whether the organization is currently suspended or not.
+        /// </summary>
+        /// <value>Whether the organization is currently suspended or not.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
+        public bool IsSuspended { get; set; }
+
+        /// <summary>
+        /// The date the organization was suspended in ISO 8601 format. Null if not suspended.
+        /// </summary>
+        /// <value>The date the organization was suspended in ISO 8601 format. Null if not suspended.</value>
+        /// <example>2021-01-01T00:00:00Z</example>
+        [DataMember(Name = "suspended_on", EmitDefaultValue = true)]
+        public string SuspendedOn { get; set; }
+
+        /// <summary>
         /// Gets or Sets Billing
         /// </summary>
         [DataMember(Name = "billing", EmitDefaultValue = false)]
@@ -397,6 +417,8 @@ namespace Kinde.Api.Model
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
+            sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
+            sb.Append("  SuspendedOn: ").Append(SuspendedOn).Append("\n");
             sb.Append("  Billing: ").Append(Billing).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -571,6 +593,15 @@ namespace Kinde.Api.Model
                     this.SenderEmail.Equals(input.SenderEmail))
                 ) && 
                 (
+                    this.IsSuspended == input.IsSuspended ||
+                    this.IsSuspended.Equals(input.IsSuspended)
+                ) && 
+                (
+                    this.SuspendedOn == input.SuspendedOn ||
+                    (this.SuspendedOn != null &&
+                    this.SuspendedOn.Equals(input.SuspendedOn))
+                ) && 
+                (
                     this.Billing == input.Billing ||
                     (this.Billing != null &&
                     this.Billing.Equals(input.Billing))
@@ -685,6 +716,11 @@ namespace Kinde.Api.Model
                 if (this.SenderEmail != null)
                 {
                     hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
+                if (this.SuspendedOn != null)
+                {
+                    hashCode = (hashCode * 59) + this.SuspendedOn.GetHashCode();
                 }
                 if (this.Billing != null)
                 {
