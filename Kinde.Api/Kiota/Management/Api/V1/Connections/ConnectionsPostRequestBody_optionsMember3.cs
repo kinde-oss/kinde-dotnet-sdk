@@ -44,7 +44,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
             get { return BackingStore?.Get<bool?>("is_auto_join_organization_enabled"); }
             set { BackingStore?.Set("is_auto_join_organization_enabled", value); }
         }
-        /// <summary>Create user if they don’t exist.</summary>
+        /// <summary>Create user if they don&apos;t exist.</summary>
         public bool? IsCreateMissingUser
         {
             get { return BackingStore?.Get<bool?>("is_create_missing_user"); }
@@ -56,7 +56,19 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
             get { return BackingStore?.Get<bool?>("is_force_show_sso_button"); }
             set { BackingStore?.Set("is_force_show_sso_button", value); }
         }
-        /// <summary>Attribute key for the user’s email.</summary>
+        /// <summary>Trust this connection for account merging.</summary>
+        public bool? IsTrusted
+        {
+            get { return BackingStore?.Get<bool?>("is_trusted"); }
+            set { BackingStore?.Set("is_trusted", value); }
+        }
+        /// <summary>Use custom domain callback URL.</summary>
+        public bool? IsUseCustomDomain
+        {
+            get { return BackingStore?.Get<bool?>("is_use_custom_domain"); }
+            set { BackingStore?.Set("is_use_custom_domain", value); }
+        }
+        /// <summary>Attribute key for the user&apos;s email.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlEmailKeyAttr
@@ -88,7 +100,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
             set { BackingStore?.Set("saml_entity_id", value); }
         }
 #endif
-        /// <summary>Attribute key for the user’s first name.</summary>
+        /// <summary>Attribute key for the user&apos;s first name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlFirstNameKeyAttr
@@ -120,7 +132,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
             set { BackingStore?.Set("saml_idp_metadata_url", value); }
         }
 #endif
-        /// <summary>Attribute key for the user’s last name.</summary>
+        /// <summary>Attribute key for the user&apos;s last name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlLastNameKeyAttr
@@ -230,6 +242,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
                 { "is_auto_join_organization_enabled", n => { IsAutoJoinOrganizationEnabled = n.GetBoolValue(); } },
                 { "is_create_missing_user", n => { IsCreateMissingUser = n.GetBoolValue(); } },
                 { "is_force_show_sso_button", n => { IsForceShowSsoButton = n.GetBoolValue(); } },
+                { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
+                { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
                 { "saml_email_key_attr", n => { SamlEmailKeyAttr = n.GetStringValue(); } },
                 { "saml_entity_id", n => { SamlEntityId = n.GetStringValue(); } },
                 { "saml_first_name_key_attr", n => { SamlFirstNameKeyAttr = n.GetStringValue(); } },
@@ -252,6 +266,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections
             writer.WriteBoolValue("is_auto_join_organization_enabled", IsAutoJoinOrganizationEnabled);
             writer.WriteBoolValue("is_create_missing_user", IsCreateMissingUser);
             writer.WriteBoolValue("is_force_show_sso_button", IsForceShowSsoButton);
+            writer.WriteBoolValue("is_trusted", IsTrusted);
+            writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
             writer.WriteStringValue("saml_email_key_attr", SamlEmailKeyAttr);
             writer.WriteStringValue("saml_entity_id", SamlEntityId);
             writer.WriteStringValue("saml_first_name_key_attr", SamlFirstNameKeyAttr);

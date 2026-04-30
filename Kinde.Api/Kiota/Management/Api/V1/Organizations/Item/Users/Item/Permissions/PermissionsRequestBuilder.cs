@@ -140,7 +140,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permis
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class PermissionsRequestBuilderGetQueryParameters 
         {
-            /// <summary>Specify additional data to retrieve. Use &quot;roles&quot;.</summary>
+            /// <summary>Additional data to include in the response. Allowed value: &quot;roles&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]

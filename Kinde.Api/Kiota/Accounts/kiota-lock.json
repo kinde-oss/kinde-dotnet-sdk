@@ -1,8 +1,8 @@
 {
-  "descriptionHash": "F73FEA5DE81D849098680C9A9B26F28B7DE96BAE5ECCB6FF696B33B79607B7E76B72C04F9EE32F54EA6B9224C7553780F3EDE75A2E364E9CEAC8EDF01899AB41",
+  "descriptionHash": "8D56BE399EE102B85BEC55E3F6397BA11476B36BB0E786DEADD4A2C60472C245C2F37F7DB8CFDA0268F2207D340815E5BB822418FB041B3E0B351DEA62D8E031",
   "descriptionLocation": "https://api-spec.kinde.com/kinde-frontend-api-spec.yaml",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.29.0",
+  "kiotaVersion": "1.30.0",
   "clientClassName": "KindeAccountsClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "Kinde.Api.Kiota.Accounts",

@@ -159,7 +159,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Apis
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class ApisRequestBuilderGetQueryParameters 
         {
-            /// <summary>Specify additional data to retrieve. Use &quot;scopes&quot;.</summary>
+            /// <summary>Additional data to include in the response. Allowed value: &quot;scopes&quot;.</summary>
             [QueryParameter("expand")]
             public global::Kinde.Api.Kiota.Management.Api.V1.Apis.GetExpandQueryParameterType? Expand { get; set; }
         }

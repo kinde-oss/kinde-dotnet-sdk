@@ -6,11 +6,11 @@ using Microsoft.Kiota.Abstractions.Store;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
+namespace Kinde.Api.Kiota.Management.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class MfaPutRequestBody : IAdditionalDataHolder, IBackedModel, IParsable
+    public partial class Users_response_users_last_organization_sign_ins : IAdditionalDataHolder, IBackedModel, IParsable
     #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
@@ -21,32 +21,32 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>The MFA methods to enable.</summary>
+        /// <summary>The date and time the user last signed in to this organization in ISO 8601 format.</summary>
+        public DateTimeOffset? LastSignedIn
+        {
+            get { return BackingStore?.Get<DateTimeOffset?>("last_signed_in"); }
+            set { BackingStore?.Set("last_signed_in", value); }
+        }
+        /// <summary>The organization code.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors?>? EnabledFactors
+        public string? OrgCode
         {
-            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors?>?>("enabled_factors"); }
-            set { BackingStore?.Set("enabled_factors", value); }
+            get { return BackingStore?.Get<string?>("org_code"); }
+            set { BackingStore?.Set("org_code", value); }
         }
 #nullable restore
 #else
-        public List<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors?> EnabledFactors
+        public string OrgCode
         {
-            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors?>>("enabled_factors"); }
-            set { BackingStore?.Set("enabled_factors", value); }
+            get { return BackingStore?.Get<string>("org_code"); }
+            set { BackingStore?.Set("org_code", value); }
         }
 #endif
-        /// <summary>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.</summary>
-        public bool? IsRecoveryCodesEnabled
-        {
-            get { return BackingStore?.Get<bool?>("is_recovery_codes_enabled"); }
-            set { BackingStore?.Set("is_recovery_codes_enabled", value); }
-        }
         /// <summary>
-        /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins"/> and sets the default values.
         /// </summary>
-        public MfaPutRequestBody()
+        public Users_response_users_last_organization_sign_ins()
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
@@ -54,12 +54,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody"/></returns>
+        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody();
+            return new global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -69,8 +69,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "enabled_factors", n => { EnabledFactors = n.GetCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>()?.AsList(); } },
-                { "is_recovery_codes_enabled", n => { IsRecoveryCodesEnabled = n.GetBoolValue(); } },
+                { "last_signed_in", n => { LastSignedIn = n.GetDateTimeOffsetValue(); } },
+                { "org_code", n => { OrgCode = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -80,8 +80,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>("enabled_factors", EnabledFactors);
-            writer.WriteBoolValue("is_recovery_codes_enabled", IsRecoveryCodesEnabled);
+            writer.WriteDateTimeOffsetValue("last_signed_in", LastSignedIn);
+            writer.WriteStringValue("org_code", OrgCode);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

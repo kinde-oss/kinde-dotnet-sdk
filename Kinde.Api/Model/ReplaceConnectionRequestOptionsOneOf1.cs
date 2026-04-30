@@ -37,15 +37,17 @@ namespace Kinde.Api.Model
         /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
         /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
-        /// <param name="samlEmailKeyAttr">Attribute key for the user’s email..</param>
-        /// <param name="samlFirstNameKeyAttr">Attribute key for the user’s first name..</param>
-        /// <param name="samlLastNameKeyAttr">Attribute key for the user’s last name..</param>
-        /// <param name="isCreateMissingUser">Create user if they don’t exist..</param>
+        /// <param name="samlEmailKeyAttr">Attribute key for the user&#39;s email..</param>
+        /// <param name="samlFirstNameKeyAttr">Attribute key for the user&#39;s first name..</param>
+        /// <param name="samlLastNameKeyAttr">Attribute key for the user&#39;s last name..</param>
+        /// <param name="isCreateMissingUser">Create user if they don&#39;t exist..</param>
         /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
         /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
-        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string))
+        /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
+        /// <param name="isTrusted">Trust this connection for account merging..</param>
+        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
@@ -58,6 +60,8 @@ namespace Kinde.Api.Model
             this.UpstreamParams = upstreamParams;
             this.SamlSigningCertificate = samlSigningCertificate;
             this.SamlSigningPrivateKey = samlSigningPrivateKey;
+            this.IsUseCustomDomain = isUseCustomDomain;
+            this.IsTrusted = isTrusted;
         }
 
         /// <summary>
@@ -85,33 +89,33 @@ namespace Kinde.Api.Model
         public string SamlIdpMetadataUrl { get; set; }
 
         /// <summary>
-        /// Attribute key for the user’s email.
+        /// Attribute key for the user&#39;s email.
         /// </summary>
-        /// <value>Attribute key for the user’s email.</value>
+        /// <value>Attribute key for the user&#39;s email.</value>
         /// <example>email</example>
         [DataMember(Name = "saml_email_key_attr", EmitDefaultValue = false)]
         public string SamlEmailKeyAttr { get; set; }
 
         /// <summary>
-        /// Attribute key for the user’s first name.
+        /// Attribute key for the user&#39;s first name.
         /// </summary>
-        /// <value>Attribute key for the user’s first name.</value>
+        /// <value>Attribute key for the user&#39;s first name.</value>
         /// <example>given_name</example>
         [DataMember(Name = "saml_first_name_key_attr", EmitDefaultValue = false)]
         public string SamlFirstNameKeyAttr { get; set; }
 
         /// <summary>
-        /// Attribute key for the user’s last name.
+        /// Attribute key for the user&#39;s last name.
         /// </summary>
-        /// <value>Attribute key for the user’s last name.</value>
+        /// <value>Attribute key for the user&#39;s last name.</value>
         /// <example>family_name</example>
         [DataMember(Name = "saml_last_name_key_attr", EmitDefaultValue = false)]
         public string SamlLastNameKeyAttr { get; set; }
 
         /// <summary>
-        /// Create user if they don’t exist.
+        /// Create user if they don&#39;t exist.
         /// </summary>
-        /// <value>Create user if they don’t exist.</value>
+        /// <value>Create user if they don&#39;t exist.</value>
         /// <example>true</example>
         [DataMember(Name = "is_create_missing_user", EmitDefaultValue = true)]
         public bool IsCreateMissingUser { get; set; }
@@ -136,7 +140,6 @@ namespace Kinde.Api.Model
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        /// <example>Example certificate or key data</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -144,9 +147,24 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        /// <example>Example certificate or key data</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
+
+        /// <summary>
+        /// Use custom domain callback URL.
+        /// </summary>
+        /// <value>Use custom domain callback URL.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_use_custom_domain", EmitDefaultValue = true)]
+        public bool IsUseCustomDomain { get; set; }
+
+        /// <summary>
+        /// Trust this connection for account merging.
+        /// </summary>
+        /// <value>Trust this connection for account merging.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        public bool IsTrusted { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -167,6 +185,8 @@ namespace Kinde.Api.Model
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
             sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
+            sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
+            sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -256,6 +276,14 @@ namespace Kinde.Api.Model
                     this.SamlSigningPrivateKey == input.SamlSigningPrivateKey ||
                     (this.SamlSigningPrivateKey != null &&
                     this.SamlSigningPrivateKey.Equals(input.SamlSigningPrivateKey))
+                ) && 
+                (
+                    this.IsUseCustomDomain == input.IsUseCustomDomain ||
+                    this.IsUseCustomDomain.Equals(input.IsUseCustomDomain)
+                ) && 
+                (
+                    this.IsTrusted == input.IsTrusted ||
+                    this.IsTrusted.Equals(input.IsTrusted)
                 );
         }
 
@@ -306,6 +334,8 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SamlSigningPrivateKey.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
                 return hashCode;
             }
         }

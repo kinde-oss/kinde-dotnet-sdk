@@ -45,7 +45,9 @@ namespace Kinde.Api.Model
         /// <param name="isCreateMissingUser">Create a user record in Kinde if the user signing in does not exist..</param>
         /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
-        public ReplaceConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>))
+        /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
+        /// <param name="isTrusted">Trust this connection for account merging..</param>
+        public ReplaceConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
@@ -58,6 +60,8 @@ namespace Kinde.Api.Model
             this.IsCreateMissingUser = isCreateMissingUser;
             this.IsForceShowSsoButton = isForceShowSsoButton;
             this.UpstreamParams = upstreamParams;
+            this.IsUseCustomDomain = isUseCustomDomain;
+            this.IsTrusted = isTrusted;
         }
 
         /// <summary>
@@ -149,6 +153,22 @@ namespace Kinde.Api.Model
         public Dictionary<string, Object> UpstreamParams { get; set; }
 
         /// <summary>
+        /// Use custom domain callback URL.
+        /// </summary>
+        /// <value>Use custom domain callback URL.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_use_custom_domain", EmitDefaultValue = true)]
+        public bool IsUseCustomDomain { get; set; }
+
+        /// <summary>
+        /// Trust this connection for account merging.
+        /// </summary>
+        /// <value>Trust this connection for account merging.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        public bool IsTrusted { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -167,6 +187,8 @@ namespace Kinde.Api.Model
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
             sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
+            sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
+            sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -252,6 +274,14 @@ namespace Kinde.Api.Model
                     this.UpstreamParams != null &&
                     input.UpstreamParams != null &&
                     this.UpstreamParams.SequenceEqual(input.UpstreamParams)
+                ) && 
+                (
+                    this.IsUseCustomDomain == input.IsUseCustomDomain ||
+                    this.IsUseCustomDomain.Equals(input.IsUseCustomDomain)
+                ) && 
+                (
+                    this.IsTrusted == input.IsTrusted ||
+                    this.IsTrusted.Equals(input.IsTrusted)
                 );
         }
 
@@ -290,6 +320,8 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
                 return hashCode;
             }
         }

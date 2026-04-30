@@ -197,11 +197,18 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
             set { BackingStore?.Set("handle", value); }
         }
 #endif
-        /// <summary>If users become members of this organization when the org code is supplied during authentication.</summary>
+        /// <summary>Deprecated - Use &apos;is_auto_membership_enabled&apos; instead.</summary>
+        [Obsolete("")]
         public bool? IsAllowRegistrations
         {
             get { return BackingStore?.Get<bool?>("is_allow_registrations"); }
             set { BackingStore?.Set("is_allow_registrations", value); }
+        }
+        /// <summary>If users become members of this organization when the org code is supplied during authentication.</summary>
+        public bool? IsAutoMembershipEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_auto_membership_enabled"); }
+            set { BackingStore?.Set("is_auto_membership_enabled", value); }
         }
         /// <summary>If a billing customer is also created for this organization</summary>
         public bool? IsCreateBillingCustomer
@@ -343,6 +350,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
                 { "feature_flags", n => { FeatureFlags = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody_feature_flags>(global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody_feature_flags.CreateFromDiscriminatorValue); } },
                 { "handle", n => { Handle = n.GetStringValue(); } },
                 { "is_allow_registrations", n => { IsAllowRegistrations = n.GetBoolValue(); } },
+                { "is_auto_membership_enabled", n => { IsAutoMembershipEnabled = n.GetBoolValue(); } },
                 { "is_create_billing_customer", n => { IsCreateBillingCustomer = n.GetBoolValue(); } },
                 { "link_color", n => { LinkColor = n.GetStringValue(); } },
                 { "link_color_dark", n => { LinkColorDark = n.GetStringValue(); } },
@@ -371,6 +379,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody_feature_flags>("feature_flags", FeatureFlags);
             writer.WriteStringValue("handle", Handle);
             writer.WriteBoolValue("is_allow_registrations", IsAllowRegistrations);
+            writer.WriteBoolValue("is_auto_membership_enabled", IsAutoMembershipEnabled);
             writer.WriteBoolValue("is_create_billing_customer", IsCreateBillingCustomer);
             writer.WriteStringValue("link_color", LinkColor);
             writer.WriteStringValue("link_color_dark", LinkColorDark);

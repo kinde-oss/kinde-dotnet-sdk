@@ -81,13 +81,15 @@ namespace Kinde.Api.Model
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode..</param>
         /// <param name="handle">The organization&#39;s handle..</param>
         /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead..</param>
+        /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="isAutoJoinDomainList">Users can sign up to this organization..</param>
         /// <param name="allowedDomains">Domains allowed for self-sign up to this environment..</param>
         /// <param name="isEnableAdvancedOrgs">Activate advanced organization features..</param>
         /// <param name="isEnforceMfa">Enforce MFA for all users in this organization..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool), string senderName = default(string), string senderEmail = default(string))
+        /// <param name="isSuspended">Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended..</param>
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoMembershipEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool), string senderName = default(string), string senderEmail = default(string), bool isSuspended = default(bool))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -102,12 +104,14 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
+            this.IsAutoMembershipEnabled = isAutoMembershipEnabled;
             this.IsAutoJoinDomainList = isAutoJoinDomainList;
             this.AllowedDomains = allowedDomains;
             this.IsEnableAdvancedOrgs = isEnableAdvancedOrgs;
             this.IsEnforceMfa = isEnforceMfa;
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
+            this.IsSuspended = isSuspended;
         }
 
         /// <summary>
@@ -207,6 +211,14 @@ namespace Kinde.Api.Model
         public bool IsAllowRegistrations { get; set; }
 
         /// <summary>
+        /// If users become members of this organization when the org code is supplied during authentication.
+        /// </summary>
+        /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = true)]
+        public bool IsAutoMembershipEnabled { get; set; }
+
+        /// <summary>
         /// Users can sign up to this organization.
         /// </summary>
         /// <value>Users can sign up to this organization.</value>
@@ -255,6 +267,14 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
+        /// Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended.
+        /// </summary>
+        /// <value>Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
+        public bool IsSuspended { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -275,12 +295,14 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
+            sb.Append("  IsAutoMembershipEnabled: ").Append(IsAutoMembershipEnabled).Append("\n");
             sb.Append("  IsAutoJoinDomainList: ").Append(IsAutoJoinDomainList).Append("\n");
             sb.Append("  AllowedDomains: ").Append(AllowedDomains).Append("\n");
             sb.Append("  IsEnableAdvancedOrgs: ").Append(IsEnableAdvancedOrgs).Append("\n");
             sb.Append("  IsEnforceMfa: ").Append(IsEnforceMfa).Append("\n");
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
+            sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -380,6 +402,10 @@ namespace Kinde.Api.Model
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
                 ) && 
                 (
+                    this.IsAutoMembershipEnabled == input.IsAutoMembershipEnabled ||
+                    this.IsAutoMembershipEnabled.Equals(input.IsAutoMembershipEnabled)
+                ) && 
+                (
                     this.IsAutoJoinDomainList == input.IsAutoJoinDomainList ||
                     this.IsAutoJoinDomainList.Equals(input.IsAutoJoinDomainList)
                 ) && 
@@ -406,6 +432,10 @@ namespace Kinde.Api.Model
                     this.SenderEmail == input.SenderEmail ||
                     (this.SenderEmail != null &&
                     this.SenderEmail.Equals(input.SenderEmail))
+                ) && 
+                (
+                    this.IsSuspended == input.IsSuspended ||
+                    this.IsSuspended.Equals(input.IsSuspended)
                 );
         }
 
@@ -464,6 +494,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAutoMembershipEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsAutoJoinDomainList.GetHashCode();
                 if (this.AllowedDomains != null)
                 {
@@ -479,6 +510,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SenderEmail.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
                 return hashCode;
             }
         }

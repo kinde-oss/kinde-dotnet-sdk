@@ -114,7 +114,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Search.Users
             [QueryParameter("ending_before")]
             public string EndingBefore { get; set; }
 #endif
-            /// <summary>Specify additional data to retrieve. Use &quot;organizations&quot; and/or &quot;identities&quot;.</summary>
+            /// <summary>Additional data to include in the response. One or more of (comma-separated): &quot;organizations&quot;, &quot;identities&quot;, &quot;properties&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]
