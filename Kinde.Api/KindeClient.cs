@@ -102,7 +102,7 @@ namespace Kinde.Api.Client
             var state = await AuthorizationFlow.Authorize(HttpClient, register);
             if (state == AuthorizationStates.NonAuthorized)
             {
-                throw new ApplicationException("Authorization failed");
+                throw new KindeAuthenticationException("Authorization failed");
             }
         }
 
