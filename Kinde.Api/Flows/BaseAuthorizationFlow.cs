@@ -5,7 +5,6 @@ using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
 using Newtonsoft.Json;
-using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 
@@ -55,12 +54,12 @@ namespace Kinde.Api.Flows
             if (register)
             {
                 parameters.Add("start_page", "registration");
-                
+
                 if (!string.IsNullOrEmpty(Configuration.PlanInterest))
                 {
                     parameters.Add("plan_interest", Configuration.PlanInterest);
                 }
-                
+
                 if (!string.IsNullOrEmpty(Configuration.PricingTableKey))
                 {
                     parameters.Add("pricing_table_key", Configuration.PricingTableKey);
@@ -79,11 +78,11 @@ namespace Kinde.Api.Flows
             if (RequiresRedirection)
             {
                 var url = BuildUrl(IdentityProviderConfiguration.Domain + "/oauth2/auth", parameters);
-                
+
                 // Make HTTP request to validate the authorization URL
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
                 var response = await httpClient.SendAsync(request);
-                
+
                 // Check if the response is a redirect (which is expected for authorization flows)
                 if (response.StatusCode == System.Net.HttpStatusCode.Redirect || 
                     response.StatusCode == System.Net.HttpStatusCode.Found)
@@ -222,7 +221,9 @@ namespace Kinde.Api.Flows
         protected async Task<OauthToken> FetchToken(HttpClient httpClient, Dictionary<string, string> parameters)
         {
             var request = BuildContent(parameters);
-            request.Headers.TryAddWithoutValidation("Kinde-SDK", $".NET/{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion}");
+
+            var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.0";
+            request.Headers.TryAddWithoutValidation("Kinde-SDK", $".NET/{version}");
 
             var response = await httpClient.PostAsync(IdentityProviderConfiguration.Domain + "/oauth2/token", request);
             var content = await response.Content.ReadAsStringAsync();
