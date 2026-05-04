@@ -84,7 +84,7 @@ namespace Kinde.Api.Flows
                 var response = await httpClient.SendAsync(request);
 
                 // Check if the response is a redirect (which is expected for authorization flows)
-                if (response.StatusCode == System.Net.HttpStatusCode.Redirect || 
+                if (response.StatusCode == System.Net.HttpStatusCode.Redirect ||
                     response.StatusCode == System.Net.HttpStatusCode.Found)
                 {
                     // Valid redirect response - proceed with setting up for user action
@@ -229,7 +229,7 @@ namespace Kinde.Api.Flows
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(content))
             {
-                throw new ApplicationException("Invalid response from server: No token received");
+                throw new KindeAuthenticationException($"Invalid response from server. StatusCode: {response.StatusCode}", response.StatusCode, content);
             }
 
             Token = JsonConvert.DeserializeObject<OauthToken>(content);
@@ -240,7 +240,7 @@ namespace Kinde.Api.Flows
         {
             if (Token == null)
             {
-                throw new ApplicationException("Please authorize first");
+                throw new KindeAuthenticationException("Please authorize first");
             }
 
             if (!Token.IsExpired)

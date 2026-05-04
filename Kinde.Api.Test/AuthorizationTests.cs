@@ -5,9 +5,8 @@ using Kinde.Api.Models.Tokens;
 using Kinde.Api.Model;
 using Kinde.Api.Test.Mocks;
 using Kinde.Api.Test.Mocks.Flows;
+using Kinde.Api.Flows;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Reflection;
 using Xunit;
 
 namespace Kinde.Api.Test
@@ -40,7 +39,7 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<KindeAuthenticationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
             await apiClient.Authorize(authConfig);
@@ -71,7 +70,7 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<KindeAuthenticationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
             await apiClient.Authorize(authConfig);
@@ -102,7 +101,7 @@ namespace Kinde.Api.Test
             //Act
             if (throws)
             {
-                await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.Authorize(authConfig); });
+                await Assert.ThrowsAsync<KindeAuthenticationException>(async () => { await apiClient.Authorize(authConfig); });
                 return;
             }
             await apiClient.Authorize(authConfig);
@@ -148,7 +147,7 @@ namespace Kinde.Api.Test
             //Act
             await apiClient.Authorize(authConfig);
             await apiClient.Logout();
-            var exception = await Assert.ThrowsAsync<ApplicationException>(async () => { await apiClient.GetToken(); });
+            var exception = await Assert.ThrowsAsync<KindeAuthenticationException>(async () => { await apiClient.GetToken(); });
 
             //Assert
             Assert.Equal("Please authorize first", exception.Message);
@@ -232,10 +231,10 @@ namespace Kinde.Api.Test
             {
                 Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(portalResponse))
             };
-            
+
             // Ensure the response is properly set up
             response.EnsureSuccessStatusCode();
-            
+
             var handler = new MockHttpMessageHandler(response);
             var client = new HttpClient(handler);
             var apiClient = new KindeClient(new MockIdentityProviderConfiguration(), client);
@@ -243,7 +242,7 @@ namespace Kinde.Api.Test
             // Mock authentication by setting up AuthorizationFlow with a valid token
             var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
             var mockAuthFlow = new MockAuthorizationFlow(token);
-            
+
             // Set the AuthorizationFlow before any HTTP requests are made
             var authFlowProperty = apiClient.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (authFlowProperty == null)
@@ -265,7 +264,7 @@ namespace Kinde.Api.Test
             // Assert
             Assert.NotNull(result);
             Assert.Equal("https://test.kinde.com/portal/profile", result.Url);
-            
+
             // Verify the request was made correctly
             Assert.NotNull(handler.Request);
             Assert.Equal(HttpMethod.Get, handler.Request.Method);
