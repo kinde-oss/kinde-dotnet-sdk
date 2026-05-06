@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Whether the environment is forced into light mode, dark mode or user preference</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum Get_organization_response_theme_code
     {
         [EnumMember(Value = "light")]

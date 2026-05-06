@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The variable type.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateFeatureFlag_request_type
     {
         [EnumMember(Value = "str")]

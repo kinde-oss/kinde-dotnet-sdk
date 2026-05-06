@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Determines if the session should be persistent or not.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum UpdateOrganizationSessions_request_sso_session_persistence_mode
     {
         [EnumMember(Value = "persistent")]

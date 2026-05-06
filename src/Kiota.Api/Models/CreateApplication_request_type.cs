@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The application&apos;s type. Use `reg` for regular server rendered applications, `spa` for single-page applications, and `m2m` for machine-to-machine applications.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateApplication_request_type
     {
         [EnumMember(Value = "reg")]

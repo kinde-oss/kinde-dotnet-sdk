@@ -68,34 +68,34 @@
       },
       "Microsoft.Kiota.Http.HttpClientLibrary": {
         "type": "Transitive",
-        "resolved": "1.15.0",
-        "contentHash": "8eGh20bHjJlmK/x5Cpx9qbppNBBTgateVWDi0o5In4Uw3mHHA6Asba22ZB/rq62U6W/FPML8yjtbmKBmTId0uw==",
+        "resolved": "1.4.3",
+        "contentHash": "axLzUosoRzLoC67RDuzzjSyGaY9Daw7TrCKOmXRosbWSa/Vy7bm1m5OI+pmPcL95EyCq1S9Y2Pmdl/qJQL1SRA==",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "1.15.0"
+          "Microsoft.Kiota.Abstractions": "[1.9.1, 2.0.0)"
         }
       },
       "Microsoft.Kiota.Serialization.Form": {
         "type": "Transitive",
-        "resolved": "1.15.0",
-        "contentHash": "jeucwNnwLAJR08dpmrdiYMP9gAYkwXpKH0hW9DyxJ3AbCpyK/5AUOLQFJh9YPELRe3iKApgby10KXdgcXIP0fw==",
+        "resolved": "1.9.8",
+        "contentHash": "+HSX0XUkhZzKJS4v9i1rEgSlo3VgyljcXpTx4fD/gowmmMd7ZP7EyD769fCm2mIOnM0okJKuUvhPvChQhs8YCw==",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "1.15.0"
+          "Microsoft.Kiota.Abstractions": "1.9.8"
         }
       },
       "Microsoft.Kiota.Serialization.Json": {
         "type": "Transitive",
-        "resolved": "1.15.0",
-        "contentHash": "83+yGOcp7EXPnTES7z/INZX9pNYmGhPbMi2WFDGl5B9mdcw22sYU4++jZLYf/VyEoa4TOmzBRawAhwBwlTyBHQ==",
+        "resolved": "1.9.8",
+        "contentHash": "QSHUipKdTLw7Xpe9AH/2u8tQKQoht185caOtTPGjWyTigmVChw7TF7BzTwA/mA3GSLSyD+IWwUgLdoh/9Ty2sQ==",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "1.15.0"
+          "Microsoft.Kiota.Abstractions": "1.9.8"
         }
       },
       "Microsoft.Kiota.Serialization.Text": {
         "type": "Transitive",
-        "resolved": "1.15.0",
-        "contentHash": "8l8R6fhr27yfdL51BMdArvIYwIsqoCJkimOOXU0In+wjVXYZI6JPK6kd3PoPu70KMDuJTCUGgn2LwcZAhZAAwQ==",
+        "resolved": "1.9.8",
+        "contentHash": "Tsu+2TRo2GUhhoy0nVT7t/2OQ8MmkBHv59dSY/1UEyJz9dhiWJlaD8ykixX0mE4ppqD5QgkcbhaGNy0UL+jcAw==",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "1.15.0"
+          "Microsoft.Kiota.Abstractions": "1.9.8"
         }
       },
       "Microsoft.TestPlatform.ObjectModel": {
@@ -186,12 +186,12 @@
       "kiota.api": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "[1.15.0, )",
-          "Microsoft.Kiota.Http.HttpClientLibrary": "[1.15.0, )",
-          "Microsoft.Kiota.Serialization.Form": "[1.15.0, )",
-          "Microsoft.Kiota.Serialization.Json": "[1.15.0, )",
-          "Microsoft.Kiota.Serialization.Multipart": "[1.15.0, )",
-          "Microsoft.Kiota.Serialization.Text": "[1.15.0, )"
+          "Microsoft.Kiota.Abstractions": "[1.9.*, )",
+          "Microsoft.Kiota.Http.HttpClientLibrary": "[1.4.*, )",
+          "Microsoft.Kiota.Serialization.Form": "[1.4.0, )",
+          "Microsoft.Kiota.Serialization.Json": "[1.4.0, )",
+          "Microsoft.Kiota.Serialization.Multipart": "[1.4.0, )",
+          "Microsoft.Kiota.Serialization.Text": "[1.4.0, )"
         }
       }
     }

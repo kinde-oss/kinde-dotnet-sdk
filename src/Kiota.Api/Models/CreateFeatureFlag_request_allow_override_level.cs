@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Allow the flag to be overridden at a different level.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateFeatureFlag_request_allow_override_level
     {
         [EnumMember(Value = "env")]

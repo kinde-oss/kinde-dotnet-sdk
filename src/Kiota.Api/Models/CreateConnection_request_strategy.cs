@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The identity provider identifier for the connection.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateConnection_request_strategy
     {
         [EnumMember(Value = "oauth2:apple")]

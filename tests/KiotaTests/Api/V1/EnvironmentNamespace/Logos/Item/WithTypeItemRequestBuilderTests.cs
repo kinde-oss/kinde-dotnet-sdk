@@ -1,10 +1,10 @@
 using FluentAssertions;
-using Kiota.Api.Models;
 using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Serialization.Multipart;
-using System.Net; 
+using System.Net;
 using Xunit;
+
 namespace KiotaTests.Api.V1.EnvironmentNamespace.Logos.Item;
+
 public class WithTypeItemRequestBuilderTests
 {
     [Fact]
@@ -12,16 +12,27 @@ public class WithTypeItemRequestBuilderTests
     {
         var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
 
-        var act = async () =>
-            await client.Api.V1.Environment.Logos["light"].PutAsync(new AddLogo_request
-            {
-                Logo = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("fake-image-bytes"))
-            });
+        var body = new MultipartBody();
+        body.AddOrReplacePart(
+            "logo",
+            "image/png",
+            System.Text.Encoding.UTF8.GetBytes("fake-image-bytes")
+        );
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
-        exception.Message.Should().Be("Expected a MultiPartBody instance, but got AddLogo_request");
+        await client.Api.V1.Environment.Logos["light"].PutAsync(body);
 
-        handler.LastRequest.Should().BeNull();
+        handler.LastRequest!.Method.Should().Be(HttpMethod.Put);
+        handler.LastRequest.RequestUri!.ToString().Should().Contain("/logos/light");
     }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Environment.Logos["light"].DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
+
+    [Fact]
+    public async Task DeleteAsync_Returns200()
+    {
+        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+
+        await client.Api.V1.Environment.Logos["light"].DeleteAsync();
+
+        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
+        handler.LastRequest.RequestUri!.ToString().Should().Contain("/logos/light");
+    }
 }

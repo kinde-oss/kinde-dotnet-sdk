@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The color scheme for the environment used for meta tags based on the theme code</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum Get_environment_response_environment_color_scheme
     {
         [EnumMember(Value = "light")]

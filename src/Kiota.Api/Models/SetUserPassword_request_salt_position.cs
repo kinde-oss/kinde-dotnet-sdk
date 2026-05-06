@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Position of salt in password string. Not required for bcrypt.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum SetUserPassword_request_salt_position
     {
         [EnumMember(Value = "prefix")]

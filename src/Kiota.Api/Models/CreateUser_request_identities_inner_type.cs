@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The type of identity to create, e.g. email, username, or phone.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateUser_request_identities_inner_type
     {
         [EnumMember(Value = "email")]

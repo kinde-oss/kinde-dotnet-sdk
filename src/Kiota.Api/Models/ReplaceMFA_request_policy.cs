@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Specifies whether MFA is required, optional, or not enforced.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ReplaceMFA_request_policy
     {
         [EnumMember(Value = "required")]

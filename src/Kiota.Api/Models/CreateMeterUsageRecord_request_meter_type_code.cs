@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>Absolutes overrides the current usage</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum CreateMeterUsageRecord_request_meter_type_code
     {
         [EnumMember(Value = "absolute")]

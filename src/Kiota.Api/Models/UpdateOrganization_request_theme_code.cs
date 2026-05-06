@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The organization&apos;s brand settings - theme/mode.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum UpdateOrganization_request_theme_code
     {
         [EnumMember(Value = "light")]

@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum SetUserPassword_request_hashing_method
     {
         [EnumMember(Value = "bcrypt")]

@@ -4,6 +4,7 @@ using System;
 namespace Kiota.Api.Models
 {
     /// <summary>The application&apos;s type.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum Get_api_response_api_applications_inner_type
     {
         [EnumMember(Value = "Machine to machine (M2M)")]
