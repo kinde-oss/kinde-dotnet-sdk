@@ -64,7 +64,6 @@ namespace Kinde.Api.Model
         /// <value>Whether the environment is forced into light mode, dark mode or user preference</value>
         [DataMember(Name = "theme_code", EmitDefaultValue = false)]
         public ThemeCodeEnum? ThemeCode { get; set; }
-
         /// <summary>
         /// The color scheme for the environment used for meta tags based on the theme code
         /// </summary>
@@ -98,7 +97,6 @@ namespace Kinde.Api.Model
         /// <value>The color scheme for the environment used for meta tags based on the theme code</value>
         [DataMember(Name = "color_scheme", EmitDefaultValue = false)]
         public ColorSchemeEnum? ColorScheme { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationResponse" /> class.
         /// </summary>
@@ -111,8 +109,7 @@ namespace Kinde.Api.Model
         /// <param name="logo">The organization&#39;s logo URL..</param>
         /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes..</param>
         /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers.</param>
-        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG.</param>
-        /// <param name="allowedDomains">Domains allowed for self-sign up to this environment.  Empty array means no restrictions..</param>
+        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG.</param>
         /// <param name="linkColor">linkColor.</param>
         /// <param name="backgroundColor">backgroundColor.</param>
         /// <param name="buttonColor">buttonColor.</param>
@@ -131,40 +128,7 @@ namespace Kinde.Api.Model
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
         /// <param name="billing">billing.</param>
-        /// <param name="isSuspended">Whether the organization is suspended.</param>
-        /// <param name="suspendedOn">Date the organization was suspended.</param>
-        public GetOrganizationResponse(
-            string code = default(string),
-            string name = default(string),
-            string handle = default(string),
-            bool isDefault = default(bool),
-            string externalId = default(string),
-            bool isAutoMembershipEnabled = default(bool),
-            string logo = default(string),
-            string logoDark = default(string),
-            string faviconSvg = default(string),
-            string faviconFallback = default(string),
-            List<string> allowedDomains = default(List<string>),
-            GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor),
-            GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor),
-            GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor),
-            GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor),
-            GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor),
-            GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor),
-            GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor),
-            GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor),
-            int? buttonBorderRadius = default(int?),
-            int? cardBorderRadius = default(int?),
-            int? inputBorderRadius = default(int?),
-            ThemeCodeEnum? themeCode = default(ThemeCodeEnum?),
-            ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?),
-            string createdOn = default(string),
-            bool? isAllowRegistrations = default(bool?),
-            string senderName = default(string),
-            string senderEmail = default(string),
-            GetOrganizationResponseBilling billing = default(GetOrganizationResponseBilling),
-            bool? isSuspended = default(bool?),
-            string suspendedOn = default(string))
+        public GetOrganizationResponse(string code = default(string), string name = default(string), string handle = default(string), bool isDefault = default(bool), string externalId = default(string), bool isAutoMembershipEnabled = default(bool), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string), bool? isAllowRegistrations = default(bool?), string senderName = default(string), string senderEmail = default(string), GetOrganizationResponseBilling billing = default(GetOrganizationResponseBilling))
         {
             this.Code = code;
             this.Name = name;
@@ -176,7 +140,6 @@ namespace Kinde.Api.Model
             this.LogoDark = logoDark;
             this.FaviconSvg = faviconSvg;
             this.FaviconFallback = faviconFallback;
-            this.AllowedDomains = allowedDomains;
             this.LinkColor = linkColor;
             this.BackgroundColor = backgroundColor;
             this.ButtonColor = buttonColor;
@@ -195,8 +158,6 @@ namespace Kinde.Api.Model
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
             this.Billing = billing;
-            this.IsSuspended = isSuspended;
-            this.SuspendedOn = suspendedOn;
         }
 
         /// <summary>
@@ -272,20 +233,12 @@ namespace Kinde.Api.Model
         public string FaviconSvg { get; set; }
 
         /// <summary>
-        /// The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG
+        /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
         /// </summary>
-        /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
+        /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
         /// <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
         public string FaviconFallback { get; set; }
-
-        /// <summary>
-        /// Domains allowed for self-sign up to this environment.  Empty array means no restrictions.
-        /// </summary>
-        /// <value>Domains allowed for self-sign up to this environment.  Empty array means no restrictions.</value>
-        /// <example>[&quot;https://acme.kinde.com&quot;,&quot;https://acme.com&quot;]</example>
-        [DataMember(Name = "allowed_domains", EmitDefaultValue = false)]
-        public List<string> AllowedDomains { get; set; }
 
         /// <summary>
         /// Gets or Sets LinkColor
@@ -399,18 +352,6 @@ namespace Kinde.Api.Model
         public GetOrganizationResponseBilling Billing { get; set; }
 
         /// <summary>
-        /// Whether the organization is suspended.
-        /// </summary>
-        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
-        public bool? IsSuspended { get; set; }
-
-        /// <summary>
-        /// Date the organization was suspended.
-        /// </summary>
-        [DataMember(Name = "suspended_on", EmitDefaultValue = true)]
-        public string SuspendedOn { get; set; }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -428,7 +369,6 @@ namespace Kinde.Api.Model
             sb.Append("  LogoDark: ").Append(LogoDark).Append("\n");
             sb.Append("  FaviconSvg: ").Append(FaviconSvg).Append("\n");
             sb.Append("  FaviconFallback: ").Append(FaviconFallback).Append("\n");
-            sb.Append("  AllowedDomains: ").Append(AllowedDomains).Append("\n");
             sb.Append("  LinkColor: ").Append(LinkColor).Append("\n");
             sb.Append("  BackgroundColor: ").Append(BackgroundColor).Append("\n");
             sb.Append("  ButtonColor: ").Append(ButtonColor).Append("\n");
@@ -447,8 +387,6 @@ namespace Kinde.Api.Model
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
             sb.Append("  Billing: ").Append(Billing).Append("\n");
-            sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
-            sb.Append("  SuspendedOn: ").Append(SuspendedOn).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -483,158 +421,142 @@ namespace Kinde.Api.Model
             {
                 return false;
             }
-            return
+            return 
                 (
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
-                ) &&
+                ) && 
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
-                ) &&
+                ) && 
                 (
                     this.Handle == input.Handle ||
                     (this.Handle != null &&
                     this.Handle.Equals(input.Handle))
-                ) &&
+                ) && 
                 (
                     this.IsDefault == input.IsDefault ||
                     this.IsDefault.Equals(input.IsDefault)
-                ) &&
+                ) && 
                 (
                     this.ExternalId == input.ExternalId ||
                     (this.ExternalId != null &&
                     this.ExternalId.Equals(input.ExternalId))
-                ) &&
+                ) && 
                 (
                     this.IsAutoMembershipEnabled == input.IsAutoMembershipEnabled ||
                     this.IsAutoMembershipEnabled.Equals(input.IsAutoMembershipEnabled)
-                ) &&
+                ) && 
                 (
                     this.Logo == input.Logo ||
                     (this.Logo != null &&
                     this.Logo.Equals(input.Logo))
-                ) &&
+                ) && 
                 (
                     this.LogoDark == input.LogoDark ||
                     (this.LogoDark != null &&
                     this.LogoDark.Equals(input.LogoDark))
-                ) &&
+                ) && 
                 (
                     this.FaviconSvg == input.FaviconSvg ||
                     (this.FaviconSvg != null &&
                     this.FaviconSvg.Equals(input.FaviconSvg))
-                ) &&
+                ) && 
                 (
                     this.FaviconFallback == input.FaviconFallback ||
                     (this.FaviconFallback != null &&
                     this.FaviconFallback.Equals(input.FaviconFallback))
-                ) &&
-                (
-                    this.AllowedDomains == input.AllowedDomains ||
-                    this.AllowedDomains != null &&
-                    input.AllowedDomains != null &&
-                    this.AllowedDomains.SequenceEqual(input.AllowedDomains)
-                ) &&
+                ) && 
                 (
                     this.LinkColor == input.LinkColor ||
                     (this.LinkColor != null &&
                     this.LinkColor.Equals(input.LinkColor))
-                ) &&
+                ) && 
                 (
                     this.BackgroundColor == input.BackgroundColor ||
                     (this.BackgroundColor != null &&
                     this.BackgroundColor.Equals(input.BackgroundColor))
-                ) &&
+                ) && 
                 (
                     this.ButtonColor == input.ButtonColor ||
                     (this.ButtonColor != null &&
                     this.ButtonColor.Equals(input.ButtonColor))
-                ) &&
+                ) && 
                 (
                     this.ButtonTextColor == input.ButtonTextColor ||
                     (this.ButtonTextColor != null &&
                     this.ButtonTextColor.Equals(input.ButtonTextColor))
-                ) &&
+                ) && 
                 (
                     this.LinkColorDark == input.LinkColorDark ||
                     (this.LinkColorDark != null &&
                     this.LinkColorDark.Equals(input.LinkColorDark))
-                ) &&
+                ) && 
                 (
                     this.BackgroundColorDark == input.BackgroundColorDark ||
                     (this.BackgroundColorDark != null &&
                     this.BackgroundColorDark.Equals(input.BackgroundColorDark))
-                ) &&
+                ) && 
                 (
                     this.ButtonTextColorDark == input.ButtonTextColorDark ||
                     (this.ButtonTextColorDark != null &&
                     this.ButtonTextColorDark.Equals(input.ButtonTextColorDark))
-                ) &&
+                ) && 
                 (
                     this.ButtonColorDark == input.ButtonColorDark ||
                     (this.ButtonColorDark != null &&
                     this.ButtonColorDark.Equals(input.ButtonColorDark))
-                ) &&
+                ) && 
                 (
                     this.ButtonBorderRadius == input.ButtonBorderRadius ||
                     (this.ButtonBorderRadius != null &&
                     this.ButtonBorderRadius.Equals(input.ButtonBorderRadius))
-                ) &&
+                ) && 
                 (
                     this.CardBorderRadius == input.CardBorderRadius ||
                     (this.CardBorderRadius != null &&
                     this.CardBorderRadius.Equals(input.CardBorderRadius))
-                ) &&
+                ) && 
                 (
                     this.InputBorderRadius == input.InputBorderRadius ||
                     (this.InputBorderRadius != null &&
                     this.InputBorderRadius.Equals(input.InputBorderRadius))
-                ) &&
+                ) && 
                 (
                     this.ThemeCode == input.ThemeCode ||
                     this.ThemeCode.Equals(input.ThemeCode)
-                ) &&
+                ) && 
                 (
                     this.ColorScheme == input.ColorScheme ||
                     this.ColorScheme.Equals(input.ColorScheme)
-                ) &&
+                ) && 
                 (
                     this.CreatedOn == input.CreatedOn ||
                     (this.CreatedOn != null &&
                     this.CreatedOn.Equals(input.CreatedOn))
-                ) &&
+                ) && 
                 (
                     this.IsAllowRegistrations == input.IsAllowRegistrations ||
                     (this.IsAllowRegistrations != null &&
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations))
-                ) &&
+                ) && 
                 (
                     this.SenderName == input.SenderName ||
                     (this.SenderName != null &&
                     this.SenderName.Equals(input.SenderName))
-                ) &&
+                ) && 
                 (
                     this.SenderEmail == input.SenderEmail ||
                     (this.SenderEmail != null &&
                     this.SenderEmail.Equals(input.SenderEmail))
-                ) &&
+                ) && 
                 (
                     this.Billing == input.Billing ||
                     (this.Billing != null &&
                     this.Billing.Equals(input.Billing))
-                ) &&
-                (
-                    this.IsSuspended == input.IsSuspended ||
-                    (this.IsSuspended != null &&
-                    this.IsSuspended.Equals(input.IsSuspended))
-                ) &&
-                (
-                    this.SuspendedOn == input.SuspendedOn ||
-                    (this.SuspendedOn != null &&
-                    this.SuspendedOn.Equals(input.SuspendedOn))
                 );
         }
 
@@ -644,7 +566,7 @@ namespace Kinde.Api.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            unchecked
+            unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
                 if (this.Code != null)
@@ -680,10 +602,6 @@ namespace Kinde.Api.Model
                 if (this.FaviconFallback != null)
                 {
                     hashCode = (hashCode * 59) + this.FaviconFallback.GetHashCode();
-                }
-                if (this.AllowedDomains != null)
-                {
-                    hashCode = (hashCode * 59) + this.AllowedDomains.GetHashCode();
                 }
                 if (this.LinkColor != null)
                 {
@@ -751,16 +669,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Billing.GetHashCode();
                 }
-                if (this.IsSuspended != null)
-                {
-                    hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
-                }
-                if (this.SuspendedOn != null)
-                {
-                    hashCode = (hashCode * 59) + this.SuspendedOn.GetHashCode();
-                }
                 return hashCode;
             }
         }
+
     }
+
 }

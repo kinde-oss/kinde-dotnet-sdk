@@ -54,13 +54,7 @@ namespace Kinde.Api.Model
             /// Enum FrontEndAndMobile for value: Front-end and mobile
             /// </summary>
             [EnumMember(Value = "Front-end and mobile")]
-            FrontEndAndMobile = 3,
-
-            /// <summary>
-            /// Enum DeviceAndIoT for value: Device and IoT
-            /// </summary>
-            [EnumMember(Value = "Device and IoT")]
-            DeviceAndIoT = 4
+            FrontEndAndMobile = 3
         }
 
 

@@ -111,7 +111,7 @@ namespace Kinde.Api.Model
         /// <param name="logo">The organization&#39;s logo URL..</param>
         /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes..</param>
         /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers.</param>
-        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG.</param>
+        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG.</param>
         /// <param name="linkColor">linkColor.</param>
         /// <param name="backgroundColor">backgroundColor.</param>
         /// <param name="buttonColor">buttonColor.</param>
@@ -245,9 +245,9 @@ namespace Kinde.Api.Model
         public string FaviconSvg { get; set; }
 
         /// <summary>
-        /// The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG
+        /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
         /// </summary>
-        /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
+        /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
         /// <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
         public string FaviconFallback { get; set; }

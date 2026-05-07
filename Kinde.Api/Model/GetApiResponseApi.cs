@@ -35,7 +35,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="GetApiResponseApi" /> class.
         /// </summary>
         /// <param name="id">Unique ID of the API..</param>
-        /// <param name="name">The API&#39;s name..</param>
+        /// <param name="name">The API’s name..</param>
         /// <param name="audience">A unique identifier for the API - commonly the URL. This value will be used as the &#x60;audience&#x60; parameter in authorization claims..</param>
         /// <param name="isManagementApi">Whether or not it is the Kinde management API..</param>
         /// <param name="scopes">scopes.</param>
@@ -59,9 +59,9 @@ namespace Kinde.Api.Model
         public string Id { get; set; }
 
         /// <summary>
-        /// The API&#39;s name.
+        /// The API’s name.
         /// </summary>
-        /// <value>The API&#39;s name.</value>
+        /// <value>The API’s name.</value>
         /// <example>Example API</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }

@@ -36,26 +36,24 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
+        /// <param name="samlAcsUrl">Assertion Consumer Service URL..</param>
         /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
         /// <param name="samlEmailKeyAttr">Attribute key for the user’s email..</param>
         /// <param name="samlFirstNameKeyAttr">Attribute key for the user’s first name..</param>
         /// <param name="samlLastNameKeyAttr">Attribute key for the user’s last name..</param>
         /// <param name="isCreateMissingUser">Create user if they don’t exist..</param>
-        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
-        /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
         /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
-        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string))
+        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlAcsUrl = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
+            this.SamlAcsUrl = samlAcsUrl;
             this.SamlIdpMetadataUrl = samlIdpMetadataUrl;
             this.SamlEmailKeyAttr = samlEmailKeyAttr;
             this.SamlFirstNameKeyAttr = samlFirstNameKeyAttr;
             this.SamlLastNameKeyAttr = samlLastNameKeyAttr;
             this.IsCreateMissingUser = isCreateMissingUser;
-            this.IsForceShowSsoButton = isForceShowSsoButton;
-            this.UpstreamParams = upstreamParams;
             this.SamlSigningCertificate = samlSigningCertificate;
             this.SamlSigningPrivateKey = samlSigningPrivateKey;
         }
@@ -75,6 +73,14 @@ namespace Kinde.Api.Model
         /// <example>https://kinde.com</example>
         [DataMember(Name = "saml_entity_id", EmitDefaultValue = false)]
         public string SamlEntityId { get; set; }
+
+        /// <summary>
+        /// Assertion Consumer Service URL.
+        /// </summary>
+        /// <value>Assertion Consumer Service URL.</value>
+        /// <example>https://kinde.com/saml/acs</example>
+        [DataMember(Name = "saml_acs_url", EmitDefaultValue = false)]
+        public string SamlAcsUrl { get; set; }
 
         /// <summary>
         /// URL for the IdP metadata.
@@ -117,26 +123,10 @@ namespace Kinde.Api.Model
         public bool IsCreateMissingUser { get; set; }
 
         /// <summary>
-        /// Force showing the SSO button for this connection.
-        /// </summary>
-        /// <value>Force showing the SSO button for this connection.</value>
-        /// <example>false</example>
-        [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
-        public bool IsForceShowSsoButton { get; set; }
-
-        /// <summary>
-        /// Additional upstream parameters to pass to the identity provider.
-        /// </summary>
-        /// <value>Additional upstream parameters to pass to the identity provider.</value>
-        /// <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example>
-        [DataMember(Name = "upstream_params", EmitDefaultValue = false)]
-        public Dictionary<string, Object> UpstreamParams { get; set; }
-
-        /// <summary>
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        /// <example>Example certificate or key data</example>
+        /// <example>-----BEGIN CERTIFICATE-----MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv-----END CERTIFICATE-----</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -144,7 +134,7 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        /// <example>Example certificate or key data</example>
+        /// <example>-----BEGIN PRIVATE KEY-----MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl-----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
 
@@ -158,13 +148,12 @@ namespace Kinde.Api.Model
             sb.Append("class ReplaceConnectionRequestOptionsOneOf1 {\n");
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
             sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
+            sb.Append("  SamlAcsUrl: ").Append(SamlAcsUrl).Append("\n");
             sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
             sb.Append("  SamlEmailKeyAttr: ").Append(SamlEmailKeyAttr).Append("\n");
             sb.Append("  SamlFirstNameKeyAttr: ").Append(SamlFirstNameKeyAttr).Append("\n");
             sb.Append("  SamlLastNameKeyAttr: ").Append(SamlLastNameKeyAttr).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
-            sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
-            sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
             sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
             sb.Append("}\n");
@@ -214,6 +203,11 @@ namespace Kinde.Api.Model
                     this.SamlEntityId.Equals(input.SamlEntityId))
                 ) && 
                 (
+                    this.SamlAcsUrl == input.SamlAcsUrl ||
+                    (this.SamlAcsUrl != null &&
+                    this.SamlAcsUrl.Equals(input.SamlAcsUrl))
+                ) && 
+                (
                     this.SamlIdpMetadataUrl == input.SamlIdpMetadataUrl ||
                     (this.SamlIdpMetadataUrl != null &&
                     this.SamlIdpMetadataUrl.Equals(input.SamlIdpMetadataUrl))
@@ -236,16 +230,6 @@ namespace Kinde.Api.Model
                 (
                     this.IsCreateMissingUser == input.IsCreateMissingUser ||
                     this.IsCreateMissingUser.Equals(input.IsCreateMissingUser)
-                ) && 
-                (
-                    this.IsForceShowSsoButton == input.IsForceShowSsoButton ||
-                    this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
-                ) && 
-                (
-                    this.UpstreamParams == input.UpstreamParams ||
-                    this.UpstreamParams != null &&
-                    input.UpstreamParams != null &&
-                    this.UpstreamParams.SequenceEqual(input.UpstreamParams)
                 ) && 
                 (
                     this.SamlSigningCertificate == input.SamlSigningCertificate ||
@@ -276,6 +260,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SamlEntityId.GetHashCode();
                 }
+                if (this.SamlAcsUrl != null)
+                {
+                    hashCode = (hashCode * 59) + this.SamlAcsUrl.GetHashCode();
+                }
                 if (this.SamlIdpMetadataUrl != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlIdpMetadataUrl.GetHashCode();
@@ -293,11 +281,6 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.SamlLastNameKeyAttr.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
-                if (this.UpstreamParams != null)
-                {
-                    hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
-                }
                 if (this.SamlSigningCertificate != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlSigningCertificate.GetHashCode();
