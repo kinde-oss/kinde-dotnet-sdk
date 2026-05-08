@@ -49,7 +49,8 @@ namespace Kinde.Api.Model
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
         /// <param name="organizations">Array of organizations a user belongs to..</param>
         /// <param name="identities">Array of identities belonging to the user..</param>
-        public User(string id = default(string), string providedId = default(string), string preferredEmail = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>))
+        /// <param name="billing">billing.</param>
+        public User(string id = default(string), string providedId = default(string), string preferredEmail = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), UserBilling billing = default(UserBilling))
         {
             this.Id = id;
             this.ProvidedId = providedId;
@@ -66,6 +67,7 @@ namespace Kinde.Api.Model
             this.CreatedOn = createdOn;
             this.Organizations = organizations;
             this.Identities = identities;
+            this.Billing = billing;
         }
 
         /// <summary>
@@ -174,6 +176,12 @@ namespace Kinde.Api.Model
         public List<UserIdentitiesInner> Identities { get; set; }
 
         /// <summary>
+        /// Gets or Sets Billing
+        /// </summary>
+        [DataMember(Name = "billing", EmitDefaultValue = false)]
+        public UserBilling Billing { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -196,6 +204,7 @@ namespace Kinde.Api.Model
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("  Organizations: ").Append(Organizations).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
+            sb.Append("  Billing: ").Append(Billing).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -306,6 +315,11 @@ namespace Kinde.Api.Model
                     this.Identities != null &&
                     input.Identities != null &&
                     this.Identities.SequenceEqual(input.Identities)
+                ) && 
+                (
+                    this.Billing == input.Billing ||
+                    (this.Billing != null &&
+                    this.Billing.Equals(input.Billing))
                 );
         }
 
@@ -374,6 +388,10 @@ namespace Kinde.Api.Model
                 if (this.Identities != null)
                 {
                     hashCode = (hashCode * 59) + this.Identities.GetHashCode();
+                }
+                if (this.Billing != null)
+                {
+                    hashCode = (hashCode * 59) + this.Billing.GetHashCode();
                 }
                 return hashCode;
             }

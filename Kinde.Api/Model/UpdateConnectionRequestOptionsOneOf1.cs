@@ -28,11 +28,11 @@ namespace Kinde.Api.Model
     /// <summary>
     /// SAML connection options (e.g., Cloudflare SAML).
     /// </summary>
-    [DataContract(Name = "CreateConnection_request_options_oneOf_2")]
-    public partial class CreateConnectionRequestOptionsOneOf2 : IEquatable<CreateConnectionRequestOptionsOneOf2>
+    [DataContract(Name = "UpdateConnection_request_options_oneOf_1")]
+    public partial class UpdateConnectionRequestOptionsOneOf1 : IEquatable<UpdateConnectionRequestOptionsOneOf1>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf2" /> class.
+        /// Initializes a new instance of the <see cref="UpdateConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
         /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
@@ -46,10 +46,9 @@ namespace Kinde.Api.Model
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
         /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
-        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
         /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public CreateConnectionRequestOptionsOneOf2(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isAutoJoinOrganizationEnabled = default(bool), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        public UpdateConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
@@ -63,7 +62,6 @@ namespace Kinde.Api.Model
             this.UpstreamParams = upstreamParams;
             this.SamlSigningCertificate = samlSigningCertificate;
             this.SamlSigningPrivateKey = samlSigningPrivateKey;
-            this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
             this.IsUseCustomDomain = isUseCustomDomain;
             this.IsTrusted = isTrusted;
         }
@@ -165,14 +163,6 @@ namespace Kinde.Api.Model
         public string SamlSigningPrivateKey { get; set; }
 
         /// <summary>
-        /// Users automatically join organization when using this connection.
-        /// </summary>
-        /// <value>Users automatically join organization when using this connection.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_auto_join_organization_enabled", EmitDefaultValue = true)]
-        public bool IsAutoJoinOrganizationEnabled { get; set; }
-
-        /// <summary>
         /// Use custom domain callback URL.
         /// </summary>
         /// <value>Use custom domain callback URL.</value>
@@ -195,7 +185,7 @@ namespace Kinde.Api.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CreateConnectionRequestOptionsOneOf2 {\n");
+            sb.Append("class UpdateConnectionRequestOptionsOneOf1 {\n");
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
             sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
             sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
@@ -208,7 +198,6 @@ namespace Kinde.Api.Model
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
             sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
-            sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
             sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
             sb.Append("}\n");
@@ -231,15 +220,15 @@ namespace Kinde.Api.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as CreateConnectionRequestOptionsOneOf2);
+            return this.Equals(input as UpdateConnectionRequestOptionsOneOf1);
         }
 
         /// <summary>
-        /// Returns true if CreateConnectionRequestOptionsOneOf2 instances are equal
+        /// Returns true if UpdateConnectionRequestOptionsOneOf1 instances are equal
         /// </summary>
-        /// <param name="input">Instance of CreateConnectionRequestOptionsOneOf2 to be compared</param>
+        /// <param name="input">Instance of UpdateConnectionRequestOptionsOneOf1 to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CreateConnectionRequestOptionsOneOf2 input)
+        public bool Equals(UpdateConnectionRequestOptionsOneOf1 input)
         {
             if (input == null)
             {
@@ -307,10 +296,6 @@ namespace Kinde.Api.Model
                     this.SamlSigningPrivateKey.Equals(input.SamlSigningPrivateKey))
                 ) && 
                 (
-                    this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
-                    this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
-                ) && 
-                (
                     this.IsUseCustomDomain == input.IsUseCustomDomain ||
                     this.IsUseCustomDomain.Equals(input.IsUseCustomDomain)
                 ) && 
@@ -371,7 +356,6 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SamlSigningPrivateKey.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
                 return hashCode;

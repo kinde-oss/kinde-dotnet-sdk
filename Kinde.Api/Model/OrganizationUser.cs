@@ -42,8 +42,9 @@ namespace Kinde.Api.Model
         /// <param name="picture">The user&#39;s profile picture URL..</param>
         /// <param name="joinedOn">The date the user joined the organization..</param>
         /// <param name="lastAccessedOn">The date the user last accessed the organization..</param>
+        /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="roles">The roles the user has in the organization..</param>
-        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), string joinedOn = default(string), string lastAccessedOn = default(string), List<string> roles = default(List<string>))
+        public OrganizationUser(string id = default(string), string email = default(string), string fullName = default(string), string lastName = default(string), string firstName = default(string), string picture = default(string), string joinedOn = default(string), string lastAccessedOn = default(string), bool isSuspended = default(bool), List<string> roles = default(List<string>))
         {
             this.Id = id;
             this.Email = email;
@@ -53,6 +54,7 @@ namespace Kinde.Api.Model
             this.Picture = picture;
             this.JoinedOn = joinedOn;
             this.LastAccessedOn = lastAccessedOn;
+            this.IsSuspended = isSuspended;
             this.Roles = roles;
         }
 
@@ -121,6 +123,14 @@ namespace Kinde.Api.Model
         public string LastAccessedOn { get; set; }
 
         /// <summary>
+        /// Whether the user is currently suspended or not.
+        /// </summary>
+        /// <value>Whether the user is currently suspended or not.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
+        public bool IsSuspended { get; set; }
+
+        /// <summary>
         /// The roles the user has in the organization.
         /// </summary>
         /// <value>The roles the user has in the organization.</value>
@@ -143,6 +153,7 @@ namespace Kinde.Api.Model
             sb.Append("  Picture: ").Append(Picture).Append("\n");
             sb.Append("  JoinedOn: ").Append(JoinedOn).Append("\n");
             sb.Append("  LastAccessedOn: ").Append(LastAccessedOn).Append("\n");
+            sb.Append("  IsSuspended: ").Append(IsSuspended).Append("\n");
             sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -220,6 +231,10 @@ namespace Kinde.Api.Model
                     this.LastAccessedOn.Equals(input.LastAccessedOn))
                 ) && 
                 (
+                    this.IsSuspended == input.IsSuspended ||
+                    this.IsSuspended.Equals(input.IsSuspended)
+                ) && 
+                (
                     this.Roles == input.Roles ||
                     this.Roles != null &&
                     input.Roles != null &&
@@ -268,6 +283,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.LastAccessedOn.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsSuspended.GetHashCode();
                 if (this.Roles != null)
                 {
                     hashCode = (hashCode * 59) + this.Roles.GetHashCode();

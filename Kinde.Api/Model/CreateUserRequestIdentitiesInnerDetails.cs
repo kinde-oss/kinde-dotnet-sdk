@@ -58,7 +58,7 @@ namespace Kinde.Api.Model
         /// The phone number of the user.
         /// </summary>
         /// <value>The phone number of the user.</value>
-        /// <example>61426148233</example>
+        /// <example>+61426148233</example>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
         public string Phone { get; set; }
 

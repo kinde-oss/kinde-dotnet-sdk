@@ -45,9 +45,9 @@ namespace Kinde.Api.Model
             Persistent = 1,
 
             /// <summary>
-            /// Enum NonPersistent for value: non-persistent
+            /// Enum NonPersistent for value: non_persistent
             /// </summary>
-            [EnumMember(Value = "non-persistent")]
+            [EnumMember(Value = "non_persistent")]
             NonPersistent = 2
         }
 

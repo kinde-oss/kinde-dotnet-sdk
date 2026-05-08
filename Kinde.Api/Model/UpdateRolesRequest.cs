@@ -43,7 +43,8 @@ namespace Kinde.Api.Model
         /// <param name="description">The role&#39;s description..</param>
         /// <param name="key">The role identifier to use in code. (required).</param>
         /// <param name="isDefaultRole">Set role as default for new users..</param>
-        public UpdateRolesRequest(string name = default(string), string description = default(string), string key = default(string), bool isDefaultRole = default(bool))
+        /// <param name="assignmentPermissionId">The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required..</param>
+        public UpdateRolesRequest(string name = default(string), string description = default(string), string key = default(string), bool isDefaultRole = default(bool), Guid? assignmentPermissionId = default(Guid?))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -59,6 +60,7 @@ namespace Kinde.Api.Model
             this.Key = key;
             this.Description = description;
             this.IsDefaultRole = isDefaultRole;
+            this.AssignmentPermissionId = assignmentPermissionId;
         }
 
         /// <summary>
@@ -90,6 +92,13 @@ namespace Kinde.Api.Model
         public bool IsDefaultRole { get; set; }
 
         /// <summary>
+        /// The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required.
+        /// </summary>
+        /// <value>The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to &#39;NO_PERMISSION_REQUIRED&#39;, no permission is required.</value>
+        [DataMember(Name = "assignment_permission_id", EmitDefaultValue = true)]
+        public Guid? AssignmentPermissionId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -101,6 +110,7 @@ namespace Kinde.Api.Model
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("  IsDefaultRole: ").Append(IsDefaultRole).Append("\n");
+            sb.Append("  AssignmentPermissionId: ").Append(AssignmentPermissionId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -154,6 +164,11 @@ namespace Kinde.Api.Model
                 (
                     this.IsDefaultRole == input.IsDefaultRole ||
                     this.IsDefaultRole.Equals(input.IsDefaultRole)
+                ) && 
+                (
+                    this.AssignmentPermissionId == input.AssignmentPermissionId ||
+                    (this.AssignmentPermissionId != null &&
+                    this.AssignmentPermissionId.Equals(input.AssignmentPermissionId))
                 );
         }
 
@@ -179,6 +194,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsDefaultRole.GetHashCode();
+                if (this.AssignmentPermissionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.AssignmentPermissionId.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -99,7 +99,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="policy">Specifies whether MFA is required, optional, or not enforced. (required).</param>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
-        public ReplaceMFARequest(PolicyEnum policy = default(PolicyEnum), List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>))
+        /// <param name="isRecoveryCodesEnabled">Determines whether recovery codes are shown to users during MFA setup for the environment. (default to true).</param>
+        public ReplaceMFARequest(PolicyEnum policy = default(PolicyEnum), List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool isRecoveryCodesEnabled = true)
         {
             this.Policy = policy;
             // to ensure "enabledFactors" is required (not null)
@@ -108,6 +109,7 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("enabledFactors is a required property for ReplaceMFARequest and cannot be null");
             }
             this.EnabledFactors = enabledFactors;
+            this.IsRecoveryCodesEnabled = isRecoveryCodesEnabled;
         }
 
         /// <summary>
@@ -116,6 +118,13 @@ namespace Kinde.Api.Model
         /// <value>The MFA methods to enable.</value>
         [DataMember(Name = "enabled_factors", IsRequired = true, EmitDefaultValue = true)]
         public List<ReplaceMFARequest.EnabledFactorsEnum> EnabledFactors { get; set; }
+
+        /// <summary>
+        /// Determines whether recovery codes are shown to users during MFA setup for the environment.
+        /// </summary>
+        /// <value>Determines whether recovery codes are shown to users during MFA setup for the environment.</value>
+        [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = true)]
+        public bool IsRecoveryCodesEnabled { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -127,6 +136,7 @@ namespace Kinde.Api.Model
             sb.Append("class ReplaceMFARequest {\n");
             sb.Append("  Policy: ").Append(Policy).Append("\n");
             sb.Append("  EnabledFactors: ").Append(EnabledFactors).Append("\n");
+            sb.Append("  IsRecoveryCodesEnabled: ").Append(IsRecoveryCodesEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -171,6 +181,10 @@ namespace Kinde.Api.Model
                     this.EnabledFactors != null &&
                     input.EnabledFactors != null &&
                     this.EnabledFactors.SequenceEqual(input.EnabledFactors)
+                ) && 
+                (
+                    this.IsRecoveryCodesEnabled == input.IsRecoveryCodesEnabled ||
+                    this.IsRecoveryCodesEnabled.Equals(input.IsRecoveryCodesEnabled)
                 );
         }
 
@@ -188,6 +202,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.EnabledFactors.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsRecoveryCodesEnabled.GetHashCode();
                 return hashCode;
             }
         }

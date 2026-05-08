@@ -104,6 +104,7 @@ namespace Kinde.Api.Model
         /// <param name="name">The environment&#39;s name..</param>
         /// <param name="hotjarSiteId">Your HotJar site ID..</param>
         /// <param name="googleAnalyticsTag">Your Google Analytics tag..</param>
+        /// <param name="contentsquareTagId">Your Contentsquare Tag ID..</param>
         /// <param name="isDefault">Whether the environment is the default. Typically this is your production environment..</param>
         /// <param name="isLive">Whether the environment is live..</param>
         /// <param name="kindeDomain">Your domain on Kinde.</param>
@@ -111,7 +112,7 @@ namespace Kinde.Api.Model
         /// <param name="logo">The organization&#39;s logo URL..</param>
         /// <param name="logoDark">The organization&#39;s logo URL to be used for dark themes..</param>
         /// <param name="faviconSvg">The organization&#39;s SVG favicon URL. Optimal format for most browsers.</param>
-        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG.</param>
+        /// <param name="faviconFallback">The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG.</param>
         /// <param name="linkColor">linkColor.</param>
         /// <param name="backgroundColor">backgroundColor.</param>
         /// <param name="buttonColor">buttonColor.</param>
@@ -126,12 +127,13 @@ namespace Kinde.Api.Model
         /// <param name="themeCode">Whether the environment is forced into light mode, dark mode or user preference.</param>
         /// <param name="colorScheme">The color scheme for the environment used for meta tags based on the theme code.</param>
         /// <param name="createdOn">Date of environment creation in ISO 8601 format..</param>
-        public GetEnvironmentResponseEnvironment(string code = default(string), string name = default(string), string hotjarSiteId = default(string), string googleAnalyticsTag = default(string), bool isDefault = default(bool), bool isLive = default(bool), string kindeDomain = default(string), string customDomain = default(string), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string))
+        public GetEnvironmentResponseEnvironment(string code = default(string), string name = default(string), string hotjarSiteId = default(string), string googleAnalyticsTag = default(string), string contentsquareTagId = default(string), bool isDefault = default(bool), bool isLive = default(bool), string kindeDomain = default(string), string customDomain = default(string), string logo = default(string), string logoDark = default(string), string faviconSvg = default(string), string faviconFallback = default(string), GetEnvironmentResponseEnvironmentLinkColor linkColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor backgroundColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor buttonColor = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentBackgroundColor buttonTextColor = default(GetEnvironmentResponseEnvironmentBackgroundColor), GetEnvironmentResponseEnvironmentLinkColor linkColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor backgroundColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonTextColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), GetEnvironmentResponseEnvironmentLinkColor buttonColorDark = default(GetEnvironmentResponseEnvironmentLinkColor), int? buttonBorderRadius = default(int?), int? cardBorderRadius = default(int?), int? inputBorderRadius = default(int?), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), ColorSchemeEnum? colorScheme = default(ColorSchemeEnum?), string createdOn = default(string))
         {
             this.Code = code;
             this.Name = name;
             this.HotjarSiteId = hotjarSiteId;
             this.GoogleAnalyticsTag = googleAnalyticsTag;
+            this.ContentsquareTagId = contentsquareTagId;
             this.IsDefault = isDefault;
             this.IsLive = isLive;
             this.KindeDomain = kindeDomain;
@@ -187,6 +189,14 @@ namespace Kinde.Api.Model
         /// <example>G-1234567</example>
         [DataMember(Name = "google_analytics_tag", EmitDefaultValue = true)]
         public string GoogleAnalyticsTag { get; set; }
+
+        /// <summary>
+        /// Your Contentsquare Tag ID.
+        /// </summary>
+        /// <value>Your Contentsquare Tag ID.</value>
+        /// <example>769238b6e1309</example>
+        [DataMember(Name = "contentsquare_tag_id", EmitDefaultValue = true)]
+        public string ContentsquareTagId { get; set; }
 
         /// <summary>
         /// Whether the environment is the default. Typically this is your production environment.
@@ -245,9 +255,9 @@ namespace Kinde.Api.Model
         public string FaviconSvg { get; set; }
 
         /// <summary>
-        /// The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG
+        /// The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG
         /// </summary>
-        /// <value>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</value>
+        /// <value>The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG</value>
         /// <example>https://yoursubdomain.kinde.com/favicon_fallback?org_code&#x3D;org_1ccfb819462&amp;cache&#x3D;311308b8ad3544bf8e572979f0e5748d</example>
         [DataMember(Name = "favicon_fallback", EmitDefaultValue = true)]
         public string FaviconFallback { get; set; }
@@ -344,6 +354,7 @@ namespace Kinde.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  HotjarSiteId: ").Append(HotjarSiteId).Append("\n");
             sb.Append("  GoogleAnalyticsTag: ").Append(GoogleAnalyticsTag).Append("\n");
+            sb.Append("  ContentsquareTagId: ").Append(ContentsquareTagId).Append("\n");
             sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
             sb.Append("  IsLive: ").Append(IsLive).Append("\n");
             sb.Append("  KindeDomain: ").Append(KindeDomain).Append("\n");
@@ -420,6 +431,11 @@ namespace Kinde.Api.Model
                     this.GoogleAnalyticsTag == input.GoogleAnalyticsTag ||
                     (this.GoogleAnalyticsTag != null &&
                     this.GoogleAnalyticsTag.Equals(input.GoogleAnalyticsTag))
+                ) && 
+                (
+                    this.ContentsquareTagId == input.ContentsquareTagId ||
+                    (this.ContentsquareTagId != null &&
+                    this.ContentsquareTagId.Equals(input.ContentsquareTagId))
                 ) && 
                 (
                     this.IsDefault == input.IsDefault ||
@@ -553,6 +569,10 @@ namespace Kinde.Api.Model
                 if (this.GoogleAnalyticsTag != null)
                 {
                     hashCode = (hashCode * 59) + this.GoogleAnalyticsTag.GetHashCode();
+                }
+                if (this.ContentsquareTagId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ContentsquareTagId.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsDefault.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsLive.GetHashCode();

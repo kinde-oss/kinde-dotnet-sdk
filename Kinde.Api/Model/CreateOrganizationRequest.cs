@@ -78,13 +78,14 @@ namespace Kinde.Api.Model
         /// <param name="linkColorDark">The organization&#39;s brand settings - dark mode link color..</param>
         /// <param name="themeCode">The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;..</param>
         /// <param name="handle">A unique handle for the organization - can be used for dynamic callback urls..</param>
-        /// <param name="isAllowRegistrations">If users become members of this organization when the org code is supplied during authentication..</param>
+        /// <param name="isAllowRegistrations">Deprecated - Use &#39;is_auto_membership_enabled&#39; instead..</param>
+        /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
         /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
         /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
         /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), string senderName = default(string), string senderEmail = default(string), bool isCreateBillingCustomer = default(bool), string billingEmail = default(string), string billingPlanCode = default(string))
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoMembershipEnabled = default(bool), string senderName = default(string), string senderEmail = default(string), bool isCreateBillingCustomer = default(bool), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -105,6 +106,7 @@ namespace Kinde.Api.Model
             this.ThemeCode = themeCode;
             this.Handle = handle;
             this.IsAllowRegistrations = isAllowRegistrations;
+            this.IsAutoMembershipEnabled = isAutoMembershipEnabled;
             this.SenderName = senderName;
             this.SenderEmail = senderEmail;
             this.IsCreateBillingCustomer = isCreateBillingCustomer;
@@ -207,12 +209,21 @@ namespace Kinde.Api.Model
         public string Handle { get; set; }
 
         /// <summary>
+        /// Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.
+        /// </summary>
+        /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [Obsolete]
+        public bool IsAllowRegistrations { get; set; }
+
+        /// <summary>
         /// If users become members of this organization when the org code is supplied during authentication.
         /// </summary>
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
-        public bool IsAllowRegistrations { get; set; }
+        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = true)]
+        public bool IsAutoMembershipEnabled { get; set; }
 
         /// <summary>
         /// The name of the organization that will be used in emails
@@ -276,6 +287,7 @@ namespace Kinde.Api.Model
             sb.Append("  ThemeCode: ").Append(ThemeCode).Append("\n");
             sb.Append("  Handle: ").Append(Handle).Append("\n");
             sb.Append("  IsAllowRegistrations: ").Append(IsAllowRegistrations).Append("\n");
+            sb.Append("  IsAutoMembershipEnabled: ").Append(IsAutoMembershipEnabled).Append("\n");
             sb.Append("  SenderName: ").Append(SenderName).Append("\n");
             sb.Append("  SenderEmail: ").Append(SenderEmail).Append("\n");
             sb.Append("  IsCreateBillingCustomer: ").Append(IsCreateBillingCustomer).Append("\n");
@@ -387,6 +399,10 @@ namespace Kinde.Api.Model
                     this.IsAllowRegistrations.Equals(input.IsAllowRegistrations)
                 ) && 
                 (
+                    this.IsAutoMembershipEnabled == input.IsAutoMembershipEnabled ||
+                    this.IsAutoMembershipEnabled.Equals(input.IsAutoMembershipEnabled)
+                ) && 
+                (
                     this.SenderName == input.SenderName ||
                     (this.SenderName != null &&
                     this.SenderName.Equals(input.SenderName))
@@ -474,6 +490,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Handle.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsAllowRegistrations.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAutoMembershipEnabled.GetHashCode();
                 if (this.SenderName != null)
                 {
                     hashCode = (hashCode * 59) + this.SenderName.GetHashCode();

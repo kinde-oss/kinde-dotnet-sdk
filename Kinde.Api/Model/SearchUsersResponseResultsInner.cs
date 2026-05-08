@@ -49,7 +49,8 @@ namespace Kinde.Api.Model
         /// <param name="organizations">Array of organizations a user belongs to..</param>
         /// <param name="identities">Array of identities belonging to the user..</param>
         /// <param name="properties">The user properties..</param>
-        public SearchUsersResponseResultsInner(string id = default(string), string providedId = default(string), string email = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), Dictionary<string, string> properties = default(Dictionary<string, string>))
+        /// <param name="apiScopes">Array of api scopes belonging to the user..</param>
+        public SearchUsersResponseResultsInner(string id = default(string), string providedId = default(string), string email = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), Dictionary<string, string> properties = default(Dictionary<string, string>), List<SearchUsersResponseResultsInnerApiScopesInner> apiScopes = default(List<SearchUsersResponseResultsInnerApiScopesInner>))
         {
             this.Id = id;
             this.ProvidedId = providedId;
@@ -66,6 +67,7 @@ namespace Kinde.Api.Model
             this.Organizations = organizations;
             this.Identities = identities;
             this.Properties = properties;
+            this.ApiScopes = apiScopes;
         }
 
         /// <summary>
@@ -186,6 +188,13 @@ namespace Kinde.Api.Model
         public Dictionary<string, string> Properties { get; set; }
 
         /// <summary>
+        /// Array of api scopes belonging to the user.
+        /// </summary>
+        /// <value>Array of api scopes belonging to the user.</value>
+        [DataMember(Name = "api_scopes", EmitDefaultValue = false)]
+        public List<SearchUsersResponseResultsInnerApiScopesInner> ApiScopes { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -208,6 +217,7 @@ namespace Kinde.Api.Model
             sb.Append("  Organizations: ").Append(Organizations).Append("\n");
             sb.Append("  Identities: ").Append(Identities).Append("\n");
             sb.Append("  Properties: ").Append(Properties).Append("\n");
+            sb.Append("  ApiScopes: ").Append(ApiScopes).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -319,6 +329,12 @@ namespace Kinde.Api.Model
                     this.Properties != null &&
                     input.Properties != null &&
                     this.Properties.SequenceEqual(input.Properties)
+                ) && 
+                (
+                    this.ApiScopes == input.ApiScopes ||
+                    this.ApiScopes != null &&
+                    input.ApiScopes != null &&
+                    this.ApiScopes.SequenceEqual(input.ApiScopes)
                 );
         }
 
@@ -387,6 +403,10 @@ namespace Kinde.Api.Model
                 if (this.Properties != null)
                 {
                     hashCode = (hashCode * 59) + this.Properties.GetHashCode();
+                }
+                if (this.ApiScopes != null)
+                {
+                    hashCode = (hashCode * 59) + this.ApiScopes.GetHashCode();
                 }
                 return hashCode;
             }

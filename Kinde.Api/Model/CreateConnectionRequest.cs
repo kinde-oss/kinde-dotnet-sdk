@@ -141,10 +141,34 @@ namespace Kinde.Api.Model
             Samlcustom = 17,
 
             /// <summary>
+            /// Enum Samlcloudflare for value: saml:cloudflare
+            /// </summary>
+            [EnumMember(Value = "saml:cloudflare")]
+            Samlcloudflare = 18,
+
+            /// <summary>
+            /// Enum Samlokta for value: saml:okta
+            /// </summary>
+            [EnumMember(Value = "saml:okta")]
+            Samlokta = 19,
+
+            /// <summary>
+            /// Enum Samlmicrosoft for value: saml:microsoft
+            /// </summary>
+            [EnumMember(Value = "saml:microsoft")]
+            Samlmicrosoft = 20,
+
+            /// <summary>
+            /// Enum Samlgoogle for value: saml:google
+            /// </summary>
+            [EnumMember(Value = "saml:google")]
+            Samlgoogle = 21,
+
+            /// <summary>
             /// Enum WsfedazureAd for value: wsfed:azure_ad
             /// </summary>
             [EnumMember(Value = "wsfed:azure_ad")]
-            WsfedazureAd = 18
+            WsfedazureAd = 22
         }
 
 
