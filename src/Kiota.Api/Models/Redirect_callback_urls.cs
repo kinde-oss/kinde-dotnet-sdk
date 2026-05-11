@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -23,7 +23,7 @@ namespace Kiota.Api.Models
         public List<string> RedirectUrls { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Redirect_callback_urls"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Redirect_callback_urls"/> and sets the default values.
         /// </summary>
         public Redirect_callback_urls()
         {
@@ -32,12 +32,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Redirect_callback_urls"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Redirect_callback_urls"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Redirect_callback_urls CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Redirect_callback_urls CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Redirect_callback_urls();
+            return new global::ApiSdk.Models.Redirect_callback_urls();
         }
         /// <summary>
         /// The deserialization information for the current model

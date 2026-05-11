@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -15,7 +15,7 @@ namespace Kiota.Api.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Event_type_schema"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Event_type_schema"/> and sets the default values.
         /// </summary>
         public Event_type_schema()
         {
@@ -24,12 +24,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Event_type_schema"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Event_type_schema"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Event_type_schema CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Event_type_schema CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Event_type_schema();
+            return new global::ApiSdk.Models.Event_type_schema();
         }
         /// <summary>
         /// The deserialization information for the current model

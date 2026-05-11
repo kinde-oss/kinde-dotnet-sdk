@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -25,10 +25,10 @@ namespace Kiota.Api.Models
         /// <summary>The environment&apos;s feature flag settings.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_organization_feature_flags_response_feature_flags? FeatureFlags { get; set; }
+        public global::ApiSdk.Models.Get_organization_feature_flags_response_feature_flags? FeatureFlags { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_organization_feature_flags_response_feature_flags FeatureFlags { get; set; }
+        public global::ApiSdk.Models.Get_organization_feature_flags_response_feature_flags FeatureFlags { get; set; }
 #endif
         /// <summary>Response message.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -39,7 +39,7 @@ namespace Kiota.Api.Models
         public string Message { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_organization_feature_flags_response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_organization_feature_flags_response"/> and sets the default values.
         /// </summary>
         public Get_organization_feature_flags_response()
         {
@@ -48,12 +48,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_organization_feature_flags_response"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_organization_feature_flags_response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_organization_feature_flags_response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_organization_feature_flags_response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_organization_feature_flags_response();
+            return new global::ApiSdk.Models.Get_organization_feature_flags_response();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -64,7 +64,7 @@ namespace Kiota.Api.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
-                { "feature_flags", n => { FeatureFlags = n.GetObjectValue<global::Kiota.Api.Models.Get_organization_feature_flags_response_feature_flags>(global::Kiota.Api.Models.Get_organization_feature_flags_response_feature_flags.CreateFromDiscriminatorValue); } },
+                { "feature_flags", n => { FeatureFlags = n.GetObjectValue<global::ApiSdk.Models.Get_organization_feature_flags_response_feature_flags>(global::ApiSdk.Models.Get_organization_feature_flags_response_feature_flags.CreateFromDiscriminatorValue); } },
                 { "message", n => { Message = n.GetStringValue(); } },
             };
         }
@@ -76,7 +76,7 @@ namespace Kiota.Api.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_organization_feature_flags_response_feature_flags>("feature_flags", FeatureFlags);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_organization_feature_flags_response_feature_flags>("feature_flags", FeatureFlags);
             writer.WriteStringValue("message", Message);
             writer.WriteAdditionalData(AdditionalData);
         }

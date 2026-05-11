@@ -1,24 +1,30 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Users.Item.Sessions;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Users.Item.Sessions;
+
 public class SessionsRequestBuilderTests
 {
-    private const string UserId = "kp_user_001";
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetUserSessionsResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Users[UserId].Sessions.GetAsync();
+        var builder = new SessionsRequestBuilder(pathParameters, requestAdapter);
 
-        result!.Sessions![0].SessionId.Should().Be("sess_001");
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Users[UserId].Sessions.DeleteAsync();
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new SessionsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

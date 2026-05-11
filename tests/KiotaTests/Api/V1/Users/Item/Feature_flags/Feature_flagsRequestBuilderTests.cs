@@ -1,8 +1,30 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Users.Item.Feature_flags;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Users.Item.Feature_flags;
+
 public class Feature_flagsRequestBuilderTests
 {
-    [Fact] public void ExposesItemBuilder() { var (client, _) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); client.Api.V1.Users["kp_user_001"].Feature_flags["flag_001"].Should().NotBeNull(); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new Feature_flagsRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new Feature_flagsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

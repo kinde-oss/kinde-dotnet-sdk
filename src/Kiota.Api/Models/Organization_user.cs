@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -46,6 +46,8 @@ namespace Kiota.Api.Models
 #else
         public string Id { get; set; }
 #endif
+        /// <summary>Whether the user is currently suspended or not.</summary>
+        public bool? IsSuspended { get; set; }
         /// <summary>The date the user joined the organization.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -87,7 +89,7 @@ namespace Kiota.Api.Models
         public List<string> Roles { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Organization_user"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Organization_user"/> and sets the default values.
         /// </summary>
         public Organization_user()
         {
@@ -96,12 +98,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Organization_user"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Organization_user"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Organization_user CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Organization_user CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Organization_user();
+            return new global::ApiSdk.Models.Organization_user();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -115,6 +117,7 @@ namespace Kiota.Api.Models
                 { "first_name", n => { FirstName = n.GetStringValue(); } },
                 { "full_name", n => { FullName = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
+                { "is_suspended", n => { IsSuspended = n.GetBoolValue(); } },
                 { "joined_on", n => { JoinedOn = n.GetStringValue(); } },
                 { "last_accessed_on", n => { LastAccessedOn = n.GetStringValue(); } },
                 { "last_name", n => { LastName = n.GetStringValue(); } },
@@ -133,6 +136,7 @@ namespace Kiota.Api.Models
             writer.WriteStringValue("first_name", FirstName);
             writer.WriteStringValue("full_name", FullName);
             writer.WriteStringValue("id", Id);
+            writer.WriteBoolValue("is_suspended", IsSuspended);
             writer.WriteStringValue("joined_on", JoinedOn);
             writer.WriteStringValue("last_accessed_on", LastAccessedOn);
             writer.WriteStringValue("last_name", LastName);

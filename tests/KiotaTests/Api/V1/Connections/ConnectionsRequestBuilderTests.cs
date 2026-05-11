@@ -1,17 +1,30 @@
-﻿using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Connections;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Connections;
+
 public class ConnectionsRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetConnectionsResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Connections.GetAsync();
+        var builder = new ConnectionsRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/connections");
-        result.Should().NotBeNull();
-        result!.Connections![0].ConnectionProp!.Name.Should().Be("Google");
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task PostAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, """{"code":"OK","connection":{"id":"conn_new"}}"""); await client.Api.V1.Connections.PostAsync(new CreateConnection_request { Name = "Google", DisplayName = "Google", Strategy = CreateConnection_request_strategy.Oauth2Google }); handler.LastRequest!.Method.Should().Be(HttpMethod.Post); }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new ConnectionsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

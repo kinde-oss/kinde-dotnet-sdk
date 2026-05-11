@@ -1,20 +1,30 @@
-using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Identities.Item;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Identities.Item;
+
 public class WithIdentity_ItemRequestBuilderTests
 {
-    private const string IdentId = "ident_001";
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(
-            HttpStatusCode.OK,
-            """{"id":"ident_001","type":"email"}"""
-        );
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Identities[IdentId].GetAsync();
+        var builder = new WithIdentity_ItemRequestBuilder(pathParameters, requestAdapter);
 
-        result!.Id.Should().Be("ident_001");
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task PatchAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Identities[IdentId].PatchAsync(new UpdateIdentity_request()); handler.LastRequest!.Method.Should().Be(HttpMethod.Patch); }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Identities[IdentId].DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithIdentity_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

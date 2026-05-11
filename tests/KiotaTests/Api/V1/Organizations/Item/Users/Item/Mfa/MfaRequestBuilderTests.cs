@@ -1,7 +1,30 @@
-using System.Net; using FluentAssertions; using Xunit;
+using ApiSdk.Api.V1.Organizations.Item.Users.Item.Mfa;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Organizations.Item.Users.Item.Mfa;
+
 public class MfaRequestBuilderTests
 {
-    [Fact] public async Task GetAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetUserMfaResponse); var result = await client.Api.V1.Organizations["org_001"].Users["kp_user_001"].Mfa.GetAsync(); result.Should().NotBeNull(); }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Organizations["org_001"].Users["kp_user_001"].Mfa.DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new MfaRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new MfaRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

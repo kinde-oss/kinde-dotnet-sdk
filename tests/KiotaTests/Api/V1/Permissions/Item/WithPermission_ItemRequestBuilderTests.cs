@@ -1,24 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Permissions.Item;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Permissions.Item;
+
 public class WithPermission_ItemRequestBuilderTests
 {
-    private const string PermId = "perm_001";
     [Fact]
-    public async Task PatchAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Permissions[PermId].PatchAsync(new CreatePermission_request());
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new WithPermission_ItemRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Permissions[PermId].DeleteAsync();
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithPermission_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -17,10 +17,10 @@ namespace Kiota.Api.Models
         /// <summary>The applications property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Get_api_response_api_applications_inner>? Applications { get; set; }
+        public List<global::ApiSdk.Models.Get_api_response_api_applications>? Applications { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Get_api_response_api_applications_inner> Applications { get; set; }
+        public List<global::ApiSdk.Models.Get_api_response_api_applications> Applications { get; set; }
 #endif
         /// <summary>A unique identifier for the API - commonly the URL. This value will be used as the `audience` parameter in authorization claims.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -40,7 +40,7 @@ namespace Kiota.Api.Models
 #endif
         /// <summary>Whether or not it is the Kinde management API.</summary>
         public bool? IsManagementApi { get; set; }
-        /// <summary>The API’s name.</summary>
+        /// <summary>The API&apos;s name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Name { get; set; }
@@ -51,13 +51,13 @@ namespace Kiota.Api.Models
         /// <summary>The scopes property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Get_api_response_api_scopes_inner>? Scopes { get; set; }
+        public List<global::ApiSdk.Models.Get_api_response_api_scopes>? Scopes { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Get_api_response_api_scopes_inner> Scopes { get; set; }
+        public List<global::ApiSdk.Models.Get_api_response_api_scopes> Scopes { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_api_response_api"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_api_response_api"/> and sets the default values.
         /// </summary>
         public Get_api_response_api()
         {
@@ -66,12 +66,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_api_response_api"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_api_response_api"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_api_response_api CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_api_response_api CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_api_response_api();
+            return new global::ApiSdk.Models.Get_api_response_api();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -81,12 +81,12 @@ namespace Kiota.Api.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "applications", n => { Applications = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Get_api_response_api_applications_inner>(global::Kiota.Api.Models.Get_api_response_api_applications_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "applications", n => { Applications = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Get_api_response_api_applications>(global::ApiSdk.Models.Get_api_response_api_applications.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "audience", n => { Audience = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "is_management_api", n => { IsManagementApi = n.GetBoolValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "scopes", n => { Scopes = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Get_api_response_api_scopes_inner>(global::Kiota.Api.Models.Get_api_response_api_scopes_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "scopes", n => { Scopes = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Get_api_response_api_scopes>(global::ApiSdk.Models.Get_api_response_api_scopes.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -96,12 +96,12 @@ namespace Kiota.Api.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Get_api_response_api_applications_inner>("applications", Applications);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Get_api_response_api_applications>("applications", Applications);
             writer.WriteStringValue("audience", Audience);
             writer.WriteStringValue("id", Id);
             writer.WriteBoolValue("is_management_api", IsManagementApi);
             writer.WriteStringValue("name", Name);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Get_api_response_api_scopes_inner>("scopes", Scopes);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Get_api_response_api_scopes>("scopes", Scopes);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

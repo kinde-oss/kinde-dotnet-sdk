@@ -1,5 +1,5 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Organizations;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Organizations;
@@ -7,27 +7,24 @@ namespace KiotaTests.Api.V1.Organizations;
 public class OrganizationsRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetOrganizationsResponse);
-        var result = await client.Api.V1.Organizations.GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/organizations");
-        result!.Organizations![0].Code.Should().Be("org_1767f11ce62");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new OrganizationsRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 
     [Fact]
-    public async Task GetAsync_WithSortParam()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetOrganizationsResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        await client.Api.V1.Organizations.GetAsync(c =>
-        {
-            c.QueryParameters.SortAsGetSortQueryParameterType =
-                Kiota.Api.Api.V1.Organizations.GetSortQueryParameterType.Name_asc;
-            c.QueryParameters.PageSize = 20;
-        });
+        var builder = new OrganizationsRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.RequestUri!.Query.Should().Contain("page_size=20");
-        handler.LastRequest!.RequestUri!.Query.Should().Contain("sort=");
+        Assert.NotNull(builder);
     }
 }

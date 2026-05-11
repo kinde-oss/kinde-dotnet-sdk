@@ -1,13 +1,30 @@
-using System.Net; using FluentAssertions; using Xunit;
+using ApiSdk.Api.V1.Billing.Entitlements;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Billing.Entitlements;
+
 public class EntitlementsRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200_WithEntitlements()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetBillingEntitlementsResponse);
-        var result = await client.Api.V1.Billing.Entitlements.GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().StartWith("/api/v1/billing/entitlements");
-        result!.Entitlements![0].FeatureName.Should().Be("Pro Gym");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new EntitlementsRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new EntitlementsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

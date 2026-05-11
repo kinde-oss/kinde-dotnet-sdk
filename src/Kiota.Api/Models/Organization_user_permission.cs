@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -49,13 +49,13 @@ namespace Kiota.Api.Models
         /// <summary>The roles property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Organization_user_permission_roles_inner>? Roles { get; set; }
+        public List<global::ApiSdk.Models.Organization_user_permission_roles>? Roles { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Organization_user_permission_roles_inner> Roles { get; set; }
+        public List<global::ApiSdk.Models.Organization_user_permission_roles> Roles { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Organization_user_permission"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Organization_user_permission"/> and sets the default values.
         /// </summary>
         public Organization_user_permission()
         {
@@ -64,12 +64,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Organization_user_permission"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Organization_user_permission"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Organization_user_permission CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Organization_user_permission CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Organization_user_permission();
+            return new global::ApiSdk.Models.Organization_user_permission();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -83,7 +83,7 @@ namespace Kiota.Api.Models
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "key", n => { Key = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "roles", n => { Roles = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Organization_user_permission_roles_inner>(global::Kiota.Api.Models.Organization_user_permission_roles_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "roles", n => { Roles = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Organization_user_permission_roles>(global::ApiSdk.Models.Organization_user_permission_roles.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -97,7 +97,7 @@ namespace Kiota.Api.Models
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("key", Key);
             writer.WriteStringValue("name", Name);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Organization_user_permission_roles_inner>("roles", Roles);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Organization_user_permission_roles>("roles", Roles);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

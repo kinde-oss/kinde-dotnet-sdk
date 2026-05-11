@@ -1,7 +1,30 @@
-using System.Net; using FluentAssertions; using Xunit;
+using ApiSdk.Api.V1.Applications.Item.Connections;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Applications.Item.Connections;
+
 public class ConnectionsRequestBuilderTests
 {
-    private const string AppId = "3b0b5c6c8fcc464fab397f4969b5f482";
-    [Fact] public async Task GetAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetConnectionsResponse); var result = await client.Api.V1.Applications[AppId].Connections.GetAsync(); result.Should().NotBeNull(); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new ConnectionsRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new ConnectionsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -14,6 +14,14 @@ namespace Kiota.Api.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>The billing property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::ApiSdk.Models.User_billing? Billing { get; set; }
+#nullable restore
+#else
+        public global::ApiSdk.Models.User_billing Billing { get; set; }
+#endif
         /// <summary>Date of user creation in ISO 8601 format.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -43,10 +51,10 @@ namespace Kiota.Api.Models
         /// <summary>Array of identities belonging to the user.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.User_identities_inner>? Identities { get; set; }
+        public List<global::ApiSdk.Models.User_identities>? Identities { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.User_identities_inner> Identities { get; set; }
+        public List<global::ApiSdk.Models.User_identities> Identities { get; set; }
 #endif
         /// <summary>Whether the user is currently suspended or not.</summary>
         public bool? IsSuspended { get; set; }
@@ -117,7 +125,7 @@ namespace Kiota.Api.Models
         public string Username { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.User"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.User"/> and sets the default values.
         /// </summary>
         public User()
         {
@@ -126,12 +134,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.User"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.User"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.User CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.User CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.User();
+            return new global::ApiSdk.Models.User();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -141,11 +149,12 @@ namespace Kiota.Api.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "billing", n => { Billing = n.GetObjectValue<global::ApiSdk.Models.User_billing>(global::ApiSdk.Models.User_billing.CreateFromDiscriminatorValue); } },
                 { "created_on", n => { CreatedOn = n.GetStringValue(); } },
                 { "failed_sign_ins", n => { FailedSignIns = n.GetIntValue(); } },
                 { "first_name", n => { FirstName = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
-                { "identities", n => { Identities = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.User_identities_inner>(global::Kiota.Api.Models.User_identities_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "identities", n => { Identities = n.GetCollectionOfObjectValues<global::ApiSdk.Models.User_identities>(global::ApiSdk.Models.User_identities.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "is_suspended", n => { IsSuspended = n.GetBoolValue(); } },
                 { "last_name", n => { LastName = n.GetStringValue(); } },
                 { "last_signed_in", n => { LastSignedIn = n.GetStringValue(); } },
@@ -165,11 +174,12 @@ namespace Kiota.Api.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteObjectValue<global::ApiSdk.Models.User_billing>("billing", Billing);
             writer.WriteStringValue("created_on", CreatedOn);
             writer.WriteIntValue("failed_sign_ins", FailedSignIns);
             writer.WriteStringValue("first_name", FirstName);
             writer.WriteStringValue("id", Id);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.User_identities_inner>("identities", Identities);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.User_identities>("identities", Identities);
             writer.WriteBoolValue("is_suspended", IsSuspended);
             writer.WriteStringValue("last_name", LastName);
             writer.WriteStringValue("last_signed_in", LastSignedIn);

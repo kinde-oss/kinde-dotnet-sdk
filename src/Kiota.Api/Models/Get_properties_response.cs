@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -35,13 +35,13 @@ namespace Kiota.Api.Models
         /// <summary>The properties property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Property>? Properties { get; set; }
+        public List<global::ApiSdk.Models.Property>? Properties { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Property> Properties { get; set; }
+        public List<global::ApiSdk.Models.Property> Properties { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_properties_response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_properties_response"/> and sets the default values.
         /// </summary>
         public Get_properties_response()
         {
@@ -50,12 +50,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_properties_response"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_properties_response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_properties_response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_properties_response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_properties_response();
+            return new global::ApiSdk.Models.Get_properties_response();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -68,7 +68,7 @@ namespace Kiota.Api.Models
                 { "code", n => { Code = n.GetStringValue(); } },
                 { "has_more", n => { HasMore = n.GetBoolValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
-                { "properties", n => { Properties = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Property>(global::Kiota.Api.Models.Property.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "properties", n => { Properties = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Property>(global::ApiSdk.Models.Property.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -81,7 +81,7 @@ namespace Kiota.Api.Models
             writer.WriteStringValue("code", Code);
             writer.WriteBoolValue("has_more", HasMore);
             writer.WriteStringValue("message", Message);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Property>("properties", Properties);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Property>("properties", Properties);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

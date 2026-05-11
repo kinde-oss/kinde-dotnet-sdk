@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -65,9 +65,9 @@ namespace Kiota.Api.Models
         public string Name { get; set; }
 #endif
         /// <summary>The application&apos;s type.</summary>
-        public global::Kiota.Api.Models.Get_application_response_application_type? Type { get; set; }
+        public global::ApiSdk.Models.Get_application_response_application_type? Type { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_application_response_application"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_application_response_application"/> and sets the default values.
         /// </summary>
         public Get_application_response_application()
         {
@@ -76,12 +76,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_application_response_application"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_application_response_application"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_application_response_application CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_application_response_application CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_application_response_application();
+            return new global::ApiSdk.Models.Get_application_response_application();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -98,7 +98,7 @@ namespace Kiota.Api.Models
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "login_uri", n => { LoginUri = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "type", n => { Type = n.GetEnumValue<global::Kiota.Api.Models.Get_application_response_application_type>(); } },
+                { "type", n => { Type = n.GetEnumValue<global::ApiSdk.Models.Get_application_response_application_type>(); } },
             };
         }
         /// <summary>
@@ -115,7 +115,7 @@ namespace Kiota.Api.Models
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("login_uri", LoginUri);
             writer.WriteStringValue("name", Name);
-            writer.WriteEnumValue<global::Kiota.Api.Models.Get_application_response_application_type>("type", Type);
+            writer.WriteEnumValue<global::ApiSdk.Models.Get_application_response_application_type>("type", Type);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

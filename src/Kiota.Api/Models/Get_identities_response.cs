@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -27,10 +27,10 @@ namespace Kiota.Api.Models
         /// <summary>The identities property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Identity>? Identities { get; set; }
+        public List<global::ApiSdk.Models.Identity>? Identities { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Identity> Identities { get; set; }
+        public List<global::ApiSdk.Models.Identity> Identities { get; set; }
 #endif
         /// <summary>Response message.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -41,7 +41,7 @@ namespace Kiota.Api.Models
         public string Message { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_identities_response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_identities_response"/> and sets the default values.
         /// </summary>
         public Get_identities_response()
         {
@@ -50,12 +50,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_identities_response"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_identities_response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_identities_response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_identities_response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_identities_response();
+            return new global::ApiSdk.Models.Get_identities_response();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -67,7 +67,7 @@ namespace Kiota.Api.Models
             {
                 { "code", n => { Code = n.GetStringValue(); } },
                 { "has_more", n => { HasMore = n.GetBoolValue(); } },
-                { "identities", n => { Identities = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Identity>(global::Kiota.Api.Models.Identity.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "identities", n => { Identities = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Identity>(global::ApiSdk.Models.Identity.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
             };
         }
@@ -80,7 +80,7 @@ namespace Kiota.Api.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
             writer.WriteBoolValue("has_more", HasMore);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Identity>("identities", Identities);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Identity>("identities", Identities);
             writer.WriteStringValue("message", Message);
             writer.WriteAdditionalData(AdditionalData);
         }

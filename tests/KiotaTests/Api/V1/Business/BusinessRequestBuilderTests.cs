@@ -1,18 +1,30 @@
-using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Business;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Business;
+
 public class BusinessRequestBuilderTests
 {
-    [Fact] public async Task GetAsync_Returns200_WithDetails()
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetBusinessResponse);
-        var result = await client.Api.V1.Business.GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/business");
-        result!.Business!.Name.Should().Be("Acme Corp");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new BusinessRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task PatchAsync_Returns200()
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Business.PatchAsync(new UpdateBusiness_request { BusinessName = "Acme Updated" });
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new BusinessRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -17,52 +17,52 @@ namespace Kiota.Api.Models
         /// <summary>The background_color property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_background_color? BackgroundColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_background_color? BackgroundColor { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_background_color BackgroundColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_background_color BackgroundColor { get; set; }
 #endif
         /// <summary>The background_color_dark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? BackgroundColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_background_color_dark? BackgroundColorDark { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color BackgroundColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_background_color_dark BackgroundColorDark { get; set; }
 #endif
         /// <summary>The border radius for buttons. Value is px, Kinde transforms to rem for rendering</summary>
         public int? ButtonBorderRadius { get; set; }
         /// <summary>The button_color property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? ButtonColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_color? ButtonColor { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color ButtonColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_color ButtonColor { get; set; }
 #endif
         /// <summary>The button_color_dark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? ButtonColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_color_dark? ButtonColorDark { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color ButtonColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_color_dark ButtonColorDark { get; set; }
 #endif
         /// <summary>The button_text_color property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_background_color? ButtonTextColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_text_color? ButtonTextColor { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_background_color ButtonTextColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_text_color ButtonTextColor { get; set; }
 #endif
         /// <summary>The button_text_color_dark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? ButtonTextColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_text_color_dark? ButtonTextColorDark { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color ButtonTextColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_button_text_color_dark ButtonTextColorDark { get; set; }
 #endif
         /// <summary>The border radius for cards. Value is px, Kinde transforms to rem for rendering</summary>
         public int? CardBorderRadius { get; set; }
@@ -75,7 +75,15 @@ namespace Kiota.Api.Models
         public string Code { get; set; }
 #endif
         /// <summary>The color scheme for the environment used for meta tags based on the theme code</summary>
-        public global::Kiota.Api.Models.Get_environment_response_environment_color_scheme? ColorScheme { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_color_scheme? ColorScheme { get; set; }
+        /// <summary>Your Contentsquare Tag ID.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ContentsquareTagId { get; set; }
+#nullable restore
+#else
+        public string ContentsquareTagId { get; set; }
+#endif
         /// <summary>Date of environment creation in ISO 8601 format.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -92,7 +100,7 @@ namespace Kiota.Api.Models
 #else
         public string CustomDomain { get; set; }
 #endif
-        /// <summary>The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG</summary>
+        /// <summary>The favicon URL to be used as a fallback in browsers that don&apos;t support SVG, add a PNG</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? FaviconFallback { get; set; }
@@ -141,18 +149,18 @@ namespace Kiota.Api.Models
         /// <summary>The link_color property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? LinkColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_link_color? LinkColor { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color LinkColor { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_link_color LinkColor { get; set; }
 #endif
         /// <summary>The link_color_dark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color? LinkColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_link_color_dark? LinkColorDark { get; set; }
 #nullable restore
 #else
-        public global::Kiota.Api.Models.Get_environment_response_environment_link_color LinkColorDark { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_link_color_dark LinkColorDark { get; set; }
 #endif
         /// <summary>The organization&apos;s logo URL.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -179,9 +187,9 @@ namespace Kiota.Api.Models
         public string Name { get; set; }
 #endif
         /// <summary>Whether the environment is forced into light mode, dark mode or user preference</summary>
-        public global::Kiota.Api.Models.Get_environment_response_environment_theme_code? ThemeCode { get; set; }
+        public global::ApiSdk.Models.Get_environment_response_environment_theme_code? ThemeCode { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_environment_response_environment"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_environment_response_environment"/> and sets the default values.
         /// </summary>
         public Get_environment_response_environment()
         {
@@ -190,12 +198,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_environment_response_environment"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_environment_response_environment"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_environment_response_environment CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_environment_response_environment CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_environment_response_environment();
+            return new global::ApiSdk.Models.Get_environment_response_environment();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -205,16 +213,17 @@ namespace Kiota.Api.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "background_color", n => { BackgroundColor = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_background_color>(global::Kiota.Api.Models.Get_environment_response_environment_background_color.CreateFromDiscriminatorValue); } },
-                { "background_color_dark", n => { BackgroundColorDark = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
+                { "background_color", n => { BackgroundColor = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_background_color>(global::ApiSdk.Models.Get_environment_response_environment_background_color.CreateFromDiscriminatorValue); } },
+                { "background_color_dark", n => { BackgroundColorDark = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_background_color_dark>(global::ApiSdk.Models.Get_environment_response_environment_background_color_dark.CreateFromDiscriminatorValue); } },
                 { "button_border_radius", n => { ButtonBorderRadius = n.GetIntValue(); } },
-                { "button_color", n => { ButtonColor = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
-                { "button_color_dark", n => { ButtonColorDark = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
-                { "button_text_color", n => { ButtonTextColor = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_background_color>(global::Kiota.Api.Models.Get_environment_response_environment_background_color.CreateFromDiscriminatorValue); } },
-                { "button_text_color_dark", n => { ButtonTextColorDark = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
+                { "button_color", n => { ButtonColor = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_color>(global::ApiSdk.Models.Get_environment_response_environment_button_color.CreateFromDiscriminatorValue); } },
+                { "button_color_dark", n => { ButtonColorDark = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_color_dark>(global::ApiSdk.Models.Get_environment_response_environment_button_color_dark.CreateFromDiscriminatorValue); } },
+                { "button_text_color", n => { ButtonTextColor = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_text_color>(global::ApiSdk.Models.Get_environment_response_environment_button_text_color.CreateFromDiscriminatorValue); } },
+                { "button_text_color_dark", n => { ButtonTextColorDark = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_text_color_dark>(global::ApiSdk.Models.Get_environment_response_environment_button_text_color_dark.CreateFromDiscriminatorValue); } },
                 { "card_border_radius", n => { CardBorderRadius = n.GetIntValue(); } },
                 { "code", n => { Code = n.GetStringValue(); } },
-                { "color_scheme", n => { ColorScheme = n.GetEnumValue<global::Kiota.Api.Models.Get_environment_response_environment_color_scheme>(); } },
+                { "color_scheme", n => { ColorScheme = n.GetEnumValue<global::ApiSdk.Models.Get_environment_response_environment_color_scheme>(); } },
+                { "contentsquare_tag_id", n => { ContentsquareTagId = n.GetStringValue(); } },
                 { "created_on", n => { CreatedOn = n.GetStringValue(); } },
                 { "custom_domain", n => { CustomDomain = n.GetStringValue(); } },
                 { "favicon_fallback", n => { FaviconFallback = n.GetStringValue(); } },
@@ -225,12 +234,12 @@ namespace Kiota.Api.Models
                 { "is_default", n => { IsDefault = n.GetBoolValue(); } },
                 { "is_live", n => { IsLive = n.GetBoolValue(); } },
                 { "kinde_domain", n => { KindeDomain = n.GetStringValue(); } },
-                { "link_color", n => { LinkColor = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
-                { "link_color_dark", n => { LinkColorDark = n.GetObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>(global::Kiota.Api.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
+                { "link_color", n => { LinkColor = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_link_color>(global::ApiSdk.Models.Get_environment_response_environment_link_color.CreateFromDiscriminatorValue); } },
+                { "link_color_dark", n => { LinkColorDark = n.GetObjectValue<global::ApiSdk.Models.Get_environment_response_environment_link_color_dark>(global::ApiSdk.Models.Get_environment_response_environment_link_color_dark.CreateFromDiscriminatorValue); } },
                 { "logo", n => { Logo = n.GetStringValue(); } },
                 { "logo_dark", n => { LogoDark = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "theme_code", n => { ThemeCode = n.GetEnumValue<global::Kiota.Api.Models.Get_environment_response_environment_theme_code>(); } },
+                { "theme_code", n => { ThemeCode = n.GetEnumValue<global::ApiSdk.Models.Get_environment_response_environment_theme_code>(); } },
             };
         }
         /// <summary>
@@ -240,16 +249,17 @@ namespace Kiota.Api.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_background_color>("background_color", BackgroundColor);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("background_color_dark", BackgroundColorDark);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_background_color>("background_color", BackgroundColor);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_background_color_dark>("background_color_dark", BackgroundColorDark);
             writer.WriteIntValue("button_border_radius", ButtonBorderRadius);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("button_color", ButtonColor);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("button_color_dark", ButtonColorDark);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_background_color>("button_text_color", ButtonTextColor);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("button_text_color_dark", ButtonTextColorDark);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_color>("button_color", ButtonColor);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_color_dark>("button_color_dark", ButtonColorDark);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_text_color>("button_text_color", ButtonTextColor);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_button_text_color_dark>("button_text_color_dark", ButtonTextColorDark);
             writer.WriteIntValue("card_border_radius", CardBorderRadius);
             writer.WriteStringValue("code", Code);
-            writer.WriteEnumValue<global::Kiota.Api.Models.Get_environment_response_environment_color_scheme>("color_scheme", ColorScheme);
+            writer.WriteEnumValue<global::ApiSdk.Models.Get_environment_response_environment_color_scheme>("color_scheme", ColorScheme);
+            writer.WriteStringValue("contentsquare_tag_id", ContentsquareTagId);
             writer.WriteStringValue("created_on", CreatedOn);
             writer.WriteStringValue("custom_domain", CustomDomain);
             writer.WriteStringValue("favicon_fallback", FaviconFallback);
@@ -260,12 +270,12 @@ namespace Kiota.Api.Models
             writer.WriteBoolValue("is_default", IsDefault);
             writer.WriteBoolValue("is_live", IsLive);
             writer.WriteStringValue("kinde_domain", KindeDomain);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("link_color", LinkColor);
-            writer.WriteObjectValue<global::Kiota.Api.Models.Get_environment_response_environment_link_color>("link_color_dark", LinkColorDark);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_link_color>("link_color", LinkColor);
+            writer.WriteObjectValue<global::ApiSdk.Models.Get_environment_response_environment_link_color_dark>("link_color_dark", LinkColorDark);
             writer.WriteStringValue("logo", Logo);
             writer.WriteStringValue("logo_dark", LogoDark);
             writer.WriteStringValue("name", Name);
-            writer.WriteEnumValue<global::Kiota.Api.Models.Get_environment_response_environment_theme_code>("theme_code", ThemeCode);
+            writer.WriteEnumValue<global::ApiSdk.Models.Get_environment_response_environment_theme_code>("theme_code", ThemeCode);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

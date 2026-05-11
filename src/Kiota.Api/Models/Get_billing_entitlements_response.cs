@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -25,10 +25,10 @@ namespace Kiota.Api.Models
         /// <summary>A list of entitlements</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Get_billing_entitlements_response_entitlements_inner>? Entitlements { get; set; }
+        public List<global::ApiSdk.Models.Get_billing_entitlements_response_entitlements>? Entitlements { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Get_billing_entitlements_response_entitlements_inner> Entitlements { get; set; }
+        public List<global::ApiSdk.Models.Get_billing_entitlements_response_entitlements> Entitlements { get; set; }
 #endif
         /// <summary>Whether more records exist.</summary>
         public bool? HasMore { get; set; }
@@ -43,13 +43,13 @@ namespace Kiota.Api.Models
         /// <summary>A list of plans.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Get_billing_entitlements_response_plans_inner>? Plans { get; set; }
+        public List<global::ApiSdk.Models.Get_billing_entitlements_response_plans>? Plans { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Get_billing_entitlements_response_plans_inner> Plans { get; set; }
+        public List<global::ApiSdk.Models.Get_billing_entitlements_response_plans> Plans { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Get_billing_entitlements_response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Get_billing_entitlements_response"/> and sets the default values.
         /// </summary>
         public Get_billing_entitlements_response()
         {
@@ -58,12 +58,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Get_billing_entitlements_response"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Get_billing_entitlements_response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Get_billing_entitlements_response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Get_billing_entitlements_response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Get_billing_entitlements_response();
+            return new global::ApiSdk.Models.Get_billing_entitlements_response();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -74,10 +74,10 @@ namespace Kiota.Api.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
-                { "entitlements", n => { Entitlements = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Get_billing_entitlements_response_entitlements_inner>(global::Kiota.Api.Models.Get_billing_entitlements_response_entitlements_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "entitlements", n => { Entitlements = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Get_billing_entitlements_response_entitlements>(global::ApiSdk.Models.Get_billing_entitlements_response_entitlements.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "has_more", n => { HasMore = n.GetBoolValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
-                { "plans", n => { Plans = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Get_billing_entitlements_response_plans_inner>(global::Kiota.Api.Models.Get_billing_entitlements_response_plans_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "plans", n => { Plans = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Get_billing_entitlements_response_plans>(global::ApiSdk.Models.Get_billing_entitlements_response_plans.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -88,10 +88,10 @@ namespace Kiota.Api.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Get_billing_entitlements_response_entitlements_inner>("entitlements", Entitlements);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Get_billing_entitlements_response_entitlements>("entitlements", Entitlements);
             writer.WriteBoolValue("has_more", HasMore);
             writer.WriteStringValue("message", Message);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Get_billing_entitlements_response_plans_inner>("plans", Plans);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Get_billing_entitlements_response_plans>("plans", Plans);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

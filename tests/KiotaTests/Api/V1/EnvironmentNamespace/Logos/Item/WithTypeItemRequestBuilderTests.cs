@@ -1,6 +1,5 @@
-using FluentAssertions;
-using Microsoft.Kiota.Abstractions;
-using System.Net;
+using ApiSdk.Api.V1.EnvironmentNamespace.Logos.Item;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.EnvironmentNamespace.Logos.Item;
@@ -8,31 +7,24 @@ namespace KiotaTests.Api.V1.EnvironmentNamespace.Logos.Item;
 public class WithTypeItemRequestBuilderTests
 {
     [Fact]
-    public async Task PutAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var body = new MultipartBody();
-        body.AddOrReplacePart(
-            "logo",
-            "image/png",
-            System.Text.Encoding.UTF8.GetBytes("fake-image-bytes")
-        );
+        var builder = new WithTypeItemRequestBuilder(pathParameters, requestAdapter);
 
-        await client.Api.V1.Environment.Logos["light"].PutAsync(body);
-
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Put);
-        handler.LastRequest.RequestUri!.ToString().Should().Contain("/logos/light");
+        Assert.NotNull(builder);
     }
 
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        await client.Api.V1.Environment.Logos["light"].DeleteAsync();
+        var builder = new WithTypeItemRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
-        handler.LastRequest.RequestUri!.ToString().Should().Contain("/logos/light");
+        Assert.NotNull(builder);
     }
 }

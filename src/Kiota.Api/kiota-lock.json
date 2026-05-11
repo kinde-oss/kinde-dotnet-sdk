@@ -1,11 +1,11 @@
 {
-  "descriptionHash": "D393AE2F2A805D15FF41D5DC0C8E6A168937BAD80EF4A55230494D0D5C4108646E5131E2483F46AEA768CF5BBCBAEB1FDB9663F5002F2AD46368628E64823DA9",
+  "descriptionHash": "6100EB433694F793358DA0308C37CF36BF07873011B159AF0DBAA036787B5328A7B81AAF66B18C981A22760190F199271B1D12FA0BF29CCDC8974B2D2B4EFCD9",
   "descriptionLocation": "../../api/openapi.yaml",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "1.31.1",
   "clientClassName": "ApiClient",
   "typeAccessModifier": "Public",
-  "clientNamespaceName": "Kiota.Api",
+  "clientNamespaceName": "ApiSdk",
   "language": "CSharp",
   "usesBackingStore": false,
   "excludeBackwardCompatible": false,

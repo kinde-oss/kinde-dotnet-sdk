@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     /// <summary>
     /// The result of the user creation operation.
@@ -18,7 +18,7 @@ namespace Kiota.Api.Models
         /// <summary>True if the user identity was successfully created.</summary>
         public bool? Created { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.User_identity_result"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.User_identity_result"/> and sets the default values.
         /// </summary>
         public User_identity_result()
         {
@@ -27,12 +27,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.User_identity_result"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.User_identity_result"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.User_identity_result CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.User_identity_result CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.User_identity_result();
+            return new global::ApiSdk.Models.User_identity_result();
         }
         /// <summary>
         /// The deserialization information for the current model

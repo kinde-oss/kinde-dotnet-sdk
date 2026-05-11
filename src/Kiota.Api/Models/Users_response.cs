@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kiota.Api.Models
+namespace ApiSdk.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -41,13 +41,13 @@ namespace Kiota.Api.Models
         /// <summary>The users property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kiota.Api.Models.Users_response_users_inner>? Users { get; set; }
+        public List<global::ApiSdk.Models.Users_response_users>? Users { get; set; }
 #nullable restore
 #else
-        public List<global::Kiota.Api.Models.Users_response_users_inner> Users { get; set; }
+        public List<global::ApiSdk.Models.Users_response_users> Users { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kiota.Api.Models.Users_response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ApiSdk.Models.Users_response"/> and sets the default values.
         /// </summary>
         public Users_response()
         {
@@ -56,12 +56,12 @@ namespace Kiota.Api.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kiota.Api.Models.Users_response"/></returns>
+        /// <returns>A <see cref="global::ApiSdk.Models.Users_response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kiota.Api.Models.Users_response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ApiSdk.Models.Users_response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kiota.Api.Models.Users_response();
+            return new global::ApiSdk.Models.Users_response();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -74,7 +74,7 @@ namespace Kiota.Api.Models
                 { "code", n => { Code = n.GetStringValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
                 { "next_token", n => { NextToken = n.GetStringValue(); } },
-                { "users", n => { Users = n.GetCollectionOfObjectValues<global::Kiota.Api.Models.Users_response_users_inner>(global::Kiota.Api.Models.Users_response_users_inner.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "users", n => { Users = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Users_response_users>(global::ApiSdk.Models.Users_response_users.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -87,7 +87,7 @@ namespace Kiota.Api.Models
             writer.WriteStringValue("code", Code);
             writer.WriteStringValue("message", Message);
             writer.WriteStringValue("next_token", NextToken);
-            writer.WriteCollectionOfObjectValues<global::Kiota.Api.Models.Users_response_users_inner>("users", Users);
+            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Users_response_users>("users", Users);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
