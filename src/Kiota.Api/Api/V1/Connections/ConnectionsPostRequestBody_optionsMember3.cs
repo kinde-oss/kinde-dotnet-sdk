@@ -33,6 +33,10 @@ namespace ApiSdk.Api.V1.Connections
         public bool? IsTrusted { get; set; }
         /// <summary>Use custom domain callback URL.</summary>
         public bool? IsUseCustomDomain { get; set; }
+        /// <summary>Format for the Name ID used to identify users in SAML responses.</summary>
+        public global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_name_id_format? NameIdFormat { get; set; }
+        /// <summary>Protocol binding used to send SAML requests.</summary>
+        public global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_protocol_binding? ProtocolBinding { get; set; }
         /// <summary>Attribute key for the user&apos;s email.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -97,6 +101,16 @@ namespace ApiSdk.Api.V1.Connections
 #else
         public string SamlSignInUrl { get; set; }
 #endif
+        /// <summary>Attribute key for the user&apos;s ID.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SamlUserIdKeyAttr { get; set; }
+#nullable restore
+#else
+        public string SamlUserIdKeyAttr { get; set; }
+#endif
+        /// <summary>Algorithm used to sign SAML requests.</summary>
+        public global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm? SignRequestAlgorithm { get; set; }
         /// <summary>Additional upstream parameters to pass to the identity provider.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -136,6 +150,8 @@ namespace ApiSdk.Api.V1.Connections
                 { "is_force_show_sso_button", n => { IsForceShowSsoButton = n.GetBoolValue(); } },
                 { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
                 { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
+                { "name_id_format", n => { NameIdFormat = n.GetEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_name_id_format>(); } },
+                { "protocol_binding", n => { ProtocolBinding = n.GetEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_protocol_binding>(); } },
                 { "saml_email_key_attr", n => { SamlEmailKeyAttr = n.GetStringValue(); } },
                 { "saml_entity_id", n => { SamlEntityId = n.GetStringValue(); } },
                 { "saml_first_name_key_attr", n => { SamlFirstNameKeyAttr = n.GetStringValue(); } },
@@ -144,6 +160,8 @@ namespace ApiSdk.Api.V1.Connections
                 { "saml_sign_in_url", n => { SamlSignInUrl = n.GetStringValue(); } },
                 { "saml_signing_certificate", n => { SamlSigningCertificate = n.GetStringValue(); } },
                 { "saml_signing_private_key", n => { SamlSigningPrivateKey = n.GetStringValue(); } },
+                { "saml_user_id_key_attr", n => { SamlUserIdKeyAttr = n.GetStringValue(); } },
+                { "sign_request_algorithm", n => { SignRequestAlgorithm = n.GetEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm>(); } },
                 { "upstream_params", n => { UpstreamParams = n.GetObjectValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_upstream_params>(global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_upstream_params.CreateFromDiscriminatorValue); } },
             };
         }
@@ -160,6 +178,8 @@ namespace ApiSdk.Api.V1.Connections
             writer.WriteBoolValue("is_force_show_sso_button", IsForceShowSsoButton);
             writer.WriteBoolValue("is_trusted", IsTrusted);
             writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
+            writer.WriteEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_name_id_format>("name_id_format", NameIdFormat);
+            writer.WriteEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_protocol_binding>("protocol_binding", ProtocolBinding);
             writer.WriteStringValue("saml_email_key_attr", SamlEmailKeyAttr);
             writer.WriteStringValue("saml_entity_id", SamlEntityId);
             writer.WriteStringValue("saml_first_name_key_attr", SamlFirstNameKeyAttr);
@@ -168,6 +188,8 @@ namespace ApiSdk.Api.V1.Connections
             writer.WriteStringValue("saml_signing_certificate", SamlSigningCertificate);
             writer.WriteStringValue("saml_signing_private_key", SamlSigningPrivateKey);
             writer.WriteStringValue("saml_sign_in_url", SamlSignInUrl);
+            writer.WriteStringValue("saml_user_id_key_attr", SamlUserIdKeyAttr);
+            writer.WriteEnumValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm>("sign_request_algorithm", SignRequestAlgorithm);
             writer.WriteObjectValue<global::ApiSdk.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_upstream_params>("upstream_params", UpstreamParams);
             writer.WriteAdditionalData(AdditionalData);
         }
