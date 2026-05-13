@@ -2663,10 +2663,37 @@ paths:
                           type: string
                           description: Override the default SSO endpoint with a URL your IdP recognizes.
                           example: https://kinde.com/saml/signin
+                        sign_request_algorithm:
+                          type: string
+                          description: Algorithm used to sign SAML requests.
+                          enum:
+                            - RSA-SHA256
+                            - RSA-SHA1
+                          example: RSA-SHA256
+                        protocol_binding:
+                          type: string
+                          description: Protocol binding used to send SAML requests.
+                          enum:
+                            - HTTP-REDIRECT
+                            - HTTP-POST
+                          example: HTTP-REDIRECT
+                        name_id_format:
+                          type: string
+                          description: Format for the Name ID used to identify users in SAML responses.
+                          enum:
+                            - Persistent
+                            - Transient
+                            - Email address
+                            - Unspecified
+                          example: Persistent
                         saml_email_key_attr:
                           type: string
                           description: Attribute key for the user's email.
                           example: email
+                        saml_user_id_key_attr:
+                          type: string
+                          description: Attribute key for the user's ID.
+                          example: user_id
                         saml_first_name_key_attr:
                           type: string
                           description: Attribute key for the user's first name.
@@ -2916,10 +2943,37 @@ paths:
                           type: string
                           description: Override the default SSO endpoint with a URL your IdP recognizes.
                           example: https://kinde.com/saml/signin
+                        sign_request_algorithm:
+                          type: string
+                          description: Algorithm used to sign SAML requests.
+                          enum:
+                            - RSA-SHA256
+                            - RSA-SHA1
+                          example: RSA-SHA256
+                        protocol_binding:
+                          type: string
+                          description: Protocol binding used to send SAML requests.
+                          enum:
+                            - HTTP-REDIRECT
+                            - HTTP-POST
+                          example: HTTP-REDIRECT
+                        name_id_format:
+                          type: string
+                          description: Format for the Name ID used to identify users in SAML responses.
+                          enum:
+                            - Persistent
+                            - Transient
+                            - Email address
+                            - Unspecified
+                          example: Persistent
                         saml_email_key_attr:
                           type: string
                           description: Attribute key for the user's email.
                           example: email
+                        saml_user_id_key_attr:
+                          type: string
+                          description: Attribute key for the user's ID.
+                          example: user_id
                         saml_first_name_key_attr:
                           type: string
                           description: Attribute key for the user's first name.
@@ -3128,10 +3182,37 @@ paths:
                           type: string
                           description: URL for the IdP metadata.
                           example: https://kinde.com/saml/metadata
+                        sign_request_algorithm:
+                          type: string
+                          description: Algorithm used to sign SAML requests.
+                          enum:
+                            - RSA-SHA256
+                            - RSA-SHA1
+                          example: RSA-SHA256
+                        protocol_binding:
+                          type: string
+                          description: Protocol binding used to send SAML requests.
+                          enum:
+                            - HTTP-REDIRECT
+                            - HTTP-POST
+                          example: HTTP-REDIRECT
+                        name_id_format:
+                          type: string
+                          description: Format for the Name ID used to identify users in SAML responses.
+                          enum:
+                            - Persistent
+                            - Transient
+                            - Email address
+                            - Unspecified
+                          example: Persistent
                         saml_email_key_attr:
                           type: string
                           description: Attribute key for the user's email.
                           example: email
+                        saml_user_id_key_attr:
+                          type: string
+                          description: Attribute key for the user's ID.
+                          example: user_id
                         saml_first_name_key_attr:
                           type: string
                           description: Attribute key for the user's first name.
