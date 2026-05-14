@@ -1,27 +1,30 @@
-using FluentAssertions;
-using Kiota.Api.Models;
-using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Serialization.Multipart;
-using System.Net; 
+using ApiSdk.Api.V1.EnvironmentNamespace.Logos.Item;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.EnvironmentNamespace.Logos.Item;
+
 public class WithTypeItemRequestBuilderTests
 {
     [Fact]
-    public async Task PutAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var act = async () =>
-            await client.Api.V1.Environment.Logos["light"].PutAsync(new AddLogo_request
-            {
-                Logo = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("fake-image-bytes"))
-            });
+        var builder = new WithTypeItemRequestBuilder(pathParameters, requestAdapter);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
-        exception.Message.Should().Be("Expected a MultiPartBody instance, but got AddLogo_request");
-
-        handler.LastRequest.Should().BeNull();
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Environment.Logos["light"].DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithTypeItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

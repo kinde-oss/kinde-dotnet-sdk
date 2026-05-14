@@ -32,9 +32,9 @@ namespace Kinde.Api.Model
     public partial class SetUserPasswordRequest : IEquatable<SetUserPasswordRequest>
     {
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum HashingMethodEnum
         {
@@ -65,9 +65,9 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</value>
         [DataMember(Name = "hashing_method", EmitDefaultValue = false)]
         public HashingMethodEnum? HashingMethod { get; set; }
         /// <summary>
@@ -106,7 +106,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
         /// <param name="hashedPassword">The hashed password. (required).</param>
-        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt..</param>
+        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt..</param>
         /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt..</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt..</param>
         /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one..</param>

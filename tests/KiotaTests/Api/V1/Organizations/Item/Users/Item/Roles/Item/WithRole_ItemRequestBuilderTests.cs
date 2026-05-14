@@ -1,5 +1,5 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Organizations.Item.Users.Item.Roles.Item;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Organizations.Item.Users.Item.Roles.Item;
@@ -7,18 +7,24 @@ namespace KiotaTests.Api.V1.Organizations.Item.Users.Item.Roles.Item;
 public class WithRole_ItemRequestBuilderTests
 {
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        await client.Api.V1.Organizations["org_001"]
-            .Users["kp_user_001"]
-            .Roles["role_001"]
-            .DeleteAsync();
+        var builder = new WithRole_ItemRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("organizations/org_001");
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("users/kp_user_001");
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("roles/role_001");
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithRole_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

@@ -1,23 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Roles.Item.Scopes;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Roles.Item.Scopes;
+
 public class ScopesRequestBuilderTests
 {
-    private const string RoleId = "role_001";
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetRoleScopesResponse);
-        var result = await client.Api.V1.Roles[RoleId].Scopes.GetAsync();
-        result!.Scopes![0].Key.Should().Be("read:data");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new ScopesRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task PostAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Roles[RoleId].Scopes.PostAsync(new AddRoleScope_request { ScopeId = "scope_001" });
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new ScopesRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

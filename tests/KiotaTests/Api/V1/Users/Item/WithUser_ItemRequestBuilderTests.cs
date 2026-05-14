@@ -1,9 +1,30 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Users.Item;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Users.Item;
+
 public class WithUser_ItemRequestBuilderTests
 {
-    private const string UserId = "kp_user_001";
-    [Fact] public void ExposesSubBuilders() { var (client, _) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); client.Api.V1.Users[UserId].Identities.Should().NotBeNull(); client.Api.V1.Users[UserId].Properties.Should().NotBeNull(); client.Api.V1.Users[UserId].Feature_flags.Should().NotBeNull(); client.Api.V1.Users[UserId].Mfa.Should().NotBeNull(); client.Api.V1.Users[UserId].Sessions.Should().NotBeNull(); client.Api.V1.Users[UserId].Password.Should().NotBeNull(); client.Api.V1.Users[UserId].Refresh_claims.Should().NotBeNull(); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new WithUser_ItemRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithUser_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

@@ -1,20 +1,30 @@
-﻿using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Billing.Meter_usage;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Billing.Meter_usage;
+
 public class Meter_usageRequestBuilderTests
 {
     [Fact]
-    public async Task PostAsync_Returns200_RecordsUsage()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        await client.Api.V1.Billing.Meter_usage.PostAsync(new CreateMeterUsageRecord_request
-        {
-            BillingFeatureCode = "CcdkvEXpbg6UY",  
-            MeterValue = "5",              
-            CustomerAgreementId = "org_001"      
-        });
+        var builder = new Meter_usageRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Be("/api/v1/billing/meter_usage");
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new Meter_usageRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

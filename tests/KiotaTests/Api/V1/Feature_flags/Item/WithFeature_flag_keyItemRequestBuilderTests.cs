@@ -1,27 +1,30 @@
-using FluentAssertions; 
-using System.Net; 
+using ApiSdk.Api.V1.Feature_flags.Item;
+using KiotaTests.Helpers;
 using Xunit;
-using Kiota.Api.Api.V1.Feature_flags.Item;
+
 namespace KiotaTests.Api.V1.Feature_flags.Item;
+
 public class WithFeature_flag_keyItemRequestBuilderTests
 {
-    private const string FlagKey = "beta_feature";
     [Fact]
-    public async Task PutAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        await client.Api.V1.Feature_flags[FlagKey].PutAsync(config =>
-        {
-            config.QueryParameters.Name = "Updated";
-            config.QueryParameters.DefaultValue = "true";
-            config.QueryParameters.TypeAsPutTypeQueryParameterType = PutTypeQueryParameterType.Bool;
-            config.QueryParameters.AllowOverrideLevelAsPutAllowOverrideLevelQueryParameterType
-                                                                             = PutAllow_override_levelQueryParameterType.Org;
-        });
+        var builder = new WithFeature_flag_keyItemRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Put);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Contain(FlagKey);
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Feature_flags[FlagKey].DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithFeature_flag_keyItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

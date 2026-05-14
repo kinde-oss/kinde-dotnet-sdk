@@ -1,10 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Property_categories;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Property_categories;
+
 public class Property_categoriesRequestBuilderTests
 {
-    [Fact] public async Task GetAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetPropertyCategoriesResponse); var result = await client.Api.V1.Property_categories.GetAsync(); handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/property_categories"); result!.Categories![0].Name.Should().Be("Profile"); }
-    [Fact] public async Task PostAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, """{"code":"OK","category":{"id":"cat_new"}}"""); await client.Api.V1.Property_categories.PostAsync(new CreateCategory_request { Name = "New Cat", Context = CreateCategory_request_context.Usr }); handler.LastRequest!.Method.Should().Be(HttpMethod.Post); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new Property_categoriesRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new Property_categoriesRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

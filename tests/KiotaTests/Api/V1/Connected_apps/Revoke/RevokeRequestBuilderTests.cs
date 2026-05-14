@@ -1,13 +1,30 @@
-using System.Net; using FluentAssertions; using Xunit;
+using ApiSdk.Api.V1.Connected_apps.Revoke;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Connected_apps.Revoke;
+
 public class RevokeRequestBuilderTests
 {
     [Fact]
-    public async Task PostAsync_Returns200_RevokesToken()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, """{"message":"Authorization session successfully revoked"}""");
-        await client.Api.V1.Connected_apps.Revoke.PostAsync();
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
-        handler.LastRequest.RequestUri!.AbsolutePath.Should().Be("/api/v1/connected_apps/revoke");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new RevokeRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new RevokeRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

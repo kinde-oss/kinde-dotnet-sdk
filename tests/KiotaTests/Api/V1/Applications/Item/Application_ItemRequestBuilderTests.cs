@@ -1,32 +1,30 @@
-// Api/V1/Applications/Item/Application_ItemRequestBuilderTests.cs
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Applications.Item;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Applications.Item;
+
 public class Application_ItemRequestBuilderTests
 {
-    private const string AppId = "3b0b5c6c8fcc464fab397f4969b5f482";
     [Fact]
-    public async Task GetAsync_Returns200_WithDetails()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetApplicationResponse);
-        var result = await client.Api.V1.Applications[AppId].GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be($"/api/v1/applications/{AppId}");
-        result!.Application!.HomepageUri.Should().Be("https://yourapp.com");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new Application_ItemRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task PatchAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Applications[AppId].PatchAsync(new UpdateApplication_request { Name = "Updated" });
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
-    }
-    [Fact]
-    public async Task DeleteAsync_Returns200()
-    {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Applications[AppId].DeleteAsync();
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new Application_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

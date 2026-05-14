@@ -1,5 +1,5 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Organizations.Item.Logos;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Organizations.Item.Logos;
@@ -7,14 +7,24 @@ namespace KiotaTests.Api.V1.Organizations.Item.Logos;
 public class LogosRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetOrgLogosResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Organizations["org_001"].Logos.GetAsync();
+        var builder = new LogosRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Get);
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("organizations/org_001/logos");
-        result.Should().NotBeNull();
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new LogosRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

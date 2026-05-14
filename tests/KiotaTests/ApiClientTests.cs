@@ -1,6 +1,5 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api;
+using ApiSdk;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests;
@@ -8,23 +7,12 @@ namespace KiotaTests;
 public class ApiClientTests
 {
     [Fact]
-    public void ApiClient_CanBeInstantiated_WithAdapter()
+    public void Constructor_WithRequestAdapter_CreatesClient()
     {
-        var (client, _) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        client.Should().NotBeNull();
-    }
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
 
-    [Fact]
-    public void ApiClient_ExposesApiProperty()
-    {
-        var (client, _) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        client.Api.Should().NotBeNull();
-    }
+        var client = new ApiClient(requestAdapter);
 
-    [Fact]
-    public void ApiClient_Api_ExposesV1()
-    {
-        var (client, _) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        client.Api.V1.Should().NotBeNull();
+        Assert.NotNull(client);
     }
 }

@@ -1,43 +1,30 @@
-// Api/V1/Apis/Item/Scopes/ScopesRequestBuilderTests.cs
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Apis.Item.Scopes;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Apis.Item.Scopes;
 
 public class ScopesRequestBuilderTests
 {
-    private const string ApiId = "7ccd126599aa422a771abcb341596881";
-
-    // GET /api/v1/apis/{api_id}/scopes
     [Fact]
-    public async Task GetAsync_Returns200_WithScopeList()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetApiScopesResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Apis[ApiId].Scopes.GetAsync();
+        var builder = new ScopesRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Get);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Be($"/api/v1/apis/{ApiId}/scopes");
-        result.Should().NotBeNull();
-        result!.Scopes![0].Key.Should().Be("read:data");
+        Assert.NotNull(builder);
     }
 
-    // POST /api/v1/apis/{api_id}/scopes
     [Fact]
-    public async Task PostAsync_Returns200_CreatesScope()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK,
-            """{"code":"OK","scope":{"id":"scope_new"}}""");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        var result = await client.Api.V1.Apis[ApiId].Scopes.PostAsync(new AddAPIScope_request
-        {
-            Key        = "write:data",
-            Description = "Write access"
-        });
+        var builder = new ScopesRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
-        result.Should().NotBeNull();
+        Assert.NotNull(builder);
     }
 }

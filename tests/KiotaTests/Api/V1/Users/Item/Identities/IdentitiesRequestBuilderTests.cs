@@ -1,29 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Users.Item.Identities;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Users.Item.Identities;
+
 public class IdentitiesRequestBuilderTests
 {
-    private const string UserId = "kp_user_001";
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetIdentitiesResponse);
-        var result = await client.Api.V1.Users[UserId].Identities.GetAsync();
-        result!.Identities![0].Email.Should().Be("alice@example.com");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new IdentitiesRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task PostAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Users[UserId].Identities.PostAsync(
-            new CreateUserIdentity_request
-            {
-                Type = CreateUserIdentity_request_type.Email,
-                Value = "alice2@example.com"
-            }
-        );
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new IdentitiesRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

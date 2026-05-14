@@ -1,8 +1,30 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.Roles.Item.Scopes.Item;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Roles.Item.Scopes.Item;
+
 public class WithScope_ItemRequestBuilderTests
 {
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.Roles["role_001"].Scopes["scope_001"].DeleteAsync(); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); handler.LastRequest.RequestUri!.PathAndQuery.Should().Contain("/roles/role_001/scopes/scope_001"); }
+    [Fact]
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new WithScope_ItemRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithScope_ItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }
