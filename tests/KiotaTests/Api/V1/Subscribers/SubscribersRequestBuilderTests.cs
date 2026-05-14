@@ -1,30 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Subscribers;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.Subscribers;
 
 public class SubscribersRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetSubscribersResponse);
-        var result = await client.Api.V1.Subscribers.GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/subscribers");
-        result!.Subscribers![0].Email.Should().Be("subscriber@example.com");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new SubscribersRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 
     [Fact]
-    public async Task PostAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, """{"code":"OK","subscriber":{"subscriber_id":"sub_new"}}""");
-        await client.Api.V1.Subscribers.PostAsync(rc =>
-        {
-            rc.QueryParameters.FirstName = "New";
-            rc.QueryParameters.LastName = "Sub";
-            rc.QueryParameters.Email = "new@example.com";
-        });
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new SubscribersRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

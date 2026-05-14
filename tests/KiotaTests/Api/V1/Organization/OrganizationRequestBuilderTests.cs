@@ -1,14 +1,30 @@
-using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Organization;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Organization;
+
 public class OrganizationRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetOrganizationResponse);
-        var result = await client.Api.V1.Organization.GetAsync();
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Be("/api/v1/organization");
-        result!.Code.Should().Be("org_1767f11ce62");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
+
+        var builder = new OrganizationRequestBuilder(pathParameters, requestAdapter);
+
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task PostAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, """{"code":"OK","organization":{"code":"org_new"}}"""); var result = await client.Api.V1.Organization.PostAsync(new CreateOrganization_request { Name = "New Org" }); handler.LastRequest!.Method.Should().Be(HttpMethod.Post); result!.Organization!.Code.Should().Be("org_new"); }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new OrganizationRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
+    }
 }

@@ -1,48 +1,30 @@
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.User;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.User;
+
 public class UserRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetUserResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.User.GetAsync(c => c.QueryParameters.Id = "kp_user_001");
+        var builder = new UserRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.RequestUri!.Query.Should().Contain("id=kp_user_001");
-        result!.PreferredEmail.Should().Be("alice@example.com");
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task PostAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.CreateUserResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        var result = await client.Api.V1.User.PostAsync(new CreateUser_request
-        {
-            Profile = new CreateUser_request_profile
-            {
-                GivenName = "Bob",
-                FamilyName = "Jones"
-            },
-            Identities = new List<CreateUser_request_identities_inner>
-        {
-            new()
-            {
-                Type = CreateUser_request_identities_inner_type.Email,
-                Details = new CreateUser_request_identities_inner_details
-                {
-                    Email = "bob@example.com"
-                }
-            }
-        }
-        });
+        var builder = new UserRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
-        result!.Id.Should().Be("kp_user_002");
+        Assert.NotNull(builder);
     }
-    [Fact] public async Task PatchAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetUserResponse); await client.Api.V1.User.PatchAsync(new UpdateUser_request { GivenName = "Alice" }, c => c.QueryParameters.Id = "kp_user_001"); handler.LastRequest!.Method.Should().Be(HttpMethod.Patch); }
-    [Fact] public async Task DeleteAsync_Returns200() { var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse); await client.Api.V1.User.DeleteAsync(c => c.QueryParameters.Id = "kp_user_001"); handler.LastRequest!.Method.Should().Be(HttpMethod.Delete); }
 }

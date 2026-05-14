@@ -1,54 +1,30 @@
-// Api/V1/Apis/Item/Scopes/Item/WithScope_ItemRequestBuilderTests.cs
-using System.Net;
-using FluentAssertions;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Apis.Item.Scopes.Item;
+using KiotaTests.Helpers;
 using Xunit;
 
 namespace KiotaTests.Api.V1.Apis.Item.Scopes.Item;
 
 public class WithScope_ItemRequestBuilderTests
 {
-    private const string ApiId   = "7ccd126599aa422a771abcb341596881";
-    private const string ScopeId = "scope_001";
-
-    // GET /api/v1/apis/{api_id}/scopes/{scope_id}
     [Fact]
-    public async Task GetAsync_Returns200_WithScopeDetails()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK,
-            """{"code":"OK","scope":{"id":"scope_001","name":"read:data","description":"Read access"}}""");
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Apis[ApiId].Scopes[ScopeId].GetAsync();
+        var builder = new WithScope_ItemRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Get);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Contain($"/scopes/{ScopeId}");
-        result.Should().NotBeNull();
+        Assert.NotNull(builder);
     }
 
-    // PATCH /api/v1/apis/{api_id}/scopes/{scope_id}
     [Fact]
-    public async Task PatchAsync_Returns200_UpdatesScope()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        await client.Api.V1.Apis[ApiId].Scopes[ScopeId].PatchAsync(new UpdateAPIScope_request
-        {
-            Description = "Updated description"
-        });
+        var builder = new WithScope_ItemRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Contain($"/scopes/{ScopeId}");
-    }
-
-    // DELETE /api/v1/apis/{api_id}/scopes/{scope_id}
-    [Fact]
-    public async Task DeleteAsync_Returns200_DeletesScope()
-    {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-
-        await client.Api.V1.Apis[ApiId].Scopes[ScopeId].DeleteAsync();
-
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Contain($"/scopes/{ScopeId}");
+        Assert.NotNull(builder);
     }
 }

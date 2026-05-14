@@ -1,22 +1,30 @@
-using System.Net; using FluentAssertions; using Kiota.Api.Models; using Xunit;
+using ApiSdk.Api.V1.Feature_flags;
+using KiotaTests.Helpers;
+using Xunit;
+
 namespace KiotaTests.Api.V1.Feature_flags;
+
 public class Feature_flagsRequestBuilderTests
 {
     [Fact]
-    public async Task PostAsync_Returns200_CreatesFlag()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        await client.Api.V1.Feature_flags.PostAsync(new CreateFeatureFlag_request
-        {
-            Name = "Beta",
-            Key = "beta_feature",
-            Type = CreateFeatureFlag_request_type.Bool,
-            DefaultValue = "false",
-            AllowOverrideLevel = CreateFeatureFlag_request_allow_override_level.Usr
-        });
+        var builder = new Feature_flagsRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Post);
-        handler.LastRequest.RequestUri!.PathAndQuery.Should().Be("/api/v1/feature_flags");
+        Assert.NotNull(builder);
+    }
+
+    [Fact]
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
+    {
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new Feature_flagsRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }

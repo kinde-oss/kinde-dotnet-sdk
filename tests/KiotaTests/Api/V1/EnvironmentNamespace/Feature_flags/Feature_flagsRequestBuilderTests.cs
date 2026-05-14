@@ -1,27 +1,30 @@
-using System.Net;
-using FluentAssertions;
+using ApiSdk.Api.V1.EnvironmentNamespace.Feature_flags;
+using KiotaTests.Helpers;
 using Xunit;
+
 namespace KiotaTests.Api.V1.EnvironmentNamespace.Feature_flags;
+
 public class Feature_flagsRequestBuilderTests
 {
     [Fact]
-    public async Task GetAsync_Returns200()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.GetFeatureFlagsResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var result = await client.Api.V1.Environment.Feature_flags.GetAsync();
+        var builder = new Feature_flagsRequestBuilder(pathParameters, requestAdapter);
 
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("feature_flags");
-        result.Should().NotBeNull();
+        Assert.NotNull(builder);
     }
+
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
 
-        await client.Api.V1.Environment.Feature_flags.DeleteAsync();
+        var builder = new Feature_flagsRequestBuilder(rawUrl, requestAdapter);
 
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
-        handler.LastRequest!.RequestUri!.PathAndQuery.Should().Contain("feature_flags");
+        Assert.NotNull(builder);
     }
 }

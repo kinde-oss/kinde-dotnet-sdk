@@ -12,7 +12,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Kinde.Api.Client;
 
 namespace Kinde.Api.Model
 {
@@ -29,7 +28,13 @@ namespace Kinde.Api.Model
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             MissingMemberHandling = MissingMemberHandling.Error,
-            ContractResolver = new DataMemberContractResolver()
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
         };
 
         /// <summary>
@@ -40,7 +45,13 @@ namespace Kinde.Api.Model
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             MissingMemberHandling = MissingMemberHandling.Ignore,
-            ContractResolver = new DataMemberContractResolver()
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
         };
 
         /// <summary>

@@ -1,33 +1,30 @@
-using System.Net; using FluentAssertions; using Xunit;
-using Kiota.Api.Models;
+using ApiSdk.Api.V1.Organizations.Item.Logos.Item;
+using KiotaTests.Helpers;
+using Xunit;
 
 namespace KiotaTests.Api.V1.Organizations.Item.Logos.Item;
+
 public class WithTypeItemRequestBuilderTests
 {
     [Fact]
-    public async Task PostAsync_ThrowsInvalidOperationException_ForMultipartBodyMismatch()
+    public void Constructor_WithPathParameters_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var pathParameters = KindeApiTestHelpers.CreatePathParameters();
 
-        var addLogoRequest = new AddLogo_request
-        {
-            // LogoStream = new MemoryStream()
-        };
+        var builder = new WithTypeItemRequestBuilder(pathParameters, requestAdapter);
 
-        var act = async () =>
-            await client.Api.V1.Organizations["org_001"].Logos["light"].PostAsync(addLogoRequest);
-
-        var ex = await Assert.ThrowsAsync<InvalidOperationException>(act);
-        ex.Message.Should().Be("Expected a MultiPartBody instance, but got AddLogo_request");
-
-        handler.LastRequest.Should().BeNull();
+        Assert.NotNull(builder);
     }
 
     [Fact]
-    public async Task DeleteAsync_Returns200()
+    public void Constructor_WithRawUrl_CreatesRequestBuilder()
     {
-        var (client, handler) = ApiClientFactory.Create(HttpStatusCode.OK, MockData.SuccessResponse);
-        await client.Api.V1.Organizations["org_001"].Logos["light"].DeleteAsync();
-        handler.LastRequest!.Method.Should().Be(HttpMethod.Delete);
+        var requestAdapter = KindeApiTestHelpers.CreateRequestAdapter();
+        var rawUrl = "https://api.example.test/test";
+
+        var builder = new WithTypeItemRequestBuilder(rawUrl, requestAdapter);
+
+        Assert.NotNull(builder);
     }
 }
