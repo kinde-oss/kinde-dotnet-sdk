@@ -10407,6 +10407,7 @@ components:
         is_confirmed:
           description: Whether the identity is confirmed
           example: true
+          nullable: true
           type: boolean
         created_on:
           description: Date of user creation in ISO 8601 format
