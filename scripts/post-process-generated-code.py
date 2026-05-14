@@ -261,7 +261,7 @@ def fix_nullable_bool_overrides(content: str, file_path: str) -> Tuple[str, bool
         # 1. Property declaration: public bool IsConfirmed { get; set; }
         content = re.sub(
             rf'(\[DataMember\(Name = "{re.escape(prop)}"[^\]]*\]\s*)public\s+bool\s+({pascal}\s*\{{\s*get;\s*set;\s*\}})',
-            rf'\1public bool? \2',
+            r'\1public bool? \2',
             content,
         )
 
@@ -269,7 +269,7 @@ def fix_nullable_bool_overrides(content: str, file_path: str) -> Tuple[str, bool
         camel = pascal[0].lower() + pascal[1:]
         content = re.sub(
             rf'\bbool\s+({camel})\s*=\s*default\(bool\)',
-            rf'bool? \1 = default(bool?)',
+            r'bool? \1 = default(bool?)',
             content,
         )
 
