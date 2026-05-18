@@ -32,12 +32,112 @@ namespace Kinde.Api.Model
     public partial class ReplaceConnectionRequestOptionsOneOf1 : IEquatable<ReplaceConnectionRequestOptionsOneOf1>
     {
         /// <summary>
+        /// Algorithm used to sign SAML requests.
+        /// </summary>
+        /// <value>Algorithm used to sign SAML requests.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum SignRequestAlgorithmEnum
+        {
+            /// <summary>
+            /// Enum SHA256 for value: RSA-SHA256
+            /// </summary>
+            [EnumMember(Value = "RSA-SHA256")]
+            SHA256 = 1,
+
+            /// <summary>
+            /// Enum SHA1 for value: RSA-SHA1
+            /// </summary>
+            [EnumMember(Value = "RSA-SHA1")]
+            SHA1 = 2
+        }
+
+
+        /// <summary>
+        /// Algorithm used to sign SAML requests.
+        /// </summary>
+        /// <value>Algorithm used to sign SAML requests.</value>
+        /// <example>RSA-SHA256</example>
+        [DataMember(Name = "sign_request_algorithm", EmitDefaultValue = false)]
+        public SignRequestAlgorithmEnum? SignRequestAlgorithm { get; set; }
+        /// <summary>
+        /// Protocol binding used to send SAML requests.
+        /// </summary>
+        /// <value>Protocol binding used to send SAML requests.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ProtocolBindingEnum
+        {
+            /// <summary>
+            /// Enum REDIRECT for value: HTTP-REDIRECT
+            /// </summary>
+            [EnumMember(Value = "HTTP-REDIRECT")]
+            REDIRECT = 1,
+
+            /// <summary>
+            /// Enum POST for value: HTTP-POST
+            /// </summary>
+            [EnumMember(Value = "HTTP-POST")]
+            POST = 2
+        }
+
+
+        /// <summary>
+        /// Protocol binding used to send SAML requests.
+        /// </summary>
+        /// <value>Protocol binding used to send SAML requests.</value>
+        /// <example>HTTP-REDIRECT</example>
+        [DataMember(Name = "protocol_binding", EmitDefaultValue = false)]
+        public ProtocolBindingEnum? ProtocolBinding { get; set; }
+        /// <summary>
+        /// Format for the Name ID used to identify users in SAML responses.
+        /// </summary>
+        /// <value>Format for the Name ID used to identify users in SAML responses.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum NameIdFormatEnum
+        {
+            /// <summary>
+            /// Enum Persistent for value: Persistent
+            /// </summary>
+            [EnumMember(Value = "Persistent")]
+            Persistent = 1,
+
+            /// <summary>
+            /// Enum Transient for value: Transient
+            /// </summary>
+            [EnumMember(Value = "Transient")]
+            Transient = 2,
+
+            /// <summary>
+            /// Enum EmailAddress for value: Email address
+            /// </summary>
+            [EnumMember(Value = "Email address")]
+            EmailAddress = 3,
+
+            /// <summary>
+            /// Enum Unspecified for value: Unspecified
+            /// </summary>
+            [EnumMember(Value = "Unspecified")]
+            Unspecified = 4
+        }
+
+
+        /// <summary>
+        /// Format for the Name ID used to identify users in SAML responses.
+        /// </summary>
+        /// <value>Format for the Name ID used to identify users in SAML responses.</value>
+        /// <example>Persistent</example>
+        [DataMember(Name = "name_id_format", EmitDefaultValue = false)]
+        public NameIdFormatEnum? NameIdFormat { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
         /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
         /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
+        /// <param name="signRequestAlgorithm">Algorithm used to sign SAML requests..</param>
+        /// <param name="protocolBinding">Protocol binding used to send SAML requests..</param>
+        /// <param name="nameIdFormat">Format for the Name ID used to identify users in SAML responses..</param>
         /// <param name="samlEmailKeyAttr">Attribute key for the user&#39;s email..</param>
+        /// <param name="samlUserIdKeyAttr">Attribute key for the user&#39;s ID..</param>
         /// <param name="samlFirstNameKeyAttr">Attribute key for the user&#39;s first name..</param>
         /// <param name="samlLastNameKeyAttr">Attribute key for the user&#39;s last name..</param>
         /// <param name="isCreateMissingUser">Create user if they don&#39;t exist..</param>
@@ -47,12 +147,16 @@ namespace Kinde.Api.Model
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
         /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlEmailKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), SignRequestAlgorithmEnum? signRequestAlgorithm = default(SignRequestAlgorithmEnum?), ProtocolBindingEnum? protocolBinding = default(ProtocolBindingEnum?), NameIdFormatEnum? nameIdFormat = default(NameIdFormatEnum?), string samlEmailKeyAttr = default(string), string samlUserIdKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
             this.SamlIdpMetadataUrl = samlIdpMetadataUrl;
+            this.SignRequestAlgorithm = signRequestAlgorithm;
+            this.ProtocolBinding = protocolBinding;
+            this.NameIdFormat = nameIdFormat;
             this.SamlEmailKeyAttr = samlEmailKeyAttr;
+            this.SamlUserIdKeyAttr = samlUserIdKeyAttr;
             this.SamlFirstNameKeyAttr = samlFirstNameKeyAttr;
             this.SamlLastNameKeyAttr = samlLastNameKeyAttr;
             this.IsCreateMissingUser = isCreateMissingUser;
@@ -95,6 +199,14 @@ namespace Kinde.Api.Model
         /// <example>email</example>
         [DataMember(Name = "saml_email_key_attr", EmitDefaultValue = false)]
         public string SamlEmailKeyAttr { get; set; }
+
+        /// <summary>
+        /// Attribute key for the user&#39;s ID.
+        /// </summary>
+        /// <value>Attribute key for the user&#39;s ID.</value>
+        /// <example>user_id</example>
+        [DataMember(Name = "saml_user_id_key_attr", EmitDefaultValue = false)]
+        public string SamlUserIdKeyAttr { get; set; }
 
         /// <summary>
         /// Attribute key for the user&#39;s first name.
@@ -140,7 +252,7 @@ namespace Kinde.Api.Model
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        /// <example>-----BEGIN CERTIFICATE-----Key here-----END CERTIFICATE-----</example>
+        /// <example>-----BEGIN CERTIFICATE-----key here-----END CERTIFICATE-----</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -148,7 +260,7 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        /// <example>-----BEGIN PRIVATE KEY-----Key here-----END PRIVATE KEY-----</example>
+        /// <example>-----BEGIN PRIVATE KEY-----key here-----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
 
@@ -179,7 +291,11 @@ namespace Kinde.Api.Model
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
             sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
             sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
+            sb.Append("  SignRequestAlgorithm: ").Append(SignRequestAlgorithm).Append("\n");
+            sb.Append("  ProtocolBinding: ").Append(ProtocolBinding).Append("\n");
+            sb.Append("  NameIdFormat: ").Append(NameIdFormat).Append("\n");
             sb.Append("  SamlEmailKeyAttr: ").Append(SamlEmailKeyAttr).Append("\n");
+            sb.Append("  SamlUserIdKeyAttr: ").Append(SamlUserIdKeyAttr).Append("\n");
             sb.Append("  SamlFirstNameKeyAttr: ").Append(SamlFirstNameKeyAttr).Append("\n");
             sb.Append("  SamlLastNameKeyAttr: ").Append(SamlLastNameKeyAttr).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
@@ -241,9 +357,26 @@ namespace Kinde.Api.Model
                     this.SamlIdpMetadataUrl.Equals(input.SamlIdpMetadataUrl))
                 ) && 
                 (
+                    this.SignRequestAlgorithm == input.SignRequestAlgorithm ||
+                    this.SignRequestAlgorithm.Equals(input.SignRequestAlgorithm)
+                ) && 
+                (
+                    this.ProtocolBinding == input.ProtocolBinding ||
+                    this.ProtocolBinding.Equals(input.ProtocolBinding)
+                ) && 
+                (
+                    this.NameIdFormat == input.NameIdFormat ||
+                    this.NameIdFormat.Equals(input.NameIdFormat)
+                ) && 
+                (
                     this.SamlEmailKeyAttr == input.SamlEmailKeyAttr ||
                     (this.SamlEmailKeyAttr != null &&
                     this.SamlEmailKeyAttr.Equals(input.SamlEmailKeyAttr))
+                ) && 
+                (
+                    this.SamlUserIdKeyAttr == input.SamlUserIdKeyAttr ||
+                    (this.SamlUserIdKeyAttr != null &&
+                    this.SamlUserIdKeyAttr.Equals(input.SamlUserIdKeyAttr))
                 ) && 
                 (
                     this.SamlFirstNameKeyAttr == input.SamlFirstNameKeyAttr ||
@@ -310,9 +443,16 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.SamlIdpMetadataUrl.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.SignRequestAlgorithm.GetHashCode();
+                hashCode = (hashCode * 59) + this.ProtocolBinding.GetHashCode();
+                hashCode = (hashCode * 59) + this.NameIdFormat.GetHashCode();
                 if (this.SamlEmailKeyAttr != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlEmailKeyAttr.GetHashCode();
+                }
+                if (this.SamlUserIdKeyAttr != null)
+                {
+                    hashCode = (hashCode * 59) + this.SamlUserIdKeyAttr.GetHashCode();
                 }
                 if (this.SamlFirstNameKeyAttr != null)
                 {
