@@ -228,6 +228,54 @@ def fix_nullable_constructor_calls(content: str) -> Tuple[str, bool]:
     return content, modified
 
 
+# Properties that the API can return as null but the spec historically declared
+# as non-nullable. Each entry: (file basename, [property names]).
+# Acts as a safety net: even if the upstream OpenAPI spec drops `nullable: true`
+# during a sync, these properties stay nullable in the generated C#.
+NULLABLE_BOOL_OVERRIDES = [
+    ("Identity.cs", ["is_confirmed"]),
+]
+
+
+def fix_nullable_bool_overrides(content: str, file_path: str) -> Tuple[str, bool]:
+    """
+    Force selected `bool` properties to `bool?` in generated model files.
+
+    Fixes runtime JsonSerializationException when the API returns null for a
+    property the generator emitted as a non-nullable bool (e.g. Google identities
+    can return is_confirmed:null).
+    """
+    file_name = os.path.basename(file_path)
+    properties = next(
+        (props for fname, props in NULLABLE_BOOL_OVERRIDES if fname == file_name),
+        None,
+    )
+    if not properties:
+        return content, False
+
+    original = content
+    for prop in properties:
+        # Pascal-case the snake_case property name (is_confirmed -> IsConfirmed)
+        pascal = "".join(part.capitalize() for part in prop.split("_"))
+
+        # 1. Property declaration: public bool IsConfirmed { get; set; }
+        content = re.sub(
+            rf'(\[DataMember\(Name = "{re.escape(prop)}"[^\]]*\]\s*)public\s+bool\s+({pascal}\s*\{{\s*get;\s*set;\s*\}})',
+            r'\1public bool? \2',
+            content,
+        )
+
+        # 2. Constructor parameter: bool isConfirmed = default(bool)
+        camel = pascal[0].lower() + pascal[1:]
+        content = re.sub(
+            rf'\bbool\s+({camel})\s*=\s*default\(bool\)',
+            r'bool? \1 = default(bool?)',
+            content,
+        )
+
+    return content, content != original
+
+
 def add_openapi_client_utils_alias(content: str, file_path: str) -> Tuple[str, bool]:
     """
     Add OpenAPIClientUtils alias if the file uses OpenAPIClientUtils but doesn't have the alias.
@@ -350,6 +398,11 @@ def process_file(file_path: Path) -> bool:
         if nullable_fixed:
             modified = True
             log(f"Fixed nullable constructor calls in {file_path.name}", "SUCCESS")
+
+        content, bool_override_fixed = fix_nullable_bool_overrides(content, str(file_path))
+        if bool_override_fixed:
+            modified = True
+            log(f"Made selected bool properties nullable in {file_path.name}", "SUCCESS")
         
         # Write back if modified
         if modified:
