@@ -76,12 +76,19 @@ namespace Kinde.Api.Mappers
             CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
                 .ConvertUsing((src, _, ctx) =>
                 {
+                    if (src?.ActualInstance is null) return null;
+
                     var dst = new Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options();
-                    switch (src?.ActualInstance)
+                    switch (src.ActualInstance)
                     {
                         case CreateConnectionRequestOptionsOneOf  s: dst.ConnectionsPostRequestBodyOptionsMember1 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>(s); break;
                         case CreateConnectionRequestOptionsOneOf1 s: dst.ConnectionsPostRequestBodyOptionsMember2 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>(s); break;
                         case CreateConnectionRequestOptionsOneOf2 s: dst.ConnectionsPostRequestBodyOptionsMember3 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>(s); break;
+                        default:
+                            throw new ArgumentException(
+                                $"Unsupported CreateConnectionRequestOptions variant: {src.ActualInstance.GetType().FullName}. " +
+                                "Expected CreateConnectionRequestOptionsOneOf, OneOf1, or OneOf2.",
+                                nameof(src));
                     }
                     return dst;
                 });
