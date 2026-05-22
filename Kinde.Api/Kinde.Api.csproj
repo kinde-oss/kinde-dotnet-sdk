@@ -9,11 +9,11 @@
     <Product>Kinde Platform</Product>
     <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
     <Copyright>Kinde</Copyright>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Adds Kinde invitation middleware. New management endpoints: api_keys, directories, subscribers, SAML connection options, MFA factor management. Introduces KindeAuthenticationException for auth-flow errors. Continues Kiota-based client buildout.</PackageReleaseNotes>
+    <PackageReleaseNotes>Adds SAML signing, binding and NameID format options via regenerated specs. Fixes Identity.IsConfirmed deserialization when the API returns null.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
