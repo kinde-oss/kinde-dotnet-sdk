@@ -496,5 +496,93 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         #endregion
+
+        #region CreateConnectionRequest oneOf Options Tests
+
+        [Fact]
+        public void CreateConnectionRequest_SocialOptions_MapsToMember1()
+        {
+            var request = new CreateConnectionRequest(
+                name: "google-sso",
+                displayName: "Google SSO",
+                strategy: CreateConnectionRequest.StrategyEnum.Oauth2google,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf
+                {
+                    ClientId = "client-abc",
+                    ClientSecret = "secret-xyz",
+                    IsUseCustomDomain = true,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.Equal("google-sso", kiota.Name);
+            Assert.NotNull(kiota.Options);
+            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
+            Assert.Equal("client-abc", kiota.Options.ConnectionsPostRequestBodyOptionsMember1.ClientId);
+            Assert.Equal("secret-xyz", kiota.Options.ConnectionsPostRequestBodyOptionsMember1.ClientSecret);
+            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember1.IsUseCustomDomain);
+        }
+
+        [Fact]
+        public void CreateConnectionRequest_EntraOptions_MapsToMember2()
+        {
+            var request = new CreateConnectionRequest(
+                name: "entra-id",
+                displayName: "Entra ID",
+                strategy: CreateConnectionRequest.StrategyEnum.Oauth2microsoft,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf1
+                {
+                    ClientId = "entra-client",
+                    ClientSecret = "entra-secret",
+                    EntraIdDomain = "contoso.com",
+                    IsUseCommonEndpoint = true,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.NotNull(kiota.Options);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
+            Assert.Equal("entra-client", kiota.Options.ConnectionsPostRequestBodyOptionsMember2.ClientId);
+            Assert.Equal("contoso.com", kiota.Options.ConnectionsPostRequestBodyOptionsMember2.EntraIdDomain);
+            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember2.IsUseCommonEndpoint);
+        }
+
+        [Fact]
+        public void CreateConnectionRequest_SamlOptions_MapsToMember3()
+        {
+            var request = new CreateConnectionRequest(
+                name: "saml-okta",
+                displayName: "Okta SAML",
+                strategy: CreateConnectionRequest.StrategyEnum.Samlokta,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf2
+                {
+                    SamlEntityId = "https://example.okta.com/saml/metadata",
+                    SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                    SamlSignInUrl = "https://example.okta.com/sso/saml",
+                    SamlEmailKeyAttr = "email",
+                    SamlFirstNameKeyAttr = "firstName",
+                    SamlLastNameKeyAttr = "lastName",
+                    IsCreateMissingUser = true,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.NotNull(kiota.Options);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
+            Assert.Equal("https://example.okta.com/saml/metadata", kiota.Options.ConnectionsPostRequestBodyOptionsMember3.SamlEntityId);
+            Assert.Equal("email", kiota.Options.ConnectionsPostRequestBodyOptionsMember3.SamlEmailKeyAttr);
+            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember3.IsCreateMissingUser);
+        }
+
+        #endregion
     }
 }

@@ -68,7 +68,25 @@ namespace Kinde.Api.Mappers
             // Connection
             CreateMap<KiotaModels.Create_connection_response, CreateConnectionResponse>().ReverseMap();
             CreateMap<KiotaModels.Create_connection_response_connection, CreateConnectionResponseConnection>().ReverseMap();
-            CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>().ReverseMap();
+         
+            CreateMap<CreateConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<CreateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>().ReverseMap();
+            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>().ReverseMap();
+
+            CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
+                .ConvertUsing((src, _, ctx) =>
+                {
+                    var dst = new Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options();
+                    switch (src?.ActualInstance)
+                    {
+                        case CreateConnectionRequestOptionsOneOf  s: dst.ConnectionsPostRequestBodyOptionsMember1 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>(s); break;
+                        case CreateConnectionRequestOptionsOneOf1 s: dst.ConnectionsPostRequestBodyOptionsMember2 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>(s); break;
+                        case CreateConnectionRequestOptionsOneOf2 s: dst.ConnectionsPostRequestBodyOptionsMember3 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>(s); break;
+                    }
+                    return dst;
+                });
+
+            CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>();
             CreateMap<ReplaceConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>().ReverseMap();
             CreateMap<UpdateConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>().ReverseMap();
             
