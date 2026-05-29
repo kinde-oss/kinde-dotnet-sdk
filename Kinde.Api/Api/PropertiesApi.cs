@@ -454,7 +454,13 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
             this.Client = client;
             this.AsynchronousClient = client;
-            this.Configuration = Kinde.Api.Client.GlobalConfiguration.Instance;
+            this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
+                Kinde.Api.Client.GlobalConfiguration.Instance,
+                new Kinde.Api.Client.Configuration
+                {
+                    BasePath = client.BasePath,
+                    AccessToken = client.AccessToken,
+                });
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
 
