@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Kinde.Api.Model;
 using KiotaModels = Kinde.Api.Kiota.Management.Models;
@@ -71,7 +75,31 @@ namespace Kinde.Api.Mappers
          
             CreateMap<CreateConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>().ReverseMap();
             CreateMap<CreateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>().ReverseMap();
-            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>().ReverseMap();
+            // SAML variant: Kiota's optionsMember3 is missing name_id_format, protocol_binding,
+            // and sign_request_algorithm (Kiota schema out-of-sync with OpenAPI spec). Smuggle
+            // them through AdditionalData so Kiota writes them on the wire payload anyway.
+            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>()
+                .AfterMap((src, dst) =>
+                {
+                    dst.AdditionalData ??= new Dictionary<string, object>();
+                    if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
+                    if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
+                    if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                })
+                .ReverseMap()
+                .AfterMap((src, dst) =>
+                {
+                    if (src.AdditionalData is null) return;
+                    if (src.AdditionalData.TryGetValue("name_id_format", out var nf) && nf is string nfs
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum>(nfs, out var nfv))
+                        dst.NameIdFormat = nfv;
+                    if (src.AdditionalData.TryGetValue("protocol_binding", out var pb) && pb is string pbs
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum>(pbs, out var pbv))
+                        dst.ProtocolBinding = pbv;
+                    if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum>(sas, out var sav))
+                        dst.SignRequestAlgorithm = sav;
+                });
 
             CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
                 .ConvertUsing((src, _, ctx) =>
@@ -396,6 +424,34 @@ namespace Kinde.Api.Mappers
             
             // Additional User mappings (Users_response_users to OpenAPI User model)
             CreateMap<KiotaModels.Users_response_users, User>().ReverseMap();
+        }
+
+        // Returns the [EnumMember(Value = "…")] string for an enum value, or its .NET name
+        // as a fallback. Used by the SAML CreateConnection workaround to write enum values
+        // through Kiota's AdditionalData bag when the destination model is missing the field.
+        private static string GetEnumMemberValue(Enum value)
+        {
+            var member = value.GetType().GetMember(value.ToString()).FirstOrDefault();
+            var attr = member?.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();
+            return attr?.Value ?? value.ToString();
+        }
+
+        // Reverse of GetEnumMemberValue: find the enum member whose [EnumMember(Value = "…")]
+        // matches the given string. Used on the reverse-map path.
+        private static bool TryParseEnumMember<TEnum>(string value, out TEnum result) where TEnum : struct, Enum
+        {
+            foreach (var name in Enum.GetNames(typeof(TEnum)))
+            {
+                var member = typeof(TEnum).GetMember(name).FirstOrDefault();
+                var attr = member?.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();
+                if (attr?.Value == value)
+                {
+                    result = (TEnum)Enum.Parse(typeof(TEnum), name);
+                    return true;
+                }
+            }
+            result = default;
+            return false;
         }
     }
 }
