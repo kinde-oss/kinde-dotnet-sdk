@@ -874,6 +874,9 @@ namespace Kinde.Api.Test.Integration.Mappers
                     SamlFirstNameKeyAttr = "firstName",
                     SamlLastNameKeyAttr = "lastName",
                     IsCreateMissingUser = true,
+                    NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
+                    ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
+                    SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
                 }));
 
             var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
@@ -882,10 +885,19 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.NotNull(kiota.Options);
             Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
             Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
-            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
-            Assert.Equal("https://example.okta.com/saml/metadata", kiota.Options.ConnectionsPostRequestBodyOptionsMember3.SamlEntityId);
-            Assert.Equal("email", kiota.Options.ConnectionsPostRequestBodyOptionsMember3.SamlEmailKeyAttr);
-            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember3.IsCreateMissingUser);
+
+            var member3 = kiota.Options.ConnectionsPostRequestBodyOptionsMember3;
+            Assert.NotNull(member3);
+            Assert.Equal("https://example.okta.com/saml/metadata", member3.SamlEntityId);
+            Assert.Equal("email", member3.SamlEmailKeyAttr);
+            Assert.True(member3.IsCreateMissingUser);
+
+            // The three enum fields don't exist as typed properties on Member3 — they're
+            // carried via AdditionalData using the [EnumMember(Value=...)] wire string.
+            Assert.NotNull(member3.AdditionalData);
+            Assert.Equal("Email address", member3.AdditionalData["name_id_format"]);
+            Assert.Equal("HTTP-POST", member3.AdditionalData["protocol_binding"]);
+            Assert.Equal("RSA-SHA256", member3.AdditionalData["sign_request_algorithm"]);
         }
 
         #endregion
