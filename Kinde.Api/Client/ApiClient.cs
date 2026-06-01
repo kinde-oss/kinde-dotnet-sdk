@@ -98,13 +98,13 @@ namespace Kinde.Api.Client
 
         public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T) await Deserialize(response, typeof(T), null).ConfigureAwait(false);
+            var result = (T)await Deserialize(response, typeof(T), null).ConfigureAwait(false);
             return result;
         }
 
         public async Task<T> Deserialize<T>(HttpResponseMessage response, string rawContent)
         {
-            var result = (T) await Deserialize(response, typeof(T), rawContent).ConfigureAwait(false);
+            var result = (T)await Deserialize(response, typeof(T), rawContent).ConfigureAwait(false);
             return result;
         }
 
@@ -225,6 +225,21 @@ namespace Kinde.Api.Client
         private readonly bool _disposeClient;
 
         /// <summary>
+        /// The base URL the client was constructed with. Used by generated API classes
+        /// to propagate the caller's domain into Configuration when this client is passed
+        /// to an XApi(ApiClient) constructor.
+        /// </summary>
+        public virtual string BasePath => _baseUrl;
+
+        /// <summary>
+        /// The current bearer access token associated with this client, or null if none.
+        /// Derived clients (such as KindeClient) override this to expose their OAuth token
+        /// so generated API classes can authenticate Kiota calls without the caller having
+        /// to construct a Configuration manually.
+        /// </summary>
+        public virtual string AccessToken => null;
+
+        /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
         /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
@@ -306,7 +321,8 @@ namespace Kinde.Api.Client
         /// </summary>
         public void Dispose()
         {
-            if(_disposeClient) {
+            if (_disposeClient)
+            {
                 _httpClient.Dispose();
             }
         }
@@ -445,7 +461,7 @@ namespace Kinde.Api.Client
 
         private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri, string rawContent = null)
         {
-            T result = (T) responseData;
+            T result = (T)responseData;
             string content = rawContent ?? await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, content)
@@ -474,13 +490,14 @@ namespace Kinde.Api.Client
 
             if (_httpClientHandler != null && response != null)
             {
-                try {
+                try
+                {
                     foreach (Cookie cookie in _httpClientHandler.CookieContainer.GetCookies(uri))
                     {
                         transformed.Cookies.Add(cookie);
                     }
                 }
-                catch (PlatformNotSupportedException) {}
+                catch (PlatformNotSupportedException) { }
             }
 
             return transformed;
@@ -511,13 +528,13 @@ namespace Kinde.Api.Client
 
                 if (configuration.Proxy != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     _httpClientHandler.Proxy = configuration.Proxy;
                 }
 
                 if (configuration.ClientCertificates != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
 
@@ -525,7 +542,7 @@ namespace Kinde.Api.Client
 
                 if (cookieContainer != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     foreach (var cookie in cookieContainer)
                     {
                         _httpClientHandler.CookieContainer.Add(cookie);
@@ -561,18 +578,18 @@ namespace Kinde.Api.Client
 
                 // Buffer the response content before deserialization so it can be read multiple times
                 string rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                
+
                 object responseData = await deserializer.Deserialize<T>(response, rawContent).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(Kinde.Api.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
                     // For oneOf/anyOf types, we need to pass the raw content
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { rawContent });
+                    responseData = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { rawContent });
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
-                    responseData = (T) (object) new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawContent));
+                    responseData = (T)(object)new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawContent));
                 }
 
                 InterceptResponse(req, response);
