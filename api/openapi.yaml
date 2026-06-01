@@ -11476,7 +11476,6 @@ components:
           type: boolean
           description: Whether the identity is confirmed
           example: true
-          nullable: true
         created_on:
           type: string
           description: Date of user creation in ISO 8601 format
