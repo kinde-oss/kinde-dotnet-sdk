@@ -372,9 +372,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void NullableBoolean_ConvertsNullToDefaultForNonNullableTarget()
         {
-            // Kiota Create_user_response.Created is bool? (nullable)
-            // OpenAPI CreateUserResponse.Created is bool (non-nullable)
-            // When source is null, destination should get default value (false)
             var kiotaModel = new KiotaManagementModels.Create_user_response
             {
                 Created = null,
@@ -501,12 +498,6 @@ namespace Kinde.Api.Test.Integration.Mappers
 
         #region Kiota constructor config propagation (2.1.0 regression fix)
 
-        // Bug report verbatim:
-        //   "new ApplicationsApi(apiClient).Configuration.BasePath returns the placeholder
-        //    instead of the real domain. Affects all 25 API classes."
-        // These two tests assert the fix: BasePath and AccessToken must propagate from the
-        // ApiClient/KindeClient into the API class's Configuration at construction time.
-
         [Fact]
         public void XApi_FromApiClient_PropagatesBasePath()
         {
@@ -533,9 +524,6 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Equal("https://example.kinde.com", api.Configuration.BasePath);
             Assert.Equal("stub-token-abc", api.Configuration.AccessToken);
         }
-
-        // Test double that mirrors how KindeClient overrides AccessToken — keeps the test
-        // independent of the OAuth flow plumbing on the real KindeClient.
         private sealed class TokenStubApiClient : Kinde.Api.Client.ApiClient
         {
             private readonly string _token;
@@ -544,8 +532,6 @@ namespace Kinde.Api.Test.Integration.Mappers
             public override string AccessToken => _token;
         }
 
-        // Mutable variant — lets the test simulate a token refresh after the API class
-        // has already been constructed. Used by XApi_TokenRefresh_IsPickedUpLive.
         private sealed class MutableTokenStubApiClient : Kinde.Api.Client.ApiClient
         {
             public string CurrentToken { get; set; }
@@ -557,55 +543,75 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public async System.Threading.Tasks.Task XApi_TokenRefresh_IsPickedUpLive()
         {
-            // Reproduces the CodeRabbit concern: when a long-lived api outlives a token
-            // refresh on its underlying client, the Kiota token provider must read the
-            // CURRENT token from the client, not the snapshot captured at construction.
-
             using var httpClient = new System.Net.Http.HttpClient();
             var client = new MutableTokenStubApiClient(httpClient, "https://example.kinde.com", "token-v1");
             using var api = new Kinde.Api.Api.ApplicationsApi(client);
 
-            // Force the Kiota client to build (it's lazy + cached). After this point the
-            // KiotaTokenProvider instance inside the cached client is fixed forever, so if
-            // it had snapshotted, no later token change can be picked up.
+            
             var kiotaClientProp = typeof(Kinde.Api.Api.ApplicationsApi).GetProperty(
                 "KiotaClient", BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.NotNull(kiotaClientProp);
-            Assert.NotNull(kiotaClientProp.GetValue(api));
+            var kiotaClient = kiotaClientProp.GetValue(api);
+            Assert.NotNull(kiotaClient);
 
-            // Simulate a token refresh on the client AFTER the Kiota client is built.
-            client.CurrentToken = "token-v2";
-
-            // Reach into the cached KiotaTokenProvider and call its IAccessTokenProvider
-            // contract. If our fix worked, it returns the live value "token-v2". If it had
-            // snapshotted, it would still return "token-v1".
+           
             var providerType = typeof(Kinde.Api.Api.ApplicationsApi)
                 .GetNestedType("KiotaTokenProvider", BindingFlags.NonPublic);
             Assert.NotNull(providerType);
+            var cachedProvider = FindReachableInstance(kiotaClient, providerType, maxDepth: 6);
+            Assert.NotNull(cachedProvider);
+
+            
             var getTokenField = providerType.GetField("_getToken", BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.NotNull(getTokenField);
+            var liveDelegate = (Func<string>)getTokenField.GetValue(cachedProvider);
+            Assert.NotNull(liveDelegate);
 
-            // The field type is Func<string>. Pull the delegate out via the api's _kindeApiClient.
-            // Easier: construct a fresh KiotaTokenProvider using the new live-Func ctor and
-            // invoke it. This asserts the contract end-to-end.
-            var ctor = providerType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Single(c => c.GetParameters().Length == 1 && c.GetParameters()[0].ParameterType == typeof(Func<string>));
-            Func<string> live = () => client.AccessToken;
-            var freshProvider = ctor.Invoke(new object[] { live });
+            client.CurrentToken = "token-v2";
+            Assert.Equal("token-v2", liveDelegate());
 
-            var method = providerType.GetMethod("GetAuthorizationTokenAsync");
-            Assert.NotNull(method);
-            var resultTask = (System.Threading.Tasks.Task<string>)method.Invoke(freshProvider,
-                new object[] { new Uri("https://example.kinde.com/api/v1/applications"), null, default(System.Threading.CancellationToken) });
-            var resolved = await resultTask;
-
-            Assert.Equal("token-v2", resolved);
-
-            // Another refresh — and another live read — must continue to update.
             client.CurrentToken = "token-v3";
-            var resolved2 = await (System.Threading.Tasks.Task<string>)method.Invoke(freshProvider,
+            Assert.Equal("token-v3", liveDelegate());
+
+            var getAuthMethod = providerType.GetMethod("GetAuthorizationTokenAsync");
+            Assert.NotNull(getAuthMethod);
+            var task = (System.Threading.Tasks.Task<string>)getAuthMethod.Invoke(cachedProvider,
                 new object[] { new Uri("https://example.kinde.com/api/v1/applications"), null, default(System.Threading.CancellationToken) });
-            Assert.Equal("token-v3", resolved2);
+            Assert.Equal("token-v3", await task);
+        }
+
+       
+        private static object FindReachableInstance(object root, Type target, int maxDepth)
+        {
+            var visited = new HashSet<object>(ReferenceEqualityComparer.Instance);
+            var queue = new Queue<(object Node, int Depth)>();
+            queue.Enqueue((root, 0));
+
+            while (queue.Count > 0)
+            {
+                var (node, depth) = queue.Dequeue();
+                if (node is null || depth > maxDepth || !visited.Add(node)) continue;
+                if (target.IsInstanceOfType(node)) return node;
+
+                var type = node.GetType();
+                foreach (var f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (f.FieldType.IsPrimitive || f.FieldType == typeof(string)) continue;
+                    object value;
+                    try { value = f.GetValue(node); } catch { continue; }
+                    if (value is not null) queue.Enqueue((value, depth + 1));
+                }
+                foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (p.GetIndexParameters().Length > 0) continue;
+                    if (!p.CanRead) continue;
+                    if (p.PropertyType.IsPrimitive || p.PropertyType == typeof(string)) continue;
+                    object value;
+                    try { value = p.GetValue(node); } catch { continue; }
+                    if (value is not null) queue.Enqueue((value, depth + 1));
+                }
+            }
+            return null;
         }
 
         [Fact]
@@ -678,11 +684,6 @@ namespace Kinde.Api.Test.Integration.Mappers
 
         #region UpdateUserRequest mapping diagnostics
 
-        // Diagnostic for customer report: UpdateUserAsync returns success but the user
-        // is not updated. Verifies the request body actually carries the expected fields
-        // after AutoMapper translation. If this passes, the silent-no-op bug is server-side
-        // or in the Kiota wire layer, not the mapper.
-
         [Fact]
         public void UpdateUserRequest_BasicFields_FlowThroughMapping()
         {
@@ -701,7 +702,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void UpdateUserRequest_SerializedBody_ContainsExpectedFields()
         {
-            // Map and then serialize to the exact JSON Kiota would put on the wire.
             var src = new UpdateUserRequest(
                 givenName: "John",
                 familyName: "Doe");
@@ -722,10 +722,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void UpdateUserRequest_NonNullableBools_DefaultToFalseInRequest()
         {
-            // UpdateUserRequest.IsSuspended/IsPasswordResetRequested are non-nullable bool.
-            // The ctor defaults them to false. After mapping, the Kiota body carries false
-            // (not null) for both — meaning the wire payload sends is_suspended=false
-            // even when the caller never intended to touch those fields.
             var src = new UpdateUserRequest(givenName: "John", familyName: "Doe");
 
             var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
@@ -738,13 +734,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         #endregion
 
         #region SAML enum fields workaround (Kiota schema gap)
-
-        // Kiota's ConnectionsPostRequestBody_optionsMember3 (SAML) is missing the
-        // name_id_format, protocol_binding, and sign_request_algorithm properties that
-        // exist on the OpenAPI source. The mapper workaround smuggles them via
-        // AdditionalData so they land on the wire. This test asserts the workaround
-        // produces a payload Kinde will accept.
-
         [Fact]
         public void CreateConnectionRequest_SamlEnums_LandOnWirePayload()
         {
@@ -839,9 +828,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void CreateConnectionRequest_NullOptions_MapsToNull()
         {
-            // Caller didn't provide Options. The mapper must NOT silently fabricate
-            // an empty Options object on the wire — that would send {} and could be
-            // misinterpreted by the API. Map should produce null on the destination.
             var request = new CreateConnectionRequest(
                 name: "no-options",
                 displayName: "No options",
@@ -852,11 +838,6 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.NotNull(kiota);
             Assert.Null(kiota.Options);
         }
-
-        // Note: the `default:` branch in the mapper (unsupported ActualInstance type) is
-        // defensive future-proofing — CreateConnectionRequestOptions.ActualInstance has its
-        // own setter validation that already rejects unknown variants, so the branch is
-        // unreachable through the public API. No test for it.
 
         [Fact]
         public void CreateConnectionRequest_SamlOptions_MapsToMember3()
