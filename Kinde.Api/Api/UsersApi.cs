@@ -930,6 +930,7 @@ namespace Kinde.Api.Api
         
         // ===== Kiota Infrastructure =====
         private KindeManagementClient _kiotaClient;
+        private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
         private IMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
@@ -961,7 +962,7 @@ namespace Kinde.Api.Api
                             ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Text.TextParseNodeFactory>();
                             ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Form.FormParseNodeFactory>();
                             
-                            var tokenProvider = new KiotaTokenProvider(Configuration.AccessToken);
+                            var tokenProvider = new KiotaTokenProvider(() => _kindeApiClient?.AccessToken ?? Configuration.AccessToken);
                             var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
                             _kiotaHttpClient ??= new HttpClient();
                             var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
@@ -976,11 +977,11 @@ namespace Kinde.Api.Api
 
         private class KiotaTokenProvider : IAccessTokenProvider
         {
-            private readonly string _token;
-            public KiotaTokenProvider(string token) => _token = token ?? string.Empty;
+            private readonly Func<string> _getToken;
+            public KiotaTokenProvider(Func<string> getToken) => _getToken = getToken ?? (() => string.Empty);
             public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
-            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default) 
-                => Task.FromResult(_token);
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default)
+                => Task.FromResult(_getToken() ?? string.Empty);
         }
         // ===== End Kiota Infrastructure =====
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
@@ -1144,7 +1145,14 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
             this.Client = client;
             this.AsynchronousClient = client;
-            this.Configuration = Kinde.Api.Client.GlobalConfiguration.Instance;
+            this._kindeApiClient = client;
+            this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
+                Kinde.Api.Client.GlobalConfiguration.Instance,
+                new Kinde.Api.Client.Configuration
+                {
+                    BasePath = client.BasePath,
+                    AccessToken = client.AccessToken,
+                });
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
 

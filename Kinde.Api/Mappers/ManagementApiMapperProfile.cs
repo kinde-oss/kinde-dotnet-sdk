@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Kinde.Api.Model;
 using KiotaModels = Kinde.Api.Kiota.Management.Models;
@@ -68,9 +72,155 @@ namespace Kinde.Api.Mappers
             // Connection
             CreateMap<KiotaModels.Create_connection_response, CreateConnectionResponse>().ReverseMap();
             CreateMap<KiotaModels.Create_connection_response_connection, CreateConnectionResponseConnection>().ReverseMap();
-            CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>().ReverseMap();
-            CreateMap<ReplaceConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>().ReverseMap();
-            CreateMap<UpdateConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>().ReverseMap();
+         
+            CreateMap<CreateConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<CreateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>().ReverseMap();
+            // SAML variant: Kiota's optionsMember3 is missing name_id_format, protocol_binding,
+            // and sign_request_algorithm (Kiota schema out-of-sync with OpenAPI spec). Smuggle
+            // them through AdditionalData so Kiota writes them on the wire payload anyway.
+            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>()
+                .AfterMap((src, dst) =>
+                {
+                    dst.AdditionalData ??= new Dictionary<string, object>();
+                    if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
+                    if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
+                    if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                })
+                .ReverseMap()
+                .AfterMap((src, dst) =>
+                {
+                    if (src.AdditionalData is null) return;
+                    if (src.AdditionalData.TryGetValue("name_id_format", out var nf) && nf is string nfs
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum>(nfs, out var nfv))
+                        dst.NameIdFormat = nfv;
+                    if (src.AdditionalData.TryGetValue("protocol_binding", out var pb) && pb is string pbs
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum>(pbs, out var pbv))
+                        dst.ProtocolBinding = pbv;
+                    if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
+                        && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum>(sas, out var sav))
+                        dst.SignRequestAlgorithm = sav;
+                });
+
+            CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
+                .ConvertUsing((src, _, ctx) =>
+                {
+                    if (src?.ActualInstance is null) return null;
+
+                    var dst = new Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options();
+                    switch (src.ActualInstance)
+                    {
+                        case CreateConnectionRequestOptionsOneOf  s: dst.ConnectionsPostRequestBodyOptionsMember1 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>(s); break;
+                        case CreateConnectionRequestOptionsOneOf1 s: dst.ConnectionsPostRequestBodyOptionsMember2 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>(s); break;
+                        case CreateConnectionRequestOptionsOneOf2 s: dst.ConnectionsPostRequestBodyOptionsMember3 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>(s); break;
+                        default:
+                            throw new ArgumentException(
+                                $"Unsupported CreateConnectionRequestOptions variant: {src.ActualInstance.GetType().FullName}. " +
+                                "Expected CreateConnectionRequestOptionsOneOf, OneOf1, or OneOf2.",
+                                nameof(src));
+                    }
+                    return dst;
+                });
+
+            CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>();
+
+            // === ReplaceConnectionRequest (PUT) — same oneOf-Options bug as Create ===
+            // Variants: social (CreateConnectionRequestOptionsOneOf, shared with Create),
+            // Entra (ReplaceConnectionRequestOptionsOneOf), SAML (ReplaceConnectionRequestOptionsOneOf1).
+            CreateMap<CreateConnectionRequestOptionsOneOf,   Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<ReplaceConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2>().ReverseMap();
+            // SAML: same Kiota schema gap (name_id_format, protocol_binding, sign_request_algorithm missing on Member3).
+            CreateMap<ReplaceConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>()
+                .AfterMap((src, dst) =>
+                {
+                    dst.AdditionalData ??= new Dictionary<string, object>();
+                    if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
+                    if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
+                    if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                })
+                .ReverseMap()
+                .AfterMap((src, dst) =>
+                {
+                    if (src.AdditionalData is null) return;
+                    if (src.AdditionalData.TryGetValue("name_id_format", out var nf) && nf is string nfs
+                        && TryParseEnumMember<ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum>(nfs, out var nfv))
+                        dst.NameIdFormat = nfv;
+                    if (src.AdditionalData.TryGetValue("protocol_binding", out var pb) && pb is string pbs
+                        && TryParseEnumMember<ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum>(pbs, out var pbv))
+                        dst.ProtocolBinding = pbv;
+                    if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
+                        && TryParseEnumMember<ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum>(sas, out var sav))
+                        dst.SignRequestAlgorithm = sav;
+                });
+
+            CreateMap<ReplaceConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options>()
+                .ConvertUsing((src, _, ctx) =>
+                {
+                    if (src?.ActualInstance is null) return null;
+
+                    var dst = new Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options();
+                    switch (src.ActualInstance)
+                    {
+                        case CreateConnectionRequestOptionsOneOf   s: dst.WithConnectionPutRequestBodyOptionsMember1 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1>(s); break;
+                        case ReplaceConnectionRequestOptionsOneOf  s: dst.WithConnectionPutRequestBodyOptionsMember2 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2>(s); break;
+                        case ReplaceConnectionRequestOptionsOneOf1 s: dst.WithConnectionPutRequestBodyOptionsMember3 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>(s); break;
+                        default:
+                            throw new ArgumentException(
+                                $"Unsupported ReplaceConnectionRequestOptions variant: {src.ActualInstance.GetType().FullName}. " +
+                                "Expected CreateConnectionRequestOptionsOneOf, ReplaceConnectionRequestOptionsOneOf, or ReplaceConnectionRequestOptionsOneOf1.",
+                                nameof(src));
+                    }
+                    return dst;
+                });
+
+            CreateMap<ReplaceConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>();
+
+            // === UpdateConnectionRequest (PATCH) — same oneOf-Options bug ===
+            CreateMap<CreateConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<UpdateConnectionRequestOptionsOneOf,  Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2>().ReverseMap();
+            CreateMap<UpdateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3>()
+                .AfterMap((src, dst) =>
+                {
+                    dst.AdditionalData ??= new Dictionary<string, object>();
+                    if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
+                    if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
+                    if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                })
+                .ReverseMap()
+                .AfterMap((src, dst) =>
+                {
+                    if (src.AdditionalData is null) return;
+                    if (src.AdditionalData.TryGetValue("name_id_format", out var nf) && nf is string nfs
+                        && TryParseEnumMember<UpdateConnectionRequestOptionsOneOf1.NameIdFormatEnum>(nfs, out var nfv))
+                        dst.NameIdFormat = nfv;
+                    if (src.AdditionalData.TryGetValue("protocol_binding", out var pb) && pb is string pbs
+                        && TryParseEnumMember<UpdateConnectionRequestOptionsOneOf1.ProtocolBindingEnum>(pbs, out var pbv))
+                        dst.ProtocolBinding = pbv;
+                    if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
+                        && TryParseEnumMember<UpdateConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum>(sas, out var sav))
+                        dst.SignRequestAlgorithm = sav;
+                });
+
+            CreateMap<UpdateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>()
+                .ConvertUsing((src, _, ctx) =>
+                {
+                    if (src?.ActualInstance is null) return null;
+
+                    var dst = new Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options();
+                    switch (src.ActualInstance)
+                    {
+                        case CreateConnectionRequestOptionsOneOf  s: dst.WithConnectionPatchRequestBodyOptionsMember1 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1>(s); break;
+                        case UpdateConnectionRequestOptionsOneOf  s: dst.WithConnectionPatchRequestBodyOptionsMember2 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2>(s); break;
+                        case UpdateConnectionRequestOptionsOneOf1 s: dst.WithConnectionPatchRequestBodyOptionsMember3 = ctx.Mapper.Map<Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3>(s); break;
+                        default:
+                            throw new ArgumentException(
+                                $"Unsupported UpdateConnectionRequestOptions variant: {src.ActualInstance.GetType().FullName}. " +
+                                "Expected CreateConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf, or UpdateConnectionRequestOptionsOneOf1.",
+                                nameof(src));
+                    }
+                    return dst;
+                });
+
+            CreateMap<UpdateConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>();
             
             // Environment Variable
             CreateMap<KiotaModels.Create_environment_variable_response, CreateEnvironmentVariableResponse>().ReverseMap();
@@ -371,6 +521,34 @@ namespace Kinde.Api.Mappers
             
             // Additional User mappings (Users_response_users to OpenAPI User model)
             CreateMap<KiotaModels.Users_response_users, User>().ReverseMap();
+        }
+
+        // Returns the [EnumMember(Value = "…")] string for an enum value, or its .NET name
+        // as a fallback. Used by the SAML CreateConnection workaround to write enum values
+        // through Kiota's AdditionalData bag when the destination model is missing the field.
+        private static string GetEnumMemberValue(Enum value)
+        {
+            var member = value.GetType().GetMember(value.ToString()).FirstOrDefault();
+            var attr = member?.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();
+            return attr?.Value ?? value.ToString();
+        }
+
+        // Reverse of GetEnumMemberValue: find the enum member whose [EnumMember(Value = "…")]
+        // matches the given string. Used on the reverse-map path.
+        private static bool TryParseEnumMember<TEnum>(string value, out TEnum result) where TEnum : struct, Enum
+        {
+            foreach (var name in Enum.GetNames(typeof(TEnum)))
+            {
+                var member = typeof(TEnum).GetMember(name).FirstOrDefault();
+                var attr = member?.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();
+                if (attr?.Value == value)
+                {
+                    result = (TEnum)Enum.Parse(typeof(TEnum), name);
+                    return true;
+                }
+            }
+            result = default;
+            return false;
         }
     }
 }

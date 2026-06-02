@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Kinde.Api.Mappers;
 using Kinde.Api.Model;
@@ -370,9 +372,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void NullableBoolean_ConvertsNullToDefaultForNonNullableTarget()
         {
-            // Kiota Create_user_response.Created is bool? (nullable)
-            // OpenAPI CreateUserResponse.Created is bool (non-nullable)
-            // When source is null, destination should get default value (false)
             var kiotaModel = new KiotaManagementModels.Create_user_response
             {
                 Created = null,
@@ -493,6 +492,393 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.NotNull(openApiModel);
             Assert.Equal("   ", openApiModel.FirstName);
             Assert.Equal("\t\n\r", openApiModel.LastName);
+        }
+
+        #endregion
+
+        #region Kiota constructor config propagation (2.1.0 regression fix)
+
+        [Fact]
+        public void XApi_FromApiClient_PropagatesBasePath()
+        {
+            const string domain = "https://example.kinde.com";
+            using var httpClient = new System.Net.Http.HttpClient();
+            var client = new Kinde.Api.Client.ApiClient(httpClient, domain);
+
+            using var api = new Kinde.Api.Api.ApplicationsApi(client);
+
+            Assert.Equal(domain, api.Configuration.BasePath);
+            Assert.NotEqual("https://your_kinde_subdomain.kinde.com", api.Configuration.BasePath);
+        }
+
+        [Fact]
+        public void XApi_FromApiClient_PropagatesAccessToken()
+        {
+            // Plain ApiClient has no token. After the fix the api carries that (null) through;
+            // a derived client (e.g. KindeClient) overrides AccessToken to surface the OAuth token.
+            using var httpClient = new System.Net.Http.HttpClient();
+            var client = new TokenStubApiClient(httpClient, "https://example.kinde.com", "stub-token-abc");
+
+            using var api = new Kinde.Api.Api.ApplicationsApi(client);
+
+            Assert.Equal("https://example.kinde.com", api.Configuration.BasePath);
+            Assert.Equal("stub-token-abc", api.Configuration.AccessToken);
+        }
+        private sealed class TokenStubApiClient : Kinde.Api.Client.ApiClient
+        {
+            private readonly string _token;
+            public TokenStubApiClient(System.Net.Http.HttpClient http, string basePath, string token)
+                : base(http, basePath) { _token = token; }
+            public override string AccessToken => _token;
+        }
+
+        private sealed class MutableTokenStubApiClient : Kinde.Api.Client.ApiClient
+        {
+            public string CurrentToken { get; set; }
+            public MutableTokenStubApiClient(System.Net.Http.HttpClient http, string basePath, string initialToken)
+                : base(http, basePath) { CurrentToken = initialToken; }
+            public override string AccessToken => CurrentToken;
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task XApi_TokenRefresh_IsPickedUpLive()
+        {
+            using var httpClient = new System.Net.Http.HttpClient();
+            var client = new MutableTokenStubApiClient(httpClient, "https://example.kinde.com", "token-v1");
+            using var api = new Kinde.Api.Api.ApplicationsApi(client);
+
+            
+            var kiotaClientProp = typeof(Kinde.Api.Api.ApplicationsApi).GetProperty(
+                "KiotaClient", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(kiotaClientProp);
+            var kiotaClient = kiotaClientProp.GetValue(api);
+            Assert.NotNull(kiotaClient);
+
+           
+            var providerType = typeof(Kinde.Api.Api.ApplicationsApi)
+                .GetNestedType("KiotaTokenProvider", BindingFlags.NonPublic);
+            Assert.NotNull(providerType);
+            var cachedProvider = FindReachableInstance(kiotaClient, providerType, maxDepth: 6);
+            Assert.NotNull(cachedProvider);
+
+            
+            var getTokenField = providerType.GetField("_getToken", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(getTokenField);
+            var liveDelegate = (Func<string>)getTokenField.GetValue(cachedProvider);
+            Assert.NotNull(liveDelegate);
+
+            client.CurrentToken = "token-v2";
+            Assert.Equal("token-v2", liveDelegate());
+
+            client.CurrentToken = "token-v3";
+            Assert.Equal("token-v3", liveDelegate());
+
+            var getAuthMethod = providerType.GetMethod("GetAuthorizationTokenAsync");
+            Assert.NotNull(getAuthMethod);
+            var task = (System.Threading.Tasks.Task<string>)getAuthMethod.Invoke(cachedProvider,
+                new object[] { new Uri("https://example.kinde.com/api/v1/applications"), null, default(System.Threading.CancellationToken) });
+            Assert.Equal("token-v3", await task);
+        }
+
+       
+        private static object FindReachableInstance(object root, Type target, int maxDepth)
+        {
+            var visited = new HashSet<object>(ReferenceEqualityComparer.Instance);
+            var queue = new Queue<(object Node, int Depth)>();
+            queue.Enqueue((root, 0));
+
+            while (queue.Count > 0)
+            {
+                var (node, depth) = queue.Dequeue();
+                if (node is null || depth > maxDepth || !visited.Add(node)) continue;
+                if (target.IsInstanceOfType(node)) return node;
+
+                var type = node.GetType();
+                foreach (var f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (f.FieldType.IsPrimitive || f.FieldType == typeof(string)) continue;
+                    object value;
+                    try { value = f.GetValue(node); } catch { continue; }
+                    if (value is not null) queue.Enqueue((value, depth + 1));
+                }
+                foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (p.GetIndexParameters().Length > 0) continue;
+                    if (!p.CanRead) continue;
+                    if (p.PropertyType.IsPrimitive || p.PropertyType == typeof(string)) continue;
+                    object value;
+                    try { value = p.GetValue(node); } catch { continue; }
+                    if (value is not null) queue.Enqueue((value, depth + 1));
+                }
+            }
+            return null;
+        }
+
+        [Fact]
+        public void ReplaceConnectionRequest_SamlOptions_MapsToMember3AndIncludesEnums()
+        {
+            var saml = new ReplaceConnectionRequestOptionsOneOf1
+            {
+                SamlEntityId = "https://example.okta.com/saml/metadata",
+                SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                NameIdFormat = ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum.Persistent,
+                ProtocolBinding = ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum.REDIRECT,
+                SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA1,
+            };
+            var request = new ReplaceConnectionRequest(
+                displayName: "Okta SAML",
+                options: new ReplaceConnectionRequestOptions(saml));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>(request);
+            var member3 = kiota.Options.WithConnectionPutRequestBodyOptionsMember3;
+            Assert.NotNull(member3);
+            Assert.Null(kiota.Options.WithConnectionPutRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.WithConnectionPutRequestBodyOptionsMember2);
+            Assert.Equal("https://example.okta.com/saml/metadata", member3.SamlEntityId);
+
+            using var writer = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            writer.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>(null, member3);
+            using var stream = writer.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+            _output.WriteLine("PUT wire body: " + json);
+
+            Assert.Contains("\"name_id_format\":\"Persistent\"", json);
+            Assert.Contains("\"protocol_binding\":\"HTTP-REDIRECT\"", json);
+            Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA1\"", json);
+        }
+
+        [Fact]
+        public void UpdateConnectionRequest_SamlOptions_MapsToMember3AndIncludesEnums()
+        {
+            var saml = new UpdateConnectionRequestOptionsOneOf1
+            {
+                SamlEntityId = "https://example.okta.com/saml/metadata",
+                NameIdFormat = UpdateConnectionRequestOptionsOneOf1.NameIdFormatEnum.EmailAddress,
+                ProtocolBinding = UpdateConnectionRequestOptionsOneOf1.ProtocolBindingEnum.POST,
+                SignRequestAlgorithm = UpdateConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA256,
+            };
+            var request = new UpdateConnectionRequest(
+                options: new UpdateConnectionRequestOptions(saml));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>(request);
+            var member3 = kiota.Options.WithConnectionPatchRequestBodyOptionsMember3;
+            Assert.NotNull(member3);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember2);
+            Assert.Equal("https://example.okta.com/saml/metadata", member3.SamlEntityId);
+
+            using var writer = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            writer.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3>(null, member3);
+            using var stream = writer.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+            _output.WriteLine("PATCH wire body: " + json);
+
+            Assert.Contains("\"name_id_format\":\"Email address\"", json);
+            Assert.Contains("\"protocol_binding\":\"HTTP-POST\"", json);
+            Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA256\"", json);
+        }
+
+        #endregion
+
+        #region UpdateUserRequest mapping diagnostics
+
+        [Fact]
+        public void UpdateUserRequest_BasicFields_FlowThroughMapping()
+        {
+            var src = new UpdateUserRequest(
+                givenName: "John",
+                familyName: "Doe");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
+
+            Assert.NotNull(dst);
+            Assert.Equal("John", dst.GivenName);
+            Assert.Equal("Doe", dst.FamilyName);
+            _output.WriteLine($"GivenName='{dst.GivenName}', FamilyName='{dst.FamilyName}', IsSuspended={dst.IsSuspended}, IsPasswordResetRequested={dst.IsPasswordResetRequested}");
+        }
+
+        [Fact]
+        public void UpdateUserRequest_SerializedBody_ContainsExpectedFields()
+        {
+            var src = new UpdateUserRequest(
+                givenName: "John",
+                familyName: "Doe");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"given_name\":\"John\"", json);
+            Assert.Contains("\"family_name\":\"Doe\"", json);
+        }
+
+        [Fact]
+        public void UpdateUserRequest_NonNullableBools_DefaultToFalseInRequest()
+        {
+            var src = new UpdateUserRequest(givenName: "John", familyName: "Doe");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
+
+            Assert.Equal(false, dst.IsSuspended);
+            Assert.Equal(false, dst.IsPasswordResetRequested);
+            _output.WriteLine("Confirmed: PATCH body unconditionally includes is_suspended=false and is_password_reset_requested=false.");
+        }
+
+        #endregion
+
+        #region SAML enum fields workaround (Kiota schema gap)
+        [Fact]
+        public void CreateConnectionRequest_SamlEnums_LandOnWirePayload()
+        {
+            var saml = new CreateConnectionRequestOptionsOneOf2
+            {
+                SamlEntityId = "https://example.okta.com/saml/metadata",
+                SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
+                ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
+                SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
+            };
+            var request = new CreateConnectionRequest(
+                name: "saml-okta",
+                strategy: CreateConnectionRequest.StrategyEnum.Samlokta,
+                options: new CreateConnectionRequestOptions(saml));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+            var member3 = kiota.Options.ConnectionsPostRequestBodyOptionsMember3;
+            Assert.NotNull(member3);
+
+            using var writer = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            writer.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>(null, member3);
+            using var stream = writer.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+            _output.WriteLine("Wire body: " + json);
+
+            Assert.Contains("\"name_id_format\":\"Email address\"", json);
+            Assert.Contains("\"protocol_binding\":\"HTTP-POST\"", json);
+            Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA256\"", json);
+            Assert.Contains("\"saml_entity_id\":\"https://example.okta.com/saml/metadata\"", json);
+        }
+
+        #endregion
+
+        #region CreateConnectionRequest oneOf Options Tests
+
+        [Fact]
+        public void CreateConnectionRequest_SocialOptions_MapsToMember1()
+        {
+            var request = new CreateConnectionRequest(
+                name: "google-sso",
+                displayName: "Google SSO",
+                strategy: CreateConnectionRequest.StrategyEnum.Oauth2google,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf
+                {
+                    ClientId = "client-abc",
+                    ClientSecret = "secret-xyz",
+                    IsUseCustomDomain = true,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.Equal("google-sso", kiota.Name);
+            Assert.NotNull(kiota.Options);
+            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
+            Assert.Equal("client-abc", kiota.Options.ConnectionsPostRequestBodyOptionsMember1.ClientId);
+            Assert.Equal("secret-xyz", kiota.Options.ConnectionsPostRequestBodyOptionsMember1.ClientSecret);
+            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember1.IsUseCustomDomain);
+        }
+
+        [Fact]
+        public void CreateConnectionRequest_EntraOptions_MapsToMember2()
+        {
+            var request = new CreateConnectionRequest(
+                name: "entra-id",
+                displayName: "Entra ID",
+                strategy: CreateConnectionRequest.StrategyEnum.Oauth2microsoft,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf1
+                {
+                    ClientId = "entra-client",
+                    ClientSecret = "entra-secret",
+                    EntraIdDomain = "contoso.com",
+                    IsUseCommonEndpoint = true,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.NotNull(kiota.Options);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.NotNull(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember3);
+            Assert.Equal("entra-client", kiota.Options.ConnectionsPostRequestBodyOptionsMember2.ClientId);
+            Assert.Equal("contoso.com", kiota.Options.ConnectionsPostRequestBodyOptionsMember2.EntraIdDomain);
+            Assert.True(kiota.Options.ConnectionsPostRequestBodyOptionsMember2.IsUseCommonEndpoint);
+        }
+
+        [Fact]
+        public void CreateConnectionRequest_NullOptions_MapsToNull()
+        {
+            var request = new CreateConnectionRequest(
+                name: "no-options",
+                displayName: "No options",
+                strategy: CreateConnectionRequest.StrategyEnum.Oauth2google);
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.Null(kiota.Options);
+        }
+
+        [Fact]
+        public void CreateConnectionRequest_SamlOptions_MapsToMember3()
+        {
+            var request = new CreateConnectionRequest(
+                name: "saml-okta",
+                displayName: "Okta SAML",
+                strategy: CreateConnectionRequest.StrategyEnum.Samlokta,
+                options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf2
+                {
+                    SamlEntityId = "https://example.okta.com/saml/metadata",
+                    SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                    SamlSignInUrl = "https://example.okta.com/sso/saml",
+                    SamlEmailKeyAttr = "email",
+                    SamlFirstNameKeyAttr = "firstName",
+                    SamlLastNameKeyAttr = "lastName",
+                    IsCreateMissingUser = true,
+                    NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
+                    ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
+                    SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
+                }));
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>(request);
+
+            Assert.NotNull(kiota);
+            Assert.NotNull(kiota.Options);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember1);
+            Assert.Null(kiota.Options.ConnectionsPostRequestBodyOptionsMember2);
+
+            var member3 = kiota.Options.ConnectionsPostRequestBodyOptionsMember3;
+            Assert.NotNull(member3);
+            Assert.Equal("https://example.okta.com/saml/metadata", member3.SamlEntityId);
+            Assert.Equal("email", member3.SamlEmailKeyAttr);
+            Assert.True(member3.IsCreateMissingUser);
+
+            // The three enum fields don't exist as typed properties on Member3 — they're
+            // carried via AdditionalData using the [EnumMember(Value=...)] wire string.
+            Assert.NotNull(member3.AdditionalData);
+            Assert.Equal("Email address", member3.AdditionalData["name_id_format"]);
+            Assert.Equal("HTTP-POST", member3.AdditionalData["protocol_binding"]);
+            Assert.Equal("RSA-SHA256", member3.AdditionalData["sign_request_algorithm"]);
         }
 
         #endregion

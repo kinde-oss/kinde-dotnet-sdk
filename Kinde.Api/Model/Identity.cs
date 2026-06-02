@@ -43,7 +43,7 @@ namespace Kinde.Api.Model
         /// <param name="name">The value of the identity.</param>
         /// <param name="email">The associated email of the identity.</param>
         /// <param name="isPrimary">Whether the identity is the primary identity for the user.</param>
-        public Identity(string id = default(string), string type = default(string), bool? isConfirmed = default(bool?), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), bool? isPrimary = default(bool?))
+        public Identity(string id = default(string), string type = default(string), bool isConfirmed = default(bool), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), bool? isPrimary = default(bool?))
         {
             this.Id = id;
             this.Type = type;
@@ -78,7 +78,7 @@ namespace Kinde.Api.Model
         /// <value>Whether the identity is confirmed</value>
         /// <example>true</example>
         [DataMember(Name = "is_confirmed", EmitDefaultValue = true)]
-        public bool? IsConfirmed { get; set; }
+        public bool IsConfirmed { get; set; }
 
         /// <summary>
         /// Date of user creation in ISO 8601 format

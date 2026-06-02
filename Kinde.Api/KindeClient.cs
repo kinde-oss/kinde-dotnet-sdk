@@ -36,7 +36,14 @@ namespace Kinde.Api.Client
         public OauthToken Token => AuthorizationFlow?.Token;
 
         /// <summary>
-        /// To check user authenticated or not	
+        /// Exposes the OAuth access token to generated API classes so they can populate
+        /// Configuration.AccessToken when constructed via XApi(ApiClient client).
+        /// Without this, every Kiota-backed call from such an API class is unauthenticated.
+        /// </summary>
+        public override string AccessToken => Token?.AccessToken;
+
+        /// <summary>
+        /// To check user authenticated or not
         /// </summary>
         public bool IsAuthenticated => Token != null && !Token.IsExpired;
 
