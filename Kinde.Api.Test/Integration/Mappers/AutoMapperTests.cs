@@ -744,6 +744,7 @@ namespace Kinde.Api.Test.Integration.Mappers
                 NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
                 ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
                 SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
+                SamlUserIdKeyAttr = "user.id",
             };
             var request = new CreateConnectionRequest(
                 name: "saml-okta",
@@ -765,6 +766,7 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Contains("\"protocol_binding\":\"HTTP-POST\"", json);
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA256\"", json);
             Assert.Contains("\"saml_entity_id\":\"https://example.okta.com/saml/metadata\"", json);
+            Assert.Contains("\"saml_user_id_key_attr\":\"user.id\"", json);
         }
 
         #endregion

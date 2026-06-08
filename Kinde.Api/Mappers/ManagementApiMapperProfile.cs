@@ -85,6 +85,7 @@ namespace Kinde.Api.Mappers
                     if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
                     if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
                     if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
                 })
                 .ReverseMap()
                 .AfterMap((src, dst) =>
@@ -99,6 +100,8 @@ namespace Kinde.Api.Mappers
                     if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
                         && TryParseEnumMember<CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum>(sas, out var sav))
                         dst.SignRequestAlgorithm = sav;
+                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
+                        dst.SamlUserIdKeyAttr = uidStr;
                 });
 
             CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
@@ -136,6 +139,7 @@ namespace Kinde.Api.Mappers
                     if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
                     if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
                     if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
                 })
                 .ReverseMap()
                 .AfterMap((src, dst) =>
@@ -150,6 +154,8 @@ namespace Kinde.Api.Mappers
                     if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
                         && TryParseEnumMember<ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum>(sas, out var sav))
                         dst.SignRequestAlgorithm = sav;
+                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
+                        dst.SamlUserIdKeyAttr = uidStr;
                 });
 
             CreateMap<ReplaceConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options>()
@@ -184,6 +190,7 @@ namespace Kinde.Api.Mappers
                     if (src.NameIdFormat is { } nf)            dst.AdditionalData["name_id_format"]        = GetEnumMemberValue(nf);
                     if (src.ProtocolBinding is { } pb)         dst.AdditionalData["protocol_binding"]      = GetEnumMemberValue(pb);
                     if (src.SignRequestAlgorithm is { } algo)  dst.AdditionalData["sign_request_algorithm"] = GetEnumMemberValue(algo);
+                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
                 })
                 .ReverseMap()
                 .AfterMap((src, dst) =>
@@ -198,6 +205,8 @@ namespace Kinde.Api.Mappers
                     if (src.AdditionalData.TryGetValue("sign_request_algorithm", out var sa) && sa is string sas
                         && TryParseEnumMember<UpdateConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum>(sas, out var sav))
                         dst.SignRequestAlgorithm = sav;
+                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
+                        dst.SamlUserIdKeyAttr = uidStr;
                 });
 
             CreateMap<UpdateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>()
