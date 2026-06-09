@@ -203,18 +203,6 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
                 var result = new global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options();
-                if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.WithConnectionPatchRequestBodyOptionsMember1 = new global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1();
-                }
-                else if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.WithConnectionPatchRequestBodyOptionsMember2 = new global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2();
-                }
-                else if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.WithConnectionPatchRequestBodyOptionsMember3 = new global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3();
-                }
                 return result;
             }
             /// <summary>

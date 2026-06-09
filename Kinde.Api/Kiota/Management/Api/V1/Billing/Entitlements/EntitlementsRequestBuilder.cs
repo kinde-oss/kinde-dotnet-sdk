@@ -112,7 +112,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Entitlements
             [QueryParameter("ending_before")]
             public string EndingBefore { get; set; }
 #endif
-            /// <summary>Specify additional plan data to retrieve. Use &quot;plans&quot;.</summary>
+            /// <summary>Additional plan data to include in the response. Allowed value: &quot;plans&quot;.</summary>
             [QueryParameter("expand")]
             public global::Kinde.Api.Kiota.Management.Api.V1.Billing.Entitlements.GetExpandQueryParameterType? Expand { get; set; }
             /// <summary>When the maximum limit of an entitlement is null, this value is returned as the maximum limit</summary>

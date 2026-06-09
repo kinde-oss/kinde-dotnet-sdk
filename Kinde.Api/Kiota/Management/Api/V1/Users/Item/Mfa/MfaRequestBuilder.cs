@@ -76,7 +76,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Mfa
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Get a user’s MFA configuration.&lt;div&gt;  &lt;code&gt;read:user_mfa&lt;/code&gt;&lt;/div&gt;
+        /// Get a userâ€™s MFA configuration.&lt;div&gt;  &lt;code&gt;read:user_mfa&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Get_user_mfa_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -124,7 +124,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Mfa
             return requestInfo;
         }
         /// <summary>
-        /// Get a user’s MFA configuration.&lt;div&gt;  &lt;code&gt;read:user_mfa&lt;/code&gt;&lt;/div&gt;
+        /// Get a userâ€™s MFA configuration.&lt;div&gt;  &lt;code&gt;read:user_mfa&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

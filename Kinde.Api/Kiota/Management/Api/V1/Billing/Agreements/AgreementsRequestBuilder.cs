@@ -22,7 +22,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public AgreementsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/agreements?customer_id={customer_id}{&ending_before*,feature_code*,page_size*,starting_after*}", pathParameters)
+        public AgreementsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/agreements{?ending_before*,feature_code*,page_size*,starting_after*}", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public AgreementsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/agreements?customer_id={customer_id}{&ending_before*,feature_code*,page_size*,starting_after*}", rawUrl)
+        public AgreementsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/agreements{?ending_before*,feature_code*,page_size*,starting_after*}", rawUrl)
         {
         }
         /// <summary>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
         public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.AgreementsRequestBuilder.AgreementsRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/v1/billing/agreements?customer_id={customer_id}{&ending_before*,feature_code*,page_size*,starting_after*}", PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json, application/json;charset=utf-8");
             return requestInfo;
@@ -122,7 +122,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
-            var requestInfo = new RequestInformation(Method.POST, "{+baseurl}/api/v1/billing/agreements", PathParameters);
+            var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);

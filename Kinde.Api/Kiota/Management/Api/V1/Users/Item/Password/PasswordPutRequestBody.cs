@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             set { BackingStore?.Set("hashed_password", value); }
         }
 #endif
-        /// <summary>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</summary>
+        /// <summary>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method? HashingMethod
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method?>("hashing_method"); }

@@ -38,7 +38,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("home_realm_domains", value); }
         }
 #endif
-        /// <summary>Create user if they don’t exist.</summary>
+        /// <summary>Create user if they don&apos;t exist.</summary>
         public bool? IsCreateMissingUser
         {
             get { return BackingStore?.Get<bool?>("is_create_missing_user"); }
@@ -50,7 +50,31 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             get { return BackingStore?.Get<bool?>("is_force_show_sso_button"); }
             set { BackingStore?.Set("is_force_show_sso_button", value); }
         }
-        /// <summary>Attribute key for the user’s email.</summary>
+        /// <summary>Trust this connection for account merging.</summary>
+        public bool? IsTrusted
+        {
+            get { return BackingStore?.Get<bool?>("is_trusted"); }
+            set { BackingStore?.Set("is_trusted", value); }
+        }
+        /// <summary>Use custom domain callback URL.</summary>
+        public bool? IsUseCustomDomain
+        {
+            get { return BackingStore?.Get<bool?>("is_use_custom_domain"); }
+            set { BackingStore?.Set("is_use_custom_domain", value); }
+        }
+        /// <summary>Format for the Name ID used to identify users in SAML responses.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format? NameIdFormat
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format?>("name_id_format"); }
+            set { BackingStore?.Set("name_id_format", value); }
+        }
+        /// <summary>Protocol binding used to send SAML requests.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_protocol_binding? ProtocolBinding
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_protocol_binding?>("protocol_binding"); }
+            set { BackingStore?.Set("protocol_binding", value); }
+        }
+        /// <summary>Attribute key for the user&apos;s email.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlEmailKeyAttr
@@ -82,7 +106,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("saml_entity_id", value); }
         }
 #endif
-        /// <summary>Attribute key for the user’s first name.</summary>
+        /// <summary>Attribute key for the user&apos;s first name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlFirstNameKeyAttr
@@ -114,7 +138,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("saml_idp_metadata_url", value); }
         }
 #endif
-        /// <summary>Attribute key for the user’s last name.</summary>
+        /// <summary>Attribute key for the user&apos;s last name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlLastNameKeyAttr
@@ -162,6 +186,28 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("saml_signing_private_key", value); }
         }
 #endif
+        /// <summary>Attribute key for the user&apos;s ID.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SamlUserIdKeyAttr
+        {
+            get { return BackingStore?.Get<string?>("saml_user_id_key_attr"); }
+            set { BackingStore?.Set("saml_user_id_key_attr", value); }
+        }
+#nullable restore
+#else
+        public string SamlUserIdKeyAttr
+        {
+            get { return BackingStore?.Get<string>("saml_user_id_key_attr"); }
+            set { BackingStore?.Set("saml_user_id_key_attr", value); }
+        }
+#endif
+        /// <summary>Algorithm used to sign SAML requests.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm? SignRequestAlgorithm
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm?>("sign_request_algorithm"); }
+            set { BackingStore?.Set("sign_request_algorithm", value); }
+        }
         /// <summary>Additional upstream parameters to pass to the identity provider.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -207,6 +253,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "home_realm_domains", n => { HomeRealmDomains = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "is_create_missing_user", n => { IsCreateMissingUser = n.GetBoolValue(); } },
                 { "is_force_show_sso_button", n => { IsForceShowSsoButton = n.GetBoolValue(); } },
+                { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
+                { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
+                { "name_id_format", n => { NameIdFormat = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format>(); } },
+                { "protocol_binding", n => { ProtocolBinding = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_protocol_binding>(); } },
                 { "saml_email_key_attr", n => { SamlEmailKeyAttr = n.GetStringValue(); } },
                 { "saml_entity_id", n => { SamlEntityId = n.GetStringValue(); } },
                 { "saml_first_name_key_attr", n => { SamlFirstNameKeyAttr = n.GetStringValue(); } },
@@ -214,6 +264,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "saml_last_name_key_attr", n => { SamlLastNameKeyAttr = n.GetStringValue(); } },
                 { "saml_signing_certificate", n => { SamlSigningCertificate = n.GetStringValue(); } },
                 { "saml_signing_private_key", n => { SamlSigningPrivateKey = n.GetStringValue(); } },
+                { "saml_user_id_key_attr", n => { SamlUserIdKeyAttr = n.GetStringValue(); } },
+                { "sign_request_algorithm", n => { SignRequestAlgorithm = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm>(); } },
                 { "upstream_params", n => { UpstreamParams = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params>(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params.CreateFromDiscriminatorValue); } },
             };
         }
@@ -227,6 +279,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteCollectionOfPrimitiveValues<string>("home_realm_domains", HomeRealmDomains);
             writer.WriteBoolValue("is_create_missing_user", IsCreateMissingUser);
             writer.WriteBoolValue("is_force_show_sso_button", IsForceShowSsoButton);
+            writer.WriteBoolValue("is_trusted", IsTrusted);
+            writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format>("name_id_format", NameIdFormat);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_protocol_binding>("protocol_binding", ProtocolBinding);
             writer.WriteStringValue("saml_email_key_attr", SamlEmailKeyAttr);
             writer.WriteStringValue("saml_entity_id", SamlEntityId);
             writer.WriteStringValue("saml_first_name_key_attr", SamlFirstNameKeyAttr);
@@ -234,6 +290,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteStringValue("saml_last_name_key_attr", SamlLastNameKeyAttr);
             writer.WriteStringValue("saml_signing_certificate", SamlSigningCertificate);
             writer.WriteStringValue("saml_signing_private_key", SamlSigningPrivateKey);
+            writer.WriteStringValue("saml_user_id_key_attr", SamlUserIdKeyAttr);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm>("sign_request_algorithm", SignRequestAlgorithm);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params>("upstream_params", UpstreamParams);
             writer.WriteAdditionalData(AdditionalData);
         }

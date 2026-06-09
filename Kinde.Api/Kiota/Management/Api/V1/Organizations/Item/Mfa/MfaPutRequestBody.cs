@@ -37,6 +37,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
             set { BackingStore?.Set("enabled_factors", value); }
         }
 #endif
+        /// <summary>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.</summary>
+        public bool? IsRecoveryCodesEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_recovery_codes_enabled"); }
+            set { BackingStore?.Set("is_recovery_codes_enabled", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody"/> and sets the default values.
         /// </summary>
@@ -44,6 +50,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
+            IsRecoveryCodesEnabled = true;
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
@@ -64,6 +71,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "enabled_factors", n => { EnabledFactors = n.GetCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>()?.AsList(); } },
+                { "is_recovery_codes_enabled", n => { IsRecoveryCodesEnabled = n.GetBoolValue(); } },
             };
         }
         /// <summary>
@@ -74,6 +82,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>("enabled_factors", EnabledFactors);
+            writer.WriteBoolValue("is_recovery_codes_enabled", IsRecoveryCodesEnabled);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -151,6 +151,22 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_color_scheme?>("color_scheme"); }
             set { BackingStore?.Set("color_scheme", value); }
         }
+        /// <summary>Your Contentsquare Tag ID.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ContentsquareTagId
+        {
+            get { return BackingStore?.Get<string?>("contentsquare_tag_id"); }
+            set { BackingStore?.Set("contentsquare_tag_id", value); }
+        }
+#nullable restore
+#else
+        public string ContentsquareTagId
+        {
+            get { return BackingStore?.Get<string>("contentsquare_tag_id"); }
+            set { BackingStore?.Set("contentsquare_tag_id", value); }
+        }
+#endif
         /// <summary>Date of environment creation in ISO 8601 format.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -403,6 +419,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "card_border_radius", n => { CardBorderRadius = n.GetIntValue(); } },
                 { "code", n => { Code = n.GetStringValue(); } },
                 { "color_scheme", n => { ColorScheme = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_color_scheme>(); } },
+                { "contentsquare_tag_id", n => { ContentsquareTagId = n.GetStringValue(); } },
                 { "created_on", n => { CreatedOn = n.GetStringValue(); } },
                 { "custom_domain", n => { CustomDomain = n.GetStringValue(); } },
                 { "favicon_fallback", n => { FaviconFallback = n.GetStringValue(); } },
@@ -438,6 +455,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteIntValue("card_border_radius", CardBorderRadius);
             writer.WriteStringValue("code", Code);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_color_scheme>("color_scheme", ColorScheme);
+            writer.WriteStringValue("contentsquare_tag_id", ContentsquareTagId);
             writer.WriteStringValue("created_on", CreatedOn);
             writer.WriteStringValue("custom_domain", CustomDomain);
             writer.WriteStringValue("favicon_fallback", FaviconFallback);
