@@ -77,47 +77,9 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Create_connection_response, CreateConnectionResponse>().ReverseMap();
             CreateMap<KiotaModels.Create_connection_response_connection, CreateConnectionResponseConnection>().ReverseMap();
 
-            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } b) dst.IsTrusted = b;
-                });
-            CreateMap<CreateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } t) dst.IsTrusted = t;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } u) dst.IsUseCustomDomain = u;
-                });
-            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (src.AdditionalData is null) return;
-                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
-                        dst.SamlUserIdKeyAttr = uidStr;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } trusted) dst.IsTrusted = trusted;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } ucd) dst.IsUseCustomDomain = ucd;
-                });
+            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<CreateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2>().ReverseMap();
+            CreateMap<CreateConnectionRequestOptionsOneOf2, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3>().ReverseMap();
 
             CreateMap<CreateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options>()
                 .ConvertUsing((src, _, ctx) =>
@@ -141,47 +103,10 @@ namespace Kinde.Api.Mappers
 
             CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>();
 
-            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                })
                 .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } b) dst.IsTrusted = b;
-                });
-            CreateMap<ReplaceConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } t) dst.IsTrusted = t;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } u) dst.IsUseCustomDomain = u;
-                });
-            CreateMap<ReplaceConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (src.AdditionalData is null) return;
-                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
-                        dst.SamlUserIdKeyAttr = uidStr;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } trusted) dst.IsTrusted = trusted;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } ucd) dst.IsUseCustomDomain = ucd;
-                });
+            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<ReplaceConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2>().ReverseMap();
+            CreateMap<ReplaceConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>().ReverseMap();
 
             CreateMap<ReplaceConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options>()
                 .ConvertUsing((src, _, ctx) =>
@@ -205,50 +130,9 @@ namespace Kinde.Api.Mappers
 
             CreateMap<ReplaceConnectionRequest, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>();
 
-            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } b) dst.IsTrusted = b;
-                });
-            CreateMap<UpdateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } t) dst.IsTrusted = t;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } u) dst.IsUseCustomDomain = u;
-                });
-            CreateMap<UpdateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    if (src.SamlUserIdKeyAttr is { Length: > 0 } uidAttr) dst.AdditionalData["saml_user_id_key_attr"] = uidAttr;
-                    if (src.SamlSignInUrl is { Length: > 0 } signIn) dst.AdditionalData["saml_sign_in_url"] = signIn;
-                    dst.AdditionalData["is_trusted"] = src.IsTrusted;
-                    dst.AdditionalData["is_use_custom_domain"] = src.IsUseCustomDomain;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (src.AdditionalData is null) return;
-                    if (src.AdditionalData.TryGetValue("saml_user_id_key_attr", out var uidObj) && uidObj is string uidStr)
-                        dst.SamlUserIdKeyAttr = uidStr;
-                    if (src.AdditionalData.TryGetValue("saml_sign_in_url", out var siu) && siu is string sius)
-                        dst.SamlSignInUrl = sius;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_trusted") is { } trusted) dst.IsTrusted = trusted;
-                    if (ReadAdditionalBool(src.AdditionalData, "is_use_custom_domain") is { } ucd) dst.IsUseCustomDomain = ucd;
-                });
+            CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1>().ReverseMap();
+            CreateMap<UpdateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2>().ReverseMap();
+            CreateMap<UpdateConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3>().ReverseMap();
 
             CreateMap<UpdateConnectionRequestOptions, Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>()
                 .ConvertUsing((src, _, ctx) =>
