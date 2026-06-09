@@ -369,6 +369,8 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Users_response, UsersResponse>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users, UsersResponseUsersInner>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users_billing, UsersResponseUsersInnerBilling>().ReverseMap();
+            CreateMap<KiotaModels.Users_response_users_identities, UserIdentitiesInner>().ReverseMap();
+            CreateMap<KiotaModels.Users_response_users_last_organization_sign_ins, UsersResponseUsersInnerLastOrganizationSignInsInner>().ReverseMap();
 
             CreateMap<KiotaModels.Verify_api_key_response, VerifyApiKeyResponse>().ReverseMap();
 
