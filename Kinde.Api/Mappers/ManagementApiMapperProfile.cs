@@ -103,7 +103,6 @@ namespace Kinde.Api.Mappers
 
             CreateMap<CreateConnectionRequest, Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody>();
 
-                .ReverseMap()
             CreateMap<CreateConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1>().ReverseMap();
             CreateMap<ReplaceConnectionRequestOptionsOneOf, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2>().ReverseMap();
             CreateMap<ReplaceConnectionRequestOptionsOneOf1, Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3>().ReverseMap();
