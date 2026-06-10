@@ -21,6 +21,22 @@ namespace Kinde.Api.Kiota.Management.Models
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
+        /// <summary>The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ConnectionId
+        {
+            get { return BackingStore?.Get<string?>("connection_id"); }
+            set { BackingStore?.Set("connection_id", value); }
+        }
+#nullable restore
+#else
+        public string ConnectionId
+        {
+            get { return BackingStore?.Get<string>("connection_id"); }
+            set { BackingStore?.Set("connection_id", value); }
+        }
+#endif
         /// <summary>Date of user creation in ISO 8601 format</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -161,6 +177,7 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "connection_id", n => { ConnectionId = n.GetStringValue(); } },
                 { "created_on", n => { CreatedOn = n.GetStringValue(); } },
                 { "email", n => { Email = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
@@ -179,6 +196,7 @@ namespace Kinde.Api.Kiota.Management.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("connection_id", ConnectionId);
             writer.WriteStringValue("created_on", CreatedOn);
             writer.WriteStringValue("email", Email);
             writer.WriteStringValue("id", Id);

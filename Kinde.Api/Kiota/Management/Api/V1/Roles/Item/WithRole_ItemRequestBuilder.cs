@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes;
+using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Users;
 using Kinde.Api.Kiota.Management.Models;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
@@ -28,6 +29,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item
         public global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesRequestBuilder Scopes
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The users property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Users.UsersRequestBuilder Users
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Users.UsersRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.WithRole_ItemRequestBuilder"/> and sets the default values.

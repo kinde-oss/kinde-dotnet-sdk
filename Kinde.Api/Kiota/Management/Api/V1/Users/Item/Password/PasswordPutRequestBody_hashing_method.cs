@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
 {
-    /// <summary>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</summary>
+    /// <summary>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum PasswordPutRequestBody_hashing_method
     {

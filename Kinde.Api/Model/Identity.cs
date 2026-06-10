@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -42,8 +42,9 @@ namespace Kinde.Api.Model
         /// <param name="totalLogins">totalLogins.</param>
         /// <param name="name">The value of the identity.</param>
         /// <param name="email">The associated email of the identity.</param>
+        /// <param name="connectionId">The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities..</param>
         /// <param name="isPrimary">Whether the identity is the primary identity for the user.</param>
-        public Identity(string id = default(string), string type = default(string), bool isConfirmed = default(bool), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), bool? isPrimary = default(bool?))
+        public Identity(string id = default(string), string type = default(string), bool? isConfirmed = default(bool?), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), string connectionId = default(string), bool? isPrimary = default(bool?))
         {
             this.Id = id;
             this.Type = type;
@@ -53,6 +54,7 @@ namespace Kinde.Api.Model
             this.TotalLogins = totalLogins;
             this.Name = name;
             this.Email = email;
+            this.ConnectionId = connectionId;
             this.IsPrimary = isPrimary;
         }
 
@@ -77,8 +79,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether the identity is confirmed</value>
         /// <example>true</example>
-        [DataMember(Name = "is_confirmed", EmitDefaultValue = true)]
-        public bool IsConfirmed { get; set; }
+        [DataMember(Name = "is_confirmed", EmitDefaultValue = false)]
+        public bool? IsConfirmed { get; set; }
 
         /// <summary>
         /// Date of user creation in ISO 8601 format
@@ -120,6 +122,14 @@ namespace Kinde.Api.Model
         public string Email { get; set; }
 
         /// <summary>
+        /// The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities.
+        /// </summary>
+        /// <value>The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities.</value>
+        /// <example>conn_019289347f1193da6c0e4d49b97b4bd2</example>
+        [DataMember(Name = "connection_id", EmitDefaultValue = true)]
+        public string ConnectionId { get; set; }
+
+        /// <summary>
         /// Whether the identity is the primary identity for the user
         /// </summary>
         /// <value>Whether the identity is the primary identity for the user</value>
@@ -143,6 +153,7 @@ namespace Kinde.Api.Model
             sb.Append("  TotalLogins: ").Append(TotalLogins).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  ConnectionId: ").Append(ConnectionId).Append("\n");
             sb.Append("  IsPrimary: ").Append(IsPrimary).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -218,6 +229,11 @@ namespace Kinde.Api.Model
                     this.Email.Equals(input.Email))
                 ) && 
                 (
+                    this.ConnectionId == input.ConnectionId ||
+                    (this.ConnectionId != null &&
+                    this.ConnectionId.Equals(input.ConnectionId))
+                ) && 
+                (
                     this.IsPrimary == input.IsPrimary ||
                     (this.IsPrimary != null &&
                     this.IsPrimary.Equals(input.IsPrimary))
@@ -259,6 +275,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Email.GetHashCode();
                 }
+                if (this.ConnectionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ConnectionId.GetHashCode();
+                }
                 if (this.IsPrimary != null)
                 {
                     hashCode = (hashCode * 59) + this.IsPrimary.GetHashCode();
@@ -270,3 +290,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

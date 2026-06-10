@@ -246,6 +246,12 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Get_environment_response_environment, GetEnvironmentResponseEnvironment>().ReverseMap();
             CreateMap<KiotaModels.Get_environment_response_environment_background_color, GetEnvironmentResponseEnvironmentBackgroundColor>().ReverseMap();
             CreateMap<KiotaModels.Get_environment_response_environment_link_color, GetEnvironmentResponseEnvironmentLinkColor>().ReverseMap();
+            CreateMap<KiotaModels.Get_environment_response_environment_button_color, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_environment_response_environment_button_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_environment_response_environment_button_text_color, GetEnvironmentResponseEnvironmentBackgroundColor>();
+            CreateMap<KiotaModels.Get_environment_response_environment_button_text_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_environment_response_environment_link_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_environment_response_environment_background_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
             CreateMap<KiotaModels.Get_environment_variable_response, GetEnvironmentVariableResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_environment_variables_response, GetEnvironmentVariablesResponse>().ReverseMap();
             CreateMap<UpdateEnvironementFeatureFlagOverrideRequest, Kiota.Management.Api.V1.EnvironmentNamespace.Feature_flags.Item.WithFeature_flag_keyPatchRequestBody>().ReverseMap();
@@ -348,6 +354,26 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Search_users_response, SearchUsersResponse>().ReverseMap();
             CreateMap<KiotaModels.Search_users_response_results, SearchUsersResponseResultsInner>().ReverseMap();
             CreateMap<KiotaModels.Search_users_response_results_api_scopes, SearchUsersResponseResultsInnerApiScopesInner>().ReverseMap();
+            CreateMap<KiotaModels.Search_users_response_results_identities, UserIdentitiesInner>().ReverseMap();
+
+            CreateMap<KiotaModels.Create_directory_response, CreateDirectoryResponse>().ReverseMap();
+            CreateMap<KiotaModels.Delete_directory_response, DeleteDirectoryResponse>().ReverseMap();
+            CreateMap<KiotaModels.Update_directory_response, UpdateDirectoryResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_directories_response, GetDirectoriesResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_directory_response, GetDirectoryResponse>().ReverseMap();
+            CreateMap<KiotaModels.DirectoryObject, Kinde.Api.Model.Directory>().ReverseMap();
+
+            CreateMap<KiotaModels.Create_organization_invite_response, CreateOrganizationInviteResponse>().ReverseMap();
+            CreateMap<KiotaModels.Create_organization_invite_response_invite, CreateOrganizationInviteResponseInvite>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_invite_response, GetOrganizationInviteResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_invites_response, GetOrganizationInvitesResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_invite_response_roles, GetOrganizationInviteResponseRolesInner>().ReverseMap();
+            CreateMap<KiotaModels.Organization_invite, OrganizationInvite>().ReverseMap();
+
+            CreateMap<KiotaModels.Get_organization_role_users_response, GetOrganizationRoleUsersResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_role_users_response_users, GetOrganizationRoleUsersResponseUsersInner>().ReverseMap();
+            CreateMap<KiotaModels.Get_role_users_response, GetRoleUsersResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_role_users_response_users, GetRoleUsersResponseUsersInner>().ReverseMap();
 
             CreateMap<KiotaModels.Subscriber, Subscriber>().ReverseMap();
             CreateMap<KiotaModels.Subscribers_subscriber, SubscribersSubscriber>().ReverseMap();
@@ -392,6 +418,15 @@ namespace Kinde.Api.Mappers
 
             CreateMap<UpdateBusinessRequest, Kiota.Management.Api.V1.Business.BusinessPatchRequestBody>().ReverseMap();
 
+            CreateMap<ReplaceMFARequest.EnabledFactorsEnum, Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors>()
+                .ConvertUsing(s => BridgeEnumByMember<Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors>(s));
+            CreateMap<Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors, ReplaceMFARequest.EnabledFactorsEnum>()
+                .ConvertUsing(s => BridgeEnumByMember<ReplaceMFARequest.EnabledFactorsEnum>(s));
+            CreateMap<ReplaceOrganizationMFARequest.EnabledFactorsEnum, Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>()
+                .ConvertUsing(s => BridgeEnumByMember<Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>(s));
+            CreateMap<Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors, ReplaceOrganizationMFARequest.EnabledFactorsEnum>()
+                .ConvertUsing(s => BridgeEnumByMember<ReplaceOrganizationMFARequest.EnabledFactorsEnum>(s));
+
             CreateMap<ReplaceMFARequest, Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>()
                 .AfterMap((src, dst) =>
                 {
@@ -403,6 +438,30 @@ namespace Kinde.Api.Mappers
                 {
                     if (ReadAdditionalBool(src.AdditionalData, "is_recovery_codes_enabled") is { } v) dst.IsRecoveryCodesEnabled = v;
                 });
+
+            CreateMap<ReplaceOrganizationMFARequest, Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>()
+                .AfterMap((src, dst) =>
+                {
+                    dst.AdditionalData ??= new Dictionary<string, object>();
+                    dst.AdditionalData["is_recovery_codes_enabled"] = src.IsRecoveryCodesEnabled;
+                })
+                .ReverseMap()
+                .AfterMap((src, dst) =>
+                {
+                    if (ReadAdditionalBool(src.AdditionalData, "is_recovery_codes_enabled") is { } v) dst.IsRecoveryCodesEnabled = v;
+                });
+
+            CreateMap<AddAPIScopeRequest, Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody>().ReverseMap();
+            CreateMap<CreateOrganizationUserRoleRequest, Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody>().ReverseMap();
+            CreateMap<CreateOrganizationUserPermissionRequest, Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody>().ReverseMap();
+
+            CreateMap<CreateDirectoryRequest.ProviderCodeEnum, Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code>()
+                .ConvertUsing(s => BridgeEnumByMember<Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code>(s));
+            CreateMap<Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code, CreateDirectoryRequest.ProviderCodeEnum>()
+                .ConvertUsing(s => BridgeEnumByMember<CreateDirectoryRequest.ProviderCodeEnum>(s));
+            CreateMap<CreateDirectoryRequest, Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody>().ReverseMap();
+            CreateMap<UpdateDirectoryRequest, Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody>().ReverseMap();
+            CreateMap<CreateOrganizationInviteRequest, Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>().ReverseMap();
 
             CreateMap<CreateUserRequest, Kiota.Management.Api.V1.User.UserPostRequestBody>().ReverseMap();
             CreateMap<CreateUserRequestProfile, Kiota.Management.Api.V1.User.UserPostRequestBody_profile>().ReverseMap();
