@@ -738,15 +738,26 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         [Fact]
-        public void UpdateUserRequest_NonNullableBools_DefaultToFalseInRequest()
+        public void UpdateUserRequest_UnsetBools_StayNullOnWire()
         {
             var src = new UpdateUserRequest(givenName: "John", familyName: "Doe");
 
             var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
 
-            Assert.Equal(false, dst.IsSuspended);
-            Assert.Equal(false, dst.IsPasswordResetRequested);
-            _output.WriteLine("Confirmed: PATCH body unconditionally includes is_suspended=false and is_password_reset_requested=false.");
+            Assert.Null(dst.IsSuspended);
+            Assert.Null(dst.IsPasswordResetRequested);
+        }
+
+        [Fact]
+        public void UpdateUserRequest_ExplicitBools_RoundTripThroughMapping()
+        {
+            var src = new UpdateUserRequest(givenName: "John", familyName: "Doe",
+                isSuspended: true, isPasswordResetRequested: false);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
+
+            Assert.True(dst.IsSuspended);
+            Assert.False(dst.IsPasswordResetRequested);
         }
 
         #endregion
@@ -960,11 +971,28 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(src);
 
             Assert.NotNull(kiota);
-            Assert.True(kiota.AdditionalData.ContainsKey("is_auto_membership_enabled"));
-            Assert.Equal(flag, Assert.IsType<bool>(kiota.AdditionalData["is_auto_membership_enabled"]));
+            Assert.Equal(flag, kiota.IsAutoMembershipEnabled);
 
             var roundTrip = _mapper.Map<CreateOrganizationRequest>(kiota);
             Assert.Equal(flag, roundTrip.IsAutoMembershipEnabled);
+        }
+
+        [Fact]
+        public void CreateOrganizationRequest_UnsetAutoMembership_StaysNullOnWire()
+        {
+            var src = new CreateOrganizationRequest(name: "Acme");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(src);
+
+            Assert.Null(dst.IsAutoMembershipEnabled);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            Assert.DoesNotContain("\"is_auto_membership_enabled\"", json);
         }
 
         [Fact]

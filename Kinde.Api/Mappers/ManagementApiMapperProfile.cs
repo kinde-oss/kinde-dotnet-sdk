@@ -470,17 +470,8 @@ namespace Kinde.Api.Mappers
 
             CreateMap<CreateOrganizationRequest, Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>()
                 .ForMember(dest => dest.FeatureFlags, opt => opt.Ignore())
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_auto_membership_enabled"] = src.IsAutoMembershipEnabled;
-                })
                 .ReverseMap()
-                .ForMember(dest => dest.FeatureFlags, opt => opt.Ignore())
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_auto_membership_enabled") is { } v) dst.IsAutoMembershipEnabled = v;
-                });
+                .ForMember(dest => dest.FeatureFlags, opt => opt.Ignore());
             CreateMap<AddOrganizationUsersRequest, Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody>().ReverseMap();
             CreateMap<AddOrganizationUsersRequestUsersInner, Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody_users>().ReverseMap();
 

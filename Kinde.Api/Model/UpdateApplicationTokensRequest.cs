@@ -39,7 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="idTokenLifetime">The lifetime of an ID token in seconds..</param>
         /// <param name="authenticatedSessionLifetime">The lifetime of an authenticated session in seconds..</param>
         /// <param name="isHasuraMappingEnabled">Enable or disable Hasura mapping..</param>
-        public UpdateApplicationTokensRequest(int accessTokenLifetime = default(int), int refreshTokenLifetime = default(int), int idTokenLifetime = default(int), int authenticatedSessionLifetime = default(int), bool isHasuraMappingEnabled = default(bool))
+        public UpdateApplicationTokensRequest(int? accessTokenLifetime = default(int?), int? refreshTokenLifetime = default(int?), int? idTokenLifetime = default(int?), int? authenticatedSessionLifetime = default(int?), bool? isHasuraMappingEnabled = default(bool?))
         {
             this.AccessTokenLifetime = accessTokenLifetime;
             this.RefreshTokenLifetime = refreshTokenLifetime;
@@ -54,7 +54,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an access token in seconds.</value>
         /// <example>3600</example>
         [DataMember(Name = "access_token_lifetime", EmitDefaultValue = false)]
-        public int AccessTokenLifetime { get; set; }
+        public int? AccessTokenLifetime { get; set; }
 
         /// <summary>
         /// The lifetime of a refresh token in seconds.
@@ -62,7 +62,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of a refresh token in seconds.</value>
         /// <example>86400</example>
         [DataMember(Name = "refresh_token_lifetime", EmitDefaultValue = false)]
-        public int RefreshTokenLifetime { get; set; }
+        public int? RefreshTokenLifetime { get; set; }
 
         /// <summary>
         /// The lifetime of an ID token in seconds.
@@ -70,7 +70,7 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an ID token in seconds.</value>
         /// <example>3600</example>
         [DataMember(Name = "id_token_lifetime", EmitDefaultValue = false)]
-        public int IdTokenLifetime { get; set; }
+        public int? IdTokenLifetime { get; set; }
 
         /// <summary>
         /// The lifetime of an authenticated session in seconds.
@@ -78,15 +78,15 @@ namespace Kinde.Api.Model
         /// <value>The lifetime of an authenticated session in seconds.</value>
         /// <example>86400</example>
         [DataMember(Name = "authenticated_session_lifetime", EmitDefaultValue = false)]
-        public int AuthenticatedSessionLifetime { get; set; }
+        public int? AuthenticatedSessionLifetime { get; set; }
 
         /// <summary>
         /// Enable or disable Hasura mapping.
         /// </summary>
         /// <value>Enable or disable Hasura mapping.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_hasura_mapping_enabled", EmitDefaultValue = true)]
-        public bool IsHasuraMappingEnabled { get; set; }
+        [DataMember(Name = "is_hasura_mapping_enabled", EmitDefaultValue = false)]
+        public bool? IsHasuraMappingEnabled { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

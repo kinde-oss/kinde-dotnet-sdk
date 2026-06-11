@@ -40,7 +40,7 @@ namespace Kinde.Api.Model
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="isPasswordResetRequested">Prompt the user to change their password on next sign in..</param>
         /// <param name="providedId">An external id to reference the user..</param>
-        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), string picture = default(string), bool isSuspended = default(bool), bool isPasswordResetRequested = default(bool), string providedId = default(string))
+        public UpdateUserRequest(string givenName = default(string), string familyName = default(string), string picture = default(string), bool? isSuspended = default(bool?), bool? isPasswordResetRequested = default(bool?), string providedId = default(string))
         {
             this.GivenName = givenName;
             this.FamilyName = familyName;
@@ -75,15 +75,15 @@ namespace Kinde.Api.Model
         /// Whether the user is currently suspended or not.
         /// </summary>
         /// <value>Whether the user is currently suspended or not.</value>
-        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
-        public bool IsSuspended { get; set; }
+        [DataMember(Name = "is_suspended", EmitDefaultValue = false)]
+        public bool? IsSuspended { get; set; }
 
         /// <summary>
         /// Prompt the user to change their password on next sign in.
         /// </summary>
         /// <value>Prompt the user to change their password on next sign in.</value>
-        [DataMember(Name = "is_password_reset_requested", EmitDefaultValue = true)]
-        public bool IsPasswordResetRequested { get; set; }
+        [DataMember(Name = "is_password_reset_requested", EmitDefaultValue = false)]
+        public bool? IsPasswordResetRequested { get; set; }
 
         /// <summary>
         /// An external id to reference the user.
