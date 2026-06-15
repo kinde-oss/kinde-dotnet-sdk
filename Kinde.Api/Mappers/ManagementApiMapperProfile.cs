@@ -411,6 +411,33 @@ namespace Kinde.Api.Mappers
             CreateMap<CreateApplicationRequest, Kiota.Management.Api.V1.Applications.ApplicationsPostRequestBody>().ReverseMap();
             CreateMap<UpdateApplicationRequest, Kiota.Management.Api.V1.Applications.Item.Application_PatchRequestBody>().ReverseMap();
             CreateMap<UpdateApplicationTokensRequest, Kiota.Management.Api.V1.Applications.Item.Tokens.TokensPatchRequestBody>().ReverseMap();
+            CreateMap<UpdateApplicationsPropertyRequestValue, Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value>()
+                .ConvertUsing((src, _, _) =>
+                {
+                    if (src?.ActualInstance is null) return null;
+
+                    var dst = new Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value();
+                    switch (src.ActualInstance)
+                    {
+                        case bool b: dst.Boolean = b; break;
+                        case string s: dst.String = s; break;
+                        default:
+                            throw new ArgumentException(
+                                $"Unsupported UpdateApplicationsPropertyRequestValue variant: {src.ActualInstance.GetType().FullName}. Expected bool or string.",
+                                nameof(src));
+                    }
+                    return dst;
+                });
+
+            CreateMap<Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value, UpdateApplicationsPropertyRequestValue>()
+                .ConvertUsing((src, _, _) =>
+                {
+                    if (src is null) return null;
+                    if (src.Boolean.HasValue) return new UpdateApplicationsPropertyRequestValue(src.Boolean.Value);
+                    if (src.String is not null) return new UpdateApplicationsPropertyRequestValue(src.String);
+                    return null;
+                });
+
             CreateMap<UpdateApplicationsPropertyRequest, Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody>().ReverseMap();
 
             CreateMap<CreateBillingAgreementRequest, Kiota.Management.Api.V1.Billing.Agreements.AgreementsPostRequestBody>().ReverseMap();
@@ -445,6 +472,7 @@ namespace Kinde.Api.Mappers
             CreateMap<CreateUserRequest, Kiota.Management.Api.V1.User.UserPostRequestBody>().ReverseMap();
             CreateMap<CreateUserRequestProfile, Kiota.Management.Api.V1.User.UserPostRequestBody_profile>().ReverseMap();
             CreateMap<CreateUserRequestIdentitiesInner, Kiota.Management.Api.V1.User.UserPostRequestBody_identities>().ReverseMap();
+            CreateMap<CreateUserRequestIdentitiesInnerDetails, Kiota.Management.Api.V1.User.UserPostRequestBody_identities_details>().ReverseMap();
             CreateMap<UpdateUserRequest, Kiota.Management.Api.V1.User.UserPatchRequestBody>().ReverseMap();
 
             CreateMap<CreateOrganizationRequest, Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>()
@@ -461,6 +489,7 @@ namespace Kinde.Api.Mappers
 
             CreateMap<AddAPIsRequest, Kiota.Management.Api.V1.Apis.ApisPostRequestBody>().ReverseMap();
             CreateMap<UpdateAPIApplicationsRequest, Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody>().ReverseMap();
+            CreateMap<UpdateAPIApplicationsRequestApplicationsInner, Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody_applications>().ReverseMap();
             CreateMap<UpdateAPIScopeRequest, Kiota.Management.Api.V1.Apis.Item.Scopes.Item.WithScope_PatchRequestBody>().ReverseMap();
 
             CreateMap<UpdateOrganizationRequest, Kiota.Management.Api.V1.Organization.Item.WithOrg_codePatchRequestBody>().ReverseMap();
@@ -468,6 +497,7 @@ namespace Kinde.Api.Mappers
             CreateMap<UpdateOrganizationPropertiesRequest, Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody>().ReverseMap();
             CreateMap<UpdateOrganizationSessionsRequest, Kiota.Management.Api.V1.Organizations.Item.Sessions.SessionsPatchRequestBody>().ReverseMap();
             CreateMap<UpdateOrganizationUsersRequest, Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>().ReverseMap();
+            CreateMap<UpdateOrganizationUsersRequestUsersInner, Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody_users>().ReverseMap();
 
             CreateMap<CreateUserIdentityRequest, Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody>().ReverseMap();
             CreateMap<SetUserPasswordRequest, Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody>().ReverseMap();
