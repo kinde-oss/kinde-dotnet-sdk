@@ -496,7 +496,31 @@ namespace Kinde.Api.Test.Integration.Mappers
 
         #endregion
 
-        #region Kiota constructor config propagation (2.1.0 regression fix)
+        #region Request body mapping smoke tests
+
+        [Fact] public void CreateApiKeyRequest_Maps()                  => AssertMaps<CreateApiKeyRequest, Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody>();
+        [Fact] public void VerifyApiKeyRequest_Maps()                  => AssertMaps<VerifyApiKeyRequest, Kinde.Api.Kiota.Management.Api.V1.Api_keys.Verify.VerifyPostRequestBody>();
+        [Fact] public void AddAPIsRequest_Maps()                       => AssertMaps<AddAPIsRequest, Kinde.Api.Kiota.Management.Api.V1.Apis.ApisPostRequestBody>();
+        [Fact] public void UpdateAPIApplicationsRequest_Maps()         => AssertMaps<UpdateAPIApplicationsRequest, Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody>();
+        [Fact] public void UpdateAPIScopeRequest_Maps()                => AssertMaps<UpdateAPIScopeRequest, Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.Item.WithScope_PatchRequestBody>();
+        [Fact] public void UpdateOrganizationRequest_Maps()            => AssertMaps<UpdateOrganizationRequest, Kinde.Api.Kiota.Management.Api.V1.Organization.Item.WithOrg_codePatchRequestBody>();
+        [Fact] public void UpdateOrganizationPropertiesRequest_OrgEndpoint_Maps()  => AssertMaps<UpdateOrganizationPropertiesRequest, Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody>();
+        [Fact] public void UpdateOrganizationSessionsRequest_Maps()    => AssertMaps<UpdateOrganizationSessionsRequest, Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Sessions.SessionsPatchRequestBody>();
+        [Fact] public void UpdateOrganizationUsersRequest_Maps()       => AssertMaps<UpdateOrganizationUsersRequest, Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>();
+        [Fact] public void CreateUserIdentityRequest_Maps()            => AssertMaps<CreateUserIdentityRequest, Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody>();
+        [Fact] public void SetUserPasswordRequest_Maps()               => AssertMaps<SetUserPasswordRequest, Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody>();
+        [Fact] public void UpdateOrganizationPropertiesRequest_UserEndpoint_Maps() => AssertMaps<UpdateOrganizationPropertiesRequest, Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties.PropertiesPatchRequestBody>();
+
+        private void AssertMaps<TSrc, TDst>()
+        {
+            var src = (TSrc)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(TSrc));
+            var dst = _mapper.Map<TDst>(src);
+            Assert.NotNull(dst);
+        }
+
+        #endregion
+
+        #region Kiota constructor config propagation
 
         [Fact]
         public void XApi_FromApiClient_PropagatesBasePath()
@@ -514,8 +538,6 @@ namespace Kinde.Api.Test.Integration.Mappers
         [Fact]
         public void XApi_FromApiClient_PropagatesAccessToken()
         {
-            // Plain ApiClient has no token. After the fix the api carries that (null) through;
-            // a derived client (e.g. KindeClient) overrides AccessToken to surface the OAuth token.
             using var httpClient = new System.Net.Http.HttpClient();
             var client = new TokenStubApiClient(httpClient, "https://example.kinde.com", "stub-token-abc");
 
@@ -547,22 +569,19 @@ namespace Kinde.Api.Test.Integration.Mappers
             var client = new MutableTokenStubApiClient(httpClient, "https://example.kinde.com", "token-v1");
             using var api = new Kinde.Api.Api.ApplicationsApi(client);
 
-            
-            var kiotaClientProp = typeof(Kinde.Api.Api.ApplicationsApi).GetProperty(
+var kiotaClientProp = typeof(Kinde.Api.Api.ApplicationsApi).GetProperty(
                 "KiotaClient", BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.NotNull(kiotaClientProp);
             var kiotaClient = kiotaClientProp.GetValue(api);
             Assert.NotNull(kiotaClient);
 
-           
-            var providerType = typeof(Kinde.Api.Api.ApplicationsApi)
+var providerType = typeof(Kinde.Api.Api.ApplicationsApi)
                 .GetNestedType("KiotaTokenProvider", BindingFlags.NonPublic);
             Assert.NotNull(providerType);
             var cachedProvider = FindReachableInstance(kiotaClient, providerType, maxDepth: 6);
             Assert.NotNull(cachedProvider);
 
-            
-            var getTokenField = providerType.GetField("_getToken", BindingFlags.Instance | BindingFlags.NonPublic);
+var getTokenField = providerType.GetField("_getToken", BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.NotNull(getTokenField);
             var liveDelegate = (Func<string>)getTokenField.GetValue(cachedProvider);
             Assert.NotNull(liveDelegate);
@@ -580,8 +599,7 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Equal("token-v3", await task);
         }
 
-       
-        private static object FindReachableInstance(object root, Type target, int maxDepth)
+private static object FindReachableInstance(object root, Type target, int maxDepth)
         {
             var visited = new HashSet<object>(ReferenceEqualityComparer.Instance);
             var queue = new Queue<(object Node, int Depth)>();
@@ -720,20 +738,32 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         [Fact]
-        public void UpdateUserRequest_NonNullableBools_DefaultToFalseInRequest()
+        public void UpdateUserRequest_UnsetBools_StayNullOnWire()
         {
             var src = new UpdateUserRequest(givenName: "John", familyName: "Doe");
 
             var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
 
-            Assert.Equal(false, dst.IsSuspended);
-            Assert.Equal(false, dst.IsPasswordResetRequested);
-            _output.WriteLine("Confirmed: PATCH body unconditionally includes is_suspended=false and is_password_reset_requested=false.");
+            Assert.Null(dst.IsSuspended);
+            Assert.Null(dst.IsPasswordResetRequested);
+        }
+
+        [Fact]
+        public void UpdateUserRequest_ExplicitBools_RoundTripThroughMapping()
+        {
+            var src = new UpdateUserRequest(givenName: "John", familyName: "Doe",
+                isSuspended: true, isPasswordResetRequested: false);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody>(src);
+
+            Assert.True(dst.IsSuspended);
+            Assert.False(dst.IsPasswordResetRequested);
         }
 
         #endregion
 
-        #region SAML enum fields workaround (Kiota schema gap)
+        #region SAML wire payload
+
         [Fact]
         public void CreateConnectionRequest_SamlEnums_LandOnWirePayload()
         {
@@ -744,6 +774,9 @@ namespace Kinde.Api.Test.Integration.Mappers
                 NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
                 ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
                 SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
+                SamlUserIdKeyAttr = "user.id",
+                IsTrusted = true,
+                IsUseCustomDomain = true,
             };
             var request = new CreateConnectionRequest(
                 name: "saml-okta",
@@ -765,6 +798,9 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Contains("\"protocol_binding\":\"HTTP-POST\"", json);
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA256\"", json);
             Assert.Contains("\"saml_entity_id\":\"https://example.okta.com/saml/metadata\"", json);
+            Assert.Contains("\"saml_user_id_key_attr\":\"user.id\"", json);
+            Assert.Contains("\"is_trusted\":true", json);
+            Assert.Contains("\"is_use_custom_domain\":true", json);
         }
 
         #endregion
@@ -873,12 +909,214 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Equal("email", member3.SamlEmailKeyAttr);
             Assert.True(member3.IsCreateMissingUser);
 
-            // The three enum fields don't exist as typed properties on Member3 — they're
-            // carried via AdditionalData using the [EnumMember(Value=...)] wire string.
-            Assert.NotNull(member3.AdditionalData);
-            Assert.Equal("Email address", member3.AdditionalData["name_id_format"]);
-            Assert.Equal("HTTP-POST", member3.AdditionalData["protocol_binding"]);
-            Assert.Equal("RSA-SHA256", member3.AdditionalData["sign_request_algorithm"]);
+            Assert.Equal(Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_name_id_format.EmailAddress, member3.NameIdFormat);
+            Assert.Equal(Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_protocol_binding.HTTPPOST, member3.ProtocolBinding);
+            Assert.Equal(Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm.RSASHA256, member3.SignRequestAlgorithm);
+        }
+
+        #endregion
+
+        #region AdditionalData smuggling
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ReplaceMFARequest_RoundTrip_PreservesRecoveryCodesFlag(bool flag)
+        {
+            var src = new ReplaceMFARequest(
+                policy: ReplaceMFARequest.PolicyEnum.Required,
+                enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email },
+                isRecoveryCodesEnabled: flag);
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+
+            Assert.NotNull(kiota);
+            Assert.Equal(flag, kiota.IsRecoveryCodesEnabled);
+
+            var roundTrip = _mapper.Map<ReplaceMFARequest>(kiota);
+            Assert.Equal(flag, roundTrip.IsRecoveryCodesEnabled);
+        }
+
+        [Fact]
+        public void ReplaceMFARequest_UnsetRecoveryCodes_StaysNullOnWire()
+        {
+            var src = new ReplaceMFARequest(
+                policy: ReplaceMFARequest.PolicyEnum.Required,
+                enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+
+            Assert.Null(dst.IsRecoveryCodesEnabled);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            Assert.DoesNotContain("\"is_recovery_codes_enabled\"", json);
+        }
+
+        [Fact]
+        public void ReplaceMFARequest_SerializedBody_ContainsRecoveryCodesField()
+        {
+            var src = new ReplaceMFARequest(
+                policy: ReplaceMFARequest.PolicyEnum.Required,
+                enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email },
+                isRecoveryCodesEnabled: true);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"is_recovery_codes_enabled\":true", json);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void CreateOrganizationRequest_RoundTrip_PreservesAutoMembershipFlag(bool flag)
+        {
+            var src = new CreateOrganizationRequest(name: "Acme")
+            {
+                IsAutoMembershipEnabled = flag,
+            };
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(src);
+
+            Assert.NotNull(kiota);
+            Assert.Equal(flag, kiota.IsAutoMembershipEnabled);
+
+            var roundTrip = _mapper.Map<CreateOrganizationRequest>(kiota);
+            Assert.Equal(flag, roundTrip.IsAutoMembershipEnabled);
+        }
+
+        [Fact]
+        public void CreateOrganizationRequest_UnsetAutoMembership_StaysNullOnWire()
+        {
+            var src = new CreateOrganizationRequest(name: "Acme");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(src);
+
+            Assert.Null(dst.IsAutoMembershipEnabled);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            Assert.DoesNotContain("\"is_auto_membership_enabled\"", json);
+        }
+
+        [Fact]
+        public void CreateOrganizationRequest_SerializedBody_ContainsAutoMembershipField()
+        {
+            var src = new CreateOrganizationRequest(name: "Acme")
+            {
+                IsAutoMembershipEnabled = true,
+            };
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"is_auto_membership_enabled\":true", json);
+        }
+
+        [Fact]
+        public void GetOrganizationResponse_ReverseSmuggling_PopulatesSuspendedFields()
+        {
+            var kiotaSrc = new Kinde.Api.Kiota.Management.Models.Get_organization_response
+            {
+                Code = "org_abc",
+                Name = "Acme",
+                AdditionalData = new Dictionary<string, object>
+                {
+                    ["is_suspended"] = true,
+                    ["suspended_on"] = "2026-04-01T12:00:00Z",
+                },
+            };
+
+            var openApi = _mapper.Map<GetOrganizationResponse>(kiotaSrc);
+
+            Assert.NotNull(openApi);
+            Assert.True(openApi.IsSuspended);
+            Assert.Equal("2026-04-01T12:00:00Z", openApi.SuspendedOn);
+        }
+
+        [Fact]
+        public void UsersResponse_WithNestedIdentitiesAndSignIns_MapsWithoutMissingTypeMap()
+        {
+            var kiotaSrc = new Kinde.Api.Kiota.Management.Models.Users_response
+            {
+                Code = "OK",
+                Message = "OK",
+                Users = new List<Kinde.Api.Kiota.Management.Models.Users_response_users>
+                {
+                    new Kinde.Api.Kiota.Management.Models.Users_response_users
+                    {
+                        Id = "kp_user1",
+                        Email = "user1@example.com",
+                        Identities = new List<Kinde.Api.Kiota.Management.Models.Users_response_users_identities>
+                        {
+                            new Kinde.Api.Kiota.Management.Models.Users_response_users_identities { Type = "email", Identity = "user1@example.com" },
+                            new Kinde.Api.Kiota.Management.Models.Users_response_users_identities { Type = "phone", Identity = "+15555550100" },
+                        },
+                        LastOrganizationSignIns = new List<Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>
+                        {
+                            new Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins
+                            {
+                                OrgCode = "org_abc",
+                                LastSignedIn = new DateTimeOffset(2026, 4, 1, 12, 0, 0, TimeSpan.Zero),
+                            },
+                        },
+                    },
+                },
+            };
+
+            var openApi = _mapper.Map<UsersResponse>(kiotaSrc);
+
+            Assert.NotNull(openApi);
+            Assert.Single(openApi.Users);
+            var user = openApi.Users[0];
+            Assert.Equal("kp_user1", user.Id);
+            Assert.Equal(2, user.Identities.Count);
+            Assert.Equal("email", user.Identities[0].Type);
+            Assert.Equal("user1@example.com", user.Identities[0].Identity);
+            Assert.Single(user.LastOrganizationSignIns);
+            Assert.Equal("org_abc", user.LastOrganizationSignIns[0].OrgCode);
+            Assert.Equal(new DateTimeOffset(2026, 4, 1, 12, 0, 0, TimeSpan.Zero), user.LastOrganizationSignIns[0].LastSignedIn);
+        }
+
+        [Fact]
+        public void GetOrganizationResponse_ForwardSmuggling_WritesSuspendedFieldsToAdditionalData()
+        {
+            var openApi = new GetOrganizationResponse
+            {
+                Code = "org_abc",
+                Name = "Acme",
+                IsSuspended = true,
+                SuspendedOn = "2026-04-01T12:00:00Z",
+            };
+
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Models.Get_organization_response>(openApi);
+
+            Assert.NotNull(kiota);
+            Assert.True(kiota.AdditionalData.ContainsKey("is_suspended"));
+            Assert.True(Assert.IsType<bool>(kiota.AdditionalData["is_suspended"]));
+            Assert.True(kiota.AdditionalData.ContainsKey("suspended_on"));
+            Assert.Equal("2026-04-01T12:00:00Z", Assert.IsType<string>(kiota.AdditionalData["suspended_on"]));
         }
 
         #endregion

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -110,7 +110,7 @@ namespace Kinde.Api.Model
         /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt..</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt..</param>
         /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one..</param>
-        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), bool isTemporaryPassword = default(bool))
+        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), bool? isTemporaryPassword = default(bool?))
         {
             // to ensure "hashedPassword" is required (not null)
             if (hashedPassword == null)
@@ -142,8 +142,8 @@ namespace Kinde.Api.Model
         /// The user will be prompted to set a new password after entering this one.
         /// </summary>
         /// <value>The user will be prompted to set a new password after entering this one.</value>
-        [DataMember(Name = "is_temporary_password", EmitDefaultValue = true)]
-        public bool IsTemporaryPassword { get; set; }
+        [DataMember(Name = "is_temporary_password", EmitDefaultValue = false)]
+        public bool? IsTemporaryPassword { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -244,3 +244,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

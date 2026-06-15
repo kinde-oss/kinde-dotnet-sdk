@@ -7,6 +7,7 @@ using Kinde.Api.Kiota.Management.Api.V1.Billing;
 using Kinde.Api.Kiota.Management.Api.V1.Business;
 using Kinde.Api.Kiota.Management.Api.V1.Connected_apps;
 using Kinde.Api.Kiota.Management.Api.V1.Connections;
+using Kinde.Api.Kiota.Management.Api.V1.Directories;
 using Kinde.Api.Kiota.Management.Api.V1.EnvironmentNamespace;
 using Kinde.Api.Kiota.Management.Api.V1.Environment_variables;
 using Kinde.Api.Kiota.Management.Api.V1.Event_types;
@@ -75,6 +76,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1
         public global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsRequestBuilder Connections
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The directories property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesRequestBuilder Directories
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The environment property</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.EnvironmentNamespace.EnvironmentRequestBuilder Environment

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
         /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
         /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
         /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoMembershipEnabled = default(bool), string senderName = default(string), string senderEmail = default(string), bool isCreateBillingCustomer = default(bool), string billingEmail = default(string), string billingPlanCode = default(string))
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isAutoMembershipEnabled = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isCreateBillingCustomer = default(bool?), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -213,17 +213,17 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = false)]
         [Obsolete]
-        public bool IsAllowRegistrations { get; set; }
+        public bool? IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// If users become members of this organization when the org code is supplied during authentication.
         /// </summary>
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = true)]
-        public bool IsAutoMembershipEnabled { get; set; }
+        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = false)]
+        public bool? IsAutoMembershipEnabled { get; set; }
 
         /// <summary>
         /// The name of the organization that will be used in emails
@@ -246,8 +246,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>If a billing customer is also created for this organization</value>
         /// <example>false</example>
-        [DataMember(Name = "is_create_billing_customer", EmitDefaultValue = true)]
-        public bool IsCreateBillingCustomer { get; set; }
+        [DataMember(Name = "is_create_billing_customer", EmitDefaultValue = false)]
+        public bool? IsCreateBillingCustomer { get; set; }
 
         /// <summary>
         /// The email address used for billing purposes for the organization
@@ -515,3 +515,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

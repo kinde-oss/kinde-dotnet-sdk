@@ -37,6 +37,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Mfa
             set { BackingStore?.Set("enabled_factors", value); }
         }
 #endif
+        /// <summary>Determines whether recovery codes are shown to users during MFA setup for the environment.</summary>
+        public bool? IsRecoveryCodesEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_recovery_codes_enabled"); }
+            set { BackingStore?.Set("is_recovery_codes_enabled", value); }
+        }
         /// <summary>Specifies whether MFA is required, optional, or not enforced.</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_policy? Policy
         {
@@ -50,6 +56,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Mfa
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
+            IsRecoveryCodesEnabled = true;
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
@@ -70,6 +77,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Mfa
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "enabled_factors", n => { EnabledFactors = n.GetCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors>()?.AsList(); } },
+                { "is_recovery_codes_enabled", n => { IsRecoveryCodesEnabled = n.GetBoolValue(); } },
                 { "policy", n => { Policy = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_policy>(); } },
             };
         }
@@ -81,6 +89,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Mfa
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors>("enabled_factors", EnabledFactors);
+            writer.WriteBoolValue("is_recovery_codes_enabled", IsRecoveryCodesEnabled);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_policy>("policy", Policy);
             writer.WriteAdditionalData(AdditionalData);
         }

@@ -1,4 +1,8 @@
+using System;
+using System.Reflection;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Kinde.Api.Mappers
 {
@@ -23,23 +27,55 @@ namespace Kinde.Api.Mappers
                     {
                         if (_mapper == null)
                         {
-                            var config = new MapperConfiguration(cfg =>
-                            {
-                                cfg.AddProfile<ManagementApiMapperProfile>();
-                                cfg.AddProfile<AccountsApiMapperProfile>();
-                            });
-                            
-                            // Note: We skip AssertConfigurationIsValid() because Kiota and OpenAPI models
-                            // have some structural differences that require custom handling.
-                            // The mappings will work for properties that match, and unmapped properties
-                            // will be left at their default values.
-                            
-                            _mapper = config.CreateMapper();
+                            _mapper = BuildMapper();
                         }
                     }
                 }
                 return _mapper;
             }
+        }
+
+        private static IMapper BuildMapper()
+        {
+            Action<IMapperConfigurationExpression> cfgAction = cfg =>
+            {
+                cfg.AddProfile<ManagementApiMapperProfile>();
+                cfg.AddProfile<AccountsApiMapperProfile>();
+            };
+
+            var configType = typeof(MapperConfiguration);
+            var ctorWithLogger = configType.GetConstructor(new[]
+            {
+                typeof(Action<IMapperConfigurationExpression>),
+                typeof(ILoggerFactory),
+            });
+            var ctorSimple = configType.GetConstructor(new[]
+            {
+                typeof(Action<IMapperConfigurationExpression>),
+            });
+
+            MapperConfiguration config;
+            if (ctorWithLogger != null)
+            {
+                config = (MapperConfiguration)ctorWithLogger.Invoke(new object[]
+                {
+                    cfgAction,
+                    NullLoggerFactory.Instance,
+                });
+            }
+            else if (ctorSimple != null)
+            {
+                config = (MapperConfiguration)ctorSimple.Invoke(new object[] { cfgAction });
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    "Could not find a compatible AutoMapper.MapperConfiguration constructor. " +
+                    "Reference AutoMapper 13.x (single-argument constructor) or 14.x/15.x/16.x " +
+                    "(constructor with ILoggerFactory).");
+            }
+
+            return config.CreateMapper();
         }
 
         /// <summary>
@@ -54,4 +90,3 @@ namespace Kinde.Api.Mappers
         }
     }
 }
-

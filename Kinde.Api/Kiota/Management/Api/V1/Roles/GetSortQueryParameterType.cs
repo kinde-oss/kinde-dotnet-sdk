@@ -16,13 +16,13 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles
         #pragma warning disable CS1591
         Name_desc,
         #pragma warning restore CS1591
-        [EnumMember(Value = "id_asc")]
+        [EnumMember(Value = "key_asc")]
         #pragma warning disable CS1591
-        Id_asc,
+        Key_asc,
         #pragma warning restore CS1591
-        [EnumMember(Value = "id_desc")]
+        [EnumMember(Value = "key_desc")]
         #pragma warning disable CS1591
-        Id_desc,
+        Key_desc,
         #pragma warning restore CS1591
     }
 }

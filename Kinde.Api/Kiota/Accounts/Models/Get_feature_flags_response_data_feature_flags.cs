@@ -217,11 +217,7 @@ namespace Kinde.Api.Kiota.Accounts.Models
                 if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
                 var result = new global::Kinde.Api.Kiota.Accounts.Models.Get_feature_flags_response_data_feature_flags.Get_feature_flags_response_data_feature_flags_value();
-                if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.GetFeatureFlagsResponseDataFeatureFlagsValueMember1 = new global::Kinde.Api.Kiota.Accounts.Models.Get_feature_flags_response_data_feature_flags_valueMember1();
-                }
-                else if(parseNode.GetBoolValue() is bool booleanValue)
+                if(parseNode.GetBoolValue() is bool booleanValue)
                 {
                     result.Boolean = booleanValue;
                 }

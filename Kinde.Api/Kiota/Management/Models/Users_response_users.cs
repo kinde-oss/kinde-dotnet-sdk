@@ -145,6 +145,22 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("last_name", value); }
         }
 #endif
+        /// <summary>Array of organization sign-in information for the user.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>? LastOrganizationSignIns
+        {
+            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>?>("last_organization_sign_ins"); }
+            set { BackingStore?.Set("last_organization_sign_ins", value); }
+        }
+#nullable restore
+#else
+        public List<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins> LastOrganizationSignIns
+        {
+            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>>("last_organization_sign_ins"); }
+            set { BackingStore?.Set("last_organization_sign_ins", value); }
+        }
+#endif
         /// <summary>Last sign in date in ISO 8601 format.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -282,6 +298,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "identities", n => { Identities = n.GetCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Users_response_users_identities>(global::Kinde.Api.Kiota.Management.Models.Users_response_users_identities.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "is_suspended", n => { IsSuspended = n.GetBoolValue(); } },
                 { "last_name", n => { LastName = n.GetStringValue(); } },
+                { "last_organization_sign_ins", n => { LastOrganizationSignIns = n.GetCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>(global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "last_signed_in", n => { LastSignedIn = n.GetStringValue(); } },
                 { "organizations", n => { Organizations = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "phone", n => { Phone = n.GetStringValue(); } },
@@ -307,6 +324,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Users_response_users_identities>("identities", Identities);
             writer.WriteBoolValue("is_suspended", IsSuspended);
             writer.WriteStringValue("last_name", LastName);
+            writer.WriteCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins>("last_organization_sign_ins", LastOrganizationSignIns);
             writer.WriteStringValue("last_signed_in", LastSignedIn);
             writer.WriteCollectionOfPrimitiveValues<string>("organizations", Organizations);
             writer.WriteStringValue("phone", Phone);

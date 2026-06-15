@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
         /// <param name="isSuspended">Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool isAutoMembershipEnabled = default(bool), bool isAutoJoinDomainList = default(bool), List<string> allowedDomains = default(List<string>), bool isEnableAdvancedOrgs = default(bool), bool isEnforceMfa = default(bool), string senderName = default(string), string senderEmail = default(string), bool isSuspended = default(bool))
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isAutoMembershipEnabled = default(bool?), bool? isAutoJoinDomainList = default(bool?), List<string> allowedDomains = default(List<string>), bool? isEnableAdvancedOrgs = default(bool?), bool? isEnforceMfa = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isSuspended = default(bool?))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -206,25 +206,25 @@ namespace Kinde.Api.Model
         /// Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.
         /// </summary>
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = false)]
         [Obsolete]
-        public bool IsAllowRegistrations { get; set; }
+        public bool? IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// If users become members of this organization when the org code is supplied during authentication.
         /// </summary>
         /// <value>If users become members of this organization when the org code is supplied during authentication.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = true)]
-        public bool IsAutoMembershipEnabled { get; set; }
+        [DataMember(Name = "is_auto_membership_enabled", EmitDefaultValue = false)]
+        public bool? IsAutoMembershipEnabled { get; set; }
 
         /// <summary>
         /// Users can sign up to this organization.
         /// </summary>
         /// <value>Users can sign up to this organization.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_auto_join_domain_list", EmitDefaultValue = true)]
-        public bool IsAutoJoinDomainList { get; set; }
+        [DataMember(Name = "is_auto_join_domain_list", EmitDefaultValue = false)]
+        public bool? IsAutoJoinDomainList { get; set; }
 
         /// <summary>
         /// Domains allowed for self-sign up to this environment.
@@ -239,16 +239,16 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Activate advanced organization features.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_enable_advanced_orgs", EmitDefaultValue = true)]
-        public bool IsEnableAdvancedOrgs { get; set; }
+        [DataMember(Name = "is_enable_advanced_orgs", EmitDefaultValue = false)]
+        public bool? IsEnableAdvancedOrgs { get; set; }
 
         /// <summary>
         /// Enforce MFA for all users in this organization.
         /// </summary>
         /// <value>Enforce MFA for all users in this organization.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_enforce_mfa", EmitDefaultValue = true)]
-        public bool IsEnforceMfa { get; set; }
+        [DataMember(Name = "is_enforce_mfa", EmitDefaultValue = false)]
+        public bool? IsEnforceMfa { get; set; }
 
         /// <summary>
         /// The name of the organization that will be used in emails
@@ -271,8 +271,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended.</value>
         /// <example>false</example>
-        [DataMember(Name = "is_suspended", EmitDefaultValue = true)]
-        public bool IsSuspended { get; set; }
+        [DataMember(Name = "is_suspended", EmitDefaultValue = false)]
+        public bool? IsSuspended { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -518,3 +518,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

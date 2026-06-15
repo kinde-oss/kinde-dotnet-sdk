@@ -22,7 +22,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public Auth_logout_urlsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls?urls={urls}", pathParameters)
+        public Auth_logout_urlsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public Auth_logout_urlsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls?urls={urls}", rawUrl)
+        public Auth_logout_urlsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls", rawUrl)
         {
         }
         /// <summary>
@@ -159,7 +159,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         public RequestInformation ToDeleteRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls.Auth_logout_urlsRequestBuilder.Auth_logout_urlsRequestBuilderDeleteQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.DELETE, UrlTemplate, PathParameters);
+            var requestInfo = new RequestInformation(Method.DELETE, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls?urls={urls}", PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             return requestInfo;
@@ -178,7 +178,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls", PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             return requestInfo;
@@ -199,7 +199,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
-            var requestInfo = new RequestInformation(Method.POST, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls", PathParameters);
+            var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
@@ -221,7 +221,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
-            var requestInfo = new RequestInformation(Method.PUT, "{+baseurl}/api/v1/applications/{application_%2Did}/auth_logout_urls", PathParameters);
+            var requestInfo = new RequestInformation(Method.PUT, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);

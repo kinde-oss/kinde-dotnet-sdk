@@ -54,6 +54,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("client_secret", value); }
         }
 #endif
+        /// <summary>Trust this connection for account merging.</summary>
+        public bool? IsTrusted
+        {
+            get { return BackingStore?.Get<bool?>("is_trusted"); }
+            set { BackingStore?.Set("is_trusted", value); }
+        }
         /// <summary>Use custom domain callback URL.</summary>
         public bool? IsUseCustomDomain
         {
@@ -88,6 +94,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             {
                 { "client_id", n => { ClientId = n.GetStringValue(); } },
                 { "client_secret", n => { ClientSecret = n.GetStringValue(); } },
+                { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
                 { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
             };
         }
@@ -100,6 +107,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("client_id", ClientId);
             writer.WriteStringValue("client_secret", ClientSecret);
+            writer.WriteBoolValue("is_trusted", IsTrusted);
             writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
             writer.WriteAdditionalData(AdditionalData);
         }

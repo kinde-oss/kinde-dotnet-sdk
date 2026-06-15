@@ -47,7 +47,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles
         {
         }
         /// <summary>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Get_roles_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -103,7 +103,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Create_roles_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Create_roles_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -153,7 +153,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles
             return new global::Kinde.Api.Kiota.Management.Api.V1.Roles.RolesRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.&lt;div&gt;  &lt;code&gt;read:roles&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class RolesRequestBuilderGetQueryParameters 

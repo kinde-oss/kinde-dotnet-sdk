@@ -168,7 +168,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
             [QueryParameter("code")]
             public string Code { get; set; }
 #endif
-            /// <summary>Specify additional data to retrieve. Use &quot;billing&quot;.</summary>
+            /// <summary>Additional data to include in the response. Allowed value: &quot;billing&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]

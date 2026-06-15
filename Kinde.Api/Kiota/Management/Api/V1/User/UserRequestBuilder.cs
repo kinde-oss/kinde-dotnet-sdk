@@ -22,7 +22,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UserRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/user?id={id}{&expand*,is_delete_profile*}", pathParameters)
+        public UserRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/user{?expand*,is_delete_profile*}", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UserRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/user?id={id}{&expand*,is_delete_profile*}", rawUrl)
+        public UserRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/user{?expand*,is_delete_profile*}", rawUrl)
         {
         }
         /// <summary>
@@ -221,7 +221,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
-            var requestInfo = new RequestInformation(Method.POST, "{+baseurl}/api/v1/user", PathParameters);
+            var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
@@ -262,7 +262,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class UserRequestBuilderGetQueryParameters 
         {
-            /// <summary>Specify additional data to retrieve. Use &quot;organizations&quot;, &quot;identities&quot; and/or &quot;billing&quot;.</summary>
+            /// <summary>Additional data to include in the response. One or more of (comma-separated): &quot;organizations&quot;, &quot;identities&quot;, &quot;billing&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]

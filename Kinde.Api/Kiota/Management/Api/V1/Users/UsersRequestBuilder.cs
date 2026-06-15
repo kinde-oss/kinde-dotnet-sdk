@@ -35,7 +35,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UsersRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/users{?email*,expand*,has_organization*,next_token*,page_size*,phone*,user_id*,username*}", pathParameters)
+        public UsersRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/users{?active_since*,email*,expand*,has_organization*,next_token*,page_size*,phone*,user_id*,username*}", pathParameters)
         {
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UsersRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/users{?email*,expand*,has_organization*,next_token*,page_size*,phone*,user_id*,username*}", rawUrl)
+        public UsersRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/users{?active_since*,email*,expand*,has_organization*,next_token*,page_size*,phone*,user_id*,username*}", rawUrl)
         {
         }
         /// <summary>
@@ -107,6 +107,9 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class UsersRequestBuilderGetQueryParameters 
         {
+            /// <summary>Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format.</summary>
+            [QueryParameter("active_since")]
+            public DateTimeOffset? ActiveSince { get; set; }
             /// <summary>Filter the results by email address. The query string should be comma separated and url encoded.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -117,7 +120,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users
             [QueryParameter("email")]
             public string Email { get; set; }
 #endif
-            /// <summary>Specify additional data to retrieve. Use &quot;organizations&quot;, &quot;identities&quot; and/or &quot;billing&quot;.</summary>
+            /// <summary>Additional data to include in the response. One or more of (comma-separated): &quot;organizations&quot;, &quot;identities&quot;, &quot;billing&quot;.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("expand")]

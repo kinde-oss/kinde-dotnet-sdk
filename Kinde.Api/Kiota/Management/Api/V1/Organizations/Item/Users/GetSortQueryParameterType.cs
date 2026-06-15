@@ -24,13 +24,5 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
         #pragma warning disable CS1591
         Email_desc,
         #pragma warning restore CS1591
-        [EnumMember(Value = "id_asc")]
-        #pragma warning disable CS1591
-        Id_asc,
-        #pragma warning restore CS1591
-        [EnumMember(Value = "id_desc")]
-        #pragma warning disable CS1591
-        Id_desc,
-        #pragma warning restore CS1591
     }
 }

@@ -22,7 +22,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags.Ite
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public WithFeature_flag_keyItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}?value={value}", pathParameters)
+        public WithFeature_flag_keyItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags.Ite
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public WithFeature_flag_keyItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}?value={value}", rawUrl)
+        public WithFeature_flag_keyItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}", rawUrl)
         {
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags.Ite
         public RequestInformation ToDeleteRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.DELETE, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}", PathParameters);
+            var requestInfo = new RequestInformation(Method.DELETE, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json, application/json;charset=utf-8");
             return requestInfo;
@@ -112,7 +112,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags.Ite
         public RequestInformation ToPatchRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags.Item.WithFeature_flag_keyItemRequestBuilder.WithFeature_flag_keyItemRequestBuilderPatchQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.PATCH, UrlTemplate, PathParameters);
+            var requestInfo = new RequestInformation(Method.PATCH, "{+baseurl}/api/v1/organizations/{organization_code%2Did}/feature_flags/{feature_flag_key}?value={value}", PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json, application/json;charset=utf-8");
             return requestInfo;

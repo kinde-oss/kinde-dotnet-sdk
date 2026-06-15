@@ -35,7 +35,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Subscribers
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public SubscribersRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/subscribers?email={email}&first_name={first_name}&last_name={last_name}{&next_token*,page_size*,sort*}", pathParameters)
+        public SubscribersRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/subscribers{?next_token*,page_size*,sort*}", pathParameters)
         {
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Subscribers
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public SubscribersRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/subscribers?email={email}&first_name={first_name}&last_name={last_name}{&next_token*,page_size*,sort*}", rawUrl)
+        public SubscribersRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/subscribers{?next_token*,page_size*,sort*}", rawUrl)
         {
         }
         /// <summary>
@@ -108,7 +108,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Subscribers
         public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Subscribers.SubscribersRequestBuilder.SubscribersRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/v1/subscribers{?next_token*,page_size*,sort*}", PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json, application/json;charset=utf-8");
             return requestInfo;

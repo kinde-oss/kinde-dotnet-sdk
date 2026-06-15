@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -264,7 +264,6 @@ namespace Kinde.Api.Model
         /// Certificate for signing SAML requests.
         /// </summary>
         /// <value>Certificate for signing SAML requests.</value>
-        /// <example>-----BEGIN CERTIFICATE-----key here-----END CERTIFICATE-----</example>
         [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
         public string SamlSigningCertificate { get; set; }
 
@@ -272,7 +271,6 @@ namespace Kinde.Api.Model
         /// Private key associated with the signing certificate.
         /// </summary>
         /// <value>Private key associated with the signing certificate.</value>
-        /// <example>-----BEGIN PRIVATE KEY-----Key here-----END PRIVATE KEY-----</example>
         [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
         public string SamlSigningPrivateKey { get; set; }
 
@@ -521,3 +519,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

@@ -288,6 +288,12 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore?.Get<bool?>("is_default"); }
             set { BackingStore?.Set("is_default", value); }
         }
+        /// <summary>Whether the organization is currently suspended or not.</summary>
+        public bool? IsSuspended
+        {
+            get { return BackingStore?.Get<bool?>("is_suspended"); }
+            set { BackingStore?.Set("is_suspended", value); }
+        }
         /// <summary>The link_color property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -400,6 +406,22 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("sender_name", value); }
         }
 #endif
+        /// <summary>The date the organization was suspended in ISO 8601 format. Null if not suspended.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SuspendedOn
+        {
+            get { return BackingStore?.Get<string?>("suspended_on"); }
+            set { BackingStore?.Set("suspended_on", value); }
+        }
+#nullable restore
+#else
+        public string SuspendedOn
+        {
+            get { return BackingStore?.Get<string>("suspended_on"); }
+            set { BackingStore?.Set("suspended_on", value); }
+        }
+#endif
         /// <summary>Whether the environment is forced into light mode, dark mode or user preference</summary>
         public global::Kinde.Api.Kiota.Management.Models.Get_organization_response_theme_code? ThemeCode
         {
@@ -453,6 +475,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "is_allow_registrations", n => { IsAllowRegistrations = n.GetBoolValue(); } },
                 { "is_auto_membership_enabled", n => { IsAutoMembershipEnabled = n.GetBoolValue(); } },
                 { "is_default", n => { IsDefault = n.GetBoolValue(); } },
+                { "is_suspended", n => { IsSuspended = n.GetBoolValue(); } },
                 { "link_color", n => { LinkColor = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color>(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color.CreateFromDiscriminatorValue); } },
                 { "link_color_dark", n => { LinkColorDark = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color_dark>(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color_dark.CreateFromDiscriminatorValue); } },
                 { "logo", n => { Logo = n.GetStringValue(); } },
@@ -460,6 +483,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "sender_email", n => { SenderEmail = n.GetStringValue(); } },
                 { "sender_name", n => { SenderName = n.GetStringValue(); } },
+                { "suspended_on", n => { SuspendedOn = n.GetStringValue(); } },
                 { "theme_code", n => { ThemeCode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_theme_code>(); } },
             };
         }
@@ -491,6 +515,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteBoolValue("is_allow_registrations", IsAllowRegistrations);
             writer.WriteBoolValue("is_auto_membership_enabled", IsAutoMembershipEnabled);
             writer.WriteBoolValue("is_default", IsDefault);
+            writer.WriteBoolValue("is_suspended", IsSuspended);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color>("link_color", LinkColor);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color_dark>("link_color_dark", LinkColorDark);
             writer.WriteStringValue("logo", Logo);
@@ -498,6 +523,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("sender_email", SenderEmail);
             writer.WriteStringValue("sender_name", SenderName);
+            writer.WriteStringValue("suspended_on", SuspendedOn);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_organization_response_theme_code>("theme_code", ThemeCode);
             writer.WriteAdditionalData(AdditionalData);
         }
