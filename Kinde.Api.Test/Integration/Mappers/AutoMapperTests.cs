@@ -1058,6 +1058,20 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Null(dst.Value.String);
         }
 
+        [Fact]
+        public void UpdateApplicationsPropertyRequestValue_ReverseMap_PreservesEmptyString()
+        {
+            var kiotaValue = new Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value
+            {
+                String = string.Empty,
+            };
+
+            var dst = _mapper.Map<UpdateApplicationsPropertyRequestValue>(kiotaValue);
+
+            Assert.NotNull(dst);
+            Assert.Equal(string.Empty, dst.ActualInstance);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]

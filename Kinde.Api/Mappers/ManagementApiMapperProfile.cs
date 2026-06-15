@@ -434,7 +434,7 @@ namespace Kinde.Api.Mappers
                 {
                     if (src is null) return null;
                     if (src.Boolean.HasValue) return new UpdateApplicationsPropertyRequestValue(src.Boolean.Value);
-                    if (!string.IsNullOrEmpty(src.String)) return new UpdateApplicationsPropertyRequestValue(src.String);
+                    if (src.String is not null) return new UpdateApplicationsPropertyRequestValue(src.String);
                     return null;
                 });
 
