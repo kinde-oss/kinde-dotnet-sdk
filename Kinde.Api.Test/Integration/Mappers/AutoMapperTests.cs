@@ -977,6 +977,87 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"is_recovery_codes_enabled\":true", json);
         }
 
+        [Fact]
+        public void CreateUserRequest_WithEmailIdentity_MapsDetailsThrough()
+        {
+            var src = new CreateUserRequest(
+                profile: new CreateUserRequestProfile(givenName: "Jane", familyName: "Doe"),
+                identities: new List<CreateUserRequestIdentitiesInner>
+                {
+                    new CreateUserRequestIdentitiesInner(
+                        type: CreateUserRequestIdentitiesInner.TypeEnum.Email,
+                        details: new CreateUserRequestIdentitiesInnerDetails(email: "jane@example.com"))
+                });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody>(src);
+
+            Assert.NotNull(dst.Identities);
+            Assert.Single(dst.Identities);
+            Assert.Equal("jane@example.com", dst.Identities[0].Details!.Email);
+        }
+
+        [Fact]
+        public void UpdateOrganizationUsersRequest_WithUsersInner_MapsArrayItems()
+        {
+            var src = new UpdateOrganizationUsersRequest(users: new List<UpdateOrganizationUsersRequestUsersInner>
+            {
+                new UpdateOrganizationUsersRequestUsersInner(
+                    id: "kp_user1",
+                    operation: "add",
+                    roles: new List<string> { "role_admin" },
+                    permissions: new List<string> { "read:users" }),
+            });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>(src);
+
+            Assert.NotNull(dst.Users);
+            Assert.Single(dst.Users);
+            Assert.Equal("kp_user1", dst.Users[0].Id);
+            Assert.Equal("add", dst.Users[0].Operation);
+            Assert.Equal(new[] { "role_admin" }, dst.Users[0].Roles);
+            Assert.Equal(new[] { "read:users" }, dst.Users[0].Permissions);
+        }
+
+        [Fact]
+        public void UpdateAPIApplicationsRequest_WithApplicationsInner_MapsArrayItems()
+        {
+            var src = new UpdateAPIApplicationsRequest(applications: new List<UpdateAPIApplicationsRequestApplicationsInner>
+            {
+                new UpdateAPIApplicationsRequestApplicationsInner(id: "app_abc", operation: "add"),
+            });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody>(src);
+
+            Assert.NotNull(dst.Applications);
+            Assert.Single(dst.Applications);
+            Assert.Equal("app_abc", dst.Applications[0].Id);
+            Assert.Equal("add", dst.Applications[0].Operation);
+        }
+
+        [Fact]
+        public void UpdateApplicationsPropertyRequest_StringValue_MapsToOneOfString()
+        {
+            var src = new UpdateApplicationsPropertyRequest(value: new UpdateApplicationsPropertyRequestValue("custom-value"));
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody>(src);
+
+            Assert.NotNull(dst.Value);
+            Assert.Equal("custom-value", dst.Value.String);
+            Assert.Null(dst.Value.Boolean);
+        }
+
+        [Fact]
+        public void UpdateApplicationsPropertyRequest_BooleanValue_MapsToOneOfBoolean()
+        {
+            var src = new UpdateApplicationsPropertyRequest(value: new UpdateApplicationsPropertyRequestValue(true));
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody>(src);
+
+            Assert.NotNull(dst.Value);
+            Assert.True(dst.Value.Boolean);
+            Assert.Null(dst.Value.String);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
