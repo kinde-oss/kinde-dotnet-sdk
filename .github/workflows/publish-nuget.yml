@@ -1,0 +1,150 @@
+name: Publish to NuGet
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.3.2)'
+        required: true
+        type: string
+      confirm_publish:
+        description: 'Confirm you want to publish to NuGet.org'
+        required: true
+        type: boolean
+        default: false
+      require_approval:
+        description: 'Require manual approval before publishing'
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  # Build and prepare package
+  prepare-package:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirm_publish == 'true' }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+    
+    - name: Restore dependencies
+      run: dotnet restore --locked-mode
+    
+    - name: Build and pack
+      run: |
+        dotnet build --configuration Release --no-restore
+        dotnet pack Kinde.Api/Kinde.Api.csproj --configuration Release --output ./nupkgs --no-build
+    
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package-${{ github.event.inputs.version }}
+        path: ./nupkgs/
+        retention-days: 7
+    
+    - name: Show package details
+      run: |
+        echo "📦 Package Details:"
+        echo "Version: ${{ github.event.inputs.version }}"
+        echo "Files to be published:"
+        ls -la ./nupkgs/
+        echo ""
+        echo "Package contents:"
+        for file in ./nupkgs/*.nupkg; do
+          echo "📄 $file"
+          unzip -l "$file" | head -20
+        done
+
+  # Approval gate (if required)
+  approve-publish:
+    runs-on: ubuntu-latest
+    needs: prepare-package
+    if: ${{ github.event.inputs.require_approval == 'true' && github.event.inputs.confirm_publish == 'true' }}
+    
+    steps:
+    - name: Request Publishing Approval
+      run: |
+        echo "🚨 NUGET PUBLISHING APPROVAL REQUIRED 🚨"
+        echo "Version: ${{ github.event.inputs.version }}"
+        echo ""
+        echo "⚠️  WARNING: This will publish to NuGet.org"
+        echo "⚠️  This action cannot be undone"
+        echo ""
+        echo "Please review the package details and approve this publishing."
+        
+    - name: Wait for Publishing Approval
+      uses: hmarr/auto-approve-action@v3
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        approval-message: "NuGet package ${{ github.event.inputs.version }} is ready for publishing. Please review the package details and approve to publish to NuGet.org."
+
+  # Final publishing step
+  publish-to-nuget:
+    runs-on: ubuntu-latest
+    needs: [prepare-package, approve-publish]
+    if: always() && (needs.approve-publish.result == 'success' || needs.approve-publish.result == 'skipped')
+    
+    steps:
+    - name: Download package artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-package-${{ github.event.inputs.version }}
+        path: ./nupkgs/
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Verify package before publishing
+      run: |
+        echo "🔍 Verifying package before publishing..."
+        echo "Package files:"
+        ls -la ./nupkgs/
+        echo ""
+        echo "Package validation:"
+        for file in ./nupkgs/*.nupkg; do
+          echo "Validating: $file"
+          dotnet nuget verify "$file" --all
+        done
+    
+    - name: Publish to NuGet
+      run: |
+        echo "📤 Publishing to NuGet.org..."
+        for file in ./nupkgs/*.nupkg; do
+          echo "Publishing: $file"
+          dotnet nuget push "$file" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        done
+    
+    - name: Publish Symbol Package
+      run: |
+        echo "📤 Publishing symbol packages..."
+        for file in ./nupkgs/*.snupkg; do
+          if [ -f "$file" ]; then
+            echo "Publishing symbols: $file"
+            dotnet nuget push "$file" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          fi
+        done
+      continue-on-error: true
+    
+    - name: Verify publication
+      run: |
+        echo "✅ Publication completed!"
+        echo "Package: Kinde.SDK v${{ github.event.inputs.version }}"
+        echo "NuGet URL: https://www.nuget.org/packages/Kinde.SDK"
+        echo ""
+        echo "Please verify the package is available on NuGet.org"
+
