@@ -85,7 +85,7 @@ namespace Kinde.Api.Model
         /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
         /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
         /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
-        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool isAllowRegistrations = default(bool), bool? isAutoMembershipEnabled = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isCreateBillingCustomer = default(bool?), string billingEmail = default(string), string billingPlanCode = default(string))
+        public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isAutoMembershipEnabled = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isCreateBillingCustomer = default(bool?), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -213,9 +213,9 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = false)]
         [Obsolete]
-        public bool IsAllowRegistrations { get; set; }
+        public bool? IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// If users become members of this organization when the org code is supplied during authentication.

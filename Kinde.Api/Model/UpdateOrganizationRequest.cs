@@ -89,7 +89,7 @@ namespace Kinde.Api.Model
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
         /// <param name="isSuspended">Whether to suspend or unsuspend the organization. Setting to true suspends the organization; setting to false unsuspends it. The default organization cannot be suspended..</param>
-        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool isAllowRegistrations = default(bool), bool? isAutoMembershipEnabled = default(bool?), bool? isAutoJoinDomainList = default(bool?), List<string> allowedDomains = default(List<string>), bool? isEnableAdvancedOrgs = default(bool?), bool? isEnforceMfa = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isSuspended = default(bool?))
+        public UpdateOrganizationRequest(string name = default(string), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), ThemeCodeEnum? themeCode = default(ThemeCodeEnum?), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isAutoMembershipEnabled = default(bool?), bool? isAutoJoinDomainList = default(bool?), List<string> allowedDomains = default(List<string>), bool? isEnableAdvancedOrgs = default(bool?), bool? isEnforceMfa = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isSuspended = default(bool?))
         {
             this.Name = name;
             this.ExternalId = externalId;
@@ -206,9 +206,9 @@ namespace Kinde.Api.Model
         /// Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.
         /// </summary>
         /// <value>Deprecated - Use &#39;is_auto_membership_enabled&#39; instead.</value>
-        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = true)]
+        [DataMember(Name = "is_allow_registrations", EmitDefaultValue = false)]
         [Obsolete]
-        public bool IsAllowRegistrations { get; set; }
+        public bool? IsAllowRegistrations { get; set; }
 
         /// <summary>
         /// If users become members of this organization when the org code is supplied during authentication.

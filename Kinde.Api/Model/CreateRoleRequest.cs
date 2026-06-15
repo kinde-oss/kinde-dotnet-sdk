@@ -39,7 +39,7 @@ namespace Kinde.Api.Model
         /// <param name="key">The role identifier to use in code..</param>
         /// <param name="isDefaultRole">Set role as default for new users..</param>
         /// <param name="assignmentPermissionId">The public ID of the permission required to assign this role to users. If null, no permission is required..</param>
-        public CreateRoleRequest(string name = default(string), string description = default(string), string key = default(string), bool isDefaultRole = default(bool), Guid? assignmentPermissionId = default(Guid?))
+        public CreateRoleRequest(string name = default(string), string description = default(string), string key = default(string), bool? isDefaultRole = default(bool?), Guid? assignmentPermissionId = default(Guid?))
         {
             this.Name = name;
             this.Description = description;
@@ -73,8 +73,8 @@ namespace Kinde.Api.Model
         /// Set role as default for new users.
         /// </summary>
         /// <value>Set role as default for new users.</value>
-        [DataMember(Name = "is_default_role", EmitDefaultValue = true)]
-        public bool IsDefaultRole { get; set; }
+        [DataMember(Name = "is_default_role", EmitDefaultValue = false)]
+        public bool? IsDefaultRole { get; set; }
 
         /// <summary>
         /// The public ID of the permission required to assign this role to users. If null, no permission is required.

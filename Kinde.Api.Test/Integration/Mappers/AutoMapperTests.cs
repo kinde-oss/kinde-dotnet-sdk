@@ -931,11 +931,30 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
 
             Assert.NotNull(kiota);
-            Assert.True(kiota.AdditionalData.ContainsKey("is_recovery_codes_enabled"));
-            Assert.Equal(flag, Assert.IsType<bool>(kiota.AdditionalData["is_recovery_codes_enabled"]));
+            Assert.Equal(flag, kiota.IsRecoveryCodesEnabled);
 
             var roundTrip = _mapper.Map<ReplaceMFARequest>(kiota);
             Assert.Equal(flag, roundTrip.IsRecoveryCodesEnabled);
+        }
+
+        [Fact]
+        public void ReplaceMFARequest_UnsetRecoveryCodes_StaysNullOnWire()
+        {
+            var src = new ReplaceMFARequest(
+                policy: ReplaceMFARequest.PolicyEnum.Required,
+                enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+
+            Assert.Null(dst.IsRecoveryCodesEnabled);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            Assert.DoesNotContain("\"is_recovery_codes_enabled\"", json);
         }
 
         [Fact]

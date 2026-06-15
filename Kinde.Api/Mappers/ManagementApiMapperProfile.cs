@@ -427,29 +427,8 @@ namespace Kinde.Api.Mappers
             CreateMap<Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors, ReplaceOrganizationMFARequest.EnabledFactorsEnum>()
                 .ConvertUsing(s => BridgeEnumByMember<ReplaceOrganizationMFARequest.EnabledFactorsEnum>(s));
 
-            CreateMap<ReplaceMFARequest, Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_recovery_codes_enabled"] = src.IsRecoveryCodesEnabled;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_recovery_codes_enabled") is { } v) dst.IsRecoveryCodesEnabled = v;
-                });
-
-            CreateMap<ReplaceOrganizationMFARequest, Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>()
-                .AfterMap((src, dst) =>
-                {
-                    dst.AdditionalData ??= new Dictionary<string, object>();
-                    dst.AdditionalData["is_recovery_codes_enabled"] = src.IsRecoveryCodesEnabled;
-                })
-                .ReverseMap()
-                .AfterMap((src, dst) =>
-                {
-                    if (ReadAdditionalBool(src.AdditionalData, "is_recovery_codes_enabled") is { } v) dst.IsRecoveryCodesEnabled = v;
-                });
+            CreateMap<ReplaceMFARequest, Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>().ReverseMap();
+            CreateMap<ReplaceOrganizationMFARequest, Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>().ReverseMap();
 
             CreateMap<AddAPIScopeRequest, Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody>().ReverseMap();
             CreateMap<CreateOrganizationUserRoleRequest, Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody>().ReverseMap();

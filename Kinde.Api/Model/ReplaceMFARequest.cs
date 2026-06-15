@@ -100,7 +100,7 @@ namespace Kinde.Api.Model
         /// <param name="policy">Specifies whether MFA is required, optional, or not enforced. (required).</param>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
         /// <param name="isRecoveryCodesEnabled">Determines whether recovery codes are shown to users during MFA setup for the environment. (default to true).</param>
-        public ReplaceMFARequest(PolicyEnum policy = default(PolicyEnum), List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool isRecoveryCodesEnabled = true)
+        public ReplaceMFARequest(PolicyEnum policy = default(PolicyEnum), List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool? isRecoveryCodesEnabled = default(bool?))
         {
             this.Policy = policy;
             // to ensure "enabledFactors" is required (not null)
@@ -123,8 +123,8 @@ namespace Kinde.Api.Model
         /// Determines whether recovery codes are shown to users during MFA setup for the environment.
         /// </summary>
         /// <value>Determines whether recovery codes are shown to users during MFA setup for the environment.</value>
-        [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = true)]
-        public bool IsRecoveryCodesEnabled { get; set; }
+        [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = false)]
+        public bool? IsRecoveryCodesEnabled { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
