@@ -59,7 +59,7 @@
     <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.22.*" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.22.*" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.22.*" />
-    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.22.*" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="2.0.*" />
     
     <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
     <PackageReference Include="AutoMapper" Version="13.0.*" />
