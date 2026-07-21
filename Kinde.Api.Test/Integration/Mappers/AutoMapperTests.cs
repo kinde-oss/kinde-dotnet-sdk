@@ -937,24 +937,93 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Equal(flag, roundTrip.IsRecoveryCodesEnabled);
         }
 
+        /// <summary>
+        /// Serializes a Kiota model the way the request adapter does, through the backing
+        /// store proxy. A plain JsonSerializationWriter drops nulls, so it hides the
+        /// difference between "never assigned" and "assigned null" -- which is exactly the
+        /// difference that decides what goes on the wire.
+        /// </summary>
+        private static string SerializeAsSent<T>(T model) where T : Microsoft.Kiota.Abstractions.Serialization.IParsable
+        {
+            var factory = new Microsoft.Kiota.Abstractions.Store.BackingStoreSerializationWriterProxyFactory(
+                new Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory());
+            using var writer = factory.GetSerializationWriter("application/json");
+            writer.WriteObjectValue(null, model);
+            using var stream = writer.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            return reader.ReadToEnd();
+        }
+
         [Fact]
-        public void ReplaceMFARequest_UnsetRecoveryCodes_StaysNullOnWire()
+        public void ReplaceMFARequest_UnsetRecoveryCodes_SendsSchemaDefaultNotNull()
         {
             var src = new ReplaceMFARequest(
                 policy: ReplaceMFARequest.PolicyEnum.Required,
                 enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email });
 
             var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+            var json = SerializeAsSent(dst);
 
-            Assert.Null(dst.IsRecoveryCodesEnabled);
+            _output.WriteLine("Wire body: " + json);
 
-            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
-            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(null, dst);
-            using var stream = serWriter.GetSerializedContent();
-            using var reader = new System.IO.StreamReader(stream);
-            var json = reader.ReadToEnd();
+            // The caller left the flag unset, so the Kiota model keeps the schema default
+            // (true) rather than having it overwritten with an explicit null. Sending
+            // "is_recovery_codes_enabled": null would be rejected by the API.
+            Assert.DoesNotContain("\"is_recovery_codes_enabled\":null", json);
+            Assert.Contains("\"is_recovery_codes_enabled\":true", json);
+        }
 
-            Assert.DoesNotContain("\"is_recovery_codes_enabled\"", json);
+        [Fact]
+        public void ReplaceMFARequest_ExplicitFalseRecoveryCodes_SurvivesToTheWire()
+        {
+            var src = new ReplaceMFARequest(
+                policy: ReplaceMFARequest.PolicyEnum.Required,
+                enabledFactors: new List<ReplaceMFARequest.EnabledFactorsEnum> { ReplaceMFARequest.EnabledFactorsEnum.Email },
+                isRecoveryCodesEnabled: false);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody>(src);
+
+            Assert.False(dst.IsRecoveryCodesEnabled);
+            Assert.Contains("\"is_recovery_codes_enabled\":false", SerializeAsSent(dst));
+        }
+
+        [Fact]
+        public void UpdateOrganizationUsersRequest_UnsetOperation_IsOmittedNotNull()
+        {
+            var src = new UpdateOrganizationUsersRequest(
+                users: new List<UpdateOrganizationUsersRequestUsersInner>
+                {
+                    new UpdateOrganizationUsersRequestUsersInner(
+                        id: "kp_057ee6debc624c70947b6ba512908c35",
+                        roles: new List<string> { "admin" }),
+                });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>(src);
+            var json = SerializeAsSent(dst);
+
+            _output.WriteLine("Wire body: " + json);
+
+            // The API answers 500 for "operation": null, so properties the caller never set
+            // must not appear at all.
+            Assert.DoesNotContain("\"operation\"", json);
+            Assert.DoesNotContain("\"permissions\"", json);
+            Assert.Contains("\"roles\":[\"admin\"]", json);
+        }
+
+        [Fact]
+        public void UpdateOrganizationUsersRequest_ExplicitOperation_SurvivesToTheWire()
+        {
+            var src = new UpdateOrganizationUsersRequest(
+                users: new List<UpdateOrganizationUsersRequestUsersInner>
+                {
+                    new UpdateOrganizationUsersRequestUsersInner(
+                        id: "kp_057ee6debc624c70947b6ba512908c35",
+                        operation: "delete"),
+                });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>(src);
+
+            Assert.Contains("\"operation\":\"delete\"", SerializeAsSent(dst));
         }
 
         [Fact]

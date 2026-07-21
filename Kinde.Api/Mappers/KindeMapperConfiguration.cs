@@ -1,8 +1,10 @@
 using System;
 using System.Reflection;
 using AutoMapper;
+using AutoMapper.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Kiota.Abstractions.Store;
 
 namespace Kinde.Api.Mappers
 {
@@ -41,6 +43,17 @@ namespace Kinde.Api.Mappers
             {
                 cfg.AddProfile<ManagementApiMapperProfile>();
                 cfg.AddProfile<AccountsApiMapperProfile>();
+
+                // Kiota models keep their state in a backing store that distinguishes
+                // "never assigned" from "assigned null", and serializes the latter as an
+                // explicit JSON null. AutoMapper assigns every member, so an optional
+                // property the caller left unset would go on the wire as `"foo": null`
+                // rather than being omitted -- which the Kinde API rejects (e.g. PATCH
+                // /organizations/{org_code}/users answers 500 for `"operation": null`).
+                // Skip null sources so unset properties stay untouched, and therefore unsent.
+                cfg.Internal().ForAllPropertyMaps(
+                    pm => typeof(IBackedModel).IsAssignableFrom(pm.TypeMap.DestinationType),
+                    (pm, opt) => opt.Condition((src, dest, srcValue) => srcValue != null));
             };
 
             var configType = typeof(MapperConfiguration);
