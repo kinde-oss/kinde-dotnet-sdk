@@ -411,8 +411,8 @@
       },
       "Microsoft.Kiota.Abstractions": {
         "type": "Transitive",
-        "resolved": "1.22.2",
-        "contentHash": "xktJuKVMXfcX9LJR0QH8gwbZ2WO+WrqTujCPtN13Y6GfLaB7wV0v1pv3hdO1Fek2/vKRpALhbdRYmFNoyzO1Sg==",
+        "resolved": "2.0.0",
+        "contentHash": "cb0KA6QGvqMR1xNIjmErb5CiEbQJ/6odKcuPn2GTWD+aRMuldKDqRqRWMDT7MOBcUk9waJyJsgDG+ItQA01JmA==",
         "dependencies": {
           "Std.UriTemplate": "2.0.8"
         }
@@ -624,7 +624,7 @@
           "Microsoft.Extensions.Http.Resilience": "[10.8.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.10, )",
           "Microsoft.Extensions.Logging.Console": "[10.0.10, )",
-          "Microsoft.Kiota.Abstractions": "[1.22.*, )",
+          "Microsoft.Kiota.Abstractions": "[2.0.*, )",
           "Microsoft.Kiota.Http.HttpClientLibrary": "[1.22.*, )",
           "Microsoft.Kiota.Serialization.Form": "[1.22.*, )",
           "Microsoft.Kiota.Serialization.Json": "[1.22.*, )",
