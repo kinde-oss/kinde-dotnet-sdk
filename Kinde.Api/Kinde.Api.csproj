@@ -62,7 +62,7 @@
     <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.22.*" />
     
     <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
-    <PackageReference Include="AutoMapper" Version="13.0.*" />
+    <PackageReference Include="AutoMapper" Version="16.2.*" />
   </ItemGroup>
 
 
