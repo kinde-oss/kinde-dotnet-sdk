@@ -4,9 +4,9 @@
     "net8.0": {
       "Microsoft.Kiota.Abstractions": {
         "type": "Direct",
-        "requested": "[1.22.*, )",
-        "resolved": "1.22.2",
-        "contentHash": "xktJuKVMXfcX9LJR0QH8gwbZ2WO+WrqTujCPtN13Y6GfLaB7wV0v1pv3hdO1Fek2/vKRpALhbdRYmFNoyzO1Sg==",
+        "requested": "[2.0.*, )",
+        "resolved": "2.0.0",
+        "contentHash": "cb0KA6QGvqMR1xNIjmErb5CiEbQJ/6odKcuPn2GTWD+aRMuldKDqRqRWMDT7MOBcUk9waJyJsgDG+ItQA01JmA==",
         "dependencies": {
           "Std.UriTemplate": "2.0.8"
         }
@@ -203,7 +203,7 @@
       "kiota.api": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Kiota.Abstractions": "[1.22.*, )",
+          "Microsoft.Kiota.Abstractions": "[2.0.*, )",
           "Microsoft.Kiota.Http.HttpClientLibrary": "[1.22.*, )",
           "Microsoft.Kiota.Serialization.Form": "[1.22.*, )",
           "Microsoft.Kiota.Serialization.Json": "[1.22.*, )",
