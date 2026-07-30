@@ -70,10 +70,12 @@
       },
       "AutoMapper": {
         "type": "Transitive",
-        "resolved": "13.0.1",
-        "contentHash": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+        "resolved": "16.2.0",
+        "contentHash": "PE8HgPc5BZJnAFwjvDTE72gWL6YrYib+V7+vxtLXDYz0CH/fFgbVcwLUC9UHk5ALwspZ6Vbmoo6PHvseIk/0ZA==",
         "dependencies": {
-          "Microsoft.Extensions.Options": "6.0.0"
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
         }
       },
       "JsonSubTypes": {
@@ -623,7 +625,7 @@
       "Kinde.SDK": {
         "type": "Project",
         "dependencies": {
-          "AutoMapper": "[13.0.*, )",
+          "AutoMapper": "[16.2.*, )",
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Extensions.Configuration": "[10.0.10, )",
           "Microsoft.Extensions.Configuration.Binder": "[10.0.10, )",
