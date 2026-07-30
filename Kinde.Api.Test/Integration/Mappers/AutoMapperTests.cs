@@ -5,6 +5,7 @@ using System.Reflection;
 using AutoMapper;
 using Kinde.Api.Mappers;
 using Kinde.Api.Model;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Abstractions;
 using KiotaManagementModels = Kinde.Api.Kiota.Management.Models;
@@ -39,7 +40,7 @@ namespace Kinde.Api.Test.Integration.Mappers
             {
                 cfg.AddProfile<ManagementApiMapperProfile>();
                 cfg.AddProfile<AccountsApiMapperProfile>();
-            });
+            }, NullLoggerFactory.Instance);
 
             Assert.NotNull(config);
             var mapper = config.CreateMapper();
