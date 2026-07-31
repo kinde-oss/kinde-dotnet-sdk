@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Kinde.Api.Model;
+using Microsoft.Kiota.Abstractions.Serialization;
 using KiotaModels = Kinde.Api.Kiota.Management.Models;
 
 namespace Kinde.Api.Mappers
@@ -19,6 +20,10 @@ namespace Kinde.Api.Mappers
             AllowNullCollections = true;
             AllowNullDestinationValues = true;
 
+            // Kiota's IBackedModel/IAdditionalDataHolder plumbing members never have a counterpart
+            // on the OpenAPI-generated side and would otherwise fail AssertConfigurationIsValid().
+            AddGlobalIgnore("AdditionalData");
+            AddGlobalIgnore("BackingStore");
 
             CreateMap<KiotaModels.Add_organization_users_response, AddOrganizationUsersResponse>().ReverseMap();
 
@@ -212,6 +217,7 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Get_api_response_api_scopes, GetApiResponseApiScopesInner>().ReverseMap();
 
             CreateMap<KiotaModels.Get_api_scope_response, GetApiScopeResponse>().ReverseMap();
+            CreateMap<KiotaModels.Get_api_scope_response_scope, GetApiScopesResponseScopesInner>().ReverseMap();
             CreateMap<KiotaModels.Get_api_scopes_response, GetApiScopesResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_api_scopes_response_scopes, GetApiScopesResponseScopesInner>().ReverseMap();
 
@@ -237,7 +243,17 @@ namespace Kinde.Api.Mappers
 
             CreateMap<KiotaModels.Get_connections_response, GetConnectionsResponse>().ReverseMap();
 
-            CreateMap<KiotaModels.Get_environment_feature_flags_response, GetEnvironmentFeatureFlagsResponse>().ReverseMap();
+            // Get_environment_feature_flags_response_feature_flags is a dynamic-keyed
+            // IAdditionalDataHolder wrapper (Kiota's representation of an `additionalProperties`
+            // schema), not a Dictionary<string, T> - so it can't convention-map into
+            // GetEnvironmentFeatureFlagsResponse.FeatureFlags. Read the flag entries out of
+            // AdditionalData explicitly instead. This is a response-only type - the reverse
+            // direction never needs to reconstruct the dynamic Kiota wrapper, so it's ignored
+            // rather than reversing the custom resolver (which AutoMapper cannot do automatically).
+            CreateMap<KiotaModels.Get_environment_feature_flags_response, GetEnvironmentFeatureFlagsResponse>()
+                .ForCtorParam("featureFlags", opt => opt.MapFrom(src => ConvertFeatureFlagsAdditionalData(src.FeatureFlags == null ? null : src.FeatureFlags.AdditionalData)))
+                .ReverseMap()
+                .ForMember(dest => dest.FeatureFlags, opt => opt.Ignore());
             CreateMap<CreateFeatureFlagRequest, Kiota.Management.Api.V1.Feature_flags.Feature_flagsPostRequestBody>()
                 .ForMember(dest => dest.Type, opt => opt.Ignore())
                 .ForMember(dest => dest.AllowOverrideLevel, opt => opt.Ignore())
@@ -265,8 +281,24 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Get_industries_response, GetIndustriesResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_industries_response_industries, GetIndustriesResponseIndustriesInner>().ReverseMap();
 
-            CreateMap<KiotaModels.Get_organization_feature_flags_response, GetOrganizationFeatureFlagsResponse>().ReverseMap();
-            CreateMap<KiotaModels.Get_organization_feature_flags_response_feature_flags, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>().ReverseMap();
+            // Same dynamic-keyed AdditionalData shape as the environment variant above.
+            CreateMap<KiotaModels.Get_organization_feature_flags_response, GetOrganizationFeatureFlagsResponse>()
+                .ForCtorParam("featureFlags", opt => opt.MapFrom(src => ConvertFeatureFlagsAdditionalData(src.FeatureFlags == null ? null : src.FeatureFlags.AdditionalData)))
+                .ReverseMap()
+                .ForMember(dest => dest.FeatureFlags, opt => opt.Ignore());
+
+            // GetOrganizationResponse reuses the environment response's shared color types, but
+            // Kiota generated organization-specific color wrapper classes (not the environment
+            // ones) - bridge them the same way the environment variants are bridged above.
+            CreateMap<KiotaModels.Get_organization_response_link_color, GetEnvironmentResponseEnvironmentLinkColor>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_response_background_color, GetEnvironmentResponseEnvironmentBackgroundColor>().ReverseMap();
+            CreateMap<KiotaModels.Get_organization_response_button_color, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_organization_response_button_text_color, GetEnvironmentResponseEnvironmentBackgroundColor>();
+            CreateMap<KiotaModels.Get_organization_response_link_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_organization_response_background_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_organization_response_button_text_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+            CreateMap<KiotaModels.Get_organization_response_button_color_dark, GetEnvironmentResponseEnvironmentLinkColor>();
+
             CreateMap<KiotaModels.Get_organization_response, GetOrganizationResponse>()
                 .AfterMap((src, dst) =>
                 {
@@ -352,7 +384,12 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Scopes, Scopes>().ReverseMap();
 
             CreateMap<KiotaModels.Search_users_response, SearchUsersResponse>().ReverseMap();
-            CreateMap<KiotaModels.Search_users_response_results, SearchUsersResponseResultsInner>().ReverseMap();
+            // Search_users_response_results_properties is the same dynamic-keyed AdditionalData
+            // wrapper pattern as the feature flags responses above, but with plain string values.
+            CreateMap<KiotaModels.Search_users_response_results, SearchUsersResponseResultsInner>()
+                .ForCtorParam("properties", opt => opt.MapFrom(src => ConvertStringAdditionalData(src.Properties == null ? null : src.Properties.AdditionalData)))
+                .ReverseMap()
+                .ForMember(dest => dest.Properties, opt => opt.Ignore());
             CreateMap<KiotaModels.Search_users_response_results_api_scopes, SearchUsersResponseResultsInnerApiScopesInner>().ReverseMap();
             CreateMap<KiotaModels.Search_users_response_results_identities, UserIdentitiesInner>().ReverseMap();
 
@@ -368,6 +405,11 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Get_organization_invite_response, GetOrganizationInviteResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_organization_invites_response, GetOrganizationInvitesResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_organization_invite_response_roles, GetOrganizationInviteResponseRolesInner>().ReverseMap();
+            // create_organization_invite_response and organization_invite each generated their own
+            // distinct (but structurally identical) roles-item class rather than reusing
+            // get_organization_invite_response's - bridge them to the same shared destination type.
+            CreateMap<KiotaModels.Create_organization_invite_response_invite_roles, GetOrganizationInviteResponseRolesInner>().ReverseMap();
+            CreateMap<KiotaModels.Organization_invite_roles, GetOrganizationInviteResponseRolesInner>().ReverseMap();
             CreateMap<KiotaModels.Organization_invite, OrganizationInvite>().ReverseMap();
 
             CreateMap<KiotaModels.Get_organization_role_users_response, GetOrganizationRoleUsersResponse>().ReverseMap();
@@ -395,6 +437,8 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Users_response, UsersResponse>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users, UsersResponseUsersInner>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users_billing, UsersResponseUsersInnerBilling>().ReverseMap();
+            // User.Billing needs the shared UserBilling type, not UsersResponseUsersInnerBilling.
+            CreateMap<KiotaModels.Users_response_users_billing, UserBilling>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users_identities, UserIdentitiesInner>().ReverseMap();
             CreateMap<KiotaModels.Users_response_users_last_organization_sign_ins, UsersResponseUsersInnerLastOrganizationSignInsInner>().ReverseMap();
 
@@ -503,6 +547,67 @@ namespace Kinde.Api.Mappers
             CreateMap<CreateUserIdentityRequest, Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody>().ReverseMap();
             CreateMap<SetUserPasswordRequest, Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody>().ReverseMap();
             CreateMap<UpdateOrganizationPropertiesRequest, Kiota.Management.Api.V1.Users.Item.Properties.PropertiesPatchRequestBody>().ReverseMap();
+        }
+
+        /// <summary>
+        /// Converts a Kiota "additionalProperties"-shaped dynamic object's AdditionalData (feature
+        /// flag key -&gt; UntypedObject{type, value}) into a typed feature flags dictionary.
+        /// </summary>
+        private static Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue> ConvertFeatureFlagsAdditionalData(IDictionary<string, object> additionalData)
+        {
+            var result = new Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue>();
+            if (additionalData is null) return result;
+
+            foreach (var kvp in additionalData)
+            {
+                if (kvp.Value is not UntypedObject flagObject) continue;
+
+                var fields = flagObject.GetValue();
+
+                GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum? type = null;
+                if (fields.TryGetValue("type", out var typeNode) && typeNode?.GetValue() is string typeStr)
+                {
+                    type = typeStr switch
+                    {
+                        "str" => GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Str,
+                        "int" => GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Int,
+                        "bool" => GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Bool,
+                        _ => (GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum?)null,
+                    };
+                }
+
+                string value = null;
+                if (fields.TryGetValue("value", out var valueNode) && valueNode is not null)
+                {
+                    value = valueNode.GetValue()?.ToString();
+                }
+
+                result[kvp.Key] = new GetOrganizationFeatureFlagsResponseFeatureFlagsValue(type, value);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts a Kiota "additionalProperties"-shaped dynamic object's AdditionalData into a
+        /// plain string dictionary (e.g. search-result user properties).
+        /// </summary>
+        private static Dictionary<string, string> ConvertStringAdditionalData(IDictionary<string, object> additionalData)
+        {
+            var result = new Dictionary<string, string>();
+            if (additionalData is null) return result;
+
+            foreach (var kvp in additionalData)
+            {
+                result[kvp.Key] = kvp.Value switch
+                {
+                    UntypedNode node => node.GetValue()?.ToString(),
+                    null => null,
+                    var v => v.ToString(),
+                };
+            }
+
+            return result;
         }
 
         private static bool? ReadAdditionalBool(IDictionary<string, object> data, string key)

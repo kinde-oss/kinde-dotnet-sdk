@@ -57,6 +57,21 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Same(mapper1, mapper2);
         }
 
+        /// <summary>
+        /// Verifies every configured map (all ~300 CreateMap calls across both profiles) is valid -
+        /// no unmapped destination members, no missing constructors. This is the same check the
+        /// demo project's VerifyMapper action runs.
+        /// </summary>
+        [Fact]
+        public void AutoMapperConfiguration_AssertConfigurationIsValid()
+        {
+            var mapper = KindeMapperConfiguration.Mapper;
+
+            var exception = Record.Exception(() => mapper.ConfigurationProvider.AssertConfigurationIsValid());
+
+            Assert.Null(exception);
+        }
+
         #endregion
 
         #region Management API Model Mapping Tests
@@ -1212,6 +1227,307 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.True(Assert.IsType<bool>(kiota.AdditionalData["is_suspended"]));
             Assert.True(kiota.AdditionalData.ContainsKey("suspended_on"));
             Assert.Equal("2026-04-01T12:00:00Z", Assert.IsType<string>(kiota.AdditionalData["suspended_on"]));
+        }
+
+        #endregion
+
+        #region ApiKeysApi facade wire payload
+
+        [Fact]
+        public void CreateApiKeyRequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new CreateApiKeyRequest(
+                name: "My API Key",
+                type: CreateApiKeyRequest.TypeEnum.Organization,
+                apiId: "api_123",
+                scopeIds: new List<string> { "scope_1", "scope_2" },
+                orgCode: "org_abc");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody>(src);
+
+            Assert.Equal("My API Key", dst.Name);
+            Assert.Equal(Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody_type.Organization, dst.Type);
+            Assert.Equal("api_123", dst.ApiId);
+            Assert.Equal(new[] { "scope_1", "scope_2" }, dst.ScopeIds);
+            Assert.Equal("org_abc", dst.OrgCode);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"type\":\"organization\"", json);
+        }
+
+        [Fact]
+        public void CreateApiKeyResponse_MapsFromKiotaResponse()
+        {
+            var kiota = new KiotaManagementModels.Create_api_key_response
+            {
+                Message = "API key created",
+                Code = "API_KEY_CREATED",
+                ApiKey = new KiotaManagementModels.Create_api_key_response_api_key
+                {
+                    Id = "api_key_123",
+                    Key = "k_live_abc",
+                },
+            };
+
+            var dst = _mapper.Map<CreateApiKeyResponse>(kiota);
+
+            Assert.Equal("API key created", dst.Message);
+            Assert.Equal("API_KEY_CREATED", dst.Code);
+            Assert.Equal("api_key_123", dst.ApiKey.Id);
+            Assert.Equal("k_live_abc", dst.ApiKey.Key);
+        }
+
+        [Fact]
+        public void VerifyApiKeyRequest_SerializedBody_ContainsApiKeyField()
+        {
+            var src = new VerifyApiKeyRequest(apiKey: "k_live_abc");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Api_keys.Verify.VerifyPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Api_keys.Verify.VerifyPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"api_key\":\"k_live_abc\"", json);
+        }
+
+        [Fact]
+        public void VerifyApiKeyResponse_MapsFromKiotaResponse()
+        {
+            var kiota = new KiotaManagementModels.Verify_api_key_response
+            {
+                Code = "API_KEY_VERIFIED",
+                Message = "API key verified",
+                IsValid = true,
+                KeyId = "api_key_123",
+                Status = "active",
+                OrgCode = "org_abc",
+            };
+
+            var dst = _mapper.Map<VerifyApiKeyResponse>(kiota);
+
+            Assert.Equal("API_KEY_VERIFIED", dst.Code);
+            Assert.True(dst.IsValid);
+            Assert.Equal("api_key_123", dst.KeyId);
+            Assert.Equal("active", dst.Status);
+            Assert.Equal("org_abc", dst.OrgCode);
+        }
+
+        #endregion
+
+        #region OrganizationsApi facade - CreateOrganizationInvite wire payload
+
+        [Fact]
+        public void CreateOrganizationInviteRequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new CreateOrganizationInviteRequest(
+                email: "invitee@example.com",
+                firstName: "Jane",
+                lastName: "Doe",
+                roles: new List<string> { "admin", "manager" },
+                sendEmail: true);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"email\":\"invitee@example.com\"", json);
+            Assert.Contains("\"first_name\":\"Jane\"", json);
+            Assert.Contains("\"last_name\":\"Doe\"", json);
+            Assert.Contains("\"send_email\":true", json);
+        }
+
+        [Fact]
+        public void CreateOrganizationInviteResponse_MapsFromKiotaResponse()
+        {
+            var kiota = new KiotaManagementModels.Create_organization_invite_response
+            {
+                Message = "Invite created",
+                Code = "INVITE_CREATED",
+                Invite = new KiotaManagementModels.Create_organization_invite_response_invite
+                {
+                    Id = "invite_123",
+                    Email = "invitee@example.com",
+                },
+            };
+
+            var dst = _mapper.Map<CreateOrganizationInviteResponse>(kiota);
+
+            Assert.Equal("Invite created", dst.Message);
+            Assert.Equal("INVITE_CREATED", dst.Code);
+            Assert.Equal("invite_123", dst.Invite.Id);
+            Assert.Equal("invitee@example.com", dst.Invite.Email);
+        }
+
+        #endregion
+
+        #region Field-completeness wire checks - request fields must not be dropped
+
+        [Fact]
+        public void AddAPIScopeRequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new AddAPIScopeRequest(key: "read:logs", description: "Scope for reading logs.");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"key\":\"read:logs\"", json);
+            Assert.Contains("\"description\":\"Scope for reading logs.\"", json);
+        }
+
+        [Fact]
+        public void CreateDirectoryRequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new CreateDirectoryRequest(
+                orgCode: "org_1ccfb819462",
+                directoryName: "Production Directory",
+                providerCode: CreateDirectoryRequest.ProviderCodeEnum.Okta,
+                enterpriseConnectionId: "conn_01h9xyzabc123");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"org_code\":\"org_1ccfb819462\"", json);
+            Assert.Contains("\"directory_name\":\"Production Directory\"", json);
+            Assert.Contains("\"provider_code\":\"okta\"", json);
+            Assert.Contains("\"enterprise_connection_id\":\"conn_01h9xyzabc123\"", json);
+        }
+
+        [Fact]
+        public void UpdateDirectoryRequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new UpdateDirectoryRequest(directoryName: "Updated Production Directory");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"directory_name\":\"Updated Production Directory\"", json);
+        }
+
+        [Fact]
+        public void CreateOrganizationInviteRequest_SerializedBody_ContainsRolesArray()
+        {
+            var src = new CreateOrganizationInviteRequest(
+                email: "invitee@example.com",
+                roles: new List<string> { "admin", "manager" });
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"roles\":[\"admin\",\"manager\"]", json);
+        }
+
+        [Fact]
+        public void CreateOrganizationUserRoleRequest_SerializedBody_ContainsRoleId()
+        {
+            var src = new CreateOrganizationUserRoleRequest(roleId: "role_admin_123");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"role_id\":\"role_admin_123\"", json);
+        }
+
+        [Fact]
+        public void CreateOrganizationUserPermissionRequest_SerializedBody_ContainsPermissionId()
+        {
+            var src = new CreateOrganizationUserPermissionRequest(permissionId: "perm_read_users_123");
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"permission_id\":\"perm_read_users_123\"", json);
+        }
+
+        [Fact]
+        public void ReplaceOrganizationMFARequest_SerializedBody_ContainsAllFields()
+        {
+            var src = new ReplaceOrganizationMFARequest(
+                enabledFactors: new List<ReplaceOrganizationMFARequest.EnabledFactorsEnum>
+                {
+                    ReplaceOrganizationMFARequest.EnabledFactorsEnum.Email,
+                    ReplaceOrganizationMFARequest.EnabledFactorsEnum.Sms,
+                },
+                isRecoveryCodesEnabled: true);
+
+            var dst = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>(src);
+
+            using var serWriter = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriter();
+            serWriter.WriteObjectValue<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>(null, dst);
+            using var stream = serWriter.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            var json = reader.ReadToEnd();
+
+            _output.WriteLine("Wire body: " + json);
+            Assert.Contains("\"is_recovery_codes_enabled\":true", json);
+            Assert.Contains("mfa:email", json);
+            Assert.Contains("mfa:sms", json);
+        }
+
+        [Fact]
+        public void Identity_RoundTrip_PreservesConnectionIdAndIsConfirmed()
+        {
+            var kiota = new KiotaManagementModels.Identity
+            {
+                Id = "identity_123",
+                ConnectionId = "conn_abc123",
+                IsConfirmed = true,
+            };
+
+            var dst = _mapper.Map<Identity>(kiota);
+
+            Assert.Equal("conn_abc123", dst.ConnectionId);
+            Assert.True(dst.IsConfirmed);
         }
 
         #endregion
