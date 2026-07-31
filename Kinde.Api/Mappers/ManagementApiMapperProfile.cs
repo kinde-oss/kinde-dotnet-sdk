@@ -408,6 +408,7 @@ namespace Kinde.Api.Mappers
             CreateMap<UpdateRolePermissionsRequest, Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody>().ReverseMap();
             CreateMap<UpdateRolePermissionsRequestPermissionsInner, Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody_permissions>().ReverseMap();
 
+
             CreateMap<CreateApplicationRequest, Kiota.Management.Api.V1.Applications.ApplicationsPostRequestBody>().ReverseMap();
             CreateMap<UpdateApplicationRequest, Kiota.Management.Api.V1.Applications.Item.Application_PatchRequestBody>().ReverseMap();
             CreateMap<UpdateApplicationTokensRequest, Kiota.Management.Api.V1.Applications.Item.Tokens.TokensPatchRequestBody>().ReverseMap();

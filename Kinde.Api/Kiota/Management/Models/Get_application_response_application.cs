@@ -59,6 +59,30 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore?.Get<bool?>("has_cancel_button"); }
             set { BackingStore?.Set("has_cancel_button", value); }
         }
+        /// <summary>Show a marketing consent checkbox on the sign-up page.</summary>
+        public bool? HasMarketingConsent
+        {
+            get { return BackingStore?.Get<bool?>("has_marketing_consent"); }
+            set { BackingStore?.Set("has_marketing_consent", value); }
+        }
+        /// <summary>Allow users to switch to the register page from the sign-in page.</summary>
+        public bool? HasRegisterLinkOnSignInPage
+        {
+            get { return BackingStore?.Get<bool?>("has_register_link_on_sign_in_page"); }
+            set { BackingStore?.Set("has_register_link_on_sign_in_page", value); }
+        }
+        /// <summary>Allow users to switch to the login page from the sign-up page.</summary>
+        public bool? HasSignInLinkOnSignUpPage
+        {
+            get { return BackingStore?.Get<bool?>("has_sign_in_link_on_sign_up_page"); }
+            set { BackingStore?.Set("has_sign_in_link_on_sign_up_page", value); }
+        }
+        /// <summary>When home realm discovery is configured, users see a button to prompt them to use their work email.</summary>
+        public bool? HasSignInWithSsoButton
+        {
+            get { return BackingStore?.Get<bool?>("has_sign_in_with_sso_button"); }
+            set { BackingStore?.Set("has_sign_in_with_sso_button", value); }
+        }
         /// <summary>The homepage link to your application.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -91,6 +115,18 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("id", value); }
         }
 #endif
+        /// <summary>Bypass Kinde&apos;s sign up and sign in screens and use your own design.</summary>
+        public bool? IsAllowFacelessAuth
+        {
+            get { return BackingStore?.Get<bool?>("is_allow_faceless_auth"); }
+            set { BackingStore?.Set("is_allow_faceless_auth", value); }
+        }
+        /// <summary>Show fields to collect name details from users signing up with email or phone.</summary>
+        public bool? IsAskForName
+        {
+            get { return BackingStore?.Get<bool?>("is_ask_for_name"); }
+            set { BackingStore?.Set("is_ask_for_name", value); }
+        }
         /// <summary>The default login route for resolving session issues.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -129,6 +165,12 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Models.Get_application_response_application_type?>("type"); }
             set { BackingStore?.Set("type", value); }
         }
+        /// <summary>Use a backup image if a profile picture is not available.</summary>
+        public bool? UseGravatarFallback
+        {
+            get { return BackingStore?.Get<bool?>("use_gravatar_fallback"); }
+            set { BackingStore?.Set("use_gravatar_fallback", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Get_application_response_application"/> and sets the default values.
         /// </summary>
@@ -158,11 +200,18 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "client_id", n => { ClientId = n.GetStringValue(); } },
                 { "client_secret", n => { ClientSecret = n.GetStringValue(); } },
                 { "has_cancel_button", n => { HasCancelButton = n.GetBoolValue(); } },
+                { "has_marketing_consent", n => { HasMarketingConsent = n.GetBoolValue(); } },
+                { "has_register_link_on_sign_in_page", n => { HasRegisterLinkOnSignInPage = n.GetBoolValue(); } },
+                { "has_sign_in_link_on_sign_up_page", n => { HasSignInLinkOnSignUpPage = n.GetBoolValue(); } },
+                { "has_sign_in_with_sso_button", n => { HasSignInWithSsoButton = n.GetBoolValue(); } },
                 { "homepage_uri", n => { HomepageUri = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
+                { "is_allow_faceless_auth", n => { IsAllowFacelessAuth = n.GetBoolValue(); } },
+                { "is_ask_for_name", n => { IsAskForName = n.GetBoolValue(); } },
                 { "login_uri", n => { LoginUri = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "type", n => { Type = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_application_response_application_type>(); } },
+                { "use_gravatar_fallback", n => { UseGravatarFallback = n.GetBoolValue(); } },
             };
         }
         /// <summary>
@@ -175,11 +224,18 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteStringValue("client_id", ClientId);
             writer.WriteStringValue("client_secret", ClientSecret);
             writer.WriteBoolValue("has_cancel_button", HasCancelButton);
+            writer.WriteBoolValue("has_marketing_consent", HasMarketingConsent);
+            writer.WriteBoolValue("has_register_link_on_sign_in_page", HasRegisterLinkOnSignInPage);
+            writer.WriteBoolValue("has_sign_in_link_on_sign_up_page", HasSignInLinkOnSignUpPage);
+            writer.WriteBoolValue("has_sign_in_with_sso_button", HasSignInWithSsoButton);
             writer.WriteStringValue("homepage_uri", HomepageUri);
             writer.WriteStringValue("id", Id);
+            writer.WriteBoolValue("is_allow_faceless_auth", IsAllowFacelessAuth);
+            writer.WriteBoolValue("is_ask_for_name", IsAskForName);
             writer.WriteStringValue("login_uri", LoginUri);
             writer.WriteStringValue("name", Name);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Models.Get_application_response_application_type>("type", Type);
+            writer.WriteBoolValue("use_gravatar_fallback", UseGravatarFallback);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

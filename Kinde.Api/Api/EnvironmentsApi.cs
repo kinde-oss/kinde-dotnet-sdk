@@ -156,10 +156,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetEnvironmentResponse</returns>
         ApiResponse<GetEnvironmentResponse> GetEnvironmentWithHttpInfo();
         /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetPasskeyResponse</returns>
+        GetPasskeyResponse GetPasskey();
+
+        /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetPasskeyResponse</returns>
+        ApiResponse<GetPasskeyResponse> GetPasskeyWithHttpInfo();
+        /// <summary>
         /// Read logo details
         /// </summary>
         /// <remarks>
-        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ReadEnvLogoResponse</returns>
@@ -197,6 +216,27 @@ namespace Kinde.Api.Api
         /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest);
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>UpdatePasskeyResponse</returns>
+        UpdatePasskeyResponse UpdatePasskey(UpdatePasskeyRequest updatePasskeyRequest);
+
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>ApiResponse of UpdatePasskeyResponse</returns>
+        ApiResponse<UpdatePasskeyResponse> UpdatePasskeyWithHttpInfo(UpdatePasskeyRequest updatePasskeyRequest);
         #endregion Synchronous Operations
     }
 
@@ -341,10 +381,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPasskeyResponse</returns>
+        System.Threading.Tasks.Task<GetPasskeyResponse> GetPasskeyAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetPasskeyResponse>> GetPasskeyWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Read logo details
         /// </summary>
         /// <remarks>
-        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -386,6 +447,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdatePasskeyResponse</returns>
+        System.Threading.Tasks.Task<UpdatePasskeyResponse> UpdatePasskeyAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdatePasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdatePasskeyResponse>> UpdatePasskeyWithHttpInfoAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1297,7 +1381,117 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetPasskeyResponse</returns>
+        public GetPasskeyResponse GetPasskey()
+        {
+            Kinde.Api.Client.ApiResponse<GetPasskeyResponse> localVarResponse = GetPasskeyWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetPasskeyResponse> GetPasskeyWithHttpInfo()
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetPasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<GetPasskeyResponse> GetPasskeyAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetPasskeyResponse> localVarResponse = await GetPasskeyWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPasskeyResponse>> GetPasskeyWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetPasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ReadEnvLogoResponse</returns>
@@ -1513,6 +1707,132 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateEnvironementFeatureFlagOverride: {ex.Message}", ex);
             }
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>UpdatePasskeyResponse</returns>
+        public UpdatePasskeyResponse UpdatePasskey(UpdatePasskeyRequest updatePasskeyRequest)
+        {
+            Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> localVarResponse = UpdatePasskeyWithHttpInfo(updatePasskeyRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>ApiResponse of UpdatePasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> UpdatePasskeyWithHttpInfo(UpdatePasskeyRequest updatePasskeyRequest)
+        {
+            // verify the required parameter 'updatePasskeyRequest' is set
+            if (updatePasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePasskeyRequest' when calling EnvironmentsApi->UpdatePasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.Data = updatePasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<UpdatePasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdatePasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdatePasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<UpdatePasskeyResponse> UpdatePasskeyAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> localVarResponse = await UpdatePasskeyWithHttpInfoAsync(updatePasskeyRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdatePasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse>> UpdatePasskeyWithHttpInfoAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'updatePasskeyRequest' is set
+            if (updatePasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePasskeyRequest' when calling EnvironmentsApi->UpdatePasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.Data = updatePasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PutAsync<UpdatePasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdatePasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
         }
 
     }

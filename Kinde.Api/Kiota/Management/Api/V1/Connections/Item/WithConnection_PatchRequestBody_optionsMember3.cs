@@ -122,7 +122,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("saml_first_name_key_attr", value); }
         }
 #endif
-        /// <summary>URL for the IdP metadata.</summary>
+        /// <summary>URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SamlIdpMetadataUrl
@@ -136,6 +136,22 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
         {
             get { return BackingStore?.Get<string>("saml_idp_metadata_url"); }
             set { BackingStore?.Set("saml_idp_metadata_url", value); }
+        }
+#endif
+        /// <summary>Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SamlIdpMetadataXml
+        {
+            get { return BackingStore?.Get<string?>("saml_idp_metadata_xml"); }
+            set { BackingStore?.Set("saml_idp_metadata_xml", value); }
+        }
+#nullable restore
+#else
+        public string SamlIdpMetadataXml
+        {
+            get { return BackingStore?.Get<string>("saml_idp_metadata_xml"); }
+            set { BackingStore?.Set("saml_idp_metadata_xml", value); }
         }
 #endif
         /// <summary>Attribute key for the user&apos;s last name.</summary>
@@ -277,6 +293,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "saml_entity_id", n => { SamlEntityId = n.GetStringValue(); } },
                 { "saml_first_name_key_attr", n => { SamlFirstNameKeyAttr = n.GetStringValue(); } },
                 { "saml_idp_metadata_url", n => { SamlIdpMetadataUrl = n.GetStringValue(); } },
+                { "saml_idp_metadata_xml", n => { SamlIdpMetadataXml = n.GetStringValue(); } },
                 { "saml_last_name_key_attr", n => { SamlLastNameKeyAttr = n.GetStringValue(); } },
                 { "saml_sign_in_url", n => { SamlSignInUrl = n.GetStringValue(); } },
                 { "saml_signing_certificate", n => { SamlSigningCertificate = n.GetStringValue(); } },
@@ -304,6 +321,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteStringValue("saml_entity_id", SamlEntityId);
             writer.WriteStringValue("saml_first_name_key_attr", SamlFirstNameKeyAttr);
             writer.WriteStringValue("saml_idp_metadata_url", SamlIdpMetadataUrl);
+            writer.WriteStringValue("saml_idp_metadata_xml", SamlIdpMetadataXml);
             writer.WriteStringValue("saml_last_name_key_attr", SamlLastNameKeyAttr);
             writer.WriteStringValue("saml_signing_certificate", SamlSigningCertificate);
             writer.WriteStringValue("saml_signing_private_key", SamlSigningPrivateKey);

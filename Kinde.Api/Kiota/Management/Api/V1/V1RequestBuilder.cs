@@ -18,12 +18,14 @@ using Kinde.Api.Kiota.Management.Api.V1.Industries;
 using Kinde.Api.Kiota.Management.Api.V1.Mfa;
 using Kinde.Api.Kiota.Management.Api.V1.Organization;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations;
+using Kinde.Api.Kiota.Management.Api.V1.Passkey;
 using Kinde.Api.Kiota.Management.Api.V1.Permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Properties;
 using Kinde.Api.Kiota.Management.Api.V1.Property_categories;
 using Kinde.Api.Kiota.Management.Api.V1.Roles;
 using Kinde.Api.Kiota.Management.Api.V1.Search;
 using Kinde.Api.Kiota.Management.Api.V1.Subscribers;
+using Kinde.Api.Kiota.Management.Api.V1.System_permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Timezones;
 using Kinde.Api.Kiota.Management.Api.V1.User;
 using Kinde.Api.Kiota.Management.Api.V1.Users;
@@ -132,6 +134,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Organizations.OrganizationsRequestBuilder(PathParameters, RequestAdapter);
         }
+        /// <summary>The passkey property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Passkey.PasskeyRequestBuilder Passkey
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Passkey.PasskeyRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The permissions property</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Permissions.PermissionsRequestBuilder Permissions
         {
@@ -161,6 +168,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1
         public global::Kinde.Api.Kiota.Management.Api.V1.Subscribers.SubscribersRequestBuilder Subscribers
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Subscribers.SubscribersRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The system_permissions property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.System_permissions.System_permissionsRequestBuilder System_permissions
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.System_permissions.System_permissionsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The timezones property</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Timezones.TimezonesRequestBuilder Timezones
