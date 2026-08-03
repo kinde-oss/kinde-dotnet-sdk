@@ -654,6 +654,7 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             {
                 SamlEntityId = "https://example.okta.com/saml/metadata",
                 SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                SamlIdpMetadataXml = "<EntityDescriptor>metadata</EntityDescriptor>",
                 NameIdFormat = ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum.Persistent,
                 ProtocolBinding = ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum.REDIRECT,
                 SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA1,
@@ -679,6 +680,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"name_id_format\":\"Persistent\"", json);
             Assert.Contains("\"protocol_binding\":\"HTTP-REDIRECT\"", json);
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA1\"", json);
+            Assert.Equal("<EntityDescriptor>metadata</EntityDescriptor>", member3.SamlIdpMetadataXml);
+            Assert.Contains("\"saml_idp_metadata_xml\":\"\\u003CEntityDescriptor\\u003Emetadata\\u003C/EntityDescriptor\\u003E\"", json);
         }
 
         [Fact]
@@ -687,6 +690,7 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             var saml = new UpdateConnectionRequestOptionsOneOf1
             {
                 SamlEntityId = "https://example.okta.com/saml/metadata",
+                SamlIdpMetadataXml = "<EntityDescriptor>metadata</EntityDescriptor>",
                 NameIdFormat = UpdateConnectionRequestOptionsOneOf1.NameIdFormatEnum.EmailAddress,
                 ProtocolBinding = UpdateConnectionRequestOptionsOneOf1.ProtocolBindingEnum.POST,
                 SignRequestAlgorithm = UpdateConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA256,
@@ -711,6 +715,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"name_id_format\":\"Email address\"", json);
             Assert.Contains("\"protocol_binding\":\"HTTP-POST\"", json);
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA256\"", json);
+            Assert.Equal("<EntityDescriptor>metadata</EntityDescriptor>", member3.SamlIdpMetadataXml);
+            Assert.Contains("\"saml_idp_metadata_xml\":\"\\u003CEntityDescriptor\\u003Emetadata\\u003C/EntityDescriptor\\u003E\"", json);
         }
 
         #endregion
@@ -786,6 +792,7 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             {
                 SamlEntityId = "https://example.okta.com/saml/metadata",
                 SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
+                SamlIdpMetadataXml = "<EntityDescriptor>metadata</EntityDescriptor>",
                 NameIdFormat = CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum.EmailAddress,
                 ProtocolBinding = CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum.POST,
                 SignRequestAlgorithm = CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA256,
@@ -816,6 +823,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"saml_user_id_key_attr\":\"user.id\"", json);
             Assert.Contains("\"is_trusted\":true", json);
             Assert.Contains("\"is_use_custom_domain\":true", json);
+            Assert.Equal("<EntityDescriptor>metadata</EntityDescriptor>", member3.SamlIdpMetadataXml);
+            Assert.Contains("\"saml_idp_metadata_xml\":\"\\u003CEntityDescriptor\\u003Emetadata\\u003C/EntityDescriptor\\u003E\"", json);
         }
 
         #endregion
@@ -1528,6 +1537,67 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             Assert.Equal("conn_abc123", dst.ConnectionId);
             Assert.True(dst.IsConfirmed);
+        }
+
+        [Fact]
+        public void GetOrganizationFeatureFlagsResponse_BoolFlag_SerializesAsLowercase()
+        {
+            var flagFields = new Dictionary<string, Microsoft.Kiota.Abstractions.Serialization.UntypedNode>
+            {
+                ["type"] = new Microsoft.Kiota.Abstractions.Serialization.UntypedString("bool"),
+                ["value"] = new Microsoft.Kiota.Abstractions.Serialization.UntypedBoolean(true),
+            };
+            var kiotaFeatureFlags = new KiotaManagementModels.Get_organization_feature_flags_response_feature_flags();
+            kiotaFeatureFlags.AdditionalData["my_flag"] = new Microsoft.Kiota.Abstractions.Serialization.UntypedObject(flagFields);
+
+            var kiota = new KiotaManagementModels.Get_organization_feature_flags_response
+            {
+                Code = "OK",
+                Message = "Success",
+                FeatureFlags = kiotaFeatureFlags,
+            };
+
+            var dst = _mapper.Map<GetOrganizationFeatureFlagsResponse>(kiota);
+
+            Assert.True(dst.FeatureFlags.ContainsKey("my_flag"));
+            Assert.Equal(GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Bool, dst.FeatureFlags["my_flag"].Type);
+            Assert.Equal("true", dst.FeatureFlags["my_flag"].Value);
+        }
+
+        [Fact]
+        public void SearchUsersResponseResultsInner_Properties_ExtractsUntypedStringValues()
+        {
+            var kiotaProperties = new KiotaManagementModels.Search_users_response_results_properties();
+            kiotaProperties.AdditionalData["favorite_color"] = new Microsoft.Kiota.Abstractions.Serialization.UntypedString("blue");
+
+            var kiota = new KiotaManagementModels.Search_users_response_results
+            {
+                Id = "kp_user_123",
+                Properties = kiotaProperties,
+            };
+
+            var dst = _mapper.Map<SearchUsersResponseResultsInner>(kiota);
+
+            Assert.True(dst.Properties.ContainsKey("favorite_color"));
+            Assert.Equal("blue", dst.Properties["favorite_color"]);
+        }
+
+        [Fact]
+        public void SearchUsersResponseResultsInner_Properties_BoolValue_SerializesAsLowercase()
+        {
+            var kiotaProperties = new KiotaManagementModels.Search_users_response_results_properties();
+            kiotaProperties.AdditionalData["is_beta_tester"] = new Microsoft.Kiota.Abstractions.Serialization.UntypedBoolean(true);
+
+            var kiota = new KiotaManagementModels.Search_users_response_results
+            {
+                Id = "kp_user_123",
+                Properties = kiotaProperties,
+            };
+
+            var dst = _mapper.Map<SearchUsersResponseResultsInner>(kiota);
+
+            Assert.True(dst.Properties.ContainsKey("is_beta_tester"));
+            Assert.Equal("true", dst.Properties["is_beta_tester"]);
         }
 
         #endregion

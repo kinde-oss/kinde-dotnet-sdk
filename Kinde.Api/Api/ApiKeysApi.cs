@@ -298,6 +298,9 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -325,6 +328,9 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>

@@ -565,7 +565,7 @@ namespace Kinde.Api.Mappers
                 var fields = flagObject.GetValue();
 
                 GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum? type = null;
-                if (fields.TryGetValue("type", out var typeNode) && typeNode?.GetValue() is string typeStr)
+                if (fields.TryGetValue("type", out var typeNode) && ExtractUntypedValue(typeNode) is string typeStr)
                 {
                     type = typeStr switch
                     {
@@ -579,7 +579,11 @@ namespace Kinde.Api.Mappers
                 string value = null;
                 if (fields.TryGetValue("value", out var valueNode) && valueNode is not null)
                 {
-                    value = valueNode.GetValue()?.ToString();
+                    value = ExtractUntypedValue(valueNode)?.ToString();
+                    if (type == GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Bool && value is not null)
+                    {
+                        value = value.ToLowerInvariant();
+                    }
                 }
 
                 result[kvp.Key] = new GetOrganizationFeatureFlagsResponseFeatureFlagsValue(type, value);
@@ -601,14 +605,48 @@ namespace Kinde.Api.Mappers
             {
                 result[kvp.Key] = kvp.Value switch
                 {
-                    UntypedNode node => node.GetValue()?.ToString(),
+                    UntypedNode node => FormatAdditionalDataValue(ExtractUntypedValue(node)),
                     null => null,
-                    var v => v.ToString(),
+                    var v => FormatAdditionalDataValue(v),
                 };
             }
 
             return result;
         }
+
+        /// <summary>
+        /// Formats an extracted AdditionalData value as a string, lowercasing bools so
+        /// they match the wire's lowercase JSON boolean literals ("true"/"false") instead of
+        /// .NET's default bool.ToString() casing ("True"/"False").
+        /// </summary>
+        private static string FormatAdditionalDataValue(object value) => value switch
+        {
+            null => null,
+            bool b => b ? "true" : "false",
+            var v => v.ToString(),
+        };
+
+        /// <summary>
+        /// Extracts the underlying .NET value from a Kiota <see cref="UntypedNode"/>. The
+        /// per-subtype GetValue() overrides (UntypedString, UntypedBoolean, etc.) are declared
+        /// non-virtual, so calling GetValue() through a base-typed UntypedNode reference invokes
+        /// UntypedNode's own stub implementation - which throws NotImplementedException - instead
+        /// of the derived type's implementation. Dispatching on the concrete runtime type here
+        /// avoids that trap.
+        /// </summary>
+        private static object ExtractUntypedValue(UntypedNode node) => node switch
+        {
+            UntypedString s => s.GetValue(),
+            UntypedBoolean b => b.GetValue(),
+            UntypedInteger i => i.GetValue(),
+            UntypedLong l => l.GetValue(),
+            UntypedDouble d => d.GetValue(),
+            UntypedFloat f => f.GetValue(),
+            UntypedDecimal dec => dec.GetValue(),
+            UntypedObject o => o.GetValue(),
+            UntypedArray a => a.GetValue(),
+            _ => null,
+        };
 
         private static bool? ReadAdditionalBool(IDictionary<string, object> data, string key)
         {

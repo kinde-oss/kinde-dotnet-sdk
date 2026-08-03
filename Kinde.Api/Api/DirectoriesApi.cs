@@ -19,6 +19,12 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -285,6 +291,63 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class DirectoriesApi : IDisposable, IDirectoriesApi
     {
+
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private Kinde.Api.Client.ApiClient _kindeApiClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            // Ensure serializers are registered before creating the adapter
+                            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory>();
+                            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory>();
+                            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory>();
+                            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory>();
+                            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory>();
+                            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Text.TextParseNodeFactory>();
+                            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Form.FormParseNodeFactory>();
+
+                            var tokenProvider = new KiotaTokenProvider(() => _kindeApiClient?.AccessToken ?? Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly Func<string> _getToken;
+            public KiotaTokenProvider(Func<string> getToken) => _getToken = getToken ?? (() => string.Empty);
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public System.Threading.Tasks.Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, System.Threading.CancellationToken ct = default)
+                => System.Threading.Tasks.Task.FromResult(_getToken() ?? string.Empty);
+        }
+        // ===== End Kiota Infrastructure =====
         private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
@@ -312,7 +375,7 @@ namespace Kinde.Api.Api
                 new Kinde.Api.Client.Configuration { BasePath = basePath }
             );
             this.ApiClient = new Kinde.Api.Client.ApiClient(this.Configuration.BasePath);
-            this.Client =  this.ApiClient;
+            this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
@@ -376,9 +439,12 @@ namespace Kinde.Api.Api
                 new Kinde.Api.Client.Configuration { BasePath = basePath }
             );
             this.ApiClient = new Kinde.Api.Client.ApiClient(client, this.Configuration.BasePath, handler);
-            this.Client =  this.ApiClient;
+            this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -406,6 +472,9 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -440,6 +509,7 @@ namespace Kinde.Api.Api
 
             this.Client = client;
             this.AsynchronousClient = client;
+            this._kindeApiClient = client;
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
                 Kinde.Api.Client.GlobalConfiguration.Instance,
                 new Kinde.Api.Client.Configuration
@@ -524,47 +594,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateDirectoryResponse</returns>
         public Kinde.Api.Client.ApiResponse<CreateDirectoryResponse> CreateDirectoryWithHttpInfo(CreateDirectoryRequest createDirectoryRequest)
         {
-            // verify the required parameter 'createDirectoryRequest' is set
-            if (createDirectoryRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createDirectoryRequest' when calling DirectoriesApi->CreateDirectory");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createDirectoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<CreateDirectoryResponse>("/api/v1/directories", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return CreateDirectoryWithHttpInfoAsync(createDirectoryRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -593,43 +624,27 @@ namespace Kinde.Api.Api
             if (createDirectoryRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createDirectoryRequest' when calling DirectoriesApi->CreateDirectory");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createDirectoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody>(createDirectoryRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Directories.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateDirectoryResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateDirectoryResponse>(
+                    System.Net.HttpStatusCode.Created,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateDirectoryResponse>("/api/v1/directories", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateDirectory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -652,46 +667,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of DeleteDirectoryResponse</returns>
         public Kinde.Api.Client.ApiResponse<DeleteDirectoryResponse> DeleteDirectoryWithHttpInfo(string directoryId)
         {
-            // verify the required parameter 'directoryId' is set
-            if (directoryId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->DeleteDirectory");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<DeleteDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteDirectoryWithHttpInfoAsync(directoryId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -720,42 +697,24 @@ namespace Kinde.Api.Api
             if (directoryId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->DeleteDirectory");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Directories[directoryId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<DeleteDirectoryResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<DeleteDirectoryResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteDirectory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -782,53 +741,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetDirectoriesResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetDirectoriesResponse> GetDirectoriesWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string organizationCode = default(string))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (pageSize != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (startingAfter != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
-            }
-            if (organizationCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "organization_code", organizationCode));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetDirectoriesResponse>("/api/v1/directories", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetDirectories", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetDirectoriesWithHttpInfoAsync(pageSize, startingAfter, organizationCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -857,53 +771,30 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetDirectoriesResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetDirectoriesResponse>> GetDirectoriesWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string organizationCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (pageSize != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (startingAfter != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "starting_after", startingAfter));
-            }
-            if (organizationCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "organization_code", organizationCode));
-            }
+                var kiotaResponse = await KiotaClient.Api.V1.Directories.GetAsync(
+                    cfg =>
+                    {
+                        cfg.QueryParameters.PageSize = pageSize;
+                        cfg.QueryParameters.StartingAfter = startingAfter;
+                        cfg.QueryParameters.OrganizationCode = organizationCode;
+                    },
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var mappedResponse = KiotaMapper.Map<GetDirectoriesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetDirectoriesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetDirectoriesResponse>("/api/v1/directories", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetDirectories", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetDirectories: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -926,46 +817,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetDirectoryResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetDirectoryResponse> GetDirectoryWithHttpInfo(string directoryId)
         {
-            // verify the required parameter 'directoryId' is set
-            if (directoryId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->GetDirectory");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetDirectoryWithHttpInfoAsync(directoryId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -994,42 +847,24 @@ namespace Kinde.Api.Api
             if (directoryId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->GetDirectory");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Directories[directoryId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetDirectoryResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetDirectoryResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetDirectory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1054,52 +889,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of UpdateDirectoryResponse</returns>
         public Kinde.Api.Client.ApiResponse<UpdateDirectoryResponse> UpdateDirectoryWithHttpInfo(string directoryId, UpdateDirectoryRequest updateDirectoryRequest)
         {
-            // verify the required parameter 'directoryId' is set
-            if (directoryId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->UpdateDirectory");
-
-            // verify the required parameter 'updateDirectoryRequest' is set
-            if (updateDirectoryRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateDirectoryRequest' when calling DirectoriesApi->UpdateDirectory");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-            localVarRequestOptions.Data = updateDirectoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<UpdateDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return UpdateDirectoryWithHttpInfoAsync(directoryId, updateDirectoryRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1134,45 +925,27 @@ namespace Kinde.Api.Api
             if (updateDirectoryRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateDirectoryRequest' when calling DirectoriesApi->UpdateDirectory");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("directory_id", Kinde.Api.Client.ClientUtils.ParameterToString(directoryId)); // path parameter
-            localVarRequestOptions.Data = updateDirectoryRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody>(updateDirectoryRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Directories[directoryId].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<UpdateDirectoryResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<UpdateDirectoryResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateDirectoryResponse>("/api/v1/directories/{directory_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateDirectory", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateDirectory: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
-
     }
 }

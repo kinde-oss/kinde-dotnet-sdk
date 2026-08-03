@@ -9,6 +9,13 @@ namespace Kinde.Api.Test.Mocks
         private HttpResponseMessage _response;
         public HttpRequestMessage Request { get; private set; }
 
+        /// <summary>
+        /// The captured request body, read eagerly during SendAsync. Callers (e.g. Kiota's
+        /// HttpClientRequestAdapter) may dispose the request's content stream once the send
+        /// completes, so Request.Content can no longer be read after SendAsync returns.
+        /// </summary>
+        public string RequestBody { get; private set; }
+
         public HttpResponseMessage Result
         {
             get => _response;
@@ -20,10 +27,14 @@ namespace Kinde.Api.Test.Mocks
             _response = response;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Request = request;
-            return Task.FromResult(_response);
+            if (request.Content != null)
+            {
+                RequestBody = await request.Content.ReadAsStringAsync();
+            }
+            return _response;
         }
     }
 }
