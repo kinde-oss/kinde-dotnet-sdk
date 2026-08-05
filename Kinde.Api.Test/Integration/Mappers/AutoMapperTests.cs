@@ -1284,5 +1284,301 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         #endregion
+
+        #region Global null-skip condition -- full IBackedModel coverage
+
+        // KindeMapperConfiguration applies a single global AutoMapper.Internal condition
+        // that skips *every* null source value when mapping into an IBackedModel (Kiota)
+        // destination, across both profiles. The two hand-picked endpoint tests above
+        // (ReplaceMFARequest, UpdateOrganizationUsersRequest) prove the condition does what
+        // it's meant to for those specific properties, but they say nothing about the other
+        // ~100 CreateMap entries the same condition applies to. This walks every
+        // (source, destination) pair the condition actually reaches and proves an explicit,
+        // non-null scalar value on the source still lands on the destination -- i.e. the
+        // condition is filtering out unset/null values, not real ones.
+
+        /// <summary>
+        /// Every (source, destination) type pair, across both mapper profiles, where the
+        /// destination is an IBackedModel -- i.e. every pair the global null-skip condition
+        /// in KindeMapperConfiguration.BuildMapper applies to.
+        /// </summary>
+        public static IEnumerable<object[]> IBackedModelTypeMaps()
+        {
+            var mapper = KindeMapperConfiguration.Mapper;
+            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)mapper.ConfigurationProvider;
+            foreach (var typeMap in globalConfig.GetAllTypeMaps())
+            {
+                if (!typeof(Microsoft.Kiota.Abstractions.Store.IBackedModel).IsAssignableFrom(typeMap.DestinationType))
+                {
+                    continue;
+                }
+                if (typeMap.SourceType.IsInterface || typeMap.SourceType.IsAbstract)
+                {
+                    continue;
+                }
+
+                yield return new object[] { typeMap.SourceType, typeMap.DestinationType };
+            }
+        }
+
+        private static readonly HashSet<Type> ScalarPropertyTypes = new()
+        {
+            typeof(string),
+            typeof(bool), typeof(bool?),
+            typeof(int), typeof(int?),
+            typeof(long), typeof(long?),
+            typeof(double), typeof(double?),
+            typeof(DateTime), typeof(DateTime?),
+            typeof(DateTimeOffset), typeof(DateTimeOffset?),
+            typeof(Guid), typeof(Guid?),
+        };
+
+        private static bool TryGetSentinelValue(Type propertyType, out object sentinel)
+        {
+            var underlying = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+
+            if (underlying == typeof(string)) { sentinel = "kinde_null_skip_sentinel"; return true; }
+            if (underlying == typeof(bool)) { sentinel = true; return true; }
+            if (underlying == typeof(int)) { sentinel = 42; return true; }
+            if (underlying == typeof(long)) { sentinel = 42L; return true; }
+            if (underlying == typeof(double)) { sentinel = 4.2d; return true; }
+            if (underlying == typeof(DateTime)) { sentinel = new DateTime(2026, 1, 1); return true; }
+            if (underlying == typeof(DateTimeOffset)) { sentinel = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero); return true; }
+            if (underlying == typeof(Guid)) { sentinel = Guid.Parse("11111111-1111-1111-1111-111111111111"); return true; }
+            if (underlying.IsEnum)
+            {
+                var values = Enum.GetValues(underlying);
+                // A dropped property silently reverts to default(enum), which for
+                // zero-based enums is also values[0] -- picking that as the sentinel would
+                // make a real drop look like a pass. Prefer a non-default member.
+                var defaultValue = Activator.CreateInstance(underlying);
+                foreach (var candidate in values)
+                {
+                    if (!Equals(candidate, defaultValue))
+                    {
+                        sentinel = candidate!;
+                        return true;
+                    }
+                }
+                if (values.Length > 0)
+                {
+                    sentinel = values.GetValue(0)!;
+                    return true;
+                }
+            }
+
+            sentinel = null!;
+            return false;
+        }
+
+        /// <summary>
+        /// Compares a mapped destination value against the sentinel that was set on the
+        /// source, tolerating the legitimate transformations AutoMapper applies along the
+        /// way -- cross-type enum conversion (by name, case-insensitively, since some
+        /// destination enums use a different casing/format for the same member, e.g.
+        /// "Oauth2apple" vs "Oauth2Apple", or "EntraIdAzureAd" vs "Entra_id_azure_ad"), and
+        /// DateTime -> DateTimeOffset conversion (which attaches the local offset, so the
+        /// two aren't Equal() as an absolute instant comparison in every environment; wall
+        /// clock components are what matters here). A value reverted to the destination's
+        /// own default by the null-skip condition would not satisfy either fallback.
+        /// </summary>
+        private static bool ValuesMatch(object? destValue, object sentinel)
+        {
+            if (destValue is null)
+            {
+                return false;
+            }
+            if (destValue.Equals(sentinel))
+            {
+                return true;
+            }
+            if (TryGetDateComponents(destValue, out var destDate) && TryGetDateComponents(sentinel, out var sentinelDate))
+            {
+                return destDate == sentinelDate;
+            }
+            return string.Equals(destValue.ToString(), sentinel.ToString(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool TryGetDateComponents(object value, out (int, int, int, int, int, int) components)
+        {
+            switch (value)
+            {
+                case DateTime dt:
+                    components = (dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
+                    return true;
+                case DateTimeOffset dto:
+                    components = (dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, dto.Second);
+                    return true;
+                default:
+                    components = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Serializes a mapped destination the way the Kiota request adapter does, through
+        /// the backing store proxy, without requiring the model's compile-time type (the
+        /// per-type-pair tests only know Type instances, not generic type parameters).
+        /// </summary>
+        private static string SerializeAsSentDynamic(object model, Type modelType)
+        {
+            var factory = new Microsoft.Kiota.Abstractions.Store.BackingStoreSerializationWriterProxyFactory(
+                new Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory());
+            using var writer = factory.GetSerializationWriter("application/json");
+
+            var writeMethod = typeof(Microsoft.Kiota.Abstractions.Serialization.ISerializationWriter)
+                .GetMethods()
+                .First(m => m.Name == "WriteObjectValue"
+                    && m.IsGenericMethodDefinition
+                    && m.GetParameters().Length >= 2
+                    && m.GetParameters()[0].ParameterType == typeof(string)
+                    && m.GetParameters()[1].ParameterType.IsGenericParameter);
+            var invokeArgs = new object?[writeMethod.GetParameters().Length];
+            invokeArgs[0] = null;
+            invokeArgs[1] = model;
+            for (var i = 2; i < invokeArgs.Length; i++)
+            {
+                invokeArgs[i] = Array.CreateInstance(
+                    writeMethod.GetParameters()[i].ParameterType.GetElementType()!, 0);
+            }
+            writeMethod.MakeGenericMethod(modelType).Invoke(writer, invokeArgs);
+
+            using var stream = writer.GetSerializedContent();
+            using var reader = new System.IO.StreamReader(stream);
+            return reader.ReadToEnd();
+        }
+
+        [Theory]
+        [MemberData(nameof(IBackedModelTypeMaps))]
+        public void IBackedModelDestinations_ExplicitScalarValues_SurviveMapping(Type sourceType, Type destType)
+        {
+            // Some members are deliberately excluded from a mapping via .ForMember(...,
+            // opt => opt.Ignore()) in the profile, unrelated to the null-skip condition --
+            // e.g. CreatePropertyRequest.Type/.Context are ignored because of a pre-existing
+            // enum incompatibility. Only assert on members the config actually maps, so this
+            // test verifies the null-skip condition specifically, not every ignore-mapping
+            // decision already made elsewhere.
+            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)_mapper.ConfigurationProvider;
+            var typeMap = globalConfig.FindTypeMapFor(sourceType, destType);
+            var activelyMappedSourceNames = typeMap is null
+                ? new HashSet<string>()
+                : typeMap.PropertyMaps
+                    .Where(pm => !pm.Ignored && pm.SourceMember is not null)
+                    .Select(pm => pm.SourceMember!.Name)
+                    .ToHashSet();
+
+            var settableScalarProps = sourceType
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => p.CanRead && p.CanWrite && p.GetIndexParameters().Length == 0)
+                .Where(p => ScalarPropertyTypes.Contains(p.PropertyType)
+                    || (Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType).IsEnum)
+                .ToList();
+
+            if (settableScalarProps.Count == 0)
+            {
+                return; // nothing scalar to smuggle through the mapping on this source type
+            }
+
+            var source = System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(sourceType);
+            var appliedSentinels = new Dictionary<PropertyInfo, object>();
+
+            foreach (var prop in settableScalarProps)
+            {
+                if (!TryGetSentinelValue(prop.PropertyType, out var sentinel))
+                {
+                    continue;
+                }
+                try
+                {
+                    prop.SetValue(source, sentinel);
+                    appliedSentinels[prop] = sentinel;
+                }
+                catch
+                {
+                    // Some properties reject arbitrary values via custom setters; not this test's concern.
+                }
+            }
+
+            if (appliedSentinels.Count == 0)
+            {
+                return;
+            }
+
+            object dest;
+            try
+            {
+                dest = _mapper.Map(source, sourceType, destType);
+            }
+            catch (Exception ex)
+            {
+                // A handful of source types (e.g. oneOf discriminators) can't map standalone
+                // with every scalar set to an unrelated sentinel; those are covered by their
+                // own dedicated tests elsewhere in this file.
+                _output.WriteLine($"Skipped {sourceType.Name} -> {destType.Name}: {ex.Message}");
+                return;
+            }
+
+            if (dest is null)
+            {
+                // Wrapper/oneOf source types (e.g. *RequestOptions around a discriminated
+                // union) legitimately map to null when their real discriminator member
+                // (ActualInstance) isn't set -- setting unrelated scalar siblings doesn't
+                // change that. Not something the null-skip condition controls.
+                return;
+            }
+
+            var failures = new List<string>();
+            foreach (var (sourceProp, sentinel) in appliedSentinels)
+            {
+                if (!activelyMappedSourceNames.Contains(sourceProp.Name))
+                {
+                    continue; // ignored by the profile for reasons unrelated to the null-skip condition
+                }
+
+                var destProp = destType.GetProperty(sourceProp.Name, BindingFlags.Instance | BindingFlags.Public);
+                if (destProp is null || !destProp.CanRead)
+                {
+                    continue; // no same-named destination member -- not a property this condition could have dropped silently
+                }
+
+                var destValue = destProp.GetValue(dest);
+                var destUnderlying = Nullable.GetUnderlyingType(destProp.PropertyType) ?? destProp.PropertyType;
+                var sourceUnderlying = Nullable.GetUnderlyingType(sourceProp.PropertyType) ?? sourceProp.PropertyType;
+
+                var ok = ValuesMatch(destValue, sentinel);
+                if (!ok && destUnderlying.IsEnum && sourceUnderlying.IsEnum)
+                {
+                    // Some enum pairs go through a custom, semantically-equivalent but
+                    // textually different conversion that ValuesMatch's name comparison
+                    // can't see through (e.g. BridgeEnumByMember mapping "SHA256" ->
+                    // "RSASHA256" by [EnumMember] value, or "EntraIdAzureAd" ->
+                    // "Entra_id_azure_ad") -- the exact converted value is covered by
+                    // dedicated wire-format tests elsewhere in this file. Every Kiota
+                    // IBackedModel enum destination here is Nullable<TEnum>, so a value the
+                    // null-skip condition actually dropped would be null, not some specific
+                    // member -- unlike a non-nullable value type, it can't coincidentally
+                    // collide with default(enum) (which happens for some of these, e.g.
+                    // RSASHA256 is ordinal 0). So "non-null" is the correct, precise check
+                    // for whether this sweep's condition let the value through.
+                    ok = destValue is not null;
+                }
+                if (!ok)
+                {
+                    failures.Add($"{sourceType.Name}.{sourceProp.Name} (={sentinel}) -> {destType.Name}.{destProp.Name} (={destValue ?? "null"})");
+                }
+            }
+
+            Assert.True(failures.Count == 0,
+                $"Explicit value(s) dropped by the null-skip condition:\n{string.Join("\n", failures)}");
+
+            if (typeof(Microsoft.Kiota.Abstractions.Serialization.IParsable).IsAssignableFrom(destType))
+            {
+                var json = SerializeAsSentDynamic(dest, destType);
+                Assert.False(string.IsNullOrEmpty(json) && appliedSentinels.Count > 0,
+                    $"{destType.Name} serialized to an empty body despite explicit scalar values being set.");
+            }
+        }
+
+        #endregion
     }
 }

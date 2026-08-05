@@ -44,16 +44,47 @@ namespace Kinde.Api.Mappers
                 cfg.AddProfile<ManagementApiMapperProfile>();
                 cfg.AddProfile<AccountsApiMapperProfile>();
 
-                // Kiota models keep their state in a backing store that distinguishes
-                // "never assigned" from "assigned null", and serializes the latter as an
-                // explicit JSON null. AutoMapper assigns every member, so an optional
-                // property the caller left unset would go on the wire as `"foo": null`
-                // rather than being omitted -- which the Kinde API rejects (e.g. PATCH
-                // /organizations/{org_code}/users answers 500 for `"operation": null`).
-                // Skip null sources so unset properties stay untouched, and therefore unsent.
-                cfg.Internal().ForAllPropertyMaps(
-                    pm => typeof(IBackedModel).IsAssignableFrom(pm.TypeMap.DestinationType),
-                    (pm, opt) => opt.Condition((src, dest, srcValue) => srcValue != null));
+                // This condition is global: it applies to every IBackedModel destination
+                // across both profiles (100+ CreateMap entries), not just the property that
+                // caused #85 -- and it can't be scoped narrower than that. The
+                // OpenAPI-generated source DTOs (Kinde.Api.Model.*) are plain POCOs with no
+                // "explicitly set to null" vs "never touched" distinction: both states are
+                // just `null` on the C# property. So "send an explicit null to clear a
+                // field" was never a capability this mapping could offer safely -- pre-fix,
+                // AutoMapper couldn't tell the two apart either, which is exactly why every
+                // untouched optional property was going out as a stray `"foo": null` and
+                // 500'ing the API (see #85). Explicit-null-clear via these DTOs is
+                // unsupported SDK-wide; there is no narrower condition that would restore it
+                // without reintroducing the original bug for every other optional property.
+                //
+                // cfg.Internal() reaches past AutoMapper's public config surface into
+                // AutoMapper.Internal, the same way the ctor lookup below reaches past the
+                // public constructor set via reflection. It's version-sensitive in the same
+                // way, but riskier: the ctor lookup fails loudly with a clear message if a
+                // future AutoMapper version removes the overload it expects, whereas this
+                // call is resolved at compile time against whatever AutoMapper version we
+                // built against, so a runtime version mismatch (e.g. a consumer's binding
+                // redirect resolving a different AutoMapper.Internal shape) could throw an
+                // opaque MissingMethodException, or -- worse -- silently stop applying the
+                // null-skip condition if the internal API's behavior changes without its
+                // signature changing. Wrap it so a version mismatch fails loudly instead of
+                // quietly reintroducing the null-forwarding bug this exists to fix.
+                try
+                {
+                    cfg.Internal().ForAllPropertyMaps(
+                        pm => typeof(IBackedModel).IsAssignableFrom(pm.TypeMap.DestinationType),
+                        (pm, opt) => opt.Condition((src, dest, srcValue) => srcValue != null));
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(
+                        "Could not apply the null-source skip condition via AutoMapper.Internal's " +
+                        "ForAllPropertyMaps. This relies on AutoMapper's internal API surface, which " +
+                        "may have changed shape in the referenced AutoMapper version. Without this " +
+                        "condition, optional properties left unset by the caller are sent to the Kinde " +
+                        "API as explicit JSON nulls, which some endpoints reject (see #85).",
+                        ex);
+                }
             };
 
             var configType = typeof(MapperConfiguration);
