@@ -1379,8 +1379,13 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         /// "Oauth2apple" vs "Oauth2Apple", or "EntraIdAzureAd" vs "Entra_id_azure_ad"), and
         /// DateTime -> DateTimeOffset conversion (which attaches the local offset, so the
         /// two aren't Equal() as an absolute instant comparison in every environment; wall
-        /// clock components are what matters here). A value reverted to the destination's
-        /// own default by the null-skip condition would not satisfy either fallback.
+        /// clock components are what matters here). The name-based fallback is gated on
+        /// both sides actually being enums -- otherwise a dropped int/bool/string sentinel
+        /// could false-positive against an unrelated destination value that happens to
+        /// stringify the same way (e.g. 42 vs "42", true vs "True"), which is exactly the
+        /// silent-drop failure this test exists to catch. A value reverted to the
+        /// destination's own default by the null-skip condition would not satisfy any of
+        /// these fallbacks.
         /// </summary>
         private static bool ValuesMatch(object? destValue, object sentinel)
         {
@@ -1396,7 +1401,11 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             {
                 return destDate == sentinelDate;
             }
-            return string.Equals(destValue.ToString(), sentinel.ToString(), StringComparison.OrdinalIgnoreCase);
+            if (destValue.GetType().IsEnum && sentinel.GetType().IsEnum)
+            {
+                return string.Equals(destValue.ToString(), sentinel.ToString(), StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
         }
 
         private static bool TryGetDateComponents(object value, out (int, int, int, int, int, int) components)
@@ -1504,19 +1513,13 @@ private static object FindReachableInstance(object root, Type target, int maxDep
                 return;
             }
 
-            object dest;
-            try
-            {
-                dest = _mapper.Map(source, sourceType, destType);
-            }
-            catch (Exception ex)
-            {
-                // A handful of source types (e.g. oneOf discriminators) can't map standalone
-                // with every scalar set to an unrelated sentinel; those are covered by their
-                // own dedicated tests elsewhere in this file.
-                _output.WriteLine($"Skipped {sourceType.Name} -> {destType.Name}: {ex.Message}");
-                return;
-            }
+            // No swallowing here: this sweep exists to catch a future regression in the
+            // null-skip condition, so a mapping failure on any pair must fail the test, not
+            // get logged and skipped. Source types that legitimately can't map standalone
+            // (oneOf/discriminator wrappers) don't throw -- they either have no scalar
+            // properties to smuggle through (see the early return above) or map cleanly to
+            // a null destination (see the check just below), so there's nothing to allowlist.
+            object dest = _mapper.Map(source, sourceType, destType);
 
             if (dest is null)
             {
@@ -1573,9 +1576,13 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             if (typeof(Microsoft.Kiota.Abstractions.Serialization.IParsable).IsAssignableFrom(destType))
             {
-                var json = SerializeAsSentDynamic(dest, destType);
-                Assert.False(string.IsNullOrEmpty(json) && appliedSentinels.Count > 0,
-                    $"{destType.Name} serialized to an empty body despite explicit scalar values being set.");
+                // Not asserting on the JSON here -- the per-property comparison above is
+                // the real check for whether the null-skip condition dropped a value (a
+                // destination that dropped everything would still serialize to "{}", not an
+                // empty string, so an empty-body check wouldn't catch that anyway). This
+                // just exercises the backing-store serialization path so a pair that maps
+                // fine but can't actually be serialized still fails the test.
+                SerializeAsSentDynamic(dest, destType);
             }
         }
 

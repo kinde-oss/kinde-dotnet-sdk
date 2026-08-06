@@ -44,31 +44,19 @@ namespace Kinde.Api.Mappers
                 cfg.AddProfile<ManagementApiMapperProfile>();
                 cfg.AddProfile<AccountsApiMapperProfile>();
 
-                // This condition is global: it applies to every IBackedModel destination
-                // across both profiles (100+ CreateMap entries), not just the property that
-                // caused #85 -- and it can't be scoped narrower than that. The
-                // OpenAPI-generated source DTOs (Kinde.Api.Model.*) are plain POCOs with no
-                // "explicitly set to null" vs "never touched" distinction: both states are
-                // just `null` on the C# property. So "send an explicit null to clear a
-                // field" was never a capability this mapping could offer safely -- pre-fix,
-                // AutoMapper couldn't tell the two apart either, which is exactly why every
-                // untouched optional property was going out as a stray `"foo": null` and
-                // 500'ing the API (see #85). Explicit-null-clear via these DTOs is
-                // unsupported SDK-wide; there is no narrower condition that would restore it
-                // without reintroducing the original bug for every other optional property.
+                // Applies to every IBackedModel destination across both profiles. It can't
+                // be scoped narrower: the source DTOs are plain POCOs with no distinction
+                // between "explicitly null" and "never touched", so there was never a way to
+                // preserve explicit-null-clear for some properties without reintroducing
+                // stray `"foo": null` writes for the rest.
                 //
-                // cfg.Internal() reaches past AutoMapper's public config surface into
-                // AutoMapper.Internal, the same way the ctor lookup below reaches past the
-                // public constructor set via reflection. It's version-sensitive in the same
-                // way, but riskier: the ctor lookup fails loudly with a clear message if a
-                // future AutoMapper version removes the overload it expects, whereas this
-                // call is resolved at compile time against whatever AutoMapper version we
-                // built against, so a runtime version mismatch (e.g. a consumer's binding
-                // redirect resolving a different AutoMapper.Internal shape) could throw an
-                // opaque MissingMethodException, or -- worse -- silently stop applying the
-                // null-skip condition if the internal API's behavior changes without its
-                // signature changing. Wrap it so a version mismatch fails loudly instead of
-                // quietly reintroducing the null-forwarding bug this exists to fix.
+                // cfg.Internal() reaches past AutoMapper's public config surface, the same
+                // way the ctor lookup below reaches past the public constructor set via
+                // reflection -- but riskier, since it's resolved at compile time against
+                // whatever AutoMapper version we built against. A runtime version mismatch
+                // could throw an opaque MissingMethodException, or silently stop applying
+                // the condition if the internal API's behavior changes without its signature
+                // changing. Wrap it so a version mismatch fails loudly instead.
                 try
                 {
                     cfg.Internal().ForAllPropertyMaps(
@@ -82,7 +70,7 @@ namespace Kinde.Api.Mappers
                         "ForAllPropertyMaps. This relies on AutoMapper's internal API surface, which " +
                         "may have changed shape in the referenced AutoMapper version. Without this " +
                         "condition, optional properties left unset by the caller are sent to the Kinde " +
-                        "API as explicit JSON nulls, which some endpoints reject (see #85).",
+                        "API as explicit JSON nulls, which some endpoints reject.",
                         ex);
                 }
             };
