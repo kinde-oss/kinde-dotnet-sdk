@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             set { BackingStore?.Set("hashed_password", value); }
         }
 #endif
-        /// <summary>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</summary>
+        /// <summary>The hashing method or algorithm used to encrypt the user&apos;s password. Default is bcrypt.</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method? HashingMethod
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method?>("hashing_method"); }
@@ -49,7 +49,13 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             get { return BackingStore?.Get<bool?>("is_temporary_password"); }
             set { BackingStore?.Set("is_temporary_password", value); }
         }
-        /// <summary>Extra characters added to passwords to make them stronger. Not required for bcrypt.</summary>
+        /// <summary>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).</summary>
+        public int? Iterations
+        {
+            get { return BackingStore?.Get<int?>("iterations"); }
+            set { BackingStore?.Set("iterations", value); }
+        }
+        /// <summary>Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Salt
@@ -71,6 +77,22 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position?>("salt_position"); }
             set { BackingStore?.Set("salt_position", value); }
         }
+        /// <summary>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Variant
+        {
+            get { return BackingStore?.Get<string?>("variant"); }
+            set { BackingStore?.Set("variant", value); }
+        }
+#nullable restore
+#else
+        public string Variant
+        {
+            get { return BackingStore?.Get<string>("variant"); }
+            set { BackingStore?.Set("variant", value); }
+        }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody"/> and sets the default values.
         /// </summary>
@@ -100,8 +122,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
                 { "hashed_password", n => { HashedPassword = n.GetStringValue(); } },
                 { "hashing_method", n => { HashingMethod = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method>(); } },
                 { "is_temporary_password", n => { IsTemporaryPassword = n.GetBoolValue(); } },
+                { "iterations", n => { Iterations = n.GetIntValue(); } },
                 { "salt", n => { Salt = n.GetStringValue(); } },
                 { "salt_position", n => { SaltPosition = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position>(); } },
+                { "variant", n => { Variant = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -114,8 +138,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             writer.WriteStringValue("hashed_password", HashedPassword);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method>("hashing_method", HashingMethod);
             writer.WriteBoolValue("is_temporary_password", IsTemporaryPassword);
+            writer.WriteIntValue("iterations", Iterations);
             writer.WriteStringValue("salt", Salt);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position>("salt_position", SaltPosition);
+            writer.WriteStringValue("variant", Variant);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

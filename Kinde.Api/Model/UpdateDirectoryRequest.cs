@@ -34,19 +34,9 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateDirectoryRequest" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected UpdateDirectoryRequest() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateDirectoryRequest" /> class.
-        /// </summary>
-        /// <param name="directoryName">A descriptive name for the SCIM directory. (required).</param>
+        /// <param name="directoryName">A descriptive name for the SCIM directory..</param>
         public UpdateDirectoryRequest(string directoryName = default(string))
         {
-            // to ensure "directoryName" is required (not null)
-            if (directoryName == null)
-            {
-                throw new ArgumentNullException("directoryName is a required property for UpdateDirectoryRequest and cannot be null");
-            }
             this.DirectoryName = directoryName;
         }
 
@@ -55,7 +45,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>A descriptive name for the SCIM directory.</value>
         /// <example>Updated Production Directory</example>
-        [DataMember(Name = "directory_name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "directory_name", EmitDefaultValue = false)]
         public string DirectoryName { get; set; }
 
         /// <summary>

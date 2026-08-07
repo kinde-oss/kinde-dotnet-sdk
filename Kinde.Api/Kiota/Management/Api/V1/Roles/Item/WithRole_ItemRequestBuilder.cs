@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes;
+using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.System_permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Users;
 using Kinde.Api.Kiota.Management.Models;
 using Microsoft.Kiota.Abstractions.Extensions;
@@ -29,6 +30,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item
         public global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesRequestBuilder Scopes
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The system_permissions property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.System_permissions.System_permissionsRequestBuilder System_permissions
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.System_permissions.System_permissionsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The users property</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Users.UsersRequestBuilder Users

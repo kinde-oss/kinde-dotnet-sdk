@@ -50,6 +50,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
+            IsRecoveryCodesEnabled = true;
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value

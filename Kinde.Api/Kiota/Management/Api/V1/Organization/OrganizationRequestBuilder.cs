@@ -35,7 +35,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public OrganizationRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organization{?code*,expand*}", pathParameters)
+        public OrganizationRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organization{?expand*}", pathParameters)
         {
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public OrganizationRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organization{?code*,expand*}", rawUrl)
+        public OrganizationRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/organization{?expand*}", rawUrl)
         {
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
         public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationRequestBuilder.OrganizationRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/v1/organization?code={code}{&expand*}", PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             return requestInfo;

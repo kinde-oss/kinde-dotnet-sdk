@@ -32,9 +32,9 @@ namespace Kinde.Api.Model
     public partial class SetUserPasswordRequest : IEquatable<SetUserPasswordRequest>
     {
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum HashingMethodEnum
         {
@@ -65,9 +65,9 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.</value>
         [DataMember(Name = "hashing_method", EmitDefaultValue = false)]
         public HashingMethodEnum? HashingMethod { get; set; }
         /// <summary>
@@ -106,11 +106,13 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
         /// <param name="hashedPassword">The hashed password. (required).</param>
-        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the userâ€™s password. Default is bcrypt..</param>
+        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt..</param>
         /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt..</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt..</param>
+        /// <param name="iterations">The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor)..</param>
+        /// <param name="variant">The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512)..</param>
         /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one..</param>
-        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), bool? isTemporaryPassword = default(bool?))
+        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), int? iterations = default(int?), string variant = default(string), bool? isTemporaryPassword = default(bool?))
         {
             // to ensure "hashedPassword" is required (not null)
             if (hashedPassword == null)
@@ -121,6 +123,8 @@ namespace Kinde.Api.Model
             this.HashingMethod = hashingMethod;
             this.Salt = salt;
             this.SaltPosition = saltPosition;
+            this.Iterations = iterations;
+            this.Variant = variant;
             this.IsTemporaryPassword = isTemporaryPassword;
         }
 
@@ -137,6 +141,20 @@ namespace Kinde.Api.Model
         /// <value>Extra characters added to passwords to make them stronger. Not required for bcrypt.</value>
         [DataMember(Name = "salt", EmitDefaultValue = false)]
         public string Salt { get; set; }
+
+        /// <summary>
+        /// The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).
+        /// </summary>
+        /// <value>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).</value>
+        [DataMember(Name = "iterations", EmitDefaultValue = false)]
+        public int? Iterations { get; set; }
+
+        /// <summary>
+        /// The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).
+        /// </summary>
+        /// <value>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).</value>
+        [DataMember(Name = "variant", EmitDefaultValue = false)]
+        public string Variant { get; set; }
 
         /// <summary>
         /// The user will be prompted to set a new password after entering this one.
@@ -157,6 +175,8 @@ namespace Kinde.Api.Model
             sb.Append("  HashingMethod: ").Append(HashingMethod).Append("\n");
             sb.Append("  Salt: ").Append(Salt).Append("\n");
             sb.Append("  SaltPosition: ").Append(SaltPosition).Append("\n");
+            sb.Append("  Iterations: ").Append(Iterations).Append("\n");
+            sb.Append("  Variant: ").Append(Variant).Append("\n");
             sb.Append("  IsTemporaryPassword: ").Append(IsTemporaryPassword).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -210,7 +230,16 @@ namespace Kinde.Api.Model
                 (
                     this.SaltPosition == input.SaltPosition ||
                     this.SaltPosition.Equals(input.SaltPosition)
-                ) && 
+                ) &&
+                (
+                    this.Iterations == input.Iterations ||
+                    this.Iterations.Equals(input.Iterations)
+                ) &&
+                (
+                    this.Variant == input.Variant ||
+                    (this.Variant != null &&
+                    this.Variant.Equals(input.Variant))
+                ) &&
                 (
                     this.IsTemporaryPassword == input.IsTemporaryPassword ||
                     this.IsTemporaryPassword.Equals(input.IsTemporaryPassword)
@@ -236,6 +265,11 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Salt.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.SaltPosition.GetHashCode();
+                hashCode = (hashCode * 59) + this.Iterations.GetHashCode();
+                if (this.Variant != null)
+                {
+                    hashCode = (hashCode * 59) + this.Variant.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.IsTemporaryPassword.GetHashCode();
                 return hashCode;
             }

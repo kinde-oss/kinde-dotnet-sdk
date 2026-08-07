@@ -59,6 +59,38 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("directory_name", value); }
         }
 #endif
+        /// <summary>The enterprise connection ID used for SCIM-provisioned users.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? EnterpriseConnectionId
+        {
+            get { return BackingStore?.Get<string?>("enterprise_connection_id"); }
+            set { BackingStore?.Set("enterprise_connection_id", value); }
+        }
+#nullable restore
+#else
+        public string EnterpriseConnectionId
+        {
+            get { return BackingStore?.Get<string>("enterprise_connection_id"); }
+            set { BackingStore?.Set("enterprise_connection_id", value); }
+        }
+#endif
+        /// <summary>The display name of the selected enterprise connection.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? EnterpriseConnectionName
+        {
+            get { return BackingStore?.Get<string?>("enterprise_connection_name"); }
+            set { BackingStore?.Set("enterprise_connection_name", value); }
+        }
+#nullable restore
+#else
+        public string EnterpriseConnectionName
+        {
+            get { return BackingStore?.Get<string>("enterprise_connection_name"); }
+            set { BackingStore?.Set("enterprise_connection_name", value); }
+        }
+#endif
         /// <summary>The unique ID for the SCIM directory.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -170,6 +202,8 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "created_on", n => { CreatedOn = n.GetDateTimeOffsetValue(); } },
                 { "directory_endpoint_id", n => { DirectoryEndpointId = n.GetStringValue(); } },
                 { "directory_name", n => { DirectoryName = n.GetStringValue(); } },
+                { "enterprise_connection_id", n => { EnterpriseConnectionId = n.GetStringValue(); } },
+                { "enterprise_connection_name", n => { EnterpriseConnectionName = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "last_sync_completed_at", n => { LastSyncCompletedAt = n.GetDateTimeOffsetValue(); } },
                 { "last_sync_error", n => { LastSyncError = n.GetStringValue(); } },
@@ -189,6 +223,8 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteDateTimeOffsetValue("created_on", CreatedOn);
             writer.WriteStringValue("directory_endpoint_id", DirectoryEndpointId);
             writer.WriteStringValue("directory_name", DirectoryName);
+            writer.WriteStringValue("enterprise_connection_id", EnterpriseConnectionId);
+            writer.WriteStringValue("enterprise_connection_name", EnterpriseConnectionName);
             writer.WriteStringValue("id", Id);
             writer.WriteDateTimeOffsetValue("last_sync_completed_at", LastSyncCompletedAt);
             writer.WriteStringValue("last_sync_error", LastSyncError);

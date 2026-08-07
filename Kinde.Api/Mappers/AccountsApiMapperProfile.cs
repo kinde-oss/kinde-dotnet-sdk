@@ -17,6 +17,11 @@ namespace Kinde.Api.Mappers
             AllowNullCollections = true;
             AllowNullDestinationValues = true;
 
+            // Kiota's IBackedModel/IAdditionalDataHolder plumbing members never have a counterpart
+            // on the OpenAPI-generated side and would otherwise fail AssertConfigurationIsValid().
+            AddGlobalIgnore("AdditionalData");
+            AddGlobalIgnore("BackingStore");
+
             // ===== Error Models =====
             CreateMap<KiotaModels.Error, Error>().ReverseMap();
             CreateMap<KiotaModels.Error_response, ErrorResponse>().ReverseMap();
@@ -26,12 +31,23 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Get_entitlement_response, GetEntitlementResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_entitlement_response_data, GetEntitlementResponseData>().ReverseMap();
             CreateMap<KiotaModels.Get_entitlement_response_data_entitlement, EntitlementDetail>().ReverseMap();
-            CreateMap<KiotaModels.Get_entitlement_response_metadata, GetEntitlementsResponseMetadata>().ReverseMap();
+            // Note: Get_entitlement_response_metadata (singular "entitlement") is an empty Kiota class
+            // with no wire fields - the real Kinde API returns no pagination metadata for a single-entitlement
+            // lookup. GetEntitlementResponse.Metadata is typed as `object` and never routes through a typed
+            // CreateMap, so there is intentionally no CreateMap for Get_entitlement_response_metadata here -
+            // mapping it to GetEntitlementsResponseMetadata (the *plural*, paginated response's metadata,
+            // which has HasMore/NextPageStartingAfter) was a copy/paste bug that AutoMapper's validation
+            // correctly rejects ("No available constructor").
 
             CreateMap<KiotaModels.Get_entitlements_response, GetEntitlementsResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_entitlements_response_data, GetEntitlementsResponseData>().ReverseMap();
             CreateMap<KiotaModels.Get_entitlements_response_data_entitlements, Entitlement>().ReverseMap();
-            CreateMap<KiotaModels.Get_entitlements_response_data_plans, Plan>().ReverseMap();
+            // Plan's constructor requires a non-nullable DateTime for subscribedOn, but the Kiota
+            // side exposes SubscribedOn as DateTimeOffset? - AutoMapper's constructor-parameter
+            // binding won't implicitly unwrap/convert that combination, so it's mapped explicitly.
+            CreateMap<KiotaModels.Get_entitlements_response_data_plans, Plan>()
+                .ForCtorParam("subscribedOn", opt => opt.MapFrom(src => src.SubscribedOn.HasValue ? src.SubscribedOn.Value.DateTime : default(DateTime)))
+                .ReverseMap();
             CreateMap<KiotaModels.Get_entitlements_response_metadata, GetEntitlementsResponseMetadata>().ReverseMap();
 
             // ===== Feature Flags Models =====
@@ -48,6 +64,13 @@ namespace Kinde.Api.Mappers
             // ===== User Properties Models =====
             CreateMap<KiotaModels.Get_user_properties_response, GetUserPropertiesResponse>().ReverseMap();
             CreateMap<KiotaModels.Get_user_properties_response_data, GetUserPropertiesResponseData>().ReverseMap();
+            // UserPropertyValue only has internal constructors (it's a hand-authored oneOf
+            // wrapper), so it can't be built via reflection/constructor-mapping - convert it
+            // explicitly from the Kiota composed-type wrapper's Boolean/Integer/String members.
+            CreateMap<KiotaModels.Get_user_properties_response_data_properties.Get_user_properties_response_data_properties_value, UserPropertyValue>()
+                .ConvertUsing(src => ConvertUserPropertyValue(src));
+            CreateMap<UserPropertyValue, KiotaModels.Get_user_properties_response_data_properties.Get_user_properties_response_data_properties_value>()
+                .ConvertUsing(src => ConvertToKiotaPropertyValue(src));
             CreateMap<KiotaModels.Get_user_properties_response_data_properties, UserProperty>().ReverseMap();
             CreateMap<KiotaModels.Get_user_properties_response_metadata, GetUserPropertiesResponseMetadata>().ReverseMap();
 
@@ -65,6 +88,25 @@ namespace Kinde.Api.Mappers
 
             // ===== User Profile Models =====
             CreateMap<KiotaModels.User_profile_v2, UserProfileV2>().ReverseMap();
+        }
+
+        private static UserPropertyValue ConvertUserPropertyValue(KiotaModels.Get_user_properties_response_data_properties.Get_user_properties_response_data_properties_value src)
+        {
+            if (src is null) return null;
+            if (src.String is not null) return new UserPropertyValue(src.String);
+            if (src.Boolean.HasValue) return new UserPropertyValue(src.Boolean.Value);
+            if (src.Integer.HasValue) return new UserPropertyValue(src.Integer.Value);
+            return null;
+        }
+
+        private static KiotaModels.Get_user_properties_response_data_properties.Get_user_properties_response_data_properties_value ConvertToKiotaPropertyValue(UserPropertyValue src)
+        {
+            if (src is null) return null;
+            var result = new KiotaModels.Get_user_properties_response_data_properties.Get_user_properties_response_data_properties_value();
+            if (src.VarString is not null) result.String = src.VarString;
+            else if (src.VarBool.HasValue) result.Boolean = src.VarBool.Value;
+            else if (src.VarInt.HasValue) result.Integer = src.VarInt.Value;
+            return result;
         }
     }
 }

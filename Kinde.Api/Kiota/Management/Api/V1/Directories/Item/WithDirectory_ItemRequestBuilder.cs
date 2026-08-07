@@ -41,7 +41,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 400 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 403 status code</exception>
-        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Not_found_response">When receiving a 404 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 404 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 429 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -57,7 +57,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
             {
                 { "400", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "403", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
-                { "404", global::Kinde.Api.Kiota.Management.Models.Not_found_response.CreateFromDiscriminatorValue },
+                { "404", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Delete_directory_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Delete_directory_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
@@ -70,7 +70,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 400 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 403 status code</exception>
-        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Not_found_response">When receiving a 404 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 404 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 429 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -86,13 +86,13 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
             {
                 { "400", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "403", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
-                { "404", global::Kinde.Api.Kiota.Management.Models.Not_found_response.CreateFromDiscriminatorValue },
+                { "404", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Get_directory_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Get_directory_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update SCIM directory configuration.
+        /// Update SCIM directory configuration.&lt;div&gt;  &lt;code&gt;update:scim_directories&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Update_directory_response"/></returns>
         /// <param name="body">The request body</param>
@@ -100,7 +100,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 400 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 403 status code</exception>
-        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Not_found_response">When receiving a 404 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 404 status code</exception>
         /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 429 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -117,7 +117,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
             {
                 { "400", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "403", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
-                { "404", global::Kinde.Api.Kiota.Management.Models.Not_found_response.CreateFromDiscriminatorValue },
+                { "404", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
                 { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Update_directory_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Update_directory_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
@@ -161,7 +161,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories.Item
             return requestInfo;
         }
         /// <summary>
-        /// Update SCIM directory configuration.
+        /// Update SCIM directory configuration.&lt;div&gt;  &lt;code&gt;update:scim_directories&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

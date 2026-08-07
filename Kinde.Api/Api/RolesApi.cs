@@ -191,10 +191,37 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of RoleScopesResponse</returns>
         ApiResponse<RoleScopesResponse> GetRoleScopesWithHttpInfo(string roleId);
         /// <summary>
+        /// Get role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>RoleSystemPermissionsResponse</returns>
+        RoleSystemPermissionsResponse GetRoleSystemPermissions(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// Get role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of RoleSystemPermissionsResponse</returns>
+        ApiResponse<RoleSystemPermissionsResponse> GetRoleSystemPermissionsWithHttpInfo(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+        /// <summary>
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -216,10 +243,35 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetRolesResponse</returns>
         ApiResponse<GetRolesResponse> GetRolesWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         /// <summary>
+        /// List system permissions
+        /// </summary>
+        /// <remarks>
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetSystemPermissionsResponse</returns>
+        GetSystemPermissionsResponse GetSystemPermissions(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// List system permissions
+        /// </summary>
+        /// <remarks>
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetSystemPermissionsResponse</returns>
+        ApiResponse<GetSystemPermissionsResponse> GetSystemPermissionsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+        /// <summary>
         /// Remove role permission
         /// </summary>
         /// <remarks>
-        /// Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -254,13 +306,36 @@ namespace Kinde.Api.Api
         /// Update role permissions
         /// </summary>
         /// <remarks>
-        /// Update role permissions.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Update role permissions.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
         /// <param name="updateRolePermissionsRequest"></param>
         /// <returns>ApiResponse of UpdateRolePermissionsResponse</returns>
         ApiResponse<UpdateRolePermissionsResponse> UpdateRolePermissionsWithHttpInfo(string roleId, UpdateRolePermissionsRequest updateRolePermissionsRequest);
+        /// <summary>
+        /// Update role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <returns>UpdateRoleSystemPermissionsResponse</returns>
+        UpdateRoleSystemPermissionsResponse UpdateRoleSystemPermissions(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest);
+
+        /// <summary>
+        /// Update role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <returns>ApiResponse of UpdateRoleSystemPermissionsResponse</returns>
+        ApiResponse<UpdateRoleSystemPermissionsResponse> UpdateRoleSystemPermissionsWithHttpInfo(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest);
         /// <summary>
         /// Update role
         /// </summary>
@@ -465,10 +540,39 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (RoleScopesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<RoleScopesResponse>> GetRoleScopesWithHttpInfoAsync(string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RoleSystemPermissionsResponse</returns>
+        System.Threading.Tasks.Task<RoleSystemPermissionsResponse> GetRoleSystemPermissionsAsync(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RoleSystemPermissionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RoleSystemPermissionsResponse>> GetRoleSystemPermissionsWithHttpInfoAsync(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -492,10 +596,37 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetRolesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetRolesResponse>> GetRolesWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// List system permissions
+        /// </summary>
+        /// <remarks>
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetSystemPermissionsResponse</returns>
+        System.Threading.Tasks.Task<GetSystemPermissionsResponse> GetSystemPermissionsAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List system permissions
+        /// </summary>
+        /// <remarks>
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetSystemPermissionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetSystemPermissionsResponse>> GetSystemPermissionsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Remove role permission
         /// </summary>
         /// <remarks>
-        /// Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -533,7 +664,7 @@ namespace Kinde.Api.Api
         /// Update role permissions
         /// </summary>
         /// <remarks>
-        /// Update role permissions.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Update role permissions.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -541,6 +672,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UpdateRolePermissionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<UpdateRolePermissionsResponse>> UpdateRolePermissionsWithHttpInfoAsync(string roleId, UpdateRolePermissionsRequest updateRolePermissionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateRoleSystemPermissionsResponse</returns>
+        System.Threading.Tasks.Task<UpdateRoleSystemPermissionsResponse> UpdateRoleSystemPermissionsAsync(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update role system permissions
+        /// </summary>
+        /// <remarks>
+        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateRoleSystemPermissionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdateRoleSystemPermissionsResponse>> UpdateRoleSystemPermissionsWithHttpInfoAsync(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update role
         /// </summary>
@@ -1666,7 +1822,169 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>RoleSystemPermissionsResponse</returns>
+        public RoleSystemPermissionsResponse GetRoleSystemPermissions(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<RoleSystemPermissionsResponse> localVarResponse = GetRoleSystemPermissionsWithHttpInfo(roleId, sort, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of RoleSystemPermissionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RoleSystemPermissionsResponse> GetRoleSystemPermissionsWithHttpInfo(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRoleSystemPermissions");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<RoleSystemPermissionsResponse>("/api/v1/roles/{role_id}/system_permissions", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetRoleSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RoleSystemPermissionsResponse</returns>
+        public async System.Threading.Tasks.Task<RoleSystemPermissionsResponse> GetRoleSystemPermissionsAsync(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<RoleSystemPermissionsResponse> localVarResponse = await GetRoleSystemPermissionsWithHttpInfoAsync(roleId, sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RoleSystemPermissionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RoleSystemPermissionsResponse>> GetRoleSystemPermissionsWithHttpInfoAsync(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRoleSystemPermissions");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<RoleSystemPermissionsResponse>("/api/v1/roles/{role_id}/system_permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetRoleSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -1796,7 +2114,155 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Remove role permission Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetSystemPermissionsResponse</returns>
+        public GetSystemPermissionsResponse GetSystemPermissions(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetSystemPermissionsResponse> localVarResponse = GetSystemPermissionsWithHttpInfo(sort, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetSystemPermissionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetSystemPermissionsResponse> GetSystemPermissionsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetSystemPermissionsResponse>("/api/v1/system_permissions", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetSystemPermissionsResponse</returns>
+        public async System.Threading.Tasks.Task<GetSystemPermissionsResponse> GetSystemPermissionsAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetSystemPermissionsResponse> localVarResponse = await GetSystemPermissionsWithHttpInfoAsync(sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetSystemPermissionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetSystemPermissionsResponse>> GetSystemPermissionsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (sort != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+            }
+            if (pageSize != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+            }
+            if (nextToken != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
+            }
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetSystemPermissionsResponse>("/api/v1/system_permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Remove role permission Remove a permission from a role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -2042,7 +2508,149 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update role Update a role  &lt;div&gt;   &lt;code&gt;update:roles&lt;/code&gt; &lt;/div&gt; 
+        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <returns>UpdateRoleSystemPermissionsResponse</returns>
+        public UpdateRoleSystemPermissionsResponse UpdateRoleSystemPermissions(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest)
+        {
+            Kinde.Api.Client.ApiResponse<UpdateRoleSystemPermissionsResponse> localVarResponse = UpdateRoleSystemPermissionsWithHttpInfo(roleId, updateRoleSystemPermissionsRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <returns>ApiResponse of UpdateRoleSystemPermissionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdateRoleSystemPermissionsResponse> UpdateRoleSystemPermissionsWithHttpInfo(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest)
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->UpdateRoleSystemPermissions");
+
+            // verify the required parameter 'updateRoleSystemPermissionsRequest' is set
+            if (updateRoleSystemPermissionsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateRoleSystemPermissionsRequest' when calling RolesApi->UpdateRoleSystemPermissions");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.Data = updateRoleSystemPermissionsRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Patch<UpdateRoleSystemPermissionsResponse>("/api/v1/roles/{role_id}/system_permissions", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateRoleSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateRoleSystemPermissionsResponse</returns>
+        public async System.Threading.Tasks.Task<UpdateRoleSystemPermissionsResponse> UpdateRoleSystemPermissionsAsync(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<UpdateRoleSystemPermissionsResponse> localVarResponse = await UpdateRoleSystemPermissionsWithHttpInfoAsync(roleId, updateRoleSystemPermissionsRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="updateRoleSystemPermissionsRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateRoleSystemPermissionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateRoleSystemPermissionsResponse>> UpdateRoleSystemPermissionsWithHttpInfoAsync(string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->UpdateRoleSystemPermissions");
+
+            // verify the required parameter 'updateRoleSystemPermissionsRequest' is set
+            if (updateRoleSystemPermissionsRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateRoleSystemPermissionsRequest' when calling RolesApi->UpdateRoleSystemPermissions");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
+            localVarRequestOptions.Data = updateRoleSystemPermissionsRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateRoleSystemPermissionsResponse>("/api/v1/roles/{role_id}/system_permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateRoleSystemPermissions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update role Update a role  &lt;div&gt;   &lt;code&gt;update:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>

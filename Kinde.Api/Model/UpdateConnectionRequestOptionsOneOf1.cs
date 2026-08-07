@@ -132,7 +132,8 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
         /// <param name="samlEntityId">SAML Entity ID..</param>
-        /// <param name="samlIdpMetadataUrl">URL for the IdP metadata..</param>
+        /// <param name="samlIdpMetadataUrl">URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided..</param>
+        /// <param name="samlIdpMetadataXml">Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set..</param>
         /// <param name="samlSignInUrl">Override the default SSO endpoint with a URL your IdP recognizes..</param>
         /// <param name="signRequestAlgorithm">Algorithm used to sign SAML requests..</param>
         /// <param name="protocolBinding">Protocol binding used to send SAML requests..</param>
@@ -148,11 +149,12 @@ namespace Kinde.Api.Model
         /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
         /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public UpdateConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlSignInUrl = default(string), SignRequestAlgorithmEnum? signRequestAlgorithm = default(SignRequestAlgorithmEnum?), ProtocolBindingEnum? protocolBinding = default(ProtocolBindingEnum?), NameIdFormatEnum? nameIdFormat = default(NameIdFormatEnum?), string samlEmailKeyAttr = default(string), string samlUserIdKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        public UpdateConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlIdpMetadataXml = default(string), string samlSignInUrl = default(string), SignRequestAlgorithmEnum? signRequestAlgorithm = default(SignRequestAlgorithmEnum?), ProtocolBindingEnum? protocolBinding = default(ProtocolBindingEnum?), NameIdFormatEnum? nameIdFormat = default(NameIdFormatEnum?), string samlEmailKeyAttr = default(string), string samlUserIdKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.HomeRealmDomains = homeRealmDomains;
             this.SamlEntityId = samlEntityId;
             this.SamlIdpMetadataUrl = samlIdpMetadataUrl;
+            this.SamlIdpMetadataXml = samlIdpMetadataXml;
             this.SamlSignInUrl = samlSignInUrl;
             this.SignRequestAlgorithm = signRequestAlgorithm;
             this.ProtocolBinding = protocolBinding;
@@ -187,12 +189,19 @@ namespace Kinde.Api.Model
         public string SamlEntityId { get; set; }
 
         /// <summary>
-        /// URL for the IdP metadata.
+        /// URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided.
         /// </summary>
-        /// <value>URL for the IdP metadata.</value>
+        /// <value>URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided.</value>
         /// <example>https://kinde.com/saml/metadata</example>
         [DataMember(Name = "saml_idp_metadata_url", EmitDefaultValue = false)]
         public string SamlIdpMetadataUrl { get; set; }
+
+        /// <summary>
+        /// Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set.
+        /// </summary>
+        /// <value>Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set.</value>
+        [DataMember(Name = "saml_idp_metadata_xml", EmitDefaultValue = false)]
+        public string SamlIdpMetadataXml { get; set; }
 
         /// <summary>
         /// Override the default SSO endpoint with a URL your IdP recognizes.
@@ -299,6 +308,7 @@ namespace Kinde.Api.Model
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
             sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
             sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
+            sb.Append("  SamlIdpMetadataXml: ").Append(SamlIdpMetadataXml).Append("\n");
             sb.Append("  SamlSignInUrl: ").Append(SamlSignInUrl).Append("\n");
             sb.Append("  SignRequestAlgorithm: ").Append(SignRequestAlgorithm).Append("\n");
             sb.Append("  ProtocolBinding: ").Append(ProtocolBinding).Append("\n");
@@ -364,7 +374,12 @@ namespace Kinde.Api.Model
                     this.SamlIdpMetadataUrl == input.SamlIdpMetadataUrl ||
                     (this.SamlIdpMetadataUrl != null &&
                     this.SamlIdpMetadataUrl.Equals(input.SamlIdpMetadataUrl))
-                ) && 
+                ) &&
+                (
+                    this.SamlIdpMetadataXml == input.SamlIdpMetadataXml ||
+                    (this.SamlIdpMetadataXml != null &&
+                    this.SamlIdpMetadataXml.Equals(input.SamlIdpMetadataXml))
+                ) &&
                 (
                     this.SamlSignInUrl == input.SamlSignInUrl ||
                     (this.SamlSignInUrl != null &&
@@ -456,6 +471,10 @@ namespace Kinde.Api.Model
                 if (this.SamlIdpMetadataUrl != null)
                 {
                     hashCode = (hashCode * 59) + this.SamlIdpMetadataUrl.GetHashCode();
+                }
+                if (this.SamlIdpMetadataXml != null)
+                {
+                    hashCode = (hashCode * 59) + this.SamlIdpMetadataXml.GetHashCode();
                 }
                 if (this.SamlSignInUrl != null)
                 {

@@ -180,6 +180,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> CreateOrganizationUserRoleWithHttpInfo(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest);
         /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>CreateOrganizationInviteResponse</returns>
+        CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
+
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
+        ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
+        /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
@@ -475,10 +498,31 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationFeatureFlagsResponse</returns>
         ApiResponse<GetOrganizationFeatureFlagsResponse> GetOrganizationFeatureFlagsWithHttpInfo(string orgCode);
         /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetOrganizationPasskeyResponse</returns>
+        GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode);
+
+        /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode);
+        /// <summary>
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -788,10 +832,33 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value);
         /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
+
+        /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
+        /// <summary>
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1048,6 +1115,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateOrganizationInviteResponse</returns>
+        System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete Organization
         /// </summary>
@@ -1370,10 +1462,33 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationFeatureFlagsResponse>> GetOrganizationFeatureFlagsWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1709,10 +1824,35 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -2606,6 +2746,87 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationUserRole: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>CreateOrganizationInviteResponse</returns>
+        public CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> localVarResponse = CreateOrganizationInviteWithHttpInfo(orgCode, createOrganizationInviteRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateOrganizationInviteWithHttpInfoAsync(orgCode, createOrganizationInviteRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateOrganizationInviteResponse</returns>
+        public async System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> localVarResponse = await CreateOrganizationInviteWithHttpInfoAsync(orgCode, createOrganizationInviteRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationInvite");
+
+            // verify the required parameter 'createOrganizationInviteRequest' is set
+            if (createOrganizationInviteRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationInviteRequest' when calling OrganizationsApi->CreateOrganizationInvite");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(createOrganizationInviteRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Invites.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateOrganizationInviteResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse>(
+                    System.Net.HttpStatusCode.Created,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationInvite: {ex.Message}", ex);
             }
         }
 
@@ -3603,7 +3824,133 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetOrganizationPasskeyResponse</returns>
+        public GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = GetOrganizationPasskeyWithHttpInfo(orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = await GetOrganizationPasskeyWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4696,7 +5043,149 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        public UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
+        {
+            Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = UpdateOrganizationPasskeyWithHttpInfo(orgCode, updateOrganizationPasskeyRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            // verify the required parameter 'updateOrganizationPasskeyRequest' is set
+            if (updateOrganizationPasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPasskeyRequest' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationPasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<UpdateOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = await UpdateOrganizationPasskeyWithHttpInfoAsync(orgCode, updateOrganizationPasskeyRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            // verify the required parameter 'updateOrganizationPasskeyRequest' is set
+            if (updateOrganizationPasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPasskeyRequest' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationPasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PutAsync<UpdateOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>

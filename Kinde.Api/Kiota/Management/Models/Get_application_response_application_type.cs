@@ -19,5 +19,9 @@ namespace Kinde.Api.Kiota.Management.Models
         #pragma warning disable CS1591
         Spa,
         #pragma warning restore CS1591
+        [EnumMember(Value = "device")]
+        #pragma warning disable CS1591
+        Device,
+        #pragma warning restore CS1591
     }
 }
