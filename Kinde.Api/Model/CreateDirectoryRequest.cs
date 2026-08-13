@@ -112,7 +112,8 @@ namespace Kinde.Api.Model
         /// <param name="orgCode">The organization code to create the SCIM directory for. (required).</param>
         /// <param name="directoryName">A descriptive name for the SCIM directory. (required).</param>
         /// <param name="providerCode">The SCIM provider code to use for this directory. (required).</param>
-        public CreateDirectoryRequest(string orgCode = default(string), string directoryName = default(string), ProviderCodeEnum providerCode = default(ProviderCodeEnum))
+        /// <param name="enterpriseConnectionId">The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections. .</param>
+        public CreateDirectoryRequest(string orgCode = default(string), string directoryName = default(string), ProviderCodeEnum providerCode = default(ProviderCodeEnum), string enterpriseConnectionId = default(string))
         {
             // to ensure "orgCode" is required (not null)
             if (orgCode == null)
@@ -127,6 +128,7 @@ namespace Kinde.Api.Model
             }
             this.DirectoryName = directoryName;
             this.ProviderCode = providerCode;
+            this.EnterpriseConnectionId = enterpriseConnectionId;
         }
 
         /// <summary>
@@ -146,6 +148,14 @@ namespace Kinde.Api.Model
         public string DirectoryName { get; set; }
 
         /// <summary>
+        /// The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections.
+        /// </summary>
+        /// <value>The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections. </value>
+        /// <example>conn_01h9xyzabc123</example>
+        [DataMember(Name = "enterprise_connection_id", EmitDefaultValue = false)]
+        public string EnterpriseConnectionId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -156,6 +166,7 @@ namespace Kinde.Api.Model
             sb.Append("  OrgCode: ").Append(OrgCode).Append("\n");
             sb.Append("  DirectoryName: ").Append(DirectoryName).Append("\n");
             sb.Append("  ProviderCode: ").Append(ProviderCode).Append("\n");
+            sb.Append("  EnterpriseConnectionId: ").Append(EnterpriseConnectionId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -204,6 +215,11 @@ namespace Kinde.Api.Model
                 (
                     this.ProviderCode == input.ProviderCode ||
                     this.ProviderCode.Equals(input.ProviderCode)
+                ) &&
+                (
+                    this.EnterpriseConnectionId == input.EnterpriseConnectionId ||
+                    (this.EnterpriseConnectionId != null &&
+                    this.EnterpriseConnectionId.Equals(input.EnterpriseConnectionId))
                 );
         }
 
@@ -225,6 +241,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.DirectoryName.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.ProviderCode.GetHashCode();
+                if (this.EnterpriseConnectionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.EnterpriseConnectionId.GetHashCode();
+                }
                 return hashCode;
             }
         }

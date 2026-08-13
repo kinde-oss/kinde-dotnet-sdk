@@ -53,7 +53,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
 #endif
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>The email address used for billing purposes for the organization</summary>
+        /// <summary>The email address used for billing purposes for the organization. Required when is_create_billing_customer is true</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? BillingEmail
@@ -69,7 +69,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
             set { BackingStore?.Set("billing_email", value); }
         }
 #endif
-        /// <summary>The billing plan to put the customer on. If not specified, the default plan is used</summary>
+        /// <summary>Code of a published organization billing plan to assign to the new billing customer.If omitted, the default organization plan is used.User plans and unpublished plans are rejected.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? BillingPlanCode
@@ -210,7 +210,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization
             get { return BackingStore?.Get<bool?>("is_auto_membership_enabled"); }
             set { BackingStore?.Set("is_auto_membership_enabled", value); }
         }
-        /// <summary>If a billing customer is also created for this organization</summary>
+        /// <summary>If an organization billing customer is also created for this organization</summary>
         public bool? IsCreateBillingCustomer
         {
             get { return BackingStore?.Get<bool?>("is_create_billing_customer"); }

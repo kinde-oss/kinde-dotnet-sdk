@@ -37,6 +37,22 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
             set { BackingStore?.Set("directory_name", value); }
         }
 #endif
+        /// <summary>The enterprise connection ID to associate with this directory for SCIM-provisioned users.Required when the organization has multiple enabled enterprise connections.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? EnterpriseConnectionId
+        {
+            get { return BackingStore?.Get<string?>("enterprise_connection_id"); }
+            set { BackingStore?.Set("enterprise_connection_id", value); }
+        }
+#nullable restore
+#else
+        public string EnterpriseConnectionId
+        {
+            get { return BackingStore?.Get<string>("enterprise_connection_id"); }
+            set { BackingStore?.Set("enterprise_connection_id", value); }
+        }
+#endif
         /// <summary>The organization code to create the SCIM directory for.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -86,6 +102,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "directory_name", n => { DirectoryName = n.GetStringValue(); } },
+                { "enterprise_connection_id", n => { EnterpriseConnectionId = n.GetStringValue(); } },
                 { "org_code", n => { OrgCode = n.GetStringValue(); } },
                 { "provider_code", n => { ProviderCode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code>(); } },
             };
@@ -98,6 +115,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("directory_name", DirectoryName);
+            writer.WriteStringValue("enterprise_connection_id", EnterpriseConnectionId);
             writer.WriteStringValue("org_code", OrgCode);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code>("provider_code", ProviderCode);
             writer.WriteAdditionalData(AdditionalData);

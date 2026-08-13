@@ -86,11 +86,13 @@ namespace Kinde.Api.Model
         /// <param name="secretToken">The secret token for SCIM authentication..</param>
         /// <param name="status">The current status of the SCIM directory..</param>
         /// <param name="organizationCode">The organization code this directory belongs to..</param>
+        /// <param name="enterpriseConnectionId">The enterprise connection ID used for SCIM-provisioned users..</param>
+        /// <param name="enterpriseConnectionName">The display name of the selected enterprise connection..</param>
         /// <param name="lastSyncStartedAt">When the last sync started..</param>
         /// <param name="lastSyncCompletedAt">When the last sync completed..</param>
         /// <param name="lastSyncError">The last sync error message..</param>
         /// <param name="createdOn">When the directory was created..</param>
-        public Directory(string id = default(string), string directoryName = default(string), string directoryEndpointId = default(string), string secretToken = default(string), StatusEnum? status = default(StatusEnum?), string organizationCode = default(string), DateTimeOffset? lastSyncStartedAt = default(DateTimeOffset?), DateTimeOffset? lastSyncCompletedAt = default(DateTimeOffset?), string lastSyncError = default(string), DateTimeOffset createdOn = default(DateTimeOffset))
+        public Directory(string id = default(string), string directoryName = default(string), string directoryEndpointId = default(string), string secretToken = default(string), StatusEnum? status = default(StatusEnum?), string organizationCode = default(string), string enterpriseConnectionId = default(string), string enterpriseConnectionName = default(string), DateTimeOffset? lastSyncStartedAt = default(DateTimeOffset?), DateTimeOffset? lastSyncCompletedAt = default(DateTimeOffset?), string lastSyncError = default(string), DateTimeOffset createdOn = default(DateTimeOffset))
         {
             this.Id = id;
             this.DirectoryName = directoryName;
@@ -98,6 +100,8 @@ namespace Kinde.Api.Model
             this.SecretToken = secretToken;
             this.Status = status;
             this.OrganizationCode = organizationCode;
+            this.EnterpriseConnectionId = enterpriseConnectionId;
+            this.EnterpriseConnectionName = enterpriseConnectionName;
             this.LastSyncStartedAt = lastSyncStartedAt;
             this.LastSyncCompletedAt = lastSyncCompletedAt;
             this.LastSyncError = lastSyncError;
@@ -145,6 +149,22 @@ namespace Kinde.Api.Model
         public string OrganizationCode { get; set; }
 
         /// <summary>
+        /// The enterprise connection ID used for SCIM-provisioned users.
+        /// </summary>
+        /// <value>The enterprise connection ID used for SCIM-provisioned users.</value>
+        /// <example>conn_01h9xyzabc123</example>
+        [DataMember(Name = "enterprise_connection_id", EmitDefaultValue = false)]
+        public string EnterpriseConnectionId { get; set; }
+
+        /// <summary>
+        /// The display name of the selected enterprise connection.
+        /// </summary>
+        /// <value>The display name of the selected enterprise connection.</value>
+        /// <example>ACME SAML</example>
+        [DataMember(Name = "enterprise_connection_name", EmitDefaultValue = false)]
+        public string EnterpriseConnectionName { get; set; }
+
+        /// <summary>
         /// When the last sync started.
         /// </summary>
         /// <value>When the last sync started.</value>
@@ -190,6 +210,8 @@ namespace Kinde.Api.Model
             sb.Append("  SecretToken: ").Append(SecretToken).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  OrganizationCode: ").Append(OrganizationCode).Append("\n");
+            sb.Append("  EnterpriseConnectionId: ").Append(EnterpriseConnectionId).Append("\n");
+            sb.Append("  EnterpriseConnectionName: ").Append(EnterpriseConnectionName).Append("\n");
             sb.Append("  LastSyncStartedAt: ").Append(LastSyncStartedAt).Append("\n");
             sb.Append("  LastSyncCompletedAt: ").Append(LastSyncCompletedAt).Append("\n");
             sb.Append("  LastSyncError: ").Append(LastSyncError).Append("\n");
@@ -257,7 +279,17 @@ namespace Kinde.Api.Model
                     this.OrganizationCode == input.OrganizationCode ||
                     (this.OrganizationCode != null &&
                     this.OrganizationCode.Equals(input.OrganizationCode))
-                ) && 
+                ) &&
+                (
+                    this.EnterpriseConnectionId == input.EnterpriseConnectionId ||
+                    (this.EnterpriseConnectionId != null &&
+                    this.EnterpriseConnectionId.Equals(input.EnterpriseConnectionId))
+                ) &&
+                (
+                    this.EnterpriseConnectionName == input.EnterpriseConnectionName ||
+                    (this.EnterpriseConnectionName != null &&
+                    this.EnterpriseConnectionName.Equals(input.EnterpriseConnectionName))
+                ) &&
                 (
                     this.LastSyncStartedAt == input.LastSyncStartedAt ||
                     (this.LastSyncStartedAt != null &&
@@ -309,6 +341,14 @@ namespace Kinde.Api.Model
                 if (this.OrganizationCode != null)
                 {
                     hashCode = (hashCode * 59) + this.OrganizationCode.GetHashCode();
+                }
+                if (this.EnterpriseConnectionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.EnterpriseConnectionId.GetHashCode();
+                }
+                if (this.EnterpriseConnectionName != null)
+                {
+                    hashCode = (hashCode * 59) + this.EnterpriseConnectionName.GetHashCode();
                 }
                 if (this.LastSyncStartedAt != null)
                 {

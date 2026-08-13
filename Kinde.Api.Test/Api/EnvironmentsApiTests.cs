@@ -125,6 +125,17 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetPasskey
+        /// </summary>
+        [Fact]
+        public void GetPasskeyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.GetPasskey();
+            //Assert.IsType<GetPasskeyResponse>(response);
+        }
+
+        /// <summary>
         /// Test ReadLogo
         /// </summary>
         [Fact]
@@ -146,6 +157,18 @@ namespace Kinde.Api.Test.Api
             //UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest = null;
             //var response = instance.UpdateEnvironementFeatureFlagOverride(featureFlagKey, updateEnvironementFeatureFlagOverrideRequest);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdatePasskey
+        /// </summary>
+        [Fact]
+        public void UpdatePasskeyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //UpdatePasskeyRequest updatePasskeyRequest = null;
+            //var response = instance.UpdatePasskey(updatePasskeyRequest);
+            //Assert.IsType<UpdatePasskeyResponse>(response);
         }
     }
 }

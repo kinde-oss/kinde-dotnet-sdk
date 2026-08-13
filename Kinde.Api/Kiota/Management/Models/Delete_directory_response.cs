@@ -37,6 +37,22 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("code", value); }
         }
 #endif
+        /// <summary>The ID of the deleted SCIM directory.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? DirectoryId
+        {
+            get { return BackingStore?.Get<string?>("directory_id"); }
+            set { BackingStore?.Set("directory_id", value); }
+        }
+#nullable restore
+#else
+        public string DirectoryId
+        {
+            get { return BackingStore?.Get<string>("directory_id"); }
+            set { BackingStore?.Set("directory_id", value); }
+        }
+#endif
         /// <summary>Response message.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -80,6 +96,7 @@ namespace Kinde.Api.Kiota.Management.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
+                { "directory_id", n => { DirectoryId = n.GetStringValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
             };
         }
@@ -91,6 +108,7 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
+            writer.WriteStringValue("directory_id", DirectoryId);
             writer.WriteStringValue("message", Message);
             writer.WriteAdditionalData(AdditionalData);
         }

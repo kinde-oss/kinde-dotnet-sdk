@@ -36,10 +36,12 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="identity">identity.</param>
-        public UserIdentitiesInner(string type = default(string), string identity = default(string))
+        /// <param name="connectionId">The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities..</param>
+        public UserIdentitiesInner(string type = default(string), string identity = default(string), string connectionId = default(string))
         {
             this.Type = type;
             this.Identity = identity;
+            this.ConnectionId = connectionId;
         }
 
         /// <summary>
@@ -55,6 +57,14 @@ namespace Kinde.Api.Model
         public string Identity { get; set; }
 
         /// <summary>
+        /// The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities.
+        /// </summary>
+        /// <value>The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities.</value>
+        /// <example>conn_019289347f1193da6c0e4d49b97b4bd2</example>
+        [DataMember(Name = "connection_id", EmitDefaultValue = false)]
+        public string ConnectionId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -64,6 +74,7 @@ namespace Kinde.Api.Model
             sb.Append("class UserIdentitiesInner {\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Identity: ").Append(Identity).Append("\n");
+            sb.Append("  ConnectionId: ").Append(ConnectionId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -108,6 +119,11 @@ namespace Kinde.Api.Model
                     this.Identity == input.Identity ||
                     (this.Identity != null &&
                     this.Identity.Equals(input.Identity))
+                ) &&
+                (
+                    this.ConnectionId == input.ConnectionId ||
+                    (this.ConnectionId != null &&
+                    this.ConnectionId.Equals(input.ConnectionId))
                 );
         }
 
@@ -127,6 +143,10 @@ namespace Kinde.Api.Model
                 if (this.Identity != null)
                 {
                     hashCode = (hashCode * 59) + this.Identity.GetHashCode();
+                }
+                if (this.ConnectionId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ConnectionId.GetHashCode();
                 }
                 return hashCode;
             }

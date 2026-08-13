@@ -301,6 +301,18 @@ namespace Kinde.Api.Test.Api
         }
 
         /// <summary>
+        /// Test GetOrganizationPasskey
+        /// </summary>
+        [Fact]
+        public void GetOrganizationPasskeyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //var response = instance.GetOrganizationPasskey(orgCode);
+            //Assert.IsType<GetOrganizationPasskeyResponse>(response);
+        }
+
+        /// <summary>
         /// Test GetOrganizationPropertyValues
         /// </summary>
         [Fact]
@@ -474,6 +486,19 @@ namespace Kinde.Api.Test.Api
             //string value = null;
             //var response = instance.UpdateOrganizationFeatureFlagOverride(orgCode, featureFlagKey, value);
             //Assert.IsType<SuccessResponse>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateOrganizationPasskey
+        /// </summary>
+        [Fact]
+        public void UpdateOrganizationPasskeyTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string orgCode = null;
+            //UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest = null;
+            //var response = instance.UpdateOrganizationPasskey(orgCode, updateOrganizationPasskeyRequest);
+            //Assert.IsType<UpdateOrganizationPasskeyResponse>(response);
         }
 
         /// <summary>

@@ -36,10 +36,12 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="code">Response code..</param>
         /// <param name="message">Response message..</param>
-        public DeleteDirectoryResponse(string code = default(string), string message = default(string))
+        /// <param name="directoryId">The ID of the deleted SCIM directory..</param>
+        public DeleteDirectoryResponse(string code = default(string), string message = default(string), string directoryId = default(string))
         {
             this.Code = code;
             this.Message = message;
+            this.DirectoryId = directoryId;
         }
 
         /// <summary>
@@ -59,6 +61,14 @@ namespace Kinde.Api.Model
         public string Message { get; set; }
 
         /// <summary>
+        /// The ID of the deleted SCIM directory.
+        /// </summary>
+        /// <value>The ID of the deleted SCIM directory.</value>
+        /// <example>directory_0192b1941f125645fa15bf28a662a0b3</example>
+        [DataMember(Name = "directory_id", EmitDefaultValue = false)]
+        public string DirectoryId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -68,6 +78,7 @@ namespace Kinde.Api.Model
             sb.Append("class DeleteDirectoryResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  DirectoryId: ").Append(DirectoryId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,6 +123,11 @@ namespace Kinde.Api.Model
                     this.Message == input.Message ||
                     (this.Message != null &&
                     this.Message.Equals(input.Message))
+                ) &&
+                (
+                    this.DirectoryId == input.DirectoryId ||
+                    (this.DirectoryId != null &&
+                    this.DirectoryId.Equals(input.DirectoryId))
                 );
         }
 
@@ -131,6 +147,10 @@ namespace Kinde.Api.Model
                 if (this.Message != null)
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
+                if (this.DirectoryId != null)
+                {
+                    hashCode = (hashCode * 59) + this.DirectoryId.GetHashCode();
                 }
                 return hashCode;
             }
