@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -415,7 +415,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -427,7 +427,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1371,7 +1371,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1384,7 +1384,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3535,7 +3535,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3561,7 +3561,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
