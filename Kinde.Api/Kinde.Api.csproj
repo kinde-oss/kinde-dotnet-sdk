@@ -9,11 +9,11 @@
     <Product>Kinde Platform</Product>
     <Description>The Kinde .NET SDK allows developers to quickly and securely integrate a new or an existing .NET application to the Kinde platform.</Description>
     <Copyright>Kinde</Copyright>
-    <Version>2.5.0</Version>
+    <Version>3.0.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kinde.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kinde-oss/kinde-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Fixes property, array, empty string, and SAML connection option mappings. Adds Roles and Users request builders.</PackageReleaseNotes>
+    <PackageReleaseNotes>BREAKING: Kinde.SDK now targets .NET 10.0 only (previously net8.0). Consumers who need to stay on .NET 8.0 should remain on the 2.x release line.</PackageReleaseNotes>
     <PackageTags>Kinde;Authentication;Billing;Feature;Flag;Startups</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
