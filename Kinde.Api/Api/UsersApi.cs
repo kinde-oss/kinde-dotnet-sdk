@@ -249,7 +249,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -260,7 +260,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -692,7 +692,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -704,7 +704,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1896,7 +1896,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1908,7 +1908,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1920,7 +1920,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1933,7 +1933,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a userâ€™s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
