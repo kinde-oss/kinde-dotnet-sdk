@@ -14,6 +14,10 @@ namespace Kinde.Api.Models.Configuration
         {
         }
 
+        public PKCES256Configuration(string clientId, string scope, string clientSecret, string audience) : this(clientId, scope, clientSecret, null, audience)
+        {
+        }
+
         public override IAuthorizationFlow CreateAuthorizationFlow(IApplicationConfiguration identityProviderConfiguration)
         {
             if (!IsStateValid(State))

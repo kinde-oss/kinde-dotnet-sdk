@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -46,12 +48,7 @@ namespace Kinde.Api.Test.Integration.Mocks
 
         public KiotaMockHttpHandler()
         {
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                WriteIndented = false
-            };
+            _jsonOptions = KiotaJsonOptions.Create();
         }
 
         /// <summary>
@@ -307,6 +304,51 @@ namespace Kinde.Api.Test.Integration.Mocks
     }
 
     /// <summary>
+    /// Serializes/deserializes enums using their [EnumMember(Value = "...")] string, matching
+    /// what Kiota's own GetEnumValue&lt;T&gt;() reads on the SUT side.
+    /// </summary>
+    internal sealed class EnumMemberJsonConverterFactory : JsonConverterFactory
+    {
+        public override bool CanConvert(Type typeToConvert) => typeToConvert.IsEnum;
+
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+        {
+            var converterType = typeof(EnumMemberJsonConverter<>).MakeGenericType(typeToConvert);
+            return (JsonConverter)Activator.CreateInstance(converterType);
+        }
+    }
+
+    internal sealed class EnumMemberJsonConverter<T> : JsonConverter<T> where T : struct, Enum
+    {
+        private readonly Dictionary<string, T> _stringToEnum = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<T, string> _enumToString = new();
+
+        public EnumMemberJsonConverter()
+        {
+            foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static))
+            {
+                var value = (T)field.GetValue(null);
+                var name = field.GetCustomAttribute<EnumMemberAttribute>()?.Value ?? field.Name;
+                _stringToEnum[name] = value;
+                _enumToString[value] = name;
+            }
+        }
+
+        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var raw = reader.GetString();
+            if (raw != null && _stringToEnum.TryGetValue(raw, out var value))
+                return value;
+            return default;
+        }
+
+        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(_enumToString.TryGetValue(value, out var name) ? name : value.ToString());
+        }
+    }
+
+    /// <summary>
     /// Represents a captured HTTP request for verification in tests.
     /// </summary>
     public class CapturedRequest
@@ -325,11 +367,31 @@ namespace Kinde.Api.Test.Integration.Mocks
             if (string.IsNullOrEmpty(Body))
                 return null;
 
-            return JsonSerializer.Deserialize<T>(Body, new JsonSerializerOptions
+            return JsonSerializer.Deserialize<T>(Body, KiotaJsonOptions.Create());
+        }
+    }
+
+    /// <summary>
+    /// Builds the JsonSerializerOptions shared by KiotaMockHttpHandler and CapturedRequest.GetBodyAs&lt;T&gt;(),
+    /// so enum-valued Kiota request/response bodies deserialize consistently everywhere.
+    /// </summary>
+    internal static class KiotaJsonOptions
+    {
+        public static JsonSerializerOptions Create()
+        {
+            var options = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            });
+                PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = false
+            };
+            // Kiota-generated enums carry [EnumMember(Value = "...")] and its deserializer (GetEnumValue<T>)
+            // reads those values, not the C# member name (e.g. Directory_status.Active -> "Active", but
+            // Get_application_response_application_type.M2m -> "m2m"). Without this converter, plain
+            // System.Text.Json serializes enums as their underlying int, which Kiota's deserializer rejects.
+            options.Converters.Add(new EnumMemberJsonConverterFactory());
+            return options;
         }
     }
 }
