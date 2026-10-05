@@ -416,10 +416,10 @@
       },
       "Microsoft.Kiota.Abstractions": {
         "type": "Transitive",
-        "resolved": "2.0.2",
-        "contentHash": "RbxfHBs1217wVTBJdPLSzdJ5usIge3NnW81cMG8gKyOJuefXxUUMjixFvcV0o/CFYo8wH9ML+K0sW1oIarFjOA==",
+        "resolved": "2.1.2",
+        "contentHash": "2cPjDGVHxn0YCoPSxzCZSLUc7SQ4m299UqJibvGpZctvP3ixidpMk909BGgqOBpKpxEq+lJ6sTxp4xviLotuDA==",
         "dependencies": {
-          "Std.UriTemplate": "2.0.11"
+          "Std.UriTemplate": "2.0.12"
         }
       },
       "Microsoft.Kiota.Http.HttpClientLibrary": {
@@ -517,8 +517,8 @@
       },
       "Std.UriTemplate": {
         "type": "Transitive",
-        "resolved": "2.0.11",
-        "contentHash": "HkWcAC/W0w4R2UYvlQ71aJ+T97LidR5gD30zGnlXa5abg5A9d1O9+F9zfTX75ZXNjWef4v/hEybpadlCP46fJg=="
+        "resolved": "2.0.12",
+        "contentHash": "b/w8GfmVjf5c+8sTtGRVuwj6uC5KoPIn8+795xKlnGBBtph4FIVvgJVnh+x9dbDOkrst7XivIDJgyZSDFNsOYA=="
       },
       "System.Collections.Immutable": {
         "type": "Transitive",
@@ -633,7 +633,7 @@
           "Microsoft.Extensions.Http.Resilience": "[10.10.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.12, )",
           "Microsoft.Extensions.Logging.Console": "[10.0.12, )",
-          "Microsoft.Kiota.Abstractions": "[2.0.*, )",
+          "Microsoft.Kiota.Abstractions": "[2.1.*, )",
           "Microsoft.Kiota.Http.HttpClientLibrary": "[2.0.*, )",
           "Microsoft.Kiota.Serialization.Form": "[2.0.*, )",
           "Microsoft.Kiota.Serialization.Json": "[2.0.*, )",
