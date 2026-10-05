@@ -8,7 +8,7 @@ You can also use the .NET starter kit [here](https://github.com/kinde-starter-k
 
 ## Requirements
 
-From **v3.0.0**, `Kinde.SDK` targets **.NET 10.0 only**. This is a breaking change — the package no longer supports .NET 8.0 or earlier. If you need to stay on .NET 8.0, pin your project to the last `2.x` release of `Kinde.SDK`.
+`Kinde.SDK` targets **.NET 8.0** and **.NET 10.0**. Support for .NET 8.0 will be dropped in **v3.0.0**, after it leaves support in November 2026. Stay on .NET 8.0 by keeping to the 2.x release line.
 
 ## Documentation
 
