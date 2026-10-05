@@ -15,11 +15,11 @@
       },
       "JsonSubTypes": {
         "type": "Direct",
-        "requested": "[2.0.1, )",
-        "resolved": "2.0.1",
-        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "nkH+ezOpWFBBPSNZGteLliUTG6O36zsPuvvvXv/LV2LxSlLay+3hyXuzyBUXLK1FJmj9Q1zrfDYXoogNFaINAg==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.4"
         }
       },
       "Microsoft.Extensions.Configuration": {

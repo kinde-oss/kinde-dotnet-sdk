@@ -80,10 +80,10 @@
       },
       "JsonSubTypes": {
         "type": "Transitive",
-        "resolved": "2.0.1",
-        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "resolved": "2.1.0",
+        "contentHash": "nkH+ezOpWFBBPSNZGteLliUTG6O36zsPuvvvXv/LV2LxSlLay+3hyXuzyBUXLK1FJmj9Q1zrfDYXoogNFaINAg==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.4"
         }
       },
       "Microsoft.Bcl.Cryptography": {
@@ -625,7 +625,7 @@
         "type": "Project",
         "dependencies": {
           "AutoMapper": "[16.2.*, )",
-          "JsonSubTypes": "[2.0.1, )",
+          "JsonSubTypes": "[2.1.0, )",
           "Microsoft.Extensions.Configuration": "[10.0.12, )",
           "Microsoft.Extensions.Configuration.Binder": "[10.0.12, )",
           "Microsoft.Extensions.Hosting.Abstractions": "[10.0.12, )",
