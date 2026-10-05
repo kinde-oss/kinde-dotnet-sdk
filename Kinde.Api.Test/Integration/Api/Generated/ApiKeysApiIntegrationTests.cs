@@ -41,7 +41,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
                 ApiKey = new KiotaModels.Create_api_key_response_api_key
                 {
                     Id = "key_1",
-                    Key = "ak_live_abc123"
+                    Key = "test-api-key"
                 }
             };
             mockHandler.AddKiotaResponse("POST", "/api/v1/api_keys", kiotaResponse, System.Net.HttpStatusCode.Created);
@@ -97,7 +97,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             mockHandler.AddKiotaResponse("POST", "/api/v1/api_keys/verify", kiotaResponse);
 
             var api = CreateApi((client, config) => new ApiKeysApi(client, config));
-            var request = new VerifyApiKeyRequest(apiKey: "ak_live_abc123");
+            var request = new VerifyApiKeyRequest(apiKey: "test-api-key");
 
             var response = await api.VerifyApiKeyAsync(request);
 
