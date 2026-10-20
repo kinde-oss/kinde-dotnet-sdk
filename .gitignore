@@ -474,3 +474,9 @@ Kinde.Api.Test/appsettings.*.json
 
 # Generated integration tests (optional - uncomment if you want to exclude them from git)
 # Kinde.Api.Test/Integration/Api/Generated/
+
+# Local environment files with secrets
+.env
+.env.*
+*.env
+!.env.example
