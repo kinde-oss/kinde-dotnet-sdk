@@ -13,12 +13,12 @@
       },
       "Microsoft.Kiota.Http.HttpClientLibrary": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.2",
-        "contentHash": "M8YEPFprj9kfkOWma3EvinrvkcbAg0Y8aWXefsU18ptpS0Oj0BAoIqJZBKYPJ8+rKL9PrGjyNVtZv28fW4VT+g==",
+        "requested": "[2.1.*, )",
+        "resolved": "2.1.2",
+        "contentHash": "tBAnbhr/BdBp2MrqZWllR8v6PYqmXQJQ+U+X5aOoSzKfoM41qmh41SFjkQKkJrTssJq5VUQE+it6AkTwG64gAw==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
-          "Microsoft.Kiota.Abstractions": "2.0.2"
+          "Microsoft.Kiota.Abstractions": "2.1.2"
         }
       },
       "Microsoft.Kiota.Serialization.Form": {
