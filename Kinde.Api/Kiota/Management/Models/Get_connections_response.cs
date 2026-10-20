@@ -40,16 +40,16 @@ namespace Kinde.Api.Kiota.Management.Models
         /// <summary>The connections property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Kinde.Api.Kiota.Management.Models.Connection>? Connections
+        public List<global::Kinde.Api.Kiota.Management.Models.Connection_list_item>? Connections
         {
-            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Connection>?>("connections"); }
+            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Connection_list_item>?>("connections"); }
             set { BackingStore?.Set("connections", value); }
         }
 #nullable restore
 #else
-        public List<global::Kinde.Api.Kiota.Management.Models.Connection> Connections
+        public List<global::Kinde.Api.Kiota.Management.Models.Connection_list_item> Connections
         {
-            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Connection>>("connections"); }
+            get { return BackingStore?.Get<List<global::Kinde.Api.Kiota.Management.Models.Connection_list_item>>("connections"); }
             set { BackingStore?.Set("connections", value); }
         }
 #endif
@@ -102,7 +102,7 @@ namespace Kinde.Api.Kiota.Management.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
-                { "connections", n => { Connections = n.GetCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Connection>(global::Kinde.Api.Kiota.Management.Models.Connection.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "connections", n => { Connections = n.GetCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Connection_list_item>(global::Kinde.Api.Kiota.Management.Models.Connection_list_item.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "has_more", n => { HasMore = n.GetBoolValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
             };
@@ -115,7 +115,7 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
-            writer.WriteCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Connection>("connections", Connections);
+            writer.WriteCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Connection_list_item>("connections", Connections);
             writer.WriteBoolValue("has_more", HasMore);
             writer.WriteStringValue("message", Message);
             writer.WriteAdditionalData(AdditionalData);
