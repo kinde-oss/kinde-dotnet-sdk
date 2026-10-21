@@ -385,6 +385,23 @@
           "Microsoft.IdentityModel.Abstractions": "8.8.0"
         }
       },
+      "Microsoft.IdentityModel.Protocols": {
+        "type": "Transitive",
+        "resolved": "8.8.0",
+        "contentHash": "Hr/Eoh48nbSAKt4K52R5Sc34rzlDoSNAjmI5uWqCRZwYDSx64m8f0EZ2LOhW8j4PBLY4ud43xRln406ACZ4SSw==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.8.0"
+        }
+      },
+      "Microsoft.IdentityModel.Protocols.OpenIdConnect": {
+        "type": "Transitive",
+        "resolved": "8.8.0",
+        "contentHash": "bSlRyHuZqG1vDZTqsSFE+t2yNIpgVsDBqu1lLhMiFPBnsXz3YUk/OScAveSQDtq4pd37+aIdNJv6EPvN4Cn0Kg==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols": "8.8.0",
+          "System.IdentityModel.Tokens.Jwt": "8.8.0"
+        }
+      },
       "Microsoft.IdentityModel.Tokens": {
         "type": "Transitive",
         "resolved": "8.8.0",
@@ -551,6 +568,7 @@
           "Microsoft.Extensions.Http.Resilience": "[9.8.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.4, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.4, )",
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "[8.8.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Polly": "[8.5.2, )",
           "System.ComponentModel.Annotations": "[5.0.0, )",

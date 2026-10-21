@@ -97,6 +97,42 @@ namespace Kinde.Api.Test.Integration
         };
 
         /// <summary>
+        /// Kinde AI agents and MCP application configuration, used by the live agent auth tests.
+        /// Returns null when the section is absent, so those tests skip instead of failing.
+        /// </summary>
+        public Kinde.Api.Agents.KindeAgentAuthOptions? AgentAuth
+        {
+            get
+            {
+                var domain = GetValue("KINDE_TEST_AGENT_DOMAIN") ?? GetValue("KindeAgentAuth:Domain");
+                var clientId = GetValue("KINDE_TEST_AGENT_CLIENT_ID") ?? GetValue("KindeAgentAuth:ClientId");
+                var clientSecret = GetValue("KINDE_TEST_AGENT_CLIENT_SECRET") ?? GetValue("KindeAgentAuth:ClientSecret");
+                var resourceUrl = GetValue("KINDE_TEST_AGENT_RESOURCE_URL") ?? GetValue("KindeAgentAuth:ResourceUrl");
+
+                if (string.IsNullOrWhiteSpace(domain) || string.IsNullOrWhiteSpace(clientId)
+                    || string.IsNullOrWhiteSpace(resourceUrl))
+                {
+                    return null;
+                }
+
+                return new Kinde.Api.Agents.KindeAgentAuthOptions
+                {
+                    Domain = domain!,
+                    ClientId = clientId!,
+                    ClientSecret = clientSecret ?? string.Empty,
+                    ResourceUrl = resourceUrl!
+                };
+            }
+        }
+
+        /// <summary>
+        /// An access token issued to an agent, for the live verification tests. There is no way to
+        /// mint one without a browser consent step, so it is supplied rather than fetched.
+        /// </summary>
+        public string? AgentAccessToken =>
+            GetValue("KINDE_TEST_AGENT_ACCESS_TOKEN") ?? GetValue("KindeAgentAuth:AccessToken");
+
+        /// <summary>
         /// Test mode: "Mock" or "Real"
         /// </summary>
         public string TestMode => GetValue("KINDE_TEST_MODE") ?? GetValue("TestMode") ?? "Mock";

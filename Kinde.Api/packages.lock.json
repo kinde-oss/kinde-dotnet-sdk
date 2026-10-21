@@ -92,6 +92,16 @@
           "System.Text.Json": "9.0.4"
         }
       },
+      "Microsoft.IdentityModel.Protocols.OpenIdConnect": {
+        "type": "Direct",
+        "requested": "[8.8.0, )",
+        "resolved": "8.8.0",
+        "contentHash": "bSlRyHuZqG1vDZTqsSFE+t2yNIpgVsDBqu1lLhMiFPBnsXz3YUk/OScAveSQDtq4pd37+aIdNJv6EPvN4Cn0Kg==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols": "8.8.0",
+          "System.IdentityModel.Tokens.Jwt": "8.8.0"
+        }
+      },
       "Newtonsoft.Json": {
         "type": "Direct",
         "requested": "[13.0.3, )",
@@ -333,6 +343,14 @@
         "contentHash": "sUyoxzg/WBZobbFLJK8loT9IILKtS9ePmWu5B11ogQqhSHppE6SRZKw0fhI6Fd16X6ey52cbbWc2rvMBC98EQA==",
         "dependencies": {
           "Microsoft.IdentityModel.Abstractions": "8.8.0"
+        }
+      },
+      "Microsoft.IdentityModel.Protocols": {
+        "type": "Transitive",
+        "resolved": "8.8.0",
+        "contentHash": "Hr/Eoh48nbSAKt4K52R5Sc34rzlDoSNAjmI5uWqCRZwYDSx64m8f0EZ2LOhW8j4PBLY4ud43xRln406ACZ4SSw==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.8.0"
         }
       },
       "Microsoft.IdentityModel.Tokens": {
