@@ -488,6 +488,33 @@ namespace Kinde.Api.Test.Integration.Kiota
             AssertConnectionsListMapped(response);
         }
 
+        [Fact]
+        public async Task GetConnection_WrappedConnection_MapsToVarConnection()
+        {
+            const string json = @"{
+  ""code"": ""OK"",
+  ""message"": ""Success"",
+  ""connection"": {
+    ""id"": ""conn_01a10fb73a6386b8ae26be602f0aac1b"",
+    ""name"": ""Company A account"",
+    ""strategy"": ""oauth2:azure_ad"",
+    ""display_name"": ""Company A account""
+  }
+}";
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/connections/conn_01a10fb73a6386b8ae26be602f0aac1b", json);
+
+            var response = await new ConnectionsApi(_httpClient, _configuration).GetConnectionAsync("conn_01a10fb73a6386b8ae26be602f0aac1b");
+
+            Assert.NotNull(response);
+            Assert.Equal("OK", response.Code);
+            Assert.Equal("Success", response.Message);
+            Assert.NotNull(response.VarConnection);
+            Assert.Equal("conn_01a10fb73a6386b8ae26be602f0aac1b", response.VarConnection.Id);
+            Assert.Equal("Company A account", response.VarConnection.Name);
+            Assert.Equal("Company A account", response.VarConnection.DisplayName);
+            Assert.Equal("oauth2:azure_ad", response.VarConnection.Strategy);
+        }
+
         #endregion
     }
 }

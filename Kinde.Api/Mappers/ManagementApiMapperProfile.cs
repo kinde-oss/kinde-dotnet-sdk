@@ -38,7 +38,12 @@ namespace Kinde.Api.Mappers
             CreateMap<KiotaModels.Connected_apps_access_token, ConnectedAppsAccessToken>().ReverseMap();
             CreateMap<KiotaModels.Connected_apps_auth_url, ConnectedAppsAuthUrl>().ReverseMap();
 
-            CreateMap<KiotaModels.Connection, Connection>().ReverseMap();
+            // Kiota names the nested object ConnectionProp; the SDK model names it VarConnection.
+            CreateMap<KiotaModels.Connection, Connection>()
+                .ForCtorParam("varConnection", opt => opt.MapFrom(src => src.ConnectionProp))
+                .ForMember(dest => dest.VarConnection, opt => opt.MapFrom(src => src.ConnectionProp))
+                .ReverseMap()
+                .ForMember(dest => dest.ConnectionProp, opt => opt.MapFrom(src => src.VarConnection));
             CreateMap<KiotaModels.Connection_connection, ConnectionConnection>().ReverseMap();
             // List endpoints (GET /connections, /organizations/{code}/connections,
             // /applications/{id}/connections) return flat items, not the wrapped single-GET
