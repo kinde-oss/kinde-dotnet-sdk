@@ -2,6 +2,15 @@
   "version": 1,
   "dependencies": {
     "net8.0": {
+      "Microsoft.AspNetCore.TestHost": {
+        "type": "Direct",
+        "requested": "[8.0.30, )",
+        "resolved": "8.0.30",
+        "contentHash": "Bqi+1PttTehAGGJj6+ovmm3rmRRGTjLdjBIkCudkjIwXGbhYIJzREPzMd2o/ljaIAmV92LxLyUW3jcOvGDEQbw==",
+        "dependencies": {
+          "System.IO.Pipelines": "8.0.0"
+        }
+      },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
         "requested": "[9.0.4, )",
@@ -573,6 +582,12 @@
           "Polly": "[8.5.2, )",
           "System.ComponentModel.Annotations": "[5.0.0, )",
           "System.IdentityModel.Tokens.Jwt": "[8.8.0, )"
+        }
+      },
+      "Kinde.SDK.Agents": {
+        "type": "Project",
+        "dependencies": {
+          "Kinde.SDK": "[2.0.3, )"
         }
       }
     }

@@ -1,3 +1,4 @@
+#nullable enable
 using Kinde.Api.Agents;
 using Xunit;
 

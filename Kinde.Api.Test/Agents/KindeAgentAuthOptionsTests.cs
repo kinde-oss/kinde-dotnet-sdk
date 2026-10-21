@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Linq;
 using Kinde.Api.Agents;
@@ -108,7 +109,7 @@ namespace Kinde.Api.Test.Agents
             var options = Valid();
             options.ScopesSupported = new[] { "read:things", "offline" };
 
-            Assert.Single(options.EffectiveScopesSupported.Where(s => s == "offline"));
+            Assert.Single(options.EffectiveScopesSupported, s => s == "offline");
         }
 
         [Fact]
