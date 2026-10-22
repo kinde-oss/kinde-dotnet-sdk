@@ -329,6 +329,97 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task GetCurrentTokenAsync_KeepsTheToken_WhenRefreshFailsForAConfigurationError()
+        {
+            // invalid_client shares the 400 with invalid_grant but means our credentials are wrong,
+            // not that the grant is revoked. Discarding the refresh token here would cost a consent.
+            var (client, handler) = Create();
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            handler.Map("/token", @"{""error"":""invalid_client""}", HttpStatusCode.BadRequest);
+            await Assert.ThrowsAsync<KindeAgentTokenException>(() => client.GetCurrentTokenAsync());
+
+            handler.Map("/token",
+                @"{""access_token"":""at_2"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+            var recovered = await client.GetCurrentTokenAsync();
+
+            Assert.Equal("at_2", recovered!.AccessToken);
+        }
+
+        [Theory]
+        [InlineData(@"{""error"":""invalid_grant""}", true)]
+        [InlineData(@"{""error"":""invalid_client""}", false)]
+        [InlineData(@"{""error"":""unauthorized_client""}", false)]
+        [InlineData("<html>gateway blocked</html>", false)]
+        [InlineData("", false)]
+        public void IsGrantRejected_ReadsTheOAuthErrorNotTheStatus(string body, bool expected)
+        {
+            var exception = new KindeAgentTokenException(HttpStatusCode.BadRequest, body);
+
+            Assert.Equal(expected, exception.IsGrantRejected);
+        }
+
+        [Fact]
+        public async Task GetCurrentTokenAsync_ReturnsTheTokenAConcurrentRefreshStored()
+        {
+            // Two callers refresh the same expired token. With rotating refresh tokens the second
+            // gets invalid_grant for a token the first already replaced; deleting then would throw
+            // away the good token the first caller just stored.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            // Stand in for the winner: a fresh token with a rotated refresh token is already stored.
+            var winner = @"{""access_token"":""at_winner"",""expires_in"":3600,
+                            ""refresh_token"":""rt_rotated"",""obtained_at"":""" +
+                         DateTimeOffset.UtcNow.ToString("o") + @"""}";
+            await store.SetAsync(
+                $"{Options().NormalizedDomain}|{AppId}|{ResourceUrl}|token", winner);
+
+            handler.Map("/token", @"{""error"":""invalid_grant""}", HttpStatusCode.BadRequest);
+            var result = await client.GetCurrentTokenAsync();
+
+            Assert.NotNull(result);
+            Assert.Equal("at_winner", result!.AccessToken);
+        }
+
+        [Fact]
+        public async Task TokensAreScopedToTheResource()
+        {
+            // A token's audience is bound to its resource, so a client configured for resource B
+            // must not reuse a token stored by a client for resource A.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_for_a"",""expires_in"":3600,""refresh_token"":""rt_a""}");
+
+            var forA = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await forA.CreateAuthorizationRequestAsync();
+            await forA.ExchangeCodeAsync("the-code", request.State, request);
+
+            var optionsB = Options();
+            optionsB.ResourceUrl = "https://api.example.com/other";
+            var forB = new KindeAgentClient(optionsB, new HttpClient(handler), store);
+
+            Assert.Equal("at_for_a", (await forA.GetCurrentTokenAsync())!.AccessToken);
+            Assert.Null(await forB.GetCurrentTokenAsync());
+        }
+
+        [Fact]
         public async Task GetOrRegisterAsync_RegistersAgain_WhenTheStoredSecretHasExpired()
         {
             var (client, handler) = Create();

@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Net;
+using System.Text.Json;
 
 namespace Kinde.Api.Agents.Client
 {
@@ -28,13 +29,47 @@ namespace Kinde.Api.Agents.Client
         public string ResponseBody { get; }
 
         /// <summary>
-        /// Whether Kinde rejected the grant itself, as opposed to failing to answer. Only a
-        /// rejection means the stored token is beyond saving; a 429 or 5xx is worth retrying with
-        /// the same refresh token.
+        /// Whether Kinde rejected the grant itself, as opposed to failing to answer. Only this
+        /// means the stored token is beyond saving; anything else is worth retrying with the same
+        /// refresh token.
         /// </summary>
+        /// <remarks>
+        /// Keyed on the OAuth <c>error</c> code rather than the status. RFC 6749 section 5.2
+        /// returns <c>invalid_request</c>, <c>invalid_client</c> and <c>unauthorized_client</c>
+        /// with the same 400 or 401, and a 403 can come from a gateway rather than from Kinde.
+        /// Treating those as a rejected grant would discard a working refresh token over a
+        /// configuration mistake or a proxy.
+        /// </remarks>
         public bool IsGrantRejected =>
-            StatusCode is HttpStatusCode.BadRequest
-                or HttpStatusCode.Unauthorized
-                or HttpStatusCode.Forbidden;
+            string.Equals(Error, "invalid_grant", StringComparison.Ordinal);
+
+        /// <summary>
+        /// The OAuth <c>error</c> code from the response body, or null when it carries none.
+        /// </summary>
+        public string? Error
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(ResponseBody))
+                {
+                    return null;
+                }
+
+                try
+                {
+                    using var document = JsonDocument.Parse(ResponseBody);
+                    return document.RootElement.ValueKind == JsonValueKind.Object
+                           && document.RootElement.TryGetProperty("error", out var error)
+                           && error.ValueKind == JsonValueKind.String
+                        ? error.GetString()
+                        : null;
+                }
+                catch (JsonException)
+                {
+                    // An unparseable body is not evidence of a rejected grant, so the token stays.
+                    return null;
+                }
+            }
+        }
     }
 }

@@ -84,11 +84,12 @@ namespace Kinde.Api.Agents
             services.Configure(authenticationScheme, configure);
             services.TryAddSingleton<KindeAgentAuthRegistry>();
 
-            // The unkeyed registration stays for callers that resolve KindeAgentAuth directly,
-            // such as MapKindeProtectedResourceMetadata, and resolves the default scheme.
+            // The unkeyed registration serves callers that resolve KindeAgentAuth directly, such as
+            // MapKindeProtectedResourceMetadata and the startup validator. TryAdd means the first
+            // scheme registered wins, so an application that only registers a custom scheme still
+            // resolves rather than looking up options for a default scheme nobody configured.
             services.TryAddSingleton(provider =>
-                provider.GetRequiredService<KindeAgentAuthRegistry>()
-                    .Get(KindeAgentAuthenticationOptions.DefaultScheme));
+                provider.GetRequiredService<KindeAgentAuthRegistry>().Get(authenticationScheme));
 
             services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler,
                 KindeRequirementHandler>();

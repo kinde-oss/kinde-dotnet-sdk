@@ -227,14 +227,8 @@ namespace Kinde.Api.Agents.Client
         public async Task<KindeAgentToken?> GetCurrentTokenAsync(
             CancellationToken cancellationToken = default)
         {
-            var stored = await _store.GetAsync(TokenKey, cancellationToken).ConfigureAwait(false);
-            if (stored == null)
-            {
-                return null;
-            }
-
-            var token = Deserialize<KindeAgentToken>(stored);
-            if (token == null || string.IsNullOrEmpty(token.AccessToken))
+            var token = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+            if (token == null)
             {
                 return null;
             }
@@ -257,12 +251,36 @@ namespace Kinde.Api.Agents.Client
             }
             catch (KindeAgentTokenException exception) when (exception.IsGrantRejected)
             {
-                // A revoked or expired refresh token is a normal end of session, not a fault.
+                // Two callers can refresh the same expired token at once. If Kinde rotates refresh
+                // tokens, the loser gets invalid_grant for a token the winner already replaced, so
+                // re-read before deleting rather than discarding the winner's fresh token.
+                var current = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+                if (current != null
+                    && !string.Equals(current.RefreshToken, token.RefreshToken, StringComparison.Ordinal)
+                    && !current.IsExpired())
+                {
+                    return current;
+                }
+
+                // Otherwise a revoked or expired refresh token is a normal end of session.
                 await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
                 return null;
             }
             // A 429 or 5xx, or a failure to reach Kinde at all, leaves the refresh token intact:
             // discarding it over a transient outage would cost the user another consent.
+        }
+
+        /// <summary>Reads the stored token, or null when there is none worth using.</summary>
+        private async Task<KindeAgentToken?> ReadTokenAsync(CancellationToken cancellationToken)
+        {
+            var stored = await _store.GetAsync(TokenKey, cancellationToken).ConfigureAwait(false);
+            if (stored == null)
+            {
+                return null;
+            }
+
+            var token = Deserialize<KindeAgentToken>(stored);
+            return token == null || string.IsNullOrEmpty(token.AccessToken) ? null : token;
         }
 
         /// <summary>Exchanges a refresh token for a new access token and stores it.</summary>
@@ -390,7 +408,10 @@ namespace Kinde.Api.Agents.Client
         private string RegistrationKey =>
             $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|{_options.RedirectUri}|registration";
 
-        private string TokenKey => $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|token";
+        // The resource is part of the key: a token's audience is bound to it, so returning one
+        // issued for a different resource would be rejected by that resource server as if forged.
+        private string TokenKey =>
+            $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|{_options.ResourceUrl}|token";
 
         private async Task<T> GetJsonAsync<T>(string url, CancellationToken cancellationToken)
         {

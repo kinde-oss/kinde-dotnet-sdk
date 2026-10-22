@@ -420,6 +420,43 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task ACustomSchemeAlone_StillServesTheResourceMetadata()
+        {
+            // Resolving KindeAgentAuth must not assume the default scheme name: an application
+            // that registers only a custom scheme has no options under the default one, so the
+            // metadata endpoint and the startup validator would fail.
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication("OnlyCustom")
+                            .AddKindeAgentAuth("OnlyCustom", options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var response = await Get(host, "/.well-known/oauth-protected-resource/mcp");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Contains(ResourceUrl, await response.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
         public void AddKindeAgentAuth_Throws_WhenTheConfigurationSectionIsMissing()
         {
             var services = new ServiceCollection();
