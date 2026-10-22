@@ -1,0 +1,287 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+      custom_version:
+        description: 'Custom version (optional, overrides version_type)'
+        required: false
+        type: string
+      release_notes:
+        description: 'Release notes'
+        required: false
+        type: string
+        default: ''
+      publish_to_nuget:
+        description: 'Publish to NuGet.org'
+        required: true
+        type: boolean
+        default: false
+      create_github_release:
+        description: 'Create GitHub release'
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  # Step 1: Version Management
+  version-bump:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.calculate_version.outputs.new_version }}
+      current_version: ${{ steps.get_current_version.outputs.current_version }}
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Get current version
+      id: get_current_version
+      run: |
+        VERSION=$(grep -o '<Version>.*</Version>' Kinde.Api/Kinde.Api.csproj | sed 's/<Version>\(.*\)<\/Version>/\1/')
+        echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Current version: $VERSION"
+    
+    - name: Calculate new version
+      id: calculate_version
+      run: |
+        CURRENT_VERSION=${{ steps.get_current_version.outputs.current_version }}
+        
+        if [ -n "${{ github.event.inputs.custom_version }}" ]; then
+          NEW_VERSION="${{ github.event.inputs.custom_version }}"
+        else
+          MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
+          MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+          PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
+          
+          case "${{ github.event.inputs.version_type }}" in
+            "major")
+              NEW_VERSION="$((MAJOR + 1)).0.0"
+              ;;
+            "minor")
+              NEW_VERSION="$MAJOR.$((MINOR + 1)).0"
+              ;;
+            "patch")
+              NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+              ;;
+          esac
+        fi
+        
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "New version: $NEW_VERSION"
+    
+    - name: Update version in csproj
+      run: |
+        sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.calculate_version.outputs.new_version }}<\/Version>/" Kinde.Api/Kinde.Api.csproj
+    
+    - name: Request Version Bump Approval
+      run: |
+        echo "🚨 VERSION BUMP APPROVAL REQUIRED 🚨"
+        echo "Current version: ${{ steps.get_current_version.outputs.current_version }}"
+        echo "New version: ${{ steps.calculate_version.outputs.new_version }}"
+        echo "Version type: ${{ github.event.inputs.version_type }}"
+        echo "Publish to NuGet: ${{ github.event.inputs.publish_to_nuget }}"
+        echo "Create GitHub release: ${{ github.event.inputs.create_github_release }}"
+        echo ""
+        echo "Please review and approve this version bump."
+        
+    - name: Wait for Version Bump Approval
+      uses: hmarr/auto-approve-action@v3
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+    
+    - name: Commit version bump
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Kinde.Api/Kinde.Api.csproj Kinde.Api/packages.lock.json Kinde.Api.Test/packages.lock.json
+        git commit -m "Bump version to ${{ steps.calculate_version.outputs.new_version }} [skip ci]"
+        git push
+
+  # Step 2: Build and Test
+  build-and-test:
+    runs-on: ubuntu-latest
+    needs: version-bump
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+    
+    - name: Restore dependencies
+      run: dotnet restore --locked-mode
+    
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+    
+    - name: Pack
+      run: dotnet pack Kinde.Api/Kinde.Api.csproj --configuration Release --output ./nupkgs --no-build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-artifacts-${{ needs.version-bump.outputs.new_version }}
+        path: |
+          ./nupkgs/
+          Kinde.Api/Kinde.Api.csproj
+        retention-days: 7
+
+  # Step 3: Create GitHub Release
+  create-github-release:
+    runs-on: ubuntu-latest
+    needs: [version-bump, build-and-test]
+    if: ${{ github.event.inputs.create_github_release == 'true' }}
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: release-artifacts-${{ needs.version-bump.outputs.new_version }}
+        path: ./
+    
+    - name: Create git tag
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git tag -a "v${{ needs.version-bump.outputs.new_version }}" -m "Release version ${{ needs.version-bump.outputs.new_version }}"
+        git push origin "v${{ needs.version-bump.outputs.new_version }}"
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ needs.version-bump.outputs.new_version }}
+        release_name: Release ${{ needs.version-bump.outputs.new_version }}
+        draft: false
+        prerelease: false
+        body: |
+          ## What's Changed
+          
+          ${{ github.event.inputs.release_notes }}
+          
+          ### 📦 NuGet Package
+          The NuGet package is available at: `Kinde.SDK`
+          
+          ### 🔗 Links
+          - [NuGet Package](https://www.nuget.org/packages/Kinde.SDK)
+          - [Documentation](https://github.com/kinde-oss/kinde-dotnet-sdk)
+          
+          ### 📋 Changelog
+          Please refer to the commit history for detailed changes.
+    
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nupkgs/Kinde.SDK.${{ needs.version-bump.outputs.new_version }}.nupkg
+        asset_name: Kinde.SDK.${{ needs.version-bump.outputs.new_version }}.nupkg
+        asset_content_type: application/octet-stream
+
+  # Step 4: Publish to NuGet
+  publish-nuget:
+    runs-on: ubuntu-latest
+    needs: [version-bump, build-and-test]
+    if: ${{ github.event.inputs.publish_to_nuget == 'true' }}
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: release-artifacts-${{ needs.version-bump.outputs.new_version }}
+        path: ./nupkgs/
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Request NuGet Publishing Approval
+      run: |
+        echo "🚨 NUGET PUBLISHING APPROVAL REQUIRED 🚨"
+        echo "Version: ${{ needs.version-bump.outputs.new_version }}"
+        echo ""
+        echo "⚠️  WARNING: This will publish to NuGet.org"
+        echo "⚠️  This action cannot be undone"
+        echo ""
+        echo "Please review the package details and approve this publishing."
+        
+    - name: Wait for NuGet Publishing Approval
+      uses: hmarr/auto-approve-action@v3
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+    
+    - name: Verify package before publishing
+      run: |
+        echo "🔍 Verifying package before publishing..."
+        echo "Package files:"
+        ls -la ./nupkgs/
+        echo ""
+        echo "Package validation:"
+        for file in ./nupkgs/*.nupkg; do
+          echo "Validating: $file"
+          dotnet nuget verify "$file" --all
+        done
+    
+    - name: Publish to NuGet
+      run: |
+        echo "📤 Publishing to NuGet.org..."
+        for file in ./nupkgs/*.nupkg; do
+          echo "Publishing: $file"
+          dotnet nuget push "$file" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        done
+    
+    - name: Publish Symbol Package
+      run: |
+        echo "📤 Publishing symbol packages..."
+        for file in ./nupkgs/*.snupkg; do
+          if [ -f "$file" ]; then
+            echo "Publishing symbols: $file"
+            dotnet nuget push "$file" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          fi
+        done
+      continue-on-error: true
+    
+    - name: Verify publication
+      run: |
+        echo "✅ Publication completed!"
+        echo "Package: Kinde.SDK v${{ needs.version-bump.outputs.new_version }}"
+        echo "NuGet URL: https://www.nuget.org/packages/Kinde.SDK"
+        echo ""
+        echo "Please verify the package is available on NuGet.org"
