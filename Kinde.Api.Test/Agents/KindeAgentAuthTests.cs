@@ -122,6 +122,31 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public void BuildChallenge_OmitsTheFailureReason_ByDefault()
+        {
+            // FailureReason carries IdentityModel validation text, parse errors and the configured
+            // resource URL. The challenge header goes to the caller, so it is opt-in.
+            var auth = new KindeAgentAuth(Options(), new StubVerifier(SuccessContext()));
+
+            var challenge = auth.BuildChallenge(
+                KindeAuthContext.Invalid("audience https://internal.example.com did not match"));
+
+            Assert.DoesNotContain("error_description", challenge);
+            Assert.DoesNotContain("internal.example.com", challenge);
+        }
+
+        [Fact]
+        public void BuildChallenge_IncludesTheFailureReason_WhenAsked()
+        {
+            var auth = new KindeAgentAuth(Options(), new StubVerifier(SuccessContext()));
+
+            var challenge = auth.BuildChallenge(
+                KindeAuthContext.Invalid("expired"), includeErrorDetails: true);
+
+            Assert.Contains("error_description=\"expired\"", challenge);
+        }
+
+        [Fact]
         public void BuildChallenge_ReturnsNull_WhenKindeIsUnavailable()
         {
             var auth = new KindeAgentAuth(Options(), new StubVerifier(SuccessContext()));

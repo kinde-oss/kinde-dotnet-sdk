@@ -57,10 +57,10 @@ namespace Kinde.Api.Test.Agents
                             {
                                 options.Kinde = Options();
                                 options.IncludeErrorDetails = true;
+                                // Supplying the verifier keeps these tests on the ASP.NET layer
+                                // rather than re-testing the verifiers themselves.
+                                options.Verifier = verifier;
                             });
-
-                        // Replaces the real KindeAgentAuth with one wired to the stub verifier.
-                        services.AddSingleton(new KindeAgentAuth(Options(), verifier));
 
                         services.AddAuthorization(authorization =>
                         {
@@ -356,6 +356,67 @@ namespace Kinde.Api.Test.Agents
             var response = await Get(host, "/open");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task TwoSchemes_EachValidateAgainstTheirOwnResource()
+        {
+            // One shared verifier instance would give every scheme whichever resource was
+            // registered last, so a scheme would reject its own tokens and accept the other's.
+            const string SecondScheme = "KindeAgentB";
+            const string SecondResource = "https://api.example.com/other";
+
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth(SecondScheme, options =>
+                            {
+                                var second = Options();
+                                second.ResourceUrl = SecondResource;
+                                options.Kinde = second;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapGet("/a", () => Results.Text("a"))
+                                .RequireAuthorization(new AuthorizeAttribute
+                                {
+                                    AuthenticationSchemes = KindeAgentAuthenticationOptions.DefaultScheme
+                                });
+                            endpoints.MapGet("/b", () => Results.Text("b"))
+                                .RequireAuthorization(new AuthorizeAttribute
+                                {
+                                    AuthenticationSchemes = SecondScheme
+                                });
+                        });
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            // Each scheme must advertise its own resource in the challenge it issues.
+            var challengeA = Assert.Single((await Get(host, "/a")).Headers.WwwAuthenticate).ToString();
+            var challengeB = Assert.Single((await Get(host, "/b")).Headers.WwwAuthenticate).ToString();
+
+            Assert.Contains("/.well-known/oauth-protected-resource/mcp", challengeA);
+            Assert.Contains("/.well-known/oauth-protected-resource/other", challengeB);
+            Assert.NotEqual(challengeA, challengeB);
         }
 
         [Fact]

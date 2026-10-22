@@ -44,10 +44,12 @@ namespace Kinde.Api.Test.Agents
                     .ConfigureServices(services =>
                     {
                         services.AddRouting();
-                        services.AddKindeMcpAuth(options => options.Kinde = Options());
-
-                        // Swaps in the stub so these tests exercise the wiring, not the verifiers.
-                        services.AddSingleton(new KindeAgentAuth(Options(), verifier));
+                        // The stub keeps these tests on the wiring, not the verifiers.
+                        services.AddKindeMcpAuth(options =>
+                        {
+                            options.Kinde = Options();
+                            options.Verifier = verifier;
+                        });
                         services.AddAuthorization();
                     })
                     .Configure(app =>
@@ -173,6 +175,20 @@ namespace Kinde.Api.Test.Agents
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Contains("agent_01", body);
+        }
+
+        [Fact]
+        public async Task ProtectedEndpoint_Returns503_WhenKindeIsUnavailable()
+        {
+            // The MCP scheme owns challenges, but an outage must not come back as a 401 with
+            // resource_metadata: an MCP client would restart authorization instead of retrying.
+            using var host = CreateHost(new StubVerifier(KindeAuthContext.Unavailable("timed out")));
+            await host.StartAsync();
+
+            var response = await Get(host, "/mcp", "Bearer any-token");
+
+            Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+            Assert.Empty(response.Headers.WwwAuthenticate);
         }
 
         [Fact]

@@ -58,15 +58,29 @@ namespace Kinde.Api.Agents
             }
 
             OpenIdConnectConfiguration configuration;
+
+            // Bounded like introspection is. Without this a cold cache or a key rotation makes
+            // every token-bearing request wait for HttpClient's 100 second default while the JWKS
+            // endpoint is unreachable, where introspection mode would have returned 503 in five.
+            using var timeout = new CancellationTokenSource(_options.BackchannelTimeout);
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(
+                cancellationToken, timeout.Token);
+
             try
             {
                 configuration = await _configurationManager
-                    .GetConfigurationAsync(cancellationToken)
+                    .GetConfigurationAsync(linked.Token)
                     .ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 throw;
+            }
+            catch (OperationCanceledException)
+            {
+                return KindeAuthContext.Unavailable(
+                    $"Retrieving signing keys from {_options.JwksUrl} timed out after "
+                    + $"{_options.BackchannelTimeout.TotalSeconds:0.##}s.");
             }
             catch (Exception exception)
             {

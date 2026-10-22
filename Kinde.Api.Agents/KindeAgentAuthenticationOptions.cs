@@ -24,5 +24,11 @@ namespace Kinde.Api.Agents
         /// that text reaches the caller.
         /// </summary>
         public bool IncludeErrorDetails { get; set; }
+
+        /// <summary>
+        /// A verifier to use instead of the one implied by <see cref="KindeAgentAuthOptions.Verification"/>,
+        /// for a custom strategy such as a cache in front of introspection.
+        /// </summary>
+        public IKindeTokenVerifier? Verifier { get; set; }
     }
 }

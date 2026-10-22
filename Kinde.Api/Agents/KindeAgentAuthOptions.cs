@@ -197,6 +197,16 @@ namespace Kinde.Api.Agents
                 problems.Add($"{nameof(ClockTolerance)} cannot be negative.");
             }
 
+            // Passed to new CancellationTokenSource(TimeSpan) on every verification, which throws
+            // outside this range. Zero is rejected too: it cancels every call immediately, turning
+            // each request into a 503.
+            if (BackchannelTimeout <= TimeSpan.Zero
+                || BackchannelTimeout.TotalMilliseconds > int.MaxValue)
+            {
+                problems.Add($"{nameof(BackchannelTimeout)} must be greater than zero and at most "
+                             + $"{TimeSpan.FromMilliseconds(int.MaxValue)}, but was {BackchannelTimeout}.");
+            }
+
             if (problems.Count > 0)
             {
                 throw new ArgumentException(

@@ -79,10 +79,15 @@ namespace Kinde.Api.Agents.Client
             if (stored != null)
             {
                 var existing = Deserialize<KindeAgentRegistration>(stored);
-                if (existing != null && !string.IsNullOrEmpty(existing.ClientId))
+                if (existing != null && !string.IsNullOrEmpty(existing.ClientId)
+                    && !IsSecretExpired(existing))
                 {
                     return existing;
                 }
+
+                // Expired secret: registering again is the only way back, and reusing it would
+                // make every token request fail with invalid_client.
+                await _store.RemoveAsync(key, cancellationToken).ConfigureAwait(false);
             }
 
             var discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
@@ -250,12 +255,14 @@ namespace Kinde.Api.Agents.Client
             {
                 return await RefreshAsync(token.RefreshToken!, cancellationToken).ConfigureAwait(false);
             }
-            catch (InvalidOperationException)
+            catch (KindeAgentTokenException exception) when (exception.IsGrantRejected)
             {
                 // A revoked or expired refresh token is a normal end of session, not a fault.
                 await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
                 return null;
             }
+            // A 429 or 5xx, or a failure to reach Kinde at all, leaves the refresh token intact:
+            // discarding it over a transient outage would cost the user another consent.
         }
 
         /// <summary>Exchanges a refresh token for a new access token and stores it.</summary>
@@ -278,7 +285,7 @@ namespace Kinde.Api.Agents.Client
                 form["resource"] = _options.ResourceUrl!;
             }
 
-            return RequestTokenAsync(form, cancellationToken);
+            return RequestTokenAsync(form, cancellationToken, carryOverRefreshToken: refreshToken);
         }
 
         /// <summary>Forgets the stored token, leaving the registration in place.</summary>
@@ -286,7 +293,9 @@ namespace Kinde.Api.Agents.Client
             _store.RemoveAsync(TokenKey, cancellationToken);
 
         private async Task<KindeAgentToken> RequestTokenAsync(
-            Dictionary<string, string> form, CancellationToken cancellationToken)
+            Dictionary<string, string> form,
+            CancellationToken cancellationToken,
+            string? carryOverRefreshToken = null)
         {
             var discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
             var clientId = await ResolveClientIdAsync(cancellationToken).ConfigureAwait(false);
@@ -311,8 +320,7 @@ namespace Kinde.Api.Agents.Client
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new InvalidOperationException(
-                    $"The token request failed ({(int)response.StatusCode}): {text}");
+                throw new KindeAgentTokenException(response.StatusCode, text);
             }
 
             var token = Deserialize<KindeAgentToken>(text)
@@ -321,6 +329,15 @@ namespace Kinde.Api.Agents.Client
             if (string.IsNullOrEmpty(token.AccessToken))
             {
                 throw new InvalidOperationException("The token response contained no access_token.");
+            }
+
+            // RFC 6749 section 6 allows a refresh response to omit refresh_token, in which case
+            // the existing one stays valid. Storing the response as-is would null it out and cost
+            // the user a fresh consent at the next expiry.
+            if (string.IsNullOrEmpty(token.RefreshToken)
+                && !string.IsNullOrEmpty(carryOverRefreshToken))
+            {
+                token.RefreshToken = carryOverRefreshToken;
             }
 
             token.ObtainedAt = DateTimeOffset.UtcNow;
@@ -360,7 +377,18 @@ namespace Kinde.Api.Agents.Client
             return registration.ClientSecret;
         }
 
-        private string RegistrationKey => $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|registration";
+        /// <summary>
+        /// Whether a registration's secret has lapsed. Zero means it never expires, per RFC 7591.
+        /// </summary>
+        private static bool IsSecretExpired(KindeAgentRegistration registration) =>
+            registration.ClientSecretExpiresAt > 0
+            && DateTimeOffset.FromUnixTimeSeconds(registration.ClientSecretExpiresAt)
+               <= DateTimeOffset.UtcNow;
+
+        // The redirect URI is part of the key: a registration is tied to the URI it declared, so
+        // reusing one after the URI changes produces a redirect_uri mismatch at authorization.
+        private string RegistrationKey =>
+            $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|{_options.RedirectUri}|registration";
 
         private string TokenKey => $"{_options.NormalizedDomain}|{_options.AgentApplicationId}|token";
 

@@ -106,7 +106,10 @@ namespace Kinde.Api.Agents.Client
             }
 
             var path = PathFor(key);
-            var temporary = path + ".tmp";
+            // Unique per write: the semaphore only serialises writers inside one process, and a
+            // CLI agent may run twice against the same directory. A shared temporary name lets one
+            // process truncate the file the other is about to move into place.
+            var temporary = $"{path}.{Guid.NewGuid():N}.tmp";
             var gate = LockFor(key);
 
             await gate.WaitAsync(cancellationToken).ConfigureAwait(false);

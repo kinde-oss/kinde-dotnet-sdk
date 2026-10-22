@@ -215,6 +215,30 @@ namespace Kinde.Api.Test.Agents
             Assert.Contains(nameof(KindeAgentAuthOptions.ClockTolerance), exception.Message);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-5)]
+        public void Validate_Throws_WhenBackchannelTimeoutIsNotUsable(int seconds)
+        {
+            // Passed to new CancellationTokenSource(TimeSpan) on every verification: a negative
+            // value throws and returns 500 per request, and zero cancels instantly, returning 503.
+            var options = Valid();
+            options.BackchannelTimeout = TimeSpan.FromSeconds(seconds);
+
+            var exception = Assert.Throws<ArgumentException>(() => options.Validate());
+            Assert.Contains(nameof(KindeAgentAuthOptions.BackchannelTimeout), exception.Message);
+        }
+
+        [Fact]
+        public void Validate_Throws_WhenBackchannelTimeoutExceedsTheSupportedRange()
+        {
+            var options = Valid();
+            options.BackchannelTimeout = TimeSpan.FromMilliseconds((double)int.MaxValue + 1);
+
+            var exception = Assert.Throws<ArgumentException>(() => options.Validate());
+            Assert.Contains(nameof(KindeAgentAuthOptions.BackchannelTimeout), exception.Message);
+        }
+
         [Fact]
         public void Validate_ReportsEveryProblemAtOnce()
         {

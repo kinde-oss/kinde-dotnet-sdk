@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Kinde.Api.Agents
@@ -78,18 +79,16 @@ namespace Kinde.Api.Agents
         {
             services.AddHttpClient(HttpClientName);
 
-            services.AddSingleton(provider =>
-            {
-                var options = new KindeAgentAuthenticationOptions();
-                configure(options);
+            // Named options, so each scheme keeps its own resource rather than sharing whichever
+            // was registered last.
+            services.Configure(authenticationScheme, configure);
+            services.TryAddSingleton<KindeAgentAuthRegistry>();
 
-                options.Kinde.Validate();
-
-                var httpClient = provider.GetRequiredService<IHttpClientFactory>()
-                    .CreateClient(HttpClientName);
-
-                return new KindeAgentAuth(options.Kinde, httpClient);
-            });
+            // The unkeyed registration stays for callers that resolve KindeAgentAuth directly,
+            // such as MapKindeProtectedResourceMetadata, and resolves the default scheme.
+            services.TryAddSingleton(provider =>
+                provider.GetRequiredService<KindeAgentAuthRegistry>()
+                    .Get(KindeAgentAuthenticationOptions.DefaultScheme));
 
             services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler,
                 KindeRequirementHandler>();

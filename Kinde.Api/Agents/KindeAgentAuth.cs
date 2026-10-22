@@ -102,7 +102,13 @@ namespace Kinde.Api.Agents
         /// Builds the <c>WWW-Authenticate</c> value for a failed verification, or null when no
         /// challenge applies.
         /// </summary>
-        public string? BuildChallenge(KindeAuthContext context)
+        /// <param name="context">The failed verification result.</param>
+        /// <param name="includeErrorDetails">
+        /// Whether to put <see cref="KindeAuthContext.FailureReason"/> in <c>error_description</c>.
+        /// Off by default: that text carries validation messages, parse errors and the configured
+        /// resource URL, and this header goes to the caller.
+        /// </param>
+        public string? BuildChallenge(KindeAuthContext context, bool includeErrorDetails = false)
         {
             if (context is null)
             {
@@ -111,7 +117,9 @@ namespace Kinde.Api.Agents
 
             var kind = context.FailureKind ?? KindeAuthFailureKind.InvalidToken;
             return KindeAuthChallenge.Build(
-                kind, Options.ProtectedResourceMetadataUrl, context.FailureReason);
+                kind,
+                Options.ProtectedResourceMetadataUrl,
+                includeErrorDetails ? context.FailureReason : null);
         }
 
         /// <summary>The status code to return for a failed verification.</summary>

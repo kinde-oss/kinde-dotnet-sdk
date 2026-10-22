@@ -18,17 +18,23 @@ namespace Kinde.Api.Agents
         /// <summary>Key under which the verification result is stored on the request.</summary>
         internal const string AuthContextItemKey = "Kinde.AgentAuth.Context";
 
-        private readonly KindeAgentAuth _agentAuth;
+        private readonly KindeAgentAuthRegistry _registry;
 
         public KindeAgentAuthenticationHandler(
             IOptionsMonitor<KindeAgentAuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            KindeAgentAuth agentAuth)
+            KindeAgentAuthRegistry registry)
             : base(options, logger, encoder)
         {
-            _agentAuth = agentAuth;
+            _registry = registry;
         }
+
+        /// <summary>
+        /// The verifier for this handler's own scheme, so an application running two schemes
+        /// does not validate one resource's tokens against the other's configuration.
+        /// </summary>
+        private KindeAgentAuth AgentAuth => _registry.Get(Scheme.Name);
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -44,7 +50,7 @@ namespace Kinde.Api.Agents
             KindeAuthContext context;
             try
             {
-                context = await _agentAuth.VerifyTokenAsync(token!, Context.RequestAborted);
+                context = await AgentAuth.VerifyTokenAsync(token!, Context.RequestAborted);
             }
             catch (OperationCanceledException) when (Context.RequestAborted.IsCancellationRequested)
             {
@@ -123,7 +129,7 @@ namespace Kinde.Api.Agents
 
             var description = Options.IncludeErrorDetails ? context?.FailureReason : null;
             var challenge = KindeAuthChallenge.Build(
-                kind, Options.Kinde.ProtectedResourceMetadataUrl, description);
+                kind, AgentAuth.Options.ProtectedResourceMetadataUrl, description);
 
             if (challenge != null)
             {

@@ -246,10 +246,13 @@ namespace Kinde.Api.Test.Agents
 
             var request = await client.CreateAuthorizationRequestAsync();
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            var exception = await Assert.ThrowsAsync<KindeAgentTokenException>(
                 () => client.ExchangeCodeAsync("used-code", request.State, request));
 
             Assert.Contains("invalid_grant", exception.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
+            // A rejected grant, as opposed to an outage: only this kind discards a stored token.
+            Assert.True(exception.IsGrantRejected);
         }
 
         [Fact]
@@ -278,6 +281,89 @@ namespace Kinde.Api.Test.Agents
             var (client, _) = Create();
 
             Assert.Null(await client.GetCurrentTokenAsync());
+        }
+
+        [Fact]
+        public async Task RefreshAsync_KeepsTheExistingRefreshToken_WhenTheResponseOmitsIt()
+        {
+            // RFC 6749 section 6 lets the server omit refresh_token on refresh, and the old one
+            // stays valid. Overwriting it with null costs the user a consent at the next expiry.
+            var (client, handler) = Create();
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            handler.Map("/token", @"{""access_token"":""at_2"",""expires_in"":3600}");
+            var refreshed = await client.RefreshAsync("rt_1");
+
+            Assert.Equal("at_2", refreshed.AccessToken);
+            Assert.Equal("rt_1", refreshed.RefreshToken);
+        }
+
+        [Fact]
+        public async Task GetCurrentTokenAsync_KeepsTheToken_WhenRefreshHitsATransientFailure()
+        {
+            // A 503 is not a revoked grant. Discarding the refresh token here would make a brief
+            // Kinde outage cost the user another consent.
+            var (client, handler) = Create();
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            handler.Map("/token", "upstream unavailable", HttpStatusCode.ServiceUnavailable);
+
+            await Assert.ThrowsAsync<KindeAgentTokenException>(() => client.GetCurrentTokenAsync());
+
+            // Once Kinde recovers the stored refresh token still works.
+            handler.Map("/token",
+                @"{""access_token"":""at_3"",""expires_in"":3600,""refresh_token"":""rt_3""}");
+            var recovered = await client.GetCurrentTokenAsync();
+
+            Assert.Equal("at_3", recovered!.AccessToken);
+        }
+
+        [Fact]
+        public async Task GetOrRegisterAsync_RegistersAgain_WhenTheStoredSecretHasExpired()
+        {
+            var (client, handler) = Create();
+            var expired = DateTimeOffset.UtcNow.AddHours(-1).ToUnixTimeSeconds();
+            handler.Map("/register",
+                $@"{{""client_id"":""dyn_123"",""client_secret"":""old"",
+                     ""client_secret_expires_at"":{expired}}}");
+
+            await client.GetOrRegisterAsync();
+
+            handler.Map("/register", @"{""client_id"":""dyn_456"",""client_secret"":""new""}");
+            var second = await client.GetOrRegisterAsync();
+
+            // Reusing the lapsed secret would fail every token request with invalid_client.
+            Assert.Equal("dyn_456", second.ClientId);
+            Assert.Equal(2, handler.CountFor("/register"));
+        }
+
+        [Fact]
+        public async Task GetOrRegisterAsync_DoesNotReuseARegistrationFromAnotherRedirectUri()
+        {
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+
+            var first = Options();
+            await new KindeAgentClient(first, new HttpClient(handler), store).GetOrRegisterAsync();
+
+            var moved = Options();
+            moved.RedirectUri = "http://localhost:9999/agent-callback";
+            await new KindeAgentClient(moved, new HttpClient(handler), store).GetOrRegisterAsync();
+
+            // A registration is bound to the redirect URI it declared.
+            Assert.Equal(2, handler.CountFor("/register"));
         }
 
         [Fact]

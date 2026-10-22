@@ -69,6 +69,16 @@ namespace Kinde.Mcp
             {
                 options.ForwardAuthenticate = KindeAgentAuthenticationOptions.DefaultScheme;
                 options.ResourceMetadata = BuildResourceMetadata(resolved.Kinde);
+
+                // Challenges normally stay on the MCP scheme, which answers 401 with the
+                // resource_metadata pointer an MCP client needs. The exception is Kinde being
+                // unreachable: that must stay a 503, or the client treats an outage as an
+                // authentication failure and restarts authorization instead of retrying.
+                options.ForwardDefaultSelector = context =>
+                    context.GetKindeAuthContext()?.FailureKind
+                    == KindeAuthFailureKind.AuthorizationServerUnavailable
+                        ? KindeAgentAuthenticationOptions.DefaultScheme
+                        : null;
             });
 
             return builder;
