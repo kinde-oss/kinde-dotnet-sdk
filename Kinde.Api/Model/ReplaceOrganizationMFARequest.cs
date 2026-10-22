@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -65,7 +65,8 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="ReplaceOrganizationMFARequest" /> class.
         /// </summary>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
-        public ReplaceOrganizationMFARequest(List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>))
+        /// <param name="isRecoveryCodesEnabled">Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. (default to true).</param>
+        public ReplaceOrganizationMFARequest(List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool? isRecoveryCodesEnabled = default(bool?))
         {
             // to ensure "enabledFactors" is required (not null)
             if (enabledFactors == null)
@@ -73,6 +74,7 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("enabledFactors is a required property for ReplaceOrganizationMFARequest and cannot be null");
             }
             this.EnabledFactors = enabledFactors;
+            this.IsRecoveryCodesEnabled = isRecoveryCodesEnabled;
         }
 
         /// <summary>
@@ -83,6 +85,13 @@ namespace Kinde.Api.Model
         public List<ReplaceOrganizationMFARequest.EnabledFactorsEnum> EnabledFactors { get; set; }
 
         /// <summary>
+        /// Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.
+        /// </summary>
+        /// <value>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.</value>
+        [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = false)]
+        public bool? IsRecoveryCodesEnabled { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -91,6 +100,7 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ReplaceOrganizationMFARequest {\n");
             sb.Append("  EnabledFactors: ").Append(EnabledFactors).Append("\n");
+            sb.Append("  IsRecoveryCodesEnabled: ").Append(IsRecoveryCodesEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -131,6 +141,10 @@ namespace Kinde.Api.Model
                     this.EnabledFactors != null &&
                     input.EnabledFactors != null &&
                     this.EnabledFactors.SequenceEqual(input.EnabledFactors)
+                ) && 
+                (
+                    this.IsRecoveryCodesEnabled == input.IsRecoveryCodesEnabled ||
+                    this.IsRecoveryCodesEnabled.Equals(input.IsRecoveryCodesEnabled)
                 );
         }
 
@@ -147,6 +161,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.EnabledFactors.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsRecoveryCodesEnabled.GetHashCode();
                 return hashCode;
             }
         }
@@ -154,3 +169,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

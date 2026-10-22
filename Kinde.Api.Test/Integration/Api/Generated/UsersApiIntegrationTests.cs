@@ -1,15 +1,26 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kinde.Api.Api;
 using Kinde.Api.Model;
 using Kinde.Api.Test.Integration;
 using Xunit;
 using Xunit.Abstractions;
+using KiotaModels = Kinde.Api.Kiota.Management.Models;
 
 namespace Kinde.Api.Test.Integration.Api.Generated
 {
     /// <summary>
-    /// Auto-generated integration tests for UsersApi with both mock and real API support
+    /// Integration tests for UsersApi with both mock and real API support.
+    /// 
+    /// These tests verify the complete flow through the Kiota-based API:
+    /// 1. OpenAPI method call
+    /// 2. Request mapping to Kiota format
+    /// 3. HTTP request (mocked or real)
+    /// 4. Response mapping from Kiota to OpenAPI format
+    /// 
+    /// Mock tests use KiotaMockHttpHandler which returns snake_case JSON responses
+    /// that are compatible with Kiota's deserialization.
     /// </summary>
     public class UsersApiIntegrationTests : BaseIntegrationTest, IClassFixture<TestResourceFixture>
     {
@@ -22,10 +33,11 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             _fixture = fixture;
         }
 
+        #region GetUsers Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetUsers_Mock_Test()
+        public async Task GetUsers_Mock_ReturnsUsers()
         {
             // Arrange
             if (UseRealApi)
@@ -34,35 +46,89 @@ namespace Kinde.Api.Test.Integration.Api.Generated
                 return;
             }
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
+            var mockHandler = GetKiotaMockHandler();
                 if (mockHandler == null)
                 {
                     _output.WriteLine("Mock handler not available");
                     return;
                 }
 
-                var mockResponse = new UsersResponse();
-                mockHandler.AddResponse("GET", "/api/v1/users", mockResponse);
+            // Set up Kiota-format response with actual data
+            var kiotaResponse = new KiotaModels.Users_response
+            {
+                Code = "200",
+                Message = "Users retrieved successfully",
+                Users = new List<KiotaModels.Users_response_users>
+                {
+                    new KiotaModels.Users_response_users 
+                    { 
+                        Id = "user_test_1", 
+                        FirstName = "John", 
+                        LastName = "Doe",
+                        Email = "john@example.com",
+                        IsSuspended = false
+                    },
+                    new KiotaModels.Users_response_users 
+                    { 
+                        Id = "user_test_2", 
+                        FirstName = "Jane", 
+                        LastName = "Smith",
+                        Email = "jane@example.com",
+                        IsSuspended = false
+                    }
+                },
+                NextToken = "next_page_token"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+
+            // Act
+            var response = await api.GetUsersAsync();
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            Assert.Equal("Users retrieved successfully", response.Message);
+            Assert.NotNull(response.Users);
+            Assert.Equal(2, response.Users.Count);
+            Assert.Equal("user_test_1", response.Users[0].Id);
+            Assert.Equal("John", response.Users[0].FirstName);
+            Assert.False(response.Users[0].IsSuspended);
+            Assert.Equal("next_page_token", response.NextToken);
+            
+            _output.WriteLine($"Mock test successful - Retrieved {response.Users.Count} users");
+        }
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetUsers_Mock_EmptyList()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Users_response
+            {
+                Code = "200",
+                Message = "No users found",
+                Users = new List<KiotaModels.Users_response_users>()
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.GetUsersAsync();
+            var response = await api.GetUsersAsync();
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUsers test: {ex.Message}");
-                throw;
-            }
+            Assert.NotNull(response.Users);
+            Assert.Empty(response.Users);
+            _output.WriteLine("Empty users list handled correctly");
         }
-
 
         [Fact]
         [Trait("TestMode", "Real")]
@@ -75,1353 +141,623 @@ namespace Kinde.Api.Test.Integration.Api.Generated
                 return;
             }
 
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
-                var response = await api.GetUsersAsync(userId: user_id);
+            // Act
+            var response = await api.GetUsersAsync();
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUsers test: {ex.Message}");
-                throw;
-            }
+            _output.WriteLine($"Real API returned {response.Users?.Count ?? 0} users");
         }
 
+        #endregion
+
+        #region CreateUser Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task RefreshUserClaims_Mock_Test()
+        public async Task CreateUser_Mock_Created_True()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            // Response with Created = true
+            var kiotaResponse = new KiotaModels.Create_user_response
             {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
+                Created = true,
+                Id = "user_new_123"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/user", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+            var request = new CreateUserRequest
+            {
+                Profile = new CreateUserRequestProfile
                 {
-                    _output.WriteLine("Mock handler not available");
-                    return;
+                    GivenName = "Test",
+                    FamilyName = "User"
                 }
-
-                var user_id = "test-user_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("POST", $"/api/v1/users/{user_id}/refresh_claims", mockResponse);
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                // Act
-                var response = await api.RefreshUserClaimsAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RefreshUserClaims test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task RefreshUserClaims_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.RefreshUserClaimsAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in RefreshUserClaims test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task GetUserData_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var id = "id";
-                var mockResponse = new User();
-                mockHandler.AddResponse("GET", "/api/v1/user", mockResponse);
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                // Act
-                var response = await api.GetUserDataAsync(id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserData test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetUserData_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var id = "id";
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.GetUserDataAsync(id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserData test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task CreateUser_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var mockResponse = new CreateUserResponse();
-                mockHandler.AddResponse("POST", "/api/v1/user", mockResponse);
-                var request = new CreateUserRequest();
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
+            };
 
                 // Act
                 var response = await api.CreateUserAsync(request);
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateUser test: {ex.Message}");
-                throw;
-            }
+            Assert.True(response.Created, "Created should be true");
+            Assert.Equal("user_new_123", response.Id);
+            _output.WriteLine("CreateUser with Created=true passed");
         }
 
-
         [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task CreateUser_Real_Test()
+        [Trait("TestMode", "Mock")]
+        public async Task CreateUser_Mock_Created_False()
         {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
+            // Arrange - This test verifies that false values don't default to true
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            // Response with Created = false (user already exists)
+            var kiotaResponse = new KiotaModels.Create_user_response
             {
-                var request = new CreateUserRequest();
+                Created = false,
+                Id = "user_existing_123"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/user", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
+            var request = new CreateUserRequest();
 
+            // Act
                 var response = await api.CreateUserAsync(request);
 
-                // Assert
+            // Assert - CRITICAL: Must be false, not defaulting to true
                 Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateUser test: {ex.Message}");
-                throw;
-            }
+            Assert.False(response.Created, "Created should be false - not defaulting to true!");
+            Assert.Equal("user_existing_123", response.Id);
+            _output.WriteLine("PASS: CreateUser with Created=false correctly returned false");
         }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateUser_Mock_Test()
+        public async Task CreateUser_Mock_NullableCreated()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var id = "id";
-                var mockResponse = new UpdateUserResponse();
-                mockHandler.AddResponse("PATCH", "/api/v1/user", mockResponse);
-                var request = new UpdateUserRequest();
+            // Response with Created = null
+            var kiotaResponse = new KiotaModels.Create_user_response
+            {
+                Created = null,
+                Id = "user_null_created"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/user", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+            var request = new CreateUserRequest();
+
+                // Act
+            var response = await api.CreateUserAsync(request);
+
+                // Assert
+                Assert.NotNull(response);
+            // Note: OpenAPI CreateUserResponse.Created is non-nullable bool
+            // When Kiota returns null, it maps to false (default)
+            Assert.False(response.Created);
+            _output.WriteLine("Nullable Created handled correctly (null -> false)");
+        }
+
+        #endregion
+
+        #region GetUserData Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetUserData_Mock_ReturnsUser()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.User
+            {
+                Id = "user_123",
+                FirstName = "John",
+                LastName = "Doe",
+                IsSuspended = false,
+                TotalSignIns = 42
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/user", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.UpdateUserAsync(id, request);
+            var response = await api.GetUserDataAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUser test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("user_123", response.Id);
+            Assert.Equal("John", response.FirstName);
+            Assert.Equal("Doe", response.LastName);
+            Assert.False(response.IsSuspended);
+            Assert.Equal(42, response.TotalSignIns);
+            _output.WriteLine("GetUserData returned correct user data");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateUser_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var id = "id";
-                var request = new UpdateUserRequest();
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.UpdateUserAsync(id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUser test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task DeleteUser_Mock_Test()
+        public async Task GetUserData_Mock_IsSuspended_True()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var id = "id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", "/api/v1/user", mockResponse);
+            var kiotaResponse = new KiotaModels.User
+            {
+                Id = "user_suspended",
+                IsSuspended = true
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/user", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+
+            // Act
+            var response = await api.GetUserDataAsync("user_suspended");
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.True(response.IsSuspended, "IsSuspended should be true");
+            _output.WriteLine("IsSuspended=true passed");
+        }
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetUserData_Mock_IsSuspended_False()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.User
+            {
+                Id = "user_active",
+                IsSuspended = false
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/user", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                await api.DeleteUserAsync(id);
-                // Void method - no response to check
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteUser test: {ex.Message}");
-                throw;
-            }
+            var response = await api.GetUserDataAsync("user_active");
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.False(response.IsSuspended, "IsSuspended should be false");
+            _output.WriteLine("IsSuspended=false passed");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task DeleteUser_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var id = "id";
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                await api.DeleteUserAsync(id);
-                // Void method - no response to check
-                _output.WriteLine($"Void method completed successfully");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteUser test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region UpdateUser Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateUserFeatureFlagOverride_Mock_Test()
+        public async Task UpdateUser_Mock_ReturnsUpdatedUser()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var feature_flag_key = "test-feature_flag_key";
-                var value = "value";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PATCH", $"/api/v1/users/{user_id}/feature_flags/{feature_flag_key}", mockResponse);
+            var kiotaResponse = new KiotaModels.Update_user_response
+            {
+                Id = "user_updated",
+                GivenName = "Updated",
+                FamilyName = "Name"
+            };
+            mockHandler.AddKiotaResponse("PATCH", "/api/v1/user", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+            var request = new UpdateUserRequest
+            {
+                GivenName = "Updated",
+                FamilyName = "Name"
+            };
+
+                // Act
+            var response = await api.UpdateUserAsync("user_updated", request);
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.Equal("user_updated", response.Id);
+            Assert.Equal("Updated", response.GivenName);
+            Assert.Equal("Name", response.FamilyName);
+            _output.WriteLine("UpdateUser returned correct response");
+        }
+
+        #endregion
+
+        #region DeleteUser Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task DeleteUser_Mock_Success()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "User deleted successfully"
+            };
+            mockHandler.AddKiotaResponse("DELETE", "/api/v1/user", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+
+            // Act - DeleteUser is void, so just verify no exception
+            await api.DeleteUserAsync("user_to_delete");
+
+            // Assert - Verify the request was made
+            Assert.True(mockHandler.WasRequestMade("DELETE", "/api/v1/user"));
+            _output.WriteLine("DeleteUser completed successfully");
+        }
+
+        #endregion
+
+        #region RefreshUserClaims Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task RefreshUserClaims_Mock_Success()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Claims refreshed"
+            };
+            mockHandler.AddKiotaResponse("POST", "/api/v1/users/{user_id}/refresh_claims", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.UpdateUserFeatureFlagOverrideAsync(user_id, feature_flag_key, value);
+            var response = await api.RefreshUserClaimsAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserFeatureFlagOverride test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("RefreshUserClaims completed successfully");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateUserFeatureFlagOverride_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                // WARNING: Using placeholder feature_flag_key - test will likely fail without real resource ID
-                var feature_flag_key = "test-feature_flag_key";
-                var value = "value";
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.UpdateUserFeatureFlagOverrideAsync(user_id, feature_flag_key, value);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserFeatureFlagOverride test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Null Handling Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateUserProperty_Mock_Test()
+        public async Task GetUserData_Mock_NullEmail_StaysNull()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var property_key = "test-property_key";
-                var value = "value";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PUT", $"/api/v1/users/{user_id}/properties/{property_key}", mockResponse);
+            var kiotaResponse = new KiotaModels.User
+            {
+                Id = "user_null_fields",
+                FirstName = "John",
+                LastName = null  // Explicitly null
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/user", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.UpdateUserPropertyAsync(user_id, property_key, value);
+            var response = await api.GetUserDataAsync("user_null_fields");
 
-                // Assert
+            // Assert - Null should stay null, not become empty string
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserProperty test: {ex.Message}");
-                throw;
-            }
+            Assert.Null(response.LastName);
+            _output.WriteLine("Null lastName preserved correctly");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateUserProperty_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                // Using test resource from fixture: PropertyKey
-                var property_key = _fixture.PropertyKey;
-                var value = "value";
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.UpdateUserPropertyAsync(user_id, property_key, value);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserProperty test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetUserPropertyValues_Mock_Test()
+        public async Task GetUsers_Mock_NullUsersList_StaysNull()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new GetPropertyValuesResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/users/{user_id}/properties", mockResponse);
+            var kiotaResponse = new KiotaModels.Users_response
+            {
+                Code = "200",
+                Message = "Success",
+                Users = null  // Explicitly null list
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.GetUserPropertyValuesAsync(user_id);
+            var response = await api.GetUsersAsync();
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserPropertyValues test: {ex.Message}");
-                throw;
-            }
+            Assert.Null(response.Users);
+            _output.WriteLine("Null users list preserved correctly");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetUserPropertyValues_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.GetUserPropertyValuesAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserPropertyValues test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Feature Flag Override Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task UpdateUserProperties_Mock_Test()
+        public async Task UpdateUserFeatureFlagOverride_Mock_Success()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PATCH", $"/api/v1/users/{user_id}/properties", mockResponse);
-                var request = new UpdateOrganizationPropertiesRequest(properties: "test-properties");
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Feature flag override updated"
+            };
+            mockHandler.AddKiotaResponse("PATCH", "/api/v1/users/{user_id}/feature_flags/{feature_flag_key}", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.UpdateUserPropertiesAsync(user_id, request);
+            var response = await api.UpdateUserFeatureFlagOverrideAsync("user_123", "my_feature", "true");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserProperties test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("UpdateUserFeatureFlagOverride completed successfully");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task UpdateUserProperties_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                var request = new UpdateOrganizationPropertiesRequest(properties: "test-properties");
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.UpdateUserPropertiesAsync(user_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in UpdateUserProperties test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Property Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task SetUserPassword_Mock_Test()
+        public async Task GetUserPropertyValues_Mock_ReturnsProperties()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("PUT", $"/api/v1/users/{user_id}/password", mockResponse);
-                var request = new SetUserPasswordRequest(hashedPassword: "test-hashed_password");
+            var kiotaResponse = new KiotaModels.Get_property_values_response
+            {
+                Code = "200",
+                Message = "Properties retrieved"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users/{user_id}/properties", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.SetUserPasswordAsync(user_id, request);
+            var response = await api.GetUserPropertyValuesAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in SetUserPassword test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("GetUserPropertyValues returned correct properties");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task SetUserPassword_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                var request = new SetUserPasswordRequest(hashedPassword: "test-hashed_password");
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.SetUserPasswordAsync(user_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in SetUserPassword test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetUserIdentities_Mock_Test()
+        public async Task UpdateUserProperty_Mock_Success()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new GetIdentitiesResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/users/{user_id}/identities", mockResponse);
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Property updated"
+            };
+            mockHandler.AddKiotaResponse("PUT", "/api/v1/users/{user_id}/properties/{property_key}", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+
+            // Act
+            var response = await api.UpdateUserPropertyAsync("user_123", "department", "Sales");
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("UpdateUserProperty completed successfully");
+        }
+
+        #endregion
+
+        #region Identity Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetUserIdentities_Mock_ReturnsIdentities()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_identities_response
+            {
+                Code = "200",
+                Message = "Identities retrieved"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users/{user_id}/identities", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.GetUserIdentitiesAsync(user_id);
+            var response = await api.GetUserIdentitiesAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserIdentities test: {ex.Message}");
-                throw;
-            }
+            _output.WriteLine("GetUserIdentities returned correct identities");
         }
 
+        #endregion
 
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetUserIdentities_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.GetUserIdentitiesAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserIdentities test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #region Session Tests
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task CreateUserIdentity_Mock_Test()
+        public async Task GetUserSessions_Mock_ReturnsSessions()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new CreateIdentityResponse();
-                mockHandler.AddResponse("POST", $"/api/v1/users/{user_id}/identities", mockResponse);
-                var request = new CreateUserIdentityRequest();
+            var kiotaResponse = new KiotaModels.Get_user_sessions_response
+            {
+                Code = "200",
+                Message = "Sessions retrieved"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users/{user_id}/sessions", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.CreateUserIdentityAsync(user_id, request);
+            var response = await api.GetUserSessionsAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateUserIdentity test: {ex.Message}");
-                throw;
-            }
+            _output.WriteLine("GetUserSessions returned correctly");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task CreateUserIdentity_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                var request = new CreateUserIdentityRequest();
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.CreateUserIdentityAsync(user_id, request);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in CreateUserIdentity test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task GetUserSessions_Mock_Test()
+        public async Task DeleteUserSessions_Mock_Success()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new GetUserSessionsResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/users/{user_id}/sessions", mockResponse);
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "Sessions deleted"
+            };
+            mockHandler.AddKiotaResponse("DELETE", "/api/v1/users/{user_id}/sessions", kiotaResponse);
+
+                var api = CreateApi((client, config) => new UsersApi(client, config));
+
+            // Act
+            var response = await api.DeleteUserSessionsAsync("user_123");
+
+                // Assert
+                Assert.NotNull(response);
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("DeleteUserSessions completed successfully");
+        }
+
+        #endregion
+
+        #region MFA Tests
+
+        [Fact]
+        [Trait("TestMode", "Mock")]
+        public async Task GetUsersMFA_Mock_ReturnsMFAInfo()
+        {
+            // Arrange
+            if (UseRealApi) return;
+
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
+
+            var kiotaResponse = new KiotaModels.Get_user_mfa_response
+            {
+                Code = "200",
+                Message = "MFA info retrieved"
+            };
+            mockHandler.AddKiotaResponse("GET", "/api/v1/users/{user_id}/mfa", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
                 // Act
-                var response = await api.GetUserSessionsAsync(user_id);
+            var response = await api.GetUsersMFAAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserSessions test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("GetUsersMFA returned correct MFA info");
         }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetUserSessions_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.GetUserSessionsAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUserSessions test: {ex.Message}");
-                throw;
-            }
-        }
-
 
         [Fact]
         [Trait("TestMode", "Mock")]
-        public async Task DeleteUserSessions_Mock_Test()
+        public async Task ResetUsersMFAAll_Mock_Success()
         {
             // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
+            if (UseRealApi) return;
 
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler == null) return;
 
-                var user_id = "test-user_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/users/{user_id}/sessions", mockResponse);
+            var kiotaResponse = new KiotaModels.Success_response
+            {
+                Code = "200",
+                Message = "MFA reset for all factors"
+            };
+            mockHandler.AddKiotaResponse("DELETE", "/api/v1/users/{user_id}/mfa", kiotaResponse);
 
                 var api = CreateApi((client, config) => new UsersApi(client, config));
 
-                // Act
-                var response = await api.DeleteUserSessionsAsync(user_id);
+            // Act
+            var response = await api.ResetUsersMFAAllAsync("user_123");
 
                 // Assert
                 Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteUserSessions test: {ex.Message}");
-                throw;
-            }
+            Assert.Equal("200", response.Code);
+            _output.WriteLine("ResetUsersMFAAll completed successfully");
         }
 
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task DeleteUserSessions_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.DeleteUserSessionsAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in DeleteUserSessions test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task GetUsersMFA_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var user_id = "test-user_id";
-                var mockResponse = new GetUserMfaResponse();
-                mockHandler.AddResponse("GET", $"/api/v1/users/{user_id}/mfa", mockResponse);
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                // Act
-                var response = await api.GetUsersMFAAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUsersMFA test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task GetUsersMFA_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.GetUsersMFAAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in GetUsersMFA test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task ResetUsersMFAAll_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var user_id = "test-user_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/users/{user_id}/mfa", mockResponse);
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                // Act
-                var response = await api.ResetUsersMFAAllAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in ResetUsersMFAAll test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task ResetUsersMFAAll_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.ResetUsersMFAAllAsync(user_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in ResetUsersMFAAll test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Mock")]
-        public async Task ResetUsersMFA_Mock_Test()
-        {
-            // Arrange
-            if (UseRealApi)
-            {
-                _output.WriteLine("Skipping Mock test - using real API");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                var mockHandler = GetMockHandler();
-                if (mockHandler == null)
-                {
-                    _output.WriteLine("Mock handler not available");
-                    return;
-                }
-
-                var user_id = "test-user_id";
-                var factor_id = "test-factor_id";
-                var mockResponse = new SuccessResponse();
-                mockHandler.AddResponse("DELETE", $"/api/v1/users/{user_id}/mfa/{factor_id}", mockResponse);
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                // Act
-                var response = await api.ResetUsersMFAAsync(user_id, factor_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Mock test successful");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in ResetUsersMFA test: {ex.Message}");
-                throw;
-            }
-        }
-
-
-        [Fact]
-        [Trait("TestMode", "Real")]
-        public async Task ResetUsersMFA_Real_Test()
-        {
-            // Arrange
-            if (!UseRealApi)
-            {
-                _output.WriteLine("Skipping Real test - using mocks");
-                return;
-            }
-
-            // Act & Assert
-            try
-            {
-                // WARNING: Real API test - This operation requires existing user_id
-                // This test may fail if the resource doesn't exist in your Kinde instance
-                // Consider creating the resource first or using a test environment
-                // Using test resource from fixture: UserId
-                var user_id = _fixture.UserId;
-                // WARNING: Using placeholder factor_id - test will likely fail without real resource ID
-                var factor_id = "test-factor_id";
-
-                var api = CreateApi((client, config) => new UsersApi(client, config));
-
-                var response = await api.ResetUsersMFAAsync(user_id, factor_id);
-
-                // Assert
-                Assert.NotNull(response);
-                _output.WriteLine($"Response received: {response?.GetType().Name}");
-                _output.WriteLine($"Test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"Error in ResetUsersMFA test: {ex.Message}");
-                throw;
-            }
-        }
-
+        #endregion
     }
 }

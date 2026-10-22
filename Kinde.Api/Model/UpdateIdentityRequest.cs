@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -35,7 +35,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="UpdateIdentityRequest" /> class.
         /// </summary>
         /// <param name="isPrimary">Whether the identity is the primary for it&#39;s type.</param>
-        public UpdateIdentityRequest(bool isPrimary = default(bool))
+        public UpdateIdentityRequest(bool? isPrimary = default(bool?))
         {
             this.IsPrimary = isPrimary;
         }
@@ -44,8 +44,8 @@ namespace Kinde.Api.Model
         /// Whether the identity is the primary for it&#39;s type
         /// </summary>
         /// <value>Whether the identity is the primary for it&#39;s type</value>
-        [DataMember(Name = "is_primary", EmitDefaultValue = true)]
-        public bool IsPrimary { get; set; }
+        [DataMember(Name = "is_primary", EmitDefaultValue = false)]
+        public bool? IsPrimary { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -114,3 +114,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

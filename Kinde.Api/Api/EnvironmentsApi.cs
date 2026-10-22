@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -151,10 +156,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetEnvironmentResponse</returns>
         ApiResponse<GetEnvironmentResponse> GetEnvironmentWithHttpInfo();
         /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetPasskeyResponse</returns>
+        GetPasskeyResponse GetPasskey();
+
+        /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetPasskeyResponse</returns>
+        ApiResponse<GetPasskeyResponse> GetPasskeyWithHttpInfo();
+        /// <summary>
         /// Read logo details
         /// </summary>
         /// <remarks>
-        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ReadEnvLogoResponse</returns>
@@ -192,6 +216,27 @@ namespace Kinde.Api.Api
         /// <param name="updateEnvironementFeatureFlagOverrideRequest">Flag details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateEnvironementFeatureFlagOverrideWithHttpInfo(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest);
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>UpdatePasskeyResponse</returns>
+        UpdatePasskeyResponse UpdatePasskey(UpdatePasskeyRequest updatePasskeyRequest);
+
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>ApiResponse of UpdatePasskeyResponse</returns>
+        ApiResponse<UpdatePasskeyResponse> UpdatePasskeyWithHttpInfo(UpdatePasskeyRequest updatePasskeyRequest);
         #endregion Synchronous Operations
     }
 
@@ -336,10 +381,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPasskeyResponse</returns>
+        System.Threading.Tasks.Task<GetPasskeyResponse> GetPasskeyAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetPasskeyResponse>> GetPasskeyWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Read logo details
         /// </summary>
         /// <remarks>
-        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -381,6 +447,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateEnvironementFeatureFlagOverrideWithHttpInfoAsync(string featureFlagKey, UpdateEnvironementFeatureFlagOverrideRequest updateEnvironementFeatureFlagOverrideRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdatePasskeyResponse</returns>
+        System.Threading.Tasks.Task<UpdatePasskeyResponse> UpdatePasskeyAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update environment passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdatePasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdatePasskeyResponse>> UpdatePasskeyWithHttpInfoAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -397,7 +486,55 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class EnvironmentsApi : IDisposable, IEnvironmentsApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private Kinde.Api.Client.ApiClient _kindeApiClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(() => _kindeApiClient?.AccessToken ?? Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly Func<string> _getToken;
+            public KiotaTokenProvider(Func<string> getToken) => _getToken = getToken ?? (() => string.Empty);
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default)
+                => Task.FromResult(_getToken() ?? string.Empty);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnvironmentsApi"/> class.
@@ -491,6 +628,7 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -518,6 +656,7 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -552,7 +691,14 @@ namespace Kinde.Api.Api
 
             this.Client = client;
             this.AsynchronousClient = client;
-            this.Configuration = Kinde.Api.Client.GlobalConfiguration.Instance;
+            this._kindeApiClient = client;
+            this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
+                Kinde.Api.Client.GlobalConfiguration.Instance,
+                new Kinde.Api.Client.Configuration
+                {
+                    BasePath = client.BasePath,
+                    AccessToken = client.AccessToken,
+                });
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -711,46 +857,28 @@ namespace Kinde.Api.Api
             if (logo == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling EnvironmentsApi->AddLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-            localVarRequestOptions.FileParameters.Add("logo", logo);
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var multipartBody = new Microsoft.Kiota.Abstractions.MultipartBody();
+                multipartBody.AddOrReplacePart("logo", logo.ContentType, logo.Content, logo.Name);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos[type].PutAsync(
+                    multipartBody,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -841,45 +969,24 @@ namespace Kinde.Api.Api
             if (featureFlagKey == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling EnvironmentsApi->DeleteEnvironementFeatureFlagOverride");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags[featureFlagKey].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteEnvironementFeatureFlagOverride: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -957,44 +1064,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteEnvironementFeatureFlagOverridesWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteEnvironementFeatureFlagOverrides", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteEnvironementFeatureFlagOverrides: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1084,44 +1171,24 @@ namespace Kinde.Api.Api
             if (type == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling EnvironmentsApi->DeleteLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos[type].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/environment/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1199,44 +1266,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentFeatureFlagsResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse>> GetEnvironementFeatureFlagsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetEnvironmentFeatureFlagsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEnvironmentFeatureFlagsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentFeatureFlagsResponse>("/api/v1/environment/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetEnvironementFeatureFlags", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEnvironementFeatureFlags: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1313,7 +1360,44 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetEnvironmentResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetEnvironmentResponse>> GetEnvironmentWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
 
+                var mappedResponse = KiotaMapper.Map<GetEnvironmentResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetEnvironmentResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetEnvironment: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>GetPasskeyResponse</returns>
+        public GetPasskeyResponse GetPasskey()
+        {
+            Kinde.Api.Client.ApiResponse<GetPasskeyResponse> localVarResponse = GetPasskeyWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of GetPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetPasskeyResponse> GetPasskeyWithHttpInfo()
+        {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1323,7 +1407,6 @@ namespace Kinde.Api.Api
             string[] _accepts = new string[] {
                 "application/json"
             };
-
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -1340,12 +1423,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetEnvironmentResponse>("/api/v1/environment", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = this.Client.Get<GetPasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetEnvironment", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetPasskey", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1353,7 +1435,63 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt; 
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<GetPasskeyResponse> GetPasskeyAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetPasskeyResponse> localVarResponse = await GetPasskeyWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get environment passkey settings Retrieve passkey policy for the current environment.  &lt;div&gt;   &lt;code&gt;read:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetPasskeyResponse>> GetPasskeyWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetPasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Read logo details Read environment logo details  &lt;div&gt;   &lt;code&gt;read:environments&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ReadEnvLogoResponse</returns>
@@ -1426,43 +1564,24 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (ReadEnvLogoResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse>> ReadLogoWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Logos.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<ReadEnvLogoResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<ReadEnvLogoResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ReadEnvLogoResponse>("/api/v1/environment/logos", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ReadLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ReadLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -1567,6 +1686,52 @@ namespace Kinde.Api.Api
             if (updateEnvironementFeatureFlagOverrideRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateEnvironementFeatureFlagOverrideRequest' when calling EnvironmentsApi->UpdateEnvironementFeatureFlagOverride");
 
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.EnvironmentNamespace.Feature_flags.Item.WithFeature_flag_keyPatchRequestBody>(updateEnvironementFeatureFlagOverrideRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Environment.Feature_flags[featureFlagKey].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateEnvironementFeatureFlagOverride: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>UpdatePasskeyResponse</returns>
+        public UpdatePasskeyResponse UpdatePasskey(UpdatePasskeyRequest updatePasskeyRequest)
+        {
+            Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> localVarResponse = UpdatePasskeyWithHttpInfo(updatePasskeyRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <returns>ApiResponse of UpdatePasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> UpdatePasskeyWithHttpInfo(UpdatePasskeyRequest updatePasskeyRequest)
+        {
+            // verify the required parameter 'updatePasskeyRequest' is set
+            if (updatePasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePasskeyRequest' when calling EnvironmentsApi->UpdatePasskey");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -1576,10 +1741,8 @@ namespace Kinde.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
+                "application/json"
             };
-
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -1587,8 +1750,7 @@ namespace Kinde.Api.Api
             var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.Data = updateEnvironementFeatureFlagOverrideRequest;
+            localVarRequestOptions.Data = updatePasskeyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -1598,12 +1760,75 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/environment/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = this.Client.Put<UpdatePasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UpdateEnvironementFeatureFlagOverride", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdatePasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdatePasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<UpdatePasskeyResponse> UpdatePasskeyAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse> localVarResponse = await UpdatePasskeyWithHttpInfoAsync(updatePasskeyRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update environment passkey settings Set the passkey policy for the current environment. Policies other than &#x60;off&#x60; require the &#x60;passkeys&#x60; entitlement.  &lt;div&gt;   &lt;code&gt;update:passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="updatePasskeyRequest">Environment passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdatePasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdatePasskeyResponse>> UpdatePasskeyWithHttpInfoAsync(UpdatePasskeyRequest updatePasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'updatePasskeyRequest' is set
+            if (updatePasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updatePasskeyRequest' when calling EnvironmentsApi->UpdatePasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.Data = updatePasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PutAsync<UpdatePasskeyResponse>("/api/v1/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdatePasskey", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

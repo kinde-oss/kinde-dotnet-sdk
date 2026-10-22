@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -37,7 +37,7 @@ namespace Kinde.Api.Model
         /// <param name="key">The key to update..</param>
         /// <param name="value">The new value for the environment variable..</param>
         /// <param name="isSecret">Whether the environment variable is sensitive. Secret variables are not-readable by you or your team after creation..</param>
-        public UpdateEnvironmentVariableRequest(string key = default(string), string value = default(string), bool isSecret = default(bool))
+        public UpdateEnvironmentVariableRequest(string key = default(string), string value = default(string), bool? isSecret = default(bool?))
         {
             this.Key = key;
             this.Value = value;
@@ -64,8 +64,8 @@ namespace Kinde.Api.Model
         /// Whether the environment variable is sensitive. Secret variables are not-readable by you or your team after creation.
         /// </summary>
         /// <value>Whether the environment variable is sensitive. Secret variables are not-readable by you or your team after creation.</value>
-        [DataMember(Name = "is_secret", EmitDefaultValue = true)]
-        public bool IsSecret { get; set; }
+        [DataMember(Name = "is_secret", EmitDefaultValue = false)]
+        public bool? IsSecret { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -154,3 +154,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

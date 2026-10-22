@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -19,6 +19,11 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
+using AutoMapper;
+using Kinde.Api.Mappers;
+using Kinde.Api.Kiota.Management;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace Kinde.Api.Api
 {
 
@@ -174,6 +179,29 @@ namespace Kinde.Api.Api
         /// <param name="createOrganizationUserRoleRequest">Role details.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> CreateOrganizationUserRoleWithHttpInfo(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest);
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>CreateOrganizationInviteResponse</returns>
+        CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
+
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
+        ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
         /// <summary>
         /// Delete Organization
         /// </summary>
@@ -387,7 +415,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -399,7 +427,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -470,10 +498,31 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationFeatureFlagsResponse</returns>
         ApiResponse<GetOrganizationFeatureFlagsResponse> GetOrganizationFeatureFlagsWithHttpInfo(string orgCode);
         /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetOrganizationPasskeyResponse</returns>
+        GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode);
+
+        /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode);
+        /// <summary>
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -783,10 +832,33 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value);
         /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
+
+        /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
+        /// <summary>
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1044,6 +1116,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateOrganizationInviteResponse</returns>
+        System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create Organization Invite
+        /// </summary>
+        /// <remarks>
+        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
@@ -1274,7 +1371,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1287,7 +1384,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1365,10 +1462,33 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationFeatureFlagsResponse>> GetOrganizationFeatureFlagsWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get Organization Property Values
         /// </summary>
         /// <remarks>
-        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1704,10 +1824,35 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(string orgCode, string featureFlagKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization passkey settings
+        /// </summary>
+        /// <remarks>
+        /// Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Update Organization Property values
         /// </summary>
         /// <remarks>
-        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
@@ -1821,7 +1966,55 @@ namespace Kinde.Api.Api
     /// </summary>
     public partial class OrganizationsApi : IDisposable, IOrganizationsApi
     {
-        private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        
+        // ===== Kiota Infrastructure =====
+        private KindeManagementClient _kiotaClient;
+        private Kinde.Api.Client.ApiClient _kindeApiClient;
+        private HttpClient _kiotaHttpClient;
+        private IMapper _kiotaMapper;
+        private readonly object _kiotaLock = new object();
+
+        /// <summary>
+        /// Gets the AutoMapper instance for model translation.
+        /// </summary>
+        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+
+        /// <summary>
+        /// Gets or creates the Kiota Management API client.
+        /// </summary>
+        protected KindeManagementClient KiotaClient
+        {
+            get
+            {
+                if (_kiotaClient == null)
+                {
+                    lock (_kiotaLock)
+                    {
+                        if (_kiotaClient == null)
+                        {
+                            var tokenProvider = new KiotaTokenProvider(() => _kindeApiClient?.AccessToken ?? Configuration.AccessToken);
+                            var authProvider = new BaseBearerTokenAuthenticationProvider(tokenProvider);
+                            _kiotaHttpClient ??= new HttpClient();
+                            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: _kiotaHttpClient);
+                            adapter.BaseUrl = Configuration.BasePath;
+                            _kiotaClient = new KindeManagementClient(adapter);
+                        }
+                    }
+                }
+                return _kiotaClient;
+            }
+        }
+
+        private class KiotaTokenProvider : IAccessTokenProvider
+        {
+            private readonly Func<string> _getToken;
+            public KiotaTokenProvider(Func<string> getToken) => _getToken = getToken ?? (() => string.Empty);
+            public AllowedHostsValidator AllowedHostsValidator => new AllowedHostsValidator();
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> ctx = null, CancellationToken ct = default)
+                => Task.FromResult(_getToken() ?? string.Empty);
+        }
+        // ===== End Kiota Infrastructure =====
+private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrganizationsApi"/> class.
@@ -1915,6 +2108,9 @@ namespace Kinde.Api.Api
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -1942,6 +2138,9 @@ namespace Kinde.Api.Api
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
+            
+            // Pass HttpClient to Kiota infrastructure for proper mock handler support
+            _kiotaHttpClient = client;
         }
 
         /// <summary>
@@ -1976,7 +2175,14 @@ namespace Kinde.Api.Api
 
             this.Client = client;
             this.AsynchronousClient = client;
-            this.Configuration = Kinde.Api.Client.GlobalConfiguration.Instance;
+            this._kindeApiClient = client;
+            this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
+                Kinde.Api.Client.GlobalConfiguration.Instance,
+                new Kinde.Api.Client.Configuration
+                {
+                    BasePath = client.BasePath,
+                    AccessToken = client.AccessToken,
+                });
             this.ExceptionFactory = Kinde.Api.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -2058,56 +2264,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> AddOrganizationLogoWithHttpInfo(string orgCode, string type, FileParameter logo)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationLogo");
-
-            // verify the required parameter 'type' is set
-            if (type == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->AddOrganizationLogo");
-
-            // verify the required parameter 'logo' is set
-            if (logo == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling OrganizationsApi->AddOrganizationLogo");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-            localVarRequestOptions.FileParameters.Add("logo", logo);
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddOrganizationLogoWithHttpInfoAsync(orgCode, type, logo).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2148,47 +2306,28 @@ namespace Kinde.Api.Api
             if (logo == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'logo' when calling OrganizationsApi->AddOrganizationLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-            localVarRequestOptions.FileParameters.Add("logo", logo);
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var multipartBody = new Microsoft.Kiota.Abstractions.MultipartBody();
+                multipartBody.AddOrReplacePart("logo", logo.ContentType ?? "application/octet-stream", logo.Content);
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Logos[type].PostAsync(
+                    multipartBody,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddOrganizationLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2216,60 +2355,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> AddOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUserAPIScope");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
-
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddOrganizationUserAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddOrganizationUserAPIScopeWithHttpInfoAsync(orgCode, userId, apiId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2315,47 +2402,23 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->AddOrganizationUserAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Apis[apiId].Scopes[scopeId].PostAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddOrganizationUserAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddOrganizationUserAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2380,47 +2443,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of AddOrganizationUsersResponse</returns>
         public Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse> AddOrganizationUsersWithHttpInfo(string orgCode, AddOrganizationUsersRequest addOrganizationUsersRequest = default(AddOrganizationUsersRequest))
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUsers");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = addOrganizationUsersRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<AddOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("AddOrganizationUsers", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return AddOrganizationUsersWithHttpInfoAsync(orgCode, addOrganizationUsersRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2451,46 +2475,27 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->AddOrganizationUsers");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = addOrganizationUsersRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody>(addOrganizationUsersRequest);
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<AddOrganizationUsersResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<AddOrganizationUsersResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<AddOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("AddOrganizationUsers", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddOrganizationUsers: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2513,46 +2518,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateOrganizationResponse</returns>
         public Kinde.Api.Client.ApiResponse<CreateOrganizationResponse> CreateOrganizationWithHttpInfo(CreateOrganizationRequest createOrganizationRequest)
         {
-            // verify the required parameter 'createOrganizationRequest' is set
-            if (createOrganizationRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationRequest' when calling OrganizationsApi->CreateOrganization");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createOrganizationRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<CreateOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return CreateOrganizationWithHttpInfoAsync(createOrganizationRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2581,45 +2548,27 @@ namespace Kinde.Api.Api
             if (createOrganizationRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationRequest' when calling OrganizationsApi->CreateOrganization");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = createOrganizationRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>(createOrganizationRequest);
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organization.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateOrganizationResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateOrganizationResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganization: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2646,57 +2595,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> CreateOrganizationUserPermissionWithHttpInfo(string orgCode, string userId, CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationUserPermission");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->CreateOrganizationUserPermission");
-
-            // verify the required parameter 'createOrganizationUserPermissionRequest' is set
-            if (createOrganizationUserPermissionRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationUserPermissionRequest' when calling OrganizationsApi->CreateOrganizationUserPermission");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.Data = createOrganizationUserPermissionRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateOrganizationUserPermission", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return CreateOrganizationUserPermissionWithHttpInfoAsync(orgCode, userId, createOrganizationUserPermissionRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2737,48 +2637,27 @@ namespace Kinde.Api.Api
             if (createOrganizationUserPermissionRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationUserPermissionRequest' when calling OrganizationsApi->CreateOrganizationUserPermission");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.Data = createOrganizationUserPermissionRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody>(createOrganizationUserPermissionRequest);
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Permissions.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateOrganizationUserPermission", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationUserPermission: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -2805,57 +2684,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> CreateOrganizationUserRoleWithHttpInfo(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationUserRole");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->CreateOrganizationUserRole");
-
-            // verify the required parameter 'createOrganizationUserRoleRequest' is set
-            if (createOrganizationUserRoleRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationUserRoleRequest' when calling OrganizationsApi->CreateOrganizationUserRole");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.Data = createOrganizationUserRoleRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateOrganizationUserRole", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return CreateOrganizationUserRoleWithHttpInfoAsync(orgCode, userId, createOrganizationUserRoleRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2896,48 +2726,108 @@ namespace Kinde.Api.Api
             if (createOrganizationUserRoleRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationUserRoleRequest' when calling OrganizationsApi->CreateOrganizationUserRole");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.Data = createOrganizationUserRoleRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody>(createOrganizationUserRoleRequest);
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Roles.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("CreateOrganizationUserRole", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationUserRole: {ex.Message}", ex);
             }
+        }
 
-            return localVarResponse;
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>CreateOrganizationInviteResponse</returns>
+        public CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> localVarResponse = CreateOrganizationInviteWithHttpInfo(orgCode, createOrganizationInviteRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateOrganizationInviteWithHttpInfoAsync(orgCode, createOrganizationInviteRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateOrganizationInviteResponse</returns>
+        public async System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> localVarResponse = await CreateOrganizationInviteWithHttpInfoAsync(orgCode, createOrganizationInviteRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationInvite");
+
+            // verify the required parameter 'createOrganizationInviteRequest' is set
+            if (createOrganizationInviteRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationInviteRequest' when calling OrganizationsApi->CreateOrganizationInvite");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody>(createOrganizationInviteRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Invites.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateOrganizationInviteResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse>(
+                    System.Net.HttpStatusCode.Created,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationInvite: {ex.Message}", ex);
+            }
         }
 
         /// <summary>
@@ -2960,45 +2850,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationWithHttpInfo(string orgCode)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganization");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3027,44 +2880,24 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganization");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganization: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3089,51 +2922,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationFeatureFlagOverride");
-
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling OrganizationsApi->DeleteOrganizationFeatureFlagOverride");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationFeatureFlagOverrideWithHttpInfoAsync(orgCode, featureFlagKey).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3168,46 +2958,24 @@ namespace Kinde.Api.Api
             if (featureFlagKey == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling OrganizationsApi->DeleteOrganizationFeatureFlagOverride");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Feature_flags[featureFlagKey].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationFeatureFlagOverride: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3230,46 +2998,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationFeatureFlagOverridesWithHttpInfo(string orgCode)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationFeatureFlagOverrides");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationFeatureFlagOverrides", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationFeatureFlagOverridesWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3298,45 +3028,24 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationFeatureFlagOverrides");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Feature_flags.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationFeatureFlagOverrides", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationFeatureFlagOverrides: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3359,46 +3068,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationHandleWithHttpInfo(string orgCode)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationHandle");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organization/{org_code}/handle", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationHandle", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationHandleWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3427,45 +3098,24 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationHandle");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Handle.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organization/{org_code}/handle", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationHandle", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationHandle: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3490,50 +3140,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationLogoWithHttpInfo(string orgCode, string type)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationLogo");
-
-            // verify the required parameter 'type' is set
-            if (type == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->DeleteOrganizationLogo");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationLogoWithHttpInfoAsync(orgCode, type).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3568,45 +3176,24 @@ namespace Kinde.Api.Api
             if (type == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'type' when calling OrganizationsApi->DeleteOrganizationLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("type", Kinde.Api.Client.ClientUtils.ParameterToString(type)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Logos[type].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/logos/{type}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3634,60 +3221,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> DeleteOrganizationUserAPIScopeWithHttpInfo(string orgCode, string userId, string apiId, string scopeId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
-
-            // verify the required parameter 'apiId' is set
-            if (apiId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
-
-            // verify the required parameter 'scopeId' is set
-            if (scopeId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationUserAPIScopeWithHttpInfoAsync(orgCode, userId, apiId, scopeId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3733,47 +3268,23 @@ namespace Kinde.Api.Api
             if (scopeId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling OrganizationsApi->DeleteOrganizationUserAPIScope");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("api_id", Kinde.Api.Client.ClientUtils.ParameterToString(apiId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("scope_id", Kinde.Api.Client.ClientUtils.ParameterToString(scopeId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Apis[apiId].Scopes[scopeId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserAPIScope", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationUserAPIScope: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3800,56 +3311,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationUserPermissionWithHttpInfo(string orgCode, string userId, string permissionId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationUserPermission");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->DeleteOrganizationUserPermission");
-
-            // verify the required parameter 'permissionId' is set
-            if (permissionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling OrganizationsApi->DeleteOrganizationUserPermission");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserPermission", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationUserPermissionWithHttpInfoAsync(orgCode, userId, permissionId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -3890,47 +3353,24 @@ namespace Kinde.Api.Api
             if (permissionId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling OrganizationsApi->DeleteOrganizationUserPermission");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("permission_id", Kinde.Api.Client.ClientUtils.ParameterToString(permissionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Permissions[permissionId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserPermission", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationUserPermission: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -3957,56 +3397,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationUserRoleWithHttpInfo(string orgCode, string userId, string roleId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationUserRole");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->DeleteOrganizationUserRole");
-
-            // verify the required parameter 'roleId' is set
-            if (roleId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->DeleteOrganizationUserRole");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserRole", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationUserRoleWithHttpInfoAsync(orgCode, userId, roleId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4047,47 +3439,24 @@ namespace Kinde.Api.Api
             if (roleId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->DeleteOrganizationUserRole");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("role_id", Kinde.Api.Client.ClientUtils.ParameterToString(roleId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Roles[roleId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("DeleteOrganizationUserRole", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationUserRole: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -4111,50 +3480,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Kinde.Api.Client.ApiResponse<Object> EnableOrgConnectionWithHttpInfo(string organizationCode, string connectionId)
         {
-            // verify the required parameter 'organizationCode' is set
-            if (organizationCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->EnableOrgConnection");
-
-            // verify the required parameter 'connectionId' is set
-            if (connectionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->EnableOrgConnection");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("EnableOrgConnection", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return EnableOrgConnectionWithHttpInfoAsync(organizationCode, connectionId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4188,49 +3515,27 @@ namespace Kinde.Api.Api
             if (connectionId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->EnableOrgConnection");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                await KiotaClient.Api.V1.Organizations[organizationCode].Connections[connectionId].PostAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("EnableOrgConnection", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling EnableOrgConnection: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4243,7 +3548,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4251,54 +3556,12 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetUserMfaResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetUserMfaResponse> GetOrgUserMFAWithHttpInfo(string orgCode, string userId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrgUserMFA");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrgUserMFA");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetUserMfaResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrgUserMFA", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrgUserMFAWithHttpInfoAsync(orgCode, userId).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4312,7 +3575,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -4329,45 +3592,24 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrgUserMFA");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Mfa.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetUserMfaResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetUserMfaResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetUserMfaResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetOrgUserMFA", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrgUserMFA: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -4390,44 +3632,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string code = default(string))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (code != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationWithHttpInfoAsync(code).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4452,47 +3658,25 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string code = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (code != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "code", code));
-            }
+                var kiotaResponse = await KiotaClient.Api.V1.Organization.GetAsync(config =>
+                {
+                    config.QueryParameters.Code = code;
+                }, cancellationToken).ConfigureAwait(false);
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                var mappedResponse = KiotaMapper.Map<GetOrganizationResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganization: {ex.Message}", ex);
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationResponse>("/api/v1/organization", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -4515,45 +3699,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetConnectionsResponse> GetOrganizationConnectionsWithHttpInfo(string organizationCode)
         {
-            // verify the required parameter 'organizationCode' is set
-            if (organizationCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->GetOrganizationConnections");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetConnectionsResponse>("/api/v1/organizations/{organization_code}/connections", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationConnections", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationConnectionsWithHttpInfoAsync(organizationCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4582,44 +3729,24 @@ namespace Kinde.Api.Api
             if (organizationCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->GetOrganizationConnections");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[organizationCode].Connections.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetConnectionsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetConnectionsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetConnectionsResponse>("/api/v1/organizations/{organization_code}/connections", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetOrganizationConnections", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationConnections: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -4646,42 +3773,8 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationFeatureFlags");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationFeatureFlagsResponse>("/api/v1/organizations/{org_code}/feature_flags", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationFeatureFlags", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationFeatureFlagsWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4710,6 +3803,49 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationFeatureFlags");
 
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Feature_flags.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationFeatureFlagsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationFeatureFlagsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationFeatureFlags: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>GetOrganizationPasskeyResponse</returns>
+        public GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = GetOrganizationPasskeyWithHttpInfo(orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode)
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPasskey");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -4721,7 +3857,6 @@ namespace Kinde.Api.Api
                 "application/json",
                 "application/json; charset=utf-8"
             };
-
 
             var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -4739,12 +3874,11 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationFeatureFlagsResponse>("/api/v1/organizations/{org_code}/feature_flags", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = this.Client.Get<GetOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetOrganizationFeatureFlags", localVarResponse);
+                Exception _exception = this.ExceptionFactory("GetOrganizationPasskey", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -4752,7 +3886,71 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = await GetOrganizationPasskeyWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get Organization Property Values Gets properties for an organization by org code.  &lt;div&gt;   &lt;code&gt;read:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4771,46 +3969,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetPropertyValuesResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse> GetOrganizationPropertyValuesWithHttpInfo(string orgCode)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPropertyValues");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetPropertyValuesResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationPropertyValues", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationPropertyValuesWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4839,45 +3999,24 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPropertyValues");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Properties.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetPropertyValuesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetPropertyValuesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetPropertyValuesResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetOrganizationPropertyValues", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationPropertyValues: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -4904,55 +4043,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsUserPermissionsResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationsUserPermissionsResponse> GetOrganizationUserPermissionsWithHttpInfo(string orgCode, string userId, string expand = default(string))
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUserPermissions");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrganizationUserPermissions");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            if (expand != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationsUserPermissionsResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUserPermissions", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationUserPermissionsWithHttpInfoAsync(orgCode, userId, expand).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -4989,50 +4081,25 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrganizationUserPermissions");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            if (expand != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Permissions.GetAsync(config =>
+                {
+                    config.QueryParameters.Expand = expand;
+                }, cancellationToken).ConfigureAwait(false);
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                var mappedResponse = KiotaMapper.Map<GetOrganizationsUserPermissionsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationsUserPermissionsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationUserPermissions: {ex.Message}", ex);
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsUserPermissionsResponse>("/api/v1/organizations/{org_code}/users/{user_id}/permissions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUserPermissions", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5057,51 +4124,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsUserRolesResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationsUserRolesResponse> GetOrganizationUserRolesWithHttpInfo(string orgCode, string userId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUserRoles");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrganizationUserRoles");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationsUserRolesResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUserRoles", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationUserRolesWithHttpInfoAsync(orgCode, userId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5136,46 +4160,24 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->GetOrganizationUserRoles");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Roles.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationsUserRolesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationsUserRolesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsUserRolesResponse>("/api/v1/organizations/{org_code}/users/{user_id}/roles", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUserRoles", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationUserRoles: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5208,65 +4210,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationUsersResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse> GetOrganizationUsersWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), string permissions = default(string), string roles = default(string))
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUsers");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            if (sort != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
-            }
-            if (pageSize != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (nextToken != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-            if (permissions != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "permissions", permissions));
-            }
-            if (roles != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "roles", roles));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUsers", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationUsersWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, permissions, roles).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5305,64 +4250,39 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationUsers");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            // ===== Kiota Implementation =====
+            try
+            {
+                // Parse sort string to enum if provided
+                Kiota.Management.Api.V1.Organizations.Item.Users.GetSortQueryParameterType? kiotaSort = null;
             if (sort != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
-            }
-            if (pageSize != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (nextToken != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-            if (permissions != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "permissions", permissions));
-            }
-            if (roles != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "roles", roles));
-            }
+                    if (Enum.TryParse(sort.Replace("_", ""), true, out Kiota.Management.Api.V1.Organizations.Item.Users.GetSortQueryParameterType parsedSort))
+                    {
+                        kiotaSort = parsedSort;
+                    }
+                }
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users.GetAsync(config =>
+                {
+                    config.QueryParameters.Sort = kiotaSort;
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                    config.QueryParameters.Permissions = permissions;
+                    config.QueryParameters.Roles = roles;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationUsersResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationUsersResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("GetOrganizationUsers", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationUsers: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5389,52 +4309,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationsResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationsResponse> GetOrganizationsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
         {
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (sort != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
-            }
-            if (pageSize != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
-            }
-            if (nextToken != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<GetOrganizationsResponse>("/api/v1/organizations", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizations", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return GetOrganizationsWithHttpInfoAsync(sort, pageSize, nextToken).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5463,55 +4339,41 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationsResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationsResponse>> GetOrganizationsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (sort != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "sort", sort));
+                // Convert sort string to Kiota enum
+                Kinde.Api.Kiota.Management.Api.V1.Organizations.GetSortQueryParameterType? kiotaSort = null;
+                if (!string.IsNullOrEmpty(sort))
+                {
+                    kiotaSort = sort switch
+                    {
+                        "name_asc" => Kinde.Api.Kiota.Management.Api.V1.Organizations.GetSortQueryParameterType.Name_asc,
+                        "name_desc" => Kinde.Api.Kiota.Management.Api.V1.Organizations.GetSortQueryParameterType.Name_desc,
+                        "email_asc" => Kinde.Api.Kiota.Management.Api.V1.Organizations.GetSortQueryParameterType.Email_asc,
+                        "email_desc" => Kinde.Api.Kiota.Management.Api.V1.Organizations.GetSortQueryParameterType.Email_desc,
+                        _ => null
+                    };
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations.GetAsync(config =>
+                {
+                    config.QueryParameters.Sort = kiotaSort;
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-            if (pageSize != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "page_size", pageSize));
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizations: {ex.Message}", ex);
             }
-            if (nextToken != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "next_token", nextToken));
-            }
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<GetOrganizationsResponse>("/api/v1/organizations", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetOrganizations", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5534,45 +4396,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of ReadLogoResponse</returns>
         public Kinde.Api.Client.ApiResponse<ReadLogoResponse> ReadOrganizationLogoWithHttpInfo(string orgCode)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReadOrganizationLogo");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<ReadLogoResponse>("/api/v1/organizations/{org_code}/logos", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("ReadOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return ReadOrganizationLogoWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5601,44 +4426,24 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReadOrganizationLogo");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Logos.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<ReadLogoResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<ReadLogoResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<ReadLogoResponse>("/api/v1/organizations/{org_code}/logos", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ReadOrganizationLogo", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ReadOrganizationLogo: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5663,50 +4468,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveOrgConnectionWithHttpInfo(string organizationCode, string connectionId)
         {
-            // verify the required parameter 'organizationCode' is set
-            if (organizationCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'organizationCode' when calling OrganizationsApi->RemoveOrgConnection");
-
-            // verify the required parameter 'connectionId' is set
-            if (connectionId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->RemoveOrgConnection");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("RemoveOrgConnection", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return RemoveOrgConnectionWithHttpInfoAsync(organizationCode, connectionId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5741,45 +4504,24 @@ namespace Kinde.Api.Api
             if (connectionId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'connectionId' when calling OrganizationsApi->RemoveOrgConnection");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("organization_code", Kinde.Api.Client.ClientUtils.ParameterToString(organizationCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("connection_id", Kinde.Api.Client.ClientUtils.ParameterToString(connectionId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[organizationCode].Connections[connectionId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{organization_code}/connections/{connection_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("RemoveOrgConnection", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RemoveOrgConnection: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5804,51 +4546,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveOrganizationUserWithHttpInfo(string orgCode, string userId)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->RemoveOrganizationUser");
-
-            // verify the required parameter 'userId' is set
-            if (userId == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->RemoveOrganizationUser");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("RemoveOrganizationUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return RemoveOrganizationUserWithHttpInfoAsync(orgCode, userId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -5883,46 +4582,24 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->RemoveOrganizationUser");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("RemoveOrganizationUser", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RemoveOrganizationUser: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -5947,51 +4624,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> ReplaceOrganizationMFAWithHttpInfo(string orgCode, ReplaceOrganizationMFARequest replaceOrganizationMFARequest)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->ReplaceOrganizationMFA");
-
-            // verify the required parameter 'replaceOrganizationMFARequest' is set
-            if (replaceOrganizationMFARequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceOrganizationMFARequest' when calling OrganizationsApi->ReplaceOrganizationMFA");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = replaceOrganizationMFARequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Put<SuccessResponse>("/api/v1/organizations/{org_code}/mfa", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("ReplaceOrganizationMFA", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return ReplaceOrganizationMFAWithHttpInfoAsync(orgCode, replaceOrganizationMFARequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6026,46 +4660,26 @@ namespace Kinde.Api.Api
             if (replaceOrganizationMFARequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'replaceOrganizationMFARequest' when calling OrganizationsApi->ReplaceOrganizationMFA");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = replaceOrganizationMFARequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody>(replaceOrganizationMFARequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Mfa.PutAsync(kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/organizations/{org_code}/mfa", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ReplaceOrganizationMFA", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ReplaceOrganizationMFA: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -6104,43 +4718,8 @@ namespace Kinde.Api.Api
             if (factorId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'factorId' when calling OrganizationsApi->ResetOrgUserMFA");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("factor_id", Kinde.Api.Client.ClientUtils.ParameterToString(factorId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("ResetOrgUserMFA", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return ResetOrgUserMFAWithHttpInfoAsync(orgCode, userId, factorId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6181,46 +4760,24 @@ namespace Kinde.Api.Api
             if (factorId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'factorId' when calling OrganizationsApi->ResetOrgUserMFA");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-            localVarRequestOptions.PathParameters.Add("factor_id", Kinde.Api.Client.ClientUtils.ParameterToString(factorId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Mfa[factorId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa/{factor_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ResetOrgUserMFA", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ResetOrgUserMFA: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -6253,42 +4810,8 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->ResetOrgUserMFAAll");
 
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("ResetOrgUserMFAAll", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return ResetOrgUserMFAAllWithHttpInfoAsync(orgCode, userId).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6323,45 +4846,24 @@ namespace Kinde.Api.Api
             if (userId == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling OrganizationsApi->ResetOrgUserMFAAll");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("user_id", Kinde.Api.Client.ClientUtils.ParameterToString(userId)); // path parameter
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users[userId].Mfa.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<SuccessResponse>("/api/v1/organizations/{org_code}/users/{user_id}/mfa", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("ResetOrgUserMFAAll", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling ResetOrgUserMFAAll: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -6388,51 +4890,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationWithHttpInfo(string orgCode, string expand = default(string), UpdateOrganizationRequest updateOrganizationRequest = default(UpdateOrganizationRequest))
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganization");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            if (expand != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
-            localVarRequestOptions.Data = updateOrganizationRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return UpdateOrganizationWithHttpInfoAsync(orgCode, expand, updateOrganizationRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6465,50 +4924,35 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganization");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            if (expand != null)
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
-            }
-            localVarRequestOptions.Data = updateOrganizationRequest;
+                var kiotaRequest = KiotaMapper.Map<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.WithOrg_codePatchRequestBody>(updateOrganizationRequest);
+                
+                // Parse expand parameter to Kiota enum
+                Kinde.Api.Kiota.Management.Api.V1.Organization.Item.PatchExpandQueryParameterType? expandParam = null;
+                if (!string.IsNullOrEmpty(expand) && expand.Equals("billing", StringComparison.OrdinalIgnoreCase))
+                {
+                    expandParam = Kinde.Api.Kiota.Management.Api.V1.Organization.Item.PatchExpandQueryParameterType.Billing;
+                }
+                
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].PatchAsync(
+                    kiotaRequest,
+                    config => config.QueryParameters.Expand = expandParam,
+                    cancellationToken
+                ).ConfigureAwait(false);
 
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganization: {ex.Message}", ex);
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organization/{org_code}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateOrganization", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -6535,56 +4979,8 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationFeatureFlagOverrideWithHttpInfo(string orgCode, string featureFlagKey, string value)
         {
-            // verify the required parameter 'orgCode' is set
-            if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationFeatureFlagOverride");
-
-            // verify the required parameter 'featureFlagKey' is set
-            if (featureFlagKey == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureFlagKey' when calling OrganizationsApi->UpdateOrganizationFeatureFlagOverride");
-
-            // verify the required parameter 'value' is set
-            if (value == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling OrganizationsApi->UpdateOrganizationFeatureFlagOverride");
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            // ===== Kiota Implementation =====
+            return UpdateOrganizationFeatureFlagOverrideWithHttpInfoAsync(orgCode, featureFlagKey, value).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6625,78 +5021,56 @@ namespace Kinde.Api.Api
             if (value == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling OrganizationsApi->UpdateOrganizationFeatureFlagOverride");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("feature_flag_key", Kinde.Api.Client.ClientUtils.ParameterToString(featureFlagKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Feature_flags[featureFlagKey].PatchAsync(config =>
+                {
+                    config.QueryParameters.Value = value;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organizations/{org_code}/feature_flags/{feature_flag_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationFeatureFlagOverride", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationFeatureFlagOverride: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orgCode">The identifier for the organization</param>
-        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
-        /// <returns>SuccessResponse</returns>
-        public SuccessResponse UpdateOrganizationProperties(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        public UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
         {
-            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationPropertiesWithHttpInfo(orgCode, updateOrganizationPropertiesRequest);
+            Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = UpdateOrganizationPasskeyWithHttpInfo(orgCode, updateOrganizationPasskeyRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orgCode">The identifier for the organization</param>
-        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
-        /// <returns>ApiResponse of SuccessResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPropertiesWithHttpInfo(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
         {
             // verify the required parameter 'orgCode' is set
             if (orgCode == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationProperties");
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationPasskey");
 
-            // verify the required parameter 'updateOrganizationPropertiesRequest' is set
-            if (updateOrganizationPropertiesRequest == null)
-                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPropertiesRequest' when calling OrganizationsApi->UpdateOrganizationProperties");
+            // verify the required parameter 'updateOrganizationPasskeyRequest' is set
+            if (updateOrganizationPasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPasskeyRequest' when calling OrganizationsApi->UpdateOrganizationPasskey");
 
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -6717,7 +5091,7 @@ namespace Kinde.Api.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = updateOrganizationPropertiesRequest;
+            localVarRequestOptions.Data = updateOrganizationPasskeyRequest;
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -6727,15 +5101,113 @@ namespace Kinde.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<SuccessResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<UpdateOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperties", localVarResponse);
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationPasskey", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
             return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        public async System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = await UpdateOrganizationPasskeyWithHttpInfoAsync(orgCode, updateOrganizationPasskeyRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization passkey settings Update passkey settings for an organization. Set &#x60;is_override_environment_passkey_settings&#x60; to &#x60;false&#x60; to revert to the environment default without providing a policy.  &lt;div&gt;   &lt;code&gt;update:organization_passkey&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            // verify the required parameter 'updateOrganizationPasskeyRequest' is set
+            if (updateOrganizationPasskeyRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPasskeyRequest' when calling OrganizationsApi->UpdateOrganizationPasskey");
+
+            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "application/json; charset=utf-8"
+            };
+
+            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
+            localVarRequestOptions.Data = updateOrganizationPasskeyRequest;
+
+            // authentication (kindeBearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PutAsync<UpdateOrganizationPasskeyResponse>("/api/v1/organizations/{org_code}/passkey", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UpdateOrganizationPasskey", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationProperties(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationPropertiesWithHttpInfo(orgCode, updateOrganizationPropertiesRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update Organization Property values Update organization property values.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="updateOrganizationPropertiesRequest">Properties to update.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPropertiesWithHttpInfo(string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
+        {
+            // ===== Kiota Implementation =====
+            return UpdateOrganizationPropertiesWithHttpInfoAsync(orgCode, updateOrganizationPropertiesRequest).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6770,47 +5242,26 @@ namespace Kinde.Api.Api
             if (updateOrganizationPropertiesRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationPropertiesRequest' when calling OrganizationsApi->UpdateOrganizationProperties");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = updateOrganizationPropertiesRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody>(updateOrganizationPropertiesRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Properties.PatchAsync(kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organizations/{org_code}/properties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperties", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationProperties: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -6927,47 +5378,25 @@ namespace Kinde.Api.Api
             if (value == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'value' when calling OrganizationsApi->UpdateOrganizationProperty");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json",
-                "application/json; charset=utf-8"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.PathParameters.Add("property_key", Kinde.Api.Client.ClientUtils.ParameterToString(propertyKey)); // path parameter
-            localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "value", value));
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Properties[propertyKey].PutAsync(config =>
+                {
+                    config.QueryParameters.Value = value;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<SuccessResponse>("/api/v1/organizations/{org_code}/properties/{property_key}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationProperty", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationProperty: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -7071,46 +5500,26 @@ namespace Kinde.Api.Api
             if (updateOrganizationSessionsRequest == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateOrganizationSessionsRequest' when calling OrganizationsApi->UpdateOrganizationSessions");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = updateOrganizationSessionsRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Sessions.SessionsPatchRequestBody>(updateOrganizationSessionsRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Sessions.PatchAsync(kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<SuccessResponse>("/api/v1/organizations/{org_code}/sessions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationSessions", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationSessions: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
         /// <summary>
@@ -7206,46 +5615,26 @@ namespace Kinde.Api.Api
             if (orgCode == null)
                 throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationUsers");
 
-
-            Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Kinde.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Kinde.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("org_code", Kinde.Api.Client.ClientUtils.ParameterToString(orgCode)); // path parameter
-            localVarRequestOptions.Data = updateOrganizationUsersRequest;
-
-            // authentication (kindeBearerAuth) required
-            // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            // ===== Kiota Implementation =====
+            try
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody>(updateOrganizationUsersRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Users.PatchAsync(kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<UpdateOrganizationUsersResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<UpdateOrganizationUsersResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
             }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<UpdateOrganizationUsersResponse>("/api/v1/organizations/{org_code}/users", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
-                Exception _exception = this.ExceptionFactory("UpdateOrganizationUsers", localVarResponse);
-                if (_exception != null) throw _exception;
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationUsers: {ex.Message}", ex);
             }
-
-            return localVarResponse;
         }
 
     }

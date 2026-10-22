@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -65,7 +65,7 @@ namespace Kinde.Api.Model
         /// <param name="ssoSessionPersistenceMode">Determines if the session should be persistent or not..</param>
         /// <param name="isUseOrgAuthenticatedSessionLifetime">Whether to apply the organization&#39;s authenticated session lifetime override..</param>
         /// <param name="authenticatedSessionLifetime">Authenticated session lifetime in seconds..</param>
-        public UpdateOrganizationSessionsRequest(bool isUseOrgSsoSessionPolicy = default(bool), SsoSessionPersistenceModeEnum? ssoSessionPersistenceMode = default(SsoSessionPersistenceModeEnum?), bool isUseOrgAuthenticatedSessionLifetime = default(bool), int authenticatedSessionLifetime = default(int))
+        public UpdateOrganizationSessionsRequest(bool? isUseOrgSsoSessionPolicy = default(bool?), SsoSessionPersistenceModeEnum? ssoSessionPersistenceMode = default(SsoSessionPersistenceModeEnum?), bool? isUseOrgAuthenticatedSessionLifetime = default(bool?), int? authenticatedSessionLifetime = default(int?))
         {
             this.IsUseOrgSsoSessionPolicy = isUseOrgSsoSessionPolicy;
             this.SsoSessionPersistenceMode = ssoSessionPersistenceMode;
@@ -77,15 +77,15 @@ namespace Kinde.Api.Model
         /// Whether to use the organization&#39;s SSO session policy override.
         /// </summary>
         /// <value>Whether to use the organization&#39;s SSO session policy override.</value>
-        [DataMember(Name = "is_use_org_sso_session_policy", EmitDefaultValue = true)]
-        public bool IsUseOrgSsoSessionPolicy { get; set; }
+        [DataMember(Name = "is_use_org_sso_session_policy", EmitDefaultValue = false)]
+        public bool? IsUseOrgSsoSessionPolicy { get; set; }
 
         /// <summary>
         /// Whether to apply the organization&#39;s authenticated session lifetime override.
         /// </summary>
         /// <value>Whether to apply the organization&#39;s authenticated session lifetime override.</value>
-        [DataMember(Name = "is_use_org_authenticated_session_lifetime", EmitDefaultValue = true)]
-        public bool IsUseOrgAuthenticatedSessionLifetime { get; set; }
+        [DataMember(Name = "is_use_org_authenticated_session_lifetime", EmitDefaultValue = false)]
+        public bool? IsUseOrgAuthenticatedSessionLifetime { get; set; }
 
         /// <summary>
         /// Authenticated session lifetime in seconds.
@@ -93,7 +93,7 @@ namespace Kinde.Api.Model
         /// <value>Authenticated session lifetime in seconds.</value>
         /// <example>86400</example>
         [DataMember(Name = "authenticated_session_lifetime", EmitDefaultValue = false)]
-        public int AuthenticatedSessionLifetime { get; set; }
+        public int? AuthenticatedSessionLifetime { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -180,3 +180,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

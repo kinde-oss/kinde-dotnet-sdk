@@ -307,22 +307,13 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                var api = CreateApi((client, config) => new PermissionsApi(client, config));
+                // WARNING: Real API test - This operation requires existing permission_id
+                // This test may fail if the resource doesn't exist in your Kinde instance
+                // Consider creating the resource first or using a test environment
+                // Using test resource from fixture: PermissionId
+                var permission_id = _fixture.PermissionId;
 
-                // Create a temporary permission specifically for this delete test
-                // This avoids deleting the shared fixture permission which other tests depend on
-                var permissionKey = $"del_test_{Guid.NewGuid():N}".Substring(0, 25);
-                var createRequest = new CreatePermissionRequest(
-                    name: $"Delete Test Permission {Guid.NewGuid():N}",
-                    key: permissionKey
-                );
-                await api.CreatePermissionAsync(createRequest);
-                
-                // Get the permission ID by listing permissions and finding the one we just created
-                var permissionsResponse = await api.GetPermissionsAsync();
-                var createdPermission = permissionsResponse?.Permissions?.FirstOrDefault(p => p.Key == permissionKey);
-                var permission_id = createdPermission?.Id ?? throw new InvalidOperationException("Failed to get permission ID");
-                _output.WriteLine($"Created temporary permission for delete test: {permission_id}");
+                var api = CreateApi((client, config) => new PermissionsApi(client, config));
 
                 var response = await api.DeletePermissionAsync(permission_id);
 

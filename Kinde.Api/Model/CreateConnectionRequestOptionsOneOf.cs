@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -37,11 +37,13 @@ namespace Kinde.Api.Model
         /// <param name="clientId">OAuth client ID..</param>
         /// <param name="clientSecret">OAuth client secret..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
-        public CreateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool))
+        /// <param name="isTrusted">Trust this connection for account merging..</param>
+        public CreateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
             this.IsUseCustomDomain = isUseCustomDomain;
+            this.IsTrusted = isTrusted;
         }
 
         /// <summary>
@@ -69,6 +71,14 @@ namespace Kinde.Api.Model
         public bool IsUseCustomDomain { get; set; }
 
         /// <summary>
+        /// Trust this connection for account merging.
+        /// </summary>
+        /// <value>Trust this connection for account merging.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        public bool IsTrusted { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -79,6 +89,7 @@ namespace Kinde.Api.Model
             sb.Append("  ClientId: ").Append(ClientId).Append("\n");
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
+            sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -127,6 +138,10 @@ namespace Kinde.Api.Model
                 (
                     this.IsUseCustomDomain == input.IsUseCustomDomain ||
                     this.IsUseCustomDomain.Equals(input.IsUseCustomDomain)
+                ) && 
+                (
+                    this.IsTrusted == input.IsTrusted ||
+                    this.IsTrusted.Equals(input.IsTrusted)
                 );
         }
 
@@ -148,6 +163,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.ClientSecret.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
                 return hashCode;
             }
         }
@@ -155,3 +171,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

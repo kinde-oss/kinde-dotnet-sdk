@@ -4,12 +4,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
+using Kinde.Api.Test.Integration.Mocks;
+using Microsoft.Kiota.Abstractions;
 using Xunit;
 
 namespace Kinde.Api.Test.Integration
 {
     /// <summary>
     /// Base class for integration tests that supports both mock and real API testing.
+    /// 
+    /// The class supports two mock handlers:
+    /// 1. MockApiResponseHandler - Original handler for backward compatibility
+    /// 2. KiotaMockHttpHandler - New handler designed for Kiota-based API integration
+    /// 
     /// Uses lazy initialization to avoid network calls until actually needed.
     /// </summary>
     public abstract class BaseIntegrationTest : IDisposable
@@ -19,7 +26,8 @@ namespace Kinde.Api.Test.Integration
         
         private HttpClient? _httpClient;
         private Configuration? _apiConfiguration;
-        private Mocks.MockApiResponseHandler? _mockHandler;
+        private MockApiResponseHandler? _legacyMockHandler;
+        private KiotaMockHttpHandler? _kiotaMockHandler;
         private bool _initialized = false;
         private readonly object _initLock = new object();
 
@@ -76,8 +84,8 @@ namespace Kinde.Api.Test.Integration
                 }
                 else
                 {
-                    Console.WriteLine("[BASE TEST] Initializing MOCK API mode...");
-                    InitializeMockApi();
+                    Console.WriteLine("[BASE TEST] Initializing MOCK API mode with Kiota handler...");
+                    InitializeKiotaMockApi();
                 }
 
                 _initialized = true;
@@ -113,27 +121,82 @@ namespace Kinde.Api.Test.Integration
         }
 
         /// <summary>
-        /// Initialize for mock API testing
+        /// Initialize for mock API testing using the new Kiota-aware mock handler.
+        /// This handler returns responses in Kiota-compatible format (snake_case JSON).
         /// </summary>
-        private void InitializeMockApi()
+        private void InitializeKiotaMockApi()
         {
-            Console.WriteLine("[MOCK API] Creating MockApiResponseHandler...");
-            _mockHandler = new Mocks.MockApiResponseHandler();
-            _httpClient = new HttpClient(_mockHandler);
+            Console.WriteLine("[MOCK API] Creating KiotaMockHttpHandler...");
+            
+            // Register Kiota serializers before any API calls
+            RegisterKiotaSerializers();
+            
+            _kiotaMockHandler = new KiotaMockHttpHandler();
+            _httpClient = new HttpClient(_kiotaMockHandler)
+            {
+                BaseAddress = new Uri("https://mock.kinde.com")
+            };
+            _apiConfiguration = new Configuration
+            {
+                BasePath = "https://mock.kinde.com",
+                AccessToken = "mock-access-token"
+            };
+            Console.WriteLine("[MOCK API] HttpClient initialized with Kiota mock handler (no real network calls)");
+        }
+        
+        /// <summary>
+        /// Registers the Kiota serializers and deserializers globally.
+        /// This must be called before any Kiota client is created.
+        /// </summary>
+        private static void RegisterKiotaSerializers()
+        {
+            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultSerializer<Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Text.TextParseNodeFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<Microsoft.Kiota.Serialization.Form.FormParseNodeFactory>();
+        }
+
+        /// <summary>
+        /// Initialize for mock API testing using the legacy mock handler.
+        /// This is maintained for backward compatibility with existing tests.
+        /// </summary>
+        [Obsolete("Use InitializeKiotaMockApi() for new tests. This method is kept for backward compatibility.")]
+        private void InitializeLegacyMockApi()
+        {
+            Console.WriteLine("[MOCK API] Creating legacy MockApiResponseHandler...");
+            _legacyMockHandler = new MockApiResponseHandler();
+            _httpClient = new HttpClient(_legacyMockHandler);
             _apiConfiguration = new Configuration
             {
                 BasePath = "https://mock.kinde.com"
             };
-            Console.WriteLine("[MOCK API] HttpClient initialized with mock handler (no real network calls)");
+            Console.WriteLine("[MOCK API] HttpClient initialized with legacy mock handler");
         }
 
         /// <summary>
-        /// Get the mock handler if using mocks
+        /// Gets the Kiota mock handler for configuring mock responses.
+        /// This is the preferred method for new tests.
         /// </summary>
-        protected Mocks.MockApiResponseHandler? GetMockHandler()
+        /// <returns>The KiotaMockHttpHandler or null if using real API.</returns>
+        protected KiotaMockHttpHandler? GetKiotaMockHandler()
         {
             EnsureInitialized();
-            return _mockHandler;
+            return _kiotaMockHandler;
+        }
+
+        /// <summary>
+        /// Gets the legacy mock handler for backward compatibility.
+        /// Prefer using GetKiotaMockHandler() for new tests.
+        /// </summary>
+        /// <returns>The MockApiResponseHandler or null if using real API or Kiota mock.</returns>
+        [Obsolete("Use GetKiotaMockHandler() for new tests.")]
+        protected MockApiResponseHandler? GetMockHandler()
+        {
+            EnsureInitialized();
+            return _legacyMockHandler;
         }
 
         /// <summary>
@@ -174,10 +237,63 @@ namespace Kinde.Api.Test.Integration
             return factory(_httpClient!, _apiConfiguration!);
         }
 
+        /// <summary>
+        /// Helper to set up a mock response for a Kiota-format API call.
+        /// </summary>
+        /// <typeparam name="T">The Kiota model type for the response.</typeparam>
+        /// <param name="method">HTTP method.</param>
+        /// <param name="path">API path.</param>
+        /// <param name="response">The Kiota model to return.</param>
+        protected void SetupKiotaMockResponse<T>(string method, string path, T response) where T : class
+        {
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler != null)
+            {
+                mockHandler.AddKiotaResponse(method, path, response);
+            }
+        }
+
+        /// <summary>
+        /// Helper to set up an error response for a Kiota-format API call.
+        /// </summary>
+        /// <param name="method">HTTP method.</param>
+        /// <param name="path">API path.</param>
+        /// <param name="statusCode">HTTP status code.</param>
+        /// <param name="errorCode">Error code.</param>
+        /// <param name="errorMessage">Error message.</param>
+        protected void SetupKiotaErrorResponse(string method, string path, System.Net.HttpStatusCode statusCode,
+            string? errorCode = null, string? errorMessage = null)
+        {
+            var mockHandler = GetKiotaMockHandler();
+            if (mockHandler != null)
+            {
+                mockHandler.AddErrorResponse(method, path, statusCode, errorCode, errorMessage);
+            }
+        }
+
+        /// <summary>
+        /// Verifies that a request was made to the specified endpoint.
+        /// </summary>
+        protected bool VerifyRequestMade(string method, string path)
+        {
+            var mockHandler = GetKiotaMockHandler();
+            return mockHandler?.WasRequestMade(method, path) ?? false;
+        }
+
+        /// <summary>
+        /// Gets the captured requests for verification.
+        /// </summary>
+        protected IReadOnlyList<CapturedRequest>? GetCapturedRequests()
+        {
+            var mockHandler = GetKiotaMockHandler();
+            return mockHandler?.CapturedRequests;
+        }
+
         public virtual void Dispose()
         {
             _httpClient?.Dispose();
-            _mockHandler?.Dispose();
+            _legacyMockHandler?.Dispose();
+            _kiotaMockHandler?.Dispose();
         }
     }
 }

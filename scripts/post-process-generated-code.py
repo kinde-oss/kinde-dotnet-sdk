@@ -11,7 +11,10 @@ Fixes applied:
 3. Fixes ApiResponse.Ok()?.Data to use AsModel() for 7.0.1 compatibility
 4. Fixes Accounts API constructor calls (6 params -> 5 params)
 5. Fixes nullable type constructor calls (adds .Value for bool?, int?, etc.)
-6. Other compatibility fixes as needed
+6. ApiClient.cs: response buffering fix so GetUsersAsync() returns same data as
+   GetUsersWithHttpInfoAsync() (buffer response content once, pass to Deserialize
+   and ToApiResponse). Patch applied from scripts/patches/ApiClient.cs.
+7. Other compatibility fixes as needed
 """
 
 import os
@@ -225,6 +228,54 @@ def fix_nullable_constructor_calls(content: str) -> Tuple[str, bool]:
     return content, modified
 
 
+# Properties that the API can return as null but the spec historically declared
+# as non-nullable. Each entry: (file basename, [property names]).
+# Acts as a safety net: even if the upstream OpenAPI spec drops `nullable: true`
+# during a sync, these properties stay nullable in the generated C#.
+NULLABLE_BOOL_OVERRIDES = [
+    ("Identity.cs", ["is_confirmed"]),
+]
+
+
+def fix_nullable_bool_overrides(content: str, file_path: str) -> Tuple[str, bool]:
+    """
+    Force selected `bool` properties to `bool?` in generated model files.
+
+    Fixes runtime JsonSerializationException when the API returns null for a
+    property the generator emitted as a non-nullable bool (e.g. Google identities
+    can return is_confirmed:null).
+    """
+    file_name = os.path.basename(file_path)
+    properties = next(
+        (props for fname, props in NULLABLE_BOOL_OVERRIDES if fname == file_name),
+        None,
+    )
+    if not properties:
+        return content, False
+
+    original = content
+    for prop in properties:
+        # Pascal-case the snake_case property name (is_confirmed -> IsConfirmed)
+        pascal = "".join(part.capitalize() for part in prop.split("_"))
+
+        # 1. Property declaration: public bool IsConfirmed { get; set; }
+        content = re.sub(
+            rf'(\[DataMember\(Name = "{re.escape(prop)}"[^\]]*\]\s*)public\s+bool\s+({pascal}\s*\{{\s*get;\s*set;\s*\}})',
+            r'\1public bool? \2',
+            content,
+        )
+
+        # 2. Constructor parameter: bool isConfirmed = default(bool)
+        camel = pascal[0].lower() + pascal[1:]
+        content = re.sub(
+            rf'\bbool\s+({camel})\s*=\s*default\(bool\)',
+            r'bool? \1 = default(bool?)',
+            content,
+        )
+
+    return content, content != original
+
+
 def add_openapi_client_utils_alias(content: str, file_path: str) -> Tuple[str, bool]:
     """
     Add OpenAPIClientUtils alias if the file uses OpenAPIClientUtils but doesn't have the alias.
@@ -276,9 +327,46 @@ def add_openapi_client_utils_alias(content: str, file_path: str) -> Tuple[str, b
     return content, True
 
 
+def apply_api_client_patch(file_path: Path) -> bool:
+    """
+    Apply the ApiClient.cs response buffering fix (GetUsersAsync returns all fields).
+    When the generator outputs Kinde.Api/Client/ApiClient.cs, we overwrite it with
+    our patched version from scripts/patches/ApiClient.cs.
+    """
+    if file_path.name != "ApiClient.cs":
+        return False
+    parts = file_path.parts
+    if "Client" not in parts or "Kinde.Api" not in parts:
+        return False
+    # Must be .../Kinde.Api/Client/ApiClient.cs (main API, not Accounts)
+    try:
+        kinde_idx = parts.index("Kinde.Api")
+        if kinde_idx + 1 >= len(parts) or parts[kinde_idx + 1] != "Client":
+            return False
+    except ValueError:
+        return False
+    script_dir = Path(__file__).resolve().parent
+    patch_file = script_dir / "patches" / "ApiClient.cs"
+    if not patch_file.is_file():
+        log(f"Patch file not found: {patch_file}", "WARNING")
+        return False
+    try:
+        patch_content = patch_file.read_text(encoding="utf-8")
+        file_path.write_text(patch_content, encoding="utf-8")
+        log(f"Applied ApiClient.cs response buffering fix to {file_path}", "SUCCESS")
+        return True
+    except Exception as e:
+        log(f"Failed to apply ApiClient patch: {e}", "ERROR")
+        return False
+
+
 def process_file(file_path: Path) -> bool:
     """Process a single C# file and apply all fixes."""
     try:
+        # Apply ApiClient.cs patch first (replaces entire file for Kinde.Api/Client/ApiClient.cs)
+        if apply_api_client_patch(file_path):
+            return True
+
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         
@@ -310,6 +398,11 @@ def process_file(file_path: Path) -> bool:
         if nullable_fixed:
             modified = True
             log(f"Fixed nullable constructor calls in {file_path.name}", "SUCCESS")
+
+        content, bool_override_fixed = fix_nullable_bool_overrides(content, str(file_path))
+        if bool_override_fixed:
+            modified = True
+            log(f"Made selected bool properties nullable in {file_path.name}", "SUCCESS")
         
         # Write back if modified
         if modified:

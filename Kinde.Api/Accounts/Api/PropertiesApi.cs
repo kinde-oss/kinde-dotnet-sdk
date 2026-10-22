@@ -82,9 +82,11 @@ namespace Kinde.Accounts.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class PropertiesApi : IPropertiesApi
+    public sealed partial class PropertiesApi : KiotaAccountsBase, IPropertiesApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private readonly HttpClient _httpClient;
+        private readonly TokenProvider<BearerToken> _bearerTokenProvider;
 
         /// <summary>
         /// The logger
@@ -94,7 +96,7 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// The HttpClient
         /// </summary>
-        public HttpClient HttpClient { get; }
+        public HttpClient HttpClient => _httpClient;
 
         /// <summary>
         /// The class containing the events
@@ -104,7 +106,17 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
+        public TokenProvider<BearerToken> BearerTokenProvider => _bearerTokenProvider;
+
+        /// <summary>
+        /// HttpClient for KiotaAccountsBase
+        /// </summary>
+        protected override HttpClient KiotaHttpClient => _httpClient;
+
+        /// <summary>
+        /// BearerTokenProvider for KiotaAccountsBase
+        /// </summary>
+        protected override TokenProvider<BearerToken> KiotaBearerTokenProvider => _bearerTokenProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
@@ -115,9 +127,9 @@ namespace Kinde.Accounts.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;
+            _httpClient = httpClient;
             Events = propertiesApiEvents;
-            BearerTokenProvider = bearerTokenProvider;
+            _bearerTokenProvider = bearerTokenProvider;
         }
 
         partial void FormatGetUserProperties(ref Option<int?> pageSize, ref Option<string?> startingAfter);
@@ -201,72 +213,44 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="GetUserPropertiesResponse"/></returns>
         public async Task<ApiResponse<GetUserPropertiesResponse>> GetUserPropertiesAsync(Option<int?> pageSize = default, Option<string?> startingAfter = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 FormatGetUserProperties(ref pageSize, ref startingAfter);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/account_api/v1/properties";
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
 
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    if (pageSize.IsSet)
-                        parseQueryStringLocalVar["page_size"] = pageSize.Value?.ToString();
-
-                    if (startingAfter.IsSet)
-                        parseQueryStringLocalVar["starting_after"] = startingAfter.Value?.ToString();
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Account_api.V1.Properties.GetAsync(
+                    config =>
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        if (pageSize.IsSet && pageSize.Value.HasValue)
+                            config.QueryParameters.PageSize = pageSize.Value;
+                        if (startingAfter.IsSet && !string.IsNullOrEmpty(startingAfter.Value))
+                            config.QueryParameters.StartingAfter = startingAfter.Value;
+                    },
+                    cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<GetUserPropertiesResponse> apiResponseLocalVar = new ApiResponse<GetUserPropertiesResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/properties", requestedAtLocalVar, _jsonSerializerOptions);
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<GetUserPropertiesResponse>(kiotaResponse);
 
-                        AfterGetUserPropertiesDefaultImplementation(apiResponseLocalVar, pageSize, startingAfter);
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<GetUserPropertiesResponse>(
+                    "/account_api/v1/properties",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
 
-                        Events.ExecuteOnGetUserProperties(apiResponseLocalVar);
+                AfterGetUserPropertiesDefaultImplementation(apiResponseLocalVar, pageSize, startingAfter);
+                Events.ExecuteOnGetUserProperties(apiResponseLocalVar);
 
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
+                return apiResponseLocalVar;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorGetUserPropertiesDefaultImplementation(e, "/account_api/v1/properties", uriBuilderLocalVar.Path, pageSize, startingAfter);
+                OnErrorGetUserPropertiesDefaultImplementation(e, "/account_api/v1/properties", "/account_api/v1/properties", pageSize, startingAfter);
                 Events.ExecuteOnErrorGetUserProperties(e);
                 throw;
             }

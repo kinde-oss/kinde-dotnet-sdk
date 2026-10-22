@@ -64,6 +64,22 @@ namespace Kinde.Api.Client
             this.ErrorContent = errorContent;
             this.Headers = headers;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiException"/> class, chaining the original
+        /// exception via <see cref="Exception.InnerException"/> instead of stuffing it into
+        /// <see cref="ErrorContent"/> — callers (Swagger, JSON middleware, etc.) serialize
+        /// <see cref="ErrorContent"/> as the HTTP response body and expect it to be a plain,
+        /// serializable value, not a raw <see cref="Exception"/> (which fails to serialize, e.g. its
+        /// <c>TargetSite</c> is a <see cref="System.Reflection.MethodBase"/>).
+        /// </summary>
+        /// <param name="errorCode">HTTP status code.</param>
+        /// <param name="message">Error message.</param>
+        /// <param name="innerException">The original exception that caused this one.</param>
+        public ApiException(int errorCode, string message, Exception innerException) : base(message, innerException)
+        {
+            this.ErrorCode = errorCode;
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -141,10 +141,34 @@ namespace Kinde.Api.Model
             Samlcustom = 17,
 
             /// <summary>
+            /// Enum Samlcloudflare for value: saml:cloudflare
+            /// </summary>
+            [EnumMember(Value = "saml:cloudflare")]
+            Samlcloudflare = 18,
+
+            /// <summary>
+            /// Enum Samlokta for value: saml:okta
+            /// </summary>
+            [EnumMember(Value = "saml:okta")]
+            Samlokta = 19,
+
+            /// <summary>
+            /// Enum Samlmicrosoft for value: saml:microsoft
+            /// </summary>
+            [EnumMember(Value = "saml:microsoft")]
+            Samlmicrosoft = 20,
+
+            /// <summary>
+            /// Enum Samlgoogle for value: saml:google
+            /// </summary>
+            [EnumMember(Value = "saml:google")]
+            Samlgoogle = 21,
+
+            /// <summary>
             /// Enum WsfedazureAd for value: wsfed:azure_ad
             /// </summary>
             [EnumMember(Value = "wsfed:azure_ad")]
-            WsfedazureAd = 18
+            WsfedazureAd = 22
         }
 
 
@@ -326,3 +350,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

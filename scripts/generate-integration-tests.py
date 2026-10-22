@@ -147,7 +147,11 @@ def get_method_name_from_operation_id(operation_id: str, method: str) -> str:
     if not method_name.endswith("Async"):
         method_name += "Async"
     
-    return method_name
+    # Map names that may differ between spec and generated C# SDK (e.g. SDK typo)
+    sdk_method_name_overrides = {
+        "DeleteAPIApplicationScopeAsync": "DeleteAPIAppliationScopeAsync",  # SDK has typo "Appliation"
+    }
+    return sdk_method_name_overrides.get(method_name, method_name)
 
 
 def extract_path_parameters(path: str) -> List[str]:

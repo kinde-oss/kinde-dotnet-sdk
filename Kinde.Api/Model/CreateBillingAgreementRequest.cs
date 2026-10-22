@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kinde Management API
  *
  *  Provides endpoints to manage your Kinde Businesses.  ## Intro  ## How to use  1. [Set up and authorize a machine-to-machine (M2M) application](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/).  2. [Generate a test access token](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)  3. Test request any endpoint using the test token 
@@ -43,7 +43,7 @@ namespace Kinde.Api.Model
         /// <param name="planCode">The code of the billing plan the new agreement will be based on (required).</param>
         /// <param name="isInvoiceNow">Generate a final invoice for any un-invoiced metered usage..</param>
         /// <param name="isProrate">Generate a proration invoice item that credits remaining unused features..</param>
-        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string), bool isInvoiceNow = default(bool), bool isProrate = default(bool))
+        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string), bool? isInvoiceNow = default(bool?), bool? isProrate = default(bool?))
         {
             // to ensure "customerId" is required (not null)
             if (customerId == null)
@@ -82,16 +82,16 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Generate a final invoice for any un-invoiced metered usage.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_invoice_now", EmitDefaultValue = true)]
-        public bool IsInvoiceNow { get; set; }
+        [DataMember(Name = "is_invoice_now", EmitDefaultValue = false)]
+        public bool? IsInvoiceNow { get; set; }
 
         /// <summary>
         /// Generate a proration invoice item that credits remaining unused features.
         /// </summary>
         /// <value>Generate a proration invoice item that credits remaining unused features.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_prorate", EmitDefaultValue = true)]
-        public bool IsProrate { get; set; }
+        [DataMember(Name = "is_prorate", EmitDefaultValue = false)]
+        public bool? IsProrate { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -186,3 +186,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

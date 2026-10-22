@@ -125,9 +125,11 @@ namespace Kinde.Accounts.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class BillingApi : IBillingApi
+    public sealed partial class BillingApi : KiotaAccountsBase, IBillingApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private readonly HttpClient _httpClient;
+        private readonly TokenProvider<BearerToken> _bearerTokenProvider;
 
         /// <summary>
         /// The logger
@@ -137,7 +139,7 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// The HttpClient
         /// </summary>
-        public HttpClient HttpClient { get; }
+        public HttpClient HttpClient => _httpClient;
 
         /// <summary>
         /// The class containing the events
@@ -147,7 +149,17 @@ namespace Kinde.Accounts.Api
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
+        public TokenProvider<BearerToken> BearerTokenProvider => _bearerTokenProvider;
+
+        /// <summary>
+        /// HttpClient for KiotaAccountsBase
+        /// </summary>
+        protected override HttpClient KiotaHttpClient => _httpClient;
+
+        /// <summary>
+        /// BearerTokenProvider for KiotaAccountsBase
+        /// </summary>
+        protected override TokenProvider<BearerToken> KiotaBearerTokenProvider => _bearerTokenProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BillingApi"/> class.
@@ -158,9 +170,9 @@ namespace Kinde.Accounts.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;
+            _httpClient = httpClient;
             Events = billingApiEvents;
-            BearerTokenProvider = bearerTokenProvider;
+            _bearerTokenProvider = bearerTokenProvider;
         }
 
         partial void FormatGetEntitlement(ref string key);
@@ -249,65 +261,38 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="GetEntitlementResponse"/></returns>
         public async Task<ApiResponse<GetEntitlementResponse>> GetEntitlementAsync(string key, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 ValidateGetEntitlement(key);
-
                 FormatGetEntitlement(ref key);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/account_api/v1/entitlement";
-                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bkey%7D", Uri.EscapeDataString(key.ToString()));
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
 
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Account_api.V1.Entitlement.GetAsync(
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
 
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<GetEntitlementResponse>(kiotaResponse);
 
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                        ApiResponse<GetEntitlementResponse> apiResponseLocalVar = new ApiResponse<GetEntitlementResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/entitlement", requestedAtLocalVar, _jsonSerializerOptions);
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<GetEntitlementResponse>(
+                    "/account_api/v1/entitlement",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
 
                         AfterGetEntitlementDefaultImplementation(apiResponseLocalVar, key);
-
                         Events.ExecuteOnGetEntitlement(apiResponseLocalVar);
 
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
                         return apiResponseLocalVar;
-                    }
-                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorGetEntitlementDefaultImplementation(e, "/account_api/v1/entitlement", uriBuilderLocalVar.Path, key);
+                OnErrorGetEntitlementDefaultImplementation(e, "/account_api/v1/entitlement", "/account_api/v1/entitlement", key);
                 Events.ExecuteOnErrorGetEntitlement(e);
                 throw;
             }
@@ -394,72 +379,44 @@ namespace Kinde.Accounts.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="GetEntitlementsResponse"/></returns>
         public async Task<ApiResponse<GetEntitlementsResponse>> GetEntitlementsAsync(Option<int?> pageSize = default, Option<string?> startingAfter = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
+            DateTime requestedAtLocalVar = DateTime.UtcNow;
 
             try
             {
                 FormatGetEntitlements(ref pageSize, ref startingAfter);
 
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/account_api/v1/entitlements";
+                // Create a fresh Kiota client with current token
+                var kiotaClient = await CreateKiotaClientWithTokenAsync(cancellationToken).ConfigureAwait(false);
 
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    if (pageSize.IsSet)
-                        parseQueryStringLocalVar["page_size"] = pageSize.Value?.ToString();
-
-                    if (startingAfter.IsSet)
-                        parseQueryStringLocalVar["starting_after"] = startingAfter.Value?.ToString();
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
-
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                // Call Kiota client
+                var kiotaResponse = await kiotaClient.Account_api.V1.Entitlements.GetAsync(
+                    config =>
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        if (pageSize.IsSet && pageSize.Value.HasValue)
+                            config.QueryParameters.PageSize = pageSize.Value;
+                        if (startingAfter.IsSet && !string.IsNullOrEmpty(startingAfter.Value))
+                            config.QueryParameters.StartingAfter = startingAfter.Value;
+                    },
+                    cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<GetEntitlementsResponse> apiResponseLocalVar = new ApiResponse<GetEntitlementsResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/account_api/v1/entitlements", requestedAtLocalVar, _jsonSerializerOptions);
+                // Map Kiota response to the expected model
+                var mappedResponse = KiotaMapper.Map<GetEntitlementsResponse>(kiotaResponse);
+
+                // Create API response
+                var apiResponseLocalVar = new ApiResponse<GetEntitlementsResponse>(
+                    "/account_api/v1/entitlements",
+                    mappedResponse,
+                    HttpStatusCode.OK,
+                    requestedAtLocalVar);
 
                         AfterGetEntitlementsDefaultImplementation(apiResponseLocalVar, pageSize, startingAfter);
-
                         Events.ExecuteOnGetEntitlements(apiResponseLocalVar);
 
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
                         return apiResponseLocalVar;
-                    }
-                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                OnErrorGetEntitlementsDefaultImplementation(e, "/account_api/v1/entitlements", uriBuilderLocalVar.Path, pageSize, startingAfter);
+                OnErrorGetEntitlementsDefaultImplementation(e, "/account_api/v1/entitlements", "/account_api/v1/entitlements", pageSize, startingAfter);
                 Events.ExecuteOnErrorGetEntitlements(e);
                 throw;
             }
