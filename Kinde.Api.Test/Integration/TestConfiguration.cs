@@ -27,7 +27,13 @@ namespace Kinde.Api.Test.Integration
             {
                 var dir = new DirectoryInfo(currentDir);
                 // Go up from bin/Debug/net8.0 to project root
-                while (dir != null && (dir.Name == "net8.0" || dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"))
+                // Matches any target framework folder, not just net8.0: the project multi-targets,
+                // and a hard-coded TFM leaves the walk stranded in bin/Debug/net10.0, where no
+                // appsettings.json is found and every real-API test silently falls back to Mock.
+                while (dir != null && (dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"
+                                       || System.Text.RegularExpressions.Regex.IsMatch(
+                                           dir.Name, @"^net(standard|coreapp)?\d",
+                                           System.Text.RegularExpressions.RegexOptions.IgnoreCase)))
                 {
                     dir = dir.Parent;
                 }

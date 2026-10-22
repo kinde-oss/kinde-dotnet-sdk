@@ -121,8 +121,12 @@ namespace Kinde.Api.Agents
         {
             get
             {
+                // Distinct because IConfiguration.Bind appends to a collection that already has a
+                // default value rather than replacing it, so binding "offline" from configuration
+                // onto the default would otherwise advertise it twice.
                 var scopes = (ScopesSupported ?? new List<string>())
                     .Where(s => !string.IsNullOrWhiteSpace(s))
+                    .Distinct(StringComparer.Ordinal)
                     .ToList();
                 if (!scopes.Contains(OfflineScope, StringComparer.Ordinal))
                 {

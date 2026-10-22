@@ -113,6 +113,17 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public void EffectiveScopesSupported_DeduplicatesBoundScopes()
+        {
+            // IConfiguration.Bind appends to a pre-populated collection instead of replacing it,
+            // so a configured "offline" lands on top of the default and would be advertised twice.
+            var options = Valid();
+            options.ScopesSupported = new[] { "offline", "offline", "read:things", "read:things" };
+
+            Assert.Equal(new[] { "offline", "read:things" }, options.EffectiveScopesSupported);
+        }
+
+        [Fact]
         public void EffectiveScopesSupported_IgnoresBlankEntries()
         {
             var options = Valid();

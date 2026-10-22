@@ -192,6 +192,59 @@ namespace Kinde.Api.Test.Agents
             Assert.Contains(nameof(KindeAgentAuthOptions.ClientSecret), context.FailureReason!);
         }
 
+        // The three bodies below are Kinde's verbatim live responses. Kinde answers 401 for an
+        // inactive token as well as for bad client credentials, so the error code is the only way
+        // to tell a rejected token from our own misconfiguration.
+        [Fact]
+        public async Task VerifyAsync_ReportsInvalidToken_ForKindesTokenInactive401()
+        {
+            var body = "{\"error\":\"token_inactive\",\"error_description\":\"Token is inactive "
+                       + "because it is malformed, expired or otherwise invalid. An introspection "
+                       + "strategy indicated that the token is inactive.\"}";
+            var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
+
+            var context = await verifier.VerifyAsync("garbage");
+
+            Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
+        }
+
+        [Fact]
+        public async Task VerifyAsync_ReportsUnavailable_ForKindesWrongSecret401()
+        {
+            var body = "{\"error\":\"request_unauthorized\",\"error_description\":\"The request "
+                       + "could not be authorized. OAuth 2.0 Client credentials are invalid.\"}";
+            var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
+
+            var context = await verifier.VerifyAsync("token");
+
+            Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
+        }
+
+        [Fact]
+        public async Task VerifyAsync_ReportsUnavailable_ForKindesUnknownClient401()
+        {
+            var body = "{\"error\":\"request_unauthorized\",\"error_description\":\"The request "
+                       + "could not be authorized. Unable to find OAuth 2.0 Client from HTTP basic "
+                       + "authorization header.\"}";
+            var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
+
+            var context = await verifier.VerifyAsync("token");
+
+            Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
+        }
+
+        [Fact]
+        public async Task VerifyAsync_ReportsInvalidToken_ForAn401WithNoParsableError()
+        {
+            // Defaults to rejecting the token rather than claiming an outage: a bad token is by far
+            // the more common cause, and a wrong 503 makes the agent retry instead of re-authorizing.
+            var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, "not json"));
+
+            var context = await verifier.VerifyAsync("token");
+
+            Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
+        }
+
         [Fact]
         public async Task VerifyAsync_ReportsUnavailable_OnAServerError()
         {

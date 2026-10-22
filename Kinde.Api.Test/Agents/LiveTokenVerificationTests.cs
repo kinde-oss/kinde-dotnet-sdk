@@ -11,7 +11,7 @@ namespace Kinde.Api.Test.Agents
 {
     /// <summary>
     /// Verifies the agent auth core against a real Kinde tenant. These tests are skipped unless
-    /// TestMode is "Real" and a KindeAgentAuth section is configured, so the suite still runs on a
+    /// a KindeAgentAuth section is configured, so the suite still runs on a
     /// machine without credentials and in CI.
     /// </summary>
     /// <remarks>
@@ -25,8 +25,9 @@ namespace Kinde.Api.Test.Agents
 
         public LiveTokenVerificationTests(ITestOutputHelper output) => _output = output;
 
-        private static bool Enabled =>
-            TestConfiguration.Instance.UseRealApi && TestConfiguration.Instance.AgentAuth != null;
+        // Gated on the section being filled in rather than on TestMode, so these can run against a
+        // real tenant without also switching on the whole real-API integration suite.
+        private static bool Enabled => TestConfiguration.Instance.AgentAuth != null;
 
         private bool SkipIfNotConfigured(out KindeAgentAuthOptions options)
         {
@@ -35,7 +36,7 @@ namespace Kinde.Api.Test.Agents
             if (!Enabled)
             {
                 _output.WriteLine(
-                    "Skipped: set TestMode to \"Real\" and configure the KindeAgentAuth section.");
+                    "Skipped: fill in the KindeAgentAuth section of appsettings.json.");
                 return true;
             }
 

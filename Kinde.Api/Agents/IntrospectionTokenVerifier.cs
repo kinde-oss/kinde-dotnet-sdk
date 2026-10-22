@@ -87,16 +87,19 @@ namespace Kinde.Api.Agents
 
             using (response)
             {
-                // A 401 or 403 here means Kinde rejected OUR credentials, not the agent's token.
-                // Reporting that as an invalid token would send the agent into a login loop while
-                // the real fault is a misconfigured secret, so it is surfaced as unavailable.
+                // Kinde answers 401 both for an inactive token and for bad client credentials, so
+                // the status alone cannot tell them apart; only the error code can. Getting this
+                // wrong either reports a bad token as an outage (the agent retries forever) or
+                // reports our own misconfiguration as a bad token (the agent re-authorizes forever).
                 if (response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
                 {
-                    return KindeAuthContext.Unavailable(
-                        $"Kinde rejected this resource server's credentials ({(int)response.StatusCode}). "
-                        + $"Check {nameof(KindeAgentAuthOptions.ClientId)} and "
-                        + $"{nameof(KindeAgentAuthOptions.ClientSecret)} in the "
-                        + $"'{KindeAgentAuthOptions.SectionName}' section.");
+                    return IsClientAuthenticationError(body)
+                        ? KindeAuthContext.Unavailable(
+                            $"Kinde rejected this resource server's credentials ({(int)response.StatusCode}). "
+                            + $"Check {nameof(KindeAgentAuthOptions.ClientId)} and "
+                            + $"{nameof(KindeAgentAuthOptions.ClientSecret)} in the "
+                            + $"'{KindeAgentAuthOptions.SectionName}' section.")
+                        : KindeAuthContext.Invalid("The token is not active (expired or revoked).");
                 }
 
                 if (!response.IsSuccessStatusCode)
@@ -141,6 +144,42 @@ namespace Kinde.Api.Agents
                 organizationCode: KindeClaimReader.GetString(claims, "org_code"),
                 expiresAt: KindeClaimReader.GetUnixTime(claims, "exp"),
                 claims: claims);
+        }
+
+        /// <summary>
+        /// Whether a 401 is about this resource server's own credentials rather than the presented
+        /// token. Only an explicit client-authentication error counts: anything else on a 401 is
+        /// treated as a bad token, which is the far more common case in production.
+        /// </summary>
+        private static bool IsClientAuthenticationError(string body)
+        {
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                return false;
+            }
+
+            try
+            {
+                using var document = JsonDocument.Parse(body);
+                if (document.RootElement.ValueKind != JsonValueKind.Object
+                    || !document.RootElement.TryGetProperty("error", out var error)
+                    || error.ValueKind != JsonValueKind.String)
+                {
+                    return false;
+                }
+
+                return error.GetString() switch
+                {
+                    "request_unauthorized" => true,
+                    "invalid_client" => true,
+                    "unauthorized_client" => true,
+                    _ => false
+                };
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
         }
 
         private static Dictionary<string, object> ParseClaims(string body)
