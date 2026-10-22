@@ -457,6 +457,54 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task EverySchemesMetadataIsServed_WhateverTheRegistrationOrder()
+        {
+            // The custom scheme is registered first on purpose: mapping only one document would
+            // leave the other scheme's challenge pointing at a 404, chosen by registration order.
+            const string SecondResource = "https://api.example.com/other";
+
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication("Custom")
+                            .AddKindeAgentAuth("Custom", options =>
+                            {
+                                var custom = Options();
+                                custom.ResourceUrl = SecondResource;
+                                options.Kinde = custom;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var custom = await Get(host, "/.well-known/oauth-protected-resource/other");
+            var standard = await Get(host, "/.well-known/oauth-protected-resource/mcp");
+
+            Assert.Equal(HttpStatusCode.OK, custom.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, standard.StatusCode);
+            Assert.Contains(SecondResource, await custom.Content.ReadAsStringAsync());
+            Assert.Contains(ResourceUrl, await standard.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
         public void AddKindeAgentAuth_Throws_WhenTheConfigurationSectionIsMissing()
         {
             var services = new ServiceCollection();

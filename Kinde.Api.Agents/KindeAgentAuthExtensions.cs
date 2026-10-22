@@ -84,6 +84,11 @@ namespace Kinde.Api.Agents
             services.Configure(authenticationScheme, configure);
             services.TryAddSingleton<KindeAgentAuthRegistry>();
 
+            // Recorded so the metadata endpoint can serve every scheme's document rather than
+            // only the one that happened to be registered first.
+            var schemes = services.GetOrAddKindeSchemes();
+            schemes.Add(authenticationScheme);
+
             // The unkeyed registration serves callers that resolve KindeAgentAuth directly, such as
             // MapKindeProtectedResourceMetadata and the startup validator. TryAdd means the first
             // scheme registered wins, so an application that only registers a custom scheme still
@@ -97,6 +102,24 @@ namespace Kinde.Api.Agents
             services.AddHostedService<KindeAgentAuthStartupValidator>();
 
             return services;
+        }
+
+        /// <summary>
+        /// The shared scheme list, created on the first registration so later calls append to it.
+        /// </summary>
+        private static KindeAgentAuthSchemes GetOrAddKindeSchemes(this IServiceCollection services)
+        {
+            var existing = services.FirstOrDefault(
+                d => d.ServiceType == typeof(KindeAgentAuthSchemes))?.ImplementationInstance;
+
+            if (existing is KindeAgentAuthSchemes schemes)
+            {
+                return schemes;
+            }
+
+            var created = new KindeAgentAuthSchemes();
+            services.AddSingleton(created);
+            return created;
         }
 
         /// <summary>

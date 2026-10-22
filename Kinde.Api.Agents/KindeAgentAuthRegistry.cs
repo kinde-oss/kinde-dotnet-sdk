@@ -18,6 +18,7 @@ namespace Kinde.Api.Agents
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ConcurrentDictionary<string, KindeAgentAuth> _instances = new();
 
+        /// <summary>Creates the registry.</summary>
         public KindeAgentAuthRegistry(
             IOptionsMonitor<KindeAgentAuthenticationOptions> options,
             IHttpClientFactory httpClientFactory)

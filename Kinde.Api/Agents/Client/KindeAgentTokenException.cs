@@ -15,11 +15,13 @@ namespace Kinde.Api.Agents.Client
     /// </remarks>
     public class KindeAgentTokenException : InvalidOperationException
     {
+        /// <summary>Creates the exception from Kinde's response.</summary>
         public KindeAgentTokenException(HttpStatusCode statusCode, string responseBody)
             : base($"The token request failed ({(int)statusCode}): {responseBody}")
         {
             StatusCode = statusCode;
             ResponseBody = responseBody ?? string.Empty;
+            Error = ReadError(ResponseBody);
         }
 
         /// <summary>The status Kinde returned.</summary>
@@ -45,30 +47,30 @@ namespace Kinde.Api.Agents.Client
 
         /// <summary>
         /// The OAuth <c>error</c> code from the response body, or null when it carries none.
+        /// Parsed once at construction rather than on each read.
         /// </summary>
-        public string? Error
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(ResponseBody))
-                {
-                    return null;
-                }
+        public string? Error { get; }
 
-                try
-                {
-                    using var document = JsonDocument.Parse(ResponseBody);
-                    return document.RootElement.ValueKind == JsonValueKind.Object
-                           && document.RootElement.TryGetProperty("error", out var error)
-                           && error.ValueKind == JsonValueKind.String
-                        ? error.GetString()
-                        : null;
-                }
-                catch (JsonException)
-                {
-                    // An unparseable body is not evidence of a rejected grant, so the token stays.
-                    return null;
-                }
+        private static string? ReadError(string responseBody)
+        {
+            if (string.IsNullOrWhiteSpace(responseBody))
+            {
+                return null;
+            }
+
+            try
+            {
+                using var document = JsonDocument.Parse(responseBody);
+                return document.RootElement.ValueKind == JsonValueKind.Object
+                       && document.RootElement.TryGetProperty("error", out var error)
+                       && error.ValueKind == JsonValueKind.String
+                    ? error.GetString()
+                    : null;
+            }
+            catch (JsonException)
+            {
+                // An unparseable body is not evidence of a rejected grant, so the token stays.
+                return null;
             }
         }
     }
