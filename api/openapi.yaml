@@ -10853,7 +10853,7 @@ components:
         connections:
           type: array
           items:
-            $ref: '#/components/schemas/connection'
+            $ref: '#/components/schemas/connection_list_item'
         has_more:
           description: Whether more records exist.
           type: boolean
@@ -11437,6 +11437,22 @@ components:
               type: string
             strategy:
               type: string
+    connection_list_item:
+      type: object
+      description: A connection as returned in list responses (flat, not wrapped in code/message/connection).
+      properties:
+        id:
+          type: string
+          description: The connection's ID.
+        name:
+          type: string
+          description: The connection's name.
+        display_name:
+          type: string
+          description: The connection's display name.
+        strategy:
+          type: string
+          description: The connection's authentication strategy.
     environment_variable:
       type: object
       properties:

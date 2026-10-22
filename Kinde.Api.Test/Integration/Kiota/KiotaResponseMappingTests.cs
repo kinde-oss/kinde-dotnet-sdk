@@ -426,5 +426,95 @@ namespace Kinde.Api.Test.Integration.Kiota
         }
 
         #endregion
+
+        #region Connections API Tests
+
+        // List endpoints return flat connection items, not the wrapped
+        // { code, message, connection } shape used by GET /connections/{id}.
+        private const string ConnectionsListJson = @"{
+  ""code"": ""OK"",
+  ""message"": ""Success"",
+  ""has_more"": false,
+  ""connections"": [
+    {
+      ""id"": ""conn_01a10fb73a6386b8ae26be602f0aac1b"",
+      ""name"": ""Company A account"",
+      ""strategy"": ""oauth2:azure_ad"",
+      ""display_name"": ""Company A account""
+    }
+  ]
+}";
+
+        private static void AssertConnectionsListMapped(GetConnectionsResponse response)
+        {
+            Assert.NotNull(response);
+            Assert.Equal("OK", response.Code);
+            Assert.False(response.HasMore);
+            var connection = Assert.Single(response.Connections);
+            Assert.NotNull(connection.VarConnection);
+            Assert.Equal("conn_01a10fb73a6386b8ae26be602f0aac1b", connection.VarConnection.Id);
+            Assert.Equal("Company A account", connection.VarConnection.Name);
+            Assert.Equal("Company A account", connection.VarConnection.DisplayName);
+            Assert.Equal("oauth2:azure_ad", connection.VarConnection.Strategy);
+        }
+
+        [Fact]
+        public async Task GetOrganizationConnections_FlatListItems_MapToVarConnection()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organizations/org_123/connections", ConnectionsListJson);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).GetOrganizationConnectionsAsync("org_123");
+
+            AssertConnectionsListMapped(response);
+        }
+
+        [Fact]
+        public async Task GetConnections_FlatListItems_MapToVarConnection()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/connections", ConnectionsListJson);
+
+            var response = await new ConnectionsApi(_httpClient, _configuration).GetConnectionsAsync();
+
+            AssertConnectionsListMapped(response);
+        }
+
+        [Fact]
+        public async Task GetApplicationConnections_FlatListItems_MapToVarConnection()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/applications/app_123/connections", ConnectionsListJson);
+
+            var response = await new ApplicationsApi(_httpClient, _configuration).GetApplicationConnectionsAsync("app_123");
+
+            AssertConnectionsListMapped(response);
+        }
+
+        [Fact]
+        public async Task GetConnection_WrappedConnection_MapsToVarConnection()
+        {
+            const string json = @"{
+  ""code"": ""OK"",
+  ""message"": ""Success"",
+  ""connection"": {
+    ""id"": ""conn_01a10fb73a6386b8ae26be602f0aac1b"",
+    ""name"": ""Company A account"",
+    ""strategy"": ""oauth2:azure_ad"",
+    ""display_name"": ""Company A account""
+  }
+}";
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/connections/conn_01a10fb73a6386b8ae26be602f0aac1b", json);
+
+            var response = await new ConnectionsApi(_httpClient, _configuration).GetConnectionAsync("conn_01a10fb73a6386b8ae26be602f0aac1b");
+
+            Assert.NotNull(response);
+            Assert.Equal("OK", response.Code);
+            Assert.Equal("Success", response.Message);
+            Assert.NotNull(response.VarConnection);
+            Assert.Equal("conn_01a10fb73a6386b8ae26be602f0aac1b", response.VarConnection.Id);
+            Assert.Equal("Company A account", response.VarConnection.Name);
+            Assert.Equal("Company A account", response.VarConnection.DisplayName);
+            Assert.Equal("oauth2:azure_ad", response.VarConnection.Strategy);
+        }
+
+        #endregion
     }
 }
