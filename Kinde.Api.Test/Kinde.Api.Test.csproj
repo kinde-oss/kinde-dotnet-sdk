@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Kinde.Api\Kinde.Api.csproj" />
     <ProjectReference Include="..\Kinde.Api.Agents\Kinde.Api.Agents.csproj" />
+    <ProjectReference Include="..\Kinde.Mcp\Kinde.Mcp.csproj" />
   </ItemGroup>
 
   <!-- TestHost ships per shared-framework version, so it is pinned per target. -->
