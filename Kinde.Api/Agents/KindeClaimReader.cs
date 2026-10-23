@@ -45,6 +45,30 @@ namespace Kinde.Api.Agents
                 .ToArray();
         }
 
+        /// <summary>
+        /// Reads the granted scopes, whichever name they arrived under.
+        /// </summary>
+        /// <remarks>
+        /// Introspection returns a space-delimited <c>scope</c>; the access token itself carries
+        /// an <c>scp</c> array. Reading only one leaves the scope list empty for half the
+        /// verification paths, so every scope check silently fails.
+        /// </remarks>
+        public static IReadOnlyList<string> GetScopes(IReadOnlyDictionary<string, object> claims)
+        {
+            var scopes = GetSpaceDelimited(claims, "scope");
+            return scopes.Count > 0 ? scopes : GetSpaceDelimited(claims, "scp");
+        }
+
+        /// <summary>
+        /// Reads the client the token was issued to, whichever name it arrived under.
+        /// </summary>
+        /// <remarks>
+        /// Introspection returns <c>client_id</c>; the access token carries <c>azp</c>. For a CIMD
+        /// client either is a URL rather than an opaque id.
+        /// </remarks>
+        public static string? GetClientId(IReadOnlyDictionary<string, object> claims) =>
+            GetString(claims, "client_id") ?? GetString(claims, "azp");
+
         /// <summary>Reads a list claim such as <c>permissions</c> or <c>aud</c>.</summary>
         public static IReadOnlyList<string> GetList(
             IReadOnlyDictionary<string, object> claims, string name)

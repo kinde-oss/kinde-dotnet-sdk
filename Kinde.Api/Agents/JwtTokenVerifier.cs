@@ -121,8 +121,8 @@ namespace Kinde.Api.Agents
                 return KindeAuthContext.Success(
                     subject: KindeClaimReader.GetString(claims, "sub"),
                     actorSubject: KindeClaimReader.GetActorSubject(claims),
-                    clientId: KindeClaimReader.GetString(claims, "client_id"),
-                    scopes: KindeClaimReader.GetSpaceDelimited(claims, "scope"),
+                    clientId: KindeClaimReader.GetClientId(claims),
+                    scopes: KindeClaimReader.GetScopes(claims),
                     permissions: KindeClaimReader.GetList(claims, "permissions"),
                     audiences: audiences,
                     organizationCode: KindeClaimReader.GetString(claims, "org_code"),

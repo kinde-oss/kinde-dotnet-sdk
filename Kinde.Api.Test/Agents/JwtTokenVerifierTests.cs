@@ -52,7 +52,8 @@ namespace Kinde.Api.Test.Agents
             string algorithm = SecurityAlgorithms.RsaSha256,
             DateTime? expires = null,
             DateTime? notBefore = null,
-            IDictionary<string, object>? extraClaims = null)
+            IDictionary<string, object>? extraClaims = null,
+            bool omitDefaultScopeClaims = false)
         {
             var descriptor = new SecurityTokenDescriptor
             {
@@ -64,10 +65,15 @@ namespace Kinde.Api.Test.Agents
                 Claims = new Dictionary<string, object>
                 {
                     ["sub"] = "agent_01",
-                    ["client_id"] = "https://agent.example.com/.well-known/oauth-client",
-                    ["scope"] = "offline read:things"
                 }
             };
+
+            // Omitted when a test needs the claim names a real Kinde token uses instead.
+            if (!omitDefaultScopeClaims)
+            {
+                descriptor.Claims["client_id"] = "https://agent.example.com/.well-known/oauth-client";
+                descriptor.Claims["scope"] = "offline read:things";
+            }
 
             if (extraClaims != null)
             {
@@ -101,6 +107,28 @@ namespace Kinde.Api.Test.Agents
             Assert.True(context.HasScope("offline"));
             Assert.True(context.HasScope("read:things"));
             Assert.False(context.HasScope("write:things"));
+        }
+
+        [Fact]
+        public async Task VerifyAsync_ReadsTheClaimNamesKindeActuallyIssues()
+        {
+            // A real Kinde access token carries scp (an array) and azp, not scope and client_id.
+            // Reading only the introspection names leaves scopes empty in Jwt mode, so every
+            // RequireKindeScope check fails while introspection accepts the same token.
+            var token = CreateToken(extraClaims: new Dictionary<string, object>
+            {
+                ["scp"] = new[] { "offline", "read:things" },
+                ["azp"] = "a62d793b17184fe785449f2fee6a5e9f7f4c7e89",
+                ["org_code"] = "org_10b6e61fc17"
+            }, omitDefaultScopeClaims: true);
+
+            var context = await CreateVerifier().VerifyAsync(token);
+
+            Assert.True(context.IsAuthenticated);
+            Assert.True(context.HasScope("offline"));
+            Assert.True(context.HasScope("read:things"));
+            Assert.Equal("a62d793b17184fe785449f2fee6a5e9f7f4c7e89", context.ClientId);
+            Assert.Equal("org_10b6e61fc17", context.OrganizationCode);
         }
 
         [Fact]
