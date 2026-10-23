@@ -505,6 +505,127 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task SchemesSharingAMetadataPath_AreRejected_WhenTheyDescribeDifferentResources()
+        {
+            // Both resolve to /.well-known/oauth-protected-resource/mcp but describe different
+            // resources. Mapping one silently would send the loser's clients to the wrong
+            // metadata, so the configuration is refused instead.
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("Clashing", options =>
+                            {
+                                var clashing = Options();
+                                // Different host, same path.
+                                clashing.ResourceUrl = "https://other.example.com/mcp";
+                                options.Kinde = clashing;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => host.StartAsync());
+
+            Assert.Contains("Clashing", exception.Message);
+            Assert.Contains("different resources", exception.Message);
+        }
+
+        [Fact]
+        public async Task MetadataPathsDifferingOnlyByCase_AreTreatedAsTheSameRoute()
+        {
+            // ASP.NET Core matches routes case-insensitively, so /mcp and /MCP would be two
+            // equally ranked endpoints and a request would fail as an ambiguous match. The
+            // collision is caught at startup instead.
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("UpperCase", options =>
+                            {
+                                var upper = Options();
+                                upper.ResourceUrl = "https://api.example.com/MCP";
+                                options.Kinde = upper;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => host.StartAsync());
+
+            Assert.Contains("UpperCase", exception.Message);
+        }
+
+        [Fact]
+        public async Task SchemesSharingAMetadataPath_MapOnce_WhenTheyDescribeTheSameResource()
+        {
+            // Identical documents are not a conflict: one route serves both. Mapping two would
+            // produce equally ranked endpoints and an ambiguous match at request time.
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("Twin", options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var response = await Get(host, "/.well-known/oauth-protected-resource/mcp");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Contains(ResourceUrl, await response.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
         public void AddKindeAgentAuth_Throws_WhenTheConfigurationSectionIsMissing()
         {
             var services = new ServiceCollection();

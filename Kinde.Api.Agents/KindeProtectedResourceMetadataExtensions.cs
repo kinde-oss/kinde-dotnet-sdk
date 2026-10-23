@@ -2,6 +2,7 @@ using Kinde.Api.Agents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kinde.Api.Agents
@@ -36,15 +37,39 @@ namespace Kinde.Api.Agents
             // One route per distinct path. Mapping only one scheme's document would leave every
             // other scheme's challenge pointing at a 404, decided by registration order.
             var builders = new List<IEndpointConventionBuilder>();
-            var mapped = new HashSet<string>(StringComparer.Ordinal);
+
+            // Case-insensitive, because ASP.NET Core routing matches paths that way. Treating
+            // "/mcp" and "/MCP" as distinct would map two equally ranked endpoints, and a request
+            // matching both fails as an ambiguous match rather than returning metadata.
+            var mapped = new Dictionary<string, (string Scheme, string Document)>(
+                StringComparer.OrdinalIgnoreCase);
 
             foreach (var scheme in schemes.Names)
             {
-                var path = registry.Get(scheme).Options.ProtectedResourceMetadataPath;
-                if (mapped.Add(path))
+                var options = registry.Get(scheme).Options;
+                var path = options.ProtectedResourceMetadataPath;
+                var document = JsonSerializer.Serialize(
+                    ProtectedResourceMetadata.FromOptions(options));
+
+                if (mapped.TryGetValue(path, out var existing))
                 {
-                    builders.Add(endpoints.MapKindeProtectedResourceMetadata(path, scheme));
+                    // Same path, same document: one route serves both schemes.
+                    if (string.Equals(existing.Document, document, StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    // Same path, different document: whichever scheme lost would send clients to
+                    // the other's metadata, so refuse rather than pick one silently.
+                    throw new InvalidOperationException(
+                        $"Schemes '{existing.Scheme}' and '{scheme}' both serve their protected "
+                        + $"resource metadata at '{path}' but describe different resources. Give "
+                        + $"them Resource URLs with different paths, or map each one explicitly "
+                        + $"with {nameof(MapKindeProtectedResourceMetadata)}(pattern).");
                 }
+
+                mapped[path] = (scheme, document);
+                builders.Add(endpoints.MapKindeProtectedResourceMetadata(path, scheme));
             }
 
             if (builders.Count == 0)
