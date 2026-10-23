@@ -505,53 +505,14 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
-        public async Task SchemesSharingAMetadataPath_AreRejected_WhenTheyDescribeDifferentResources()
+        public async Task SchemesOnDifferentHosts_AreBothServedAtTheUrlTheirChallengeAdvertises()
         {
-            // Both resolve to /.well-known/oauth-protected-resource/mcp but describe different
-            // resources. Mapping one silently would send the loser's clients to the wrong
-            // metadata, so the configuration is refused instead.
-            using var host = new HostBuilder()
-                .ConfigureWebHost(web => web
-                    .UseTestServer()
-                    .ConfigureServices(services =>
-                    {
-                        services.AddRouting();
-                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
-                            .AddKindeAgentAuth(options =>
-                            {
-                                options.Kinde = Options();
-                                options.Verifier = new StubVerifier(Authenticated());
-                            })
-                            .AddKindeAgentAuth("Clashing", options =>
-                            {
-                                var clashing = Options();
-                                // Different host, same path.
-                                clashing.ResourceUrl = "https://other.example.com/mcp";
-                                options.Kinde = clashing;
-                                options.Verifier = new StubVerifier(Authenticated());
-                            });
-                        services.AddAuthorization();
-                    })
-                    .Configure(app =>
-                    {
-                        app.UseRouting();
-                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
-                    }))
-                .Build();
-
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
-                () => host.StartAsync());
-
-            Assert.Contains("Clashing", exception.Message);
-            Assert.Contains("different resources", exception.Message);
-        }
-
-        [Fact]
-        public async Task EachSchemeCanBeMappedAtItsOwnPath()
-        {
-            // The remedy the conflict message points at: with two schemes, the overload without a
-            // scheme can only describe the first, so each is mapped explicitly instead.
+            // Two resources on different hosts share the path /mcp, so both challenges advertise
+            // .../.well-known/oauth-protected-resource/mcp on their own host. Serving the
+            // documents at invented paths would put them where no challenge points, so the same
+            // path is mapped once per scheme and told apart by the Host header.
             const string SecondResource = "https://other.example.com/mcp";
+            const string Path = "/.well-known/oauth-protected-resource/mcp";
 
             using var host = new HostBuilder()
                 .ConfigureWebHost(web => web
@@ -577,25 +538,32 @@ namespace Kinde.Api.Test.Agents
                     .Configure(app =>
                     {
                         app.UseRouting();
-                        app.UseEndpoints(endpoints =>
-                        {
-                            endpoints.MapKindeProtectedResourceMetadataForScheme(
-                                "/.well-known/first", KindeAgentAuthenticationOptions.DefaultScheme);
-                            endpoints.MapKindeProtectedResourceMetadataForScheme(
-                                "/.well-known/second", "Second");
-                        });
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
                     }))
                 .Build();
 
             await host.StartAsync();
 
-            var first = await (await Get(host, "/.well-known/first")).Content.ReadAsStringAsync();
-            var second = await (await Get(host, "/.well-known/second")).Content.ReadAsStringAsync();
+            var first = await GetWithHost(host, Path, "api.example.com");
+            var second = await GetWithHost(host, Path, "other.example.com");
 
-            // Each path must describe its own scheme, not the first registered one.
-            Assert.Contains(ResourceUrl, first);
-            Assert.Contains(SecondResource, second);
-            Assert.DoesNotContain(SecondResource, first);
+            Assert.Equal(HttpStatusCode.OK, first.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, second.StatusCode);
+
+            var firstBody = await first.Content.ReadAsStringAsync();
+            var secondBody = await second.Content.ReadAsStringAsync();
+
+            Assert.Contains(ResourceUrl, firstBody);
+            Assert.DoesNotContain(SecondResource, firstBody);
+            Assert.Contains(SecondResource, secondBody);
+            Assert.DoesNotContain(ResourceUrl, secondBody);
+        }
+
+        private static async Task<HttpResponseMessage> GetWithHost(
+            IHost host, string path, string hostHeader)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"http://{hostHeader}{path}");
+            return await host.GetTestClient().SendAsync(request);
         }
 
         [Fact]

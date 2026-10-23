@@ -34,43 +34,71 @@ namespace Kinde.Api.Agents
 
             var registry = endpoints.ServiceProvider.GetRequiredService<KindeAgentAuthRegistry>();
 
-            // One route per distinct path. Mapping only one scheme's document would leave every
-            // other scheme's challenge pointing at a 404, decided by registration order.
             var builders = new List<IEndpointConventionBuilder>();
 
-            // Case-insensitive, because ASP.NET Core routing matches paths that way. Treating
-            // "/mcp" and "/MCP" as distinct would map two equally ranked endpoints, and a request
-            // matching both fails as an ambiguous match rather than returning metadata.
-            var mapped = new Dictionary<string, (string Scheme, string Document)>(
-                StringComparer.OrdinalIgnoreCase);
-
-            foreach (var scheme in schemes.Names)
-            {
-                var options = registry.Get(scheme).Options;
-                var path = options.ProtectedResourceMetadataPath;
-                var document = JsonSerializer.Serialize(
-                    ProtectedResourceMetadata.FromOptions(options));
-
-                if (mapped.TryGetValue(path, out var existing))
+            // Grouped by path, case-insensitively, because ASP.NET Core matches routes that way:
+            // "/mcp" and "/MCP" are one route, and mapping both would make every request to it an
+            // ambiguous match rather than a metadata response.
+            var groups = schemes.Names
+                .Select(scheme => new
                 {
-                    // Same path, same document: one route serves both schemes.
-                    if (string.Equals(existing.Document, document, StringComparison.Ordinal))
-                    {
-                        continue;
-                    }
+                    Scheme = scheme,
+                    Options = registry.Get(scheme).Options
+                })
+                .GroupBy(entry => entry.Options.ProtectedResourceMetadataPath,
+                    StringComparer.OrdinalIgnoreCase);
 
-                    // Same path, different document: whichever scheme lost would send clients to
-                    // the other's metadata, so refuse rather than pick one silently.
-                    throw new InvalidOperationException(
-                        $"Schemes '{existing.Scheme}' and '{scheme}' both serve their protected "
-                        + $"resource metadata at '{path}' but describe different resources. Give "
-                        + $"them Resource URLs with different paths, or map each scheme at its own "
-                        + $"path with {nameof(MapKindeProtectedResourceMetadataForScheme)}"
-                        + "(pattern, scheme).");
+            foreach (var group in groups)
+            {
+                var path = group.Key;
+                var entries = group.ToList();
+
+                // Identical documents are not a conflict: one route serves every scheme.
+                var distinct = entries
+                    .GroupBy(e => JsonSerializer.Serialize(
+                        ProtectedResourceMetadata.FromOptions(e.Options)), StringComparer.Ordinal)
+                    .ToList();
+
+                if (distinct.Count == 1)
+                {
+                    builders.Add(endpoints.MapKindeProtectedResourceMetadata(
+                        path, entries[0].Scheme));
+                    continue;
                 }
 
-                mapped[path] = (scheme, document);
-                builders.Add(endpoints.MapKindeProtectedResourceMetadata(path, scheme));
+                // Different documents at the same path. Each scheme's challenge advertises that
+                // path on its own host, so the host is what tells them apart: map the same path
+                // once per scheme, constrained to its resource's authority. Serving them at
+                // invented paths instead would put the documents at URLs no challenge names.
+                var byHost = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (var entry in entries)
+                {
+                    var host = AuthorityOf(entry.Options.ResourceUrl);
+
+                    if (host == null)
+                    {
+                        throw new InvalidOperationException(
+                            $"Scheme '{entry.Scheme}' has a Resource URL without a host, so its "
+                            + $"metadata at '{path}' cannot be told apart from another scheme's.");
+                    }
+
+                    if (byHost.TryGetValue(host, out var clashing))
+                    {
+                        // Same host and same path but different documents: nothing distinguishes
+                        // the two requests, so refuse rather than answer one of them wrongly.
+                        throw new InvalidOperationException(
+                            $"Schemes '{clashing}' and '{entry.Scheme}' both advertise their "
+                            + $"protected resource metadata at '{host}{path}' but describe "
+                            + $"different resources. Give them Resource URLs that differ by host "
+                            + $"or path.");
+                    }
+
+                    byHost[host] = entry.Scheme;
+                    builders.Add(endpoints
+                        .MapKindeProtectedResourceMetadata(path, entry.Scheme)
+                        .RequireHost(host));
+                }
             }
 
             if (builders.Count == 0)
@@ -128,6 +156,16 @@ namespace Kinde.Api.Agents
                 .AllowAnonymous()
                 .WithName($"KindeProtectedResourceMetadata:{authenticationScheme ?? pattern}");
         }
+
+        /// <summary>
+        /// The host (with port, when not the scheme's default) a Resource URL is served on, which
+        /// is what <c>RequireHost</c> matches against the request's Host header.
+        /// </summary>
+        private static string? AuthorityOf(string resourceUrl) =>
+            Uri.TryCreate(resourceUrl, UriKind.Absolute, out var uri)
+            && !string.IsNullOrEmpty(uri.Host)
+                ? uri.Authority
+                : null;
 
         /// <summary>Applies conventions to every route mapped for the registered schemes.</summary>
         private sealed class CompositeEndpointConventionBuilder : IEndpointConventionBuilder
