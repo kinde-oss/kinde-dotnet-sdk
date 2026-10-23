@@ -547,6 +547,58 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task EachSchemeCanBeMappedAtItsOwnPath()
+        {
+            // The remedy the conflict message points at: with two schemes, the overload without a
+            // scheme can only describe the first, so each is mapped explicitly instead.
+            const string SecondResource = "https://other.example.com/mcp";
+
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("Second", options =>
+                            {
+                                var second = Options();
+                                second.ResourceUrl = SecondResource;
+                                options.Kinde = second;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapKindeProtectedResourceMetadataForScheme(
+                                "/.well-known/first", KindeAgentAuthenticationOptions.DefaultScheme);
+                            endpoints.MapKindeProtectedResourceMetadataForScheme(
+                                "/.well-known/second", "Second");
+                        });
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var first = await (await Get(host, "/.well-known/first")).Content.ReadAsStringAsync();
+            var second = await (await Get(host, "/.well-known/second")).Content.ReadAsStringAsync();
+
+            // Each path must describe its own scheme, not the first registered one.
+            Assert.Contains(ResourceUrl, first);
+            Assert.Contains(SecondResource, second);
+            Assert.DoesNotContain(SecondResource, first);
+        }
+
+        [Fact]
         public async Task MetadataPathsDifferingOnlyByCase_AreTreatedAsTheSameRoute()
         {
             // ASP.NET Core matches routes case-insensitively, so /mcp and /MCP would be two

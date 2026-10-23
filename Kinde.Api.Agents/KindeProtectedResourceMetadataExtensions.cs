@@ -64,8 +64,9 @@ namespace Kinde.Api.Agents
                     throw new InvalidOperationException(
                         $"Schemes '{existing.Scheme}' and '{scheme}' both serve their protected "
                         + $"resource metadata at '{path}' but describe different resources. Give "
-                        + $"them Resource URLs with different paths, or map each one explicitly "
-                        + $"with {nameof(MapKindeProtectedResourceMetadata)}(pattern).");
+                        + $"them Resource URLs with different paths, or map each scheme at its own "
+                        + $"path with {nameof(MapKindeProtectedResourceMetadataForScheme)}"
+                        + "(pattern, scheme).");
                 }
 
                 mapped[path] = (scheme, document);
@@ -91,6 +92,21 @@ namespace Kinde.Api.Agents
         public static IEndpointConventionBuilder MapKindeProtectedResourceMetadata(
             this IEndpointRouteBuilder endpoints, string pattern) =>
             endpoints.MapKindeProtectedResourceMetadata(pattern, authenticationScheme: null);
+
+        /// <summary>
+        /// Maps a named scheme's protected resource metadata at an explicit path.
+        /// </summary>
+        /// <remarks>
+        /// Needed when an application runs more than one Kinde scheme: the overload without a
+        /// scheme serves whichever was registered first, so it cannot describe the others.
+        /// </remarks>
+        public static IEndpointConventionBuilder MapKindeProtectedResourceMetadataForScheme(
+            this IEndpointRouteBuilder endpoints, string pattern, string authenticationScheme)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(authenticationScheme);
+
+            return endpoints.MapKindeProtectedResourceMetadata(pattern, authenticationScheme);
+        }
 
         private static IEndpointConventionBuilder MapKindeProtectedResourceMetadata(
             this IEndpointRouteBuilder endpoints, string pattern, string? authenticationScheme)
