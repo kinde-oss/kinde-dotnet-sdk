@@ -65,6 +65,7 @@
     
     <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
     <PackageReference Include="AutoMapper" Version="16.2.*" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0" />
   </ItemGroup>
 
 

@@ -1,28 +1,34 @@
-using Kinde.Api.Agents;
 using Microsoft.Extensions.Hosting;
 
 namespace Kinde.Api.Agents
 {
     /// <summary>
-    /// Forces the agent auth configuration to be resolved, and therefore validated, while the host
-    /// is starting.
+    /// Resolves every registered scheme's configuration while the host starts, so a mistake stops
+    /// the application at boot rather than failing the first request that presents a token.
     /// </summary>
-    /// <remarks>
-    /// Without this the <see cref="KindeAgentAuth"/> singleton is built lazily on the first request
-    /// that presents a token, so a missing <c>ResourceUrl</c> or client secret surfaces as a 500 on
-    /// that request instead of stopping the application at boot.
-    /// </remarks>
     internal sealed class KindeAgentAuthStartupValidator : IHostedService
     {
-        private readonly KindeAgentAuth _agentAuth;
+        private readonly KindeAgentAuthSchemes _schemes;
+        private readonly KindeAgentAuthRegistry _registry;
 
-        // Resolving the parameter is what runs the validation; the instance is otherwise unused.
-        public KindeAgentAuthStartupValidator(KindeAgentAuth agentAuth)
+        public KindeAgentAuthStartupValidator(
+            KindeAgentAuthSchemes schemes, KindeAgentAuthRegistry registry)
         {
-            _agentAuth = agentAuth;
+            _schemes = schemes;
+            _registry = registry;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            // Every scheme, not just the first: a second misconfigured scheme would otherwise
+            // fail lazily on its first request, which is exactly what this class exists to avoid.
+            foreach (var scheme in _schemes.Names)
+            {
+                _registry.Get(scheme);
+            }
+
+            return Task.CompletedTask;
+        }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     }

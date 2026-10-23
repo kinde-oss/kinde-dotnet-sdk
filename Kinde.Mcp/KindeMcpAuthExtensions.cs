@@ -50,17 +50,31 @@ namespace Kinde.Mcp
             ArgumentNullException.ThrowIfNull(services);
             ArgumentNullException.ThrowIfNull(configure);
 
+            // Invoked eagerly here to build the MCP metadata, and again through the options
+            // system for the handler. If configuration reloads, the two can diverge until the
+            // next restart; the metadata is static per application, so this is acceptable.
             var resolved = new KindeAgentAuthenticationOptions();
             configure(resolved);
             resolved.Kinde.Validate();
 
-            var builder = services
-                .AddAuthentication(options =>
+            // Defaults are only filled in when the application has not chosen its own. Setting
+            // them outright would silently repoint an app that also hosts, say, a cookie-
+            // authenticated admin UI, with the outcome depending on call order.
+            services.PostConfigure<AuthenticationOptions>(options =>
+            {
+                // DefaultScheme is also checked: when an application sets only that, challenge and
+                // authenticate already fall back to it, so filling in the specific defaults here
+                // would still repoint an app that chose its own.
+                if (options.DefaultScheme != null)
                 {
-                    options.DefaultChallengeScheme = McpAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = KindeAgentAuthenticationOptions.DefaultScheme;
-                })
-                .AddKindeAgentAuth(configure);
+                    return;
+                }
+
+                options.DefaultChallengeScheme ??= McpAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme ??= KindeAgentAuthenticationOptions.DefaultScheme;
+            });
+
+            var builder = services.AddAuthentication().AddKindeAgentAuth(configure);
 
             // The MCP scheme answers the challenge, because an MCP client expects the metadata
             // document and the 401 to come from the MCP server's own well-known path. Kinde's

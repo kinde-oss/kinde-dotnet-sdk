@@ -567,6 +567,58 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task TwoIdenticalSchemesOnOneHost_DoNotClashWithAThirdOnAnother()
+        {
+            // A and B describe the same resource on the same host, so they are one document and
+            // one route. Counting them as two claims on that host would reject a valid setup.
+            const string OtherResource = "https://other.example.com/mcp";
+            const string Path = "/.well-known/oauth-protected-resource/mcp";
+
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("SameResource", options =>
+                            {
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            })
+                            .AddKindeAgentAuth("OtherHost", options =>
+                            {
+                                var other = Options();
+                                other.ResourceUrl = OtherResource;
+                                options.Kinde = other;
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+                        services.AddAuthorization();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints => endpoints.MapKindeProtectedResourceMetadata());
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var shared = await GetWithHost(host, Path, "api.example.com");
+            var other = await GetWithHost(host, Path, "other.example.com");
+
+            Assert.Equal(HttpStatusCode.OK, shared.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, other.StatusCode);
+            Assert.Contains(ResourceUrl, await shared.Content.ReadAsStringAsync());
+            Assert.Contains(OtherResource, await other.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
         public async Task MetadataPathsDifferingOnlyByCase_AreTreatedAsTheSameRoute()
         {
             // ASP.NET Core matches routes case-insensitively, so /mcp and /MCP would be two
@@ -643,6 +695,92 @@ namespace Kinde.Api.Test.Agents
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Contains(ResourceUrl, await response.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
+        public async Task AnotherSchemesPermissionClaims_DoNotSatisfyAKindePolicy()
+        {
+            // Kinde user tokens carry a permissions claim too, so an app running both cookie
+            // login and agent auth must not let a browser session satisfy an agent policy.
+            using var host = new HostBuilder()
+                .ConfigureWebHost(web => web
+                    .UseTestServer()
+                    .ConfigureServices(services =>
+                    {
+                        services.AddRouting();
+                        services.AddAuthentication(KindeAgentAuthenticationOptions.DefaultScheme)
+                            .AddKindeAgentAuth(options =>
+                            {
+                                // Authenticates, but carries no permissions of its own.
+                                options.Kinde = Options();
+                                options.Verifier = new StubVerifier(Authenticated());
+                            });
+
+                        services.AddAuthorization(authorization =>
+                            authorization.AddPolicy("write-permission", policy => policy
+                                .RequireAuthenticatedUser()
+                                .RequireKindePermission("write:things")));
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseAuthentication();
+
+                        // Stands in for a cookie session: a second identity granting the very
+                        // permission the agent policy wants.
+                        app.Use(async (context, next) =>
+                        {
+                            var identity = new System.Security.Claims.ClaimsIdentity("CookieLogin");
+                            identity.AddClaim(new System.Security.Claims.Claim(
+                                KindeClaimTypes.Permission, "write:things"));
+                            context.User.AddIdentity(identity);
+                            await next();
+                        });
+
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints => endpoints
+                            .MapGet("/permitted", () => Results.Text("permitted"))
+                            .RequireAuthorization("write-permission"));
+                    }))
+                .Build();
+
+            await host.StartAsync();
+
+            var response = await Get(host, "/permitted", "Bearer good");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ScopePolicy_Returns403WithInsufficientScope_NamingWhatIsMissing()
+        {
+            // A missing scope is recoverable, and the MCP step-up flow depends on the challenge
+            // naming the scope so the client knows what to re-authorize for.
+            using var host = CreateHost(new StubVerifier(Authenticated(scopes: new[] { "offline" })));
+            await host.StartAsync();
+
+            var response = await Get(host, "/scoped", "Bearer good");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+            var challenge = Assert.Single(response.Headers.WwwAuthenticate).ToString();
+            Assert.Contains("error=\"insufficient_scope\"", challenge);
+            Assert.Contains("scope=\"read:things\"", challenge);
+        }
+
+        [Fact]
+        public async Task PermissionPolicy_StillSendsNoChallenge_WhenThePermissionIsMissing()
+        {
+            // Unlike a scope, a permission cannot be gained by re-authorizing, so challenging
+            // would loop forever. This must not have changed when scopes started challenging.
+            using var host = CreateHost(
+                new StubVerifier(Authenticated(permissions: new[] { "read:things" })));
+            await host.StartAsync();
+
+            var response = await Get(host, "/permitted", "Bearer good");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.Empty(response.Headers.WwwAuthenticate);
         }
 
         [Fact]

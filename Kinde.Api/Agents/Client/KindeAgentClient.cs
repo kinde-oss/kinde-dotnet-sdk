@@ -7,7 +7,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Kinde.Api.Agents.Client
 {
@@ -20,7 +19,7 @@ namespace Kinde.Api.Agents.Client
     /// in an <see cref="IKindeAgentStore"/>, so an agent registers once rather than asking the user
     /// to consent again on every restart.
     /// </remarks>
-    public class KindeAgentClient
+    public class KindeAgentClient : IDisposable
     {
         private static readonly JsonSerializerOptions Json = new()
         {
@@ -30,6 +29,11 @@ namespace Kinde.Api.Agents.Client
         private readonly KindeAgentClientOptions _options;
         private readonly HttpClient _httpClient;
         private readonly IKindeAgentStore _store;
+
+        /// <summary>Assumed lifetime when a token response omits expires_in.</summary>
+        private static readonly TimeSpan DefaultTokenLifetime = TimeSpan.FromHours(1);
+
+        private readonly SemaphoreSlim _registrationGate = new(1, 1);
 
         private KindeAgentDiscoveryDocument? _discovery;
 
@@ -57,11 +61,38 @@ namespace Kinde.Api.Agents.Client
             var document = await GetJsonAsync<KindeAgentDiscoveryDocument>(
                 _options.AuthorizationServerMetadataUrl, cancellationToken).ConfigureAwait(false);
 
+            // RFC 8414 section 3.3: the issuer must match where the document was fetched from, or
+            // a tampered or misrouted response could point the flow at another server.
+            var expectedIssuer = $"{_options.NormalizedDomain}/oauth2/agents/{_options.AgentApplicationId}";
+            if (!string.Equals(document.Issuer, expectedIssuer, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    $"The discovery document at {_options.AuthorizationServerMetadataUrl} declares "
+                    + $"issuer '{document.Issuer}', but '{expectedIssuer}' was expected.");
+            }
+
             if (string.IsNullOrEmpty(document.TokenEndpoint))
             {
                 throw new InvalidOperationException(
                     $"The discovery document at {_options.AuthorizationServerMetadataUrl} has no "
                     + "token_endpoint.");
+            }
+
+            if (string.IsNullOrEmpty(document.AuthorizationEndpoint))
+            {
+                throw new InvalidOperationException(
+                    $"The discovery document at {_options.AuthorizationServerMetadataUrl} has no "
+                    + "authorization_endpoint.");
+            }
+
+            // The MCP authorization spec requires a client to refuse to proceed without S256;
+            // "plain" leaves the code interceptable.
+            if (document.CodeChallengeMethodsSupported.Count > 0
+                && !document.CodeChallengeMethodsSupported.Contains("S256", StringComparer.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    $"The authorization server at {expectedIssuer} does not support the S256 code "
+                    + "challenge method, which is required for PKCE.");
             }
 
             return _discovery = document;
@@ -72,6 +103,23 @@ namespace Kinde.Api.Agents.Client
         /// </summary>
         public async Task<KindeAgentRegistration> GetOrRegisterAsync(
             CancellationToken cancellationToken = default)
+        {
+            // Single-flight: two callers racing here would both register, and the later SetAsync
+            // would store client B while a token had already been issued to client A. The next
+            // refresh then fails invalid_grant and the user has to consent again.
+            await _registrationGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                return await GetOrRegisterCoreAsync(cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                _registrationGate.Release();
+            }
+        }
+
+        private async Task<KindeAgentRegistration> GetOrRegisterCoreAsync(
+            CancellationToken cancellationToken)
         {
             var key = RegistrationKey;
 
@@ -306,6 +354,13 @@ namespace Kinde.Api.Agents.Client
             return RequestTokenAsync(form, cancellationToken, carryOverRefreshToken: refreshToken);
         }
 
+        /// <summary>Releases the gate that serialises dynamic registration.</summary>
+        public void Dispose()
+        {
+            _registrationGate.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
         /// <summary>Forgets the stored token, leaving the registration in place.</summary>
         public Task SignOutAsync(CancellationToken cancellationToken = default) =>
             _store.RemoveAsync(TokenKey, cancellationToken);
@@ -331,6 +386,10 @@ namespace Kinde.Api.Agents.Client
             {
                 Content = new FormUrlEncodedContent(form)
             };
+
+            // Taken before the call: expires_in is relative to when Kinde issued the token, so
+            // stamping it after the response would push expiry past Kinde's own clock.
+            var requestedAt = DateTimeOffset.UtcNow;
 
             using var response = await _httpClient.SendAsync(request, cancellationToken)
                 .ConfigureAwait(false);
@@ -358,7 +417,14 @@ namespace Kinde.Api.Agents.Client
                 token.RefreshToken = carryOverRefreshToken;
             }
 
-            token.ObtainedAt = DateTimeOffset.UtcNow;
+            // A response without expires_in would otherwise leave ExpiresIn at 0, making the token
+            // permanently expired and sending every call through a refresh.
+            if (token.ExpiresIn <= 0)
+            {
+                token.ExpiresIn = (int)DefaultTokenLifetime.TotalSeconds;
+            }
+
+            token.ObtainedAt = requestedAt;
             await _store.SetAsync(TokenKey, JsonSerializer.Serialize(token), cancellationToken)
                 .ConfigureAwait(false);
 
@@ -445,7 +511,9 @@ namespace Kinde.Api.Agents.Client
         {
             foreach (var pair in parameters)
             {
-                yield return $"{HttpUtility.UrlEncode(pair.Key)}={HttpUtility.UrlEncode(pair.Value)}";
+                // EscapeDataString rather than UrlEncode: percent-encoded spaces and uppercase hex are
+                // the interoperable form for a URL query, and it drops the System.Web dependency.
+                yield return Uri.EscapeDataString(pair.Key) + "=" + Uri.EscapeDataString(pair.Value);
             }
         }
 

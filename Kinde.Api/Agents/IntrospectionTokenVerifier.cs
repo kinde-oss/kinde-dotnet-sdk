@@ -47,6 +47,17 @@ namespace Kinde.Api.Agents
                 return KindeAuthContext.MissingToken();
             }
 
+            // Kinde's introspection answers active:true for a refresh token as well, with the same
+            // audience, so a leaked refresh token would otherwise pass as a bearer. token_type_hint
+            // is only a hint and the response carries no token_type, so the shape is the only
+            // discriminator available: Kinde access tokens are JWTs, refresh tokens are opaque.
+            if (!LooksLikeJwt(accessToken))
+            {
+                return KindeAuthContext.Invalid(
+                    "The credential is not an access token. Only a JWT access token is accepted; "
+                    + "a refresh token must be exchanged at the token endpoint first.");
+            }
+
             HttpResponseMessage response;
             string body;
 
@@ -180,6 +191,26 @@ namespace Kinde.Api.Agents
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Whether the credential has the three non-empty segments of a JWS compact serialization.
+        /// </summary>
+        private static bool LooksLikeJwt(string token)
+        {
+            var span = token.AsSpan().Trim();
+            var first = span.IndexOf('.');
+            if (first <= 0)
+            {
+                return false;
+            }
+
+            var rest = span[(first + 1)..];
+            var second = rest.IndexOf('.');
+
+            return second > 0
+                   && second < rest.Length - 1
+                   && rest[(second + 1)..].IndexOf('.') < 0;
         }
 
         private static Dictionary<string, object> ParseClaims(string body)

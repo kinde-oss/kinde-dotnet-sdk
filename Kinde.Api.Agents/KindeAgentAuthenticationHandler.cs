@@ -18,6 +18,10 @@ namespace Kinde.Api.Agents
         /// <summary>Key under which the verification result is stored on the request.</summary>
         internal const string AuthContextItemKey = "Kinde.AgentAuth.Context";
 
+        // Keyed per scheme: with two Kinde schemes on one policy, a shared key would let the
+        // second handler overwrite the first, so a challenge could report the wrong failure.
+        private string SchemeItemKey => AuthContextItemKey + ":" + Scheme.Name;
+
         private readonly KindeAgentAuthRegistry _registry;
 
         public KindeAgentAuthenticationHandler(
@@ -57,7 +61,16 @@ namespace Kinde.Api.Agents
                 throw;
             }
 
-            Context.Items[AuthContextItemKey] = context;
+            Context.Items[SchemeItemKey] = context;
+
+            // The shared key is what GetKindeAuthContext() reads. A successful result always
+            // wins, so with two schemes on one policy the application sees the identity that
+            // actually authenticated rather than whichever handler happened to run last.
+            if (context.IsAuthenticated
+                || Context.Items[AuthContextItemKey] is not KindeAuthContext { IsAuthenticated: true })
+            {
+                Context.Items[AuthContextItemKey] = context;
+            }
 
             if (!context.IsAuthenticated)
             {
@@ -122,7 +135,9 @@ namespace Kinde.Api.Agents
 
         protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
         {
-            var context = Context.GetKindeAuthContext();
+            var context = Context.Items.TryGetValue(SchemeItemKey, out var scoped)
+                ? scoped as KindeAuthContext
+                : Context.GetKindeAuthContext();
             var kind = context?.FailureKind ?? KindeAuthFailureKind.MissingToken;
 
             Response.StatusCode = KindeAuthChallenge.StatusCodeFor(kind);
@@ -143,9 +158,26 @@ namespace Kinde.Api.Agents
         {
             Response.StatusCode = StatusCodes.Status403Forbidden;
 
-            // Deliberately no insufficient_scope challenge here. A 403 on this path means the token
-            // is valid but lacks a permission, and permissions are not something the agent can
-            // obtain by authorizing again -- telling it to retry produces a login loop.
+            // A missing scope is recoverable: the agent can ask for it next time, and the MCP
+            // step-up flow depends on insufficient_scope naming the scopes it needs.
+            if (Context.Items.TryGetValue(
+                    KindeRequirementHandler.MissingScopesItemKey, out var value)
+                && value is IReadOnlyCollection<string> { Count: > 0 } missing)
+            {
+                var challenge = KindeAuthChallenge.Build(
+                    KindeAuthFailureKind.InsufficientScope,
+                    AgentAuth.Options.ProtectedResourceMetadataUrl,
+                    description: null,
+                    requiredScopes: missing);
+
+                if (challenge != null)
+                {
+                    Response.Headers.WWWAuthenticate = challenge;
+                }
+            }
+
+            // Otherwise no challenge: a missing permission is assigned in Kinde, not requested,
+            // so telling the agent to authorize again produces a loop it cannot escape.
             await Task.CompletedTask;
         }
     }

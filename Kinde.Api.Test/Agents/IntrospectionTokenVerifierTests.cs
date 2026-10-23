@@ -18,6 +18,10 @@ namespace Kinde.Api.Test.Agents
         private const string ClientSecret = "sh:colon";
         private const string ResourceUrl = "https://api.example.com/mcp";
 
+        // Shaped like a JWT: the verifier rejects anything else up front, because Kinde reports
+        // a refresh token as active and only the shape tells the two apart.
+        private const string JwtShaped = "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZ2VudF8wMSJ9.c2ln";
+
         private static KindeAgentAuthOptions Options() => new KindeAgentAuthOptions
         {
             Domain = Domain,
@@ -63,7 +67,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, _) = Create(Json(HttpStatusCode.OK, ActiveResponse()));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.True(context.IsAuthenticated);
             Assert.Equal("agent_01", context.Subject);
@@ -77,7 +81,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, handler) = Create(Json(HttpStatusCode.OK, ActiveResponse()));
 
-            await verifier.VerifyAsync("the-token");
+            await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(HttpMethod.Post, handler.Request!.Method);
             Assert.Equal(
@@ -90,9 +94,9 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, handler) = Create(Json(HttpStatusCode.OK, ActiveResponse()));
 
-            await verifier.VerifyAsync("the-token");
+            await verifier.VerifyAsync(JwtShaped);
 
-            Assert.Contains("token=the-token", handler.Body);
+            Assert.Contains("token=" + Uri.EscapeDataString(JwtShaped), handler.Body);
             Assert.Contains("token_type_hint=access_token", handler.Body);
         }
 
@@ -101,7 +105,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, handler) = Create(Json(HttpStatusCode.OK, ActiveResponse()));
 
-            await verifier.VerifyAsync("token");
+            await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal("Basic", handler.Request!.Headers.Authorization!.Scheme);
 
@@ -112,12 +116,32 @@ namespace Kinde.Api.Test.Agents
             Assert.Equal($"{ClientId}:{Uri.EscapeDataString(ClientSecret)}", decoded);
         }
 
+        [Theory]
+        [InlineData("GbFFgkXSt7VEuTzCFQLm.opaque-refresh-token")]
+        [InlineData("not-a-token")]
+        [InlineData("only.two")]
+        [InlineData("four.parts.are.wrong")]
+        public async Task VerifyAsync_RejectsACredentialThatIsNotAJwt_WithoutCallingKinde(
+            string credential)
+        {
+            // Kinde answers active:true for a refresh token, with the same audience, so a leaked
+            // refresh token would pass as a bearer. The response carries no token_type, so the
+            // shape is the only discriminator: access tokens are JWTs, refresh tokens are opaque.
+            var (verifier, handler) = Create(Json(HttpStatusCode.OK, ActiveResponse()));
+
+            var context = await verifier.VerifyAsync(credential);
+
+            Assert.False(context.IsAuthenticated);
+            Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
+            Assert.Null(handler.Request);
+        }
+
         [Fact]
         public async Task VerifyAsync_RejectsAnInactiveToken()
         {
             var (verifier, _) = Create(Json(HttpStatusCode.OK, "{\"active\":false}"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.False(context.IsAuthenticated);
             Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
@@ -128,7 +152,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, _) = Create(Json(HttpStatusCode.OK, "{\"sub\":\"agent_01\"}"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.False(context.IsAuthenticated);
             Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
@@ -141,7 +165,7 @@ namespace Kinde.Api.Test.Agents
             var (verifier, _) = Create(
                 Json(HttpStatusCode.OK, ActiveResponse(audience: "https://other.example.com/mcp")));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.False(context.IsAuthenticated);
             Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
@@ -155,7 +179,7 @@ namespace Kinde.Api.Test.Agents
                        + $"\"aud\":[\"https://other.example.com\",\"{ResourceUrl}\"]}}";
             var (verifier, _) = Create(Json(HttpStatusCode.OK, body));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.True(context.IsAuthenticated);
         }
@@ -167,7 +191,7 @@ namespace Kinde.Api.Test.Agents
                         + "\"act\":{\"sub\":\"agent_delegate\"},\"org_code\":\"org_1234\"";
             var (verifier, _) = Create(Json(HttpStatusCode.OK, ActiveResponse(extra: extra)));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.True(context.HasAllPermissions("read:things", "write:things"));
             Assert.True(context.HasAnyPermission("delete:things", "read:things"));
@@ -185,7 +209,7 @@ namespace Kinde.Api.Test.Agents
             // as an invalid token would send the agent into a login loop over a config mistake.
             var (verifier, _) = Create(Json(status, "{\"error\":\"invalid_client\"}"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.False(context.IsAuthenticated);
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
@@ -203,7 +227,7 @@ namespace Kinde.Api.Test.Agents
                        + "strategy indicated that the token is inactive.\"}";
             var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
 
-            var context = await verifier.VerifyAsync("garbage");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
         }
@@ -215,7 +239,7 @@ namespace Kinde.Api.Test.Agents
                        + "could not be authorized. OAuth 2.0 Client credentials are invalid.\"}";
             var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
         }
@@ -228,7 +252,7 @@ namespace Kinde.Api.Test.Agents
                        + "authorization header.\"}";
             var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, body));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
         }
@@ -240,7 +264,7 @@ namespace Kinde.Api.Test.Agents
             // the more common cause, and a wrong 503 makes the agent retry instead of re-authorizing.
             var (verifier, _) = Create(Json(HttpStatusCode.Unauthorized, "not json"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.InvalidToken, context.FailureKind);
         }
@@ -250,7 +274,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, _) = Create(Json(HttpStatusCode.InternalServerError, "oops"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
         }
@@ -260,7 +284,7 @@ namespace Kinde.Api.Test.Agents
         {
             var (verifier, _) = Create(Json(HttpStatusCode.OK, "not json"));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
         }
@@ -272,7 +296,7 @@ namespace Kinde.Api.Test.Agents
                 Options(),
                 new HttpClient(new ThrowingHandler(new HttpRequestException("no route to host"))));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
         }
@@ -284,7 +308,7 @@ namespace Kinde.Api.Test.Agents
             options.BackchannelTimeout = TimeSpan.FromMilliseconds(50);
             var verifier = new IntrospectionTokenVerifier(options, new HttpClient(new HangingHandler()));
 
-            var context = await verifier.VerifyAsync("token");
+            var context = await verifier.VerifyAsync(JwtShaped);
 
             Assert.Equal(KindeAuthFailureKind.AuthorizationServerUnavailable, context.FailureKind);
             Assert.Contains("timed out", context.FailureReason!, StringComparison.OrdinalIgnoreCase);
@@ -300,7 +324,7 @@ namespace Kinde.Api.Test.Agents
             cancellation.CancelAfter(TimeSpan.FromMilliseconds(50));
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(
-                () => verifier.VerifyAsync("token", cancellation.Token));
+                () => verifier.VerifyAsync(JwtShaped, cancellation.Token));
         }
 
         [Fact]

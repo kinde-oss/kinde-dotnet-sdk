@@ -43,7 +43,8 @@ namespace Kinde.Api.Agents
             Options = options ?? throw new ArgumentNullException(nameof(options));
             _verifier = verifier ?? throw new ArgumentNullException(nameof(verifier));
 
-            Options.Validate();
+            // A supplied verifier may never introspect, so a client secret is not required.
+            Options.Validate(requireClientSecret: false);
             Metadata = ProtectedResourceMetadata.FromOptions(Options);
         }
 

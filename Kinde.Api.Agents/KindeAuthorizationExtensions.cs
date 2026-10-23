@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kinde.Api.Agents
 {
@@ -51,9 +53,18 @@ namespace Kinde.Api.Agents
             {
                 switch (requirement)
                 {
-                    case KindeScopeRequirement scope when Satisfied(
-                        context, KindeClaimTypes.Scope, scope.Scopes, scope.RequireAll):
-                        context.Succeed(requirement);
+                    case KindeScopeRequirement scope:
+                        if (Satisfied(context, KindeClaimTypes.Scope, scope.Scopes, scope.RequireAll))
+                        {
+                            context.Succeed(requirement);
+                        }
+                        else
+                        {
+                            // Recorded so the challenge can name the missing scopes. The MCP
+                            // step-up flow depends on insufficient_scope plus scope="...", which
+                            // is how a client knows to re-authorize for more.
+                            RecordMissingScopes(context, scope);
+                        }
                         break;
 
                     case KindePermissionRequirement permission when Satisfied(
@@ -64,6 +75,34 @@ namespace Kinde.Api.Agents
             }
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>Key under which the scopes a request lacked are stored.</summary>
+        internal const string MissingScopesItemKey = "Kinde.AgentAuth.MissingScopes";
+
+        /// <summary>
+        /// Notes the scopes a failed requirement wanted, so the 403 can carry an
+        /// <c>insufficient_scope</c> challenge naming them.
+        /// </summary>
+        private static void RecordMissingScopes(
+            AuthorizationHandlerContext context, KindeScopeRequirement requirement)
+        {
+            if (context.Resource is not HttpContext http)
+            {
+                return;
+            }
+
+            var missing = http.Items.TryGetValue(MissingScopesItemKey, out var existing)
+                          && existing is HashSet<string> set
+                ? set
+                : new HashSet<string>(StringComparer.Ordinal);
+
+            foreach (var scope in requirement.Scopes)
+            {
+                missing.Add(scope);
+            }
+
+            http.Items[MissingScopesItemKey] = missing;
         }
 
         private static bool Satisfied(
@@ -77,9 +116,26 @@ namespace Kinde.Api.Agents
                 return true;
             }
 
+            // Only identities a Kinde agent scheme created. Kinde user tokens carry a permissions
+            // claim too, so searching every identity would let a browser cookie session satisfy
+            // an agent policy on an app that runs both.
+            var schemes = (context.Resource as HttpContext)?.RequestServices
+                .GetService<KindeAgentAuthSchemes>()?.Names;
+
+            var identities = context.User.Identities.Where(identity =>
+                identity.IsAuthenticated
+                && identity.AuthenticationType != null
+                && (schemes == null
+                    // Exact match, not a prefix: a scheme merely named like the default one is
+                    // somebody else's and must not satisfy a Kinde policy.
+                    ? string.Equals(identity.AuthenticationType,
+                        KindeAgentAuthenticationOptions.DefaultScheme, StringComparison.Ordinal)
+                    : schemes.Contains(identity.AuthenticationType, StringComparer.Ordinal)));
+
             // Ordinal: scopes and permission keys are case-sensitive; a loose match would grant
             // access the token does not carry.
-            var granted = context.User.FindAll(claimType)
+            var granted = identities
+                .SelectMany(identity => identity.FindAll(claimType))
                 .Select(claim => claim.Value)
                 .ToHashSet(StringComparer.Ordinal);
 

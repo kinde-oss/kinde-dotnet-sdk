@@ -8,11 +8,25 @@ namespace Kinde.Api.Agents
     /// <summary>How an inbound access token is checked.</summary>
     public enum KindeTokenVerificationMode
     {
-        /// <summary>Ask Kinde whether the token is active. Revocation takes effect immediately.</summary>
+        /// <summary>
+        /// Ask Kinde whether the token is active. Revocation takes effect immediately, at the cost
+        /// of one call to Kinde on every authenticated request: that adds latency to each one and
+        /// exposes a busy server to rate limiting. Wrap the verifier in a
+        /// <see cref="CachingTokenVerifier"/> to trade a bounded amount of revocation latency for
+        /// far fewer calls.
+        /// </summary>
         Introspection = 0,
 
-        /// <summary>Verify the signature locally against the JWKS. No network call per request, but a
-        /// revoked token stays valid until it expires (24 hours by default).</summary>
+        /// <summary>
+        /// Verify the signature locally against the JWKS. No network call per request, but a
+        /// revoked token stays valid until it expires (24 hours by default).
+        /// </summary>
+        /// <remarks>
+        /// The JWKS is environment-wide and tokens carry the bare domain in <c>iss</c>, so the
+        /// audience is the only thing tying a token to this application. Introspection is stricter:
+        /// it is scoped to the application's own endpoint. Prefer introspection where more than
+        /// one application in the environment could be issued the same resource URL.
+        /// </remarks>
         Jwt = 1,
 
         /// <summary>Verify locally first, then confirm with introspection. Both must pass.</summary>
@@ -150,7 +164,16 @@ namespace Kinde.Api.Agents
         /// Fails fast with a message naming the setting, rather than surfacing later as a confusing
         /// 401 or a request to a malformed URL.
         /// </summary>
-        public void Validate()
+        public void Validate() => Validate(requireClientSecret: true);
+
+        /// <summary>
+        /// Validates, optionally skipping the client secret check.
+        /// </summary>
+        /// <param name="requireClientSecret">
+        /// False when a caller-supplied verifier is in use: it may not introspect at all, so
+        /// demanding a secret would force a dummy value or a misleading verification mode.
+        /// </param>
+        public void Validate(bool requireClientSecret)
         {
             var problems = new List<string>();
 
@@ -170,7 +193,8 @@ namespace Kinde.Api.Agents
                              "client ID, not the one your web app signs users in with.");
             }
 
-            if (string.IsNullOrWhiteSpace(ClientSecret)
+            if (requireClientSecret
+                && string.IsNullOrWhiteSpace(ClientSecret)
                 && Verification != KindeTokenVerificationMode.Jwt)
             {
                 problems.Add($"{nameof(ClientSecret)} is required for {Verification} verification, " +

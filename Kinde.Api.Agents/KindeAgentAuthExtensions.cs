@@ -77,11 +77,18 @@ namespace Kinde.Api.Agents
             string authenticationScheme,
             Action<KindeAgentAuthenticationOptions> configure)
         {
-            services.AddHttpClient(HttpClientName);
+            // The handler holds its HttpClient for the life of the process, so the factory never
+            // gets to rotate the handler. Recycling pooled connections keeps DNS changes at
+            // Kinde's edge from stranding the resource server on dead addresses.
+            services.AddHttpClient(HttpClientName)
+                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+                {
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+                });
 
-            // Named options, so each scheme keeps its own resource rather than sharing whichever
-            // was registered last.
-            services.Configure(authenticationScheme, configure);
+            // Options are named per scheme by AddScheme, which calls Configure(scheme, configure)
+            // itself. Registering it here as well would run the callback twice on every build,
+            // so a callback with side effects would apply twice.
             services.TryAddSingleton<KindeAgentAuthRegistry>();
 
             // Recorded so the metadata endpoint can serve every scheme's document rather than

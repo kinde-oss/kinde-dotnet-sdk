@@ -75,11 +75,13 @@ namespace Kinde.Api.Agents.Client
                 }
 
 #if NET8_0_OR_GREATER
-                return await File.ReadAllTextAsync(path, Encoding.UTF8, cancellationToken)
+                var contents = await File.ReadAllTextAsync(path, Encoding.UTF8, cancellationToken)
                     .ConfigureAwait(false);
 #else
-                return File.ReadAllText(path, Encoding.UTF8);
+                var contents = File.ReadAllText(path, Encoding.UTF8);
 #endif
+                var value = Unprotect(contents);
+                return string.IsNullOrEmpty(value) ? null : value;
             }
             catch (FileNotFoundException)
             {
@@ -118,7 +120,7 @@ namespace Kinde.Api.Agents.Client
                 Directory.CreateDirectory(_directory);
 
 #if NET8_0_OR_GREATER
-                await File.WriteAllTextAsync(temporary, value, Encoding.UTF8, cancellationToken)
+                await File.WriteAllTextAsync(temporary, Protect(value), Encoding.UTF8, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (!OperatingSystem.IsWindows())
@@ -126,7 +128,7 @@ namespace Kinde.Api.Agents.Client
                     File.SetUnixFileMode(temporary, UnixFileMode.UserRead | UnixFileMode.UserWrite);
                 }
 #else
-                File.WriteAllText(temporary, value, Encoding.UTF8);
+                File.WriteAllText(temporary, Protect(value), Encoding.UTF8);
 #endif
 
                 // Replaces atomically, so a reader never sees a partial value.
@@ -171,6 +173,62 @@ namespace Kinde.Api.Agents.Client
             {
                 gate.Release();
             }
+        }
+
+        // Marks a value encrypted with DPAPI, so a file written before this existed still reads.
+        private const string ProtectedPrefix = "dpapi:";
+
+        /// <summary>
+        /// Encrypts the value on Windows with DPAPI, scoped to the current user.
+        /// </summary>
+        /// <remarks>
+        /// These files hold client secrets and refresh tokens. On Unix the 0600 mode keeps them to
+        /// the owning user; on Windows only the profile ACLs would, and anything running as that
+        /// user could read them in plain text. DPAPI ties the ciphertext to the user account.
+        /// </remarks>
+        private static string Protect(string value)
+        {
+#if NET8_0_OR_GREATER
+            if (OperatingSystem.IsWindows())
+            {
+                var encrypted = ProtectedData.Protect(
+                    Encoding.UTF8.GetBytes(value), optionalEntropy: null, DataProtectionScope.CurrentUser);
+
+                return ProtectedPrefix + Convert.ToBase64String(encrypted);
+            }
+#endif
+            return value;
+        }
+
+        private static string Unprotect(string contents)
+        {
+            if (!contents.StartsWith(ProtectedPrefix, StringComparison.Ordinal))
+            {
+                return contents;
+            }
+
+#if NET8_0_OR_GREATER
+            if (OperatingSystem.IsWindows())
+            {
+                try
+                {
+                    var decrypted = ProtectedData.Unprotect(
+                        Convert.FromBase64String(contents.Substring(ProtectedPrefix.Length)),
+                        optionalEntropy: null,
+                        DataProtectionScope.CurrentUser);
+
+                    return Encoding.UTF8.GetString(decrypted);
+                }
+                catch (CryptographicException)
+                {
+                    // Written by another user, or the profile's key is gone. Treat it as absent
+                    // so the caller registers again rather than failing with a crypto error.
+                    return string.Empty;
+                }
+            }
+#endif
+            // Encrypted on Windows, now being read elsewhere: unreadable, so treat it as absent.
+            return string.Empty;
         }
 
         private SemaphoreSlim LockFor(string key) =>

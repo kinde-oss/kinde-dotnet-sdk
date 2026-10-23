@@ -498,7 +498,8 @@ namespace Kinde.Api.Test.Agents
         {
             var handler = new RouteHandler();
             handler.Map("/.well-known/oauth-authorization-server/",
-                @"{""issuer"":""i"",""authorization_endpoint"":""a"",""token_endpoint"":""t""}");
+                @"{""issuer"":""https://example.kinde.com/oauth2/agents/abc123"",
+                   ""authorization_endpoint"":""a"",""token_endpoint"":""t""}");
             var client = new KindeAgentClient(
                 Options(), new HttpClient(handler), new InMemoryStore());
 

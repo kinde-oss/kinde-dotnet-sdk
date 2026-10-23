@@ -72,15 +72,20 @@ namespace Kinde.Api.Agents
                 // invented paths instead would put the documents at URLs no challenge names.
                 var byHost = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-                foreach (var entry in entries)
+                // One route per distinct document, not per scheme: several schemes can describe
+                // the same resource, and treating each as a separate claim on the host would
+                // reject a configuration that is perfectly valid.
+                foreach (var document in distinct)
                 {
-                    var host = AuthorityOf(entry.Options.ResourceUrl);
+                    var representative = document.First();
+                    var host = AuthorityOf(representative.Options.ResourceUrl);
 
                     if (host == null)
                     {
                         throw new InvalidOperationException(
-                            $"Scheme '{entry.Scheme}' has a Resource URL without a host, so its "
-                            + $"metadata at '{path}' cannot be told apart from another scheme's.");
+                            $"Scheme '{representative.Scheme}' has a Resource URL without a host, "
+                            + $"so its metadata at '{path}' cannot be told apart from another "
+                            + $"scheme's.");
                     }
 
                     if (byHost.TryGetValue(host, out var clashing))
@@ -88,15 +93,15 @@ namespace Kinde.Api.Agents
                         // Same host and same path but different documents: nothing distinguishes
                         // the two requests, so refuse rather than answer one of them wrongly.
                         throw new InvalidOperationException(
-                            $"Schemes '{clashing}' and '{entry.Scheme}' both advertise their "
-                            + $"protected resource metadata at '{host}{path}' but describe "
+                            $"Schemes '{clashing}' and '{representative.Scheme}' both advertise "
+                            + $"their protected resource metadata at '{host}{path}' but describe "
                             + $"different resources. Give them Resource URLs that differ by host "
                             + $"or path.");
                     }
 
-                    byHost[host] = entry.Scheme;
+                    byHost[host] = representative.Scheme;
                     builders.Add(endpoints
-                        .MapKindeProtectedResourceMetadata(path, entry.Scheme)
+                        .MapKindeProtectedResourceMetadata(path, representative.Scheme)
                         .RequireHost(host));
                 }
             }
