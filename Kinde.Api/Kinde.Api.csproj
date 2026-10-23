@@ -41,6 +41,7 @@
   <ItemGroup>
     <!-- Existing dependencies -->
     <PackageReference Include="JsonSubTypes" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.12" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.8.0" />
@@ -52,7 +53,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
-    
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.23.0" />
+
     <!-- Kiota dependencies for API client generation -->
     <PackageReference Include="Microsoft.Kiota.Abstractions" Version="2.1.*" />
     <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="2.1.*" />
@@ -63,6 +65,7 @@
     
     <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
     <PackageReference Include="AutoMapper" Version="16.2.*" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0" />
   </ItemGroup>
 
 

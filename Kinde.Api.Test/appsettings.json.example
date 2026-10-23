@@ -1,10 +1,29 @@
 {
+  "//": "Copy to appsettings.json (gitignored) and fill in. Set TestMode to Real to hit Kinde.",
+
   "TestMode": "Mock",
+
   "KindeManagementApi": {
     "Domain": "https://your-domain.kinde.com",
     "ClientId": "your-client-id",
     "ClientSecret": "your-client-secret",
     "Audience": "https://your-domain.kinde.com/api"
+  },
+
+  "//KindeAgentAuth": [
+    "Used by LiveTokenVerificationTests. These come from a Kinde 'AI agents and MCP'",
+    "application, which is a different application from the M2M one above.",
+    "ResourceUrl must match the Resource URL configured in Kinde exactly, byte for byte:",
+    "it is compared against the token's audience.",
+    "AccessToken is optional. An agent token cannot be minted without a consent step, so",
+    "paste one in to exercise the tests that verify a real token; leave it empty and those",
+    "tests skip while the endpoint checks still run."
+  ],
+  "KindeAgentAuth": {
+    "Domain": "https://your-domain.kinde.com",
+    "ClientId": "your-agents-app-client-id",
+    "ClientSecret": "your-agents-app-client-secret",
+    "ResourceUrl": "https://your-api.example.com/mcp",
+    "AccessToken": ""
   }
 }
-

@@ -27,7 +27,13 @@ namespace Kinde.Api.Test.Integration
             {
                 var dir = new DirectoryInfo(currentDir);
                 // Go up from bin/Debug/net8.0 to project root
-                while (dir != null && (dir.Name == "net8.0" || dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"))
+                // Matches any target framework folder, not just net8.0: the project multi-targets,
+                // and a hard-coded TFM leaves the walk stranded in bin/Debug/net10.0, where no
+                // appsettings.json is found and every real-API test silently falls back to Mock.
+                while (dir != null && (dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"
+                                       || System.Text.RegularExpressions.Regex.IsMatch(
+                                           dir.Name, @"^net(standard|coreapp)?\d",
+                                           System.Text.RegularExpressions.RegexOptions.IgnoreCase)))
                 {
                     dir = dir.Parent;
                 }
@@ -95,6 +101,42 @@ namespace Kinde.Api.Test.Integration
             ClientSecret = GetValue("KINDE_TEST_MANAGEMENT_CLIENT_SECRET") ?? GetValue("KindeManagementApi:ClientSecret") ?? throw new InvalidOperationException("KINDE_TEST_MANAGEMENT_CLIENT_SECRET or KindeManagementApi:ClientSecret must be set"),
             Audience = GetValue("KINDE_TEST_MANAGEMENT_AUDIENCE") ?? GetValue("KindeManagementApi:Audience") ?? throw new InvalidOperationException("KINDE_TEST_MANAGEMENT_AUDIENCE or KindeManagementApi:Audience must be set")
         };
+
+        /// <summary>
+        /// Kinde AI agents and MCP application configuration, used by the live agent auth tests.
+        /// Returns null when the section is absent, so those tests skip instead of failing.
+        /// </summary>
+        public Kinde.Api.Agents.KindeAgentAuthOptions? AgentAuth
+        {
+            get
+            {
+                var domain = GetValue("KINDE_TEST_AGENT_DOMAIN") ?? GetValue("KindeAgentAuth:Domain");
+                var clientId = GetValue("KINDE_TEST_AGENT_CLIENT_ID") ?? GetValue("KindeAgentAuth:ClientId");
+                var clientSecret = GetValue("KINDE_TEST_AGENT_CLIENT_SECRET") ?? GetValue("KindeAgentAuth:ClientSecret");
+                var resourceUrl = GetValue("KINDE_TEST_AGENT_RESOURCE_URL") ?? GetValue("KindeAgentAuth:ResourceUrl");
+
+                if (string.IsNullOrWhiteSpace(domain) || string.IsNullOrWhiteSpace(clientId)
+                    || string.IsNullOrWhiteSpace(resourceUrl))
+                {
+                    return null;
+                }
+
+                return new Kinde.Api.Agents.KindeAgentAuthOptions
+                {
+                    Domain = domain!,
+                    ClientId = clientId!,
+                    ClientSecret = clientSecret ?? string.Empty,
+                    ResourceUrl = resourceUrl!
+                };
+            }
+        }
+
+        /// <summary>
+        /// An access token issued to an agent, for the live verification tests. There is no way to
+        /// mint one without a browser consent step, so it is supplied rather than fetched.
+        /// </summary>
+        public string? AgentAccessToken =>
+            GetValue("KINDE_TEST_AGENT_ACCESS_TOKEN") ?? GetValue("KindeAgentAuth:AccessToken");
 
         /// <summary>
         /// Test mode: "Mock" or "Real"
