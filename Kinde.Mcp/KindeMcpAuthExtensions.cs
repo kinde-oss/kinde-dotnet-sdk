@@ -55,7 +55,9 @@ namespace Kinde.Mcp
             // next restart; the metadata is static per application, so this is acceptable.
             var resolved = new KindeAgentAuthenticationOptions();
             configure(resolved);
-            resolved.Kinde.Validate();
+            // Matches what the registry does: a caller-supplied verifier may never introspect, so
+            // demanding a client secret here would reject a configuration the handler accepts.
+            resolved.Kinde.Validate(requireClientSecret: resolved.Verifier == null);
 
             // Defaults are only filled in when the application has not chosen its own. Setting
             // them outright would silently repoint an app that also hosts, say, a cookie-
@@ -82,6 +84,11 @@ namespace Kinde.Mcp
             builder.AddMcp(options =>
             {
                 options.ForwardAuthenticate = KindeAgentAuthenticationOptions.DefaultScheme;
+
+                // Forbids go to Kinde as well. Left to the MCP handler they come back as a bare
+                // 403, losing the insufficient_scope challenge the MCP step-up flow needs to tell
+                // a client which scope to ask for.
+                options.ForwardForbid = KindeAgentAuthenticationOptions.DefaultScheme;
                 options.ResourceMetadata = BuildResourceMetadata(resolved.Kinde);
 
                 // Challenges normally stay on the MCP scheme, which answers 401 with the

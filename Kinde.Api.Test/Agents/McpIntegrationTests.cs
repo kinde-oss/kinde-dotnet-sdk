@@ -50,7 +50,10 @@ namespace Kinde.Api.Test.Agents
                             options.Kinde = Options();
                             options.Verifier = verifier;
                         });
-                        services.AddAuthorization();
+                        services.AddAuthorization(authorization =>
+                            authorization.AddPolicy("read-scope", policy => policy
+                                .RequireAuthenticatedUser()
+                                .RequireKindeScope("read:things")));
                     })
                     .Configure(app =>
                     {
@@ -58,10 +61,16 @@ namespace Kinde.Api.Test.Agents
                         app.UseAuthentication();
                         app.UseAuthorization();
                         app.UseEndpoints(endpoints =>
+                        {
                             endpoints.MapGet("/mcp", (Microsoft.AspNetCore.Http.HttpContext ctx) =>
                                     Microsoft.AspNetCore.Http.Results.Json(
                                         new { subject = ctx.GetKindeAuthContext()?.Subject }))
-                                .RequireAuthorization());
+                                .RequireAuthorization();
+
+                            endpoints.MapGet("/scoped",
+                                    () => Microsoft.AspNetCore.Http.Results.Text("scoped"))
+                                .RequireAuthorization("read-scope");
+                        });
                     }))
                 .Build();
         }
@@ -175,6 +184,35 @@ namespace Kinde.Api.Test.Agents
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Contains("agent_01", body);
+        }
+
+        [Fact]
+        public async Task AMissingScope_StillGetsInsufficientScope_ThroughTheMcpScheme()
+        {
+            // Forbids reaching the MCP handler would come back as a bare 403, so the client
+            // would never learn which scope to re-authorize for and step-up would stall.
+            // Authenticates, but without read:things.
+            var withoutScope = KindeAuthContext.Success(
+                subject: "agent_01",
+                actorSubject: null,
+                clientId: "client",
+                scopes: new[] { "offline" },
+                permissions: Array.Empty<string>(),
+                audiences: new[] { ResourceUrl },
+                organizationCode: null,
+                expiresAt: DateTimeOffset.UtcNow.AddMinutes(10),
+                claims: new Dictionary<string, object>());
+
+            using var host = CreateHost(new StubVerifier(withoutScope));
+            await host.StartAsync();
+
+            var response = await Get(host, "/scoped", "Bearer good-token");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+            var challenge = Assert.Single(response.Headers.WwwAuthenticate).ToString();
+            Assert.Contains("error=\"insufficient_scope\"", challenge);
+            Assert.Contains("scope=\"read:things\"", challenge);
         }
 
         [Fact]

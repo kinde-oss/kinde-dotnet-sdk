@@ -85,10 +85,10 @@ namespace Kinde.Api.Agents.Client
                     + "authorization_endpoint.");
             }
 
-            // The MCP authorization spec requires a client to refuse to proceed without S256;
-            // "plain" leaves the code interceptable.
-            if (document.CodeChallengeMethodsSupported.Count > 0
-                && !document.CodeChallengeMethodsSupported.Contains("S256", StringComparer.Ordinal))
+            // The MCP authorization spec requires a client to refuse to proceed unless S256 is
+            // advertised. An absent field is not a licence to continue: without verified support
+            // the server may fall back to "plain", which leaves the code interceptable.
+            if (!document.CodeChallengeMethodsSupported.Contains("S256", StringComparer.Ordinal))
             {
                 throw new InvalidOperationException(
                     $"The authorization server at {expectedIssuer} does not support the S256 code "
