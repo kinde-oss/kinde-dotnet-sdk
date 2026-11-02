@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Model;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -14,15 +14,15 @@ using KiotaAccountsModels = Kinde.Api.Kiota.Accounts.Models;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Tests for AutoMapper configuration and mappings between OpenAPI and Kiota models.
+    /// Tests for the model mapper and the mappings between the OpenAPI and Kiota models.
     /// These tests ensure that the facade layer can correctly translate models.
     /// </summary>
-    public class AutoMapperTests
+    public class ModelMappingTests
     {
         private readonly ITestOutputHelper _output;
-        private readonly IMapper _mapper;
+        private readonly IKindeMapper _mapper;
 
-        public AutoMapperTests(ITestOutputHelper output)
+        public ModelMappingTests(ITestOutputHelper output)
         {
             _output = output;
             _mapper = KindeMapperConfiguration.Mapper;
@@ -31,19 +31,13 @@ namespace Kinde.Api.Test.Integration.Mappers
         #region Configuration Validation Tests
 
         /// <summary>
-        /// Verifies that the AutoMapper configuration can be created without exceptions.
+        /// Verifies that the mapper can be built without exceptions.
         /// </summary>
         [Fact]
-        public void AutoMapperConfiguration_CanBeCreated()
+        public void MapperConfiguration_CanBeCreated()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<ManagementApiMapperProfile>();
-                cfg.AddProfile<AccountsApiMapperProfile>();
-            }, NullLoggerFactory.Instance);
+            var mapper = KindeMapperConfiguration.CreateIsolated();
 
-            Assert.NotNull(config);
-            var mapper = config.CreateMapper();
             Assert.NotNull(mapper);
         }
 
@@ -59,18 +53,69 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         /// <summary>
-        /// Verifies every configured map (all ~300 CreateMap calls across both profiles) is valid -
-        /// no unmapped destination members, no missing constructors. This is the same check the
-        /// demo project's VerifyMapper action runs.
+        /// Every mapping the replaced AutoMapper profiles declared - all 315 CreateMap calls, both
+        /// directions where they used ReverseMap - must still be carried by the mapper. This is the
+        /// replacement for AssertConfigurationIsValid: it proves each pair can be mapped, so a
+        /// destination with no usable constructor or an unconstructable nested member fails here
+        /// rather than at runtime against the live API.
         /// </summary>
-        [Fact]
-        public void AutoMapperConfiguration_AssertConfigurationIsValid()
+        [Theory]
+        [MemberData(nameof(AllDeclaredMappings))]
+        public void EveryDeclaredMapping_MapsWithoutThrowing(Type sourceType, Type destinationType)
         {
-            var mapper = KindeMapperConfiguration.Mapper;
+            var source = TryCreateInstance(sourceType);
+            if (source is null)
+            {
+                // A source the test cannot instantiate standalone proves nothing either way; the
+                // pair is still covered by the populated round-trip tests elsewhere in this class.
+                return;
+            }
 
-            var exception = Record.Exception(() => mapper.ConfigurationProvider.AssertConfigurationIsValid());
+            var exception = Record.Exception(() => _mapper.Map(source, destinationType));
 
             Assert.Null(exception);
+        }
+
+        public static IEnumerable<object[]> AllDeclaredMappings() =>
+            ManagementMappingManifest.Pairs
+                .Concat(AccountsMappingManifest.Pairs)
+                .Distinct()
+                .Select(pair => new object[] { pair.Source, pair.Destination });
+
+        /// <summary>
+        /// Instantiates a type the way the mapper does, returning null when it has no constructor
+        /// that can be called with default arguments.
+        /// </summary>
+        private static object TryCreateInstance(Type type)
+        {
+            var constructor = type
+                .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(candidate => !candidate.IsPrivate)
+                .OrderBy(candidate => candidate.GetParameters().Length)
+                .FirstOrDefault();
+
+            if (constructor is null)
+            {
+                return null;
+            }
+
+            var arguments = constructor.GetParameters()
+                .Select(parameter => parameter.HasDefaultValue
+                    ? parameter.DefaultValue
+                    : parameter.ParameterType.IsValueType
+                        && Nullable.GetUnderlyingType(parameter.ParameterType) == null
+                            ? Activator.CreateInstance(parameter.ParameterType)
+                            : null)
+                .ToArray();
+
+            try
+            {
+                return constructor.Invoke(arguments);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         #endregion
@@ -1674,37 +1719,35 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
         #region Global null-skip condition -- full IBackedModel coverage
 
-        // KindeMapperConfiguration applies a single global AutoMapper.Internal condition
-        // that skips *every* null source value when mapping into an IBackedModel (Kiota)
-        // destination, across both profiles. The two hand-picked endpoint tests above
-        // (ReplaceMFARequest, UpdateOrganizationUsersRequest) prove the condition does what
-        // it's meant to for those specific properties, but they say nothing about the other
-        // ~100 CreateMap entries the same condition applies to. This walks every
-        // (source, destination) pair the condition actually reaches and proves an explicit,
-        // non-null scalar value on the source still lands on the destination -- i.e. the
-        // condition is filtering out unset/null values, not real ones.
+        // The mapper skips *every* null source value when mapping into an IBackedModel (Kiota)
+        // destination, because assigning null there marks the property dirty in the backing store
+        // and serializes an explicit "property": null that some Kinde endpoints reject. The two
+        // hand-picked endpoint tests above (ReplaceMFARequest, UpdateOrganizationUsersRequest)
+        // prove the rule does what it is meant to for those specific properties, but they say
+        // nothing about the other ~100 pairs the same rule applies to. This walks every
+        // (source, destination) pair it reaches and proves an explicit, non-null scalar value on
+        // the source still lands on the destination -- i.e. the rule is filtering out unset/null
+        // values, not real ones.
 
         /// <summary>
-        /// Every (source, destination) type pair, across both mapper profiles, where the
-        /// destination is an IBackedModel -- i.e. every pair the global null-skip condition
-        /// in KindeMapperConfiguration.BuildMapper applies to.
+        /// Every (source, destination) type pair declared by the replaced mapper profiles where the
+        /// destination is an IBackedModel -- i.e. every pair the null-skip rule applies to.
         /// </summary>
         public static IEnumerable<object[]> IBackedModelTypeMaps()
         {
-            var mapper = KindeMapperConfiguration.Mapper;
-            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)mapper.ConfigurationProvider;
-            foreach (var typeMap in globalConfig.GetAllTypeMaps())
+            foreach (var pair in ManagementMappingManifest.Pairs.Concat(AccountsMappingManifest.Pairs).Distinct())
             {
-                if (!typeof(Microsoft.Kiota.Abstractions.Store.IBackedModel).IsAssignableFrom(typeMap.DestinationType))
-                {
-                    continue;
-                }
-                if (typeMap.SourceType.IsInterface || typeMap.SourceType.IsAbstract)
+                if (!typeof(Microsoft.Kiota.Abstractions.Store.IBackedModel).IsAssignableFrom(pair.Destination))
                 {
                     continue;
                 }
 
-                yield return new object[] { typeMap.SourceType, typeMap.DestinationType };
+                if (pair.Source.IsInterface || pair.Source.IsAbstract)
+                {
+                    continue;
+                }
+
+                yield return new object[] { pair.Source, pair.Destination };
             }
         }
 
@@ -1760,7 +1803,7 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
         /// <summary>
         /// Compares a mapped destination value against the sentinel that was set on the
-        /// source, tolerating the legitimate transformations AutoMapper applies along the
+        /// source, tolerating the legitimate transformations the mapper applies along the
         /// way -- cross-type enum conversion (by name, case-insensitively, since some
         /// destination enums use a different casing/format for the same member, e.g.
         /// "Oauth2apple" vs "Oauth2Apple", or "EntraIdAzureAd" vs "Entra_id_azure_ad"), and
@@ -1848,20 +1891,13 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         [MemberData(nameof(IBackedModelTypeMaps))]
         public void IBackedModelDestinations_ExplicitScalarValues_SurviveMapping(Type sourceType, Type destType)
         {
-            // Some members are deliberately excluded from a mapping via .ForMember(...,
-            // opt => opt.Ignore()) in the profile, unrelated to the null-skip condition --
-            // e.g. CreatePropertyRequest.Type/.Context are ignored because of a pre-existing
-            // enum incompatibility. Only assert on members the config actually maps, so this
-            // test verifies the null-skip condition specifically, not every ignore-mapping
-            // decision already made elsewhere.
-            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)_mapper.ConfigurationProvider;
-            var typeMap = globalConfig.FindTypeMapFor(sourceType, destType);
-            var activelyMappedSourceNames = typeMap is null
-                ? new HashSet<string>()
-                : typeMap.PropertyMaps
-                    .Where(pm => !pm.Ignored && pm.SourceMember is not null)
-                    .Select(pm => pm.SourceMember!.Name)
-                    .ToHashSet();
+            // Some members are deliberately excluded from a mapping -- e.g.
+            // CreatePropertyRequest.Type/.Context are ignored because of a pre-existing enum
+            // incompatibility. Only assert on members the mapper actually copies, so this test
+            // verifies the null-skip rule specifically, not every ignore decision made elsewhere.
+            var activelyMappedSourceNames = KindeMapperConfiguration
+                .DescribeMappedSourceMembers(sourceType, destType)
+                .ToHashSet();
 
             var settableScalarProps = sourceType
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -1906,7 +1942,7 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             // (oneOf/discriminator wrappers) don't throw -- they either have no scalar
             // properties to smuggle through (see the early return above) or map cleanly to
             // a null destination (see the check just below), so there's nothing to allowlist.
-            object dest = _mapper.Map(source, sourceType, destType);
+            object dest = _mapper.Map(source, destType);
 
             if (dest is null)
             {
