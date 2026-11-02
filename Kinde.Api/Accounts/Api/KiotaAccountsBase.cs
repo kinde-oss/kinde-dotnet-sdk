@@ -4,7 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
@@ -16,7 +16,7 @@ namespace Kinde.Accounts.Api
 {
     /// <summary>
     /// Base class providing Kiota client infrastructure for Accounts API facades.
-    /// This class manages the Kiota client creation and provides access to AutoMapper.
+    /// This class manages the Kiota client creation and provides access to the model mapper.
     /// </summary>
     public abstract class KiotaAccountsBase
     {
@@ -24,9 +24,9 @@ namespace Kinde.Accounts.Api
         private readonly object _lock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets the HttpClient used for requests.

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Client;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
@@ -25,7 +25,7 @@ namespace Kinde.Api.Facades
     {
         private KindeManagementClient _kiotaClient;
         private HttpClient _httpClient;
-        private IMapper _mapper;
+        private IKindeMapper _mapper;
         private readonly object _lock = new object();
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Kinde.Api.Facades
         protected abstract IReadableConfiguration Configuration { get; }
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper Mapper => _mapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper Mapper => _mapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
