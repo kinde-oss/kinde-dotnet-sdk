@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions.Authentication;
@@ -323,13 +323,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
