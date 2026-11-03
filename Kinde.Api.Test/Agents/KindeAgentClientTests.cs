@@ -382,8 +382,10 @@ namespace Kinde.Api.Test.Agents
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
             // Scoped to the client as well as the resource, so a second client cannot read or
-            // delete this one's token.
-            var tokenKey = $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}|token";
+            // delete this one's token. The empty segment before "token" is the session key, which
+            // separates two users of one client against one resource; these options leave it unset.
+            var tokenKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}||token";
             var winner = @"{""access_token"":""at_winner"",""expires_in"":3600,
                             ""refresh_token"":""rt_rotated"",""obtained_at"":""" +
                          DateTimeOffset.UtcNow.ToString("o") + @"""}";

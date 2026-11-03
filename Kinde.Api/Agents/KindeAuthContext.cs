@@ -40,6 +40,15 @@ namespace Kinde.Api.Agents
         /// <summary>Granted permissions, from the <c>permissions</c> claim.</summary>
         public IReadOnlyList<string> Permissions { get; private init; } = Array.Empty<string>();
 
+        /// <summary>Granted roles, from the <c>roles</c> claim.</summary>
+        /// <remarks>
+        /// Deliberately separate from <see cref="Permissions"/>. Kinde issues roles and permissions
+        /// as distinct grants, so conflating them makes an authorization check answer a different
+        /// question than the one asked: a permission named <c>admin</c> would satisfy a role
+        /// requirement of <c>admin</c>, while a genuine role without that permission would fail.
+        /// </remarks>
+        public IReadOnlyList<string> Roles { get; private init; } = Array.Empty<string>();
+
         /// <summary>Audiences the token is valid for. Always contains the configured Resource URL.</summary>
         public IReadOnlyList<string> Audiences { get; private init; } = Array.Empty<string>();
 
@@ -69,6 +78,10 @@ namespace Kinde.Api.Agents
         public bool HasAnyPermission(params string[] permissions) =>
             permissions != null && permissions.Any(HasPermission);
 
+        /// <summary>Case-sensitive role check.</summary>
+        public bool HasRole(string role) =>
+            !string.IsNullOrEmpty(role) && Roles.Contains(role, StringComparer.Ordinal);
+
         /// <summary>
         /// Builds a successful result. Public because <see cref="IKindeTokenVerifier"/> is public:
         /// a custom verifier has to be able to report success.
@@ -82,7 +95,8 @@ namespace Kinde.Api.Agents
             IReadOnlyList<string> audiences,
             string? organizationCode,
             DateTimeOffset? expiresAt,
-            IReadOnlyDictionary<string, object> claims) =>
+            IReadOnlyDictionary<string, object> claims,
+            IReadOnlyList<string>? roles = null) =>
             new KindeAuthContext(true)
             {
                 Subject = subject,
@@ -90,6 +104,7 @@ namespace Kinde.Api.Agents
                 ClientId = clientId,
                 Scopes = scopes ?? Array.Empty<string>(),
                 Permissions = permissions ?? Array.Empty<string>(),
+                Roles = roles ?? Array.Empty<string>(),
                 Audiences = audiences ?? Array.Empty<string>(),
                 OrganizationCode = organizationCode,
                 ExpiresAt = expiresAt,

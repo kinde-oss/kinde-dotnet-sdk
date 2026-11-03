@@ -24,6 +24,13 @@ namespace Kinde.Api.Agents
         /// <summary>One claim per granted permission.</summary>
         public const string Permission = "permissions";
 
+        /// <summary>
+        /// One claim per granted role. This is the identity's role claim type, so
+        /// <c>[Authorize(Roles = "...")]</c> and <c>IsInRole</c> match roles rather than
+        /// permissions.
+        /// </summary>
+        public const string Role = "roles";
+
         /// <summary>The organization the token is scoped to.</summary>
         public const string OrganizationCode = "org_code";
     }

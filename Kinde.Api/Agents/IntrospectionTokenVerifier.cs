@@ -154,7 +154,8 @@ namespace Kinde.Api.Agents
                 audiences: audiences,
                 organizationCode: KindeClaimReader.GetString(claims, "org_code"),
                 expiresAt: KindeClaimReader.GetUnixTime(claims, "exp"),
-                claims: claims);
+                claims: claims,
+                roles: KindeClaimReader.GetRoles(claims));
         }
 
         /// <summary>

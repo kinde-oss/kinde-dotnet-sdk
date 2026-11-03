@@ -69,6 +69,126 @@ namespace Kinde.Api.Agents
         public static string? GetClientId(IReadOnlyDictionary<string, object> claims) =>
             GetString(claims, "client_id") ?? GetString(claims, "azp");
 
+        /// <summary>
+        /// Reads the granted roles from the <c>roles</c> claim.
+        /// </summary>
+        /// <remarks>
+        /// Kinde sends roles either as plain strings or as objects carrying <c>id</c>, <c>key</c>
+        /// and <c>name</c>. <see cref="GetList"/> cannot be used for the object form: flattening an
+        /// object yields its JSON text, which would produce one "role" whose name is the whole
+        /// document and fail every role check. The <c>key</c> is preferred because that is the
+        /// stable identifier Kinde authorizes on, with <c>name</c> as a fallback.
+        /// </remarks>
+        public static IReadOnlyList<string> GetRoles(IReadOnlyDictionary<string, object> claims)
+        {
+            if (!claims.TryGetValue("roles", out var raw) || raw is null)
+            {
+                return Array.Empty<string>();
+            }
+
+            var roles = new List<string>();
+            CollectRoles(raw, roles);
+
+            return roles
+                .Where(v => !string.IsNullOrEmpty(v))
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+        }
+
+        private static void CollectRoles(object? raw, List<string> into)
+        {
+            switch (raw)
+            {
+                case null:
+                    return;
+
+                case string single:
+                    into.Add(single);
+                    return;
+
+                case JsonElement { ValueKind: JsonValueKind.Array } array:
+                    foreach (var item in array.EnumerateArray())
+                    {
+                        CollectRoles(item, into);
+                    }
+
+                    return;
+
+                case JsonElement { ValueKind: JsonValueKind.Object } element:
+                    var fromElement = ReadRoleProperty(element, "key") ?? ReadRoleProperty(element, "name");
+                    if (fromElement != null)
+                    {
+                        into.Add(fromElement);
+                    }
+
+                    return;
+
+                case JsonElement { ValueKind: JsonValueKind.String } text:
+                    var value = text.GetString();
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        into.Add(value!);
+                    }
+
+                    return;
+
+                // Introspection can hand back the objects already materialised as dictionaries.
+                case IReadOnlyDictionary<string, object> map:
+                    var fromMap = ToScalarString(
+                        map.TryGetValue("key", out var key) ? key
+                        : map.TryGetValue("name", out var name) ? name
+                        : null);
+                    if (!string.IsNullOrEmpty(fromMap))
+                    {
+                        into.Add(fromMap!);
+                    }
+
+                    return;
+
+                case IEnumerable sequence:
+                    foreach (var item in sequence)
+                    {
+                        CollectRoles(item, into);
+                    }
+
+                    return;
+
+                default:
+                    // Raw JSON text, which is how introspection may return the array.
+                    var scalar = raw.ToString();
+                    if (string.IsNullOrWhiteSpace(scalar))
+                    {
+                        return;
+                    }
+
+                    var trimmed = scalar!.TrimStart();
+                    if (!trimmed.StartsWith("[", StringComparison.Ordinal)
+                        && !trimmed.StartsWith("{", StringComparison.Ordinal))
+                    {
+                        into.Add(scalar);
+                        return;
+                    }
+
+                    try
+                    {
+                        using var document = JsonDocument.Parse(scalar);
+                        CollectRoles(document.RootElement.Clone(), into);
+                    }
+                    catch (JsonException)
+                    {
+                        // Not JSON after all; nothing safe to read.
+                    }
+
+                    return;
+            }
+        }
+
+        private static string? ReadRoleProperty(JsonElement element, string name) =>
+            element.TryGetProperty(name, out var property)
+            && property.ValueKind == JsonValueKind.String
+                ? property.GetString()
+                : null;
+
         /// <summary>Reads a list claim such as <c>permissions</c> or <c>aud</c>.</summary>
         public static IReadOnlyList<string> GetList(
             IReadOnlyDictionary<string, object> claims, string name)

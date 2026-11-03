@@ -128,9 +128,13 @@ namespace Kinde.Api.Agents
             IReadOnlyList<string> required,
             bool requireAll)
         {
+            // Unreachable: both requirement constructors reject an empty list, so a requirement
+            // cannot carry one. Kept as a belt-and-braces guard, and deliberately denying rather
+            // than allowing, because a requirement with nothing to check should never be the reason
+            // a request is authorized.
             if (required.Count == 0)
             {
-                return true;
+                return false;
             }
 
             // Only identities a Kinde agent scheme created. Kinde user tokens carry a permissions

@@ -25,6 +25,19 @@ namespace Kinde.Api.Agents
         private readonly TimeSpan _lifetime;
         private readonly ConcurrentDictionary<string, Entry> _entries = new(StringComparer.Ordinal);
 
+        /// <summary>
+        /// Guards the insert in <see cref="VerifyAsync"/> against <see cref="Invalidate"/> and
+        /// <see cref="Clear"/>. Only taken on insert and invalidation; a cache hit stays lock-free.
+        /// </summary>
+        private readonly object _sync = new();
+
+        /// <summary>
+        /// Bumped by every invalidation. A verification captures this before calling the inner
+        /// verifier and only stores its result if the value has not moved, so a result that was
+        /// already in flight when the token was revoked cannot repopulate the cache afterwards.
+        /// </summary>
+        private long _generation;
+
         /// <summary>Wraps <paramref name="inner"/> with a cache.</summary>
         /// <param name="inner">The verifier to call on a miss.</param>
         /// <param name="lifetime">
@@ -61,6 +74,10 @@ namespace Kinde.Api.Agents
                 return cached.Context;
             }
 
+            // Captured before the call, so an invalidation that happens while it is in flight is
+            // visible as a change by the time the result comes back.
+            var generation = Volatile.Read(ref _generation);
+
             var context = await _inner.VerifyAsync(accessToken, cancellationToken)
                 .ConfigureAwait(false);
 
@@ -76,7 +93,17 @@ namespace Kinde.Api.Agents
 
                 if (until > now)
                 {
-                    _entries[key] = new Entry(context, until);
+                    // Under the lock, so the generation check and the insert cannot be split by an
+                    // invalidation. Without it, a revocation landing in that gap would be undone by
+                    // this write and the revoked token would keep authenticating for the whole
+                    // cache lifetime.
+                    lock (_sync)
+                    {
+                        if (Volatile.Read(ref _generation) == generation)
+                        {
+                            _entries[key] = new Entry(context, until);
+                        }
+                    }
                 }
             }
             else
@@ -92,56 +119,101 @@ namespace Kinde.Api.Agents
         /// <summary>Forgets a token, for use after an explicit revocation.</summary>
         public void Invalidate(string accessToken)
         {
-            if (!string.IsNullOrWhiteSpace(accessToken))
+            if (string.IsNullOrWhiteSpace(accessToken))
             {
-                _entries.TryRemove(Hash(accessToken), out _);
+                return;
+            }
+
+            var key = Hash(accessToken);
+
+            lock (_sync)
+            {
+                // Bumped inside the lock, so a verification that is mid-insert either wrote before
+                // this removal and is removed below, or sees the new generation and does not write.
+                Interlocked.Increment(ref _generation);
+                _entries.TryRemove(key, out _);
             }
         }
 
         /// <summary>Forgets everything.</summary>
-        public void Clear() => _entries.Clear();
+        public void Clear()
+        {
+            lock (_sync)
+            {
+                Interlocked.Increment(ref _generation);
+                _entries.Clear();
+            }
+        }
 
+        /// <summary>The size at which expired entries are swept.</summary>
         private const int PruneThreshold = 1024;
 
+        /// <summary>
+        /// The hard ceiling on cached entries, enforced whatever the sweep schedule says.
+        /// </summary>
+        private const int MaxEntries = PruneThreshold * 2;
+
         private long _lastPruneTicks = DateTimeOffset.UtcNow.UtcTicks;
+
+        private int _pruning;
 
         private void Prune(DateTimeOffset now)
         {
             // Entries are only evicted on access, so a server seeing many distinct tokens would
             // otherwise grow without bound.
-            if (_entries.Count < PruneThreshold)
+            var count = _entries.Count;
+            if (count < PruneThreshold)
             {
                 return;
             }
 
-            // At most one sweep per lifetime window. Without this, a cache sitting above the
-            // threshold with every entry still live would walk the whole dictionary on every
-            // single request and never remove anything.
-            var last = Interlocked.Read(ref _lastPruneTicks);
-            if (now.UtcTicks - last < _lifetime.Ticks)
-            {
-                return;
-            }
+            // The ceiling is enforced regardless of when the last sweep ran. Leaving it to the
+            // timed sweep alone lets a burst of unique, valid tokens grow the dictionary far past
+            // the cap for a whole lifetime window, which on a busy server is a memory exhaustion
+            // risk rather than a tuning detail.
+            var overCap = count >= MaxEntries;
 
-            if (Interlocked.CompareExchange(ref _lastPruneTicks, now.UtcTicks, last) != last)
+            if (!overCap)
             {
-                // Another request is already sweeping.
-                return;
-            }
-
-            foreach (var pair in _entries)
-            {
-                if (pair.Value.ExpiresAt <= now)
+                // At most one sweep per lifetime window. Without this, a cache sitting above the
+                // threshold with every entry still live would walk the whole dictionary on every
+                // single request and never remove anything.
+                var last = Interlocked.Read(ref _lastPruneTicks);
+                if (now.UtcTicks - last < _lifetime.Ticks)
                 {
-                    _entries.TryRemove(pair.Key, out _);
+                    return;
                 }
             }
 
-            // Still oversized once the expired entries are gone: every one is live, so the only
-            // way to stay bounded is to drop some. They are re-verified on next use.
-            if (_entries.Count >= PruneThreshold * 2)
+            // One sweep at a time, whichever path arrived here, so a burst over the cap does not
+            // start a sweep per request.
+            if (Interlocked.CompareExchange(ref _pruning, 1, 0) != 0)
             {
-                _entries.Clear();
+                return;
+            }
+
+            try
+            {
+                Interlocked.Exchange(ref _lastPruneTicks, now.UtcTicks);
+
+                foreach (var pair in _entries)
+                {
+                    if (pair.Value.ExpiresAt <= now)
+                    {
+                        _entries.TryRemove(pair.Key, out _);
+                    }
+                }
+
+                // Still oversized once the expired entries are gone: every one is live, so the only
+                // way to stay bounded is to drop some. They are re-verified on next use.
+                if (_entries.Count >= MaxEntries)
+                {
+                    _entries.Clear();
+                }
+            }
+            finally
+            {
+                Volatile.Write(ref _pruning, 0);
             }
         }
 

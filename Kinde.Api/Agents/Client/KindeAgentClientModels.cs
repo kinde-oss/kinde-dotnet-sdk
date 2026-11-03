@@ -44,6 +44,49 @@ namespace Kinde.Api.Agents.Client
         /// <summary>Whether the server honours RFC 8707 <c>resource</c> parameters.</summary>
         [JsonPropertyName("resource_indicators_supported")]
         public bool ResourceIndicatorsSupported { get; set; }
+
+        /// <summary>
+        /// Whether the server returns the <c>iss</c> parameter in its authorization responses
+        /// (RFC 9207).
+        /// </summary>
+        /// <remarks>
+        /// When this is true a client must reject a callback that carries no <c>iss</c>. Treating a
+        /// missing value as "nothing to check" lets an attacker strip the parameter and so remove
+        /// the mix-up protection the server advertised.
+        /// </remarks>
+        [JsonPropertyName("authorization_response_iss_parameter_supported")]
+        public bool AuthorizationResponseIssParameterSupported { get; set; }
+    }
+
+    /// <summary>
+    /// A protected resource's metadata document (RFC 9728), which a client fetches from the
+    /// <c>resource_metadata</c> pointer in a 401 challenge.
+    /// </summary>
+    public class KindeProtectedResourceMetadata
+    {
+        /// <summary>The resource identifier this document describes.</summary>
+        [JsonPropertyName("resource")]
+        public string Resource { get; set; } = string.Empty;
+
+        /// <summary>The authorization servers that can issue tokens for this resource.</summary>
+        [JsonPropertyName("authorization_servers")]
+        public IList<string> AuthorizationServers { get; set; } = new List<string>();
+
+        /// <summary>How a token may be presented; Kinde advertises <c>header</c>.</summary>
+        [JsonPropertyName("bearer_methods_supported")]
+        public IList<string> BearerMethodsSupported { get; set; } = new List<string>();
+
+        /// <summary>Scopes the resource understands.</summary>
+        [JsonPropertyName("scopes_supported")]
+        public IList<string> ScopesSupported { get; set; } = new List<string>();
+
+        /// <summary>Where the resource publishes its signing keys, when it does.</summary>
+        [JsonPropertyName("jwks_uri")]
+        public string? JwksUri { get; set; }
+
+        /// <summary>A human-readable name for the resource.</summary>
+        [JsonPropertyName("resource_name")]
+        public string? ResourceName { get; set; }
     }
 
     /// <summary>A dynamic client registration (RFC 7591), as returned by Kinde.</summary>
