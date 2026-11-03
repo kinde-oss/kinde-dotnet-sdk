@@ -37,6 +37,21 @@ namespace Kinde.Api.Agents.Client
 
         private readonly KindeAgentClientOptions _options;
         private readonly HttpClient _httpClient;
+
+        /// <summary>
+        /// The process-wide client for metadata fetches. Stateless and immutable once built, so
+        /// sharing it is safe and avoids a connection pool per agent client.
+        /// </summary>
+        private static readonly HttpClient SharedMetadataClient =
+            new(new HttpClientHandler { AllowAutoRedirect = false });
+
+        /// <summary>
+        /// Used only for the protected resource metadata fetch, with redirects disabled so each
+        /// hop can be checked against the destination policy before it is followed.
+        /// </summary>
+        private readonly HttpClient _metadataClient;
+
+        private readonly bool _ownsMetadataClient;
         private readonly IKindeAgentStore _store;
 
         /// <summary>Assumed lifetime when a token response omits expires_in.</summary>
@@ -57,20 +72,57 @@ namespace Kinde.Api.Agents.Client
         private long _signOutGeneration;
 
         /// <summary>
-        /// Whether the most recent sign-out asked for server-side revocation. Read by a token
-        /// request that a sign-out overtook, so the pair it received is withdrawn rather than left
-        /// valid at Kinde with nothing holding a reference to it.
+        /// The generation of the most recent sign-out that asked for server-side revocation.
         /// </summary>
-        private bool _signOutRequestedRevoke;
+        /// <remarks>
+        /// A generation rather than a flag, because a later <c>SignOutAsync(revoke: false)</c>
+        /// would clear a flag set by an earlier revoking sign-out. A refresh straddling both would
+        /// then skip revocation, and its pair would be neither stored nor withdrawn - valid at
+        /// Kinde with nothing holding a reference to it. Comparing generations instead asks the
+        /// right question: did a revoking sign-out happen after this request began?
+        /// </remarks>
+        private long _revokingSignOutGeneration;
 
         private KindeAgentDiscoveryDocument? _discovery;
 
         public KindeAgentClient(
             KindeAgentClientOptions options, HttpClient httpClient, IKindeAgentStore? store = null)
+            : this(options, httpClient, store, metadataHandler: null)
+        {
+        }
+
+        /// <summary>
+        /// Lets a test drive the resource metadata fetch through its own handler, since that fetch
+        /// deliberately does not use the caller's <see cref="HttpClient"/>.
+        /// </summary>
+        internal KindeAgentClient(
+            KindeAgentClientOptions options,
+            HttpClient httpClient,
+            IKindeAgentStore? store,
+            HttpMessageHandler? metadataHandler)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _options.Validate();
+
+            // A client of its own, with redirects switched off, used only for the resource metadata
+            // fetch. The caller's handler follows redirects by default, and by the time a redirect
+            // can be inspected the request has already reached wherever it pointed - which for a
+            // URL named by a resource server is the whole problem. Each hop is validated here
+            // before it is followed instead.
+            //
+            // Shared unless a handler is supplied: one HttpClient per agent client would hold a
+            // connection pool each and exhaust sockets in a host that creates them per request.
+            if (metadataHandler != null)
+            {
+                _metadataClient = new HttpClient(metadataHandler, disposeHandler: false);
+                _ownsMetadataClient = true;
+            }
+            else
+            {
+                _metadataClient = SharedMetadataClient;
+                _ownsMetadataClient = false;
+            }
 
             // Durable by default: a cache-backed store loses the registration and costs the user
             // another consent round trip.
@@ -160,8 +212,7 @@ namespace Kinde.Api.Agents.Client
             await RequireAllowedDestinationAsync(resourceMetadataUrl, cancellationToken)
                 .ConfigureAwait(false);
 
-            var metadata = await GetJsonAsync<KindeProtectedResourceMetadata>(
-                resourceMetadataUrl, cancellationToken, redactBodyOnFailure: true)
+            var metadata = await FetchMetadataAsync(resourceMetadataUrl, cancellationToken)
                 .ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(metadata.Resource))
@@ -248,6 +299,78 @@ namespace Kinde.Api.Agents.Client
 
             return uri.IsLoopback;
         }
+
+        /// <summary>The most redirects a metadata fetch will follow.</summary>
+        private const int MaxMetadataRedirects = 5;
+
+        /// <summary>
+        /// Fetches the resource metadata, following redirects one hop at a time and checking each
+        /// destination before the request is sent.
+        /// </summary>
+        private async Task<KindeProtectedResourceMetadata> FetchMetadataAsync(
+            string url, CancellationToken cancellationToken)
+        {
+            var current = url;
+
+            for (var hop = 0; ; hop++)
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Get, current);
+                using var response = await _metadataClient
+                    .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (IsRedirect(response.StatusCode))
+                {
+                    if (hop >= MaxMetadataRedirects)
+                    {
+                        throw new InvalidOperationException(
+                            $"The resource metadata URL '{url}' redirected more than "
+                            + $"{MaxMetadataRedirects} times.");
+                    }
+
+                    var location = response.Headers.Location
+                        ?? throw new InvalidOperationException(
+                            $"The resource metadata URL '{current}' returned "
+                            + $"{(int)response.StatusCode} with no Location header.");
+
+                    // Relative redirects are resolved against the hop they came from.
+                    current = location.IsAbsoluteUri
+                        ? location.AbsoluteUri
+                        : new Uri(new Uri(current), location).AbsoluteUri;
+
+                    // Checked before the next request is sent, which is the whole point: a public
+                    // URL redirecting to an internal one must never be followed, not merely
+                    // noticed afterwards.
+                    RequireHttpsEndpoint(current, "resource_metadata redirect", required: true);
+                    await RequireAllowedDestinationAsync(current, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    continue;
+                }
+
+                var text = await ReadCappedAsync(response, current, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // The body is withheld: echoing it into an exception the application may
+                    // surface turns a blind request into a readable one.
+                    throw new InvalidOperationException(
+                        $"GET {current} failed ({(int)response.StatusCode}).");
+                }
+
+                return Deserialize<KindeProtectedResourceMetadata>(text)
+                       ?? throw new InvalidOperationException(
+                           $"GET {current} returned an empty document.");
+            }
+        }
+
+        private static bool IsRedirect(HttpStatusCode status) =>
+            status is HttpStatusCode.MovedPermanently
+                or HttpStatusCode.Found
+                or HttpStatusCode.SeeOther
+                or HttpStatusCode.TemporaryRedirect
+                or HttpStatusCode.PermanentRedirect;
 
         /// <summary>
         /// Rejects a metadata URL whose host resolves to an address the agent should not be made to
@@ -428,7 +551,11 @@ namespace Kinde.Api.Agents.Client
 
                 // An expired secret or an unreadable record: registering again is the only way
                 // back, and reusing either would make every token request fail with invalid_client.
-                await _store.RemoveAsync(key, cancellationToken).ConfigureAwait(false);
+                //
+                // Conditional, so only the record just read is removed. Another process can save a
+                // fresh registration between the read and here, and deleting that would leave the
+                // two processes holding different client ids.
+                await _store.RemoveIfAsync(key, stored, cancellationToken).ConfigureAwait(false);
             }
 
             var discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
@@ -788,6 +915,14 @@ namespace Kinde.Api.Agents.Client
         {
             _registrationGate.Dispose();
             _tokenGate.Dispose();
+
+            // Only the metadata client, which this type created. The HttpClient passed in belongs
+            // to the caller and may well be shared or owned by IHttpClientFactory.
+            if (_ownsMetadataClient)
+            {
+                _metadataClient.Dispose();
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -827,8 +962,11 @@ namespace Kinde.Api.Agents.Client
                     ? await ReadTokenAsync(cancellationToken).ConfigureAwait(false)
                     : null;
 
-                Volatile.Write(ref _signOutRequestedRevoke, revoke);
-                Interlocked.Increment(ref _signOutGeneration);
+                var generation = Interlocked.Increment(ref _signOutGeneration);
+                if (revoke)
+                {
+                    Volatile.Write(ref _revokingSignOutGeneration, generation);
+                }
                 await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
             }
             finally
@@ -1044,6 +1182,10 @@ namespace Kinde.Api.Agents.Client
                 exception is InvalidOperationException
                 || exception is KindeAgentTokenException
                 || exception is HttpRequestException
+                // IOException covers HttpIOException, which is what a response whose body fails
+                // mid-read throws. Without it sign-out throws after the local token is already
+                // gone, and the access token is never revoked.
+                || exception is IOException
                 || exception is TaskCanceledException)
             {
                 // The local token is already gone, which is the part the caller depends on.
@@ -1161,7 +1303,11 @@ namespace Kinde.Api.Agents.Client
                     // Signed out while this was in flight. The session was ended deliberately, so
                     // the token is handed back to the caller that asked for it but is not
                     // persisted: writing it would restore a session the user just ended.
-                    supersededByRevokingSignOut = Volatile.Read(ref _signOutRequestedRevoke);
+                    // Only when a *revoking* sign-out happened after this request captured its
+                    // generation. A later non-revoking sign-out no longer hides an earlier
+                    // revoking one.
+                    supersededByRevokingSignOut =
+                        Volatile.Read(ref _revokingSignOutGeneration) > generation;
                 }
                 else
                 {
@@ -1197,9 +1343,24 @@ namespace Kinde.Api.Agents.Client
             try
             {
                 using var document = JsonDocument.Parse(responseBody);
-                return document.RootElement.ValueKind == JsonValueKind.Object
-                       && document.RootElement.TryGetProperty("expires_in", out var value)
-                       && value.ValueKind != JsonValueKind.Null;
+                if (document.RootElement.ValueKind != JsonValueKind.Object)
+                {
+                    return false;
+                }
+
+                // Matched case-insensitively, because the deserializer is configured that way: a
+                // response spelling it "Expires_In" populates ExpiresIn but a case-sensitive probe
+                // here would call the field absent, and an explicit zero would be replaced by the
+                // one-hour default and handed out as a usable token.
+                foreach (var property in document.RootElement.EnumerateObject())
+                {
+                    if (string.Equals(property.Name, "expires_in", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return property.Value.ValueKind != JsonValueKind.Null;
+                    }
+                }
+
+                return false;
             }
             catch (JsonException)
             {
@@ -1313,8 +1474,16 @@ namespace Kinde.Api.Agents.Client
         /// </summary>
         private const int MaxDocumentBytes = 1024 * 1024;
 
-        private async Task<T> GetJsonAsync<T>(
-            string url, CancellationToken cancellationToken, bool redactBodyOnFailure = false)
+        /// <summary>
+        /// Fetches a JSON document from an endpoint the application configured.
+        /// </summary>
+        /// <remarks>
+        /// Only for URLs built from configuration, where the destination is already trusted and the
+        /// body is safe to quote in an error. The resource metadata fetch does not use this: it
+        /// goes through <see cref="FetchMetadataAsync"/>, which validates every redirect hop and
+        /// withholds the body.
+        /// </remarks>
+        private async Task<T> GetJsonAsync<T>(string url, CancellationToken cancellationToken)
         {
             // ResponseHeadersRead, not the default ResponseContentRead: the default buffers the
             // whole body before returning, so the cap below would reject an oversized document only
@@ -1323,26 +1492,12 @@ namespace Kinde.Api.Agents.Client
                 .GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
 
-            // Redirects are followed by the handler, so the body may have come from somewhere other
-            // than the URL that was checked. Re-check where the request actually ended up.
-            if (redactBodyOnFailure
-                && response.RequestMessage?.RequestUri is { } finalUri
-                && !string.Equals(finalUri.AbsoluteUri, url, StringComparison.Ordinal))
-            {
-                await RequireAllowedDestinationAsync(finalUri.AbsoluteUri, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-
             var text = await ReadCappedAsync(response, url, cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                // The body is withheld for a fetch of attacker-named metadata: echoing it into an
-                // exception the application may surface turns a blind request into a readable one.
                 throw new InvalidOperationException(
-                    redactBodyOnFailure
-                        ? $"GET {url} failed ({(int)response.StatusCode})."
-                        : $"GET {url} failed ({(int)response.StatusCode}): {text}");
+                    $"GET {url} failed ({(int)response.StatusCode}): {text}");
             }
 
             return Deserialize<T>(text)

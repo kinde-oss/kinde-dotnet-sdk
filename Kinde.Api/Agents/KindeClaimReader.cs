@@ -90,7 +90,7 @@ namespace Kinde.Api.Agents
             CollectRoles(raw, roles);
 
             return roles
-                .Where(v => !string.IsNullOrEmpty(v))
+                .Where(v => !string.IsNullOrWhiteSpace(v))
                 .Distinct(StringComparer.Ordinal)
                 .ToArray();
         }
@@ -103,7 +103,11 @@ namespace Kinde.Api.Agents
                     return;
 
                 case string single:
-                    into.Add(single);
+                    if (!string.IsNullOrWhiteSpace(single))
+                    {
+                        into.Add(single);
+                    }
+
                     return;
 
                 case JsonElement { ValueKind: JsonValueKind.Array } array:
@@ -118,12 +122,12 @@ namespace Kinde.Api.Agents
                     // An empty key is not null, so a plain ?? would never reach the name and the
                     // blank value would then be dropped by the filter in GetRoles, losing the role.
                     var fromElement = ReadRoleProperty(element, "key");
-                    if (string.IsNullOrEmpty(fromElement))
+                    if (string.IsNullOrWhiteSpace(fromElement))
                     {
                         fromElement = ReadRoleProperty(element, "name");
                     }
 
-                    if (!string.IsNullOrEmpty(fromElement))
+                    if (!string.IsNullOrWhiteSpace(fromElement))
                     {
                         into.Add(fromElement!);
                     }
@@ -132,7 +136,7 @@ namespace Kinde.Api.Agents
 
                 case JsonElement { ValueKind: JsonValueKind.String } text:
                     var value = text.GetString();
-                    if (!string.IsNullOrEmpty(value))
+                    if (!string.IsNullOrWhiteSpace(value))
                     {
                         into.Add(value!);
                     }
@@ -145,12 +149,12 @@ namespace Kinde.Api.Agents
                     // key is present but blank would otherwise produce an empty string, which the
                     // filter in GetRoles drops, losing the role entirely.
                     var fromMap = map.TryGetValue("key", out var key) ? ToScalarString(key) : null;
-                    if (string.IsNullOrEmpty(fromMap) && map.TryGetValue("name", out var name))
+                    if (string.IsNullOrWhiteSpace(fromMap) && map.TryGetValue("name", out var name))
                     {
                         fromMap = ToScalarString(name);
                     }
 
-                    if (!string.IsNullOrEmpty(fromMap))
+                    if (!string.IsNullOrWhiteSpace(fromMap))
                     {
                         into.Add(fromMap!);
                     }

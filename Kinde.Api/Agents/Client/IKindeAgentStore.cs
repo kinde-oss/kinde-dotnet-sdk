@@ -37,9 +37,12 @@ namespace Kinde.Api.Agents.Client
         /// winner's perfectly good session and send the user back through consent.
         /// </para>
         /// <para>
-        /// The default implementation compares and then removes, which closes the window within a
-        /// process but not between processes. A store whose backing service supports an atomic
-        /// compare-and-delete should override this; <see cref="FileKindeAgentStore"/> does.
+        /// The default implementation compares and then removes in two calls, so it closes the
+        /// window within a process and narrows but does not eliminate it between processes. A store
+        /// whose backing service supports an atomic compare-and-delete should override this to get
+        /// a real guarantee. <see cref="FileKindeAgentStore"/> overrides it and is atomic between
+        /// threads; across processes it still has a short window between the compare and the
+        /// delete, whose worst case is one unnecessary re-authorization.
         /// </para>
         /// </remarks>
         /// <returns>True when the value was removed, false when it had already changed.</returns>
@@ -69,6 +72,13 @@ namespace Kinde.Api.Agents.Client
         /// <para>
         /// Returning the stored value lets the loser adopt the winner's registration instead, so
         /// the two converge on one client rather than fighting over the key.
+        /// </para>
+        /// <para>
+        /// That convergence is only guaranteed where the write is atomic.
+        /// <see cref="FileKindeAgentStore"/> overrides this and creates the file exclusively, so it
+        /// holds there even between processes. The default implementation checks and then writes in
+        /// two calls, so two processes racing on a store that does not override it can both write;
+        /// such a store should either override this or be used from a single instance.
         /// </para>
         /// </remarks>
         /// <returns>

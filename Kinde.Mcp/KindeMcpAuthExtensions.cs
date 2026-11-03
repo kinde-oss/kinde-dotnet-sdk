@@ -156,7 +156,14 @@ namespace Kinde.Mcp
             var builder = services.AddAuthentication().AddKindeAgentAuth(options =>
             {
                 configure(options);
-                options.ProtectedResourceMetadataUrl = metadataUrl;
+
+                // Only when the caller has not chosen one. An application hosted under a path
+                // prefix, or serving the document itself, has a URL this cannot work out, and
+                // overwriting it would advertise a path that returns 404.
+                if (string.IsNullOrWhiteSpace(options.ProtectedResourceMetadataUrl))
+                {
+                    options.ProtectedResourceMetadataUrl = metadataUrl;
+                }
             });
 
             // The MCP scheme answers the challenge, because an MCP client expects the metadata

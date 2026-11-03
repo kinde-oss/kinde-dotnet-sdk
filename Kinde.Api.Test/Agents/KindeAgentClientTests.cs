@@ -46,7 +46,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
             var client = new KindeAgentClient(
-                options ?? Options(), new HttpClient(handler), new InMemoryStore());
+                options ?? Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             return (client, handler);
         }
@@ -377,7 +377,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token",
                 @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
 
-            var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -425,13 +425,13 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token",
                 @"{""access_token"":""at_for_a"",""expires_in"":3600,""refresh_token"":""rt_a""}");
 
-            var forA = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var forA = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await forA.CreateAuthorizationRequestAsync();
             await forA.ExchangeCodeAsync("the-code", request.State, request);
 
             var optionsB = Options();
             optionsB.ResourceUrl = "https://api.example.com/other";
-            var forB = new KindeAgentClient(optionsB, new HttpClient(handler), store);
+            var forB = new KindeAgentClient(optionsB, new HttpClient(handler), store, handler);
 
             Assert.Equal("at_for_a", (await forA.GetCurrentTokenAsync())!.AccessToken);
             Assert.Null(await forB.GetCurrentTokenAsync());
@@ -450,14 +450,14 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token",
                 @"{""access_token"":""at_for_first"",""expires_in"":3600,""refresh_token"":""rt_1""}");
 
-            var first = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var first = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await first.CreateAuthorizationRequestAsync();
             await first.ExchangeCodeAsync("the-code", request.State, request);
 
             // Same domain, application and resource; a different client.
             var otherOptions = Options();
             otherOptions.ClientId = "https://other-agent.example.com/.well-known/oauth-client";
-            var second = new KindeAgentClient(otherOptions, new HttpClient(handler), store);
+            var second = new KindeAgentClient(otherOptions, new HttpClient(handler), store, handler);
 
             Assert.Equal("at_for_first", (await first.GetCurrentTokenAsync())!.AccessToken);
             Assert.Null(await second.GetCurrentTokenAsync());
@@ -491,11 +491,11 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/register", @"{""client_id"":""dyn_123""}");
 
             var first = Options();
-            await new KindeAgentClient(first, new HttpClient(handler), store).GetOrRegisterAsync();
+            await new KindeAgentClient(first, new HttpClient(handler), store, handler).GetOrRegisterAsync();
 
             var moved = Options();
             moved.RedirectUri = "http://localhost:9999/agent-callback";
-            await new KindeAgentClient(moved, new HttpClient(handler), store).GetOrRegisterAsync();
+            await new KindeAgentClient(moved, new HttpClient(handler), store, handler).GetOrRegisterAsync();
 
             // A registration is bound to the redirect URI it declared.
             Assert.Equal(2, handler.CountFor("/register"));
@@ -546,7 +546,7 @@ namespace Kinde.Api.Test.Agents
                    ""authorization_endpoint"":""https://example.kinde.com/oauth2/agents/abc123/authorize"",""token_endpoint"":""https://example.kinde.com/oauth2/agents/abc123/token"",
                    ""code_challenge_methods_supported"":[""S256""]}");
             var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetOrRegisterAsync());
@@ -568,7 +568,7 @@ namespace Kinde.Api.Test.Agents
                    ""authorization_endpoint"":""https://example.kinde.com/oauth2/agents/abc123/authorize"",""token_endpoint"":""https://example.kinde.com/oauth2/agents/abc123/token""," + methods + "}");
 
             var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetDiscoveryDocumentAsync());
@@ -656,8 +656,8 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
             handler.Map("/register", @"{""client_id"":""dyn_123""}");
 
-            using var firstClient = new KindeAgentClient(first, new HttpClient(handler), store);
-            using var secondClient = new KindeAgentClient(second, new HttpClient(handler), store);
+            using var firstClient = new KindeAgentClient(first, new HttpClient(handler), store, handler);
+            using var secondClient = new KindeAgentClient(second, new HttpClient(handler), store, handler);
 
             handler.Map("/token",
                 @"{""access_token"":""at_user_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
@@ -694,7 +694,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token",
                 @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -735,7 +735,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""expires_in"":3600}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             // A stripped iss must not pass: the server promised to send one, so its absence is the
@@ -758,7 +758,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":3600}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var token = await client.ExchangeCodeAsync(
@@ -781,7 +781,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":3600}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var token = await client.ExchangeCodeAsync("the-code", request.State, request);
@@ -802,7 +802,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/revoke", string.Empty);
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -843,7 +843,7 @@ namespace Kinde.Api.Test.Agents
             options.ClientId = "configured_client";
 
             using var client = new KindeAgentClient(
-                options, new HttpClient(handler), new InMemoryStore());
+                options, new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.RevokeAsync("some-token", "access_token"));
@@ -865,7 +865,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
             handler.Map("/revoke", string.Empty);
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -909,7 +909,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
             handler.Map("/revoke", string.Empty);
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -942,7 +942,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.RevokeAsync("a-token-from-somewhere-else", "refresh_token"));
@@ -968,7 +968,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
             handler.Map("/revoke", string.Empty);
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -1006,7 +1006,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
             handler.Map("/revoke", @"{""error"":""server_error""}", HttpStatusCode.InternalServerError);
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -1048,7 +1048,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var metadata = await client.GetProtectedResourceMetadataAsync(
                 "https://api.example.com/.well-known/oauth-protected-resource");
@@ -1068,7 +1068,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             // Authorizing for one resource while calling another is how a token ends up with the
             // wrong audience, so the mismatch is refused rather than followed.
@@ -1090,7 +1090,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             // The resource names the servers it trusts, but following that list blindly would let a
             // hostile resource point the agent at a server of its choosing and harvest a code.
@@ -1112,7 +1112,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var discovery = await client.DiscoverFromResourceMetadataAsync(
                 "https://api.example.com/.well-known/oauth-protected-resource");
@@ -1153,7 +1153,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-protected-resource", @"{""resource"":""x""}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetProtectedResourceMetadataAsync(url));
@@ -1163,6 +1163,65 @@ namespace Kinde.Api.Test.Agents
             // Refused before anything was sent, which is the point: a blind request still reaches
             // the internal service.
             Assert.Equal(0, handler.CountFor("/.well-known/oauth-protected-resource"));
+        }
+
+        [Fact]
+        public async Task TheMetadataFetch_RefusesToFollowARedirectToAnInternalAddress()
+        {
+            // The dangerous shape: a perfectly public URL that redirects inward. Noticing it after
+            // the fact is no use, because the request has already reached the internal service.
+            var handler = new RedirectingHandler(
+                from: "93.184.216.34",
+                to: "https://169.254.169.254/latest/meta-data/");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(
+                    "https://93.184.216.34/.well-known/oauth-protected-resource"));
+
+            Assert.Contains("loopback, private, or link-local", exception.Message);
+
+            // The redirect was never followed, so nothing was sent to the internal address.
+            Assert.False(handler.FollowedRedirect);
+        }
+
+        /// <summary>Answers the first request with a redirect, and records whether it was followed.</summary>
+        private sealed class RedirectingHandler : HttpMessageHandler
+        {
+            private readonly string _from;
+            private readonly string _to;
+
+            public RedirectingHandler(string from, string to)
+            {
+                _from = from;
+                _to = to;
+            }
+
+            public bool FollowedRedirect { get; private set; }
+
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                var url = request.RequestUri!.ToString();
+
+                if (url.Contains(_from, StringComparison.Ordinal))
+                {
+                    var redirect = new HttpResponseMessage(HttpStatusCode.Found);
+                    redirect.Headers.Location = new Uri(_to);
+                    return Task.FromResult(redirect);
+                }
+
+                FollowedRedirect = true;
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(
+                        @"{""resource"":""https://api.example.com/mcp""}",
+                        Encoding.UTF8,
+                        "application/json")
+                });
+            }
         }
 
         [Fact]
@@ -1176,7 +1235,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var metadata = await client.GetProtectedResourceMetadataAsync(
                 "https://93.184.216.34/.well-known/oauth-protected-resource");
@@ -1195,7 +1254,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var metadata = await client.GetProtectedResourceMetadataAsync(
                 "https://127.0.0.1/.well-known/oauth-protected-resource");
@@ -1215,7 +1274,7 @@ namespace Kinde.Api.Test.Agents
                 HttpStatusCode.InternalServerError);
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetProtectedResourceMetadataAsync(
@@ -1244,7 +1303,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/register", @"{""client_id"":""dyn_123""}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var request = await client.CreateAuthorizationRequestAsync();
 
@@ -1270,7 +1329,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":0}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var token = await client.ExchangeCodeAsync("the-code", request.State, request);
@@ -1290,7 +1349,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token", @"{""access_token"":""at_1""}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var token = await client.ExchangeCodeAsync("the-code", request.State, request);
@@ -1310,7 +1369,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":""3600""}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var token = await client.ExchangeCodeAsync("the-code", request.State, request);
@@ -1329,7 +1388,7 @@ namespace Kinde.Api.Test.Agents
             var handler = new RouteHandler();
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
 
             Assert.Null(await client.GetCurrentTokenAsync());
         }
@@ -1346,7 +1405,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
             handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
 
             var request = await client.CreateAuthorizationRequestAsync();
 
@@ -1370,7 +1429,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
             handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
 
             var request = await client.CreateAuthorizationRequestAsync();
 
@@ -1393,7 +1452,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/token",
                 @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
@@ -1439,7 +1498,7 @@ namespace Kinde.Api.Test.Agents
             // The other agent's registration lands first.
             await store.SetAsync(registrationKey, @"{""client_id"":""dyn_first""}");
 
-            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store, handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             // The already-stored registration is adopted rather than replaced.
@@ -1465,7 +1524,7 @@ namespace Kinde.Api.Test.Agents
                 "{\"resource\":\"" + ResourceUrl + "\",\"padding\":\"" + new string('x', 2_000_000) + "\"}");
 
             using var client = new KindeAgentClient(
-                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore(), handler);
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetProtectedResourceMetadataAsync(
@@ -1487,7 +1546,7 @@ namespace Kinde.Api.Test.Agents
                 @"{""access_token"":""at_1"",""token_type"":""DPoP"",""expires_in"":3600}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                Options(), new HttpClient(handler), new InMemoryStore(), handler);
             var request = await client.CreateAuthorizationRequestAsync();
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
@@ -1509,7 +1568,7 @@ namespace Kinde.Api.Test.Agents
                 handler.Map("/token", "{" + tokenType + @"""access_token"":""at_1"",""expires_in"":3600}");
 
                 using var client = new KindeAgentClient(
-                    Options(), new HttpClient(handler), new InMemoryStore());
+                    Options(), new HttpClient(handler), new InMemoryStore(), handler);
                 var request = await client.CreateAuthorizationRequestAsync();
 
                 var token = await client.ExchangeCodeAsync("the-code", request.State, request);

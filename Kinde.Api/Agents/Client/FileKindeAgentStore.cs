@@ -233,9 +233,17 @@ namespace Kinde.Api.Agents.Client
 
         /// <inheritdoc />
         /// <remarks>
+        /// <para>
         /// The read, the comparison and the delete all happen under one hold of the key's gate, so
-        /// a refresh completing in another thread cannot have its result deleted by a cleanup that
+        /// a refresh completing on another thread cannot have its result deleted by a cleanup that
         /// decided to delete before that result existed.
+        /// </para>
+        /// <para>
+        /// That gate is per-process. Another process can still replace the file between the
+        /// comparison and the delete; .NET offers no portable cross-process compare-and-delete to
+        /// close it with. The window is microseconds and its worst case is one unnecessary
+        /// re-authorization, which is why it is documented rather than papered over.
+        /// </para>
         /// </remarks>
         public async Task<bool> RemoveIfAsync(
             string key, string expectedValue, CancellationToken cancellationToken = default)
@@ -294,35 +302,75 @@ namespace Kinde.Api.Agents.Client
             {
                 Directory.CreateDirectory(_directory);
 
-                try
+                for (var attempt = 1; ; attempt++)
                 {
-                    using (var stream = new FileStream(
-                        path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
-                    using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    try
                     {
-                        await writer.WriteAsync(Protect(value)).ConfigureAwait(false);
-                    }
+                        using (var stream = new FileStream(
+                            path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                        using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                        {
+                            await writer.WriteAsync(Protect(value)).ConfigureAwait(false);
+                        }
 
 #if NET8_0_OR_GREATER
-                    if (!OperatingSystem.IsWindows())
-                    {
-                        File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
-                    }
+                        if (!OperatingSystem.IsWindows())
+                        {
+                            File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                        }
 #endif
-                    return null;
-                }
-                catch (IOException) when (File.Exists(path))
-                {
-                    // Another agent got there first. Its value is the one both should use.
-                    var current = Unprotect(await ReadAllTextAsync(path, cancellationToken)
-                        .ConfigureAwait(false));
+                        return null;
+                    }
+                    catch (IOException) when (attempt < CreateAttempts)
+                    {
+                        // Another agent got there first, or still holds the file open with
+                        // FileShare.None. Its value is the one both should use.
+                        var current = await TryReadAsync(path, cancellationToken)
+                            .ConfigureAwait(false);
 
-                    return string.IsNullOrEmpty(current) ? null : current;
+                        if (!string.IsNullOrEmpty(current))
+                        {
+                            return current;
+                        }
+
+                        // Could not create and could not read: the winner is mid-write, or the file
+                        // has since been removed. Returning null here would claim this value was
+                        // stored when it was not, leaving this agent on a client id the store does
+                        // not hold - so the create is attempted again instead.
+                        await Task.Delay(TimeSpan.FromMilliseconds(20 * attempt), cancellationToken)
+                            .ConfigureAwait(false);
+                    }
                 }
             }
             finally
             {
                 gate.Release();
+            }
+        }
+
+        /// <summary>How many times an exclusive create is attempted before giving up.</summary>
+        private const int CreateAttempts = 5;
+
+        /// <summary>
+        /// Reads a file that another process may still have open, returning null rather than
+        /// throwing when it cannot be read.
+        /// </summary>
+        private static async Task<string?> TryReadAsync(
+            string path, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return Unprotect(await ReadAllTextAsync(path, cancellationToken)
+                    .ConfigureAwait(false));
+            }
+            catch (IOException)
+            {
+                // Still locked by the writer, or gone again. Either way the caller retries.
+                return null;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return null;
             }
         }
 
