@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Mappers;
@@ -23,7 +23,7 @@ namespace Kinde.Api.Test.Integration.Kiota
     public class KiotaResponseMappingTests : IDisposable
     {
         private readonly ITestOutputHelper _output;
-        private readonly IMapper _mapper;
+        private readonly IKindeMapper _mapper;
         private readonly KiotaMockHttpHandler _mockHandler;
         private readonly HttpClient _httpClient;
         private readonly Configuration _configuration;
@@ -89,7 +89,7 @@ namespace Kinde.Api.Test.Integration.Kiota
         /// <summary>
         /// Verifies that nested Kiota models map correctly to OpenAPI models.
         /// Note: Kiota models use BackingStore and can't be deserialized with standard JsonSerializer.
-        /// This test creates Kiota models directly and verifies AutoMapper mapping.
+        /// This test creates Kiota models directly and verifies model mapping.
         /// </summary>
         [Fact]
         public void NestedKiotaModels_MapToOpenApi_Correctly()
@@ -123,7 +123,7 @@ namespace Kinde.Api.Test.Integration.Kiota
             Assert.Equal("John", kiotaModel.Users[0].FirstName);
             Assert.Equal("token_abc123", kiotaModel.NextToken);
 
-            // Also verify AutoMapper mapping to OpenAPI model
+            // Also verify mapping to the OpenAPI model
             var openApiModel = _mapper.Map<UsersResponse>(kiotaModel);
             Assert.NotNull(openApiModel);
             Assert.Equal("200", openApiModel.Code);

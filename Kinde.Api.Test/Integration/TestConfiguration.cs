@@ -16,27 +16,23 @@ namespace Kinde.Api.Test.Integration
 
         private TestConfiguration()
         {
-            // Get the project directory (where appsettings.json is located)
-            // Tests run from bin/Debug/net8.0, so we need to go up to the project directory
+            // Get the project directory (where appsettings.json is located).
+            // Tests run from bin/<Configuration>/<TargetFramework>, so walk up to the project root.
+            // The directory that holds the .csproj is the project root, which avoids matching
+            // target-framework folder names one by one - a list like that silently stops working
+            // the moment a new target framework is added, leaving every real-API test skipped.
             var currentDir = Directory.GetCurrentDirectory();
             var projectDir = currentDir;
-            
-            // If we're in bin/Debug/net8.0, go up to the project directory
-            if (currentDir.Contains("bin" + Path.DirectorySeparatorChar + "Debug") || 
-                currentDir.Contains("bin" + Path.DirectorySeparatorChar + "Release"))
+
+            for (var dir = new DirectoryInfo(currentDir); dir != null; dir = dir.Parent)
             {
-                var dir = new DirectoryInfo(currentDir);
-                // Go up from bin/Debug/net8.0 to project root
-                while (dir != null && (dir.Name == "net8.0" || dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"))
-                {
-                    dir = dir.Parent;
-                }
-                if (dir != null)
+                if (dir.GetFiles("*.csproj").Length > 0)
                 {
                     projectDir = dir.FullName;
+                    break;
                 }
             }
-            
+
             Console.WriteLine($"[TEST CONFIG] Current directory: {currentDir}");
             Console.WriteLine($"[TEST CONFIG] Project directory: {projectDir}");
             
