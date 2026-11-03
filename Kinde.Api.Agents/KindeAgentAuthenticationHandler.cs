@@ -94,10 +94,16 @@ namespace Kinde.Api.Agents
 
         private ClaimsIdentity BuildIdentity(KindeAuthContext context)
         {
+            // roleType is the role claim, not the permission claim. Pointing it at permissions
+            // makes [Authorize(Roles = "admin")] succeed on a permission named "admin" even when
+            // no such role was granted, and fail for a genuine role that carries no matching
+            // permission. Roles and permissions are separate grants in Kinde and are mapped
+            // separately below; use [Authorize(Policy = ...)] with RequireKindePermission for
+            // permission checks.
             var identity = new ClaimsIdentity(
                 authenticationType: Scheme.Name,
                 nameType: KindeClaimTypes.Subject,
-                roleType: KindeClaimTypes.Permission);
+                roleType: KindeClaimTypes.Role);
 
             if (!string.IsNullOrEmpty(context.Subject))
             {
@@ -128,6 +134,11 @@ namespace Kinde.Api.Agents
             foreach (var permission in context.Permissions)
             {
                 identity.AddClaim(new Claim(KindeClaimTypes.Permission, permission));
+            }
+
+            foreach (var role in context.Roles)
+            {
+                identity.AddClaim(new Claim(KindeClaimTypes.Role, role));
             }
 
             return identity;

@@ -19,9 +19,69 @@ namespace Kinde.Mcp
     public static class KindeMcpAuthExtensions
     {
         /// <summary>
+        /// An authorization policy that accepts only the MCP scheme.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Use this on the MCP endpoint instead of a bare
+        /// <c>RequireAuthorization()</c>:
+        /// </para>
+        /// <code>
+        /// app.MapMcp("/mcp").RequireAuthorization(KindeMcpAuthExtensions.McpEndpointPolicy);
+        /// </code>
+        /// <para>
+        /// A bare <c>RequireAuthorization()</c> resolves against the application's default scheme.
+        /// In an application that also signs users in with cookies, that is the cookie scheme, so
+        /// a bearer-only MCP client would be met with a cookie challenge while a cookie-signed-in
+        /// browser session could reach the endpoint with no agent token at all. Naming this policy
+        /// pins the endpoint to the MCP scheme whatever the application's default is.
+        /// </para>
+        /// </remarks>
+        public const string McpEndpointPolicy = "KindeMcpEndpoint";
+
+        /// <summary>
+        /// Adds the MCP SDK's authorization filters, so <c>[Authorize]</c> on a tool, prompt or
+        /// resource is enforced.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This is required, not optional, and it is what makes tool-level authorization work:
+        /// <see cref="AddKindeMcpAuth(IServiceCollection, IConfiguration)"/> establishes who the
+        /// caller is, while these filters decide what they may call.
+        /// </para>
+        /// <para>
+        /// Omitting it does not leave a guarded tool exposed. The MCP SDK fails closed: a tool
+        /// carrying <c>[Authorize]</c> cannot be invoked at all without the filter pipeline, and
+        /// the call comes back as an error result. The cost of forgetting this is therefore a tool
+        /// that never works, not one an under-scoped agent can reach.
+        /// </para>
+        /// <code>
+        /// builder.Services
+        ///     .AddMcpServer()
+        ///     .WithHttpTransport()
+        ///     .WithTools&lt;MyTools&gt;()
+        ///     .AddKindeMcpAuthorizationFilters();
+        /// </code>
+        /// </remarks>
+        public static IMcpServerBuilder AddKindeMcpAuthorizationFilters(this IMcpServerBuilder builder)
+        {
+            ArgumentNullException.ThrowIfNull(builder);
+
+            return builder.AddAuthorizationFilters();
+        }
+
+        /// <summary>
         /// Adds MCP authentication backed by Kinde, reading settings from the
         /// <c>KindeAgentAuth</c> configuration section.
         /// </summary>
+        /// <remarks>
+        /// This covers authentication only. Two things remain the application's to do: call
+        /// <see cref="AddKindeMcpAuthorizationFilters"/> on the MCP server builder so tool
+        /// <c>[Authorize]</c> attributes are enforced, and protect the endpoint with
+        /// <see cref="McpEndpointPolicy"/> so it is bound to the MCP scheme rather than the
+        /// application's default one. The second one fails silently in an application that has its
+        /// own default scheme, which is why the policy exists.
+        /// </remarks>
         public static AuthenticationBuilder AddKindeMcpAuth(
             this IServiceCollection services, IConfiguration configuration)
         {
@@ -74,6 +134,16 @@ namespace Kinde.Mcp
 
                 options.DefaultChallengeScheme ??= McpAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme ??= KindeAgentAuthenticationOptions.DefaultScheme;
+            });
+
+            // Registered unconditionally, because it is the answer to the case above: when the
+            // application has its own default scheme nothing is repointed, so the MCP endpoint
+            // needs a way to say explicitly which scheme authenticates it.
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(McpEndpointPolicy, policy => policy
+                    .AddAuthenticationSchemes(McpAuthenticationDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser());
             });
 
             var builder = services.AddAuthentication().AddKindeAgentAuth(configure);

@@ -231,8 +231,47 @@ namespace Kinde.Api.Agents.Client
             return string.Empty;
         }
 
-        private SemaphoreSlim LockFor(string key) =>
-            _locks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+        /// <summary>
+        /// How many per-key gates are kept before they start being shared.
+        /// </summary>
+        /// <remarks>
+        /// One gate per key is ideal, but the key set is not bounded: it includes the session, so a
+        /// host authorizing many users against one store would otherwise add a
+        /// <see cref="SemaphoreSlim"/> per user and never release one. Past this many keys the
+        /// gates are shared, which costs a little contention and nothing else, because a gate only
+        /// has to serialise access to the same key, not be unique to it.
+        /// </remarks>
+        private const int MaxKeyLocks = 512;
+
+        private readonly SemaphoreSlim[] _sharedLocks = CreateSharedLocks();
+
+        private static SemaphoreSlim[] CreateSharedLocks()
+        {
+            var locks = new SemaphoreSlim[32];
+            for (var index = 0; index < locks.Length; index++)
+            {
+                locks[index] = new SemaphoreSlim(1, 1);
+            }
+
+            return locks;
+        }
+
+        private SemaphoreSlim LockFor(string key)
+        {
+            if (_locks.TryGetValue(key, out var existing))
+            {
+                return existing;
+            }
+
+            if (_locks.Count >= MaxKeyLocks)
+            {
+                // Derived from the key, so two calls for one key still serialise against each other.
+                var index = (uint)key.GetHashCode(StringComparison.Ordinal) % (uint)_sharedLocks.Length;
+                return _sharedLocks[index];
+            }
+
+            return _locks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+        }
 
         /// <summary>
         /// Hashes the key into the file name. A key contains a Kinde domain and client id, so using

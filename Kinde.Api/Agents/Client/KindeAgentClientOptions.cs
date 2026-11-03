@@ -41,6 +41,25 @@ namespace Kinde.Api.Agents.Client
         /// </summary>
         public string? ResourceUrl { get; set; }
 
+        /// <summary>
+        /// Namespaces the stored token to one end user or session.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Leave this unset only when the store is private to a single user, which is the case for
+        /// the default <see cref="FileKindeAgentStore"/> in a desktop or CLI agent.
+        /// </para>
+        /// <para>
+        /// Any host that authorizes more than one user against a store they share - a web
+        /// application, or anything backed by a distributed cache - must set it to something that
+        /// identifies the user or session, because the token key is otherwise identical for all of
+        /// them. The second user to authorize would overwrite the first user's entry, and the first
+        /// client would then read the second user's access and refresh tokens. The alternative is
+        /// to give each user their own isolated <see cref="IKindeAgentStore"/>.
+        /// </para>
+        /// </remarks>
+        public string? SessionKey { get; set; }
+
         /// <summary>Scopes to request. "offline" is always included.</summary>
         public IList<string> Scopes { get; set; } = new List<string>();
 
