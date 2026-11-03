@@ -382,8 +382,10 @@ namespace Kinde.Api.Test.Agents
             await client.ExchangeCodeAsync("the-code", request.State, request);
 
             // Scoped to the client as well as the resource, so a second client cannot read or
-            // delete this one's token.
-            var tokenKey = $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}|token";
+            // delete this one's token. The empty segment before "token" is the session key, which
+            // separates two users of one client against one resource; these options leave it unset.
+            var tokenKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}||token";
             var winner = @"{""access_token"":""at_winner"",""expires_in"":3600,
                             ""refresh_token"":""rt_rotated"",""obtained_at"":""" +
                          DateTimeOffset.UtcNow.ToString("o") + @"""}";
@@ -615,6 +617,422 @@ namespace Kinde.Api.Test.Agents
 
             Assert.Throws<ArgumentException>(
                 () => new KindeAgentClient(options, new HttpClient(), new InMemoryStore()));
+        }
+
+        private const string DiscoveryWithRevocationJson = @"{
+            ""issuer"": ""https://example.kinde.com/oauth2/agents/abc123"",
+            ""authorization_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/authorize"",
+            ""token_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/token"",
+            ""registration_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/register"",
+            ""revocation_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/revoke"",
+            ""code_challenge_methods_supported"": [""S256""]
+        }";
+
+        private const string DiscoveryWithIssJson = @"{
+            ""issuer"": ""https://example.kinde.com/oauth2/agents/abc123"",
+            ""authorization_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/authorize"",
+            ""token_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/token"",
+            ""registration_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/register"",
+            ""code_challenge_methods_supported"": [""S256""],
+            ""authorization_response_iss_parameter_supported"": true
+        }";
+
+        // ===== The token key must separate users of a shared store =====
+
+        [Fact]
+        public async Task TokenKey_SeparatesSessionsSharingOneStore()
+        {
+            // Two users authorizing the same client, for the same resource, against one store. With
+            // no session in the key both exchanges write to the same entry, so the second
+            // overwrites the first and the first client then reads the second user's tokens.
+            var store = new InMemoryStore();
+
+            var first = Options();
+            first.SessionKey = "user-1";
+            var second = Options();
+            second.SessionKey = "user-2";
+
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+
+            using var firstClient = new KindeAgentClient(first, new HttpClient(handler), store);
+            using var secondClient = new KindeAgentClient(second, new HttpClient(handler), store);
+
+            handler.Map("/token",
+                @"{""access_token"":""at_user_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
+            var firstRequest = await firstClient.CreateAuthorizationRequestAsync();
+            await firstClient.ExchangeCodeAsync("code-1", firstRequest.State, firstRequest);
+
+            handler.Map("/token",
+                @"{""access_token"":""at_user_2"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+            var secondRequest = await secondClient.CreateAuthorizationRequestAsync();
+            await secondClient.ExchangeCodeAsync("code-2", secondRequest.State, secondRequest);
+
+            var firstToken = await firstClient.GetCurrentTokenAsync();
+            var secondToken = await secondClient.GetCurrentTokenAsync();
+
+            Assert.NotNull(firstToken);
+            Assert.NotNull(secondToken);
+
+            // Each sees its own, and neither has been handed the other user's credentials.
+            Assert.Equal("at_user_1", firstToken!.AccessToken);
+            Assert.Equal("at_user_2", secondToken!.AccessToken);
+            Assert.Equal("rt_1", firstToken.RefreshToken);
+            Assert.Equal("rt_2", secondToken.RefreshToken);
+        }
+
+        // ===== Sign-out must win against a refresh already in flight =====
+
+        [Fact]
+        public async Task SignOutAsync_DuringAnInFlightRefresh_LeavesNoSession()
+        {
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            // The refresh succeeds at Kinde, but the user signs out while it is in flight. The
+            // refreshed token must not be written: persisting it restores a session that was
+            // deliberately ended, and GetCurrentTokenAsync would report an authenticated agent
+            // after sign-out had completed.
+            handler.Map("/token",
+                @"{""access_token"":""at_refreshed"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+
+            var signedOut = false;
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/token" && !signedOut)
+                {
+                    signedOut = true;
+                    client.SignOutAsync(revoke: false).GetAwaiter().GetResult();
+                }
+            };
+
+            var result = await client.GetCurrentTokenAsync();
+
+            Assert.Null(result);
+
+            var tokenKey = $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}||token";
+            Assert.Null(await store.GetAsync(tokenKey));
+        }
+
+        // ===== RFC 9207: a missing iss is only acceptable when the server does not send one =====
+
+        [Fact]
+        public async Task ExchangeCodeAsync_RejectsAMissingIssWhenTheServerAdvertisesIt()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithIssJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":3600}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            // A stripped iss must not pass: the server promised to send one, so its absence is the
+            // mix-up protection being removed rather than a server that does not support it.
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.ExchangeCodeAsync("the-code", request.State, request));
+
+            Assert.Contains("authorization_response_iss_parameter_supported", exception.Message);
+
+            // And the code was never redeemed.
+            Assert.Equal(0, handler.CountFor("/token"));
+        }
+
+        [Fact]
+        public async Task ExchangeCodeAsync_AcceptsTheAdvertisedIssWhenItMatches()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithIssJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":3600}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var token = await client.ExchangeCodeAsync(
+                "the-code",
+                request.State,
+                request,
+                returnedIssuer: $"{Domain}/oauth2/agents/{AppId}");
+
+            Assert.Equal("at_1", token.AccessToken);
+        }
+
+        [Fact]
+        public async Task ExchangeCodeAsync_StillAllowsAMissingIssWhenTheServerDoesNotSendOne()
+        {
+            // The base discovery document does not advertise the parameter, so a callback without
+            // iss is legitimate and must keep working.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":3600}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var token = await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            Assert.Equal("at_1", token.AccessToken);
+        }
+
+        // ===== Revocation actually reaches the advertised endpoint =====
+
+        [Fact]
+        public async Task SignOutAsync_RevokesTheTokensAtKinde()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
+            handler.Map("/revoke", string.Empty);
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            // The handler keeps only the most recent body per route, so each revocation payload is
+            // captured as it is sent.
+            var revocations = new List<string>();
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/revoke")
+                {
+                    revocations.Add(handler.BodyFor("/revoke"));
+                }
+            };
+
+            await client.SignOutAsync();
+
+            // Deleting the local copy is not revocation: a copied token keeps working until it
+            // expires unless the server is told. Both tokens are withdrawn, refresh included,
+            // because that is the one that outlives the process.
+            Assert.Equal(2, handler.CountFor("/revoke"));
+            Assert.Contains(revocations, body =>
+                body.Contains("token=rt_1", StringComparison.Ordinal)
+                && body.Contains("token_type_hint=refresh_token", StringComparison.Ordinal));
+            Assert.Contains(revocations, body =>
+                body.Contains("token=at_1", StringComparison.Ordinal)
+                && body.Contains("token_type_hint=access_token", StringComparison.Ordinal));
+        }
+
+        [Fact]
+        public async Task RevokeAsync_ReportsWhenTheServerAdvertisesNoEndpoint()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.RevokeAsync("some-token", "access_token"));
+
+            Assert.Contains("revocation_endpoint", exception.Message);
+        }
+
+        [Fact]
+        public async Task SignOutAsync_StillClearsTheLocalTokenWhenRevocationFails()
+        {
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
+            handler.Map("/revoke", @"{""error"":""server_error""}", HttpStatusCode.InternalServerError);
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            // Best-effort: a sign-out that leaves a usable token on disk because the network
+            // blipped is worse than one that leaves a token live at Kinde until it expires.
+            await client.SignOutAsync();
+
+            Assert.Null(await client.GetCurrentTokenAsync());
+        }
+
+        // ===== Protected resource metadata discovery (RFC 9728) =====
+
+        [Fact]
+        public async Task GetProtectedResourceMetadataAsync_ReadsTheResourceDocument()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://api.example.com/mcp"",
+                ""authorization_servers"": [""https://example.kinde.com/oauth2/agents/abc123""],
+                ""bearer_methods_supported"": [""header""],
+                ""scopes_supported"": [""offline""],
+                ""resource_name"": ""Example MCP server""
+            }");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var metadata = await client.GetProtectedResourceMetadataAsync(
+                "https://api.example.com/.well-known/oauth-protected-resource");
+
+            Assert.Equal(ResourceUrl, metadata.Resource);
+            Assert.Equal("Example MCP server", metadata.ResourceName);
+            Assert.Contains("https://example.kinde.com/oauth2/agents/abc123", metadata.AuthorizationServers);
+        }
+
+        [Fact]
+        public async Task GetProtectedResourceMetadataAsync_RejectsADocumentForAnotherResource()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://somewhere-else.example.com/mcp"",
+                ""authorization_servers"": [""https://example.kinde.com/oauth2/agents/abc123""]
+            }");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            // Authorizing for one resource while calling another is how a token ends up with the
+            // wrong audience, so the mismatch is refused rather than followed.
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(
+                    "https://api.example.com/.well-known/oauth-protected-resource"));
+
+            Assert.Contains("somewhere-else.example.com", exception.Message);
+        }
+
+        [Fact]
+        public async Task DiscoverFromResourceMetadataAsync_RefusesAnUntrustedAuthorizationServer()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://api.example.com/mcp"",
+                ""authorization_servers"": [""https://attacker.example.net/oauth2""]
+            }");
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            // The resource names the servers it trusts, but following that list blindly would let a
+            // hostile resource point the agent at a server of its choosing and harvest a code.
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.DiscoverFromResourceMetadataAsync(
+                    "https://api.example.com/.well-known/oauth-protected-resource"));
+
+            Assert.Contains("attacker.example.net", exception.Message);
+        }
+
+        [Fact]
+        public async Task DiscoverFromResourceMetadataAsync_ReturnsTheServerMetadataWhenTrusted()
+        {
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://api.example.com/mcp"",
+                ""authorization_servers"": [""https://example.kinde.com/oauth2/agents/abc123""]
+            }");
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var discovery = await client.DiscoverFromResourceMetadataAsync(
+                "https://api.example.com/.well-known/oauth-protected-resource");
+
+            Assert.Equal($"{Domain}/oauth2/agents/{AppId}", discovery.Issuer);
+            Assert.Equal($"{Domain}/oauth2/agents/{AppId}/token", discovery.TokenEndpoint);
+        }
+
+        [Fact]
+        public async Task GetProtectedResourceMetadataAsync_RefusesAnInsecureMetadataUrl()
+        {
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(new RouteHandler()), new InMemoryStore());
+
+            // The URL arrives from a challenge, so it is attacker-influenced until proven otherwise.
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(
+                    "http://api.example.com/.well-known/oauth-protected-resource"));
+        }
+
+        // ===== Worst-case responses =====
+
+        [Fact]
+        public async Task AnOversizedMetadataDocument_IsRefusedRatherThanRead()
+        {
+            // The resource metadata URL comes from a resource server's challenge, so it is not this
+            // client's to trust. Reading an unbounded reply to completion would let a hostile or
+            // compromised resource exhaust the agent's memory with one response.
+            var handler = new RouteHandler();
+            handler.Map(
+                "/.well-known/oauth-protected-resource",
+                "{\"resource\":\"" + ResourceUrl + "\",\"padding\":\"" + new string('x', 2_000_000) + "\"}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(
+                    "https://api.example.com/.well-known/oauth-protected-resource"));
+
+            Assert.Contains("limit for a metadata document", exception.Message);
+        }
+
+        [Fact]
+        public async Task ATokenOfAnUnsupportedType_IsRefused()
+        {
+            // Everything downstream presents the value as a bearer token, so accepting a
+            // sender-constrained token here would produce an unexplained 401 at the resource
+            // server rather than naming the mismatch.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""token_type"":""DPoP"",""expires_in"":3600}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.ExchangeCodeAsync("the-code", request.State, request));
+
+            Assert.Contains("DPoP", exception.Message);
+        }
+
+        [Fact]
+        public async Task ABearerTokenIsAccepted_WhateverTheCasing()
+        {
+            // The check must not be so strict that it rejects a legitimate response: token_type is
+            // case-insensitive, and an omitted one is treated as bearer.
+            foreach (var tokenType in new[] { @"""token_type"":""Bearer"",", @"""token_type"":""bearer"",", "" })
+            {
+                var handler = new RouteHandler();
+                handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+                handler.Map("/register", @"{""client_id"":""dyn_123""}");
+                handler.Map("/token", "{" + tokenType + @"""access_token"":""at_1"",""expires_in"":3600}");
+
+                using var client = new KindeAgentClient(
+                    Options(), new HttpClient(handler), new InMemoryStore());
+                var request = await client.CreateAuthorizationRequestAsync();
+
+                var token = await client.ExchangeCodeAsync("the-code", request.State, request);
+
+                Assert.Equal("at_1", token.AccessToken);
+            }
         }
 
         private sealed class InMemoryStore : IKindeAgentStore

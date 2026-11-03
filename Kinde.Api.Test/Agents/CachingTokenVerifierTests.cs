@@ -144,6 +144,121 @@ namespace Kinde.Api.Test.Agents
                 () => new CachingTokenVerifier(inner, TimeSpan.FromSeconds(-1)));
         }
 
+        [Fact]
+        public async Task AnInvalidationDuringVerification_DoesNotRepopulateTheCache()
+        {
+            // The revocation lands while the verification is still in flight. Its result predates
+            // the revocation, so storing it would authenticate a revoked token for the whole cache
+            // lifetime: Invalidate had already run and had nothing left to remove.
+            var gate = new TaskCompletionSource();
+            var inner = new BlockingVerifier(Success(), gate.Task);
+            var verifier = new CachingTokenVerifier(inner, TimeSpan.FromMinutes(10));
+
+            var verification = verifier.VerifyAsync("the-token");
+
+            // Revoked and invalidated while the call above is blocked.
+            verifier.Invalidate("the-token");
+            gate.SetResult();
+
+            var context = await verification;
+            Assert.True(context.IsAuthenticated);
+
+            // The next request must go back to Kinde rather than being served a stale success.
+            inner.Release();
+            await verifier.VerifyAsync("the-token");
+
+            Assert.Equal(2, inner.Calls);
+        }
+
+        [Fact]
+        public async Task AClearDuringVerification_DoesNotRepopulateTheCache()
+        {
+            var gate = new TaskCompletionSource();
+            var inner = new BlockingVerifier(Success(), gate.Task);
+            var verifier = new CachingTokenVerifier(inner, TimeSpan.FromMinutes(10));
+
+            var verification = verifier.VerifyAsync("the-token");
+
+            verifier.Clear();
+            gate.SetResult();
+            await verification;
+
+            inner.Release();
+            await verifier.VerifyAsync("the-token");
+
+            Assert.Equal(2, inner.Calls);
+        }
+
+        [Fact]
+        public async Task AnInvalidationOfAnotherToken_DoesNotStopCaching()
+        {
+            // The guard must only discard a result a revocation overtook. An unrelated earlier
+            // invalidation must not stop the cache working, or every entry would be thrown away
+            // once anything had ever been revoked.
+            var inner = new CountingVerifier(Success());
+            var verifier = new CachingTokenVerifier(inner, TimeSpan.FromMinutes(10));
+
+            verifier.Invalidate("some-other-token");
+
+            await verifier.VerifyAsync("the-token");
+            await verifier.VerifyAsync("the-token");
+
+            Assert.Equal(1, inner.Calls);
+        }
+
+        [Fact]
+        public async Task ABurstOfUniqueValidTokens_StaysBounded()
+        {
+            // Every entry is live and the lifetime window never elapses during the burst, so the
+            // timed sweep alone would let the dictionary grow for the whole lifetime. The ceiling
+            // has to be enforced independently of it, or a stream of unique tokens exhausts memory
+            // on a busy server.
+            var inner = new CountingVerifier(Success(DateTimeOffset.UtcNow.AddHours(1)));
+            var verifier = new CachingTokenVerifier(inner, TimeSpan.FromHours(1));
+
+            for (var i = 0; i < 6000; i++)
+            {
+                await verifier.VerifyAsync($"token-{i}");
+            }
+
+            var callsAfterBurst = inner.Calls;
+
+            // The earliest token was dropped long before the burst ended, so it costs a fresh
+            // call. Were the cache unbounded it would still be held and served without one.
+            await verifier.VerifyAsync("token-0");
+
+            Assert.Equal(callsAfterBurst + 1, inner.Calls);
+        }
+
+        /// <summary>
+        /// Blocks inside VerifyAsync until released, so a test can interleave an invalidation with
+        /// a verification that is already in flight.
+        /// </summary>
+        private sealed class BlockingVerifier : IKindeTokenVerifier
+        {
+            private readonly KindeAuthContext _result;
+            private Task _gate;
+
+            public BlockingVerifier(KindeAuthContext result, Task gate)
+            {
+                _result = result;
+                _gate = gate;
+            }
+
+            public int Calls { get; private set; }
+
+            /// <summary>Stops blocking, so later calls return immediately.</summary>
+            public void Release() => _gate = Task.CompletedTask;
+
+            public async Task<KindeAuthContext> VerifyAsync(
+                string accessToken, CancellationToken cancellationToken = default)
+            {
+                Calls++;
+                await _gate;
+                return _result;
+            }
+        }
+
         private sealed class CountingVerifier : IKindeTokenVerifier
         {
             public CountingVerifier(KindeAuthContext result) => Result = result;

@@ -105,13 +105,20 @@ namespace Kinde.Api.Test.Agents
 
                             endpoints.MapGet("/any-permitted", () => Results.Text("any"))
                                 .RequireAuthorization("any-permission");
+
+                            // Guarded by a role, which only a role may satisfy. Roles and
+                            // permissions are separate grants in Kinde.
+                            endpoints.MapGet("/admin-role", () => Results.Text("admin-role"))
+                                .RequireAuthorization(new AuthorizeAttribute { Roles = "admin" });
                         });
                     }))
                 .Build();
         }
 
         private static KindeAuthContext Authenticated(
-            IReadOnlyList<string>? scopes = null, IReadOnlyList<string>? permissions = null) =>
+            IReadOnlyList<string>? scopes = null,
+            IReadOnlyList<string>? permissions = null,
+            IReadOnlyList<string>? roles = null) =>
             KindeAuthContext.Success(
                 subject: "agent_01",
                 actorSubject: "agent_delegate",
@@ -121,7 +128,53 @@ namespace Kinde.Api.Test.Agents
                 audiences: new[] { ResourceUrl },
                 organizationCode: "org_1234",
                 expiresAt: DateTimeOffset.UtcNow.AddMinutes(10),
-                claims: new Dictionary<string, object>());
+                claims: new Dictionary<string, object>(),
+                roles: roles);
+
+        // ===== Roles and permissions are distinct grants =====
+
+        [Fact]
+        public async Task APermissionDoesNotSatisfyARoleRequirement()
+        {
+            // The handler used to declare the permission claim as the identity's role claim, so a
+            // permission called "admin" silently satisfied [Authorize(Roles = "admin")] even though
+            // no such role had been granted.
+            using var host = CreateHost(new StubVerifier(
+                Authenticated(permissions: new[] { "admin" })));
+            await host.StartAsync();
+
+            var response = await Get(host, "/admin-role", "Bearer token");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ARoleSatisfiesARoleRequirement()
+        {
+            // The other half of the same bug: a genuine role carrying no matching permission was
+            // refused, because roles never reached the principal at all.
+            using var host = CreateHost(new StubVerifier(
+                Authenticated(roles: new[] { "admin" })));
+            await host.StartAsync();
+
+            var response = await Get(host, "/admin-role", "Bearer token");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("admin-role", await response.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
+        public async Task ARoleDoesNotSatisfyAPermissionRequirement()
+        {
+            // And the converse: a role must not stand in for a permission.
+            using var host = CreateHost(new StubVerifier(
+                Authenticated(roles: new[] { "write:things" })));
+            await host.StartAsync();
+
+            var response = await Get(host, "/permitted", "Bearer token");
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
         private static async Task<HttpResponseMessage> Get(
             IHost host, string path, string? authorization = null)
