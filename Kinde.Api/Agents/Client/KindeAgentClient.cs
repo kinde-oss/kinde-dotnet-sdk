@@ -1,7 +1,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -46,6 +49,13 @@ namespace Kinde.Api.Agents.Client
         /// resurrect a session that has since been ended.
         /// </summary>
         private long _signOutGeneration;
+
+        /// <summary>
+        /// Whether the most recent sign-out asked for server-side revocation. Read by a token
+        /// request that a sign-out overtook, so the pair it received is withdrawn rather than left
+        /// valid at Kinde with nothing holding a reference to it.
+        /// </summary>
+        private bool _signOutRequestedRevoke;
 
         private KindeAgentDiscoveryDocument? _discovery;
 
@@ -139,8 +149,14 @@ namespace Kinde.Api.Agents.Client
             // otherwise; an http value would leak the request and allow it to be rewritten.
             RequireHttpsEndpoint(resourceMetadataUrl, "resource_metadata", required: true);
 
+            // Https alone only fixes the scheme, not the destination. Without this a resource can
+            // name any address the agent can reach and use it as a request-forgery primitive.
+            await RequireAllowedDestinationAsync(resourceMetadataUrl, cancellationToken)
+                .ConfigureAwait(false);
+
             var metadata = await GetJsonAsync<KindeProtectedResourceMetadata>(
-                resourceMetadataUrl, cancellationToken).ConfigureAwait(false);
+                resourceMetadataUrl, cancellationToken, redactBodyOnFailure: true)
+                .ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(metadata.Resource))
             {
@@ -148,7 +164,10 @@ namespace Kinde.Api.Agents.Client
                     $"The resource metadata at {resourceMetadataUrl} declares no 'resource'.");
             }
 
-            if (metadata.AuthorizationServers.Count == 0)
+            // Null-checked as well as empty-checked: an explicit "authorization_servers": null in
+            // the document replaces the initialized list rather than leaving it empty, so reading
+            // Count would throw NullReferenceException instead of explaining what is wrong.
+            if (metadata.AuthorizationServers is null or { Count: 0 })
             {
                 throw new InvalidOperationException(
                     $"The resource metadata at {resourceMetadataUrl} lists no "
@@ -222,6 +241,111 @@ namespace Kinde.Api.Agents.Client
             }
 
             return uri.IsLoopback;
+        }
+
+        /// <summary>
+        /// Rejects a metadata URL whose host resolves to an address the agent should not be made to
+        /// reach on a stranger's instruction.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The addresses are resolved rather than the hostname pattern-matched, because a name
+        /// under the attacker's control can resolve to anything: <c>metadata.evil.test</c> pointing
+        /// at <c>169.254.169.254</c> reads a cloud instance's credentials endpoint.
+        /// </para>
+        /// <para>
+        /// Only applied to the resource metadata fetch. The discovery and token endpoints are built
+        /// from configuration the application chose, so they are not attacker-named.
+        /// </para>
+        /// </remarks>
+        private async Task RequireAllowedDestinationAsync(
+            string url, CancellationToken cancellationToken)
+        {
+            if (_options.AllowPrivateResourceMetadataHosts)
+            {
+                return;
+            }
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            {
+                throw new InvalidOperationException($"'{url}' is not an absolute URL.");
+            }
+
+            IReadOnlyList<IPAddress> addresses;
+            if (IPAddress.TryParse(uri.Host, out var literal))
+            {
+                addresses = new[] { literal };
+            }
+            else
+            {
+                try
+                {
+                    addresses = await Dns.GetHostAddressesAsync(uri.Host, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (SocketException exception)
+                {
+                    throw new InvalidOperationException(
+                        $"The host '{uri.Host}' in the resource metadata URL could not be resolved: "
+                        + exception.Message);
+                }
+            }
+
+            // Every resolved address must be acceptable. Allowing the request when any one of them
+            // is public would let a name resolving to both a public and an internal address through.
+            foreach (var address in addresses)
+            {
+                if (IsPrivate(address))
+                {
+                    throw new InvalidOperationException(
+                        $"The resource metadata URL '{url}' resolves to {address}, which is a "
+                        + "loopback, private, or link-local address. Set "
+                        + nameof(KindeAgentClientOptions.AllowPrivateResourceMetadataHosts)
+                        + " if this resource genuinely runs on a private network.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Whether an address is one a resource should not be able to send the agent to.
+        /// </summary>
+        private static bool IsPrivate(IPAddress address)
+        {
+            if (IPAddress.IsLoopback(address) || address.Equals(IPAddress.Any)
+                || address.Equals(IPAddress.IPv6Any))
+            {
+                return true;
+            }
+
+            if (address.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                // Mapped IPv4 is checked as IPv4, or ::ffff:10.0.0.1 would slip past.
+                if (address.IsIPv4MappedToIPv6)
+                {
+                    return IsPrivate(address.MapToIPv4());
+                }
+
+                return address.IsIPv6LinkLocal
+                    || address.IsIPv6SiteLocal
+                    || address.IsIPv6Multicast
+                    // fc00::/7, unique local.
+                    || (address.GetAddressBytes()[0] & 0xFE) == 0xFC;
+            }
+
+            var octets = address.GetAddressBytes();
+
+            return octets[0] switch
+            {
+                10 => true,                                      // 10.0.0.0/8
+                127 => true,                                     // loopback
+                0 => true,                                       // 0.0.0.0/8
+                169 when octets[1] == 254 => true,               // link-local, incl. cloud metadata
+                172 when octets[1] >= 16 && octets[1] <= 31 => true, // 172.16.0.0/12
+                192 when octets[1] == 168 => true,               // 192.168.0.0/16
+                100 when octets[1] >= 64 && octets[1] <= 127 => true, // 100.64.0.0/10, CGNAT
+                >= 224 => true,                                  // multicast and reserved
+                _ => false
+            };
         }
 
         /// <summary>
@@ -500,17 +624,29 @@ namespace Kinde.Api.Agents.Client
                 // Two callers can refresh the same expired token at once. If Kinde rotates refresh
                 // tokens, the loser gets invalid_grant for a token the winner already replaced, so
                 // re-read before deleting rather than discarding the winner's fresh token.
-                var current = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
-                if (current != null
-                    && !string.Equals(current.RefreshToken, token.RefreshToken, StringComparison.Ordinal)
-                    && !current.IsExpired())
+                //
+                // Both steps run under the gate: splitting them lets a token stored in between be
+                // deleted by the removal below, which costs the user a fresh consent for a session
+                // that was perfectly good.
+                await _tokenGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+                try
                 {
-                    return current;
-                }
+                    var current = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+                    if (current != null
+                        && !string.Equals(current.RefreshToken, token.RefreshToken, StringComparison.Ordinal)
+                        && !current.IsExpired())
+                    {
+                        return current;
+                    }
 
-                // Otherwise a revoked or expired refresh token is a normal end of session.
-                await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
-                return null;
+                    // Otherwise a revoked or expired refresh token is a normal end of session.
+                    await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
+                    return null;
+                }
+                finally
+                {
+                    _tokenGate.Release();
+                }
             }
             // A 429 or 5xx, or a failure to reach Kinde at all, leaves the refresh token intact:
             // discarding it over a transient outage would cost the user another consent.
@@ -587,18 +723,24 @@ namespace Kinde.Api.Agents.Client
         /// <param name="cancellationToken">Cancels the revocation call.</param>
         public async Task SignOutAsync(bool revoke, CancellationToken cancellationToken = default)
         {
-            var token = revoke
-                ? await ReadTokenAsync(cancellationToken).ConfigureAwait(false)
-                : null;
+            KindeAgentToken? token;
 
-            // Taken before the removal and held across it, so a refresh that is already in flight
-            // cannot persist its result afterwards: RequestTokenAsync compares the generation it
-            // captured before its own HTTP call and abandons the write when it has moved. Without
-            // this, a refresh finishing just after sign-out writes a fresh token to the same key
-            // and GetCurrentTokenAsync reports an authenticated session again.
+            // The gate is taken before the token is read, not after. Reading first leaves a window
+            // in which a refresh completes and rotates the stored pair: sign-out would then remove
+            // the new token but revoke the old one, leaving the newer refresh token valid at Kinde
+            // with nothing holding a reference to it.
+            //
+            // Holding the gate across the removal also stops a refresh persisting afterwards:
+            // RequestTokenCoreAsync compares the generation it captured before its own HTTP call
+            // and abandons the write once it has moved.
             await _tokenGate.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
+                token = revoke
+                    ? await ReadTokenAsync(cancellationToken).ConfigureAwait(false)
+                    : null;
+
+                Volatile.Write(ref _signOutRequestedRevoke, revoke);
                 Interlocked.Increment(ref _signOutGeneration);
                 await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
             }
@@ -612,20 +754,54 @@ namespace Kinde.Api.Agents.Client
                 return;
             }
 
+            await RevokePairAsync(token, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Revokes both halves of a token, best-effort, as the client they were issued to.
+        /// </summary>
+        private async Task RevokePairAsync(KindeAgentToken token, CancellationToken cancellationToken)
+        {
+            var credentials = CredentialsFor(token);
+
             // The refresh token first: revoking it is what actually ends the session, since an
             // access token expires on its own but a refresh token outlives this process.
             if (!string.IsNullOrEmpty(token.RefreshToken))
             {
-                await TryRevokeAsync(token.RefreshToken!, "refresh_token", cancellationToken)
+                await TryRevokeAsync(
+                    token.RefreshToken!, "refresh_token", credentials, cancellationToken)
                     .ConfigureAwait(false);
             }
 
             if (!string.IsNullOrEmpty(token.AccessToken))
             {
-                await TryRevokeAsync(token.AccessToken, "access_token", cancellationToken)
+                await TryRevokeAsync(
+                    token.AccessToken, "access_token", credentials, cancellationToken)
                     .ConfigureAwait(false);
             }
         }
+
+        /// <summary>
+        /// The client credentials a token must be revoked with.
+        /// </summary>
+        /// <remarks>
+        /// A configured client id wins, because it is fixed for the life of the application. For a
+        /// dynamically registered client the pair recorded on the token is used: resolving afresh
+        /// could register a new client and revoke as one that never received the token.
+        /// </remarks>
+        private ClientCredentials? CredentialsFor(KindeAgentToken token)
+        {
+            if (!string.IsNullOrWhiteSpace(_options.ClientId))
+            {
+                return new ClientCredentials(_options.ClientId!, _options.ClientSecret);
+            }
+
+            return string.IsNullOrEmpty(token.IssuedToClientId)
+                ? null
+                : new ClientCredentials(token.IssuedToClientId!, token.IssuedToClientSecret);
+        }
+
+        private readonly record struct ClientCredentials(string ClientId, string? ClientSecret);
 
         /// <summary>
         /// Revokes a token at Kinde (RFC 7009).
@@ -642,7 +818,11 @@ namespace Kinde.Api.Agents.Client
         /// </param>
         /// <param name="cancellationToken">Cancels the call.</param>
         /// <exception cref="InvalidOperationException">
-        /// The authorization server advertises no revocation endpoint.
+        /// The authorization server advertises no revocation endpoint, or this client cannot
+        /// establish which credentials the token was issued to. The latter happens for a
+        /// dynamically registered client when the token was not issued by this SDK, or its record
+        /// has since been replaced: revoking as a different client would be refused by the server,
+        /// and registering a new one here would be worse still.
         /// </exception>
         /// <exception cref="KindeAgentTokenException">The server rejected the request.</exception>
         public async Task RevokeAsync(
@@ -655,6 +835,54 @@ namespace Kinde.Api.Agents.Client
                 throw new ArgumentException("A token is required.", nameof(token));
             }
 
+            var credentials = await ResolveRevocationCredentialsAsync(token, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (credentials is null)
+            {
+                throw new InvalidOperationException(
+                    "This token cannot be revoked: it was not issued by this client, or the "
+                    + "registration that issued it is no longer stored, so there are no credentials "
+                    + "to authenticate the revocation with.");
+            }
+
+            await RevokeWithCredentialsAsync(token, tokenTypeHint, credentials.Value, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Finds the credentials for a bare token string, without ever registering a new client.
+        /// </summary>
+        private async Task<ClientCredentials?> ResolveRevocationCredentialsAsync(
+            string token, CancellationToken cancellationToken)
+        {
+            if (!string.IsNullOrWhiteSpace(_options.ClientId))
+            {
+                return new ClientCredentials(_options.ClientId!, _options.ClientSecret);
+            }
+
+            // Dynamically registered: only the stored token knows which client received it.
+            var stored = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+            if (stored is null || string.IsNullOrEmpty(stored.IssuedToClientId))
+            {
+                return null;
+            }
+
+            var matches =
+                string.Equals(stored.AccessToken, token, StringComparison.Ordinal)
+                || string.Equals(stored.RefreshToken, token, StringComparison.Ordinal);
+
+            return matches
+                ? new ClientCredentials(stored.IssuedToClientId!, stored.IssuedToClientSecret)
+                : null;
+        }
+
+        private async Task RevokeWithCredentialsAsync(
+            string token,
+            string? tokenTypeHint,
+            ClientCredentials credentials,
+            CancellationToken cancellationToken)
+        {
             var discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(discovery.RevocationEndpoint))
             {
@@ -675,12 +903,13 @@ namespace Kinde.Api.Agents.Client
                 form["token_type_hint"] = tokenTypeHint!;
             }
 
-            form["client_id"] = await ResolveClientIdAsync(cancellationToken).ConfigureAwait(false);
+            // The pair the token was issued to, never a freshly resolved one: resolving here could
+            // trigger a dynamic registration and revoke as a client that never held this token.
+            form["client_id"] = credentials.ClientId;
 
-            var secret = await ResolveClientSecretAsync(cancellationToken).ConfigureAwait(false);
-            if (!string.IsNullOrEmpty(secret))
+            if (!string.IsNullOrEmpty(credentials.ClientSecret))
             {
-                form["client_secret"] = secret!;
+                form["client_secret"] = credentials.ClientSecret!;
             }
 
             using var request = new HttpRequestMessage(HttpMethod.Post, discovery.RevocationEndpoint)
@@ -703,11 +932,22 @@ namespace Kinde.Api.Agents.Client
         /// success, so the cases swallowed here are a missing endpoint or an unreachable server.
         /// </summary>
         private async Task TryRevokeAsync(
-            string token, string tokenTypeHint, CancellationToken cancellationToken)
+            string token,
+            string tokenTypeHint,
+            ClientCredentials? credentials,
+            CancellationToken cancellationToken)
         {
+            if (credentials is null)
+            {
+                // Nothing to authenticate the revocation with. Sign-out has already removed the
+                // local copy, which is the part the caller depends on.
+                return;
+            }
+
             try
             {
-                await RevokeAsync(token, tokenTypeHint, cancellationToken).ConfigureAwait(false);
+                await RevokeWithCredentialsAsync(
+                    token, tokenTypeHint, credentials.Value, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception exception) when (
                 exception is InvalidOperationException
@@ -807,6 +1047,13 @@ namespace Kinde.Api.Agents.Client
 
             token.ObtainedAt = requestedAt;
 
+            // Recorded so a later revocation can authenticate as the client that actually received
+            // this token, rather than whichever client resolves at revocation time.
+            token.IssuedToClientId = clientId;
+            token.IssuedToClientSecret = secret;
+
+            bool supersededByRevokingSignOut;
+
             // Under the gate, so the generation check and the write cannot be split by a sign-out.
             await _tokenGate.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -816,18 +1063,31 @@ namespace Kinde.Api.Agents.Client
                     // Signed out while this was in flight. The session was ended deliberately, so
                     // the token is handed back to the caller that asked for it but is not
                     // persisted: writing it would restore a session the user just ended.
-                    return new TokenRequestResult(token, Persisted: false);
+                    supersededByRevokingSignOut = Volatile.Read(ref _signOutRequestedRevoke);
                 }
+                else
+                {
+                    await _store.SetAsync(TokenKey, JsonSerializer.Serialize(token), cancellationToken)
+                        .ConfigureAwait(false);
 
-                await _store.SetAsync(TokenKey, JsonSerializer.Serialize(token), cancellationToken)
-                    .ConfigureAwait(false);
+                    return new TokenRequestResult(token, Persisted: true);
+                }
             }
             finally
             {
                 _tokenGate.Release();
             }
 
-            return new TokenRequestResult(token, Persisted: true);
+            // Outside the gate, so no HTTP call runs while it is held. Without this the pair that
+            // arrived during the race is never withdrawn: it is not stored, so nothing else knows
+            // it exists, yet it stays valid at Kinde until it expires. Skipped when the sign-out
+            // asked not to revoke, which must not contact Kinde at all.
+            if (supersededByRevokingSignOut)
+            {
+                await RevokePairAsync(token, cancellationToken).ConfigureAwait(false);
+            }
+
+            return new TokenRequestResult(token, Persisted: false);
         }
 
         /// <summary>
@@ -912,15 +1172,36 @@ namespace Kinde.Api.Agents.Client
         /// </summary>
         private const int MaxDocumentBytes = 1024 * 1024;
 
-        private async Task<T> GetJsonAsync<T>(string url, CancellationToken cancellationToken)
+        private async Task<T> GetJsonAsync<T>(
+            string url, CancellationToken cancellationToken, bool redactBodyOnFailure = false)
         {
-            using var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            // ResponseHeadersRead, not the default ResponseContentRead: the default buffers the
+            // whole body before returning, so the cap below would reject an oversized document only
+            // after it had already been held in memory, which is the thing the cap exists to stop.
+            using var response = await _httpClient
+                .GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false);
+
+            // Redirects are followed by the handler, so the body may have come from somewhere other
+            // than the URL that was checked. Re-check where the request actually ended up.
+            if (redactBodyOnFailure
+                && response.RequestMessage?.RequestUri is { } finalUri
+                && !string.Equals(finalUri.AbsoluteUri, url, StringComparison.Ordinal))
+            {
+                await RequireAllowedDestinationAsync(finalUri.AbsoluteUri, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
             var text = await ReadCappedAsync(response, url, cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
+                // The body is withheld for a fetch of attacker-named metadata: echoing it into an
+                // exception the application may surface turns a blind request into a readable one.
                 throw new InvalidOperationException(
-                    $"GET {url} failed ({(int)response.StatusCode}): {text}");
+                    redactBodyOnFailure
+                        ? $"GET {url} failed ({(int)response.StatusCode})."
+                        : $"GET {url} failed ({(int)response.StatusCode}): {text}");
             }
 
             return Deserialize<T>(text)

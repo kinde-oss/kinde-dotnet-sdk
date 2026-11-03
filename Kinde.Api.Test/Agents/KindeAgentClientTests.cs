@@ -837,13 +837,162 @@ namespace Kinde.Api.Test.Agents
             var handler = new RouteHandler();
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
+            // A configured client id, so the call gets as far as the endpoint check. A dynamically
+            // registered client with no stored token is refused earlier, for want of credentials.
+            var options = Options();
+            options.ClientId = "configured_client";
+
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                options, new HttpClient(handler), new InMemoryStore());
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.RevokeAsync("some-token", "access_token"));
 
             Assert.Contains("revocation_endpoint", exception.Message);
+        }
+
+        [Fact]
+        public async Task ATokenIssuedDuringSignOut_IsRevokedRatherThanLeftValid()
+        {
+            // The refresh succeeds at Kinde while the user signs out. The new pair is never stored,
+            // so nothing afterwards holds a reference to it - and without this it stays valid at
+            // Kinde until it expires, which is exactly the token nobody is watching.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+            handler.Map("/revoke", string.Empty);
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            handler.Map("/token",
+                @"{""access_token"":""at_refreshed"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+
+            var revoked = new List<string>();
+            var signedOut = false;
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/revoke")
+                {
+                    revoked.Add(handler.BodyFor("/revoke"));
+                }
+                else if (fragment == "/token" && !signedOut)
+                {
+                    signedOut = true;
+                    client.SignOutAsync().GetAwaiter().GetResult();
+                }
+            };
+
+            var result = await client.GetCurrentTokenAsync();
+
+            Assert.Null(result);
+
+            // The pair that arrived during the race is withdrawn, not merely discarded.
+            Assert.Contains(revoked, body => body.Contains("token=rt_2", StringComparison.Ordinal));
+            Assert.Contains(revoked, body => body.Contains("token=at_refreshed", StringComparison.Ordinal));
+        }
+
+        [Fact]
+        public async Task ATokenIssuedDuringANonRevokingSignOut_IsNotSentToKinde()
+        {
+            // SignOutAsync(revoke: false) must not contact Kinde at all, so the race above must not
+            // turn a deliberately local sign-out into a network call.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+            handler.Map("/revoke", string.Empty);
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            handler.Map("/token",
+                @"{""access_token"":""at_refreshed"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+
+            var signedOut = false;
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/token" && !signedOut)
+                {
+                    signedOut = true;
+                    client.SignOutAsync(revoke: false).GetAwaiter().GetResult();
+                }
+            };
+
+            Assert.Null(await client.GetCurrentTokenAsync());
+            Assert.Equal(0, handler.CountFor("/revoke"));
+        }
+
+        [Fact]
+        public async Task RevokeAsync_RefusesATokenItCannotAuthenticateFor()
+        {
+            // A dynamically registered client with nothing stored cannot know which client received
+            // this token. Registering a new one to revoke with would authenticate as a client that
+            // never held it, which RFC 7009 lets the server refuse - leaving the token live while
+            // reporting success.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.RevokeAsync("a-token-from-somewhere-else", "refresh_token"));
+
+            Assert.Contains("cannot be revoked", exception.Message);
+
+            // And no client was registered in the attempt.
+            Assert.Equal(0, handler.CountFor("/register"));
+            Assert.Equal(0, handler.CountFor("/revoke"));
+        }
+
+        [Fact]
+        public async Task SignOutAsync_RevokesAsTheClientTheTokenWasIssuedTo()
+        {
+            // The dynamic registration is dropped from the store after the token is issued, which
+            // is what happens when it is evicted or its secret lapses. Revocation must still name
+            // the original client rather than registering a replacement and revoking as that.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryWithRevocationJson);
+            handler.Map("/register", @"{""client_id"":""dyn_original"",""client_secret"":""s3cret""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":3600,""refresh_token"":""rt_1""}");
+            handler.Map("/revoke", string.Empty);
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            var registrationKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|registration";
+            await store.RemoveAsync(registrationKey);
+
+            var bodies = new List<string>();
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/revoke")
+                {
+                    bodies.Add(handler.BodyFor("/revoke"));
+                }
+            };
+
+            await client.SignOutAsync();
+
+            Assert.Equal(2, handler.CountFor("/revoke"));
+            Assert.All(bodies, body =>
+            {
+                Assert.Contains("client_id=dyn_original", body);
+                Assert.Contains("client_secret=s3cret", body);
+            });
         }
 
         [Fact]
@@ -870,6 +1019,22 @@ namespace Kinde.Api.Test.Agents
 
         // ===== Protected resource metadata discovery (RFC 9728) =====
 
+        /// <summary>
+        /// Options for the tests below that are about parsing and validating the document rather
+        /// than about where it was fetched from.
+        /// </summary>
+        /// <remarks>
+        /// The destination policy is switched off here so these tests do not perform a DNS lookup
+        /// for a host that does not exist. The policy itself is covered by the address tests at the
+        /// end of this region, which use literals and so resolve nothing.
+        /// </remarks>
+        private static KindeAgentClientOptions MetadataOptions()
+        {
+            var options = Options();
+            options.AllowPrivateResourceMetadataHosts = true;
+            return options;
+        }
+
         [Fact]
         public async Task GetProtectedResourceMetadataAsync_ReadsTheResourceDocument()
         {
@@ -883,7 +1048,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
 
             var metadata = await client.GetProtectedResourceMetadataAsync(
                 "https://api.example.com/.well-known/oauth-protected-resource");
@@ -903,7 +1068,7 @@ namespace Kinde.Api.Test.Agents
             }");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
 
             // Authorizing for one resource while calling another is how a token ends up with the
             // wrong audience, so the mismatch is refused rather than followed.
@@ -925,7 +1090,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
 
             // The resource names the servers it trusts, but following that list blindly would let a
             // hostile resource point the agent at a server of its choosing and harvest a code.
@@ -947,7 +1112,7 @@ namespace Kinde.Api.Test.Agents
             handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
 
             var discovery = await client.DiscoverFromResourceMetadataAsync(
                 "https://api.example.com/.well-known/oauth-protected-resource");
@@ -960,12 +1125,104 @@ namespace Kinde.Api.Test.Agents
         public async Task GetProtectedResourceMetadataAsync_RefusesAnInsecureMetadataUrl()
         {
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(new RouteHandler()), new InMemoryStore());
+                MetadataOptions(), new HttpClient(new RouteHandler()), new InMemoryStore());
 
             // The URL arrives from a challenge, so it is attacker-influenced until proven otherwise.
             await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetProtectedResourceMetadataAsync(
                     "http://api.example.com/.well-known/oauth-protected-resource"));
+        }
+
+        // ===== Where the metadata fetch is allowed to connect =====
+
+        [Theory]
+        [InlineData("https://127.0.0.1/.well-known/oauth-protected-resource")]       // loopback
+        [InlineData("https://169.254.169.254/.well-known/oauth-protected-resource")] // cloud metadata
+        [InlineData("https://10.0.0.5/.well-known/oauth-protected-resource")]        // private
+        [InlineData("https://192.168.1.10/.well-known/oauth-protected-resource")]    // private
+        [InlineData("https://172.16.0.9/.well-known/oauth-protected-resource")]      // private
+        [InlineData("https://100.64.0.1/.well-known/oauth-protected-resource")]      // CGNAT
+        [InlineData("https://[::1]/.well-known/oauth-protected-resource")]           // IPv6 loopback
+        [InlineData("https://[fd00::1]/.well-known/oauth-protected-resource")]       // IPv6 unique local
+        public async Task TheMetadataFetch_RefusesAnInternalDestination(string url)
+        {
+            // The URL comes from a resource server's own challenge, so without this a hostile
+            // resource can make the agent probe addresses only the agent can reach - a cloud
+            // instance's credentials endpoint being the obvious target.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{""resource"":""x""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(url));
+
+            Assert.Contains("loopback, private, or link-local", exception.Message);
+
+            // Refused before anything was sent, which is the point: a blind request still reaches
+            // the internal service.
+            Assert.Equal(0, handler.CountFor("/.well-known/oauth-protected-resource"));
+        }
+
+        [Fact]
+        public async Task TheMetadataFetch_AllowsAPublicDestination()
+        {
+            // A literal public address, so the check runs for real without a DNS lookup.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://api.example.com/mcp"",
+                ""authorization_servers"": [""https://example.kinde.com/oauth2/agents/abc123""]
+            }");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var metadata = await client.GetProtectedResourceMetadataAsync(
+                "https://93.184.216.34/.well-known/oauth-protected-resource");
+
+            Assert.Equal(ResourceUrl, metadata.Resource);
+        }
+
+        [Fact]
+        public async Task TheMetadataFetch_AllowsAnInternalDestinationWhenOptedIn()
+        {
+            // Some deployments genuinely run the MCP resource on a private network.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-protected-resource", @"{
+                ""resource"": ""https://api.example.com/mcp"",
+                ""authorization_servers"": [""https://example.kinde.com/oauth2/agents/abc123""]
+            }");
+
+            using var client = new KindeAgentClient(
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+
+            var metadata = await client.GetProtectedResourceMetadataAsync(
+                "https://127.0.0.1/.well-known/oauth-protected-resource");
+
+            Assert.Equal(ResourceUrl, metadata.Resource);
+        }
+
+        [Fact]
+        public async Task AFailedMetadataFetch_DoesNotEchoTheResponseBody()
+        {
+            // The body of a failed fetch of an attacker-named URL must not reach the exception:
+            // an application that surfaces it would turn a blind request into a readable one.
+            var handler = new RouteHandler();
+            handler.Map(
+                "/.well-known/oauth-protected-resource",
+                "SECRET-INTERNAL-PAYLOAD",
+                HttpStatusCode.InternalServerError);
+
+            using var client = new KindeAgentClient(
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => client.GetProtectedResourceMetadataAsync(
+                    "https://127.0.0.1/.well-known/oauth-protected-resource"));
+
+            Assert.DoesNotContain("SECRET-INTERNAL-PAYLOAD", exception.Message);
+            Assert.Contains("500", exception.Message);
         }
 
         // ===== Worst-case responses =====
@@ -982,7 +1239,7 @@ namespace Kinde.Api.Test.Agents
                 "{\"resource\":\"" + ResourceUrl + "\",\"padding\":\"" + new string('x', 2_000_000) + "\"}");
 
             using var client = new KindeAgentClient(
-                Options(), new HttpClient(handler), new InMemoryStore());
+                MetadataOptions(), new HttpClient(handler), new InMemoryStore());
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => client.GetProtectedResourceMetadataAsync(

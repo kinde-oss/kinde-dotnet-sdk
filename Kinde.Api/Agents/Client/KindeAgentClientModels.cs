@@ -133,6 +133,31 @@ namespace Kinde.Api.Agents.Client
         public DateTimeOffset ObtainedAt { get; set; } = DateTimeOffset.UtcNow;
 
         /// <summary>
+        /// The client this token was issued to. Set by the SDK, not by Kinde.
+        /// </summary>
+        /// <remarks>
+        /// Recorded so revocation can authenticate as the client that received the token. RFC 7009
+        /// section 2.1 lets a server refuse a revocation from a different client, and with dynamic
+        /// registration the client can change: if the stored registration is evicted or its secret
+        /// lapses, resolving credentials afresh registers a <em>new</em> client, and revoking as
+        /// that one would silently leave the original token valid.
+        /// </remarks>
+        [JsonPropertyName("issued_to_client_id")]
+        public string? IssuedToClientId { get; set; }
+
+        /// <summary>
+        /// The secret of the client this token was issued to, when it is confidential. Set by the
+        /// SDK, not by Kinde.
+        /// </summary>
+        /// <remarks>
+        /// Held alongside the token because <c>client_secret_post</c> requires the id and secret to
+        /// be sent as a pair. The store already holds the registration and its secret, so this adds
+        /// no class of exposure that was not already present.
+        /// </remarks>
+        [JsonPropertyName("issued_to_client_secret")]
+        public string? IssuedToClientSecret { get; set; }
+
+        /// <summary>
         /// Whether the token is at or near expiry. The default minute of leeway stops a request
         /// being sent with a token that expires while it is in flight.
         /// </summary>

@@ -108,8 +108,15 @@ namespace Kinde.Api.Agents
             }
             else
             {
-                // A previously good token that has just been rejected must not stay cached.
-                _entries.TryRemove(key, out _);
+                // A previously good token that has just been rejected must not stay cached, and the
+                // generation is bumped for the same reason Invalidate does it: an older success for
+                // this token may still be in flight, and without the bump it could insert after
+                // this removal and re-authenticate a token Kinde has just refused.
+                lock (_sync)
+                {
+                    Interlocked.Increment(ref _generation);
+                    _entries.TryRemove(key, out _);
+                }
             }
 
             Prune(now);

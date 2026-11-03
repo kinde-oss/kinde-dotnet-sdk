@@ -60,6 +60,23 @@ namespace Kinde.Api.Agents.Client
         /// </remarks>
         public string? SessionKey { get; set; }
 
+        /// <summary>
+        /// Allows protected resource metadata to be fetched from a private or loopback address.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Off by default. The metadata URL comes from a resource server's own challenge, so a
+        /// hostile or compromised resource can name any address the agent can reach. Left
+        /// unrestricted that is a server-side request forgery primitive: the agent is made to probe
+        /// internal services, and a non-success body is reported back in the error.
+        /// </para>
+        /// <para>
+        /// Turn it on only where the MCP resource genuinely runs on a private network, such as a
+        /// server reached over a VPN or a loopback address during development.
+        /// </para>
+        /// </remarks>
+        public bool AllowPrivateResourceMetadataHosts { get; set; }
+
         /// <summary>Scopes to request. "offline" is always included.</summary>
         public IList<string> Scopes { get; set; } = new List<string>();
 

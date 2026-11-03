@@ -115,10 +115,17 @@ namespace Kinde.Api.Agents
                     return;
 
                 case JsonElement { ValueKind: JsonValueKind.Object } element:
-                    var fromElement = ReadRoleProperty(element, "key") ?? ReadRoleProperty(element, "name");
-                    if (fromElement != null)
+                    // An empty key is not null, so a plain ?? would never reach the name and the
+                    // blank value would then be dropped by the filter in GetRoles, losing the role.
+                    var fromElement = ReadRoleProperty(element, "key");
+                    if (string.IsNullOrEmpty(fromElement))
                     {
-                        into.Add(fromElement);
+                        fromElement = ReadRoleProperty(element, "name");
+                    }
+
+                    if (!string.IsNullOrEmpty(fromElement))
+                    {
+                        into.Add(fromElement!);
                     }
 
                     return;
@@ -134,10 +141,15 @@ namespace Kinde.Api.Agents
 
                 // Introspection can hand back the objects already materialised as dictionaries.
                 case IReadOnlyDictionary<string, object> map:
-                    var fromMap = ToScalarString(
-                        map.TryGetValue("key", out var key) ? key
-                        : map.TryGetValue("name", out var name) ? name
-                        : null);
+                    // Falls back on an empty or absent key, not only an absent one: a role whose
+                    // key is present but blank would otherwise produce an empty string, which the
+                    // filter in GetRoles drops, losing the role entirely.
+                    var fromMap = map.TryGetValue("key", out var key) ? ToScalarString(key) : null;
+                    if (string.IsNullOrEmpty(fromMap) && map.TryGetValue("name", out var name))
+                    {
+                        fromMap = ToScalarString(name);
+                    }
+
                     if (!string.IsNullOrEmpty(fromMap))
                     {
                         into.Add(fromMap!);
