@@ -231,6 +231,113 @@ namespace Kinde.Api.Agents.Client
             return string.Empty;
         }
 
+        /// <inheritdoc />
+        /// <remarks>
+        /// The read, the comparison and the delete all happen under one hold of the key's gate, so
+        /// a refresh completing in another thread cannot have its result deleted by a cleanup that
+        /// decided to delete before that result existed.
+        /// </remarks>
+        public async Task<bool> RemoveIfAsync(
+            string key, string expectedValue, CancellationToken cancellationToken = default)
+        {
+            var path = PathFor(key);
+            var gate = LockFor(key);
+
+            await gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    return false;
+                }
+
+                var current = Unprotect(await ReadAllTextAsync(path, cancellationToken)
+                    .ConfigureAwait(false));
+
+                if (!string.Equals(current, expectedValue, StringComparison.Ordinal))
+                {
+                    return false;
+                }
+
+                File.Delete(path);
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                return false;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return false;
+            }
+            finally
+            {
+                gate.Release();
+            }
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Within a process the gate makes this atomic. Between processes the create is made
+        /// atomic by <see cref="FileMode.CreateNew"/>, which fails rather than truncating when the
+        /// file already exists, so two agents registering at once converge on one registration
+        /// instead of overwriting each other.
+        /// </remarks>
+        public async Task<string?> SetIfAbsentAsync(
+            string key, string value, CancellationToken cancellationToken = default)
+        {
+            var path = PathFor(key);
+            var gate = LockFor(key);
+
+            await gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                Directory.CreateDirectory(_directory);
+
+                try
+                {
+                    using (var stream = new FileStream(
+                        path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                    using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    {
+                        await writer.WriteAsync(Protect(value)).ConfigureAwait(false);
+                    }
+
+#if NET8_0_OR_GREATER
+                    if (!OperatingSystem.IsWindows())
+                    {
+                        File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                    }
+#endif
+                    return null;
+                }
+                catch (IOException) when (File.Exists(path))
+                {
+                    // Another agent got there first. Its value is the one both should use.
+                    var current = Unprotect(await ReadAllTextAsync(path, cancellationToken)
+                        .ConfigureAwait(false));
+
+                    return string.IsNullOrEmpty(current) ? null : current;
+                }
+            }
+            finally
+            {
+                gate.Release();
+            }
+        }
+
+        private static async Task<string> ReadAllTextAsync(
+            string path, CancellationToken cancellationToken)
+        {
+#if NET8_0_OR_GREATER
+            return await File.ReadAllTextAsync(path, Encoding.UTF8, cancellationToken)
+                .ConfigureAwait(false);
+#else
+            await Task.CompletedTask.ConfigureAwait(false);
+            return File.ReadAllText(path, Encoding.UTF8);
+#endif
+        }
+
         /// <summary>
         /// How many per-key gates are kept before they start being shared.
         /// </summary>
@@ -243,6 +350,14 @@ namespace Kinde.Api.Agents.Client
         /// </remarks>
         private const int MaxKeyLocks = 512;
 
+        /// <remarks>
+        /// Not disposed, and the store is deliberately not <see cref="IDisposable"/>. A
+        /// <see cref="SemaphoreSlim"/> only holds an unmanaged handle once
+        /// <c>AvailableWaitHandle</c> is read, which nothing here does, so there is nothing to
+        /// release. Making the store disposable would instead raise a question it currently avoids:
+        /// a client that was handed a store does not own it, and disposing one still in use would
+        /// fail every later read with ObjectDisposedException.
+        /// </remarks>
         private readonly SemaphoreSlim[] _sharedLocks = CreateSharedLocks();
 
         private static SemaphoreSlim[] CreateSharedLocks()

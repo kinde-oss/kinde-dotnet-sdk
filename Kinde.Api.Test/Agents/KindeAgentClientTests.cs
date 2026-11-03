@@ -1225,6 +1225,232 @@ namespace Kinde.Api.Test.Agents
             Assert.Contains("500", exception.Message);
         }
 
+        // ===== Request shapes the server actually sees =====
+
+        [Fact]
+        public async Task AnAuthorizationEndpointWithAQueryString_KeepsIt()
+        {
+            // OAuth requires the client to preserve a query the endpoint already carries. Appending
+            // with '?' would fold the first real parameter into the last existing value, so
+            // response_type would arrive as part of "tenant" and the request would be rejected.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", @"{
+                ""issuer"": ""https://example.kinde.com/oauth2/agents/abc123"",
+                ""authorization_endpoint"": ""https://example.kinde.com/authorize?tenant=example"",
+                ""token_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/token"",
+                ""registration_endpoint"": ""https://example.kinde.com/oauth2/agents/abc123/register"",
+                ""code_challenge_methods_supported"": [""S256""]
+            }");
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            Assert.Contains("?tenant=example&", request.AuthorizationUrl);
+            Assert.DoesNotContain("tenant=example?", request.AuthorizationUrl);
+
+            // And the parameters are still parseable as a query.
+            var query = HttpUtility.ParseQueryString(
+                new Uri(request.AuthorizationUrl).Query);
+            Assert.Equal("example", query["tenant"]);
+            Assert.Equal("code", query["response_type"]);
+            Assert.Equal("S256", query["code_challenge_method"]);
+        }
+
+        [Fact]
+        public async Task AnExplicitZeroExpiresIn_IsNotTreatedAsAnHour()
+        {
+            // "expires_in": 0 describes a token that is already expired. Substituting the default
+            // would have GetCurrentTokenAsync hand it out as usable for the next hour.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":0}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var token = await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            Assert.Equal(0, token.ExpiresIn);
+            Assert.True(token.IsExpired());
+        }
+
+        [Fact]
+        public async Task AnAbsentExpiresIn_StillGetsTheDefaultLifetime()
+        {
+            // The other half: an omitted field would otherwise leave the token permanently expired
+            // and send every single call through a refresh.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token", @"{""access_token"":""at_1""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var token = await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            Assert.Equal(3600, token.ExpiresIn);
+            Assert.False(token.IsExpired());
+        }
+
+        [Fact]
+        public async Task AQuotedExpiresIn_IsRead()
+        {
+            // RFC 6749 declares expires_in a number, but servers and proxies in the wild quote it.
+            // Without tolerance the whole token response fails to deserialize over a pair of quotes.
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":""3600""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), new InMemoryStore());
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var token = await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            Assert.Equal(3600, token.ExpiresIn);
+        }
+
+        [Fact]
+        public async Task ACorruptStoredToken_IsTreatedAsNoSession()
+        {
+            // A truncated file must not make every call throw until somebody finds and deletes it.
+            var store = new InMemoryStore();
+            var tokenKey = $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}||token";
+            await store.SetAsync(tokenKey, @"{""access_token"": ""at_1"", ""expires_in"":");
+
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+
+            Assert.Null(await client.GetCurrentTokenAsync());
+        }
+
+        [Fact]
+        public async Task ACorruptStoredRegistration_IsReplaced()
+        {
+            var store = new InMemoryStore();
+            var registrationKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|registration";
+            await store.SetAsync(registrationKey, "{not json at all");
+
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var query = HttpUtility.ParseQueryString(new Uri(request.AuthorizationUrl).Query);
+            Assert.Equal("dyn_fresh", query["client_id"]);
+        }
+
+        [Fact]
+        public async Task ANegativeClientSecretExpiry_ForcesReRegistration()
+        {
+            // Zero means "never expires" per RFC 7591. A negative value means neither that nor a
+            // real instant, and trusting it would send a dead secret on every token request.
+            var store = new InMemoryStore();
+            var registrationKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|registration";
+            await store.SetAsync(
+                registrationKey,
+                @"{""client_id"":""dyn_stale"",""client_secret"":""old"",""client_secret_expires_at"":-1}");
+
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_fresh""}");
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var query = HttpUtility.ParseQueryString(new Uri(request.AuthorizationUrl).Query);
+            Assert.Equal("dyn_fresh", query["client_id"]);
+        }
+
+        // ===== Clients sharing one store =====
+
+        [Fact]
+        public async Task ARejectedRefresh_DoesNotDeleteATokenAnotherClientSaved()
+        {
+            // Two clients share the store and refresh the same expired token. The loser is told
+            // invalid_grant for a token the winner already rotated; an unconditional delete would
+            // throw away the winner's good session and cost the user a fresh consent.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_123""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+            await client.ExchangeCodeAsync("the-code", request.State, request);
+
+            var tokenKey = $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|{ResourceUrl}||token";
+            var winner = @"{""access_token"":""at_winner"",""expires_in"":3600,
+                            ""refresh_token"":""rt_rotated"",""obtained_at"":""" +
+                         DateTimeOffset.UtcNow.ToString("o") + @"""}";
+
+            handler.Map("/token", @"{""error"":""invalid_grant""}", HttpStatusCode.BadRequest);
+            handler.OnRequest = fragment =>
+            {
+                if (fragment == "/token")
+                {
+                    store.SetAsync(tokenKey, winner).GetAwaiter().GetResult();
+                }
+            };
+
+            var result = await client.GetCurrentTokenAsync();
+
+            Assert.NotNull(result);
+            Assert.Equal("at_winner", result!.AccessToken);
+
+            var stillStored = await store.GetAsync(tokenKey);
+            Assert.NotNull(stillStored);
+            Assert.Contains("at_winner", stillStored);
+        }
+
+        [Fact]
+        public async Task ConcurrentRegistrations_ConvergeOnOneClient()
+        {
+            // Two agents registering at once receive different client ids. Whoever wrote last would
+            // otherwise replace the other's registration, and the loser would exchange its code
+            // with credentials belonging to a client that never made the request.
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_second""}");
+            handler.Map("/token", @"{""access_token"":""at_1"",""expires_in"":3600}");
+
+            var registrationKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|registration";
+
+            // The other agent's registration lands first.
+            await store.SetAsync(registrationKey, @"{""client_id"":""dyn_first""}");
+
+            using var client = new KindeAgentClient(Options(), new HttpClient(handler), store);
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            // The already-stored registration is adopted rather than replaced.
+            var query = HttpUtility.ParseQueryString(new Uri(request.AuthorizationUrl).Query);
+            Assert.Equal("dyn_first", query["client_id"]);
+
+            var stored = await store.GetAsync(registrationKey);
+            Assert.Contains("dyn_first", stored);
+            Assert.DoesNotContain("dyn_second", stored);
+        }
+
         // ===== Worst-case responses =====
 
         [Fact]

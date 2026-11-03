@@ -30,5 +30,23 @@ namespace Kinde.Api.Agents
         /// for a custom strategy such as a cache in front of introspection.
         /// </summary>
         public IKindeTokenVerifier? Verifier { get; set; }
+
+        /// <summary>
+        /// Overrides the <c>resource_metadata</c> URL advertised in challenges.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// By default the challenge advertises
+        /// <see cref="KindeAgentAuthOptions.ProtectedResourceMetadataUrl"/>, the RFC 9728
+        /// path-inserted URL that <c>MapKindeProtectedResourceMetadata</c> serves.
+        /// </para>
+        /// <para>
+        /// Set this when something else serves the document at a different path, which is the case
+        /// when the MCP SDK serves it from its own root well-known endpoint. Advertising a URL
+        /// nobody maps sends a client following the challenge to a 404, and the step-up it was
+        /// trying to perform fails.
+        /// </para>
+        /// </remarks>
+        public string? ProtectedResourceMetadataUrl { get; set; }
     }
 }

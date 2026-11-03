@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Kinde.Api.Agents;
@@ -155,14 +156,53 @@ namespace Kinde.Api.Agents
 
             var description = Options.IncludeErrorDetails ? context?.FailureReason : null;
             var challenge = KindeAuthChallenge.Build(
-                kind, AgentAuth.Options.ProtectedResourceMetadataUrl, description);
+                kind, MetadataUrl, description);
 
             if (challenge != null)
             {
-                Response.Headers.WWWAuthenticate = challenge;
+                AppendChallenge(challenge);
             }
 
             await Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// The <c>resource_metadata</c> URL to advertise: the override when an integration serves
+        /// the document somewhere other than the path this SDK maps, otherwise Kinde's own.
+        /// </summary>
+        private string MetadataUrl =>
+            string.IsNullOrWhiteSpace(Options.ProtectedResourceMetadataUrl)
+                ? AgentAuth.Options.ProtectedResourceMetadataUrl
+                : Options.ProtectedResourceMetadataUrl!;
+
+        /// <summary>
+        /// Adds a challenge to <c>WWW-Authenticate</c> without discarding one already there.
+        /// </summary>
+        /// <remarks>
+        /// A policy naming several Kinde schemes has ASP.NET Core challenge each of them onto the
+        /// same response. Assigning the header would keep only the last, so the resource the token
+        /// actually authenticated against could be the one dropped, leaving the client pointed at
+        /// metadata for a resource it has no token for. RFC 9110 allows the header to repeat.
+        /// </remarks>
+        private void AppendChallenge(string challenge)
+        {
+            var existing = Response.Headers.WWWAuthenticate;
+
+            if (existing.Count == 0)
+            {
+                Response.Headers.WWWAuthenticate = challenge;
+                return;
+            }
+
+            // Re-challenging the same scheme happens when two handlers share a configuration;
+            // repeating an identical value helps nobody.
+            if (existing.Contains(challenge, StringComparer.Ordinal))
+            {
+                return;
+            }
+
+            Response.Headers.WWWAuthenticate =
+                StringValues.Concat(existing, new StringValues(challenge));
         }
 
         protected override async Task HandleForbiddenAsync(AuthenticationProperties properties)
@@ -177,13 +217,13 @@ namespace Kinde.Api.Agents
             {
                 var challenge = KindeAuthChallenge.Build(
                     KindeAuthFailureKind.InsufficientScope,
-                    AgentAuth.Options.ProtectedResourceMetadataUrl,
+                    MetadataUrl,
                     description: null,
                     requiredScopes: missing);
 
                 if (challenge != null)
                 {
-                    Response.Headers.WWWAuthenticate = challenge;
+                    AppendChallenge(challenge);
                 }
             }
 

@@ -146,7 +146,18 @@ namespace Kinde.Mcp
                     .RequireAuthenticatedUser());
             });
 
-            var builder = services.AddAuthentication().AddKindeAgentAuth(configure);
+            // The MCP SDK serves the metadata from its own root well-known endpoint, not from the
+            // RFC 9728 path-inserted URL this SDK maps. Forbids are forwarded to Kinde's handler,
+            // so without this the insufficient_scope challenge would advertise
+            // /.well-known/oauth-protected-resource/mcp while only the root path is mapped, and a
+            // client following it during step-up would get a 404.
+            var metadataUrl = McpResourceMetadataUrl(resolved.Kinde);
+
+            var builder = services.AddAuthentication().AddKindeAgentAuth(options =>
+            {
+                configure(options);
+                options.ProtectedResourceMetadataUrl = metadataUrl;
+            });
 
             // The MCP scheme answers the challenge, because an MCP client expects the metadata
             // document and the 401 to come from the MCP server's own well-known path. Kinde's
@@ -173,6 +184,17 @@ namespace Kinde.Mcp
             });
 
             return builder;
+        }
+
+        /// <summary>
+        /// Where the MCP SDK serves the protected resource metadata: the resource's own origin
+        /// plus the root well-known path, with no path segment appended.
+        /// </summary>
+        private static string McpResourceMetadataUrl(KindeAgentAuthOptions options)
+        {
+            return Uri.TryCreate(options.ResourceUrl, UriKind.Absolute, out var resource)
+                ? $"{resource.GetLeftPart(UriPartial.Authority)}/.well-known/oauth-protected-resource"
+                : options.ProtectedResourceMetadataUrl;
         }
 
         /// <summary>

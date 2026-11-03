@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,12 @@ namespace Kinde.Api.Agents.Client
     {
         private static readonly JsonSerializerOptions Json = new()
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+
+            // RFC 6749 declares expires_in a number, but servers and proxies in the wild quote it,
+            // and client_secret_expires_at gets the same treatment. Without this a quoted value is
+            // a hard deserialization failure of the whole token response rather than a number.
+            NumberHandling = JsonNumberHandling.AllowReadingFromString
         };
 
         private readonly KindeAgentClientOptions _options;
@@ -402,15 +408,26 @@ namespace Kinde.Api.Agents.Client
             var stored = await _store.GetAsync(key, cancellationToken).ConfigureAwait(false);
             if (stored != null)
             {
-                var existing = Deserialize<KindeAgentRegistration>(stored);
+                KindeAgentRegistration? existing;
+                try
+                {
+                    existing = Deserialize<KindeAgentRegistration>(stored);
+                }
+                catch (InvalidOperationException)
+                {
+                    // A corrupted record is treated as no registration, so the client registers
+                    // again rather than throwing on every call until the file is deleted by hand.
+                    existing = null;
+                }
+
                 if (existing != null && !string.IsNullOrEmpty(existing.ClientId)
                     && !IsSecretExpired(existing))
                 {
                     return existing;
                 }
 
-                // Expired secret: registering again is the only way back, and reusing it would
-                // make every token request fail with invalid_client.
+                // An expired secret or an unreadable record: registering again is the only way
+                // back, and reusing either would make every token request fail with invalid_client.
                 await _store.RemoveAsync(key, cancellationToken).ConfigureAwait(false);
             }
 
@@ -441,9 +458,11 @@ namespace Kinde.Api.Agents.Client
                     JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
             };
 
-            using var response = await _httpClient.SendAsync(request, cancellationToken)
+            using var response = await _httpClient
+                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
-            var text = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var text = await ReadCappedAsync(response, request.RequestUri!.ToString(), cancellationToken)
+                .ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -461,8 +480,25 @@ namespace Kinde.Api.Agents.Client
                     "Dynamic client registration returned no client_id.");
             }
 
-            await _store.SetAsync(key, text, cancellationToken).ConfigureAwait(false);
-            return registration;
+            // Written only if the key is still free. The gate serialises registrations inside this
+            // process, but separate instances and separate CLI processes share the store and this
+            // key: whoever wrote last would otherwise replace the other's registration, and the
+            // loser would then exchange its authorization code with credentials belonging to a
+            // client that never made the request.
+            var winner = await _store.SetIfAbsentAsync(key, text, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (winner == null)
+            {
+                return registration;
+            }
+
+            // Somebody else registered first. Adopting their client is what makes the two converge
+            // rather than take turns clobbering each other.
+            var adopted = Deserialize<KindeAgentRegistration>(winner);
+            return adopted != null && !string.IsNullOrEmpty(adopted.ClientId)
+                ? adopted
+                : registration;
         }
 
         /// <summary>
@@ -502,7 +538,13 @@ namespace Kinde.Api.Agents.Client
 
             return new KindeAgentAuthorizationRequest
             {
-                AuthorizationUrl = $"{discovery.AuthorizationEndpoint}?{query}",
+                // '&' when the endpoint already carries a query, which OAuth requires the client to
+                // keep. An endpoint such as /authorize?tenant=example would otherwise yield
+                // "tenant=example?response_type=code", folding the first real parameter into the
+                // tenant value so the request is rejected.
+                AuthorizationUrl = discovery.AuthorizationEndpoint.Contains('?', StringComparison.Ordinal)
+                    ? $"{discovery.AuthorizationEndpoint}&{query}"
+                    : $"{discovery.AuthorizationEndpoint}?{query}",
                 State = state,
                 CodeVerifier = verifier,
                 RedirectUri = _options.RedirectUri
@@ -592,7 +634,9 @@ namespace Kinde.Api.Agents.Client
         public async Task<KindeAgentToken?> GetCurrentTokenAsync(
             CancellationToken cancellationToken = default)
         {
-            var token = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+            // The raw text is kept so the cleanup below can remove only this record, and not one a
+            // concurrent refresh stored in the meantime.
+            var (token, raw) = await ReadTokenWithRawAsync(cancellationToken).ConfigureAwait(false);
             if (token == null)
             {
                 return null;
@@ -640,7 +684,21 @@ namespace Kinde.Api.Agents.Client
                     }
 
                     // Otherwise a revoked or expired refresh token is a normal end of session.
-                    await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
+                    //
+                    // Conditional, so only the record this call actually read is removed. Clients
+                    // in other processes share the store and the key, and an unconditional delete
+                    // would discard a token one of them saved between the read above and this
+                    // line - ending a session that had just been renewed successfully.
+                    if (raw != null)
+                    {
+                        await _store.RemoveIfAsync(TokenKey, raw, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await _store.RemoveAsync(TokenKey, cancellationToken).ConfigureAwait(false);
+                    }
+
                     return null;
                 }
                 finally
@@ -655,14 +713,43 @@ namespace Kinde.Api.Agents.Client
         /// <summary>Reads the stored token, or null when there is none worth using.</summary>
         private async Task<KindeAgentToken?> ReadTokenAsync(CancellationToken cancellationToken)
         {
+            var (token, _) = await ReadTokenWithRawAsync(cancellationToken).ConfigureAwait(false);
+            return token;
+        }
+
+        /// <summary>
+        /// Reads the stored token along with the exact text it was stored as.
+        /// </summary>
+        /// <remarks>
+        /// The raw text is what a conditional removal compares against, so a cleanup only deletes
+        /// the record it actually read rather than whatever happens to be there by the time it runs.
+        /// </remarks>
+        private async Task<(KindeAgentToken? Token, string? Raw)> ReadTokenWithRawAsync(
+            CancellationToken cancellationToken)
+        {
             var stored = await _store.GetAsync(TokenKey, cancellationToken).ConfigureAwait(false);
             if (stored == null)
             {
-                return null;
+                return (null, null);
             }
 
-            var token = Deserialize<KindeAgentToken>(stored);
-            return token == null || string.IsNullOrEmpty(token.AccessToken) ? null : token;
+            KindeAgentToken? token;
+            try
+            {
+                token = Deserialize<KindeAgentToken>(stored);
+            }
+            catch (InvalidOperationException)
+            {
+                // A truncated or corrupted record is treated as no record at all. Letting the
+                // failure escape would make every call throw until somebody found and deleted the
+                // file by hand; reporting it as absent sends the user through authorization once
+                // and the bad value is overwritten.
+                return (null, stored);
+            }
+
+            return token == null || string.IsNullOrEmpty(token.AccessToken)
+                ? (null, stored)
+                : (token, stored);
         }
 
         /// <summary>Exchanges a refresh token for a new access token and stores it.</summary>
@@ -917,12 +1004,16 @@ namespace Kinde.Api.Agents.Client
                 Content = new FormUrlEncodedContent(form)
             };
 
-            using var response = await _httpClient.SendAsync(request, cancellationToken)
+            using var response = await _httpClient
+                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                var text = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var text = await ReadCappedAsync(
+                    response, request.RequestUri!.ToString(), cancellationToken)
+                    .ConfigureAwait(false);
+
                 throw new KindeAgentTokenException(response.StatusCode, text);
             }
         }
@@ -1000,9 +1091,11 @@ namespace Kinde.Api.Agents.Client
             // stamping it after the response would push expiry past Kinde's own clock.
             var requestedAt = DateTimeOffset.UtcNow;
 
-            using var response = await _httpClient.SendAsync(request, cancellationToken)
+            using var response = await _httpClient
+                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
-            var text = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var text = await ReadCappedAsync(response, request.RequestUri!.ToString(), cancellationToken)
+                .ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -1040,7 +1133,12 @@ namespace Kinde.Api.Agents.Client
 
             // A response without expires_in would otherwise leave ExpiresIn at 0, making the token
             // permanently expired and sending every call through a refresh.
-            if (token.ExpiresIn <= 0)
+            //
+            // Only when the field is absent, not whenever it is non-positive: an explicit
+            // "expires_in": 0 describes a token that is already expired, and substituting an hour
+            // would have GetCurrentTokenAsync hand it out as usable for that hour instead of
+            // refreshing. Deserialize reports which fields were actually present.
+            if (token.ExpiresIn <= 0 && !HasExplicitExpiresIn(text))
             {
                 token.ExpiresIn = (int)DefaultTokenLifetime.TotalSeconds;
             }
@@ -1091,6 +1189,27 @@ namespace Kinde.Api.Agents.Client
         }
 
         /// <summary>
+        /// Whether the token response actually carried an <c>expires_in</c> field, as opposed to
+        /// omitting it and leaving the deserialized value at zero.
+        /// </summary>
+        private static bool HasExplicitExpiresIn(string responseBody)
+        {
+            try
+            {
+                using var document = JsonDocument.Parse(responseBody);
+                return document.RootElement.ValueKind == JsonValueKind.Object
+                       && document.RootElement.TryGetProperty("expires_in", out var value)
+                       && value.ValueKind != JsonValueKind.Null;
+            }
+            catch (JsonException)
+            {
+                // Unparseable here means it was already deserialized by a more forgiving path;
+                // treat the field as absent and apply the default.
+                return false;
+            }
+        }
+
+        /// <summary>
         /// A token and whether it reached the store. Not persisted means a sign-out overtook the
         /// request.
         /// </summary>
@@ -1129,10 +1248,32 @@ namespace Kinde.Api.Agents.Client
         /// <summary>
         /// Whether a registration's secret has lapsed. Zero means it never expires, per RFC 7591.
         /// </summary>
-        private static bool IsSecretExpired(KindeAgentRegistration registration) =>
-            registration.ClientSecretExpiresAt > 0
-            && DateTimeOffset.FromUnixTimeSeconds(registration.ClientSecretExpiresAt)
-               <= DateTimeOffset.UtcNow;
+        private static bool IsSecretExpired(KindeAgentRegistration registration)
+        {
+            // Exactly zero means it never expires, per RFC 7591. A negative value means neither
+            // that nor a sensible instant, so it is treated as expired: registering again costs a
+            // round trip, whereas trusting a nonsensical value means every token request fails with
+            // invalid_client and nothing explains why.
+            if (registration.ClientSecretExpiresAt == 0)
+            {
+                return false;
+            }
+
+            if (registration.ClientSecretExpiresAt < 0)
+            {
+                return true;
+            }
+
+            // Guarded, because FromUnixTimeSeconds throws outside its supported range rather than
+            // saturating, and a server is free to send a number this large.
+            if (registration.ClientSecretExpiresAt > DateTimeOffset.MaxValue.ToUnixTimeSeconds())
+            {
+                return false;
+            }
+
+            return DateTimeOffset.FromUnixTimeSeconds(registration.ClientSecretExpiresAt)
+                   <= DateTimeOffset.UtcNow;
+        }
 
         // The redirect URI is part of the key: a registration is tied to the URI it declared, so
         // reusing one after the URI changes produces a redirect_uri mismatch at authorization.

@@ -64,6 +64,24 @@ namespace Kinde.Api.Agents
     /// <summary>Evaluates the Kinde scope and permission requirements.</summary>
     public class KindeRequirementHandler : IAuthorizationHandler
     {
+        private readonly KindeAgentAuthSchemes? _schemes;
+
+        /// <summary>
+        /// Creates the handler with the registered Kinde schemes injected.
+        /// </summary>
+        /// <remarks>
+        /// Injected rather than read off <c>AuthorizationHandlerContext.Resource</c>. That resource
+        /// is only an <c>HttpContext</c> for endpoint authorization: a programmatic
+        /// <c>IAuthorizationService.AuthorizeAsync</c> call passes null or the application's own
+        /// object, and the lookup would then fall back to accepting the default scheme name alone.
+        /// A principal authenticated by a custom Kinde scheme would be refused despite carrying
+        /// every required claim.
+        /// </remarks>
+        public KindeRequirementHandler(KindeAgentAuthSchemes? schemes = null)
+        {
+            _schemes = schemes;
+        }
+
         public Task HandleAsync(AuthorizationHandlerContext context)
         {
             foreach (var requirement in context.PendingRequirements.ToList())
@@ -122,7 +140,7 @@ namespace Kinde.Api.Agents
             http.Items[MissingScopesItemKey] = missing;
         }
 
-        private static bool Satisfied(
+        private bool Satisfied(
             AuthorizationHandlerContext context,
             string claimType,
             IReadOnlyList<string> required,
@@ -140,8 +158,13 @@ namespace Kinde.Api.Agents
             // Only identities a Kinde agent scheme created. Kinde user tokens carry a permissions
             // claim too, so searching every identity would let a browser cookie session satisfy
             // an agent policy on an app that runs both.
-            var schemes = (context.Resource as HttpContext)?.RequestServices
-                .GetService<KindeAgentAuthSchemes>()?.Names;
+            //
+            // The injected registry first, so this works the same for a programmatic
+            // AuthorizeAsync call, where Resource is not an HttpContext. The request services are
+            // only a fallback for a handler constructed outside DI.
+            var schemes = _schemes?.Names
+                ?? (context.Resource as HttpContext)?.RequestServices
+                    .GetService<KindeAgentAuthSchemes>()?.Names;
 
             var identities = context.User.Identities.Where(identity =>
                 identity.IsAuthenticated

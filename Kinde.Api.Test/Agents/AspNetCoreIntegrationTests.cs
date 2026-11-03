@@ -131,6 +131,56 @@ namespace Kinde.Api.Test.Agents
                 claims: new Dictionary<string, object>(),
                 roles: roles);
 
+        // ===== Programmatic authorization =====
+
+        [Fact]
+        public async Task AProgrammaticAuthorizeCall_AcceptsACustomKindeScheme()
+        {
+            // IAuthorizationService.AuthorizeAsync passes null, or the application's own object, as
+            // the resource. Reading the registered schemes off an HttpContext resource therefore
+            // found nothing and fell back to accepting only the default scheme name, refusing a
+            // principal authenticated by a custom Kinde scheme that carried every required claim.
+            using var host = CreateHost(new StubVerifier(
+                Authenticated(scopes: new[] { "offline", "read:things" })));
+            await host.StartAsync();
+
+            var authorization = host.Services
+                .GetRequiredService<Microsoft.AspNetCore.Authorization.IAuthorizationService>();
+
+            // An identity from the registered scheme, built outside the request pipeline.
+            var identity = new System.Security.Claims.ClaimsIdentity(
+                authenticationType: KindeAgentAuthenticationOptions.DefaultScheme,
+                nameType: KindeClaimTypes.Subject,
+                roleType: KindeClaimTypes.Role);
+            identity.AddClaim(new System.Security.Claims.Claim(KindeClaimTypes.Scope, "read:things"));
+            var principal = new System.Security.Claims.ClaimsPrincipal(identity);
+
+            // No resource at all, which is the case this used to get wrong.
+            var result = await authorization.AuthorizeAsync(principal, resource: null, "read-scope");
+
+            Assert.True(result.Succeeded);
+        }
+
+        [Fact]
+        public async Task AProgrammaticAuthorizeCall_StillRefusesAForeignScheme()
+        {
+            // The relaxation must not become "any authenticated identity will do": a cookie session
+            // on an application that runs both must not satisfy an agent policy.
+            using var host = CreateHost(new StubVerifier(Authenticated()));
+            await host.StartAsync();
+
+            var authorization = host.Services
+                .GetRequiredService<Microsoft.AspNetCore.Authorization.IAuthorizationService>();
+
+            var identity = new System.Security.Claims.ClaimsIdentity(authenticationType: "Cookies");
+            identity.AddClaim(new System.Security.Claims.Claim(KindeClaimTypes.Scope, "read:things"));
+            var principal = new System.Security.Claims.ClaimsPrincipal(identity);
+
+            var result = await authorization.AuthorizeAsync(principal, resource: null, "read-scope");
+
+            Assert.False(result.Succeeded);
+        }
+
         // ===== Roles and permissions are distinct grants =====
 
         [Fact]
