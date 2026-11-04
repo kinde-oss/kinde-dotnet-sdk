@@ -54,9 +54,13 @@ All model translation is handled by the SDK's own mapper in `Kinde.Api/Mapping/`
   whose wire names the generators spell differently.
 - `KindeValueConverter.cs` - Scalar conversion: strings, primitives, enums and dates.
 
-When the destination is a Kiota model, null source values are skipped rather than assigned.
-Assigning null marks the property dirty in Kiota's backing store, which serializes an explicit
-`"property": null` that some Kinde endpoints reject.
+When the destination is a Kiota model, null source values are skipped rather than assigned. Kiota
+initialises some properties with the schema's default, and assigning null erases it: the property
+is then dropped from the payload rather than carrying the default the caller relied on. For
+example, leaving `ReplaceMFARequest.IsRecoveryCodesEnabled` unset should send
+`"is_recovery_codes_enabled": true`; assigning null sends nothing at all.
+
+Assigning null to a property with no default is harmless, because Kiota omits it either way.
 
 > The SDK previously used AutoMapper here. It no longer takes that dependency, and
 > `KindeMapperConfiguration.Mapper` returns `IKindeMapper` rather than AutoMapper's `IMapper`. The

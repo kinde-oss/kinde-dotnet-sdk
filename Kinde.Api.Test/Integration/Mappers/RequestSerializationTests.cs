@@ -19,15 +19,18 @@ namespace Kinde.Api.Test.Integration.Mappers
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This is the request direction, and it is the one that can break a live endpoint. Assigning
-    /// null to a Kiota property marks it dirty in the backing store, so Kiota writes
-    /// <c>"property": null</c> into the payload - and several Kinde endpoints reject that where
-    /// they would happily accept the property being omitted.
+    /// This is the request direction, and it is the one that can break a live endpoint: the payload
+    /// must carry what the caller set and nothing they did not.
     /// </para>
     /// <para>
-    /// Inspecting the mapped object alone cannot catch this: an unset property and one explicitly
-    /// set to null both read back as null. Only the serialized payload tells them apart, which is
-    /// why these tests go all the way to JSON.
+    /// Inspecting the mapped object alone cannot catch a defect here, because an unset property and
+    /// one explicitly set to null both read back as null. Only the serialized payload tells them
+    /// apart, which is why these tests go all the way to JSON.
+    /// </para>
+    /// <para>
+    /// Kiota omits a null property rather than writing <c>"property": null</c>, so these assertions
+    /// are a backstop. The damage a stray null actually does is to a property carrying a schema
+    /// default, which <c>ModelMappingTests</c> covers.
     /// </para>
     /// </remarks>
     public class RequestSerializationTests

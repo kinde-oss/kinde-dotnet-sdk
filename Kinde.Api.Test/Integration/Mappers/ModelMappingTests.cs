@@ -1036,9 +1036,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             _output.WriteLine("Wire body: " + json);
 
-            // The caller left the flag unset, so the Kiota model keeps the schema default
-            // (true) rather than having it overwritten with an explicit null. Sending
-            // "is_recovery_codes_enabled": null would be rejected by the API.
+            // The caller left the flag unset, so the Kiota model keeps the schema default (true).
+            // Assigning null would not send "...": null - it would erase the property, and the
+            // request would carry no value where the caller expected true.
             Assert.DoesNotContain("\"is_recovery_codes_enabled\":null", json);
             Assert.Contains("\"is_recovery_codes_enabled\":true", json);
         }
@@ -1720,8 +1720,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         #region Global null-skip condition -- full IBackedModel coverage
 
         // The mapper skips *every* null source value when mapping into an IBackedModel (Kiota)
-        // destination, because assigning null there marks the property dirty in the backing store
-        // and serializes an explicit "property": null that some Kinde endpoints reject. The two
+        // destination, because assigning null erases a property that carries a schema default and
+        // drops it from the payload instead of sending that default. The two
         // hand-picked endpoint tests above (ReplaceMFARequest, UpdateOrganizationUsersRequest)
         // prove the rule does what it is meant to for those specific properties, but they say
         // nothing about the other ~100 pairs the same rule applies to. This walks every

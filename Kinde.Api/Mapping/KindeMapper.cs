@@ -36,6 +36,16 @@ namespace Kinde.Api.Mapping
             return mapped == null ? default : (TDestination)mapped;
         }
 
+        /// <summary>
+        /// How deep the mapper will recurse. The generated models nest a handful of levels; this
+        /// only bounds a graph that refers back to itself, which would otherwise overflow the
+        /// stack and take the process with it.
+        /// </summary>
+        private const int MaxDepth = 64;
+
+        [ThreadStatic]
+        private static int _depth;
+
         /// <inheritdoc />
         public object Map(object source, Type destinationType)
         {
@@ -49,6 +59,26 @@ namespace Kinde.Api.Mapping
                 return null;
             }
 
+            if (_depth >= MaxDepth)
+            {
+                throw new KindeMappingException(
+                    $"Mapping to '{destinationType.FullName}' exceeded {MaxDepth} levels. The "
+                    + "source graph most likely refers back to itself.");
+            }
+
+            _depth++;
+            try
+            {
+                return MapCore(source, destinationType);
+            }
+            finally
+            {
+                _depth--;
+            }
+        }
+
+        private object MapCore(object source, Type destinationType)
+        {
             var sourceType = source.GetType();
 
             if (destinationType == typeof(object))
@@ -246,8 +276,9 @@ namespace Kinde.Api.Mapping
             private readonly PropertyBinding[] _bindings;
 
             /// <summary>
-            /// True for a Kiota destination. Assigning null there marks the property dirty and
-            /// serializes an explicit "property": null, which some Kinde endpoints reject.
+            /// True for a Kiota destination, where assigning null erases a property that carries a
+            /// schema default, dropping it from the payload instead of sending the default the
+            /// caller relied on.
             /// </summary>
             private readonly bool _skipNulls;
 
