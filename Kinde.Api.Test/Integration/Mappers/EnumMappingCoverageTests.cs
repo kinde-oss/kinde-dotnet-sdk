@@ -10,22 +10,9 @@ using Xunit.Abstractions;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Guards the one way the mapper can silently produce a wrong value rather than no value.
+    /// Guards against a non-nullable enum silently keeping default(TEnum) when a member has no counterpart,
+    /// which downstream is indistinguishable from a value the API sent. Both enums are generated, so a regeneration can introduce this.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// When an enum member has no counterpart on the other side, the mapper leaves the destination
-    /// property alone. On a nullable destination that reads as "unset", which is correct and
-    /// honest. On a <em>non-nullable</em> destination there is no such thing as unset: the property
-    /// keeps <c>default(TEnum)</c>, which is a real member - or worse, an undefined value when the
-    /// enum does not start at zero. Nothing downstream can tell that apart from a value the API
-    /// actually sent.
-    /// </para>
-    /// <para>
-    /// Both sides are generated, so a future regeneration can introduce exactly this without anyone
-    /// noticing. This test fails the build instead.
-    /// </para>
-    /// </remarks>
     public class EnumMappingCoverageTests
     {
         private readonly ITestOutputHelper _output;

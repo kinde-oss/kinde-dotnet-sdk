@@ -14,25 +14,9 @@ using Xunit.Abstractions;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Serializes mapped request bodies the way Kiota sends them, and asserts that a property the
-    /// caller never set is absent from the JSON rather than present as an explicit null.
+    /// Serializes mapped request bodies as Kiota sends them and asserts an unset property is absent from the JSON, not an explicit null.
+    /// Kiota already omits nulls, so this is a backstop; the damage a stray null does to schema defaults is covered in ModelMappingTests.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This is the request direction, and it is the one that can break a live endpoint: the payload
-    /// must carry what the caller set and nothing they did not.
-    /// </para>
-    /// <para>
-    /// Inspecting the mapped object alone cannot catch a defect here, because an unset property and
-    /// one explicitly set to null both read back as null. Only the serialized payload tells them
-    /// apart, which is why these tests go all the way to JSON.
-    /// </para>
-    /// <para>
-    /// Kiota omits a null property rather than writing <c>"property": null</c>, so these assertions
-    /// are a backstop. The damage a stray null actually does is to a property carrying a schema
-    /// default, which <c>ModelMappingTests</c> covers.
-    /// </para>
-    /// </remarks>
     public class RequestSerializationTests
     {
         private readonly ITestOutputHelper _output;

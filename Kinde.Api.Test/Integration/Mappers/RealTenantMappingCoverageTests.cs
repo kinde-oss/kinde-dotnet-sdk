@@ -18,24 +18,9 @@ using KiotaModels = Kinde.Api.Kiota.Management.Models;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Maps real Kinde API responses and reports, field by field, what survived the mapping.
+    /// Maps real Kinde responses and fails on any field the API populated but the mapper dropped (null on both sides is only reported).
+    /// Runs only with TestMode=Real in appsettings.json or KINDE_TEST_MODE=Real; skipped otherwise.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// The point of these tests is the one thing a mock cannot show: a field the live API actually
-    /// populates but the mapper silently drops. Both sides come from the <em>same</em> Kiota
-    /// response object, so any difference is the mapper and nothing else - not a second HTTP call,
-    /// not a different payload.
-    /// </para>
-    /// <para>
-    /// A dropped field is a hard failure. A field that is null on both sides is reported but not
-    /// failed: the tenant simply may not have that data.
-    /// </para>
-    /// <para>
-    /// These only run with TestMode=Real in Kinde.Api.Test/appsettings.json (or
-    /// KINDE_TEST_MODE=Real). They skip otherwise, so CI is unaffected.
-    /// </para>
-    /// </remarks>
     public class RealTenantMappingCoverageTests : BaseIntegrationTest
     {
         private readonly ITestOutputHelper _output;

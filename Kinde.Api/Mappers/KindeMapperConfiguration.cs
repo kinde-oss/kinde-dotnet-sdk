@@ -8,12 +8,6 @@ namespace Kinde.Api.Mappers
     /// Provides the mapper the SDK uses to translate between the OpenAPI models and the Kiota
     /// models.
     /// </summary>
-    /// <remarks>
-    /// This previously exposed an AutoMapper <c>IMapper</c> built from two
-    /// <c>AutoMapper.Profile</c> classes. The SDK no longer depends on AutoMapper, so the property
-    /// now returns <see cref="IKindeMapper"/>; its <c>Map&lt;TDestination&gt;(object)</c> method
-    /// has the same signature the SDK used before, so call sites are unchanged.
-    /// </remarks>
     public static class KindeMapperConfiguration
     {
         private static readonly object SyncRoot = new object();

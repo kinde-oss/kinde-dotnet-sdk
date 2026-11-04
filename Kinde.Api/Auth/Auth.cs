@@ -8,7 +8,6 @@ namespace Kinde.Api.Auth
 {
     /// <summary>
     /// Main authentication client that provides access to all authentication-related functionality.
-    /// This follows the same pattern as the Java SDK's main Auth class.
     /// </summary>
     public class Auth : BaseAuth
     {
@@ -25,7 +24,6 @@ namespace Kinde.Api.Auth
             _client = client ?? throw new ArgumentNullException(nameof(client));
             if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
             
-            // Only create the accounts client if ForceApi is enabled
             _accountsClient = forceApi ? CreateAccountsClient(httpClient) : null;
             
             _claims = new Claims(client, forceApi, logger);
@@ -60,23 +58,19 @@ namespace Kinde.Api.Auth
         /// <returns>IKindeAccountsClient instance</returns>
         private IKindeAccountsClient CreateAccountsClient(HttpClient httpClient)
         {
-            // Create a logger factory for the accounts client
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning));
             
-            // Create a bearer token provider that uses the current access token
             var bearerTokenContainer = new Kinde.Accounts.Client.TokenContainer<Kinde.Accounts.Client.BearerToken>(new[] 
             {
                 new Kinde.Accounts.Client.BearerToken(_client.Token?.AccessToken ?? throw new InvalidOperationException("No access token available for API calls"))
             });
             var bearerTokenProvider = new Kinde.Accounts.Client.RateLimitProvider<Kinde.Accounts.Client.BearerToken>(bearerTokenContainer);
             
-            // Create the individual API clients with bearer token provider
             var billingApi = new BillingApi(loggerFactory.CreateLogger<BillingApi>(), httpClient, null, new BillingApiEvents(), bearerTokenProvider);
             var permissionsApi = new PermissionsApi(loggerFactory.CreateLogger<PermissionsApi>(), httpClient, null, new PermissionsApiEvents(), bearerTokenProvider);
             var rolesApi = new RolesApi(loggerFactory.CreateLogger<RolesApi>(), httpClient, null, new RolesApiEvents(), bearerTokenProvider);
             var featureFlagsApi = new FeatureFlagsApi(loggerFactory.CreateLogger<FeatureFlagsApi>(), httpClient, null, new FeatureFlagsApiEvents(), bearerTokenProvider);
             
-            // Create the accounts client with the individual API clients
             return new KindeAccountsClient(loggerFactory, billingApi, permissionsApi, rolesApi, featureFlagsApi);
         }
 

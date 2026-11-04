@@ -1,9 +1,3 @@
-/*
- * Kinde API - Kiota Facade Base
- * 
- * Provides shared infrastructure for all API facades that wrap Kiota clients.
- */
-
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

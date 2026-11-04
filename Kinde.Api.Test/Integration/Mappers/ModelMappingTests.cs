@@ -53,11 +53,8 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         /// <summary>
-        /// Every mapping the replaced AutoMapper profiles declared - all 315 CreateMap calls, both
-        /// directions where they used ReverseMap - must still be carried by the mapper. This is the
-        /// replacement for AssertConfigurationIsValid: it proves each pair can be mapped, so a
-        /// destination with no usable constructor or an unconstructable nested member fails here
-        /// rather than at runtime against the live API.
+        /// Every pair the replaced AutoMapper profiles declared (315 CreateMap calls, both directions for ReverseMap) must still be
+        /// mappable. Replaces AssertConfigurationIsValid: an unconstructable destination fails here, not at runtime against the live API.
         /// </summary>
         [Theory]
         [MemberData(nameof(AllDeclaredMappings))]
@@ -442,7 +439,6 @@ namespace Kinde.Api.Test.Integration.Mappers
             var openApiModel = _mapper.Map<CreateUserResponse>(kiotaModel);
 
             Assert.NotNull(openApiModel);
-            // When mapping null bool? to bool, the result is false (default)
             Assert.False(openApiModel.Created);
         }
 
@@ -1008,10 +1004,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Serializes a Kiota model the way the request adapter does, through the backing
-        /// store proxy. A plain JsonSerializationWriter drops nulls, so it hides the
-        /// difference between "never assigned" and "assigned null" -- which is exactly the
-        /// difference that decides what goes on the wire.
+        /// Serializes a Kiota model through the backing store proxy, as the request adapter does. A plain JsonSerializationWriter drops
+        /// nulls, hiding the difference between "never assigned" and "assigned null" that decides what goes on the wire.
         /// </summary>
         private static string SerializeAsSent<T>(T model) where T : Microsoft.Kiota.Abstractions.Serialization.IParsable
         {
@@ -1719,15 +1713,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
         #region Global null-skip condition -- full IBackedModel coverage
 
-        // The mapper skips *every* null source value when mapping into an IBackedModel (Kiota)
-        // destination, because assigning null erases a property that carries a schema default and
-        // drops it from the payload instead of sending that default. The two
-        // hand-picked endpoint tests above (ReplaceMFARequest, UpdateOrganizationUsersRequest)
-        // prove the rule does what it is meant to for those specific properties, but they say
-        // nothing about the other ~100 pairs the same rule applies to. This walks every
-        // (source, destination) pair it reaches and proves an explicit, non-null scalar value on
-        // the source still lands on the destination -- i.e. the rule is filtering out unset/null
-        // values, not real ones.
+        // The mapper skips every null source value when mapping into an IBackedModel (Kiota) destination, because assigning null
+        // erases a property carrying a schema default instead of sending that default. The endpoint tests above cover two specific
+        // properties; this sweep proves an explicit non-null scalar still lands on the destination for every pair the rule applies to.
 
         /// <summary>
         /// Every (source, destination) type pair declared by the replaced mapper profiles where the
@@ -1802,20 +1790,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Compares a mapped destination value against the sentinel that was set on the
-        /// source, tolerating the legitimate transformations the mapper applies along the
-        /// way -- cross-type enum conversion (by name, case-insensitively, since some
-        /// destination enums use a different casing/format for the same member, e.g.
-        /// "Oauth2apple" vs "Oauth2Apple", or "EntraIdAzureAd" vs "Entra_id_azure_ad"), and
-        /// DateTime -> DateTimeOffset conversion (which attaches the local offset, so the
-        /// two aren't Equal() as an absolute instant comparison in every environment; wall
-        /// clock components are what matters here). The name-based fallback is gated on
-        /// both sides actually being enums -- otherwise a dropped int/bool/string sentinel
-        /// could false-positive against an unrelated destination value that happens to
-        /// stringify the same way (e.g. 42 vs "42", true vs "True"), which is exactly the
-        /// silent-drop failure this test exists to catch. A value reverted to the
-        /// destination's own default by the null-skip condition would not satisfy any of
-        /// these fallbacks.
+        /// Compares a mapped value against the sentinel set on the source, tolerating legitimate mapper transformations: cross-type enum
+        /// conversion (by case-insensitive name) and DateTime to DateTimeOffset (wall clock compared). The name fallback requires both
+        /// sides to be enums, so a dropped int/bool/string cannot false-positive against a destination that stringifies the same (42 vs "42").
         /// </summary>
         private static bool ValuesMatch(object? destValue, object sentinel)
         {
@@ -1855,9 +1832,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Serializes a mapped destination the way the Kiota request adapter does, through
-        /// the backing store proxy, without requiring the model's compile-time type (the
-        /// per-type-pair tests only know Type instances, not generic type parameters).
+        /// Serializes a mapped destination through the backing store proxy like the Kiota request adapter, without needing the
+        /// model's compile-time type (the per-type-pair tests only know Type instances).
         /// </summary>
         private static string SerializeAsSentDynamic(object model, Type modelType)
         {
@@ -1891,10 +1867,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         [MemberData(nameof(IBackedModelTypeMaps))]
         public void IBackedModelDestinations_ExplicitScalarValues_SurviveMapping(Type sourceType, Type destType)
         {
-            // Some members are deliberately excluded from a mapping -- e.g.
-            // CreatePropertyRequest.Type/.Context are ignored because of a pre-existing enum
-            // incompatibility. Only assert on members the mapper actually copies, so this test
-            // verifies the null-skip rule specifically, not every ignore decision made elsewhere.
+            // Some members are deliberately excluded from a mapping (e.g. CreatePropertyRequest.Type/.Context, due to an enum
+            // incompatibility). Only assert on members the mapper copies, so this tests the null-skip rule, not other ignore decisions.
             var activelyMappedSourceNames = KindeMapperConfiguration
                 .DescribeMappedSourceMembers(sourceType, destType)
                 .ToHashSet();
@@ -1936,20 +1910,14 @@ private static object FindReachableInstance(object root, Type target, int maxDep
                 return;
             }
 
-            // No swallowing here: this sweep exists to catch a future regression in the
-            // null-skip condition, so a mapping failure on any pair must fail the test, not
-            // get logged and skipped. Source types that legitimately can't map standalone
-            // (oneOf/discriminator wrappers) don't throw -- they either have no scalar
-            // properties to smuggle through (see the early return above) or map cleanly to
-            // a null destination (see the check just below), so there's nothing to allowlist.
+            // No swallowing: a mapping failure on any pair must fail the test. oneOf/discriminator wrappers don't throw; they either
+            // have no scalar properties (early return above) or map to a null destination (check below).
             object dest = _mapper.Map(source, destType);
 
             if (dest is null)
             {
-                // Wrapper/oneOf source types (e.g. *RequestOptions around a discriminated
-                // union) legitimately map to null when their real discriminator member
-                // (ActualInstance) isn't set -- setting unrelated scalar siblings doesn't
-                // change that. Not something the null-skip condition controls.
+                // oneOf wrapper types legitimately map to null when their discriminator member (ActualInstance) is unset;
+                // the null-skip condition does not control that.
                 return;
             }
 
@@ -1974,18 +1942,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
                 var ok = ValuesMatch(destValue, sentinel);
                 if (!ok && destUnderlying.IsEnum && sourceUnderlying.IsEnum)
                 {
-                    // Some enum pairs go through a custom, semantically-equivalent but
-                    // textually different conversion that ValuesMatch's name comparison
-                    // can't see through (e.g. BridgeEnumByMember mapping "SHA256" ->
-                    // "RSASHA256" by [EnumMember] value, or "EntraIdAzureAd" ->
-                    // "Entra_id_azure_ad") -- the exact converted value is covered by
-                    // dedicated wire-format tests elsewhere in this file. Every Kiota
-                    // IBackedModel enum destination here is Nullable<TEnum>, so a value the
-                    // null-skip condition actually dropped would be null, not some specific
-                    // member -- unlike a non-nullable value type, it can't coincidentally
-                    // collide with default(enum) (which happens for some of these, e.g.
-                    // RSASHA256 is ordinal 0). So "non-null" is the correct, precise check
-                    // for whether this sweep's condition let the value through.
+                    // Some enum pairs use a custom conversion ValuesMatch's name comparison cannot see through (e.g. "SHA256" ->
+                    // "RSASHA256" via [EnumMember]); the exact value is covered by wire-format tests elsewhere. Kiota enum destinations here
+                    // are Nullable<TEnum>, so a dropped value would be null and cannot collide with default(enum); non-null is the precise check.
                     ok = destValue is not null;
                 }
                 if (!ok)
@@ -1999,12 +1958,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             if (typeof(Microsoft.Kiota.Abstractions.Serialization.IParsable).IsAssignableFrom(destType))
             {
-                // Not asserting on the JSON here -- the per-property comparison above is
-                // the real check for whether the null-skip condition dropped a value (a
-                // destination that dropped everything would still serialize to "{}", not an
-                // empty string, so an empty-body check wouldn't catch that anyway). This
-                // just exercises the backing-store serialization path so a pair that maps
-                // fine but can't actually be serialized still fails the test.
+                // The per-property comparison above is the real check; this only exercises the backing-store serialization
+                // path so a pair that maps but cannot be serialized still fails.
                 SerializeAsSentDynamic(dest, destType);
             }
         }

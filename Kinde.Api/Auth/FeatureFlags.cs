@@ -59,12 +59,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking feature flag via API (hard check): {FlagKey}", flagKey);
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use KindeClient's built-in feature flag checking (token-based)
                         var client = GetClient();
                         if (client != null)
                         {
@@ -82,7 +80,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use KindeClient's built-in feature flag checking (token-based)
                     _logger?.LogDebug("Checking feature flag via KindeClient (token-based): {FlagKey}", flagKey);
                     var client = GetClient();
                     if (client != null)
@@ -121,12 +118,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Getting feature flag value via API (hard check): {FlagKey}", flagKey);
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use KindeClient's built-in feature flag value retrieval (token-based)
                         var client = GetClient();
                         if (client != null)
                         {
@@ -144,7 +139,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use KindeClient's built-in feature flag value retrieval (token-based)
                     _logger?.LogDebug("Getting feature flag value via KindeClient (token-based): {FlagKey}", flagKey);
                     var client = GetClient();
                     if (client != null)
@@ -190,12 +184,10 @@ namespace Kinde.Api.Auth
                     var b = bool.TryParse(s, out var parsed) ? parsed : string.Equals(s, "1", StringComparison.Ordinal);
                     return (T)(object)b;
                 }
-                // Enums: parse names case-insensitively
                 if (typeof(T).IsEnum)
                 {
                     return (T)Enum.Parse(typeof(T), Convert.ToString(value), ignoreCase: true);
                 }
-                // Fallback using invariant culture
                 return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
             }
             catch (Exception e)
@@ -245,12 +237,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Retrieving feature flags via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based approach for feature flags
                         var client = GetClient();
                         if (client != null)
                         {
@@ -264,7 +254,6 @@ namespace Kinde.Api.Auth
                                 }
                                 else if (claim.Value is string flagString && !string.IsNullOrEmpty(flagString))
                                 {
-                                    // Try to parse as JSON if it's a string
                                     try
                                     {
                                         var parsed = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(flagString);
@@ -273,7 +262,6 @@ namespace Kinde.Api.Auth
                                     }
                                     catch
                                     {
-                                        // If parsing fails, treat as a single flag
                                         tokenFlags[flagString] = true;
                                     }
                                 }
@@ -298,7 +286,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based approach for feature flags
                     _logger?.LogDebug("Retrieving feature flags via token-based approach");
                     var client = GetClient();
                     if (client != null)
@@ -312,8 +299,6 @@ namespace Kinde.Api.Auth
                             var flags = claim.Value?.ToString();
                             if (!string.IsNullOrEmpty(flags))
                             {
-                                // Parse the feature flags from the token claim
-                                // This is a simplified approach - in practice, you might need more sophisticated parsing
                                 flagsDict["feature_flags"] = flags;
                             }
                             _logger?.LogDebug("Retrieved {Count} feature flags from token", flagsDict.Count);

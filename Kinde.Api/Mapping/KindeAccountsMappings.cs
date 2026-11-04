@@ -70,8 +70,7 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// The same oneOf wrapper shape, for feature flag values. The replaced AutoMapper profile
-        /// had no mapping for this pair, so the value was never populated from the response.
+        /// The same oneOf wrapper shape, for feature flag values.
         /// </summary>
         private static void RegisterFeatureFlagValue(KindeMappingRegistry registry)
         {

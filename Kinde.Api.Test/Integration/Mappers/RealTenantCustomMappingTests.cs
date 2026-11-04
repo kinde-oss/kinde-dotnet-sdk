@@ -17,17 +17,9 @@ using SdkModels = Kinde.Api.Model;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Exercises the mappings that property-name matching cannot derive, against live data.
+    /// Exercises, against live data, the mappings property-name matching cannot derive: dynamically keyed flags and
+    /// user properties, undeclared organization fields, and the Connection wrapper. Runs only with TestMode=Real; read-only.
     /// </summary>
-    /// <remarks>
-    /// The list endpoints covered by <see cref="RealTenantMappingCoverageTests"/> never populate
-    /// these shapes, so the explicit converters would otherwise go unverified against the real API:
-    /// the dynamically keyed feature flags and user properties, the organization fields Kinde
-    /// returns outside its own OpenAPI description, and the Connection wrapper whose nested object
-    /// the two generators name differently.
-    ///
-    /// These run only with TestMode=Real and are read-only.
-    /// </remarks>
     public class RealTenantCustomMappingTests : BaseIntegrationTest
     {
         private readonly ITestOutputHelper _output;
