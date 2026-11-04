@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Kinde.Api.Model;
 using Microsoft.Kiota.Abstractions.Serialization;
 using KiotaModels = Kinde.Api.Kiota.Management.Models;
@@ -417,7 +418,7 @@ namespace Kinde.Api.Mapping
                 string value = null;
                 if (fields.TryGetValue("value", out var valueNode) && valueNode is not null)
                 {
-                    value = ExtractUntypedValue(valueNode)?.ToString();
+                    value = FormatInvariant(ExtractUntypedValue(valueNode));
                     if (type == GetOrganizationFeatureFlagsResponseFeatureFlagsValue.TypeEnum.Bool
                         && value is not null)
                     {
@@ -458,8 +459,17 @@ namespace Kinde.Api.Mapping
         {
             null => null,
             bool flag => flag ? "true" : "false",
-            var other => other.ToString(),
+            var other => FormatInvariant(other),
         };
+
+        /// <summary>
+        /// Formats a dynamic value with the invariant culture, so a number or date read out of
+        /// AdditionalData does not pick up the host's decimal separator or date order.
+        /// </summary>
+        private static string FormatInvariant(object value) =>
+            value is IFormattable formattable
+                ? formattable.ToString(null, CultureInfo.InvariantCulture)
+                : value?.ToString();
 
         /// <summary>
         /// Extracts the value from an <see cref="UntypedNode"/>. GetValue is non-virtual, so a
@@ -525,8 +535,8 @@ namespace Kinde.Api.Mapping
             }
 
             return value is UntypedNode node
-                ? ExtractUntypedValue(node)?.ToString()
-                : value.ToString();
+                ? FormatInvariant(ExtractUntypedValue(node))
+                : FormatInvariant(value);
         }
     }
 }
