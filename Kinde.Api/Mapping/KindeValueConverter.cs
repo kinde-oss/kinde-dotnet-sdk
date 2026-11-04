@@ -166,12 +166,22 @@ namespace Kinde.Api.Mapping
 
             if (source is IConvertible)
             {
-                var numeric = Convert.ToInt64(source, CultureInfo.InvariantCulture);
-                var boxed = Enum.ToObject(target, numeric);
-                if (Enum.IsDefined(target, boxed))
+                try
                 {
-                    result = boxed;
-                    return true;
+                    var numeric = Convert.ToInt64(source, CultureInfo.InvariantCulture);
+                    var boxed = Enum.ToObject(target, numeric);
+                    if (Enum.IsDefined(target, boxed))
+                    {
+                        result = boxed;
+                        return true;
+                    }
+                }
+                catch (Exception exception) when (
+                    exception is InvalidCastException
+                    || exception is FormatException
+                    || exception is OverflowException)
+                {
+                    return false;
                 }
             }
 

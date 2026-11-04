@@ -216,12 +216,28 @@ namespace Kinde.Api.Test.Integration.Mappers
 
                 if (!destinationProperties.TryGetValue(sourceProperty.Name, out var destinationProperty))
                 {
-                    // No counterpart by name. Either it is deliberately bridged under a different
-                    // name by an explicit converter, or it genuinely has no home on the SDK model.
-                    // Only worth reporting when the API actually sent something.
-                    if (!IsEmpty(sourceValue))
+                    if (IsEmpty(sourceValue))
                     {
-                        report.EmptyBothSides.Add($"{memberPath} (no same-named member on the SDK model)");
+                        continue;
+                    }
+
+                    if (RenamedMembers.TryGetValue($"{source.GetType().Name}.{sourceProperty.Name}", out var renamedTo))
+                    {
+                        var renamedValue = ResolvePath(destination, renamedTo);
+                        if (IsEmpty(renamedValue))
+                        {
+                            report.Dropped.Add(
+                                $"{memberPath}: source has {Describe(sourceValue)} but {renamedTo} on the mapped model is {(renamedValue is null ? "null" : "empty")}");
+                        }
+                        else
+                        {
+                            report.Carried.Add($"{memberPath} -> {renamedTo} = {Describe(renamedValue)}");
+                        }
+                    }
+                    else
+                    {
+                        report.Dropped.Add(
+                            $"{memberPath}: source has {Describe(sourceValue)} but the SDK model has no same-named member and no rename is declared");
                     }
 
                     continue;
@@ -266,6 +282,33 @@ namespace Kinde.Api.Test.Integration.Mappers
                     Compare(sourceValue, destinationValue, memberPath, report, depth + 1);
                 }
             }
+        }
+
+        // Kiota members the SDK carries under another name or nesting, bridged by an explicit converter:
+        // the flat connection-list item is folded into Connection.VarConnection.
+        private static readonly Dictionary<string, string> RenamedMembers = new Dictionary<string, string>
+        {
+            ["Connection_list_item.Id"] = "VarConnection.Id",
+            ["Connection_list_item.Name"] = "VarConnection.Name",
+            ["Connection_list_item.DisplayName"] = "VarConnection.DisplayName",
+            ["Connection_list_item.Strategy"] = "VarConnection.Strategy",
+        };
+
+        private static object ResolvePath(object root, string path)
+        {
+            var current = root;
+            foreach (var segment in path.Split('.'))
+            {
+                if (current is null)
+                {
+                    return null;
+                }
+
+                var property = current.GetType().GetProperty(segment, BindingFlags.Public | BindingFlags.Instance);
+                current = property is null ? null : SafeGet(property, current);
+            }
+
+            return current;
         }
 
         private static bool IsPlumbing(string name) =>

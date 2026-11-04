@@ -128,6 +128,7 @@ namespace Kinde.Api.Test.Integration.Mappers
             var json = MapAndSerialize<global::Kinde.Api.Kiota.Management.Api.V1.Business.BusinessPatchRequestBody>(request);
 
             AssertNoExplicitNulls(json);
+            Assert.Contains("Acme Ltd", json);
         }
 
         [Fact]

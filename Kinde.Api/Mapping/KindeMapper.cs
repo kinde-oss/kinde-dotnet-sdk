@@ -153,7 +153,7 @@ namespace Kinde.Api.Mapping
             result = null;
 
             var destinationArguments = GetDictionaryArguments(destinationType);
-            if (destinationArguments == null || !(source is IDictionary sourceDictionary))
+            if (destinationArguments == null || !TryGetEntries(source, out var entries))
             {
                 return false;
             }
@@ -163,7 +163,7 @@ namespace Kinde.Api.Mapping
             var concrete = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
             var target = (IDictionary)Activator.CreateInstance(concrete);
 
-            foreach (DictionaryEntry entry in sourceDictionary)
+            foreach (var entry in entries)
             {
                 var key = Map(entry.Key, keyType);
                 if (key == null)
@@ -175,6 +175,40 @@ namespace Kinde.Api.Mapping
             }
 
             result = target;
+            return true;
+        }
+
+        /// <summary>Reads the entries of a dictionary source, generic or not.</summary>
+        private static bool TryGetEntries(object source, out IEnumerable<KeyValuePair<object, object>> entries)
+        {
+            if (source is IDictionary dictionary)
+            {
+                entries = dictionary.Cast<DictionaryEntry>()
+                    .Select(entry => new KeyValuePair<object, object>(entry.Key, entry.Value));
+                return true;
+            }
+
+            var arguments = source.GetType().GetInterfaces()
+                .Where(candidate => candidate.IsGenericType
+                    && (candidate.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+                        || candidate.GetGenericTypeDefinition() == typeof(IReadOnlyDictionary<,>)))
+                .Select(candidate => candidate.GetGenericArguments())
+                .FirstOrDefault();
+
+            if (arguments == null)
+            {
+                entries = null;
+                return false;
+            }
+
+            var pairType = typeof(KeyValuePair<,>).MakeGenericType(arguments);
+            var keyProperty = pairType.GetProperty(nameof(KeyValuePair<object, object>.Key));
+            var valueProperty = pairType.GetProperty(nameof(KeyValuePair<object, object>.Value));
+
+            entries = ((IEnumerable)source).Cast<object>()
+                .Select(pair => new KeyValuePair<object, object>(
+                    keyProperty.GetValue(pair),
+                    valueProperty.GetValue(pair)));
             return true;
         }
 

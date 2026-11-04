@@ -354,6 +354,106 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         /// <summary>
+        /// A source that implements only the generic dictionary interfaces must still map entry by
+        /// entry rather than falling through to property mapping and yielding an empty result.
+        /// </summary>
+        [Fact]
+        public void Mapping_GenericOnlyDictionarySources_CopyEveryEntry()
+        {
+            var readWrite = new GenericOnlyDictionary(new Dictionary<string, string> { ["a"] = "1", ["b"] = "2" });
+            var readOnly = new GenericOnlyReadOnlyDictionary(new Dictionary<string, string> { ["c"] = "3" });
+
+            var fromReadWrite = _mapper.Map<Dictionary<string, string>>(readWrite);
+            var fromReadOnly = _mapper.Map<Dictionary<string, string>>(readOnly);
+
+            Assert.Equal(2, fromReadWrite.Count);
+            Assert.Equal("1", fromReadWrite["a"]);
+            Assert.Equal("2", fromReadWrite["b"]);
+            Assert.Single(fromReadOnly);
+            Assert.Equal("3", fromReadOnly["c"]);
+        }
+
+        /// <summary>
+        /// A value that cannot become the enum is reported as "not converted", never as an exception.
+        /// </summary>
+        [Theory]
+        [InlineData("Unknown")]
+        [InlineData(ulong.MaxValue)]
+        [InlineData(99)]
+        public void EnumConversion_WithUnconvertibleValue_ReturnsFalseInsteadOfThrowing(object value)
+        {
+            var converted = Kinde.Api.Mapping.KindeValueConverter.TryConvert(value, typeof(ConversionProbe), out var result);
+
+            Assert.False(converted);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void EnumConversion_WithUnconvertibleSourceType_ReturnsFalseInsteadOfThrowing()
+        {
+            var converted = Kinde.Api.Mapping.KindeValueConverter.TryConvert(DateTime.UtcNow, typeof(ConversionProbe), out _);
+
+            Assert.False(converted);
+        }
+
+        [Theory]
+        [InlineData("second", ConversionProbe.Second)]
+        [InlineData(1, ConversionProbe.Second)]
+        [InlineData("1", ConversionProbe.Second)]
+        public void EnumConversion_WithRecognisedValue_StillConverts(object value, ConversionProbe expected)
+        {
+            Assert.True(Kinde.Api.Mapping.KindeValueConverter.TryConvert(value, typeof(ConversionProbe), out var result));
+            Assert.Equal(expected, result);
+        }
+
+        public enum ConversionProbe
+        {
+            First,
+            Second,
+        }
+
+        private sealed class GenericOnlyDictionary : IDictionary<string, string>
+        {
+            private readonly Dictionary<string, string> _inner;
+
+            public GenericOnlyDictionary(Dictionary<string, string> inner) => _inner = inner;
+
+            public string this[string key] { get => _inner[key]; set => _inner[key] = value; }
+            public ICollection<string> Keys => _inner.Keys;
+            public ICollection<string> Values => _inner.Values;
+            public int Count => _inner.Count;
+            public bool IsReadOnly => false;
+            public void Add(string key, string value) => _inner.Add(key, value);
+            public void Add(KeyValuePair<string, string> item) => _inner.Add(item.Key, item.Value);
+            public void Clear() => _inner.Clear();
+            public bool Contains(KeyValuePair<string, string> item) => _inner.Contains(item);
+            public bool ContainsKey(string key) => _inner.ContainsKey(key);
+            public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex) =>
+                ((ICollection<KeyValuePair<string, string>>)_inner).CopyTo(array, arrayIndex);
+            public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _inner.GetEnumerator();
+            public bool Remove(string key) => _inner.Remove(key);
+            public bool Remove(KeyValuePair<string, string> item) => _inner.Remove(item.Key);
+            public bool TryGetValue(string key, out string value) => _inner.TryGetValue(key, out value);
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
+        }
+
+        private sealed class GenericOnlyReadOnlyDictionary : IReadOnlyDictionary<string, string>
+        {
+            private readonly Dictionary<string, string> _inner;
+
+            public GenericOnlyReadOnlyDictionary(Dictionary<string, string> inner) => _inner = inner;
+
+            public string this[string key] => _inner[key];
+            public IEnumerable<string> Keys => _inner.Keys;
+            public IEnumerable<string> Values => _inner.Values;
+            public int Count => _inner.Count;
+            public bool ContainsKey(string key) => _inner.ContainsKey(key);
+            public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _inner.GetEnumerator();
+            public bool TryGetValue(string key, out string value) => _inner.TryGetValue(key, out value);
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
+        }
+
+        /// <summary>
         /// Tests that collections with items map correctly.
         /// </summary>
         [Fact]

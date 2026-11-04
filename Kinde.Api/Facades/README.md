@@ -74,7 +74,7 @@ Each API class wraps Kiota calls:
 public partial class UsersApi : IUsersApi
 {
     private KindeManagementClient _kiotaClient;
-    private IMapper _mapper;
+    private IKindeMapper _mapper;
 
     // Async method (primary implementation)
     public async Task<CreateUserResponse> CreateUserAsync(

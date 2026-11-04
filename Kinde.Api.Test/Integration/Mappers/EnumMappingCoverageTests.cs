@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Kinde.Api.Mappers;
+using Kinde.Api.Mapping;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -91,6 +93,65 @@ namespace Kinde.Api.Test.Integration.Mappers
                 + "which keeps default(TEnum) and so reports a value the API never sent:"
                 + Environment.NewLine
                 + string.Join(Environment.NewLine, dangerous.Distinct().OrderBy(line => line)));
+        }
+
+        /// <summary>
+        /// Covers the explicitly bridged enums, including those reached only as list elements
+        /// (such as EnabledFactors), which the property walk above never sees.
+        /// </summary>
+        [Fact]
+        public void EveryBridgedEnumMember_HasACounterpartInBothDirections()
+        {
+            var mapper = KindeMapperConfiguration.CreateIsolated();
+            var pairs = KindeMapperConfiguration.CreateRegistry().RegisteredConversions
+                .Where(pair => pair.Source.IsEnum && pair.Destination.IsEnum)
+                .ToList();
+
+            Assert.NotEmpty(pairs);
+
+            var failures = new List<string>();
+            foreach (var (source, destination) in pairs)
+            {
+                foreach (var member in Enum.GetValues(source))
+                {
+                    try
+                    {
+                        Assert.NotNull(mapper.Map(member, destination));
+                    }
+                    catch (KindeMappingException)
+                    {
+                        failures.Add($"{source.FullName}.{member} -> {destination.FullName}");
+                    }
+                }
+            }
+
+            Assert.True(
+                failures.Count == 0,
+                "These bridged enum members have no counterpart:"
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, failures));
+        }
+
+        [Fact]
+        public void BridgeEnum_WithNoMatchingWireName_Throws()
+        {
+            Assert.Equal(BridgeTarget.Shared, KindeMappingRegistry.BridgeEnum<BridgeTarget>(BridgeSource.Shared));
+
+            var exception = Assert.Throws<KindeMappingException>(
+                () => KindeMappingRegistry.BridgeEnum<BridgeTarget>(BridgeSource.OnlyHere));
+
+            Assert.Contains("OnlyHere", exception.Message);
+        }
+
+        private enum BridgeSource
+        {
+            Shared,
+            OnlyHere,
+        }
+
+        private enum BridgeTarget
+        {
+            Shared,
         }
 
         /// <summary>

@@ -81,7 +81,10 @@ namespace Kinde.Api.Mapping
                 .Convert<TSecond, TFirst>(source => BridgeEnum<TFirst>(source));
         }
 
-        /// <summary>Translates an enum member to the one carrying the same wire name.</summary>
+        /// <summary>
+        /// Translates an enum member to the one carrying the same wire name. Throws when there is
+        /// none, since falling back to the first member would report a value the API never sent.
+        /// </summary>
         internal static TDestination BridgeEnum<TDestination>(Enum source)
             where TDestination : struct, Enum
         {
@@ -98,7 +101,9 @@ namespace Kinde.Api.Mapping
                 }
             }
 
-            return default;
+            throw new KindeMappingException(
+                $"Enum member '{source.GetType().FullName}.{source}' (wire name '{wire}') has no "
+                + $"counterpart in '{typeof(TDestination).FullName}'.");
         }
 
         internal bool TryGetConverter(

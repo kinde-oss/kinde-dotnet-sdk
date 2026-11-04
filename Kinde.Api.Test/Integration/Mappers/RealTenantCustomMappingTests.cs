@@ -132,8 +132,12 @@ namespace Kinde.Api.Test.Integration.Mappers
             foreach (var key in rawKeys)
             {
                 Assert.True(
-                    mapped.FeatureFlags.ContainsKey(key),
+                    mapped.FeatureFlags.TryGetValue(key, out var flag),
                     $"Feature flag '{key}' was returned by Kinde but is missing after mapping.");
+                Assert.NotNull(flag);
+                Assert.False(
+                    flag.Value is null,
+                    $"Feature flag '{key}' lost its value during mapping.");
             }
         }
 
@@ -252,6 +256,17 @@ namespace Kinde.Api.Test.Integration.Mappers
             else
             {
                 _output.WriteLine("Kinde returned no identities for this user.");
+            }
+
+            if (kiota.Billing is not null)
+            {
+                Assert.NotNull(mapped.Billing);
+                Assert.Equal(kiota.Billing.CustomerId, mapped.Billing.CustomerId);
+                _output.WriteLine($"billing     : customerId={mapped.Billing.CustomerId}");
+            }
+            else
+            {
+                _output.WriteLine("Kinde returned no billing for this user.");
             }
         }
 
