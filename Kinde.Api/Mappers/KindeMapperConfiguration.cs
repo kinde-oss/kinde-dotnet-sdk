@@ -17,7 +17,7 @@ namespace Kinde.Api.Mappers
     public static class KindeMapperConfiguration
     {
         private static readonly object SyncRoot = new object();
-        private static IKindeMapper _mapper;
+        private static volatile IKindeMapper _mapper;
 
         /// <summary>
         /// Gets the configured mapper for Kinde model mappings.
