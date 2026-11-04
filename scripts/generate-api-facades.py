@@ -112,7 +112,7 @@ def generate_facade_stub(class_name: str, api_type: str = "management") -> str:
 
 /*
 using System;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using {kiota_namespace};
 using {kiota_namespace}.Models;
 using Kinde.Api.Mappers;
@@ -125,7 +125,7 @@ namespace {namespace}
     {{
         // Kiota client and mapper (to be injected or created)
         private {kiota_client} _kiotaClient;
-        private IMapper _mapper => KindeMapperConfiguration.Mapper;
+        private IKindeMapper _mapper => KindeMapperConfiguration.Mapper;
         
         // Initialize Kiota client from existing configuration
         private void InitializeKiotaClient()

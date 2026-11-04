@@ -5,7 +5,7 @@ Convert OpenAPI-generated API classes to use Kiota internally.
 This script modifies the existing API classes to:
 1. Add Kiota client infrastructure
 2. Replace the HTTP calls in *WithHttpInfoAsync methods with Kiota calls
-3. Map models using AutoMapper
+3. Map models using the SDK model mapper
 
 Since we're no longer regenerating OpenAPI code, these modifications are permanent.
 """
@@ -21,13 +21,13 @@ KIOTA_INFRASTRUCTURE = '''
         // ===== Kiota Infrastructure =====
         private KindeManagementClient _kiotaClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -66,7 +66,7 @@ KIOTA_INFRASTRUCTURE = '''
         // ===== End Kiota Infrastructure =====
 '''
 
-KIOTA_USINGS = '''using AutoMapper;
+KIOTA_USINGS = '''using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions.Authentication;
