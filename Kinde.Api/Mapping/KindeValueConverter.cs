@@ -8,18 +8,15 @@ using System.Runtime.Serialization;
 namespace Kinde.Api.Mapping
 {
     /// <summary>
-    /// Converts the scalar values the convention mapper encounters: strings, primitives, enums
-    /// and dates. Collections and complex types are handled by <see cref="KindeMapper"/>.
+    /// Converts scalars: strings, primitives, enums and dates. Collections and complex types
+    /// are handled by <see cref="KindeMapper"/>.
     /// </summary>
     internal static class KindeValueConverter
     {
         private static readonly ConcurrentDictionary<Type, string[]> WireNames =
             new ConcurrentDictionary<Type, string[]>();
 
-        /// <summary>
-        /// True for the types that are copied or converted directly rather than being walked
-        /// property by property.
-        /// </summary>
+        /// <summary>True for types converted directly rather than walked property by property.</summary>
         internal static bool IsSimple(Type type)
         {
             var underlying = Nullable.GetUnderlyingType(type) ?? type;
@@ -37,10 +34,7 @@ namespace Kinde.Api.Mapping
                 || underlying == typeof(Uri);
         }
 
-        /// <summary>
-        /// Attempts a direct value conversion. Returns false when the pair needs the
-        /// property-by-property mapper instead.
-        /// </summary>
+        /// <summary>Converts a value, returning false when the pair needs the object mapper.</summary>
         internal static bool TryConvert(object source, Type destinationType, out object result)
         {
             result = null;
@@ -57,7 +51,6 @@ namespace Kinde.Api.Mapping
                 return false;
             }
 
-            // Identical or directly assignable: hand it straight over.
             if (target.IsInstanceOfType(source) && target == sourceType)
             {
                 result = source;
@@ -110,7 +103,6 @@ namespace Kinde.Api.Mapping
                 return false;
             }
 
-            // Numeric and boolean widening between the two generators.
             if (source is IConvertible && (target.IsPrimitive || target == typeof(decimal)))
             {
                 try
@@ -131,9 +123,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// Matches enums by name first, then by the <see cref="EnumMemberAttribute"/> wire value,
-        /// then by the underlying number. Both name and wire value are checked because the two
-        /// generators spell the same wire constant differently.
+        /// Matches enums by member name, then by <see cref="EnumMemberAttribute"/> wire value,
+        /// because the generators spell the same constant differently.
         /// </summary>
         private static bool TryConvertToEnum(object source, Type sourceType, Type target, out object result)
         {
@@ -170,8 +161,6 @@ namespace Kinde.Api.Mapping
                     return true;
                 }
 
-                // No counterpart on the destination enum. Leave it unset rather than inventing a
-                // value: a wrong enum is harder to spot downstream than a missing one.
                 return false;
             }
 
@@ -226,9 +215,6 @@ namespace Kinde.Api.Mapping
                     result = offset.DateTime;
                     return true;
                 case DateTime dateTime when target == typeof(DateTimeOffset):
-                    // A DateTime with an unspecified kind is treated as UTC rather than local.
-                    // Kinde returns UTC timestamps, and assuming local would both shift the value
-                    // and overflow for DateTime.MinValue in any timezone ahead of UTC.
                     result = dateTime.Kind == DateTimeKind.Unspecified
                         ? new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Utc))
                         : new DateTimeOffset(dateTime);
@@ -313,10 +299,7 @@ namespace Kinde.Api.Mapping
             return false;
         }
 
-        /// <summary>
-        /// Returns the <see cref="EnumMemberAttribute"/> value for an enum member, or null when
-        /// it carries no such attribute.
-        /// </summary>
+        /// <summary>The <see cref="EnumMemberAttribute"/> value for a member, or null.</summary>
         internal static string GetWireName(Enum value)
         {
             return value.GetType()

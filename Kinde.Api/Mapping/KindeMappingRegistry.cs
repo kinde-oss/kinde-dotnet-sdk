@@ -5,9 +5,8 @@ using System.Linq;
 namespace Kinde.Api.Mapping
 {
     /// <summary>
-    /// Holds the mappings that cannot be derived from property names: explicit converters for
-    /// pairs whose shapes genuinely differ, and the properties a convention mapping must leave
-    /// alone.
+    /// Holds the mappings name matching cannot derive: explicit converters, and the properties
+    /// a convention mapping must leave alone.
     /// </summary>
     internal sealed class KindeMappingRegistry
     {
@@ -20,10 +19,7 @@ namespace Kinde.Api.Mapping
         private readonly Dictionary<(Type Source, Type Destination), HashSet<string>> _ignored =
             new Dictionary<(Type, Type), HashSet<string>>();
 
-        /// <summary>
-        /// Registers an explicit converter from <typeparamref name="TSource"/> to
-        /// <typeparamref name="TDestination"/>, replacing convention mapping for that pair.
-        /// </summary>
+        /// <summary>Registers an explicit converter, replacing convention mapping for that pair.</summary>
         internal KindeMappingRegistry Convert<TSource, TDestination>(
             Func<TSource, KindeMapper, TDestination> converter)
         {
@@ -38,9 +34,7 @@ namespace Kinde.Api.Mapping
             return this;
         }
 
-        /// <summary>
-        /// Registers an explicit converter that does not need to map nested members.
-        /// </summary>
+        /// <summary>Registers an explicit converter that does not map nested members.</summary>
         internal KindeMappingRegistry Convert<TSource, TDestination>(Func<TSource, TDestination> converter)
         {
             if (converter == null)
@@ -51,10 +45,7 @@ namespace Kinde.Api.Mapping
             return Convert<TSource, TDestination>((source, _) => converter(source));
         }
 
-        /// <summary>
-        /// Maps <typeparamref name="TSource"/> to <typeparamref name="TDestination"/> by convention
-        /// but leaves the named destination properties untouched.
-        /// </summary>
+        /// <summary>Maps by convention but leaves the named destination properties untouched.</summary>
         internal KindeMappingRegistry Ignore<TSource, TDestination>(params string[] propertyNames)
         {
             if (propertyNames == null || propertyNames.Length == 0)
@@ -79,8 +70,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// Registers an explicit converter for a pair of enums whose members the two generators
-        /// spell differently, matching them on their wire names in both directions.
+        /// Bridges two enums whose members the generators spell differently, matching on wire
+        /// names in both directions.
         /// </summary>
         internal KindeMappingRegistry BridgeEnums<TFirst, TSecond>()
             where TFirst : struct, Enum
@@ -90,10 +81,7 @@ namespace Kinde.Api.Mapping
                 .Convert<TSecond, TFirst>(source => BridgeEnum<TFirst>(source));
         }
 
-        /// <summary>
-        /// Translates an enum member to the member of <typeparamref name="TDestination"/> carrying
-        /// the same wire name, falling back to the member name.
-        /// </summary>
+        /// <summary>Translates an enum member to the one carrying the same wire name.</summary>
         internal static TDestination BridgeEnum<TDestination>(Enum source)
             where TDestination : struct, Enum
         {
@@ -121,9 +109,6 @@ namespace Kinde.Api.Mapping
                 return true;
             }
 
-            // A converter registered against a base type still applies to a derived source, which
-            // matters because call sites pass the source as object and Kiota uses inheritance for
-            // some response shapes.
             for (var baseType = sourceType.BaseType; baseType != null; baseType = baseType.BaseType)
             {
                 if (_converters.TryGetValue((baseType, destinationType), out converter))
@@ -143,10 +128,7 @@ namespace Kinde.Api.Mapping
                 : NoIgnoredProperties;
         }
 
-        /// <summary>
-        /// The source/destination pairs that have an explicit converter. Used by the tests to
-        /// assert the registry still covers every pair that needs one.
-        /// </summary>
+        /// <summary>The pairs that have an explicit converter. Asserted on by the tests.</summary>
         internal IReadOnlyCollection<(Type Source, Type Destination)> RegisteredConversions =>
             _converters.Keys.ToList();
     }

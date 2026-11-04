@@ -9,29 +9,13 @@ using Microsoft.Kiota.Abstractions.Store;
 namespace Kinde.Api.Mapping
 {
     /// <summary>
-    /// Maps between the OpenAPI-generated SDK models and the Kiota-generated models by matching
-    /// property names, recursing into nested models and collections, and delegating the pairs
-    /// that need bespoke handling to converters registered in a <see cref="KindeMappingRegistry"/>.
+    /// Maps between the SDK and Kiota models by matching property names, recursing into nested
+    /// models and collections. Pairs that need bespoke handling come from the registry.
+    /// Plans are built once per type pair and cached.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// Both generators produce the same PascalCase property names from one OpenAPI description, so
-    /// name matching covers the great majority of the mappings and keeps working when the Kiota
-    /// models are regenerated. The pairs where the two shapes genuinely differ - composed
-    /// <c>oneOf</c> wrappers, dynamically keyed <c>additionalProperties</c> objects, enums whose
-    /// wire names the generators spell differently - are registered explicitly instead.
-    /// </para>
-    /// <para>
-    /// Mapping plans are built once per source/destination pair and cached, so the reflection cost
-    /// is paid on first use rather than per call.
-    /// </para>
-    /// </remarks>
     internal sealed class KindeMapper : IKindeMapper
     {
-        /// <summary>
-        /// Kiota plumbing members. They have no counterpart on the OpenAPI-generated side and must
-        /// never be copied by convention.
-        /// </summary>
+        /// <summary>Kiota plumbing members, which have no counterpart on the SDK side.</summary>
         private static readonly HashSet<string> AlwaysIgnored =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "AdditionalData", "BackingStore" };
 
@@ -67,8 +51,6 @@ namespace Kinde.Api.Mapping
 
             var sourceType = source.GetType();
 
-            // A destination typed as object takes the value through untouched. The SDK uses this
-            // for payloads the OpenAPI description leaves unspecified.
             if (destinationType == typeof(object))
             {
                 return source;
@@ -86,7 +68,6 @@ namespace Kinde.Api.Mapping
                     return converted;
                 }
 
-                // Nothing sensible to assign. Leaving it unset is safer than guessing.
                 return null;
             }
 
@@ -104,9 +85,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// Maps by matching property names, ignoring any explicit converter registered for the
-        /// pair. Explicit converters use this to map the conventional members and then adjust only
-        /// the few that need bespoke handling, instead of restating every property by hand.
+        /// Maps by property name, ignoring any converter registered for the pair, so a converter
+        /// can map the conventional members and then adjust only what differs.
         /// </summary>
         internal TDestination MapByConvention<TDestination>(object source)
         {
@@ -128,11 +108,7 @@ namespace Kinde.Api.Mapping
             return plan.Execute(source, this);
         }
 
-        /// <summary>
-        /// The source property names a convention mapping between these two types actually copies.
-        /// Used by the tests to tell a property that is deliberately not mapped apart from one that
-        /// is being dropped by mistake.
-        /// </summary>
+        /// <summary>The source property names this pair copies. Asserted on by the tests.</summary>
         internal IReadOnlyCollection<string> DescribeMappedSourceMembers(Type sourceType, Type destinationType)
         {
             var plan = _plans.GetOrAdd(
@@ -205,8 +181,6 @@ namespace Kinde.Api.Mapping
 
             if (!destinationType.IsAssignableFrom(listType))
             {
-                // A collection shape the mapper cannot construct, for example a bespoke
-                // collection with no list-compatible surface.
                 return false;
             }
 
@@ -263,9 +237,7 @@ namespace Kinde.Api.Mapping
             return null;
         }
 
-        /// <summary>
-        /// The cached per-pair plan: how to build the destination and which properties to copy.
-        /// </summary>
+        /// <summary>The cached per-pair plan: how to build the destination and what to copy.</summary>
         private sealed class MappingPlan
         {
             private readonly Type _destinationType;
@@ -274,9 +246,8 @@ namespace Kinde.Api.Mapping
             private readonly PropertyBinding[] _bindings;
 
             /// <summary>
-            /// True when the destination is a Kiota model. Assigning null to a Kiota property marks
-            /// it dirty in the backing store, which serializes an explicit <c>"property": null</c> -
-            /// and some Kinde endpoints reject those. Unset properties are simply left alone.
+            /// True for a Kiota destination. Assigning null there marks the property dirty and
+            /// serializes an explicit "property": null, which some Kinde endpoints reject.
             /// </summary>
             private readonly bool _skipNulls;
 
@@ -317,9 +288,7 @@ namespace Kinde.Api.Mapping
                     .ToArray();
             }
 
-            /// <summary>
-            /// The source property names this plan copies.
-            /// </summary>
+            /// <summary>The source property names this plan copies.</summary>
             internal IReadOnlyCollection<string> MappedSourceMemberNames { get; }
 
             internal object Execute(object source, IKindeMapper mapper)
@@ -363,16 +332,10 @@ namespace Kinde.Api.Mapping
             }
 
             /// <summary>
-            /// Prefers a parameterless constructor, then the shortest one, filling its parameters
-            /// with defaults. Every property the mapper cares about is then assigned directly, so
-            /// the constructor only has to produce a usable instance.
+            /// Picks the shortest constructor and fills it with defaults; properties are assigned
+            /// afterwards. Non-private ones are included because some oneOf wrappers only have
+            /// internal constructors.
             /// </summary>
-            /// <remarks>
-            /// Non-private constructors are included deliberately: several hand-authored
-            /// <c>oneOf</c> wrappers in the SDK models expose only internal constructors, and
-            /// AutoMapper used them too (its default constructor filter excludes only private
-            /// ones). Narrowing this to public constructors would change those types quietly.
-            /// </remarks>
             private static ConstructorInfo SelectConstructor(Type type)
             {
                 return type

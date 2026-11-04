@@ -15,9 +15,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// <see cref="UserPropertyValue"/> is a hand-authored <c>oneOf</c> wrapper with read-only
-        /// members and internal constructors, so it is built explicitly from the Kiota composed
-        /// type rather than property by property.
+        /// <see cref="UserPropertyValue"/> is a oneOf wrapper with read-only members and internal
+        /// constructors, so it is built explicitly rather than property by property.
         /// </summary>
         private static void RegisterUserPropertyValue(KindeMappingRegistry registry)
         {
@@ -71,15 +70,9 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// The same read-only <c>oneOf</c> wrapper shape as
-        /// <see cref="UserPropertyValue"/>, for feature flag values.
+        /// The same oneOf wrapper shape, for feature flag values. The replaced AutoMapper profile
+        /// had no mapping for this pair, so the value was never populated from the response.
         /// </summary>
-        /// <remarks>
-        /// The AutoMapper profile this replaces carried no mapping for this pair, so the value was
-        /// only ever populated by whichever internal constructor AutoMapper happened to select.
-        /// Converting it explicitly makes <c>FeatureFlag.Value</c> carry the value the API
-        /// actually returned.
-        /// </remarks>
         private static void RegisterFeatureFlagValue(KindeMappingRegistry registry)
         {
             registry.Convert<KiotaModels.Get_feature_flags_response_data_feature_flags.Get_feature_flags_response_data_feature_flags_value, FeatureFlagValue>(

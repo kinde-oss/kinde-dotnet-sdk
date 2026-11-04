@@ -62,10 +62,6 @@ namespace Kinde.Api.Mapping
                 return destination;
             });
 
-            // The list endpoints (GET /connections, /organizations/{code}/connections,
-            // /applications/{id}/connections) return flat items rather than the wrapped single-GET
-            // shape. Keep the public List<Connection> contract and surface the fields through
-            // VarConnection, matching what ConnectionConverter does for the Newtonsoft path.
             registry.Convert<KiotaModels.Connection_list_item, Connection>(source => new Connection(
                 null,
                 null,
@@ -105,9 +101,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// The connection <c>options</c> payloads are OpenAPI <c>oneOf</c> unions. The SDK models
-        /// them as a wrapper holding one <c>ActualInstance</c>; Kiota models them as a composed
-        /// type with one member property per variant.
+        /// The connection options are oneOf unions: the SDK holds one ActualInstance, Kiota has a
+        /// member property per variant.
         /// </summary>
         private static void RegisterConnectionOptions(KindeMappingRegistry registry)
         {
@@ -246,9 +241,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// Kiota represents an <c>additionalProperties</c> schema as a dynamically keyed wrapper
-        /// rather than a dictionary, so the entries have to be read out of its AdditionalData.
-        /// These are response-only shapes: the reverse direction never has to rebuild the wrapper.
+        /// Kiota models an additionalProperties schema as a dynamically keyed wrapper, so entries
+        /// are read out of its AdditionalData. Response-only: the reverse is never rebuilt.
         /// </summary>
         private static void RegisterDynamicKeyedResponses(KindeMappingRegistry registry)
         {
@@ -268,7 +262,6 @@ namespace Kinde.Api.Mapping
                     return destination;
                 });
 
-            // Same wrapper pattern, but with plain string values.
             registry.Convert<KiotaModels.Search_users_response_results, SearchUsersResponseResultsInner>(
                 (source, mapper) =>
                 {
@@ -277,9 +270,6 @@ namespace Kinde.Api.Mapping
                     return destination;
                 });
 
-            // The convention pass must leave these alone in both directions: the dynamically keyed
-            // Kiota wrapper and the typed dictionary have no property-name correspondence, and the
-            // reverse direction never has to rebuild the wrapper.
             registry
                 .Ignore<KiotaModels.Get_environment_feature_flags_response, GetEnvironmentFeatureFlagsResponse>("FeatureFlags")
                 .Ignore<KiotaModels.Get_organization_feature_flags_response, GetOrganizationFeatureFlagsResponse>("FeatureFlags")
@@ -341,8 +331,8 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
-        /// The organization response carries two fields the OpenAPI description does not declare,
-        /// so Kiota leaves them in AdditionalData.
+        /// The organization response carries two fields the OpenAPI description omits, so Kiota
+        /// leaves them in AdditionalData.
         /// </summary>
         private static void RegisterOrganization(KindeMappingRegistry registry)
         {
@@ -381,10 +371,7 @@ namespace Kinde.Api.Mapping
                 });
         }
 
-        /// <summary>
-        /// Destination properties a convention mapping must leave alone, because the two sides
-        /// disagree on their shape and the value is supplied another way.
-        /// </summary>
+        /// <summary>Properties the convention pass must skip, because the shapes disagree.</summary>
         private static void RegisterIgnoredMembers(KindeMappingRegistry registry)
         {
             registry
@@ -395,10 +382,7 @@ namespace Kinde.Api.Mapping
                 .Ignore<Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody, CreateOrganizationRequest>("FeatureFlags");
         }
 
-        /// <summary>
-        /// Converts a Kiota <c>additionalProperties</c> wrapper (feature flag key to
-        /// UntypedObject{type, value}) into the typed feature flags dictionary.
-        /// </summary>
+        /// <summary>Converts a Kiota additionalProperties wrapper into typed feature flags.</summary>
         private static Dictionary<string, GetOrganizationFeatureFlagsResponseFeatureFlagsValue> ReadFeatureFlags(
             IDictionary<string, object> additionalData)
         {
@@ -447,10 +431,7 @@ namespace Kinde.Api.Mapping
             return result;
         }
 
-        /// <summary>
-        /// Converts a Kiota <c>additionalProperties</c> wrapper into a plain string dictionary,
-        /// for example the user properties on a search result.
-        /// </summary>
+        /// <summary>Converts a Kiota additionalProperties wrapper into a string dictionary.</summary>
         internal static Dictionary<string, string> ReadStringMap(IDictionary<string, object> additionalData)
         {
             var result = new Dictionary<string, string>();
@@ -472,10 +453,7 @@ namespace Kinde.Api.Mapping
             return result;
         }
 
-        /// <summary>
-        /// Formats a value as a string, lowercasing booleans so they match the lowercase JSON
-        /// literals on the wire rather than the .NET <c>Boolean.ToString()</c> casing.
-        /// </summary>
+        /// <summary>Formats a value, lowercasing booleans to match the JSON literals.</summary>
         private static string FormatValue(object value) => value switch
         {
             null => null,
@@ -484,13 +462,9 @@ namespace Kinde.Api.Mapping
         };
 
         /// <summary>
-        /// Extracts the underlying value from a Kiota <see cref="UntypedNode"/>.
+        /// Extracts the value from an <see cref="UntypedNode"/>. GetValue is non-virtual, so a
+        /// base-typed call reaches a stub that throws; this dispatches on the concrete type.
         /// </summary>
-        /// <remarks>
-        /// The per-subtype <c>GetValue()</c> methods are not virtual, so calling it through a
-        /// base-typed reference reaches <see cref="UntypedNode"/>'s own stub, which throws. The
-        /// switch dispatches on the concrete type to avoid that.
-        /// </remarks>
         private static object ExtractUntypedValue(UntypedNode node) => node switch
         {
             UntypedString value => value.GetValue(),
