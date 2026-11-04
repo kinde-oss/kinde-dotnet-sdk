@@ -232,7 +232,6 @@ namespace Kinde.Api.Test
                 Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(portalResponse))
             };
 
-            // Ensure the response is properly set up
             response.EnsureSuccessStatusCode();
 
             var handler = new MockHttpMessageHandler(response);
@@ -243,7 +242,6 @@ namespace Kinde.Api.Test
             var token = new OauthToken { AccessToken = "test_token", ExpiresIn = 3600 };
             var mockAuthFlow = new MockAuthorizationFlow(token);
 
-            // Set the AuthorizationFlow before any HTTP requests are made
             var authFlowProperty = apiClient.GetType().GetProperty("AuthorizationFlow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (authFlowProperty == null)
             {
@@ -265,7 +263,6 @@ namespace Kinde.Api.Test
             Assert.NotNull(result);
             Assert.Equal("https://test.kinde.com/portal/profile", result.Url);
 
-            // Verify the request was made correctly
             Assert.NotNull(handler.Request);
             Assert.Equal(HttpMethod.Get, handler.Request.Method);
             Assert.Contains("/account_api/v1/portal_link", handler.Request.RequestUri.ToString());
@@ -349,7 +346,6 @@ namespace Kinde.Api.Test
             var request = new HttpRequestMessage(HttpMethod.Get, "https://test.com");
             var response = client.SendAsync(request).Result;
 
-            // Debug output
             Console.WriteLine($"Expected Status: {expectedResponse.StatusCode}");
             Console.WriteLine($"Actual Status: {response.StatusCode}");
             Console.WriteLine($"Expected Content: {expectedResponse.Content.ReadAsStringAsync().Result}");

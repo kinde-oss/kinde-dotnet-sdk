@@ -40,11 +40,11 @@ namespace Kinde.Api.Test
                 var email = user.Email;
                 var picture = user.Picture;
                 var anotherClaim = user.GetClaim("iat");
-                var claim = user.GetClaim("sub", "id_token"); //get claim
-                var organizations = user.GetOrganizations(); ; //get avaliable organizations
-                var organization = user.GetOrganization();  //get single organization
-                var permissions = user.GetPermissions(); //get all permissions
-                var permission = user.GetPermission("something"); //get permission
+                var claim = user.GetClaim("sub", "id_token");
+                var organizations = user.GetOrganizations(); ;
+                var organization = user.GetOrganization();
+                var permissions = user.GetPermissions();
+                var permission = user.GetPermission("something");
                 var unknownClaim = user.GetClaim("something");
 
                 if (shouldHaveValue)

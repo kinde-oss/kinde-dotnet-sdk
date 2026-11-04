@@ -37,7 +37,6 @@ namespace Kinde.Api.Test.Mocks.Flows
 
         public void AuthorizeRequest(HttpRequestMessage httpRequestMessage, HttpClient httpClient)
         {
-            // Mock implementation - add authorization header
             httpRequestMessage.Headers.TryAddWithoutValidation("cache-control", "no-cache");
             httpRequestMessage.Headers.TryAddWithoutValidation("Authorization", "Bearer " + Token.AccessToken);
         }

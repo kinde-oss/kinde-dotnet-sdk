@@ -157,7 +157,6 @@ namespace Kinde.Api.Test.Integration
             {
                 var mgmtConfig = _config.ManagementApi;
 
-                // Get access token
                 var accessToken = GetAccessTokenAsync().GetAwaiter().GetResult();
 
                 _apiConfiguration = new Configuration
@@ -168,7 +167,6 @@ namespace Kinde.Api.Test.Integration
 
                 _httpClient = new HttpClient();
 
-                // Create all test resources via API
                 CreateTestResourcesAsync().GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -335,7 +333,6 @@ namespace Kinde.Api.Test.Integration
 
                 // Clean up in reverse order of creation to avoid dependency issues
                 
-                // Delete role via API
                 if (!string.IsNullOrEmpty(_roleId))
                 {
                     try
@@ -353,7 +350,6 @@ namespace Kinde.Api.Test.Integration
 
                 // Note: Property was not created by fixture (we used existing one), so don't delete it
 
-                // Delete permission via API
                 if (!string.IsNullOrEmpty(_permissionId))
                 {
                     try
@@ -369,7 +365,6 @@ namespace Kinde.Api.Test.Integration
                     }
                 }
 
-                // Delete user via API (this will also remove them from organization)
                 if (!string.IsNullOrEmpty(_userId))
                 {
                     try
@@ -385,7 +380,6 @@ namespace Kinde.Api.Test.Integration
                     }
                 }
 
-                // Delete organization via API
                 if (!string.IsNullOrEmpty(_organizationCode))
                 {
                     try
@@ -417,7 +411,6 @@ namespace Kinde.Api.Test.Integration
             if (_disposed)
                 return;
 
-            // Clean up resources via API
             if (_initialized && _config.UseRealApi)
             {
                 CleanupTestResourcesAsync().GetAwaiter().GetResult();

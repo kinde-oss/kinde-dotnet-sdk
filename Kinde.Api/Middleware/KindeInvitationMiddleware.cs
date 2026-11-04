@@ -106,8 +106,6 @@ namespace Kinde.Auth.Middleware
 
         /// <summary>
         /// Builds the full registration URL with invitation params appended.
-        /// Example:
-        /// https://yourapp.com/api/auth/register?invitation_code=abc123&is_invitation=true
         /// </summary>
         private string BuildRegisterUrl(string invitationCode)
         {

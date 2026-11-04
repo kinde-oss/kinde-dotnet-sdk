@@ -5,11 +5,8 @@ using KiotaModels = Kinde.Api.Kiota.Management.Models;
 namespace Kinde.Api.Test.Integration.Mocks
 {
     /// <summary>
-    /// Regression tests for EnumMemberJsonConverterFactory/EnumMemberJsonConverter&lt;T&gt;, which make
-    /// KiotaMockHttpHandler serialize enums using their [EnumMember(Value = "...")] string instead of
-    /// the default System.Text.Json behavior (the underlying int). Get_application_response_application_type
-    /// is used because its EnumMember values ("m2m", "reg", "spa") differ from the C# member names
-    /// (M2m, Reg, Spa), so a converter that just called ToString() would not catch this.
+    /// Regression tests for EnumMemberJsonConverterFactory: KiotaMockHttpHandler must serialize enums as their [EnumMember] string,
+    /// not the underlying int. Get_application_response_application_type is used because its values ("m2m") differ from the member names (M2m).
     /// </summary>
     public class EnumMemberJsonConverterTests
     {

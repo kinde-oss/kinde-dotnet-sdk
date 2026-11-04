@@ -60,14 +60,12 @@ namespace Kinde.Api.Test.Integration.Kiota
         #region JSON Deserialization Tests
 
         /// <summary>
-        /// Verifies that Kiota models can be created and values accessed correctly.
-        /// Note: Kiota models use BackingStore and standard JsonSerializer doesn't work with them.
-        /// This test creates Kiota models directly and verifies property access.
+        /// Verifies that Kiota models can be created and read back. Models are built directly because
+        /// BackingStore models do not work with the standard JsonSerializer.
         /// </summary>
         [Fact]
         public void KiotaModel_DirectCreation_WorksCorrectly()
         {
-            // Create Kiota model directly (they use BackingStore internally)
             var kiotaModel = new KiotaManagementModels.User
             {
                 Id = "user_123",
@@ -87,14 +85,12 @@ namespace Kinde.Api.Test.Integration.Kiota
         }
 
         /// <summary>
-        /// Verifies that nested Kiota models map correctly to OpenAPI models.
-        /// Note: Kiota models use BackingStore and can't be deserialized with standard JsonSerializer.
-        /// This test creates Kiota models directly and verifies model mapping.
+        /// Verifies that nested Kiota models map correctly to OpenAPI models. Models are built directly because
+        /// BackingStore models cannot be deserialized with the standard JsonSerializer.
         /// </summary>
         [Fact]
         public void NestedKiotaModels_MapToOpenApi_Correctly()
         {
-            // Create Kiota models directly (they use BackingStore internally)
             var kiotaUser1 = new KiotaManagementModels.Users_response_users
             {
                 Id = "user_1",
@@ -123,7 +119,6 @@ namespace Kinde.Api.Test.Integration.Kiota
             Assert.Equal("John", kiotaModel.Users[0].FirstName);
             Assert.Equal("token_abc123", kiotaModel.NextToken);
 
-            // Also verify mapping to the OpenAPI model
             var openApiModel = _mapper.Map<UsersResponse>(kiotaModel);
             Assert.NotNull(openApiModel);
             Assert.Equal("200", openApiModel.Code);

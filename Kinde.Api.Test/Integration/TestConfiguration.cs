@@ -16,11 +16,8 @@ namespace Kinde.Api.Test.Integration
 
         private TestConfiguration()
         {
-            // Get the project directory (where appsettings.json is located).
-            // Tests run from bin/<Configuration>/<TargetFramework>, so walk up to the project root.
-            // The directory that holds the .csproj is the project root, which avoids matching
-            // target-framework folder names one by one - a list like that silently stops working
-            // the moment a new target framework is added, leaving every real-API test skipped.
+            // Tests run from bin/<Configuration>/<TargetFramework>; walk up to the directory holding the .csproj. Matching
+            // target-framework folder names instead would silently skip every real-API test once a new TFM is added.
             var currentDir = Directory.GetCurrentDirectory();
             var projectDir = currentDir;
 
@@ -49,7 +46,6 @@ namespace Kinde.Api.Test.Integration
 
             _configuration = builder.Build();
             
-            // Debug logging - check all sources
             var envMode = Environment.GetEnvironmentVariable("KINDE_TEST_MODE") ?? Environment.GetEnvironmentVariable("TestMode");
             var configMode = _configuration["TestMode"];
             var configKindeMode = _configuration["KindeManagementApi:Domain"] != null ? "configured" : "not configured";
@@ -59,12 +55,10 @@ namespace Kinde.Api.Test.Integration
             Console.WriteLine($"[TEST CONFIG] Config TestMode: {configMode ?? "not set"}");
             Console.WriteLine($"[TEST CONFIG] Config KindeManagementApi: {configKindeMode}");
             
-            // Get final test mode
             var testMode = GetValue("KINDE_TEST_MODE") ?? GetValue("TestMode") ?? "Mock";
             Console.WriteLine($"[TEST CONFIG] Final Test Mode: {testMode}");
             Console.WriteLine($"[TEST CONFIG] UseRealApi: {testMode.Equals("Real", StringComparison.OrdinalIgnoreCase)}");
             
-            // Log configuration source
             if (!string.IsNullOrEmpty(envMode))
             {
                 Console.WriteLine($"[TEST CONFIG] Configuration source: Environment variable");

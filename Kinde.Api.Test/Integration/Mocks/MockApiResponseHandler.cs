@@ -63,7 +63,6 @@ namespace Kinde.Api.Test.Integration.Mocks
                 });
             }
 
-            // Return 404 if no match found
             return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 Content = new StringContent($"{{\"error\":\"No mock response found for {method} {path}\"}}", System.Text.Encoding.UTF8, "application/json")

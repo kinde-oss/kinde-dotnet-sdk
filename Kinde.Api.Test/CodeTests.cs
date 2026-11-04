@@ -34,7 +34,6 @@ namespace Kinde.Api.Test
 
             await client.Authorize((IAuthorizationConfiguration)authConfig);
 
-            // Create a new handler with the token response for the token exchange
             var resp = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             resp.Content = new StringContent(Token);
             var tokenHandler = new MockHttpMessageHandler(resp);
