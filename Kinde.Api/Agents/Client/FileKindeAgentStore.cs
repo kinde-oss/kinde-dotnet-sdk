@@ -304,27 +304,20 @@ namespace Kinde.Api.Agents.Client
 
                 for (var attempt = 1; ; attempt++)
                 {
+                    var temporary = $"{path}.{Guid.NewGuid():N}.tmp";
+
                     try
                     {
-                        using (var stream = new FileStream(
-                            path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
-                        using (var writer = new StreamWriter(stream, Encoding.UTF8))
-                        {
-                            await writer.WriteAsync(Protect(value)).ConfigureAwait(false);
-                        }
+                        await WriteAsync(temporary, Protect(value), cancellationToken)
+                            .ConfigureAwait(false);
 
-#if NET8_0_OR_GREATER
-                        if (!OperatingSystem.IsWindows())
-                        {
-                            File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
-                        }
-#endif
+                        File.Move(temporary, path);
                         return null;
                     }
                     catch (IOException) when (attempt < CreateAttempts)
                     {
-                        // Another agent got there first, or still holds the file open with
-                        // FileShare.None. Its value is the one both should use.
+                        // Another agent got there first, or still holds the file open. Its value
+                        // is the one both should use.
                         var current = await TryReadAsync(path, cancellationToken)
                             .ConfigureAwait(false);
 
@@ -335,10 +328,13 @@ namespace Kinde.Api.Agents.Client
 
                         // Could not create and could not read: the winner is mid-write, or the file
                         // has since been removed. Returning null here would claim this value was
-                        // stored when it was not, leaving this agent on a client id the store does
-                        // not hold - so the create is attempted again instead.
+                        // stored when it was not, so the create is attempted again instead.
                         await Task.Delay(TimeSpan.FromMilliseconds(20 * attempt), cancellationToken)
                             .ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        TryDelete(temporary);
                     }
                 }
             }
@@ -350,6 +346,42 @@ namespace Kinde.Api.Agents.Client
 
         /// <summary>How many times an exclusive create is attempted before giving up.</summary>
         private const int CreateAttempts = 5;
+
+        /// <summary>Writes a file, applying the owner-only mode on Unix.</summary>
+        private static async Task WriteAsync(
+            string path, string contents, CancellationToken cancellationToken)
+        {
+#if NET8_0_OR_GREATER
+            await File.WriteAllTextAsync(path, contents, Encoding.UTF8, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!OperatingSystem.IsWindows())
+            {
+                File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            }
+#else
+            await Task.CompletedTask.ConfigureAwait(false);
+            File.WriteAllText(path, contents, Encoding.UTF8);
+#endif
+        }
+
+        /// <summary>Removes a leftover temporary file, ignoring a failure to do so.</summary>
+        private static void TryDelete(string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
+        }
 
         /// <summary>
         /// Reads a file that another process may still have open, returning null rather than

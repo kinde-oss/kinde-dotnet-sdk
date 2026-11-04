@@ -39,11 +39,80 @@ namespace Kinde.Api.Agents.Client
         private readonly HttpClient _httpClient;
 
         /// <summary>
-        /// The process-wide client for metadata fetches. Stateless and immutable once built, so
-        /// sharing it is safe and avoids a connection pool per agent client.
+        /// The process-wide client for metadata fetches, which refuses to connect to a private
+        /// address. Checking at connect time closes the gap between the preflight resolution and
+        /// the one the socket performs, where a name can resolve differently the second time.
         /// </summary>
-        private static readonly HttpClient SharedMetadataClient =
-            new(new HttpClientHandler { AllowAutoRedirect = false });
+        private static readonly HttpClient SharedMetadataClient = CreateMetadataClient(restricted: true);
+
+        /// <summary>
+        /// The client used when private destinations are allowed. Redirects stay disabled so each
+        /// hop is still inspected.
+        /// </summary>
+        private static readonly HttpClient SharedUnrestrictedMetadataClient =
+            CreateMetadataClient(restricted: false);
+
+        private static HttpClient CreateMetadataClient(bool restricted)
+        {
+            var handler = new SocketsHttpHandler { AllowAutoRedirect = false };
+
+            if (restricted)
+            {
+                var connect = handler.ConnectCallback;
+                handler.ConnectCallback = async (context, cancellationToken) =>
+                {
+                    await RequireAllowedConnectionAsync(context.DnsEndPoint, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    return connect != null
+                        ? await connect(context, cancellationToken).ConfigureAwait(false)
+                        : await ConnectAsync(context.DnsEndPoint, cancellationToken).ConfigureAwait(false);
+                };
+            }
+
+            return new HttpClient(handler);
+        }
+
+        /// <summary>
+        /// Refuses the connection when the endpoint resolves to an address the agent should not be
+        /// sent to on a stranger's instruction.
+        /// </summary>
+        internal static async Task RequireAllowedConnectionAsync(
+            DnsEndPoint endPoint, CancellationToken cancellationToken)
+        {
+            var addresses = IPAddress.TryParse(endPoint.Host, out var literal)
+                ? new[] { literal }
+                : await Dns.GetHostAddressesAsync(endPoint.Host, cancellationToken)
+                    .ConfigureAwait(false);
+
+            foreach (var address in addresses)
+            {
+                if (IsPrivate(address))
+                {
+                    throw new InvalidOperationException(
+                        $"'{endPoint.Host}' resolves to {address}, which is a loopback, private, or "
+                        + "link-local address. Set "
+                        + nameof(KindeAgentClientOptions.AllowPrivateResourceMetadataHosts)
+                        + " if this resource genuinely runs on a private network.");
+                }
+            }
+        }
+
+        private static async Task<Stream> ConnectAsync(
+            DnsEndPoint endPoint, CancellationToken cancellationToken)
+        {
+            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp) { NoDelay = true };
+            try
+            {
+                await socket.ConnectAsync(endPoint, cancellationToken).ConfigureAwait(false);
+                return new NetworkStream(socket, ownsSocket: true);
+            }
+            catch
+            {
+                socket.Dispose();
+                throw;
+            }
+        }
 
         /// <summary>
         /// Used only for the protected resource metadata fetch, with redirects disabled so each
@@ -120,7 +189,9 @@ namespace Kinde.Api.Agents.Client
             }
             else
             {
-                _metadataClient = SharedMetadataClient;
+                _metadataClient = _options.AllowPrivateResourceMetadataHosts
+                    ? SharedUnrestrictedMetadataClient
+                    : SharedMetadataClient;
                 _ownsMetadataClient = false;
             }
 
@@ -783,7 +854,7 @@ namespace Kinde.Api.Agents.Client
 
             try
             {
-                var refreshed = await RefreshCoreAsync(token.RefreshToken!, cancellationToken)
+                var refreshed = await RefreshCoreAsync(token.RefreshToken!, cancellationToken, token)
                     .ConfigureAwait(false);
 
                 // A sign-out overtook the refresh. The session is over, so report no token rather
@@ -888,7 +959,9 @@ namespace Kinde.Api.Agents.Client
         }
 
         private Task<TokenRequestResult> RefreshCoreAsync(
-            string refreshToken, CancellationToken cancellationToken)
+            string refreshToken,
+            CancellationToken cancellationToken,
+            KindeAgentToken? issuedToken = null)
         {
             if (string.IsNullOrEmpty(refreshToken))
             {
@@ -907,7 +980,10 @@ namespace Kinde.Api.Agents.Client
             }
 
             return RequestTokenCoreAsync(
-                form, cancellationToken, carryOverRefreshToken: refreshToken);
+                form,
+                cancellationToken,
+                carryOverRefreshToken: refreshToken,
+                credentials: issuedToken == null ? null : CredentialsFor(issuedToken));
         }
 
         /// <summary>Releases the gates that serialise registration and token persistence.</summary>
@@ -1206,18 +1282,24 @@ namespace Kinde.Api.Agents.Client
         private async Task<TokenRequestResult> RequestTokenCoreAsync(
             Dictionary<string, string> form,
             CancellationToken cancellationToken,
-            string? carryOverRefreshToken = null)
+            string? carryOverRefreshToken = null,
+            ClientCredentials? credentials = null)
         {
             // Captured before the call, so a sign-out that lands while it is in flight is visible
             // as a change by the time there is a token to store.
             var generation = Volatile.Read(ref _signOutGeneration);
 
             var discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
-            var clientId = await ResolveClientIdAsync(cancellationToken).ConfigureAwait(false);
+
+            var clientId = credentials?.ClientId
+                ?? await ResolveClientIdAsync(cancellationToken).ConfigureAwait(false);
 
             form["client_id"] = clientId;
 
-            var secret = await ResolveClientSecretAsync(cancellationToken).ConfigureAwait(false);
+            var secret = credentials is { } supplied
+                ? supplied.ClientSecret
+                : await ResolveClientSecretAsync(cancellationToken).ConfigureAwait(false);
+
             if (!string.IsNullOrEmpty(secret))
             {
                 // client_secret_post, which is what Kinde's agent token endpoint advertises.

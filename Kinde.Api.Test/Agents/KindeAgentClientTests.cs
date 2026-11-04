@@ -1224,6 +1224,28 @@ namespace Kinde.Api.Test.Agents
             }
         }
 
+        [Theory]
+        [InlineData("127.0.0.1")]
+        [InlineData("169.254.169.254")]
+        [InlineData("10.0.0.5")]
+        [InlineData("192.168.1.10")]
+        [InlineData("::1")]
+        public async Task TheConnectionPolicy_RefusesAnInternalAddressAtConnectTime(string host)
+        {
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => KindeAgentClient.RequireAllowedConnectionAsync(
+                    new DnsEndPoint(host, 443), CancellationToken.None));
+
+            Assert.Contains("loopback, private, or link-local", exception.Message);
+        }
+
+        [Fact]
+        public async Task TheConnectionPolicy_AllowsAPublicAddress()
+        {
+            await KindeAgentClient.RequireAllowedConnectionAsync(
+                new DnsEndPoint("93.184.216.34", 443), CancellationToken.None);
+        }
+
         [Fact]
         public async Task TheMetadataFetch_AllowsAPublicDestination()
         {

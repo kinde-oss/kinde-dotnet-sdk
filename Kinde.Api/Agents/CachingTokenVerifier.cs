@@ -78,9 +78,26 @@ namespace Kinde.Api.Agents
             // visible as a change by the time the result comes back.
             var generation = Volatile.Read(ref _generation);
 
-            var context = await _inner.VerifyAsync(accessToken, cancellationToken)
-                .ConfigureAwait(false);
+            EnterInFlight(key);
+            try
+            {
+                var context = await _inner.VerifyAsync(accessToken, cancellationToken)
+                    .ConfigureAwait(false);
 
+                UpdateCache(key, context, now, generation);
+
+                Prune(now);
+                return context;
+            }
+            finally
+            {
+                LeaveInFlight(key);
+            }
+        }
+
+        private void UpdateCache(
+            string key, KindeAuthContext context, DateTimeOffset now, long generation)
+        {
             if (context.IsAuthenticated)
             {
                 // Never past the token's own expiry, or the cache would keep an expired token
@@ -108,20 +125,37 @@ namespace Kinde.Api.Agents
             }
             else
             {
-                // A previously good token that has just been rejected must not stay cached, and the
-                // generation is bumped for the same reason Invalidate does it: an older success for
-                // this token may still be in flight, and without the bump it could insert after
-                // this removal and re-authenticate a token Kinde has just refused.
+                // A rejected token must not stay cached. The generation is bumped only when
+                // another verification of this same key is still running and could insert a
+                // stale success after this removal. Bumping unconditionally would also discard
+                // in-flight successes for every other token, which are not in question here.
                 lock (_sync)
                 {
-                    Interlocked.Increment(ref _generation);
+                    if (InFlightCountFor(key) > 1)
+                    {
+                        Interlocked.Increment(ref _generation);
+                    }
+
                     _entries.TryRemove(key, out _);
                 }
             }
-
-            Prune(now);
-            return context;
         }
+
+        /// <summary>Verifications currently running, by token key.</summary>
+        private readonly ConcurrentDictionary<string, int> _inFlight =
+            new ConcurrentDictionary<string, int>(StringComparer.Ordinal);
+
+        private void EnterInFlight(string key) =>
+            _inFlight.AddOrUpdate(key, 1, (_, count) => count + 1);
+
+        private void LeaveInFlight(string key)
+        {
+            _inFlight.AddOrUpdate(key, 0, (_, count) => count - 1);
+            _inFlight.TryRemove(new KeyValuePair<string, int>(key, 0));
+        }
+
+        private int InFlightCountFor(string key) =>
+            _inFlight.TryGetValue(key, out var count) ? count : 0;
 
         /// <summary>Forgets a token, for use after an explicit revocation.</summary>
         public void Invalidate(string accessToken)

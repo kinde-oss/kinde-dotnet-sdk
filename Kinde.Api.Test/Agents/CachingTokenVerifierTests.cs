@@ -190,6 +190,61 @@ namespace Kinde.Api.Test.Agents
         }
 
         [Fact]
+        public async Task ARejectionOfOneToken_DoesNotStopAnotherFromCaching()
+        {
+            var gate = new TaskCompletionSource();
+            var inner = new PerTokenVerifier
+            {
+                Blocked = gate.Task,
+                BlockedToken = "token-a"
+            };
+
+            var verifier = new CachingTokenVerifier(inner, TimeSpan.FromMinutes(10));
+
+            var verifyingA = verifier.VerifyAsync("token-a");
+
+            // B is rejected while A is still in flight.
+            await verifier.VerifyAsync("token-b");
+
+            gate.SetResult();
+            Assert.True((await verifyingA).IsAuthenticated);
+
+            // A was cached, so a second request is served without calling Kinde again.
+            await verifier.VerifyAsync("token-a");
+
+            Assert.Equal(1, inner.CallsFor("token-a"));
+        }
+
+        /// <summary>Authenticates one token, rejects everything else, and can block one of them.</summary>
+        private sealed class PerTokenVerifier : IKindeTokenVerifier
+        {
+            private readonly Dictionary<string, int> _calls = new();
+
+            public Task Blocked { get; set; } = Task.CompletedTask;
+
+            public string BlockedToken { get; set; } = string.Empty;
+
+            public int CallsFor(string token) => _calls.TryGetValue(token, out var count) ? count : 0;
+
+            public async Task<KindeAuthContext> VerifyAsync(
+                string accessToken, CancellationToken cancellationToken = default)
+            {
+                lock (_calls)
+                {
+                    _calls[accessToken] = CallsFor(accessToken) + 1;
+                }
+
+                if (accessToken == BlockedToken)
+                {
+                    await Blocked;
+                    return Success();
+                }
+
+                return KindeAuthContext.Invalid("rejected");
+            }
+        }
+
+        [Fact]
         public async Task AnInvalidationOfAnotherToken_DoesNotStopCaching()
         {
             // The guard must only discard a result a revocation overtook. An unrelated earlier
