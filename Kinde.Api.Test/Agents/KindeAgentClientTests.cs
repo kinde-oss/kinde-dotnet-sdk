@@ -930,6 +930,59 @@ namespace Kinde.Api.Test.Agents
             Assert.Equal(0, handler.CountFor("/revoke"));
         }
 
+        [Theory]
+        [InlineData("exchange")]
+        [InlineData("refresh")]
+        [InlineData("auto-refresh")]
+        public async Task EveryTokenRequest_UsesTheClientThatIssuedTheGrant(string flow)
+        {
+            var store = new InMemoryStore();
+            var handler = new RouteHandler();
+            handler.Map("/.well-known/oauth-authorization-server/", DiscoveryJson);
+            handler.Map("/register", @"{""client_id"":""dyn_original"",""client_secret"":""s3cret""}");
+            handler.Map("/token",
+                @"{""access_token"":""at_1"",""expires_in"":1,""refresh_token"":""rt_1""}");
+
+            using var client = new KindeAgentClient(
+                Options(), new HttpClient(handler), store, handler);
+
+            var request = await client.CreateAuthorizationRequestAsync();
+
+            var registrationKey =
+                $"{Options().NormalizedDomain}|{AppId}|{RedirectUri}|registration";
+
+            if (flow == "exchange")
+            {
+                // Lost between the authorization request and the callback.
+                await store.RemoveAsync(registrationKey);
+                handler.Map("/register", @"{""client_id"":""dyn_replacement""}");
+
+                await client.ExchangeCodeAsync("the-code", request.State, request);
+            }
+            else
+            {
+                await client.ExchangeCodeAsync("the-code", request.State, request);
+
+                await store.RemoveAsync(registrationKey);
+                handler.Map("/register", @"{""client_id"":""dyn_replacement""}");
+                handler.Map("/token",
+                    @"{""access_token"":""at_2"",""expires_in"":3600,""refresh_token"":""rt_2""}");
+
+                if (flow == "refresh")
+                {
+                    await client.RefreshAsync("rt_1");
+                }
+                else
+                {
+                    await client.GetCurrentTokenAsync();
+                }
+            }
+
+            var body = handler.BodyFor("/token");
+            Assert.Contains("client_id=dyn_original", body);
+            Assert.DoesNotContain("dyn_replacement", body);
+        }
+
         [Fact]
         public async Task RevokeAsync_RefusesATokenItCannotAuthenticateFor()
         {
@@ -1233,17 +1286,84 @@ namespace Kinde.Api.Test.Agents
         public async Task TheConnectionPolicy_RefusesAnInternalAddressAtConnectTime(string host)
         {
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
-                () => KindeAgentClient.RequireAllowedConnectionAsync(
-                    new DnsEndPoint(host, 443), CancellationToken.None));
+                () => KindeAgentClient.ResolveApprovedAddressesAsync(host, CancellationToken.None));
 
             Assert.Contains("loopback, private, or link-local", exception.Message);
         }
 
         [Fact]
-        public async Task TheConnectionPolicy_AllowsAPublicAddress()
+        public async Task TheRestrictedClient_ActuallyEnforcesThePolicyOnARealConnection()
         {
-            await KindeAgentClient.RequireAllowedConnectionAsync(
-                new DnsEndPoint("93.184.216.34", 443), CancellationToken.None);
+            using var listener = new System.Net.Sockets.TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+
+            try
+            {
+                using var restricted = KindeAgentClient.CreateMetadataClient(restricted: true);
+
+                // Bounded so a regression that lets the connection through fails in seconds
+                // rather than sitting on the default hundred-second timeout.
+                restricted.Timeout = TimeSpan.FromSeconds(5);
+
+                var exception = await Assert.ThrowsAnyAsync<Exception>(
+                    () => restricted.GetAsync($"http://127.0.0.1:{port}/"));
+
+                Assert.Contains(
+                    "loopback, private, or link-local",
+                    exception.ToString(),
+                    StringComparison.Ordinal);
+            }
+            finally
+            {
+                listener.Stop();
+            }
+        }
+
+        [Fact]
+        public async Task TheUnrestrictedClient_ReachesAPrivateAddress()
+        {
+            // The opt-in path must genuinely reach a private host, or the option is useless.
+            using var listener = new System.Net.Sockets.TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+
+            System.Net.Sockets.TcpClient? served = null;
+
+            var accepted = Task.Run(async () =>
+            {
+                served = await listener.AcceptTcpClientAsync();
+                var payload = Encoding.ASCII.GetBytes(
+                    "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\n{}");
+
+                await served.GetStream().WriteAsync(payload);
+                await served.GetStream().FlushAsync();
+            });
+
+            try
+            {
+                using var unrestricted = KindeAgentClient.CreateMetadataClient(restricted: false);
+
+                var response = await unrestricted.GetAsync($"http://127.0.0.1:{port}/");
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.Equal("{}", await response.Content.ReadAsStringAsync());
+                await accepted;
+            }
+            finally
+            {
+                served?.Dispose();
+                listener.Stop();
+            }
+        }
+
+        [Fact]
+        public async Task TheConnectionPolicy_ReturnsTheAddressesItApproved()
+        {
+            var approved = await KindeAgentClient.ResolveApprovedAddressesAsync(
+                "93.184.216.34", CancellationToken.None);
+
+            Assert.Equal(IPAddress.Parse("93.184.216.34"), Assert.Single(approved));
         }
 
         [Fact]

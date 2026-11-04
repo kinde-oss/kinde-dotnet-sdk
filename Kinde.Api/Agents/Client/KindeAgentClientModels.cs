@@ -179,5 +179,16 @@ namespace Kinde.Api.Agents.Client
 
         /// <summary>The redirect URI used, which the token request must repeat.</summary>
         public string RedirectUri { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The client the authorization request was made as. Carried so the code is exchanged by
+        /// the same client, rather than by whichever one happens to resolve at callback time.
+        /// </summary>
+        public string? ClientId { get; set; }
+
+        /// <summary>
+        /// The secret of <see cref="ClientId"/>, when the client is confidential.
+        /// </summary>
+        public string? ClientSecret { get; set; }
     }
 }

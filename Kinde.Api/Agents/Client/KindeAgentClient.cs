@@ -52,21 +52,25 @@ namespace Kinde.Api.Agents.Client
         private static readonly HttpClient SharedUnrestrictedMetadataClient =
             CreateMetadataClient(restricted: false);
 
-        private static HttpClient CreateMetadataClient(bool restricted)
+        internal static HttpClient CreateMetadataClient(bool restricted)
         {
             var handler = new SocketsHttpHandler { AllowAutoRedirect = false };
 
             if (restricted)
             {
-                var connect = handler.ConnectCallback;
                 handler.ConnectCallback = async (context, cancellationToken) =>
                 {
-                    await RequireAllowedConnectionAsync(context.DnsEndPoint, cancellationToken)
-                        .ConfigureAwait(false);
+                    if (IsProxyHop(context))
+                    {
+                        return await ConnectToHostAsync(context.DnsEndPoint, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
 
-                    return connect != null
-                        ? await connect(context, cancellationToken).ConfigureAwait(false)
-                        : await ConnectAsync(context.DnsEndPoint, cancellationToken).ConfigureAwait(false);
+                    var approved = await ResolveApprovedAddressesAsync(
+                        context.DnsEndPoint.Host, cancellationToken).ConfigureAwait(false);
+
+                    return await ConnectToAddressesAsync(
+                        approved, context.DnsEndPoint.Port, cancellationToken).ConfigureAwait(false);
                 };
             }
 
@@ -74,31 +78,71 @@ namespace Kinde.Api.Agents.Client
         }
 
         /// <summary>
-        /// Refuses the connection when the endpoint resolves to an address the agent should not be
-        /// sent to on a stranger's instruction.
+        /// Whether this socket is being opened to a proxy rather than to the request's own host.
         /// </summary>
-        internal static async Task RequireAllowedConnectionAsync(
-            DnsEndPoint endPoint, CancellationToken cancellationToken)
+        private static bool IsProxyHop(SocketsHttpConnectionContext context)
         {
-            var addresses = IPAddress.TryParse(endPoint.Host, out var literal)
+            var origin = context.InitialRequestMessage?.RequestUri;
+
+            return origin != null
+                   && !string.Equals(context.DnsEndPoint.Host, origin.Host, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Resolves a host and returns the addresses, refusing any the agent should not be sent to
+        /// on a stranger's instruction.
+        /// </summary>
+        /// <remarks>
+        /// The addresses are returned so the caller connects to exactly what was approved. Handing
+        /// the host name back to the socket would let it resolve a second time and reach an
+        /// address this check never saw, which is the rebinding the check exists to stop.
+        /// </remarks>
+        internal static async Task<IReadOnlyList<IPAddress>> ResolveApprovedAddressesAsync(
+            string host, CancellationToken cancellationToken)
+        {
+            var addresses = IPAddress.TryParse(host, out var literal)
                 ? new[] { literal }
-                : await Dns.GetHostAddressesAsync(endPoint.Host, cancellationToken)
-                    .ConfigureAwait(false);
+                : await Dns.GetHostAddressesAsync(host, cancellationToken).ConfigureAwait(false);
+
+            if (addresses.Length == 0)
+            {
+                throw new InvalidOperationException($"'{host}' resolved to no addresses.");
+            }
 
             foreach (var address in addresses)
             {
                 if (IsPrivate(address))
                 {
                     throw new InvalidOperationException(
-                        $"'{endPoint.Host}' resolves to {address}, which is a loopback, private, or "
+                        $"'{host}' resolves to {address}, which is a loopback, private, or "
                         + "link-local address. Set "
                         + nameof(KindeAgentClientOptions.AllowPrivateResourceMetadataHosts)
                         + " if this resource genuinely runs on a private network.");
                 }
             }
+
+            return addresses;
         }
 
-        private static async Task<Stream> ConnectAsync(
+        private static async Task<Stream> ConnectToAddressesAsync(
+            IReadOnlyList<IPAddress> addresses, int port, CancellationToken cancellationToken)
+        {
+            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp) { NoDelay = true };
+            try
+            {
+                await socket.ConnectAsync(addresses.ToArray(), port, cancellationToken)
+                    .ConfigureAwait(false);
+
+                return new NetworkStream(socket, ownsSocket: true);
+            }
+            catch
+            {
+                socket.Dispose();
+                throw;
+            }
+        }
+
+        private static async Task<Stream> ConnectToHostAsync(
             DnsEndPoint endPoint, CancellationToken cancellationToken)
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp) { NoDelay = true };
@@ -745,6 +789,8 @@ namespace Kinde.Api.Agents.Client
                     : $"{discovery.AuthorizationEndpoint}?{query}",
                 State = state,
                 CodeVerifier = verifier,
+                ClientId = clientId,
+                ClientSecret = await ResolveClientSecretAsync(cancellationToken).ConfigureAwait(false),
                 RedirectUri = _options.RedirectUri
             };
         }
@@ -822,7 +868,17 @@ namespace Kinde.Api.Agents.Client
                 form["resource"] = _options.ResourceUrl!;
             }
 
-            return await RequestTokenAsync(form, cancellationToken).ConfigureAwait(false);
+            // The client the authorization request was made as. Resolving afresh can register a
+            // new client when the stored registration has become unreadable, and the token
+            // endpoint then rejects a code issued to the previous one.
+            var credentials = string.IsNullOrEmpty(request.ClientId)
+                ? (ClientCredentials?)null
+                : new ClientCredentials(request.ClientId!, request.ClientSecret);
+
+            var result = await RequestTokenCoreAsync(form, cancellationToken, credentials: credentials)
+                .ConfigureAwait(false);
+
+            return result.Token;
         }
 
         /// <summary>
@@ -954,7 +1010,15 @@ namespace Kinde.Api.Agents.Client
         public async Task<KindeAgentToken> RefreshAsync(
             string refreshToken, CancellationToken cancellationToken = default)
         {
-            var result = await RefreshCoreAsync(refreshToken, cancellationToken).ConfigureAwait(false);
+            var stored = await ReadTokenAsync(cancellationToken).ConfigureAwait(false);
+            var issuedToken = stored != null
+                              && string.Equals(stored.RefreshToken, refreshToken, StringComparison.Ordinal)
+                ? stored
+                : null;
+
+            var result = await RefreshCoreAsync(refreshToken, cancellationToken, issuedToken)
+                .ConfigureAwait(false);
+
             return result.Token;
         }
 
@@ -1266,17 +1330,6 @@ namespace Kinde.Api.Agents.Client
             {
                 // The local token is already gone, which is the part the caller depends on.
             }
-        }
-
-        private async Task<KindeAgentToken> RequestTokenAsync(
-            Dictionary<string, string> form,
-            CancellationToken cancellationToken,
-            string? carryOverRefreshToken = null)
-        {
-            var result = await RequestTokenCoreAsync(form, cancellationToken, carryOverRefreshToken)
-                .ConfigureAwait(false);
-
-            return result.Token;
         }
 
         private async Task<TokenRequestResult> RequestTokenCoreAsync(
