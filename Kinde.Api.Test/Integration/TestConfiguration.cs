@@ -16,14 +16,14 @@ namespace Kinde.Api.Test.Integration
 
         private TestConfiguration()
         {
-            // Tests run from bin/<Configuration>/<TargetFramework>; walk up to the directory holding the .csproj. Matching
-            // target-framework folder names instead would silently skip every real-API test once a new TFM is added.
+            // Tests run from bin/<Configuration>/<TargetFramework>; walk up to this project's own .csproj, since any
+            // other one above a custom output directory would point the configuration at the wrong folder.
             var currentDir = Directory.GetCurrentDirectory();
             var projectDir = currentDir;
 
             for (var dir = new DirectoryInfo(currentDir); dir != null; dir = dir.Parent)
             {
-                if (dir.GetFiles("*.csproj").Length > 0)
+                if (dir.GetFiles("Kinde.Api.Test.csproj").Length > 0)
                 {
                     projectDir = dir.FullName;
                     break;

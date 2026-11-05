@@ -7,6 +7,7 @@ using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Model;
 using Microsoft.Kiota.Abstractions.Serialization;
+using Microsoft.Kiota.Abstractions.Store;
 using Microsoft.Kiota.Serialization.Json;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,7 +16,7 @@ namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
     /// Serializes mapped request bodies as Kiota sends them and asserts an unset property is absent from the JSON, not an explicit null.
-    /// Kiota already omits nulls, so this is a backstop; the damage a stray null does to schema defaults is covered in ModelMappingTests.
+    /// The clients enable the backing store, so an assigned null reaches the wire as "property": null and clears the field on a PATCH.
     /// </summary>
     public class RequestSerializationTests
     {
@@ -178,7 +179,8 @@ namespace Kinde.Api.Test.Integration.Mappers
             var mapped = _mapper.Map<TKiota>(request);
             Assert.NotNull(mapped);
 
-            var writerFactory = new JsonSerializationWriterFactory();
+            var writerFactory = new BackingStoreSerializationWriterProxyFactory(
+                new JsonSerializationWriterFactory());
             using var writer = writerFactory.GetSerializationWriter("application/json");
             writer.WriteObjectValue(null, mapped);
 

@@ -310,9 +310,9 @@ namespace Kinde.Api.Mapping
             private readonly PropertyBinding[] _bindings;
 
             /// <summary>
-            /// True for a Kiota destination, where assigning null erases a property that carries a
-            /// schema default, dropping it from the payload instead of sending the default the
-            /// caller relied on.
+            /// True for a Kiota destination. The generated clients enable the backing store, which
+            /// records an assigned null as a deliberate change and serializes it as
+            /// "property": null - on a PATCH that clears the field server-side.
             /// </summary>
             private readonly bool _skipNulls;
 

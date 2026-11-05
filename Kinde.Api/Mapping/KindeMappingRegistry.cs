@@ -77,17 +77,27 @@ namespace Kinde.Api.Mapping
             where TFirst : struct, Enum
             where TSecond : struct, Enum
         {
-            return Convert<TFirst, TSecond>(source => BridgeEnum<TSecond>(source))
-                .Convert<TSecond, TFirst>(source => BridgeEnum<TFirst>(source));
+            _converters[(typeof(TFirst), typeof(TSecond))] =
+                (source, _) => BridgeEnum<TSecond>((Enum)source);
+            _converters[(typeof(TSecond), typeof(TFirst))] =
+                (source, _) => BridgeEnum<TFirst>((Enum)source);
+
+            return this;
         }
 
         /// <summary>
-        /// Translates an enum member to the one carrying the same wire name. Throws when there is
-        /// none, since falling back to the first member would report a value the API never sent.
+        /// Translates an enum member to the one carrying the same wire name. Returns null for a
+        /// value that is not a defined member, which is what a default-constructed request leaves
+        /// on a non-nullable enum property.
         /// </summary>
-        internal static TDestination BridgeEnum<TDestination>(Enum source)
+        internal static TDestination? BridgeEnum<TDestination>(Enum source)
             where TDestination : struct, Enum
         {
+            if (!Enum.IsDefined(source.GetType(), source))
+            {
+                return null;
+            }
+
             var wire = KindeValueConverter.GetWireName(source) ?? source.ToString();
 
             foreach (var name in Enum.GetNames(typeof(TDestination)))
@@ -109,14 +119,16 @@ namespace Kinde.Api.Mapping
         internal bool TryGetConverter(
             Type sourceType, Type destinationType, out Func<object, KindeMapper, object> converter)
         {
-            if (_converters.TryGetValue((sourceType, destinationType), out converter))
+            var destination = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
+
+            if (_converters.TryGetValue((sourceType, destination), out converter))
             {
                 return true;
             }
 
             for (var baseType = sourceType.BaseType; baseType != null; baseType = baseType.BaseType)
             {
-                if (_converters.TryGetValue((baseType, destinationType), out converter))
+                if (_converters.TryGetValue((baseType, destination), out converter))
                 {
                     return true;
                 }

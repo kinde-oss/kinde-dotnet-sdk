@@ -143,6 +143,32 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Contains("OnlyHere", exception.Message);
         }
 
+        /// <summary>
+        /// Generated enum properties are almost always Nullable, so a lookup that did not unwrap
+        /// the destination would never find a bridge and would fall back to the generic converter,
+        /// which returns null instead of reporting that the two enums disagree.
+        /// </summary>
+        [Fact]
+        public void RegisteredConverter_IsFoundThroughANullableDestination()
+        {
+            var registry = new KindeMappingRegistry();
+            registry.BridgeEnums<BridgeSource, BridgeTarget>();
+
+            Assert.True(
+                registry.TryGetConverter(typeof(BridgeSource), typeof(BridgeTarget?), out var converter));
+            Assert.Equal(BridgeTarget.Shared, converter(BridgeSource.Shared, null!));
+        }
+
+        /// <summary>
+        /// A default-constructed request leaves a non-nullable enum property at zero, which on a
+        /// generated enum numbered from one is no member at all.
+        /// </summary>
+        [Fact]
+        public void BridgeEnum_WithAnUndefinedValue_ReturnsNull()
+        {
+            Assert.Null(KindeMappingRegistry.BridgeEnum<BridgeTarget>((BridgeSource)42));
+        }
+
         private enum BridgeSource
         {
             Shared,
