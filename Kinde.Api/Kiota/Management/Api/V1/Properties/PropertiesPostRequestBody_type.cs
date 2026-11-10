@@ -15,5 +15,9 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Properties
         #pragma warning disable CS1591
         Multi_line_text,
         #pragma warning restore CS1591
+        [EnumMember(Value = "boolean")]
+        #pragma warning disable CS1591
+        Boolean,
+        #pragma warning restore CS1591
     }
 }

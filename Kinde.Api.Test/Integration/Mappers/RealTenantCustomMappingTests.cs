@@ -159,28 +159,23 @@ namespace Kinde.Api.Test.Integration.Mappers
 
             var list = await client.Api.V1.Connections.GetAsync();
             var first = list?.Connections?.FirstOrDefault();
-            if (first?.Id is null)
+
+            var mappedListItem = first is null ? null : _mapper.Map<SdkModels.Connection>(first);
+            var firstId = mappedListItem?.VarConnection?.Id;
+            if (firstId is null)
             {
                 _output.WriteLine("No connections on this tenant; nothing to check.");
                 return;
             }
 
-            _output.WriteLine($"connection id : {first.Id}");
-
-            // The flat list shape first: these items carry the fields directly, and the mapper has
-            // to fold them into VarConnection to keep the public List<Connection> contract.
-            var mappedListItem = _mapper.Map<SdkModels.Connection>(first);
-            Assert.NotNull(mappedListItem);
-            Assert.NotNull(mappedListItem.VarConnection);
-            Assert.Equal(first.Id, mappedListItem.VarConnection.Id);
-            Assert.Equal(first.Name, mappedListItem.VarConnection.Name);
+            _output.WriteLine($"connection id : {firstId}");
             _output.WriteLine(
                 $"list item -> VarConnection: id={mappedListItem.VarConnection.Id}, "
                 + $"name={mappedListItem.VarConnection.Name}, "
                 + $"strategy={mappedListItem.VarConnection.Strategy}");
 
             // Then the wrapped single-GET shape.
-            var kiota = await client.Api.V1.Connections[first.Id].GetAsync();
+            var kiota = await client.Api.V1.Connections[firstId].GetAsync();
             Assert.NotNull(kiota);
 
             var mapped = _mapper.Map<SdkModels.Connection>(kiota);
@@ -196,6 +191,7 @@ namespace Kinde.Api.Test.Integration.Mappers
             }
 
             Assert.NotNull(mapped.VarConnection);
+            Assert.Equal(firstId, mapped.VarConnection.Id);
             Assert.Equal(kiota.ConnectionProp.Id, mapped.VarConnection.Id);
             Assert.Equal(kiota.ConnectionProp.Name, mapped.VarConnection.Name);
             Assert.Equal(kiota.ConnectionProp.Strategy, mapped.VarConnection.Strategy);

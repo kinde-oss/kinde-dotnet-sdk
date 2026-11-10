@@ -26,131 +26,79 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// Azure AD connection options.
+    /// Social connection options (e.g., Google SSO).
     /// </summary>
     [DataContract(Name = "ReplaceConnection_request_options_oneOf")]
     public partial class ReplaceConnectionRequestOptionsOneOf : IEquatable<ReplaceConnectionRequestOptionsOneOf>
     {
         /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TrustModeEnum
+        {
+            /// <summary>
+            /// Enum None for value: none
+            /// </summary>
+            [EnumMember(Value = "none")]
+            None = 1,
+
+            /// <summary>
+            /// Enum Validate for value: validate
+            /// </summary>
+            [EnumMember(Value = "validate")]
+            Validate = 2,
+
+            /// <summary>
+            /// Enum Trust for value: trust
+            /// </summary>
+            [EnumMember(Value = "trust")]
+            Trust = 3
+        }
+
+
+        /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.</value>
+        /// <example>validate</example>
+        [DataMember(Name = "trust_mode", EmitDefaultValue = false)]
+        public TrustModeEnum? TrustMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptionsOneOf" /> class.
         /// </summary>
-        /// <param name="clientId">Client ID..</param>
-        /// <param name="clientSecret">Client secret..</param>
-        /// <param name="homeRealmDomains">List of domains to limit authentication..</param>
-        /// <param name="entraIdDomain">Domain for Entra ID..</param>
-        /// <param name="isUseCommonEndpoint">Use https://login.windows.net/common instead of a default endpoint..</param>
-        /// <param name="isSyncUserProfileOnLogin">Sync user profile data with IDP..</param>
-        /// <param name="isRetrieveProviderUserGroups">Include user group info from MS Entra ID..</param>
-        /// <param name="isExtendedAttributesRequired">Include additional user profile information..</param>
-        /// <param name="isCreateMissingUser">Create a user record in Kinde if the user signing in does not exist..</param>
-        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
-        /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
+        /// <param name="clientId">OAuth client ID..</param>
+        /// <param name="clientSecret">OAuth client secret..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
-        /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public ReplaceConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        /// <param name="isTrusted">Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate..</param>
+        /// <param name="trustMode">How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately..</param>
+        /// <param name="isPasskeyAllowed">Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. When omitted, the current value is kept..</param>
+        public ReplaceConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool), TrustModeEnum? trustMode = default(TrustModeEnum?), bool isPasskeyAllowed = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
-            this.HomeRealmDomains = homeRealmDomains;
-            this.EntraIdDomain = entraIdDomain;
-            this.IsUseCommonEndpoint = isUseCommonEndpoint;
-            this.IsSyncUserProfileOnLogin = isSyncUserProfileOnLogin;
-            this.IsRetrieveProviderUserGroups = isRetrieveProviderUserGroups;
-            this.IsExtendedAttributesRequired = isExtendedAttributesRequired;
-            this.IsCreateMissingUser = isCreateMissingUser;
-            this.IsForceShowSsoButton = isForceShowSsoButton;
-            this.UpstreamParams = upstreamParams;
             this.IsUseCustomDomain = isUseCustomDomain;
             this.IsTrusted = isTrusted;
+            this.TrustMode = trustMode;
+            this.IsPasskeyAllowed = isPasskeyAllowed;
         }
 
         /// <summary>
-        /// Client ID.
+        /// OAuth client ID.
         /// </summary>
-        /// <value>Client ID.</value>
+        /// <value>OAuth client ID.</value>
         /// <example>hji7db2146af332akfldfded22</example>
         [DataMember(Name = "client_id", EmitDefaultValue = false)]
         public string ClientId { get; set; }
 
         /// <summary>
-        /// Client secret.
+        /// OAuth client secret.
         /// </summary>
-        /// <value>Client secret.</value>
+        /// <value>OAuth client secret.</value>
         /// <example>19fkjdalg521l23fassf3039d4ae18b</example>
         [DataMember(Name = "client_secret", EmitDefaultValue = false)]
         public string ClientSecret { get; set; }
-
-        /// <summary>
-        /// List of domains to limit authentication.
-        /// </summary>
-        /// <value>List of domains to limit authentication.</value>
-        /// <example>[&quot;@kinde.com&quot;,&quot;@kinde.io&quot;]</example>
-        [DataMember(Name = "home_realm_domains", EmitDefaultValue = false)]
-        public List<string> HomeRealmDomains { get; set; }
-
-        /// <summary>
-        /// Domain for Entra ID.
-        /// </summary>
-        /// <value>Domain for Entra ID.</value>
-        /// <example>kinde.com</example>
-        [DataMember(Name = "entra_id_domain", EmitDefaultValue = false)]
-        public string EntraIdDomain { get; set; }
-
-        /// <summary>
-        /// Use https://login.windows.net/common instead of a default endpoint.
-        /// </summary>
-        /// <value>Use https://login.windows.net/common instead of a default endpoint.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_use_common_endpoint", EmitDefaultValue = true)]
-        public bool IsUseCommonEndpoint { get; set; }
-
-        /// <summary>
-        /// Sync user profile data with IDP.
-        /// </summary>
-        /// <value>Sync user profile data with IDP.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_sync_user_profile_on_login", EmitDefaultValue = true)]
-        public bool IsSyncUserProfileOnLogin { get; set; }
-
-        /// <summary>
-        /// Include user group info from MS Entra ID.
-        /// </summary>
-        /// <value>Include user group info from MS Entra ID.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_retrieve_provider_user_groups", EmitDefaultValue = true)]
-        public bool IsRetrieveProviderUserGroups { get; set; }
-
-        /// <summary>
-        /// Include additional user profile information.
-        /// </summary>
-        /// <value>Include additional user profile information.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_extended_attributes_required", EmitDefaultValue = true)]
-        public bool IsExtendedAttributesRequired { get; set; }
-
-        /// <summary>
-        /// Create a user record in Kinde if the user signing in does not exist.
-        /// </summary>
-        /// <value>Create a user record in Kinde if the user signing in does not exist.</value>
-        /// <example>true</example>
-        [DataMember(Name = "is_create_missing_user", EmitDefaultValue = true)]
-        public bool IsCreateMissingUser { get; set; }
-
-        /// <summary>
-        /// Force showing the SSO button for this connection.
-        /// </summary>
-        /// <value>Force showing the SSO button for this connection.</value>
-        /// <example>false</example>
-        [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
-        public bool IsForceShowSsoButton { get; set; }
-
-        /// <summary>
-        /// Additional upstream parameters to pass to the identity provider.
-        /// </summary>
-        /// <value>Additional upstream parameters to pass to the identity provider.</value>
-        /// <example>{&quot;prompt&quot;:{&quot;value&quot;:&quot;select_account&quot;}}</example>
-        [DataMember(Name = "upstream_params", EmitDefaultValue = false)]
-        public Dictionary<string, Object> UpstreamParams { get; set; }
 
         /// <summary>
         /// Use custom domain callback URL.
@@ -161,12 +109,21 @@ namespace Kinde.Api.Model
         public bool IsUseCustomDomain { get; set; }
 
         /// <summary>
-        /// Trust this connection for account merging.
+        /// Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.
         /// </summary>
-        /// <value>Trust this connection for account merging.</value>
+        /// <value>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</value>
         /// <example>true</example>
         [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsTrusted { get; set; }
+
+        /// <summary>
+        /// Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. When omitted, the current value is kept.
+        /// </summary>
+        /// <value>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. When omitted, the current value is kept.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_passkey_allowed", EmitDefaultValue = true)]
+        public bool IsPasskeyAllowed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -178,17 +135,10 @@ namespace Kinde.Api.Model
             sb.Append("class ReplaceConnectionRequestOptionsOneOf {\n");
             sb.Append("  ClientId: ").Append(ClientId).Append("\n");
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
-            sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
-            sb.Append("  EntraIdDomain: ").Append(EntraIdDomain).Append("\n");
-            sb.Append("  IsUseCommonEndpoint: ").Append(IsUseCommonEndpoint).Append("\n");
-            sb.Append("  IsSyncUserProfileOnLogin: ").Append(IsSyncUserProfileOnLogin).Append("\n");
-            sb.Append("  IsRetrieveProviderUserGroups: ").Append(IsRetrieveProviderUserGroups).Append("\n");
-            sb.Append("  IsExtendedAttributesRequired: ").Append(IsExtendedAttributesRequired).Append("\n");
-            sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
-            sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
-            sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
             sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
+            sb.Append("  TrustMode: ").Append(TrustMode).Append("\n");
+            sb.Append("  IsPasskeyAllowed: ").Append(IsPasskeyAllowed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -235,53 +185,20 @@ namespace Kinde.Api.Model
                     this.ClientSecret.Equals(input.ClientSecret))
                 ) && 
                 (
-                    this.HomeRealmDomains == input.HomeRealmDomains ||
-                    this.HomeRealmDomains != null &&
-                    input.HomeRealmDomains != null &&
-                    this.HomeRealmDomains.SequenceEqual(input.HomeRealmDomains)
-                ) && 
-                (
-                    this.EntraIdDomain == input.EntraIdDomain ||
-                    (this.EntraIdDomain != null &&
-                    this.EntraIdDomain.Equals(input.EntraIdDomain))
-                ) && 
-                (
-                    this.IsUseCommonEndpoint == input.IsUseCommonEndpoint ||
-                    this.IsUseCommonEndpoint.Equals(input.IsUseCommonEndpoint)
-                ) && 
-                (
-                    this.IsSyncUserProfileOnLogin == input.IsSyncUserProfileOnLogin ||
-                    this.IsSyncUserProfileOnLogin.Equals(input.IsSyncUserProfileOnLogin)
-                ) && 
-                (
-                    this.IsRetrieveProviderUserGroups == input.IsRetrieveProviderUserGroups ||
-                    this.IsRetrieveProviderUserGroups.Equals(input.IsRetrieveProviderUserGroups)
-                ) && 
-                (
-                    this.IsExtendedAttributesRequired == input.IsExtendedAttributesRequired ||
-                    this.IsExtendedAttributesRequired.Equals(input.IsExtendedAttributesRequired)
-                ) && 
-                (
-                    this.IsCreateMissingUser == input.IsCreateMissingUser ||
-                    this.IsCreateMissingUser.Equals(input.IsCreateMissingUser)
-                ) && 
-                (
-                    this.IsForceShowSsoButton == input.IsForceShowSsoButton ||
-                    this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
-                ) && 
-                (
-                    this.UpstreamParams == input.UpstreamParams ||
-                    this.UpstreamParams != null &&
-                    input.UpstreamParams != null &&
-                    this.UpstreamParams.SequenceEqual(input.UpstreamParams)
-                ) && 
-                (
                     this.IsUseCustomDomain == input.IsUseCustomDomain ||
                     this.IsUseCustomDomain.Equals(input.IsUseCustomDomain)
                 ) && 
                 (
                     this.IsTrusted == input.IsTrusted ||
                     this.IsTrusted.Equals(input.IsTrusted)
+                ) && 
+                (
+                    this.TrustMode == input.TrustMode ||
+                    this.TrustMode.Equals(input.TrustMode)
+                ) && 
+                (
+                    this.IsPasskeyAllowed == input.IsPasskeyAllowed ||
+                    this.IsPasskeyAllowed.Equals(input.IsPasskeyAllowed)
                 );
         }
 
@@ -302,26 +219,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.ClientSecret.GetHashCode();
                 }
-                if (this.HomeRealmDomains != null)
-                {
-                    hashCode = (hashCode * 59) + this.HomeRealmDomains.GetHashCode();
-                }
-                if (this.EntraIdDomain != null)
-                {
-                    hashCode = (hashCode * 59) + this.EntraIdDomain.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.IsUseCommonEndpoint.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsSyncUserProfileOnLogin.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsRetrieveProviderUserGroups.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsExtendedAttributesRequired.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
-                hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
-                if (this.UpstreamParams != null)
-                {
-                    hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
-                }
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
+                hashCode = (hashCode * 59) + this.TrustMode.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsPasskeyAllowed.GetHashCode();
                 return hashCode;
             }
         }

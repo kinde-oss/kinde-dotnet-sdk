@@ -48,7 +48,13 @@ namespace Kinde.Api.Model
             /// Enum MultiLineText for value: multi_line_text
             /// </summary>
             [EnumMember(Value = "multi_line_text")]
-            MultiLineText = 2
+            MultiLineText = 2,
+
+            /// <summary>
+            /// Enum Boolean for value: boolean
+            /// </summary>
+            [EnumMember(Value = "boolean")]
+            Boolean = 3
         }
 
 

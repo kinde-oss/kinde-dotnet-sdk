@@ -70,7 +70,7 @@ namespace Kinde.Api.Model
         /// Pagination token.
         /// </summary>
         /// <value>Pagination token.</value>
-        [DataMember(Name = "next_token", EmitDefaultValue = false)]
+        [DataMember(Name = "next_token", EmitDefaultValue = true)]
         public string NextToken { get; set; }
 
         /// <summary>
@@ -175,3 +175,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

@@ -37,6 +37,34 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("code", value); }
         }
 #endif
+        /// <summary>Usage against the current grant after this record is included. For end_of_current_billing_cycle one-time features and plan-metered entitlements this is the current billing cycle running total (resets each cycle). For none it is the ingest-order lifetime total for this agreement and feature, including records reported before the first paid purchase. Absolute replaces that total; delta adds to it. meter_usage_timestamp does not change the arithmetic. Omitted when there is no current grant.</summary>
+        public int? CurrentUsage
+        {
+            get { return BackingStore?.Get<int?>("current_usage"); }
+            set { BackingStore?.Set("current_usage", value); }
+        }
+        /// <summary>Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant.</summary>
+        public global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response_expiration_policy_code? ExpirationPolicyCode
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response_expiration_policy_code?>("expiration_policy_code"); }
+            set { BackingStore?.Set("expiration_policy_code", value); }
+        }
+        /// <summary>The friendly id of the created meter usage record</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id
+        {
+            get { return BackingStore?.Get<string?>("id"); }
+            set { BackingStore?.Set("id", value); }
+        }
+#nullable restore
+#else
+        public string Id
+        {
+            get { return BackingStore?.Get<string>("id"); }
+            set { BackingStore?.Set("id", value); }
+        }
+#endif
         /// <summary>Response message.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -53,6 +81,12 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("message", value); }
         }
 #endif
+        /// <summary>Units currently granted for this agreement and feature. For one-time features this is the sum of current paid purchases. For plan-metered entitlements this is the entitlement or plan limit. Omitted when there is no current grant, and when the grant is unlimited (any current one-time purchase has a null unit grant, or the entitlement has no numeric cap). An unlimited one-time grant still returns expiration_policy_code.</summary>
+        public int? UnitsGranted
+        {
+            get { return BackingStore?.Get<int?>("units_granted"); }
+            set { BackingStore?.Set("units_granted", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response"/> and sets the default values.
         /// </summary>
@@ -80,7 +114,11 @@ namespace Kinde.Api.Kiota.Management.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
+                { "current_usage", n => { CurrentUsage = n.GetIntValue(); } },
+                { "expiration_policy_code", n => { ExpirationPolicyCode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response_expiration_policy_code>(); } },
+                { "id", n => { Id = n.GetStringValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
+                { "units_granted", n => { UnitsGranted = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -91,7 +129,11 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
+            writer.WriteIntValue("current_usage", CurrentUsage);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response_expiration_policy_code>("expiration_policy_code", ExpirationPolicyCode);
+            writer.WriteStringValue("id", Id);
             writer.WriteStringValue("message", Message);
+            writer.WriteIntValue("units_granted", UnitsGranted);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

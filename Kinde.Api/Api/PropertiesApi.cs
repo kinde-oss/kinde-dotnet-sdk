@@ -301,23 +301,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -331,13 +331,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -353,33 +352,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -396,17 +385,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertiesApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="PropertiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -430,7 +414,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public PropertiesApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -445,10 +428,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertiesApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public PropertiesApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");

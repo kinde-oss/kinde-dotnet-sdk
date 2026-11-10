@@ -37,7 +37,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -48,12 +48,39 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteIdentityWithHttpInfo(string identityId);
+        /// <summary>
+        /// Get identities
+        /// </summary>
+        /// <remarks>
+        /// Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <returns>IdentitiesResponse</returns>
+        IdentitiesResponse GetIdentities(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string));
+
+        /// <summary>
+        /// Get identities
+        /// </summary>
+        /// <remarks>
+        /// Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <returns>ApiResponse of IdentitiesResponse</returns>
+        ApiResponse<IdentitiesResponse> GetIdentitiesWithHttpInfo(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string));
         /// <summary>
         /// Get identity
         /// </summary>
@@ -79,7 +106,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -91,7 +118,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -111,7 +138,7 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -123,13 +150,42 @@ namespace Kinde.Api.Api
         /// Delete identity
         /// </summary>
         /// <remarks>
-        /// Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteIdentityWithHttpInfoAsync(string identityId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get identities
+        /// </summary>
+        /// <remarks>
+        /// Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of IdentitiesResponse</returns>
+        System.Threading.Tasks.Task<IdentitiesResponse> GetIdentitiesAsync(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get identities
+        /// </summary>
+        /// <remarks>
+        /// Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (IdentitiesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<IdentitiesResponse>> GetIdentitiesWithHttpInfoAsync(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get identity
         /// </summary>
@@ -157,7 +213,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -170,7 +226,7 @@ namespace Kinde.Api.Api
         /// Update identity
         /// </summary>
         /// <remarks>
-        /// Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -245,23 +301,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -275,13 +331,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -297,33 +352,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -340,17 +385,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -374,7 +414,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public IdentitiesApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -389,10 +428,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentitiesApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public IdentitiesApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -465,7 +505,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -477,7 +517,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -527,7 +567,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -540,7 +580,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete identity Delete identity by ID.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Delete identity Delete identity by ID.  Identities cannot be deleted from a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -569,6 +609,89 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteIdentity: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get identities Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <returns>IdentitiesResponse</returns>
+        public IdentitiesResponse GetIdentities(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<IdentitiesResponse> localVarResponse = GetIdentitiesWithHttpInfo(email, phone, username, connectionId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get identities Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <returns>ApiResponse of IdentitiesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<IdentitiesResponse> GetIdentitiesWithHttpInfo(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetIdentitiesWithHttpInfoAsync(email, phone, username, connectionId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get identities Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of IdentitiesResponse</returns>
+        public async System.Threading.Tasks.Task<IdentitiesResponse> GetIdentitiesAsync(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<IdentitiesResponse> localVarResponse = await GetIdentitiesWithHttpInfoAsync(email, phone, username, connectionId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get identities Find identities by their exact value and return the user each one belongs to.  Use this to resolve a user from any of their identities, including email addresses that are not their primary one. Exactly one of &#x60;email&#x60;, &#x60;phone&#x60; or &#x60;username&#x60; must be supplied, and the value is matched in full - this endpoint does not do partial or fuzzy matching.  Email, phone and username identities are unique across the environment and are always searched. Social and enterprise identities are keyed on the ID the provider issued rather than on the email address, so they are only searched when &#x60;connection_id&#x60; names the connection to look in.  &lt;div&gt;   &lt;code&gt;read:identities&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="email">The email address to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="phone">The phone number to find, in E.164 format. Matched in full. (optional)</param>
+        /// <param name="username">The username to find. Matched in full, and case-insensitively. (optional)</param>
+        /// <param name="connectionId">Also search the social or enterprise identities on this connection for the given email. Can only be combined with &#x60;email&#x60;.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (IdentitiesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<IdentitiesResponse>> GetIdentitiesWithHttpInfoAsync(string email = default(string), string phone = default(string), string username = default(string), string connectionId = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Identities.GetAsync(config =>
+                {
+                    config.QueryParameters.Email = email;
+                    config.QueryParameters.Phone = phone;
+                    config.QueryParameters.Username = username;
+                    config.QueryParameters.ConnectionId = connectionId;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<IdentitiesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<IdentitiesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetIdentities: {ex.Message}", ex);
             }
         }
 
@@ -681,7 +804,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -694,7 +817,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -751,7 +874,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>
@@ -765,7 +888,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update identity Update identity by ID.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt; 
+        /// Update identity Update identity by ID.  Identities cannot be updated on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="identityId">The unique identifier for the identity.</param>

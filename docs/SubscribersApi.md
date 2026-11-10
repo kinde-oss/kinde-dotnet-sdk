@@ -20,7 +20,6 @@ Create subscriber.  <div>   <code>create:subscribers</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -36,10 +35,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new SubscribersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new SubscribersApi(config);
             var firstName = "firstName_example";  // string | Subscriber's first name.
             var lastName = "lastName_example";  // string | Subscriber's last name.
             var email = "email_example";  // string | The email address of the subscriber.
@@ -125,7 +121,6 @@ Retrieve a subscriber record.  <div>   <code>read:subscribers</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -141,10 +136,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new SubscribersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new SubscribersApi(config);
             var subscriberId = "subscriberId_example";  // string | The subscriber's id.
 
             try
@@ -216,7 +208,7 @@ catch (ApiException e)
 
 <a id="getsubscribers"></a>
 # **GetSubscribers**
-> GetSubscribersResponse GetSubscribers (string sort = null, int? pageSize = null, string nextToken = null)
+> GetSubscribersResponse GetSubscribers (string? sort = null, int? pageSize = null, string? nextToken = null)
 
 List Subscribers
 
@@ -226,7 +218,6 @@ The returned list can be sorted by full name or email address in ascending or de
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -242,13 +233,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new SubscribersApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
+            var apiInstance = new SubscribersApi(config);
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -291,9 +279,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 

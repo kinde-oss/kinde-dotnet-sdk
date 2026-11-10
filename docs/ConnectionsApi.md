@@ -23,7 +23,6 @@ Create Connection.  <div>   <code>create:connections</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -39,10 +38,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var createConnectionRequest = new CreateConnectionRequest(); // CreateConnectionRequest | Connection details.
 
             try
@@ -124,7 +120,6 @@ Delete connection.  <div>   <code>delete:connections</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -140,10 +135,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var connectionId = "connectionId_example";  // string | The identifier for the connection.
 
             try
@@ -226,7 +218,6 @@ Get Connection.  <div>   <code>read:connections</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -242,10 +233,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var connectionId = "connectionId_example";  // string | The unique identifier for the connection.
 
             try
@@ -317,7 +305,7 @@ catch (ApiException e)
 
 <a id="getconnections"></a>
 # **GetConnections**
-> GetConnectionsResponse GetConnections (int? pageSize = null, string homeRealmDomain = null, string startingAfter = null, string endingBefore = null)
+> GetConnectionsResponse GetConnections (int? pageSize = null, string? homeRealmDomain = null, string? startingAfter = null, string? endingBefore = null)
 
 Get connections
 
@@ -327,7 +315,6 @@ Returns a list of authentication connections. Optionally you can filter this by 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -343,14 +330,11 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var homeRealmDomain = myapp.com;  // string | Filter the results by the home realm domain. (optional) 
-            var startingAfter = "startingAfter_example";  // string | The ID of the connection to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the connection to end before. (optional) 
+            var homeRealmDomain = myapp.com;  // string? | Filter the results by the home realm domain. (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the connection to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the connection to end before. (optional) 
 
             try
             {
@@ -394,9 +378,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **homeRealmDomain** | **string** | Filter the results by the home realm domain. | [optional]  |
-| **startingAfter** | **string** | The ID of the connection to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the connection to end before. | [optional]  |
+| **homeRealmDomain** | **string?** | Filter the results by the home realm domain. | [optional]  |
+| **startingAfter** | **string?** | The ID of the connection to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the connection to end before. | [optional]  |
 
 ### Return type
 
@@ -434,7 +418,6 @@ Replace Connection Config.  <div>   <code>update:connections</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -450,10 +433,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var connectionId = "connectionId_example";  // string | The unique identifier for the connection.
             var replaceConnectionRequest = new ReplaceConnectionRequest(); // ReplaceConnectionRequest | The complete connection configuration to replace the existing one.
 
@@ -538,7 +518,6 @@ Update Connection.  <div>   <code>update:connections</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -554,10 +533,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectionsApi(config);
             var connectionId = "connectionId_example";  // string | The unique identifier for the connection.
             var updateConnectionRequest = new UpdateConnectionRequest(); // UpdateConnectionRequest | The fields of the connection to update.
 

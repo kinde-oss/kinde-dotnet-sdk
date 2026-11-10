@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Identities.Item
         {
         }
         /// <summary>
-        /// Delete identity by ID.&lt;div&gt;  &lt;code&gt;delete:identities&lt;/code&gt;&lt;/div&gt;
+        /// Delete identity by ID.Identities cannot be deleted from a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;delete:identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -82,7 +82,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Identities.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Identity>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Identity.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update identity by ID.&lt;div&gt;  &lt;code&gt;update:identities&lt;/code&gt;&lt;/div&gt;
+        /// Update identity by ID.Identities cannot be updated on a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -107,7 +107,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Identities.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete identity by ID.&lt;div&gt;  &lt;code&gt;delete:identities&lt;/code&gt;&lt;/div&gt;
+        /// Delete identity by ID.Identities cannot be deleted from a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;delete:identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -145,7 +145,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Identities.Item
             return requestInfo;
         }
         /// <summary>
-        /// Update identity by ID.&lt;div&gt;  &lt;code&gt;update:identities&lt;/code&gt;&lt;/div&gt;
+        /// Update identity by ID.Identities cannot be updated on a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

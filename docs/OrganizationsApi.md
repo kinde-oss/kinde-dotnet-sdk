@@ -8,13 +8,19 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**AddOrganizationUserAPIScope**](OrganizationsApi.md#addorganizationuserapiscope) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id} | Add scope to organization user api |
 | [**AddOrganizationUsers**](OrganizationsApi.md#addorganizationusers) | **POST** /api/v1/organizations/{org_code}/users | Add Organization Users |
 | [**CreateOrganization**](OrganizationsApi.md#createorganization) | **POST** /api/v1/organization | Create organization |
+| [**CreateOrganizationInvite**](OrganizationsApi.md#createorganizationinvite) | **POST** /api/v1/organization/{org_code}/invites | Create organization invite |
+| [**CreateOrganizationPermission**](OrganizationsApi.md#createorganizationpermission) | **POST** /api/v1/organizations/{org_code}/permissions | Create organization-managed permission |
+| [**CreateOrganizationRole**](OrganizationsApi.md#createorganizationrole) | **POST** /api/v1/organizations/{org_code}/roles | Create organization-managed role |
 | [**CreateOrganizationUserPermission**](OrganizationsApi.md#createorganizationuserpermission) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/permissions | Add Organization User Permission |
 | [**CreateOrganizationUserRole**](OrganizationsApi.md#createorganizationuserrole) | **POST** /api/v1/organizations/{org_code}/users/{user_id}/roles | Add Organization User Role |
 | [**DeleteOrganization**](OrganizationsApi.md#deleteorganization) | **DELETE** /api/v1/organization/{org_code} | Delete Organization |
 | [**DeleteOrganizationFeatureFlagOverride**](OrganizationsApi.md#deleteorganizationfeatureflagoverride) | **DELETE** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Delete Organization Feature Flag Override |
 | [**DeleteOrganizationFeatureFlagOverrides**](OrganizationsApi.md#deleteorganizationfeatureflagoverrides) | **DELETE** /api/v1/organizations/{org_code}/feature_flags | Delete Organization Feature Flag Overrides |
 | [**DeleteOrganizationHandle**](OrganizationsApi.md#deleteorganizationhandle) | **DELETE** /api/v1/organization/{org_code}/handle | Delete organization handle |
+| [**DeleteOrganizationInvite**](OrganizationsApi.md#deleteorganizationinvite) | **DELETE** /api/v1/organization/{org_code}/invites/{invite_code} | Delete organization invite |
 | [**DeleteOrganizationLogo**](OrganizationsApi.md#deleteorganizationlogo) | **DELETE** /api/v1/organizations/{org_code}/logos/{type} | Delete organization logo |
+| [**DeleteOrganizationPermission**](OrganizationsApi.md#deleteorganizationpermission) | **DELETE** /api/v1/organizations/{org_code}/permissions/{permission_id} | Delete organization-managed permission |
+| [**DeleteOrganizationRole**](OrganizationsApi.md#deleteorganizationrole) | **DELETE** /api/v1/organizations/{org_code}/roles/{role_id} | Delete organization-managed role |
 | [**DeleteOrganizationUserAPIScope**](OrganizationsApi.md#deleteorganizationuserapiscope) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/apis/{api_id}/scopes/{scope_id} | Delete scope from organization user API |
 | [**DeleteOrganizationUserPermission**](OrganizationsApi.md#deleteorganizationuserpermission) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/permissions/{permission_id} | Delete Organization User Permission |
 | [**DeleteOrganizationUserRole**](OrganizationsApi.md#deleteorganizationuserrole) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/roles/{role_id} | Delete Organization User Role |
@@ -23,7 +29,18 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetOrganization**](OrganizationsApi.md#getorganization) | **GET** /api/v1/organization | Get organization |
 | [**GetOrganizationConnections**](OrganizationsApi.md#getorganizationconnections) | **GET** /api/v1/organizations/{organization_code}/connections | Get connections |
 | [**GetOrganizationFeatureFlags**](OrganizationsApi.md#getorganizationfeatureflags) | **GET** /api/v1/organizations/{org_code}/feature_flags | List Organization Feature Flags |
+| [**GetOrganizationInvite**](OrganizationsApi.md#getorganizationinvite) | **GET** /api/v1/organization/{org_code}/invites/{invite_code} | Get organization invite |
+| [**GetOrganizationInvites**](OrganizationsApi.md#getorganizationinvites) | **GET** /api/v1/organization/{org_code}/invites | Get organization invites |
+| [**GetOrganizationMFA**](OrganizationsApi.md#getorganizationmfa) | **GET** /api/v1/organizations/{org_code}/mfa | Get Organization MFA Configuration |
+| [**GetOrganizationPasskey**](OrganizationsApi.md#getorganizationpasskey) | **GET** /api/v1/organizations/{org_code}/passkey | Get organization passkey settings |
+| [**GetOrganizationPermission**](OrganizationsApi.md#getorganizationpermission) | **GET** /api/v1/organizations/{org_code}/permissions/{permission_id} | Get organization-managed permission |
+| [**GetOrganizationPermissions**](OrganizationsApi.md#getorganizationpermissions) | **GET** /api/v1/organizations/{org_code}/permissions | List organization-managed permissions |
 | [**GetOrganizationPropertyValues**](OrganizationsApi.md#getorganizationpropertyvalues) | **GET** /api/v1/organizations/{org_code}/properties | Get Organization Property Values |
+| [**GetOrganizationRole**](OrganizationsApi.md#getorganizationrole) | **GET** /api/v1/organizations/{org_code}/roles/{role_id} | Get organization-managed role |
+| [**GetOrganizationRoleActiveUsersCount**](OrganizationsApi.md#getorganizationroleactiveuserscount) | **GET** /api/v1/organizations/{org_code}/roles/{role_id}/active_users/count | Get organization role active users count |
+| [**GetOrganizationRoleUsers**](OrganizationsApi.md#getorganizationroleusers) | **GET** /api/v1/organizations/{org_code}/roles/{role_id}/users | List organization role users |
+| [**GetOrganizationRoleUsersCount**](OrganizationsApi.md#getorganizationroleuserscount) | **GET** /api/v1/organizations/{org_code}/roles/{role_id}/users/count | Count organization role users |
+| [**GetOrganizationRoles**](OrganizationsApi.md#getorganizationroles) | **GET** /api/v1/organizations/{org_code}/roles | List organization-managed roles |
 | [**GetOrganizationUserPermissions**](OrganizationsApi.md#getorganizationuserpermissions) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/permissions | List Organization User Permissions |
 | [**GetOrganizationUserRoles**](OrganizationsApi.md#getorganizationuserroles) | **GET** /api/v1/organizations/{org_code}/users/{user_id}/roles | List Organization User Roles |
 | [**GetOrganizationUsers**](OrganizationsApi.md#getorganizationusers) | **GET** /api/v1/organizations/{org_code}/users | Get organization users |
@@ -36,14 +53,17 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**ResetOrgUserMFAAll**](OrganizationsApi.md#resetorgusermfaall) | **DELETE** /api/v1/organizations/{org_code}/users/{user_id}/mfa | Reset all organization MFA for a user |
 | [**UpdateOrganization**](OrganizationsApi.md#updateorganization) | **PATCH** /api/v1/organization/{org_code} | Update Organization |
 | [**UpdateOrganizationFeatureFlagOverride**](OrganizationsApi.md#updateorganizationfeatureflagoverride) | **PATCH** /api/v1/organizations/{org_code}/feature_flags/{feature_flag_key} | Update Organization Feature Flag Override |
+| [**UpdateOrganizationPasskey**](OrganizationsApi.md#updateorganizationpasskey) | **PUT** /api/v1/organizations/{org_code}/passkey | Update organization passkey settings |
+| [**UpdateOrganizationPermission**](OrganizationsApi.md#updateorganizationpermission) | **PATCH** /api/v1/organizations/{org_code}/permissions/{permission_id} | Update organization-managed permission |
 | [**UpdateOrganizationProperties**](OrganizationsApi.md#updateorganizationproperties) | **PATCH** /api/v1/organizations/{org_code}/properties | Update Organization Property values |
 | [**UpdateOrganizationProperty**](OrganizationsApi.md#updateorganizationproperty) | **PUT** /api/v1/organizations/{org_code}/properties/{property_key} | Update Organization Property value |
+| [**UpdateOrganizationRole**](OrganizationsApi.md#updateorganizationrole) | **PATCH** /api/v1/organizations/{org_code}/roles/{role_id} | Update organization-managed role |
 | [**UpdateOrganizationSessions**](OrganizationsApi.md#updateorganizationsessions) | **PATCH** /api/v1/organizations/{org_code}/sessions | Update organization session configuration |
 | [**UpdateOrganizationUsers**](OrganizationsApi.md#updateorganizationusers) | **PATCH** /api/v1/organizations/{org_code}/users | Update Organization Users |
 
 <a id="addorganizationlogo"></a>
 # **AddOrganizationLogo**
-> SuccessResponse AddOrganizationLogo (string orgCode, string type, FileParameter logo)
+> SuccessResponse AddOrganizationLogo (string orgCode, string type, System.IO.Stream logo)
 
 Add organization logo
 
@@ -53,7 +73,6 @@ Add organization logo  <div>   <code>update:organizations</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -69,13 +88,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
             var type = dark;  // string | The type of logo to add.
-            var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | The logo file to upload.
+            var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | The logo file to upload.
 
             try
             {
@@ -120,7 +136,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
 | **type** | **string** | The type of logo to add. |  |
-| **logo** | **FileParameter****FileParameter** | The logo file to upload. |  |
+| **logo** | **System.IO.Stream****System.IO.Stream** | The logo file to upload. |  |
 
 ### Return type
 
@@ -158,7 +174,6 @@ Add a scope to an organization user api.  <div>   <code>create:organization_user
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -174,10 +189,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
             var userId = kp_5ce676e5d6a24bc9aac2fba35a46e958;  // string | User ID
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
@@ -251,17 +263,16 @@ void (empty response body)
 
 <a id="addorganizationusers"></a>
 # **AddOrganizationUsers**
-> AddOrganizationUsersResponse AddOrganizationUsers (string orgCode, AddOrganizationUsersRequest addOrganizationUsersRequest = null)
+> AddOrganizationUsersResponse AddOrganizationUsers (string orgCode, AddOrganizationUsersRequest? addOrganizationUsersRequest = null)
 
 Add Organization Users
 
-Add existing users to an organization.  <div>   <code>create:organization_users</code> </div> 
+Add existing users to an organization.  Every key in `roles` must be a business-wide role key, or the key of one of this organization's own roles while organization-managed roles are available on the business's plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.  <div>   <code>create:organization_users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -277,12 +288,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
-            var addOrganizationUsersRequest = new AddOrganizationUsersRequest(); // AddOrganizationUsersRequest |  (optional) 
+            var addOrganizationUsersRequest = new AddOrganizationUsersRequest?(); // AddOrganizationUsersRequest? |  (optional) 
 
             try
             {
@@ -326,7 +334,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **addOrganizationUsersRequest** | [**AddOrganizationUsersRequest**](AddOrganizationUsersRequest.md) |  | [optional]  |
+| **addOrganizationUsersRequest** | [**AddOrganizationUsersRequest?**](AddOrganizationUsersRequest?.md) |  | [optional]  |
 
 ### Return type
 
@@ -345,8 +353,7 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Users successfully added. |  -  |
-| **204** | No users added. |  -  |
+| **200** | Add organization users request successfully processed. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
@@ -365,7 +372,6 @@ Create a new organization. To learn more read about [multi tenancy using organiz
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -381,10 +387,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var createOrganizationRequest = new CreateOrganizationRequest(); // CreateOrganizationRequest | Organization details.
 
             try
@@ -454,6 +457,303 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="createorganizationinvite"></a>
+# **CreateOrganizationInvite**
+> CreateOrganizationInviteResponse CreateOrganizationInvite (string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
+
+Create organization invite
+
+Create a new invitation for an organization. An invitation email will be sent to the provided email address if `send_email` is set to `true`.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside `owner`/`admin` additionally require the `extended_roles` entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  <div>   <code>create:organization_invites</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateOrganizationInviteExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var createOrganizationInviteRequest = new CreateOrganizationInviteRequest(); // CreateOrganizationInviteRequest | Invitation details. `email` is capped at 254 characters (RFC 5321). `first_name` and `last_name` are capped at 64 characters each. Inputs over these limits are rejected with `EMAIL_TOO_LONG`, `FIRST_NAME_TOO_LONG`, or `LAST_NAME_TOO_LONG`.
+
+            try
+            {
+                // Create organization invite
+                CreateOrganizationInviteResponse result = apiInstance.CreateOrganizationInvite(orgCode, createOrganizationInviteRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationInvite: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateOrganizationInviteWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create organization invite
+    ApiResponse<CreateOrganizationInviteResponse> response = apiInstance.CreateOrganizationInviteWithHttpInfo(orgCode, createOrganizationInviteRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationInviteWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **createOrganizationInviteRequest** | [**CreateOrganizationInviteRequest**](CreateOrganizationInviteRequest.md) | Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;. |  |
+
+### Return type
+
+[**CreateOrganizationInviteResponse**](CreateOrganizationInviteResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Invitation successfully created. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="createorganizationpermission"></a>
+# **CreateOrganizationPermission**
+> SuccessResponse CreateOrganizationPermission (string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest)
+
+Create organization-managed permission
+
+Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization's own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  <div>   <code>create:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateOrganizationPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var createOrganizationPermissionRequest = new CreateOrganizationPermissionRequest(); // CreateOrganizationPermissionRequest | Permission details.
+
+            try
+            {
+                // Create organization-managed permission
+                SuccessResponse result = apiInstance.CreateOrganizationPermission(orgCode, createOrganizationPermissionRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateOrganizationPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create organization-managed permission
+    ApiResponse<SuccessResponse> response = apiInstance.CreateOrganizationPermissionWithHttpInfo(orgCode, createOrganizationPermissionRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **createOrganizationPermissionRequest** | [**CreateOrganizationPermissionRequest**](CreateOrganizationPermissionRequest.md) | Permission details. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Permission successfully created. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials, organization-managed permissions are not available on the business&#39;s plan (&#x60;PLAN_LIMIT_REACHED&#x60;), or not available on this business at all (&#x60;ORGANIZATION_PERMISSIONS_UNAVAILABLE&#x60;). |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="createorganizationrole"></a>
+# **CreateOrganizationRole**
+> CreateRolesResponse CreateOrganizationRole (string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest)
+
+Create organization-managed role
+
+Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as `is_organization_role_assignable`, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  <div>   <code>create:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateOrganizationRoleExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var createOrganizationRoleRequest = new CreateOrganizationRoleRequest(); // CreateOrganizationRoleRequest | Role details.
+
+            try
+            {
+                // Create organization-managed role
+                CreateRolesResponse result = apiInstance.CreateOrganizationRole(orgCode, createOrganizationRoleRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationRole: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateOrganizationRoleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create organization-managed role
+    ApiResponse<CreateRolesResponse> response = apiInstance.CreateOrganizationRoleWithHttpInfo(orgCode, createOrganizationRoleRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.CreateOrganizationRoleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **createOrganizationRoleRequest** | [**CreateOrganizationRoleRequest**](CreateOrganizationRoleRequest.md) | Role details. |  |
+
+### Return type
+
+[**CreateRolesResponse**](CreateRolesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Role successfully created. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials, organization-managed roles are not available on the business&#39;s plan (&#x60;PLAN_LIMIT_REACHED&#x60;), or not on this business (&#x60;ORGANIZATION_ROLES_UNAVAILABLE&#x60;). |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="createorganizationuserpermission"></a>
 # **CreateOrganizationUserPermission**
 > SuccessResponse CreateOrganizationUserPermission (string orgCode, string userId, CreateOrganizationUserPermissionRequest createOrganizationUserPermissionRequest)
@@ -466,7 +766,6 @@ Add permission to an organization user.  <div>   <code>create:organization_user_
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -482,10 +781,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
             var createOrganizationUserPermissionRequest = new CreateOrganizationUserPermissionRequest(); // CreateOrganizationUserPermissionRequest | Permission details.
@@ -564,13 +860,12 @@ catch (ApiException e)
 
 Add Organization User Role
 
-Add role to an organization user.  <div>   <code>create:organization_user_roles</code> </div> 
+Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.  <div>   <code>create:organization_user_roles</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -586,10 +881,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
             var createOrganizationUserRoleRequest = new CreateOrganizationUserRoleRequest(); // CreateOrganizationUserRoleRequest | Role details.
@@ -668,13 +960,12 @@ catch (ApiException e)
 
 Delete Organization
 
-Delete an organization.  <div>   <code>delete:organizations</code> </div> 
+Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  <div>   <code>delete:organizations</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -690,10 +981,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
 
             try
@@ -776,7 +1064,6 @@ Delete organization feature flag override.  <div>   <code>delete:organization_fe
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -792,10 +1079,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag.
 
@@ -879,7 +1163,6 @@ Delete all organization feature flag overrides.  <div>   <code>delete:organizati
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -895,10 +1178,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
 
             try
@@ -980,7 +1260,6 @@ Delete organization handle  <div>   <code>delete:organization_handles</code> </d
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -996,10 +1275,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
 
             try
@@ -1069,6 +1345,106 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="deleteorganizationinvite"></a>
+# **DeleteOrganizationInvite**
+> SuccessResponse DeleteOrganizationInvite (string orgCode, string inviteCode)
+
+Delete organization invite
+
+Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  <div>   <code>delete:organization_invites</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationInviteExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var inviteCode = inv_abc123def456;  // string | The invitation's code.
+
+            try
+            {
+                // Delete organization invite
+                SuccessResponse result = apiInstance.DeleteOrganizationInvite(orgCode, inviteCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationInvite: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationInviteWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete organization invite
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationInviteWithHttpInfo(orgCode, inviteCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationInviteWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **inviteCode** | **string** | The invitation&#39;s code. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Invitation successfully revoked. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="deleteorganizationlogo"></a>
 # **DeleteOrganizationLogo**
 > SuccessResponse DeleteOrganizationLogo (string orgCode, string type)
@@ -1081,7 +1457,6 @@ Delete organization logo  <div>   <code>update:organizations</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1097,10 +1472,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
             var type = dark;  // string | The type of logo to delete.
 
@@ -1173,6 +1545,204 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="deleteorganizationpermission"></a>
+# **DeleteOrganizationPermission**
+> SuccessResponse DeleteOrganizationPermission (string orgCode, string permissionId)
+
+Delete organization-managed permission
+
+Delete a permission the organization owns. The organization's roles that hold it lose it. This works on any plan.  <div>   <code>delete:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var permissionId = "permissionId_example";  // string | The permission's ID.
+
+            try
+            {
+                // Delete organization-managed permission
+                SuccessResponse result = apiInstance.DeleteOrganizationPermission(orgCode, permissionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete organization-managed permission
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationPermissionWithHttpInfo(orgCode, permissionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **permissionId** | **string** | The permission&#39;s ID. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Permission successfully deleted. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="deleteorganizationrole"></a>
+# **DeleteOrganizationRole**
+> SuccessResponse DeleteOrganizationRole (string orgCode, string roleId)
+
+Delete organization-managed role
+
+Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  <div>   <code>delete:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class DeleteOrganizationRoleExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's ID.
+
+            try
+            {
+                // Delete organization-managed role
+                SuccessResponse result = apiInstance.DeleteOrganizationRole(orgCode, roleId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationRole: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DeleteOrganizationRoleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete organization-managed role
+    ApiResponse<SuccessResponse> response = apiInstance.DeleteOrganizationRoleWithHttpInfo(orgCode, roleId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.DeleteOrganizationRoleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s ID. |  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Role successfully deleted. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="deleteorganizationuserapiscope"></a>
 # **DeleteOrganizationUserAPIScope**
 > void DeleteOrganizationUserAPIScope (string orgCode, string userId, string apiId, string scopeId)
@@ -1185,7 +1755,6 @@ Delete a scope from an organization user api you previously created.  <div>   <c
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1201,10 +1770,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
             var userId = kp_5ce676e5d6a24bc9aac2fba35a46e958;  // string | User ID
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
@@ -1288,7 +1854,6 @@ Delete permission for an organization user.  <div>   <code>delete:organization_u
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1304,10 +1869,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
             var permissionId = "permissionId_example";  // string | The permission id.
@@ -1387,13 +1949,12 @@ catch (ApiException e)
 
 Delete Organization User Role
 
-Delete role for an organization user.  <div>   <code>delete:organization_user_roles</code> </div> 
+Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.  <div>   <code>delete:organization_user_roles</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1409,10 +1970,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
             var roleId = "roleId_example";  // string | The role id.
@@ -1498,7 +2056,6 @@ Enable an auth connection for an organization.  <div>   <code>create:organizatio
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1514,10 +2071,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var organizationCode = org_7d45b01ef13;  // string | The unique code for the organization.
             var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
 
@@ -1597,7 +2151,6 @@ Get an organization user’s MFA configuration.  <div>   <code>read:organization
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1613,10 +2166,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
@@ -1691,7 +2241,7 @@ catch (ApiException e)
 
 <a id="getorganization"></a>
 # **GetOrganization**
-> GetOrganizationResponse GetOrganization (string code = null)
+> GetOrganizationResponse GetOrganization (string code, string? expand = null)
 
 Get organization
 
@@ -1701,7 +2251,6 @@ Retrieve organization details by code.  <div>   <code>read:organizations</code> 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1717,16 +2266,14 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var code = org_1ccfb819462;  // string | The organization's code. (optional) 
+            var apiInstance = new OrganizationsApi(config);
+            var code = org_1ccfb819462;  // string | The organization's code.
+            var expand = billing;  // string? | Additional data to include in the response. Allowed value: \"billing\". (optional) 
 
             try
             {
                 // Get organization
-                GetOrganizationResponse result = apiInstance.GetOrganization(code);
+                GetOrganizationResponse result = apiInstance.GetOrganization(code, expand);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -1747,7 +2294,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get organization
-    ApiResponse<GetOrganizationResponse> response = apiInstance.GetOrganizationWithHttpInfo(code);
+    ApiResponse<GetOrganizationResponse> response = apiInstance.GetOrganizationWithHttpInfo(code, expand);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -1764,7 +2311,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **code** | **string** | The organization&#39;s code. | [optional]  |
+| **code** | **string** | The organization&#39;s code. |  |
+| **expand** | **string?** | Additional data to include in the response. Allowed value: \&quot;billing\&quot;. | [optional]  |
 
 ### Return type
 
@@ -1802,7 +2350,6 @@ Gets all connections for an organization.  <div>   <code>read:organization_conne
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1818,10 +2365,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var organizationCode = org_7d45b01ef13;  // string | The organization code.
 
             try
@@ -1903,7 +2447,6 @@ Get all organization feature flags.  <div>   <code>read:organization_feature_fla
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1919,10 +2462,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization.
 
             try
@@ -1992,6 +2532,609 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getorganizationinvite"></a>
+# **GetOrganizationInvite**
+> GetOrganizationInviteResponse GetOrganizationInvite (string orgCode, string inviteCode)
+
+Get organization invite
+
+Get details of a specific invitation by its code.  <div>   <code>read:organization_invites</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationInviteExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var inviteCode = inv_abc123def456;  // string | The invitation's code.
+
+            try
+            {
+                // Get organization invite
+                GetOrganizationInviteResponse result = apiInstance.GetOrganizationInvite(orgCode, inviteCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationInvite: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationInviteWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization invite
+    ApiResponse<GetOrganizationInviteResponse> response = apiInstance.GetOrganizationInviteWithHttpInfo(orgCode, inviteCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationInviteWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **inviteCode** | **string** | The invitation&#39;s code. |  |
+
+### Return type
+
+[**GetOrganizationInviteResponse**](GetOrganizationInviteResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Invitation successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **404** | The specified resource was not found |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationinvites"></a>
+# **GetOrganizationInvites**
+> GetOrganizationInvitesResponse GetOrganizationInvites (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, bool? includeRevoked = null, bool? includeAccepted = null)
+
+Get organization invites
+
+Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  <div>   <code>read:organization_invites</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationInvitesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var sort = created_on_desc;  // string? | Field and order to sort the result by. (optional) 
+            var pageSize = 10;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var includeRevoked = false;  // bool? | Include revoked invitations in the results. (optional)  (default to false)
+            var includeAccepted = false;  // bool? | Include accepted invitations in the results. (optional)  (default to false)
+
+            try
+            {
+                // Get organization invites
+                GetOrganizationInvitesResponse result = apiInstance.GetOrganizationInvites(orgCode, sort, pageSize, nextToken, includeRevoked, includeAccepted);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationInvites: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationInvitesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization invites
+    ApiResponse<GetOrganizationInvitesResponse> response = apiInstance.GetOrganizationInvitesWithHttpInfo(orgCode, sort, pageSize, nextToken, includeRevoked, includeAccepted);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationInvitesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **includeRevoked** | **bool?** | Include revoked invitations in the results. | [optional] [default to false] |
+| **includeAccepted** | **bool?** | Include accepted invitations in the results. | [optional] [default to false] |
+
+### Return type
+
+[**GetOrganizationInvitesResponse**](GetOrganizationInvitesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Invitations successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationmfa"></a>
+# **GetOrganizationMFA**
+> GetOrganizationMFA200Response GetOrganizationMFA (string orgCode)
+
+Get Organization MFA Configuration
+
+Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  <div>   <code>read:organization_mfa</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationMFAExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The identifier for the organization
+
+            try
+            {
+                // Get Organization MFA Configuration
+                GetOrganizationMFA200Response result = apiInstance.GetOrganizationMFA(orgCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationMFA: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationMFAWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get Organization MFA Configuration
+    ApiResponse<GetOrganizationMFA200Response> response = apiInstance.GetOrganizationMFAWithHttpInfo(orgCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationMFAWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The identifier for the organization |  |
+
+### Return type
+
+[**GetOrganizationMFA200Response**](GetOrganizationMFA200Response.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization MFA configuration successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationpasskey"></a>
+# **GetOrganizationPasskey**
+> GetOrganizationPasskey200Response GetOrganizationPasskey (string orgCode)
+
+Get organization passkey settings
+
+Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  <div>   <code>read:organization_passkey</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationPasskeyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+
+            try
+            {
+                // Get organization passkey settings
+                GetOrganizationPasskey200Response result = apiInstance.GetOrganizationPasskey(orgCode);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPasskey: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationPasskeyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization passkey settings
+    ApiResponse<GetOrganizationPasskey200Response> response = apiInstance.GetOrganizationPasskeyWithHttpInfo(orgCode);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPasskeyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+
+### Return type
+
+[**GetOrganizationPasskey200Response**](GetOrganizationPasskey200Response.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization passkey settings successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationpermission"></a>
+# **GetOrganizationPermission**
+> GetOrganizationPermissionResponse GetOrganizationPermission (string orgCode, string permissionId)
+
+Get organization-managed permission
+
+Get a permission the organization owns.  <div>   <code>read:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var permissionId = "permissionId_example";  // string | The permission's ID.
+
+            try
+            {
+                // Get organization-managed permission
+                GetOrganizationPermissionResponse result = apiInstance.GetOrganizationPermission(orgCode, permissionId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization-managed permission
+    ApiResponse<GetOrganizationPermissionResponse> response = apiInstance.GetOrganizationPermissionWithHttpInfo(orgCode, permissionId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **permissionId** | **string** | The permission&#39;s ID. |  |
+
+### Return type
+
+[**GetOrganizationPermissionResponse**](GetOrganizationPermissionResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Permission successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationpermissions"></a>
+# **GetOrganizationPermissions**
+> GetOrganizationPermissionsResponse GetOrganizationPermissions (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null)
+
+List organization-managed permissions
+
+List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization's own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  <div>   <code>read:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationPermissionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var sort = "name_asc";  // string? | Field and order to sort the result by. Defaults to key_asc. (optional) 
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10, at most 500. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // List organization-managed permissions
+                GetOrganizationPermissionsResponse result = apiInstance.GetOrganizationPermissions(orgCode, sort, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPermissions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationPermissionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List organization-managed permissions
+    ApiResponse<GetOrganizationPermissionsResponse> response = apiInstance.GetOrganizationPermissionsWithHttpInfo(orgCode, sort, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationPermissionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **sort** | **string?** | Field and order to sort the result by. Defaults to key_asc. | [optional]  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10, at most 500. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**GetOrganizationPermissionsResponse**](GetOrganizationPermissionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization permissions successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getorganizationpropertyvalues"></a>
 # **GetOrganizationPropertyValues**
 > GetPropertyValuesResponse GetOrganizationPropertyValues (string orgCode)
@@ -2004,7 +3147,6 @@ Gets properties for an organization by org code.  <div>   <code>read:organizatio
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2020,10 +3162,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
 
             try
@@ -2093,9 +3232,516 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getorganizationrole"></a>
+# **GetOrganizationRole**
+> GetOrganizationRoleResponse GetOrganizationRole (string orgCode, string roleId)
+
+Get organization-managed role
+
+Get a role the organization owns, with its permissions.  <div>   <code>read:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationRoleExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's ID.
+
+            try
+            {
+                // Get organization-managed role
+                GetOrganizationRoleResponse result = apiInstance.GetOrganizationRole(orgCode, roleId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRole: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationRoleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization-managed role
+    ApiResponse<GetOrganizationRoleResponse> response = apiInstance.GetOrganizationRoleWithHttpInfo(orgCode, roleId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s ID. |  |
+
+### Return type
+
+[**GetOrganizationRoleResponse**](GetOrganizationRoleResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Role successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationroleactiveuserscount"></a>
+# **GetOrganizationRoleActiveUsersCount**
+> GetOrganizationRoleActiveUsersCountResponse GetOrganizationRoleActiveUsersCount (string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo)
+
+Get organization role active users count
+
+Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both `date_time_from` and `date_time_to` are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: `date_time_from` is rounded down and `date_time_to` is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means `date_time_to` must be earlier than `date_time_from` plus 3 days. For example, `2026-07-01T00:00:00Z` to `2026-07-03T23:59:59Z` is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with `DATE_TIME_RANGE_TOO_LARGE`.  <div>   <code>read:organization_user_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationRoleActiveUsersCountExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's public id.
+            var dateTimeFrom = 2026-07-01T00:00Z;  // DateTimeOffset | Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.
+            var dateTimeTo = 2026-07-03T23:59:59Z;  // DateTimeOffset | End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than `date_time_from` plus 3 days.
+
+            try
+            {
+                // Get organization role active users count
+                GetOrganizationRoleActiveUsersCountResponse result = apiInstance.GetOrganizationRoleActiveUsersCount(orgCode, roleId, dateTimeFrom, dateTimeTo);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleActiveUsersCount: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationRoleActiveUsersCountWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get organization role active users count
+    ApiResponse<GetOrganizationRoleActiveUsersCountResponse> response = apiInstance.GetOrganizationRoleActiveUsersCountWithHttpInfo(orgCode, roleId, dateTimeFrom, dateTimeTo);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleActiveUsersCountWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s public id. |  |
+| **dateTimeFrom** | **DateTimeOffset** | Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation. |  |
+| **dateTimeTo** | **DateTimeOffset** | End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days. |  |
+
+### Return type
+
+[**GetOrganizationRoleActiveUsersCountResponse**](GetOrganizationRoleActiveUsersCountResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Active users count for the role in the organization. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationroleusers"></a>
+# **GetOrganizationRoleUsers**
+> GetOrganizationRoleUsersResponse GetOrganizationRoleUsers (string orgCode, string roleId, int? pageSize = null, string? nextToken = null)
+
+List organization role users
+
+Get users that have a given role within a specific organization.  <div>   <code>read:organization_user_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationRoleUsersExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's public id.
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // List organization role users
+                GetOrganizationRoleUsersResponse result = apiInstance.GetOrganizationRoleUsers(orgCode, roleId, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleUsers: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationRoleUsersWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List organization role users
+    ApiResponse<GetOrganizationRoleUsersResponse> response = apiInstance.GetOrganizationRoleUsersWithHttpInfo(orgCode, roleId, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleUsersWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s public id. |  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**GetOrganizationRoleUsersResponse**](GetOrganizationRoleUsersResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A list of users with the specified role in the organization. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationroleuserscount"></a>
+# **GetOrganizationRoleUsersCount**
+> GetOrganizationRoleUsersCountResponse GetOrganizationRoleUsersCount (string orgCode, string roleId)
+
+Count organization role users
+
+Get the number of users that have a given role within a specific organization.  <div>   <code>read:organization_user_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationRoleUsersCountExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's public id.
+
+            try
+            {
+                // Count organization role users
+                GetOrganizationRoleUsersCountResponse result = apiInstance.GetOrganizationRoleUsersCount(orgCode, roleId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleUsersCount: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationRoleUsersCountWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Count organization role users
+    ApiResponse<GetOrganizationRoleUsersCountResponse> response = apiInstance.GetOrganizationRoleUsersCountWithHttpInfo(orgCode, roleId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoleUsersCountWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s public id. |  |
+
+### Return type
+
+[**GetOrganizationRoleUsersCountResponse**](GetOrganizationRoleUsersCountResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The number of users with the specified role in the organization. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getorganizationroles"></a>
+# **GetOrganizationRoles**
+> GetOrganizationRolesResponse GetOrganizationRoles (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null)
+
+List organization-managed roles
+
+List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as `is_organization_role_assignable`, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  <div>   <code>read:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetOrganizationRolesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10, at most 500. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // List organization-managed roles
+                GetOrganizationRolesResponse result = apiInstance.GetOrganizationRoles(orgCode, sort, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRoles: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetOrganizationRolesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List organization-managed roles
+    ApiResponse<GetOrganizationRolesResponse> response = apiInstance.GetOrganizationRolesWithHttpInfo(orgCode, sort, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.GetOrganizationRolesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10, at most 500. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**GetOrganizationRolesResponse**](GetOrganizationRolesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization roles successfully retrieved. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getorganizationuserpermissions"></a>
 # **GetOrganizationUserPermissions**
-> GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions (string orgCode, string userId, string expand = null)
+> GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions (string orgCode, string userId, string? expand = null)
 
 List Organization User Permissions
 
@@ -2105,7 +3751,6 @@ Get permissions for an organization user.  <div>   <code>read:organization_user_
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2121,13 +3766,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
-            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"roles\". (optional) 
+            var expand = "expand_example";  // string? | Additional data to include in the response. Allowed value: \"roles\". (optional) 
 
             try
             {
@@ -2172,7 +3814,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
 | **userId** | **string** | The user&#39;s id. |  |
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;roles\&quot;. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. Allowed value: \&quot;roles\&quot;. | [optional]  |
 
 ### Return type
 
@@ -2209,7 +3851,6 @@ Get roles for an organization user.  <div>   <code>read:organization_user_roles<
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2225,10 +3866,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
 
@@ -2301,7 +3939,7 @@ catch (ApiException e)
 
 <a id="getorganizationusers"></a>
 # **GetOrganizationUsers**
-> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string sort = null, int? pageSize = null, string nextToken = null, string permissions = null, string roles = null)
+> GetOrganizationUsersResponse GetOrganizationUsers (string orgCode, string? sort = null, int? pageSize = null, string? nextToken = null, string? permissions = null, string? roles = null)
 
 Get organization users
 
@@ -2311,7 +3949,6 @@ Get user details for all members of an organization.  <div>   <code>read:organiz
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2327,16 +3964,13 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
-            var sort = email_asc;  // string | Field and order to sort the result by. (optional) 
+            var sort = email_asc;  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 10;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = MTo6OmlkX2FzYw==;  // string | A string to get the next page of results if there are more results. (optional) 
-            var permissions = admin;  // string | Filter by user permissions comma separated (where all match) (optional) 
-            var roles = manager;  // string | Filter by user roles comma separated (where all match) (optional) 
+            var nextToken = MTo6OmlkX2FzYw==;  // string? | A string to get the next page of results if there are more results. (optional) 
+            var permissions = admin;  // string? | Filter by user permissions comma separated (where all match) (optional) 
+            var roles = manager;  // string? | Filter by user roles comma separated (where all match) (optional) 
 
             try
             {
@@ -2380,11 +4014,11 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
-| **permissions** | **string** | Filter by user permissions comma separated (where all match) | [optional]  |
-| **roles** | **string** | Filter by user roles comma separated (where all match) | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **permissions** | **string?** | Filter by user permissions comma separated (where all match) | [optional]  |
+| **roles** | **string?** | Filter by user roles comma separated (where all match) | [optional]  |
 
 ### Return type
 
@@ -2412,7 +4046,7 @@ catch (ApiException e)
 
 <a id="getorganizations"></a>
 # **GetOrganizations**
-> GetOrganizationsResponse GetOrganizations (string sort = null, int? pageSize = null, string nextToken = null)
+> GetOrganizationsResponse GetOrganizations (string? sort = null, int? pageSize = null, string? nextToken = null)
 
 Get organizations
 
@@ -2422,7 +4056,6 @@ Get a list of organizations.  <div>   <code>read:organizations</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2438,13 +4071,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
+            var apiInstance = new OrganizationsApi(config);
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -2487,9 +4117,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -2527,7 +4157,6 @@ Read organization logo details  <div>   <code>read:organizations</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2543,10 +4172,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
 
             try
@@ -2628,7 +4254,6 @@ Turn off an auth connection for an organization  <div>   <code>delete:organizati
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2644,10 +4269,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var organizationCode = org_7d45b01ef13;  // string | The unique code for the organization.
             var connectionId = conn_0192c16abb53b44277e597d31877ba5b;  // string | The identifier for the connection.
 
@@ -2725,13 +4347,12 @@ catch (ApiException e)
 
 Remove Organization User
 
-Remove user from an organization.  <div>   <code>delete:organization_users</code> </div> 
+Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.  <div>   <code>delete:organization_users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2747,10 +4368,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
             var userId = "userId_example";  // string | The user's id.
 
@@ -2834,7 +4452,6 @@ Replace Organization MFA Configuration.  <div>   <code>update:organization_mfa</
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2850,10 +4467,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization
             var replaceOrganizationMFARequest = new ReplaceOrganizationMFARequest(); // ReplaceOrganizationMFARequest | MFA details.
 
@@ -2937,7 +4551,6 @@ Reset a specific organization MFA factor for a user.  <div>   <code>delete:organ
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -2953,10 +4566,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
             var factorId = mfa_0193278a00ac29b3f6d4e4d462d55c47;  // string | The identifier for the MFA factor
@@ -3043,7 +4653,6 @@ Reset all organization MFA factors for a user.  <div>   <code>delete:organizatio
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3059,10 +4668,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
@@ -3137,17 +4743,16 @@ catch (ApiException e)
 
 <a id="updateorganization"></a>
 # **UpdateOrganization**
-> SuccessResponse UpdateOrganization (string orgCode, string expand = null, UpdateOrganizationRequest updateOrganizationRequest = null)
+> SuccessResponse UpdateOrganization (string orgCode, string? expand = null, UpdateOrganizationRequest? updateOrganizationRequest = null)
 
 Update Organization
 
-Update an organization.  <div>   <code>update:organizations</code> </div> 
+Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  <div>   <code>update:organizations</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3163,13 +4768,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The identifier for the organization.
-            var expand = "billing";  // string | Specify additional data to retrieve. Use \"billing\". (optional) 
-            var updateOrganizationRequest = new UpdateOrganizationRequest(); // UpdateOrganizationRequest | Organization details. (optional) 
+            var expand = "billing";  // string? | Additional data to include in the response. Allowed value: \"billing\". (optional) 
+            var updateOrganizationRequest = new UpdateOrganizationRequest?(); // UpdateOrganizationRequest? | Organization details. (optional) 
 
             try
             {
@@ -3213,8 +4815,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The identifier for the organization. |  |
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;billing\&quot;. | [optional]  |
-| **updateOrganizationRequest** | [**UpdateOrganizationRequest**](UpdateOrganizationRequest.md) | Organization details. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. Allowed value: \&quot;billing\&quot;. | [optional]  |
+| **updateOrganizationRequest** | [**UpdateOrganizationRequest?**](UpdateOrganizationRequest?.md) | Organization details. | [optional]  |
 
 ### Return type
 
@@ -3252,7 +4854,6 @@ Update organization feature flag override.  <div>   <code>update:organization_fe
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3268,10 +4869,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag
             var value = "value_example";  // string | Override value
@@ -3345,6 +4943,206 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="updateorganizationpasskey"></a>
+# **UpdateOrganizationPasskey**
+> UpdateOrganizationPasskey200Response UpdateOrganizationPasskey (string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
+
+Update organization passkey settings
+
+Update passkey settings for an organization. Set `is_override_environment_passkey_settings` to `false` to revert to the environment default without providing a policy.  <div>   <code>update:organization_passkey</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationPasskeyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = org_1ccfb819462;  // string | The organization's code.
+            var updateOrganizationPasskeyRequest = new UpdateOrganizationPasskeyRequest(); // UpdateOrganizationPasskeyRequest | Organization passkey settings.
+
+            try
+            {
+                // Update organization passkey settings
+                UpdateOrganizationPasskey200Response result = apiInstance.UpdateOrganizationPasskey(orgCode, updateOrganizationPasskeyRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPasskey: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationPasskeyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update organization passkey settings
+    ApiResponse<UpdateOrganizationPasskey200Response> response = apiInstance.UpdateOrganizationPasskeyWithHttpInfo(orgCode, updateOrganizationPasskeyRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPasskeyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **updateOrganizationPasskeyRequest** | [**UpdateOrganizationPasskeyRequest**](UpdateOrganizationPasskeyRequest.md) | Organization passkey settings. |  |
+
+### Return type
+
+[**UpdateOrganizationPasskey200Response**](UpdateOrganizationPasskey200Response.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Organization passkey settings successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updateorganizationpermission"></a>
+# **UpdateOrganizationPermission**
+> SuccessResponse UpdateOrganizationPermission (string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = null)
+
+Update organization-managed permission
+
+Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  <div>   <code>update:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationPermissionExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var permissionId = "permissionId_example";  // string | The permission's ID.
+            var updateOrganizationPermissionRequest = new UpdateOrganizationPermissionRequest?(); // UpdateOrganizationPermissionRequest? | Permission details. (optional) 
+
+            try
+            {
+                // Update organization-managed permission
+                SuccessResponse result = apiInstance.UpdateOrganizationPermission(orgCode, permissionId, updateOrganizationPermissionRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPermission: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationPermissionWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update organization-managed permission
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationPermissionWithHttpInfo(orgCode, permissionId, updateOrganizationPermissionRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationPermissionWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **permissionId** | **string** | The permission&#39;s ID. |  |
+| **updateOrganizationPermissionRequest** | [**UpdateOrganizationPermissionRequest?**](UpdateOrganizationPermissionRequest?.md) | Permission details. | [optional]  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Permission successfully updated. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials, organization-managed permissions are not available on the business&#39;s plan (&#x60;PLAN_LIMIT_REACHED&#x60;), or not available on this business at all (&#x60;ORGANIZATION_PERMISSIONS_UNAVAILABLE&#x60;). |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateorganizationproperties"></a>
 # **UpdateOrganizationProperties**
 > SuccessResponse UpdateOrganizationProperties (string orgCode, UpdateOrganizationPropertiesRequest updateOrganizationPropertiesRequest)
@@ -3357,7 +5155,6 @@ Update organization property values.  <div>   <code>update:organization_properti
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3373,10 +5170,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization
             var updateOrganizationPropertiesRequest = new UpdateOrganizationPropertiesRequest(); // UpdateOrganizationPropertiesRequest | Properties to update.
 
@@ -3460,7 +5254,6 @@ Update organization property value.  <div>   <code>update:organization_propertie
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3476,13 +5269,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The identifier for the organization
             var propertyKey = "propertyKey_example";  // string | The identifier for the property
-            var value = "value_example";  // string | The new property value
+            var value = "value_example";  // string | The new property value. Send an empty string to unset the property, so it reads back as not set.
 
             try
             {
@@ -3527,7 +5317,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **orgCode** | **string** | The identifier for the organization |  |
 | **propertyKey** | **string** | The identifier for the property |  |
-| **value** | **string** | The new property value |  |
+| **value** | **string** | The new property value. Send an empty string to unset the property, so it reads back as not set. |  |
 
 ### Return type
 
@@ -3553,6 +5343,107 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="updateorganizationrole"></a>
+# **UpdateOrganizationRole**
+> SuccessResponse UpdateOrganizationRole (string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = null)
+
+Update organization-managed role
+
+Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  <div>   <code>update:organization_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateOrganizationRoleExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new OrganizationsApi(config);
+            var orgCode = "orgCode_example";  // string | The organization's code.
+            var roleId = "roleId_example";  // string | The role's ID.
+            var updateOrganizationRoleRequest = new UpdateOrganizationRoleRequest?(); // UpdateOrganizationRoleRequest? | Role details. (optional) 
+
+            try
+            {
+                // Update organization-managed role
+                SuccessResponse result = apiInstance.UpdateOrganizationRole(orgCode, roleId, updateOrganizationRoleRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationRole: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateOrganizationRoleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update organization-managed role
+    ApiResponse<SuccessResponse> response = apiInstance.UpdateOrganizationRoleWithHttpInfo(orgCode, roleId, updateOrganizationRoleRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling OrganizationsApi.UpdateOrganizationRoleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **orgCode** | **string** | The organization&#39;s code. |  |
+| **roleId** | **string** | The role&#39;s ID. |  |
+| **updateOrganizationRoleRequest** | [**UpdateOrganizationRoleRequest?**](UpdateOrganizationRoleRequest?.md) | Role details. | [optional]  |
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Role successfully updated. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials, organization-managed roles are not available on the business&#39;s plan (&#x60;PLAN_LIMIT_REACHED&#x60;), or not on this business (&#x60;ORGANIZATION_ROLES_UNAVAILABLE&#x60;). |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateorganizationsessions"></a>
 # **UpdateOrganizationSessions**
 > SuccessResponse UpdateOrganizationSessions (string orgCode, UpdateOrganizationSessionsRequest updateOrganizationSessionsRequest)
@@ -3565,7 +5456,6 @@ Update the organization's session configuration.  <div>   <code>update:organizat
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3581,10 +5471,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = org_1ccfb819462;  // string | The organization's code.
             var updateOrganizationSessionsRequest = new UpdateOrganizationSessionsRequest(); // UpdateOrganizationSessionsRequest | Organization session configuration.
 
@@ -3658,17 +5545,16 @@ catch (ApiException e)
 
 <a id="updateorganizationusers"></a>
 # **UpdateOrganizationUsers**
-> UpdateOrganizationUsersResponse UpdateOrganizationUsers (string orgCode, UpdateOrganizationUsersRequest updateOrganizationUsersRequest = null)
+> UpdateOrganizationUsersResponse UpdateOrganizationUsers (string orgCode, UpdateOrganizationUsersRequest? updateOrganizationUsersRequest = null)
 
 Update Organization Users
 
-Update users that belong to an organization.  <div>   <code>update:organization_users</code> </div> 
+Update users that belong to an organization.  `roles` replaces the user's roles. Every key in it must be a business-wide role key, or the key of one of this organization's own roles while organization-managed roles are available on the business's plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped. Below that plan the user's organization-managed role assignments are kept but not issued in tokens; they cannot be named in `roles` until the plan is upgraded, and replacing `roles` does not remove them.  Users in organizations managed by directory sync cannot be updated (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.  <div>   <code>update:organization_users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -3684,12 +5570,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new OrganizationsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new OrganizationsApi(config);
             var orgCode = "orgCode_example";  // string | The organization's code.
-            var updateOrganizationUsersRequest = new UpdateOrganizationUsersRequest(); // UpdateOrganizationUsersRequest |  (optional) 
+            var updateOrganizationUsersRequest = new UpdateOrganizationUsersRequest?(); // UpdateOrganizationUsersRequest? |  (optional) 
 
             try
             {
@@ -3733,7 +5616,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **orgCode** | **string** | The organization&#39;s code. |  |
-| **updateOrganizationUsersRequest** | [**UpdateOrganizationUsersRequest**](UpdateOrganizationUsersRequest.md) |  | [optional]  |
+| **updateOrganizationUsersRequest** | [**UpdateOrganizationUsersRequest?**](UpdateOrganizationUsersRequest?.md) |  | [optional]  |
 
 ### Return type
 

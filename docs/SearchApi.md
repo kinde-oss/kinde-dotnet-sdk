@@ -8,7 +8,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="searchusers"></a>
 # **SearchUsers**
-> SearchUsersResponse SearchUsers (int? pageSize = null, string query = null, Dictionary<string, List<string>> properties = null, string startingAfter = null, string endingBefore = null, string expand = null)
+> SearchUsersResponse SearchUsers (int? pageSize = null, string? query = null, string? apiScopes = null, Dictionary<string, List<string>>? properties = null, string? startingAfter = null, string? endingBefore = null, string? expand = null)
 
 Search users
 
@@ -18,7 +18,6 @@ Search for users based on the provided query string. Set query to '*' to filter 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -34,21 +33,19 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new SearchApi(httpClient, config, httpClientHandler);
+            var apiInstance = new SearchApi(config);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var query = "query_example";  // string | Search the users by email or name. Use '*' to search all. (optional) 
-            var properties = new Dictionary<string, List<string>>(); // Dictionary<string, List<string>> |  (optional) 
-            var startingAfter = "startingAfter_example";  // string | The ID of the user to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the user to end before. (optional) 
-            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var query = "query_example";  // string? | Search the users by email or name. Use '*' to search all. (optional) 
+            var apiScopes = "apiScopes_example";  // string? | Search the users by api scopes. (optional) 
+            var properties = new Dictionary<string, List<string>>?(); // Dictionary<string, List<string>>? |  (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the user to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the user to end before. (optional) 
+            var expand = "expand_example";  // string? | Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"properties\". (optional) 
 
             try
             {
                 // Search users
-                SearchUsersResponse result = apiInstance.SearchUsers(pageSize, query, properties, startingAfter, endingBefore, expand);
+                SearchUsersResponse result = apiInstance.SearchUsers(pageSize, query, properties, startingAfter, endingBefore, expand, apiScopes);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -69,7 +66,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Search users
-    ApiResponse<SearchUsersResponse> response = apiInstance.SearchUsersWithHttpInfo(pageSize, query, properties, startingAfter, endingBefore, expand);
+    ApiResponse<SearchUsersResponse> response = apiInstance.SearchUsersWithHttpInfo(pageSize, query, properties, startingAfter, endingBefore, expand, apiScopes);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -87,11 +84,12 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **query** | **string** | Search the users by email or name. Use &#39;*&#39; to search all. | [optional]  |
-| **properties** | [**Dictionary&lt;string, List&lt;string&gt;&gt;**](List&lt;string&gt;.md) |  | [optional]  |
-| **startingAfter** | **string** | The ID of the user to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the user to end before. | [optional]  |
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **query** | **string?** | Search the users by email or name. Use &#39;*&#39; to search all. | [optional]  |
+| **properties** | [**Dictionary&lt;string, List&lt;string&gt;&gt;?**](List&lt;string&gt;.md) |  | [optional]  |
+| **startingAfter** | **string?** | The ID of the user to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the user to end before. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;properties\&quot;. | [optional]  |
+| **apiScopes** | **string?** | Search the users by api scopes. | [optional]  |
 
 ### Return type
 

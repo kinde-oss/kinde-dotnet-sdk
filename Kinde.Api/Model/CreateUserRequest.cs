@@ -35,7 +35,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateUserRequest" /> class.
         /// </summary>
         /// <param name="profile">profile.</param>
-        /// <param name="organizationCode">The unique code associated with the organization you want the user to join..</param>
+        /// <param name="organizationCode">The unique code associated with the organization you want the user to join. If omitted, the user is added to the default registration organization when that setting is enabled..</param>
         /// <param name="providedId">An external id to reference the user..</param>
         /// <param name="identities">Array of identities to assign to the created user.</param>
         public CreateUserRequest(CreateUserRequestProfile profile = default(CreateUserRequestProfile), string organizationCode = default(string), string providedId = default(string), List<CreateUserRequestIdentitiesInner> identities = default(List<CreateUserRequestIdentitiesInner>))
@@ -53,9 +53,9 @@ namespace Kinde.Api.Model
         public CreateUserRequestProfile Profile { get; set; }
 
         /// <summary>
-        /// The unique code associated with the organization you want the user to join.
+        /// The unique code associated with the organization you want the user to join. If omitted, the user is added to the default registration organization when that setting is enabled.
         /// </summary>
-        /// <value>The unique code associated with the organization you want the user to join.</value>
+        /// <value>The unique code associated with the organization you want the user to join. If omitted, the user is added to the default registration organization when that setting is enabled.</value>
         [DataMember(Name = "organization_code", EmitDefaultValue = false)]
         public string OrganizationCode { get; set; }
 

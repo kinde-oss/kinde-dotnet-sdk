@@ -9,7 +9,7 @@ using System;
 namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties
 {
     /// <summary>
-    /// Property keys and values
+    /// Property keys and values. Set a value to an empty string or null to unset it.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class PropertiesPatchRequestBody_properties : IAdditionalDataHolder, IBackedModel, IParsable

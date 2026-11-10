@@ -36,15 +36,23 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">The friendly id of an agreement.</param>
         /// <param name="planCode">The plan code the billing customer is subscribed to.</param>
+        /// <param name="planVersion">Published version number on this agreement. Null when the agreement has no plan version. .</param>
+        /// <param name="planIsLatest">Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. .</param>
         /// <param name="expiresOn">The date the agreement expired (and was no longer active).</param>
         /// <param name="billingGroupId">The friendly id of the billing group this agreement&#39;s plan is part of.</param>
-        /// <param name="entitlements">A list of billing entitlements that is part of this agreement.</param>
-        public GetBillingAgreementsResponseAgreementsInner(string id = default(string), string planCode = default(string), DateTimeOffset expiresOn = default(DateTimeOffset), string billingGroupId = default(string), List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner> entitlements = default(List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>))
+        /// <param name="currentPeriodStart">The start date of the agreement&#39;s current billing period. Null when the agreement has no current billing cycle. .</param>
+        /// <param name="currentPeriodEnd">The end date of the agreement&#39;s current billing period (typically the next billing date). Null when the agreement has no current billing cycle; may be in the past if cycle roll or provider sync has lagged. .</param>
+        /// <param name="entitlements">A list of billing entitlements that is part of this agreement. Empty when the agreement&#39;s plan has no features. .</param>
+        public GetBillingAgreementsResponseAgreementsInner(string id = default(string), string planCode = default(string), int? planVersion = default(int?), bool? planIsLatest = default(bool?), DateTimeOffset? expiresOn = default(DateTimeOffset?), string billingGroupId = default(string), DateTimeOffset? currentPeriodStart = default(DateTimeOffset?), DateTimeOffset? currentPeriodEnd = default(DateTimeOffset?), List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner> entitlements = default(List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner>))
         {
             this.Id = id;
             this.PlanCode = planCode;
+            this.PlanVersion = planVersion;
+            this.PlanIsLatest = planIsLatest;
             this.ExpiresOn = expiresOn;
             this.BillingGroupId = billingGroupId;
+            this.CurrentPeriodStart = currentPeriodStart;
+            this.CurrentPeriodEnd = currentPeriodEnd;
             this.Entitlements = entitlements;
         }
 
@@ -64,25 +72,57 @@ namespace Kinde.Api.Model
         public string PlanCode { get; set; }
 
         /// <summary>
+        /// Published version number on this agreement. Null when the agreement has no plan version. 
+        /// </summary>
+        /// <value>Published version number on this agreement. Null when the agreement has no plan version. </value>
+        /// <example>2</example>
+        [DataMember(Name = "plan_version", EmitDefaultValue = true)]
+        public int? PlanVersion { get; set; }
+
+        /// <summary>
+        /// Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. 
+        /// </summary>
+        /// <value>Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. </value>
+        /// <example>false</example>
+        [DataMember(Name = "plan_is_latest", EmitDefaultValue = true)]
+        public bool? PlanIsLatest { get; set; }
+
+        /// <summary>
         /// The date the agreement expired (and was no longer active)
         /// </summary>
         /// <value>The date the agreement expired (and was no longer active)</value>
         /// <example>2024-11-18T13:32:03+11:00</example>
-        [DataMember(Name = "expires_on", EmitDefaultValue = false)]
-        public DateTimeOffset ExpiresOn { get; set; }
+        [DataMember(Name = "expires_on", EmitDefaultValue = true)]
+        public DateTimeOffset? ExpiresOn { get; set; }
 
         /// <summary>
         /// The friendly id of the billing group this agreement&#39;s plan is part of
         /// </summary>
         /// <value>The friendly id of the billing group this agreement&#39;s plan is part of</value>
         /// <example>sbg_0195abf6773fdae18d5da72281a3fde2</example>
-        [DataMember(Name = "billing_group_id", EmitDefaultValue = false)]
+        [DataMember(Name = "billing_group_id", EmitDefaultValue = true)]
         public string BillingGroupId { get; set; }
 
         /// <summary>
-        /// A list of billing entitlements that is part of this agreement
+        /// The start date of the agreement&#39;s current billing period. Null when the agreement has no current billing cycle. 
         /// </summary>
-        /// <value>A list of billing entitlements that is part of this agreement</value>
+        /// <value>The start date of the agreement&#39;s current billing period. Null when the agreement has no current billing cycle. </value>
+        /// <example>2026-08-06T12:53:57Z</example>
+        [DataMember(Name = "current_period_start", EmitDefaultValue = true)]
+        public DateTimeOffset? CurrentPeriodStart { get; set; }
+
+        /// <summary>
+        /// The end date of the agreement&#39;s current billing period (typically the next billing date). Null when the agreement has no current billing cycle; may be in the past if cycle roll or provider sync has lagged. 
+        /// </summary>
+        /// <value>The end date of the agreement&#39;s current billing period (typically the next billing date). Null when the agreement has no current billing cycle; may be in the past if cycle roll or provider sync has lagged. </value>
+        /// <example>2026-09-06T12:53:57Z</example>
+        [DataMember(Name = "current_period_end", EmitDefaultValue = true)]
+        public DateTimeOffset? CurrentPeriodEnd { get; set; }
+
+        /// <summary>
+        /// A list of billing entitlements that is part of this agreement. Empty when the agreement&#39;s plan has no features. 
+        /// </summary>
+        /// <value>A list of billing entitlements that is part of this agreement. Empty when the agreement&#39;s plan has no features. </value>
         [DataMember(Name = "entitlements", EmitDefaultValue = false)]
         public List<GetBillingAgreementsResponseAgreementsInnerEntitlementsInner> Entitlements { get; set; }
 
@@ -96,8 +136,12 @@ namespace Kinde.Api.Model
             sb.Append("class GetBillingAgreementsResponseAgreementsInner {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  PlanCode: ").Append(PlanCode).Append("\n");
+            sb.Append("  PlanVersion: ").Append(PlanVersion).Append("\n");
+            sb.Append("  PlanIsLatest: ").Append(PlanIsLatest).Append("\n");
             sb.Append("  ExpiresOn: ").Append(ExpiresOn).Append("\n");
             sb.Append("  BillingGroupId: ").Append(BillingGroupId).Append("\n");
+            sb.Append("  CurrentPeriodStart: ").Append(CurrentPeriodStart).Append("\n");
+            sb.Append("  CurrentPeriodEnd: ").Append(CurrentPeriodEnd).Append("\n");
             sb.Append("  Entitlements: ").Append(Entitlements).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -145,6 +189,16 @@ namespace Kinde.Api.Model
                     this.PlanCode.Equals(input.PlanCode))
                 ) && 
                 (
+                    this.PlanVersion == input.PlanVersion ||
+                    (this.PlanVersion != null &&
+                    this.PlanVersion.Equals(input.PlanVersion))
+                ) && 
+                (
+                    this.PlanIsLatest == input.PlanIsLatest ||
+                    (this.PlanIsLatest != null &&
+                    this.PlanIsLatest.Equals(input.PlanIsLatest))
+                ) && 
+                (
                     this.ExpiresOn == input.ExpiresOn ||
                     (this.ExpiresOn != null &&
                     this.ExpiresOn.Equals(input.ExpiresOn))
@@ -153,6 +207,16 @@ namespace Kinde.Api.Model
                     this.BillingGroupId == input.BillingGroupId ||
                     (this.BillingGroupId != null &&
                     this.BillingGroupId.Equals(input.BillingGroupId))
+                ) && 
+                (
+                    this.CurrentPeriodStart == input.CurrentPeriodStart ||
+                    (this.CurrentPeriodStart != null &&
+                    this.CurrentPeriodStart.Equals(input.CurrentPeriodStart))
+                ) && 
+                (
+                    this.CurrentPeriodEnd == input.CurrentPeriodEnd ||
+                    (this.CurrentPeriodEnd != null &&
+                    this.CurrentPeriodEnd.Equals(input.CurrentPeriodEnd))
                 ) && 
                 (
                     this.Entitlements == input.Entitlements ||
@@ -179,6 +243,14 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.PlanCode.GetHashCode();
                 }
+                if (this.PlanVersion != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanVersion.GetHashCode();
+                }
+                if (this.PlanIsLatest != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanIsLatest.GetHashCode();
+                }
                 if (this.ExpiresOn != null)
                 {
                     hashCode = (hashCode * 59) + this.ExpiresOn.GetHashCode();
@@ -186,6 +258,14 @@ namespace Kinde.Api.Model
                 if (this.BillingGroupId != null)
                 {
                     hashCode = (hashCode * 59) + this.BillingGroupId.GetHashCode();
+                }
+                if (this.CurrentPeriodStart != null)
+                {
+                    hashCode = (hashCode * 59) + this.CurrentPeriodStart.GetHashCode();
+                }
+                if (this.CurrentPeriodEnd != null)
+                {
+                    hashCode = (hashCode * 59) + this.CurrentPeriodEnd.GetHashCode();
                 }
                 if (this.Entitlements != null)
                 {

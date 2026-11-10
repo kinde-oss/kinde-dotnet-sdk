@@ -36,10 +36,12 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public Category(string id = default(string), string name = default(string))
+        /// <param name="context">What the category&#39;s properties apply to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications..</param>
+        public Category(string id = default(string), string name = default(string), string context = default(string))
         {
             this.Id = id;
             this.Name = name;
+            this.Context = context;
         }
 
         /// <summary>
@@ -55,6 +57,14 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// What the category&#39;s properties apply to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications.
+        /// </summary>
+        /// <value>What the category&#39;s properties apply to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications.</value>
+        /// <example>usr</example>
+        [DataMember(Name = "context", EmitDefaultValue = true)]
+        public string Context { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -64,6 +74,7 @@ namespace Kinde.Api.Model
             sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Context: ").Append(Context).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -108,6 +119,11 @@ namespace Kinde.Api.Model
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
+                ) && 
+                (
+                    this.Context == input.Context ||
+                    (this.Context != null &&
+                    this.Context.Equals(input.Context))
                 );
         }
 
@@ -127,6 +143,10 @@ namespace Kinde.Api.Model
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
+                if (this.Context != null)
+                {
+                    hashCode = (hashCode * 59) + this.Context.GetHashCode();
                 }
                 return hashCode;
             }

@@ -11,7 +11,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="createpermission"></a>
 # **CreatePermission**
-> SuccessResponse CreatePermission (CreatePermissionRequest createPermissionRequest = null)
+> SuccessResponse CreatePermission (CreatePermissionRequest? createPermissionRequest = null)
 
 Create Permission
 
@@ -21,7 +21,6 @@ Create a new permission.  <div>   <code>create:permissions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -37,11 +36,8 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
-            var createPermissionRequest = new CreatePermissionRequest(); // CreatePermissionRequest | Permission details. (optional) 
+            var apiInstance = new PermissionsApi(config);
+            var createPermissionRequest = new CreatePermissionRequest?(); // CreatePermissionRequest? | Permission details. (optional) 
 
             try
             {
@@ -84,7 +80,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createPermissionRequest** | [**CreatePermissionRequest**](CreatePermissionRequest.md) | Permission details. | [optional]  |
+| **createPermissionRequest** | [**CreatePermissionRequest?**](CreatePermissionRequest?.md) | Permission details. | [optional]  |
 
 ### Return type
 
@@ -122,7 +118,6 @@ Delete permission  <div>   <code>delete:permissions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -138,10 +133,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PermissionsApi(config);
             var permissionId = "permissionId_example";  // string | The identifier for the permission.
 
             try
@@ -213,7 +205,7 @@ catch (ApiException e)
 
 <a id="getpermissions"></a>
 # **GetPermissions**
-> GetPermissionsResponse GetPermissions (string sort = null, int? pageSize = null, string nextToken = null)
+> GetPermissionsResponse GetPermissions (string? sort = null, int? pageSize = null, string? nextToken = null)
 
 List Permissions
 
@@ -223,7 +215,6 @@ The returned list can be sorted by permission name or permission ID in ascending
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -239,13 +230,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
+            var apiInstance = new PermissionsApi(config);
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -288,9 +276,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -317,7 +305,7 @@ catch (ApiException e)
 
 <a id="updatepermissions"></a>
 # **UpdatePermissions**
-> SuccessResponse UpdatePermissions (string permissionId, CreatePermissionRequest createPermissionRequest = null)
+> SuccessResponse UpdatePermissions (string permissionId, CreatePermissionRequest? createPermissionRequest = null)
 
 Update Permission
 
@@ -327,7 +315,6 @@ Update permission  <div>   <code>update:permissions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -343,12 +330,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PermissionsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PermissionsApi(config);
             var permissionId = "permissionId_example";  // string | The identifier for the permission.
-            var createPermissionRequest = new CreatePermissionRequest(); // CreatePermissionRequest | Permission details. (optional) 
+            var createPermissionRequest = new CreatePermissionRequest?(); // CreatePermissionRequest? | Permission details. (optional) 
 
             try
             {
@@ -392,7 +376,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **permissionId** | **string** | The identifier for the permission. |  |
-| **createPermissionRequest** | [**CreatePermissionRequest**](CreatePermissionRequest.md) | Permission details. | [optional]  |
+| **createPermissionRequest** | [**CreatePermissionRequest?**](CreatePermissionRequest?.md) | Permission details. | [optional]  |
 
 ### Return type
 

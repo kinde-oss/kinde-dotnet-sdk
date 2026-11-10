@@ -32,6 +32,74 @@ namespace Kinde.Api.Model
     public partial class CreateConnectionRequestOptionsOneOf1 : IEquatable<CreateConnectionRequestOptionsOneOf1>
     {
         /// <summary>
+        /// Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.
+        /// </summary>
+        /// <value>Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum SsoButtonDisplayEnum
+        {
+            /// <summary>
+            /// Enum Auto for value: auto
+            /// </summary>
+            [EnumMember(Value = "auto")]
+            Auto = 1,
+
+            /// <summary>
+            /// Enum Show for value: show
+            /// </summary>
+            [EnumMember(Value = "show")]
+            Show = 2,
+
+            /// <summary>
+            /// Enum Hide for value: hide
+            /// </summary>
+            [EnumMember(Value = "hide")]
+            Hide = 3
+        }
+
+
+        /// <summary>
+        /// Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.
+        /// </summary>
+        /// <value>Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.</value>
+        /// <example>auto</example>
+        [DataMember(Name = "sso_button_display", EmitDefaultValue = false)]
+        public SsoButtonDisplayEnum? SsoButtonDisplay { get; set; }
+        /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TrustModeEnum
+        {
+            /// <summary>
+            /// Enum None for value: none
+            /// </summary>
+            [EnumMember(Value = "none")]
+            None = 1,
+
+            /// <summary>
+            /// Enum Validate for value: validate
+            /// </summary>
+            [EnumMember(Value = "validate")]
+            Validate = 2,
+
+            /// <summary>
+            /// Enum Trust for value: trust
+            /// </summary>
+            [EnumMember(Value = "trust")]
+            Trust = 3
+        }
+
+
+        /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.</value>
+        /// <example>validate</example>
+        [DataMember(Name = "trust_mode", EmitDefaultValue = false)]
+        public TrustModeEnum? TrustMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
         /// <param name="clientId">Client ID..</param>
@@ -44,11 +112,14 @@ namespace Kinde.Api.Model
         /// <param name="isExtendedAttributesRequired">Include additional user profile information..</param>
         /// <param name="isAutoJoinOrganizationEnabled">Users automatically join organization when using this connection..</param>
         /// <param name="isCreateMissingUser">Create a user record in Kinde if the user signing in does not exist..</param>
-        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
+        /// <param name="isForceShowSsoButton">Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent..</param>
+        /// <param name="ssoButtonDisplay">Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent..</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
-        /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        /// <param name="isTrusted">Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate..</param>
+        /// <param name="trustMode">How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately..</param>
+        /// <param name="isPasskeyAllowed">Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. Defaults to false..</param>
+        public CreateConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isAutoJoinOrganizationEnabled = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), SsoButtonDisplayEnum? ssoButtonDisplay = default(SsoButtonDisplayEnum?), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool), TrustModeEnum? trustMode = default(TrustModeEnum?), bool isPasskeyAllowed = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
@@ -61,9 +132,12 @@ namespace Kinde.Api.Model
             this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
             this.IsCreateMissingUser = isCreateMissingUser;
             this.IsForceShowSsoButton = isForceShowSsoButton;
+            this.SsoButtonDisplay = ssoButtonDisplay;
             this.UpstreamParams = upstreamParams;
             this.IsUseCustomDomain = isUseCustomDomain;
             this.IsTrusted = isTrusted;
+            this.TrustMode = trustMode;
+            this.IsPasskeyAllowed = isPasskeyAllowed;
         }
 
         /// <summary>
@@ -147,11 +221,12 @@ namespace Kinde.Api.Model
         public bool IsCreateMissingUser { get; set; }
 
         /// <summary>
-        /// Force showing the SSO button for this connection.
+        /// Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent.
         /// </summary>
-        /// <value>Force showing the SSO button for this connection.</value>
+        /// <value>Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent.</value>
         /// <example>false</example>
         [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsForceShowSsoButton { get; set; }
 
         /// <summary>
@@ -171,12 +246,21 @@ namespace Kinde.Api.Model
         public bool IsUseCustomDomain { get; set; }
 
         /// <summary>
-        /// Trust this connection for account merging.
+        /// Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.
         /// </summary>
-        /// <value>Trust this connection for account merging.</value>
+        /// <value>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</value>
         /// <example>true</example>
         [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsTrusted { get; set; }
+
+        /// <summary>
+        /// Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. Defaults to false.
+        /// </summary>
+        /// <value>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. Defaults to false.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_passkey_allowed", EmitDefaultValue = true)]
+        public bool IsPasskeyAllowed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -197,9 +281,12 @@ namespace Kinde.Api.Model
             sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
             sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
+            sb.Append("  SsoButtonDisplay: ").Append(SsoButtonDisplay).Append("\n");
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
             sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
+            sb.Append("  TrustMode: ").Append(TrustMode).Append("\n");
+            sb.Append("  IsPasskeyAllowed: ").Append(IsPasskeyAllowed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -285,6 +372,10 @@ namespace Kinde.Api.Model
                     this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
                 ) && 
                 (
+                    this.SsoButtonDisplay == input.SsoButtonDisplay ||
+                    this.SsoButtonDisplay.Equals(input.SsoButtonDisplay)
+                ) && 
+                (
                     this.UpstreamParams == input.UpstreamParams ||
                     this.UpstreamParams != null &&
                     input.UpstreamParams != null &&
@@ -297,6 +388,14 @@ namespace Kinde.Api.Model
                 (
                     this.IsTrusted == input.IsTrusted ||
                     this.IsTrusted.Equals(input.IsTrusted)
+                ) && 
+                (
+                    this.TrustMode == input.TrustMode ||
+                    this.TrustMode.Equals(input.TrustMode)
+                ) && 
+                (
+                    this.IsPasskeyAllowed == input.IsPasskeyAllowed ||
+                    this.IsPasskeyAllowed.Equals(input.IsPasskeyAllowed)
                 );
         }
 
@@ -332,12 +431,15 @@ namespace Kinde.Api.Model
                 hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
+                hashCode = (hashCode * 59) + this.SsoButtonDisplay.GetHashCode();
                 if (this.UpstreamParams != null)
                 {
                     hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
+                hashCode = (hashCode * 59) + this.TrustMode.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsPasskeyAllowed.GetHashCode();
                 return hashCode;
             }
         }

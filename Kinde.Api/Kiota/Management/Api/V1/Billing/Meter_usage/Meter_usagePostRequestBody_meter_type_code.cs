@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
 {
-    /// <summary>Absolutes overrides the current usage</summary>
+    /// <summary>How this record updates the running total. `absolute` replaces the last calculated total with `meter_value`. `delta` adds `meter_value` to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime).</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum Meter_usagePostRequestBody_meter_type_code
     {

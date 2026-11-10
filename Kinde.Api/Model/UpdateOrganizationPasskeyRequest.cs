@@ -133,8 +133,7 @@ namespace Kinde.Api.Model
                 ) &&
                 (
                     this.IsOverrideEnvironmentPasskeySettings == input.IsOverrideEnvironmentPasskeySettings ||
-                    (this.IsOverrideEnvironmentPasskeySettings != null &&
-                    this.IsOverrideEnvironmentPasskeySettings.Equals(input.IsOverrideEnvironmentPasskeySettings))
+                    this.IsOverrideEnvironmentPasskeySettings.Equals(input.IsOverrideEnvironmentPasskeySettings)
                 );
         }
 
@@ -148,10 +147,7 @@ namespace Kinde.Api.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Policy.GetHashCode();
-                if (this.IsOverrideEnvironmentPasskeySettings != null)
-                {
-                    hashCode = (hashCode * 59) + this.IsOverrideEnvironmentPasskeySettings.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.IsOverrideEnvironmentPasskeySettings.GetHashCode();
                 return hashCode;
             }
         }
@@ -159,3 +155,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

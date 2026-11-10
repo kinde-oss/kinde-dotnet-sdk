@@ -65,8 +65,9 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="ReplaceOrganizationMFARequest" /> class.
         /// </summary>
         /// <param name="enabledFactors">The MFA methods to enable. (required).</param>
-        /// <param name="isRecoveryCodesEnabled">Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. (default to true).</param>
-        public ReplaceOrganizationMFARequest(List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool? isRecoveryCodesEnabled = default(bool?))
+        /// <param name="isRecoveryCodesEnabled">Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. Omit the field to keep the current setting. An organization that has never set it uses the environment-level setting..</param>
+        /// <param name="exemptEnterpriseConnections">IDs of the enterprise connections whose users are not required to use MFA for this organization. The list replaces the saved exemptions, so include every connection to keep exempt. Send an empty array to remove all exemptions. Omit the field, or send null, to leave the saved exemptions unchanged. Requires the advanced organizations plan entitlement. .</param>
+        public ReplaceOrganizationMFARequest(List<EnabledFactorsEnum> enabledFactors = default(List<EnabledFactorsEnum>), bool? isRecoveryCodesEnabled = default(bool?), List<string> exemptEnterpriseConnections = default(List<string>))
         {
             // to ensure "enabledFactors" is required (not null)
             if (enabledFactors == null)
@@ -75,6 +76,7 @@ namespace Kinde.Api.Model
             }
             this.EnabledFactors = enabledFactors;
             this.IsRecoveryCodesEnabled = isRecoveryCodesEnabled;
+            this.ExemptEnterpriseConnections = exemptEnterpriseConnections;
         }
 
         /// <summary>
@@ -85,11 +87,18 @@ namespace Kinde.Api.Model
         public List<ReplaceOrganizationMFARequest.EnabledFactorsEnum> EnabledFactors { get; set; }
 
         /// <summary>
-        /// Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.
+        /// Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. Omit the field to keep the current setting. An organization that has never set it uses the environment-level setting.
         /// </summary>
-        /// <value>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.</value>
+        /// <value>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. Omit the field to keep the current setting. An organization that has never set it uses the environment-level setting.</value>
         [DataMember(Name = "is_recovery_codes_enabled", EmitDefaultValue = false)]
         public bool? IsRecoveryCodesEnabled { get; set; }
+
+        /// <summary>
+        /// IDs of the enterprise connections whose users are not required to use MFA for this organization. The list replaces the saved exemptions, so include every connection to keep exempt. Send an empty array to remove all exemptions. Omit the field, or send null, to leave the saved exemptions unchanged. Requires the advanced organizations plan entitlement. 
+        /// </summary>
+        /// <value>IDs of the enterprise connections whose users are not required to use MFA for this organization. The list replaces the saved exemptions, so include every connection to keep exempt. Send an empty array to remove all exemptions. Omit the field, or send null, to leave the saved exemptions unchanged. Requires the advanced organizations plan entitlement. </value>
+        [DataMember(Name = "exempt_enterprise_connections", EmitDefaultValue = false)]
+        public List<string> ExemptEnterpriseConnections { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,6 +110,7 @@ namespace Kinde.Api.Model
             sb.Append("class ReplaceOrganizationMFARequest {\n");
             sb.Append("  EnabledFactors: ").Append(EnabledFactors).Append("\n");
             sb.Append("  IsRecoveryCodesEnabled: ").Append(IsRecoveryCodesEnabled).Append("\n");
+            sb.Append("  ExemptEnterpriseConnections: ").Append(ExemptEnterpriseConnections).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -145,6 +155,12 @@ namespace Kinde.Api.Model
                 (
                     this.IsRecoveryCodesEnabled == input.IsRecoveryCodesEnabled ||
                     this.IsRecoveryCodesEnabled.Equals(input.IsRecoveryCodesEnabled)
+                ) && 
+                (
+                    this.ExemptEnterpriseConnections == input.ExemptEnterpriseConnections ||
+                    this.ExemptEnterpriseConnections != null &&
+                    input.ExemptEnterpriseConnections != null &&
+                    this.ExemptEnterpriseConnections.SequenceEqual(input.ExemptEnterpriseConnections)
                 );
         }
 
@@ -162,6 +178,10 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.EnabledFactors.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsRecoveryCodesEnabled.GetHashCode();
+                if (this.ExemptEnterpriseConnections != null)
+                {
+                    hashCode = (hashCode * 59) + this.ExemptEnterpriseConnections.GetHashCode();
+                }
                 return hashCode;
             }
         }

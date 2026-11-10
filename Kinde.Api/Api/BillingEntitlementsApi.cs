@@ -37,7 +37,7 @@ namespace Kinde.Api.Api
         /// Get billing entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -45,7 +45,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <returns>GetBillingEntitlementsResponse</returns>
         GetBillingEntitlementsResponse GetBillingEntitlements(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string));
 
@@ -53,7 +53,7 @@ namespace Kinde.Api.Api
         /// Get billing entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -61,7 +61,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetBillingEntitlementsResponse</returns>
         ApiResponse<GetBillingEntitlementsResponse> GetBillingEntitlementsWithHttpInfo(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string));
         #endregion Synchronous Operations
@@ -77,7 +77,7 @@ namespace Kinde.Api.Api
         /// Get billing entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -85,7 +85,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetBillingEntitlementsResponse</returns>
         System.Threading.Tasks.Task<GetBillingEntitlementsResponse> GetBillingEntitlementsAsync(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -94,7 +94,7 @@ namespace Kinde.Api.Api
         /// Get billing entitlements
         /// </summary>
         /// <remarks>
-        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -102,7 +102,7 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetBillingEntitlementsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetBillingEntitlementsResponse>> GetBillingEntitlementsWithHttpInfoAsync(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -173,23 +173,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -203,13 +203,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -225,33 +224,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -268,17 +257,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -302,7 +286,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public BillingEntitlementsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -317,10 +300,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BillingEntitlementsApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingEntitlementsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -393,7 +377,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -401,7 +385,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <returns>GetBillingEntitlementsResponse</returns>
         public GetBillingEntitlementsResponse GetBillingEntitlements(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string))
         {
@@ -410,7 +394,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -418,7 +402,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetBillingEntitlementsResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetBillingEntitlementsResponse> GetBillingEntitlementsWithHttpInfo(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string))
         {
@@ -485,7 +469,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -493,7 +477,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetBillingEntitlementsResponse</returns>
         public async System.Threading.Tasks.Task<GetBillingEntitlementsResponse> GetBillingEntitlementsAsync(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -503,7 +487,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt; 
+        /// Get billing entitlements Returns all the entitlements a billing customer currently has access to  &lt;div&gt;   &lt;code&gt;read:billing_entitlements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="customerId">The ID of the billing customer to retrieve entitlements for</param>
@@ -511,7 +495,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the billing entitlement to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the billing entitlement to end before. (optional)</param>
         /// <param name="maxValue">When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional)</param>
-        /// <param name="expand">Specify additional plan data to retrieve. Use \&quot;plans\&quot;. (optional)</param>
+        /// <param name="expand">Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetBillingEntitlementsResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetBillingEntitlementsResponse>> GetBillingEntitlementsWithHttpInfoAsync(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string maxValue = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))

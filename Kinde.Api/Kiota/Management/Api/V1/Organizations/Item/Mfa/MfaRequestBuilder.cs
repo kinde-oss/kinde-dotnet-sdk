@@ -34,6 +34,33 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
         }
         /// <summary>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.&lt;div&gt;  &lt;code&gt;read:organization_mfa&lt;/code&gt;&lt;/div&gt;
+        /// </summary>
+        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 400 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 403 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 429 status code</exception>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+                { "403", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+                { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+            };
+            return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse>(requestInfo, global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
         /// Replace Organization MFA Configuration.&lt;div&gt;  &lt;code&gt;update:organization_mfa&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
@@ -61,6 +88,25 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
                 { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.&lt;div&gt;  &lt;code&gt;read:organization_mfa&lt;/code&gt;&lt;/div&gt;
+        /// </summary>
+        /// <returns>A <see cref="RequestInformation"/></returns>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        {
+#nullable restore
+#else
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        {
+#endif
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
+            requestInfo.Configure(requestConfiguration);
+            requestInfo.Headers.TryAdd("Accept", "application/json");
+            return requestInfo;
         }
         /// <summary>
         /// Replace Organization MFA Configuration.&lt;div&gt;  &lt;code&gt;update:organization_mfa&lt;/code&gt;&lt;/div&gt;

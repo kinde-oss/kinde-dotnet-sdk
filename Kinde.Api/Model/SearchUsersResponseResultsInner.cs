@@ -43,7 +43,7 @@ namespace Kinde.Api.Model
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="picture">User&#39;s profile picture URL..</param>
         /// <param name="totalSignIns">Total number of user sign ins..</param>
-        /// <param name="failedSignIns">Number of consecutive failed user sign ins..</param>
+        /// <param name="failedSignIns">Total number of failed user sign-in attempts..</param>
         /// <param name="lastSignedIn">Last sign in date in ISO 8601 format..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
         /// <param name="organizations">Array of organizations a user belongs to..</param>
@@ -143,9 +143,9 @@ namespace Kinde.Api.Model
         public int? TotalSignIns { get; set; }
 
         /// <summary>
-        /// Number of consecutive failed user sign ins.
+        /// Total number of failed user sign-in attempts.
         /// </summary>
-        /// <value>Number of consecutive failed user sign ins.</value>
+        /// <value>Total number of failed user sign-in attempts.</value>
         /// <example>0</example>
         [DataMember(Name = "failed_sign_ins", EmitDefaultValue = true)]
         public int? FailedSignIns { get; set; }

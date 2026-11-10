@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Picture** | **string** | The user&#39;s profile picture URL. | [optional] 
 **JoinedOn** | **string** | The date the user joined the organization. | [optional] 
 **LastAccessedOn** | **string** | The date the user last accessed the organization. | [optional] 
+**IsSuspended** | **bool** | Whether the user is currently suspended or not. | [optional] 
 **Roles** | **List&lt;string&gt;** | The roles the user has in the organization. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

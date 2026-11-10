@@ -53,7 +53,7 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("created_on", value); }
         }
 #endif
-        /// <summary>The associated email of the identity</summary>
+        /// <summary>The associated email of the identity. Null for phone and username identities.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Email
@@ -85,7 +85,7 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("id", value); }
         }
 #endif
-        /// <summary>Whether the identity is confirmed</summary>
+        /// <summary>Whether the identity is confirmed. Null for identity types that do not record confirmation, such as username.</summary>
         public bool? IsConfirmed
         {
             get { return BackingStore?.Get<bool?>("is_confirmed"); }
@@ -97,7 +97,7 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore?.Get<bool?>("is_primary"); }
             set { BackingStore?.Set("is_primary", value); }
         }
-        /// <summary>Date of last login in ISO 8601 format</summary>
+        /// <summary>Date of last login in ISO 8601 format. Null if the identity has never been used to sign in.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? LastLoginOn

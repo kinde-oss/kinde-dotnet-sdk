@@ -11,9 +11,13 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**GetRole**](RolesApi.md#getrole) | **GET** /api/v1/roles/{role_id} | Get role |
 | [**GetRolePermissions**](RolesApi.md#getrolepermissions) | **GET** /api/v1/roles/{role_id}/permissions | Get role permissions |
 | [**GetRoleScopes**](RolesApi.md#getrolescopes) | **GET** /api/v1/roles/{role_id}/scopes | Get role scopes |
+| [**GetRoleSystemPermissions**](RolesApi.md#getrolesystempermissions) | **GET** /api/v1/roles/{role_id}/system_permissions | Get role system permissions |
+| [**GetRoleUsers**](RolesApi.md#getroleusers) | **GET** /api/v1/roles/{role_id}/users | List role users |
 | [**GetRoles**](RolesApi.md#getroles) | **GET** /api/v1/roles | List roles |
+| [**GetSystemPermissions**](RolesApi.md#getsystempermissions) | **GET** /api/v1/system_permissions | List system permissions |
 | [**RemoveRolePermission**](RolesApi.md#removerolepermission) | **DELETE** /api/v1/roles/{role_id}/permissions/{permission_id} | Remove role permission |
 | [**UpdateRolePermissions**](RolesApi.md#updaterolepermissions) | **PATCH** /api/v1/roles/{role_id}/permissions | Update role permissions |
+| [**UpdateRoleSystemPermissions**](RolesApi.md#updaterolesystempermissions) | **PATCH** /api/v1/roles/{role_id}/system_permissions | Update role system permissions |
 | [**UpdateRoles**](RolesApi.md#updateroles) | **PATCH** /api/v1/roles/{role_id} | Update role |
 
 <a id="addrolescope"></a>
@@ -22,13 +26,12 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 Add role scope
 
-Add scope to role.  <div>   <code>create:role_scopes</code> </div> 
+Add scope to role.  <div>   <code>update:role_permissions</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -44,10 +47,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The role id.
             var addRoleScopeRequest = new AddRoleScopeRequest(); // AddRoleScopeRequest | Add scope to role.
 
@@ -121,7 +121,7 @@ catch (ApiException e)
 
 <a id="createrole"></a>
 # **CreateRole**
-> CreateRolesResponse CreateRole (CreateRoleRequest createRoleRequest = null)
+> CreateRolesResponse CreateRole (CreateRoleRequest? createRoleRequest = null)
 
 Create role
 
@@ -131,7 +131,6 @@ Create role.  <div>   <code>create:roles</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -147,11 +146,8 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
-            var createRoleRequest = new CreateRoleRequest(); // CreateRoleRequest | Role details. (optional) 
+            var apiInstance = new RolesApi(config);
+            var createRoleRequest = new CreateRoleRequest?(); // CreateRoleRequest? | Role details. (optional) 
 
             try
             {
@@ -194,7 +190,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createRoleRequest** | [**CreateRoleRequest**](CreateRoleRequest.md) | Role details. | [optional]  |
+| **createRoleRequest** | [**CreateRoleRequest?**](CreateRoleRequest?.md) | Role details. | [optional]  |
 
 ### Return type
 
@@ -232,7 +228,6 @@ Delete role  <div>   <code>delete:roles</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -248,10 +243,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The identifier for the role.
 
             try
@@ -327,13 +319,12 @@ catch (ApiException e)
 
 Delete role scope
 
-Delete scope from role.  <div>   <code>delete:role_scopes</code> </div> 
+Delete scope from role.  <div>   <code>delete:role_permissions</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -349,10 +340,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The role id.
             var scopeId = "scopeId_example";  // string | The scope id.
 
@@ -436,7 +424,6 @@ Get a role  <div>   <code>read:roles</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -452,10 +439,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The identifier for the role.
 
             try
@@ -527,7 +511,7 @@ catch (ApiException e)
 
 <a id="getrolepermissions"></a>
 # **GetRolePermissions**
-> RolePermissionsResponse GetRolePermissions (string roleId, string sort = null, int? pageSize = null, string nextToken = null)
+> RolePermissionsResponse GetRolePermissions (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
 
 Get role permissions
 
@@ -537,7 +521,6 @@ Get permissions for a role.  <div>   <code>read:role_permissions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -553,14 +536,11 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The role's public id.
-            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -604,9 +584,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **roleId** | **string** | The role&#39;s public id. |  |
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -638,13 +618,12 @@ catch (ApiException e)
 
 Get role scopes
 
-Get scopes for a role.  <div>   <code>read:role_scopes</code> </div> 
+Get scopes for a role.  <div>   <code>read:role_permissions</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -660,10 +639,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The role id.
 
             try
@@ -733,19 +709,222 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getroles"></a>
-# **GetRoles**
-> GetRolesResponse GetRoles (string sort = null, int? pageSize = null, string nextToken = null)
+<a id="getrolesystempermissions"></a>
+# **GetRoleSystemPermissions**
+> RoleSystemPermissionsResponse GetRoleSystemPermissions (string roleId, string? sort = null, int? pageSize = null, string? nextToken = null)
 
-List roles
+Get role system permissions
 
-The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:roles</code> </div> 
+Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  <div>   <code>read:role_system_permissions</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetRoleSystemPermissionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new RolesApi(config);
+            var roleId = "roleId_example";  // string | The role's public id.
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // Get role system permissions
+                RoleSystemPermissionsResponse result = apiInstance.GetRoleSystemPermissions(roleId, sort, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.GetRoleSystemPermissions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetRoleSystemPermissionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get role system permissions
+    ApiResponse<RoleSystemPermissionsResponse> response = apiInstance.GetRoleSystemPermissionsWithHttpInfo(roleId, sort, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.GetRoleSystemPermissionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The role&#39;s public id. |  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**RoleSystemPermissionsResponse**](RoleSystemPermissionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A list of system permissions for a role |  -  |
+| **400** | Error retrieving system permissions |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getroleusers"></a>
+# **GetRoleUsers**
+> GetRoleUsersResponse GetRoleUsers (string roleId, int? pageSize = null, string? nextToken = null)
+
+List role users
+
+Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  <div>   <code>read:organization_user_roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetRoleUsersExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new RolesApi(config);
+            var roleId = "roleId_example";  // string | The role's public id.
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // List role users
+                GetRoleUsersResponse result = apiInstance.GetRoleUsers(roleId, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.GetRoleUsers: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetRoleUsersWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List role users
+    ApiResponse<GetRoleUsersResponse> response = apiInstance.GetRoleUsersWithHttpInfo(roleId, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.GetRoleUsersWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The role&#39;s public id. |  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**GetRoleUsersResponse**](GetRoleUsersResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A list of users with the specified role. |  -  |
+| **400** | Bad request. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getroles"></a>
+# **GetRoles**
+> GetRolesResponse GetRoles (string? sort = null, int? pageSize = null, string? nextToken = null)
+
+List roles
+
+The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  <div>   <code>read:roles</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -761,13 +940,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
-            var sort = "name_asc";  // string | Field and order to sort the result by. (optional) 
+            var apiInstance = new RolesApi(config);
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
 
             try
             {
@@ -810,9 +986,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sort** | **string** | Field and order to sort the result by. | [optional]  |
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
 
 ### Return type
 
@@ -838,6 +1014,106 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getsystempermissions"></a>
+# **GetSystemPermissions**
+> GetSystemPermissionsResponse GetSystemPermissions (string? sort = null, int? pageSize = null, string? nextToken = null)
+
+List system permissions
+
+The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.  System permissions control what organization users can do in the self-serve portal.  <div>   <code>read:system_permissions</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetSystemPermissionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new RolesApi(config);
+            var sort = "name_asc";  // string? | Field and order to sort the result by. (optional) 
+            var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+
+            try
+            {
+                // List system permissions
+                GetSystemPermissionsResponse result = apiInstance.GetSystemPermissions(sort, pageSize, nextToken);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.GetSystemPermissions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetSystemPermissionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List system permissions
+    ApiResponse<GetSystemPermissionsResponse> response = apiInstance.GetSystemPermissionsWithHttpInfo(sort, pageSize, nextToken);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.GetSystemPermissionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **sort** | **string?** | Field and order to sort the result by. | [optional]  |
+| **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+
+### Return type
+
+[**GetSystemPermissionsResponse**](GetSystemPermissionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | System permissions successfully retrieved. |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="removerolepermission"></a>
 # **RemoveRolePermission**
 > SuccessResponse RemoveRolePermission (string roleId, string permissionId)
@@ -850,7 +1126,6 @@ Remove a permission from a role.  <div>   <code>delete:role_permissions</code> <
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -866,10 +1141,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The role's public id.
             var permissionId = "permissionId_example";  // string | The permission's public id.
 
@@ -953,7 +1225,6 @@ Update role permissions.  <div>   <code>update:role_permissions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -969,10 +1240,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The identifier for the role.
             var updateRolePermissionsRequest = new UpdateRolePermissionsRequest(); // UpdateRolePermissionsRequest | 
 
@@ -1043,9 +1311,108 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="updaterolesystempermissions"></a>
+# **UpdateRoleSystemPermissions**
+> UpdateRoleSystemPermissionsResponse UpdateRoleSystemPermissions (string roleId, UpdateRoleSystemPermissionsRequest updateRoleSystemPermissionsRequest)
+
+Update role system permissions
+
+Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  <div>   <code>update:role_system_permissions</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdateRoleSystemPermissionsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new RolesApi(config);
+            var roleId = "roleId_example";  // string | The identifier for the role.
+            var updateRoleSystemPermissionsRequest = new UpdateRoleSystemPermissionsRequest(); // UpdateRoleSystemPermissionsRequest | 
+
+            try
+            {
+                // Update role system permissions
+                UpdateRoleSystemPermissionsResponse result = apiInstance.UpdateRoleSystemPermissions(roleId, updateRoleSystemPermissionsRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling RolesApi.UpdateRoleSystemPermissions: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdateRoleSystemPermissionsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update role system permissions
+    ApiResponse<UpdateRoleSystemPermissionsResponse> response = apiInstance.UpdateRoleSystemPermissionsWithHttpInfo(roleId, updateRoleSystemPermissionsRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling RolesApi.UpdateRoleSystemPermissionsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **roleId** | **string** | The identifier for the role. |  |
+| **updateRoleSystemPermissionsRequest** | [**UpdateRoleSystemPermissionsRequest**](UpdateRoleSystemPermissionsRequest.md) |  |  |
+
+### Return type
+
+[**UpdateRoleSystemPermissionsResponse**](UpdateRoleSystemPermissionsResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | System permissions successfully updated. |  -  |
+| **400** | Error updating system permissions |  -  |
+| **403** | Invalid credentials. |  -  |
+| **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="updateroles"></a>
 # **UpdateRoles**
-> SuccessResponse UpdateRoles (string roleId, UpdateRolesRequest updateRolesRequest = null)
+> SuccessResponse UpdateRoles (string roleId, UpdateRolesRequest? updateRolesRequest = null)
 
 Update role
 
@@ -1055,7 +1422,6 @@ Update a role  <div>   <code>update:roles</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1071,12 +1437,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new RolesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new RolesApi(config);
             var roleId = "roleId_example";  // string | The identifier for the role.
-            var updateRolesRequest = new UpdateRolesRequest(); // UpdateRolesRequest | Role details. (optional) 
+            var updateRolesRequest = new UpdateRolesRequest?(); // UpdateRolesRequest? | Role details. (optional) 
 
             try
             {
@@ -1120,7 +1483,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **roleId** | **string** | The identifier for the role. |  |
-| **updateRolesRequest** | [**UpdateRolesRequest**](UpdateRolesRequest.md) | Role details. | [optional]  |
+| **updateRolesRequest** | [**UpdateRolesRequest?**](UpdateRolesRequest?.md) | Role details. | [optional]  |
 
 ### Return type
 

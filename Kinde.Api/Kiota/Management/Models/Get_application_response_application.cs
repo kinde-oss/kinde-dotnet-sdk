@@ -115,6 +115,12 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("id", value); }
         }
 #endif
+        /// <summary>Whether role-based access control is enforced for the application.Always false for application types that do not support connections.</summary>
+        public bool? IsAccessControlEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_access_control_enabled"); }
+            set { BackingStore?.Set("is_access_control_enabled", value); }
+        }
         /// <summary>Bypass Kinde&apos;s sign up and sign in screens and use your own design.</summary>
         public bool? IsAllowFacelessAuth
         {
@@ -206,6 +212,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "has_sign_in_with_sso_button", n => { HasSignInWithSsoButton = n.GetBoolValue(); } },
                 { "homepage_uri", n => { HomepageUri = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
+                { "is_access_control_enabled", n => { IsAccessControlEnabled = n.GetBoolValue(); } },
                 { "is_allow_faceless_auth", n => { IsAllowFacelessAuth = n.GetBoolValue(); } },
                 { "is_ask_for_name", n => { IsAskForName = n.GetBoolValue(); } },
                 { "login_uri", n => { LoginUri = n.GetStringValue(); } },
@@ -230,6 +237,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteBoolValue("has_sign_in_with_sso_button", HasSignInWithSsoButton);
             writer.WriteStringValue("homepage_uri", HomepageUri);
             writer.WriteStringValue("id", Id);
+            writer.WriteBoolValue("is_access_control_enabled", IsAccessControlEnabled);
             writer.WriteBoolValue("is_allow_faceless_auth", IsAllowFacelessAuth);
             writer.WriteBoolValue("is_ask_for_name", IsAskForName);
             writer.WriteStringValue("login_uri", LoginUri);

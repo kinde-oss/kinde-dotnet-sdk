@@ -56,6 +56,100 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateApiKeyResponse</returns>
         ApiResponse<CreateApiKeyResponse> CreateApiKeyWithHttpInfo(CreateApiKeyRequest createApiKeyRequest);
         /// <summary>
+        /// Delete API key
+        /// </summary>
+        /// <remarks>
+        /// Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteApiKey(string keyId);
+
+        /// <summary>
+        /// Delete API key
+        /// </summary>
+        /// <remarks>
+        /// Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteApiKeyWithHttpInfo(string keyId);
+        /// <summary>
+        /// Get API key
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>GetApiKeyResponse</returns>
+        GetApiKeyResponse GetApiKey(string keyId);
+
+        /// <summary>
+        /// Get API key
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>ApiResponse of GetApiKeyResponse</returns>
+        ApiResponse<GetApiKeyResponse> GetApiKeyWithHttpInfo(string keyId);
+        /// <summary>
+        /// Get API keys
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <returns>GetApiKeysResponse</returns>
+        GetApiKeysResponse GetApiKeys(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string));
+
+        /// <summary>
+        /// Get API keys
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <returns>ApiResponse of GetApiKeysResponse</returns>
+        ApiResponse<GetApiKeysResponse> GetApiKeysWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string));
+        /// <summary>
+        /// Rotate API key
+        /// </summary>
+        /// <remarks>
+        /// Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <returns>RotateApiKeyResponse</returns>
+        RotateApiKeyResponse RotateApiKey(string keyId);
+
+        /// <summary>
+        /// Rotate API key
+        /// </summary>
+        /// <remarks>
+        /// Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <returns>ApiResponse of RotateApiKeyResponse</returns>
+        ApiResponse<RotateApiKeyResponse> RotateApiKeyWithHttpInfo(string keyId);
+        /// <summary>
         /// Verify API key
         /// </summary>
         /// <remarks>
@@ -108,6 +202,108 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateApiKeyResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateApiKeyResponse>> CreateApiKeyWithHttpInfoAsync(CreateApiKeyRequest createApiKeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete API key
+        /// </summary>
+        /// <remarks>
+        /// Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete API key
+        /// </summary>
+        /// <remarks>
+        /// Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get API key
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiKeyResponse</returns>
+        System.Threading.Tasks.Task<GetApiKeyResponse> GetApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get API key
+        /// </summary>
+        /// <remarks>
+        /// Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiKeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiKeyResponse>> GetApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get API keys
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiKeysResponse</returns>
+        System.Threading.Tasks.Task<GetApiKeysResponse> GetApiKeysAsync(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get API keys
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiKeysResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiKeysResponse>> GetApiKeysWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Rotate API key
+        /// </summary>
+        /// <remarks>
+        /// Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RotateApiKeyResponse</returns>
+        System.Threading.Tasks.Task<RotateApiKeyResponse> RotateApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Rotate API key
+        /// </summary>
+        /// <remarks>
+        /// Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RotateApiKeyResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RotateApiKeyResponse>> RotateApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Verify API key
         /// </summary>
@@ -500,6 +696,321 @@ namespace Kinde.Api.Api
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateApiKey: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Delete API key Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteApiKey(string keyId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteApiKeyWithHttpInfo(keyId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete API key Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteApiKeyWithHttpInfo(string keyId)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteApiKeyWithHttpInfoAsync(keyId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Delete API key Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteApiKeyWithHttpInfoAsync(keyId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete API key Delete an API key.  &lt;div&gt;   &lt;code&gt;delete:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'keyId' is set
+            if (keyId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyId' when calling ApiKeysApi->DeleteApiKey");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Api_keys[keyId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteApiKey: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get API key Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>GetApiKeyResponse</returns>
+        public GetApiKeyResponse GetApiKey(string keyId)
+        {
+            Kinde.Api.Client.ApiResponse<GetApiKeyResponse> localVarResponse = GetApiKeyWithHttpInfo(keyId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API key Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <returns>ApiResponse of GetApiKeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiKeyResponse> GetApiKeyWithHttpInfo(string keyId)
+        {
+            // ===== Kiota Implementation =====
+            return GetApiKeyWithHttpInfoAsync(keyId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get API key Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiKeyResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiKeyResponse> GetApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiKeyResponse> localVarResponse = await GetApiKeyWithHttpInfoAsync(keyId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API key Retrieve API key details by ID.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiKeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiKeyResponse>> GetApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'keyId' is set
+            if (keyId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyId' when calling ApiKeysApi->GetApiKey");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Api_keys[keyId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiKeyResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiKeyResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetApiKey: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get API keys Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <returns>GetApiKeysResponse</returns>
+        public GetApiKeysResponse GetApiKeys(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiKeysResponse> localVarResponse = GetApiKeysWithHttpInfo(pageSize, startingAfter, keyType, status, userId, orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API keys Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <returns>ApiResponse of GetApiKeysResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiKeysResponse> GetApiKeysWithHttpInfo(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetApiKeysWithHttpInfoAsync(pageSize, startingAfter, keyType, status, userId, orgCode).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get API keys Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiKeysResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiKeysResponse> GetApiKeysAsync(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiKeysResponse> localVarResponse = await GetApiKeysWithHttpInfoAsync(pageSize, startingAfter, keyType, status, userId, orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API keys Returns a list of API keys.  &lt;div&gt;   &lt;code&gt;read:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pageSize">Number of results per page. Defaults to 50 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the API key to start after. (optional)</param>
+        /// <param name="keyType">Filter by API key type (organization or user). (optional)</param>
+        /// <param name="status">Filter by API key status (active, inactive, revoked). (optional)</param>
+        /// <param name="userId">Filter by user ID to get API keys associated with a specific user. (optional)</param>
+        /// <param name="orgCode">Filter by organization code to get API keys associated with a specific organization. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiKeysResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiKeysResponse>> GetApiKeysWithHttpInfoAsync(int? pageSize = default(int?), string startingAfter = default(string), string keyType = default(string), string status = default(string), string userId = default(string), string orgCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kinde.Api.Kiota.Management.Api.V1.Api_keys.GetKey_typeQueryParameterType? kiotaKeyType = null;
+                if (keyType != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Api_keys.GetKey_typeQueryParameterType>(keyType, true, out var parsedKeyType))
+                {
+                    kiotaKeyType = parsedKeyType;
+                }
+
+                Kinde.Api.Kiota.Management.Api.V1.Api_keys.GetStatusQueryParameterType? kiotaStatus = null;
+                if (status != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Api_keys.GetStatusQueryParameterType>(status, true, out var parsedStatus))
+                {
+                    kiotaStatus = parsedStatus;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Api_keys.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.StartingAfter = startingAfter;
+                    config.QueryParameters.KeyType = kiotaKeyType;
+                    config.QueryParameters.Status = kiotaStatus;
+                    config.QueryParameters.UserId = userId;
+                    config.QueryParameters.OrgCode = orgCode;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiKeysResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiKeysResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetApiKeys: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Rotate API key Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <returns>RotateApiKeyResponse</returns>
+        public RotateApiKeyResponse RotateApiKey(string keyId)
+        {
+            Kinde.Api.Client.ApiResponse<RotateApiKeyResponse> localVarResponse = RotateApiKeyWithHttpInfo(keyId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Rotate API key Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <returns>ApiResponse of RotateApiKeyResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RotateApiKeyResponse> RotateApiKeyWithHttpInfo(string keyId)
+        {
+            // ===== Kiota Implementation =====
+            return RotateApiKeyWithHttpInfoAsync(keyId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Rotate API key Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RotateApiKeyResponse</returns>
+        public async System.Threading.Tasks.Task<RotateApiKeyResponse> RotateApiKeyAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<RotateApiKeyResponse> localVarResponse = await RotateApiKeyWithHttpInfoAsync(keyId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Rotate API key Rotate an API key to generate a new key while maintaining the same permissions and associations.  &lt;div&gt;   &lt;code&gt;update:api_keys&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="keyId">The ID of the API key to rotate.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RotateApiKeyResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RotateApiKeyResponse>> RotateApiKeyWithHttpInfoAsync(string keyId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'keyId' is set
+            if (keyId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'keyId' when calling ApiKeysApi->RotateApiKey");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Api_keys[keyId].PutAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<RotateApiKeyResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<RotateApiKeyResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RotateApiKey: {ex.Message}", ex);
             }
         }
 

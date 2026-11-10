@@ -53,34 +53,24 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
             set { BackingStore?.Set("customer_agreement_id", value); }
         }
 #endif
-        /// <summary>Absolutes overrides the current usage</summary>
+        /// <summary>How this record updates the running total. `absolute` replaces the last calculated total with `meter_value`. `delta` adds `meter_value` to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime).</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody_meter_type_code? MeterTypeCode
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody_meter_type_code?>("meter_type_code"); }
             set { BackingStore?.Set("meter_type_code", value); }
         }
-        /// <summary>The date and time the usage needs to be recorded for (defaults to current date/time)</summary>
+        /// <summary>When this event happened. Defaults to the current date and time. Stored on the record and, for plan-metered entitlements, sent to the billing provider. Not used to choose a billing cycle, to order this record against earlier ones, or to calculate the running total. A timestamp in the past still replaces (absolute) or adds to (delta) the last calculated total.</summary>
         public DateTimeOffset? MeterUsageTimestamp
         {
             get { return BackingStore?.Get<DateTimeOffset?>("meter_usage_timestamp"); }
             set { BackingStore?.Set("meter_usage_timestamp", value); }
         }
-        /// <summary>The value of usage to record</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? MeterValue
+        /// <summary>The value of usage to record. Must be greater than zero. For absolute this becomes the new running total. For delta this is added to the last calculated running total.</summary>
+        public int? MeterValue
         {
-            get { return BackingStore?.Get<string?>("meter_value"); }
+            get { return BackingStore?.Get<int?>("meter_value"); }
             set { BackingStore?.Set("meter_value", value); }
         }
-#nullable restore
-#else
-        public string MeterValue
-        {
-            get { return BackingStore?.Get<string>("meter_value"); }
-            set { BackingStore?.Set("meter_value", value); }
-        }
-#endif
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody"/> and sets the default values.
         /// </summary>
@@ -88,6 +78,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
+            MeterTypeCode = global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody_meter_type_code.Absolute;
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
@@ -111,7 +102,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
                 { "customer_agreement_id", n => { CustomerAgreementId = n.GetStringValue(); } },
                 { "meter_type_code", n => { MeterTypeCode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody_meter_type_code>(); } },
                 { "meter_usage_timestamp", n => { MeterUsageTimestamp = n.GetDateTimeOffsetValue(); } },
-                { "meter_value", n => { MeterValue = n.GetStringValue(); } },
+                { "meter_value", n => { MeterValue = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -125,7 +116,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
             writer.WriteStringValue("customer_agreement_id", CustomerAgreementId);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody_meter_type_code>("meter_type_code", MeterTypeCode);
             writer.WriteDateTimeOffsetValue("meter_usage_timestamp", MeterUsageTimestamp);
-            writer.WriteStringValue("meter_value", MeterValue);
+            writer.WriteIntValue("meter_value", MeterValue);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -21,7 +21,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>A descriptive name for the SCIM directory.</summary>
+        /// <summary>An optional descriptive name for the SCIM directory.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? DirectoryName
@@ -69,7 +69,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
             set { BackingStore?.Set("org_code", value); }
         }
 #endif
-        /// <summary>The SCIM provider code to use for this directory.</summary>
+        /// <summary>The SCIM provider code to use for this directory. When omitted, the provideris inferred from the organization enterprise authentication method. If theinferred (or explicit) provider is disabled or missing endpoint configuration,INVALID_PROVIDER is returned.</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code? ProviderCode
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code?>("provider_code"); }

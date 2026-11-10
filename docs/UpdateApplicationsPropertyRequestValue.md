@@ -1,5 +1,5 @@
 # Kinde.Api.Model.UpdateApplicationsPropertyRequestValue
-The new value for the property
+The new value for the property. Send an empty string to unset the property, so it reads back as not set.
 
 ## Properties
 

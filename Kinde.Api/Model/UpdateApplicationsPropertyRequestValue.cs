@@ -27,7 +27,7 @@ using System.Reflection;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// The new value for the property
+    /// The new value for the property. Send an empty string to unset the property, so it reads back as not set.
     /// </summary>
     [JsonConverter(typeof(UpdateApplicationsPropertyRequestValueJsonConverter))]
     [DataContract(Name = "updateApplicationsProperty_request_value")]

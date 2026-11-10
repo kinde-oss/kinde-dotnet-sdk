@@ -5,6 +5,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**CreateUser**](UsersApi.md#createuser) | **POST** /api/v1/user | Create user |
+| [**CreateUserBillingCustomer**](UsersApi.md#createuserbillingcustomer) | **POST** /api/v1/users/{user_id}/billing_customer | Create user billing customer |
 | [**CreateUserIdentity**](UsersApi.md#createuseridentity) | **POST** /api/v1/users/{user_id}/identities | Create identity |
 | [**DeleteUser**](UsersApi.md#deleteuser) | **DELETE** /api/v1/user | Delete user |
 | [**DeleteUserSessions**](UsersApi.md#deleteusersessions) | **DELETE** /api/v1/users/{user_id}/sessions | Delete user sessions |
@@ -25,17 +26,16 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="createuser"></a>
 # **CreateUser**
-> CreateUserResponse CreateUser (CreateUserRequest createUserRequest = null)
+> CreateUserResponse CreateUser (CreateUserRequest? createUserRequest = null)
 
 Create user
 
-Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  <div>   <code>create:users</code> </div> 
+Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider. If `organization_code` is omitted, this also applies to the default registration organization.  <div>   <code>create:users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -51,11 +51,8 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
-            var createUserRequest = new CreateUserRequest(); // CreateUserRequest | The details of the user to create. (optional) 
+            var apiInstance = new UsersApi(config);
+            var createUserRequest = new CreateUserRequest?(); // CreateUserRequest? | The details of the user to create. (optional) 
 
             try
             {
@@ -98,7 +95,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **createUserRequest** | [**CreateUserRequest**](CreateUserRequest.md) | The details of the user to create. | [optional]  |
+| **createUserRequest** | [**CreateUserRequest?**](CreateUserRequest?.md) | The details of the user to create. | [optional]  |
 
 ### Return type
 
@@ -124,19 +121,117 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="createuseridentity"></a>
-# **CreateUserIdentity**
-> CreateIdentityResponse CreateUserIdentity (string userId, CreateUserIdentityRequest createUserIdentityRequest = null)
+<a id="createuserbillingcustomer"></a>
+# **CreateUserBillingCustomer**
+> CreateUserBillingCustomerResponse CreateUserBillingCustomer (string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest)
 
-Create identity
+Create user billing customer
 
-Creates an identity for a user.  <div>   <code>create:user_identities</code> </div> 
+Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \"Start billing customer\" action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with `BILLING_CUSTOMER_EXISTS`. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  <div>   <code>create:user_billing_customers</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class CreateUserBillingCustomerExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new UsersApi(config);
+            var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The user's ID.
+            var createUserBillingCustomerRequest = new CreateUserBillingCustomerRequest(); // CreateUserBillingCustomerRequest | Billing customer details.
+
+            try
+            {
+                // Create user billing customer
+                CreateUserBillingCustomerResponse result = apiInstance.CreateUserBillingCustomer(userId, createUserBillingCustomerRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling UsersApi.CreateUserBillingCustomer: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the CreateUserBillingCustomerWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create user billing customer
+    ApiResponse<CreateUserBillingCustomerResponse> response = apiInstance.CreateUserBillingCustomerWithHttpInfo(userId, createUserBillingCustomerRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UsersApi.CreateUserBillingCustomerWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **userId** | **string** | The user&#39;s ID. |  |
+| **createUserBillingCustomerRequest** | [**CreateUserBillingCustomerRequest**](CreateUserBillingCustomerRequest.md) | Billing customer details. |  |
+
+### Return type
+
+[**CreateUserBillingCustomerResponse**](CreateUserBillingCustomerResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/json; charset=utf-8
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Billing customer successfully created. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="createuseridentity"></a>
+# **CreateUserIdentity**
+> CreateIdentityResponse CreateUserIdentity (string userId, CreateUserIdentityRequest? createUserIdentityRequest = null)
+
+Create identity
+
+Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.  Adding an `enterprise` identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (`CANNOT_ADD_ENTERPRISE_USER_IDENTITY`).  <div>   <code>create:user_identities</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -152,12 +247,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The user's ID.
-            var createUserIdentityRequest = new CreateUserIdentityRequest(); // CreateUserIdentityRequest | The identity details. (optional) 
+            var createUserIdentityRequest = new CreateUserIdentityRequest?(); // CreateUserIdentityRequest? | The identity details. (optional) 
 
             try
             {
@@ -201,7 +293,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **userId** | **string** | The user&#39;s ID. |  |
-| **createUserIdentityRequest** | [**CreateUserIdentityRequest**](CreateUserIdentityRequest.md) | The identity details. | [optional]  |
+| **createUserIdentityRequest** | [**CreateUserIdentityRequest?**](CreateUserIdentityRequest?.md) | The identity details. | [optional]  |
 
 ### Return type
 
@@ -233,13 +325,12 @@ catch (ApiException e)
 
 Delete user
 
-Delete a user record.  <div>   <code>delete:users</code> </div> 
+Delete a user record.  Users managed by directory sync cannot be deleted (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.  <div>   <code>delete:users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -255,10 +346,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var id = kp_c3143a4b50ad43c88e541d9077681782;  // string | The user's id.
             var isDeleteProfile = true;  // bool? | Delete all data and remove the user's profile from all of Kinde, including the subscriber list (optional) 
 
@@ -342,7 +430,6 @@ Invalidate user sessions.  <div>   <code>delete:user_sessions</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -358,10 +445,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
             try
@@ -434,7 +518,7 @@ catch (ApiException e)
 
 <a id="getuserdata"></a>
 # **GetUserData**
-> User GetUserData (string id, string expand = null)
+> User GetUserData (string id, string? expand = null)
 
 Get user
 
@@ -444,7 +528,6 @@ Retrieve a user record.  <div>   <code>read:users</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -460,12 +543,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var id = "id_example";  // string | The user's id.
-            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var expand = "expand_example";  // string? | Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\". (optional) 
 
             try
             {
@@ -509,7 +589,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | The user&#39;s id. |  |
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. | [optional]  |
 
 ### Return type
 
@@ -528,7 +608,7 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | User successfully updated. |  -  |
+| **200** | User successfully retrieved. |  -  |
 | **400** | Invalid request. |  -  |
 | **403** | Unauthorized - invalid credentials. |  -  |
 | **429** | Too many requests. Request was throttled. |  -  |
@@ -537,7 +617,7 @@ catch (ApiException e)
 
 <a id="getuseridentities"></a>
 # **GetUserIdentities**
-> GetIdentitiesResponse GetUserIdentities (string userId, string startingAfter = null, string endingBefore = null)
+> GetIdentitiesResponse GetUserIdentities (string userId, string? startingAfter = null, string? endingBefore = null)
 
 Get identities
 
@@ -547,7 +627,6 @@ Gets a list of identities for an user by ID.  <div>   <code>read:user_identities
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -563,13 +642,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The user's ID.
-            var startingAfter = "startingAfter_example";  // string | The ID of the identity to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the identity to end before. (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the identity to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the identity to end before. (optional) 
 
             try
             {
@@ -613,8 +689,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **userId** | **string** | The user&#39;s ID. |  |
-| **startingAfter** | **string** | The ID of the identity to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the identity to end before. | [optional]  |
+| **startingAfter** | **string?** | The ID of the identity to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the identity to end before. | [optional]  |
 
 ### Return type
 
@@ -652,7 +728,6 @@ Gets properties for an user by ID.  <div>   <code>read:user_properties</code> </
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -668,10 +743,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The user's ID.
 
             try
@@ -753,7 +825,6 @@ Retrieve the list of active sessions for a specific user.  <div>   <code>read:us
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -769,10 +840,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
             try
@@ -845,7 +913,7 @@ catch (ApiException e)
 
 <a id="getusers"></a>
 # **GetUsers**
-> UsersResponse GetUsers (int? pageSize = null, string userId = null, string nextToken = null, string email = null, string username = null, string expand = null, bool? hasOrganization = null)
+> UsersResponse GetUsers (int? pageSize = null, string? userId = null, string? nextToken = null, string? email = null, string? username = null, string? phone = null, string? expand = null, bool? hasOrganization = null, DateTimeOffset? activeSince = null)
 
 Get users
 
@@ -855,7 +923,6 @@ The returned list can be sorted by full name or email address in ascending or de
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -871,22 +938,21 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var userId = "userId_example";  // string | Filter the results by User ID. The query string should be comma separated and url encoded. (optional) 
-            var nextToken = "nextToken_example";  // string | A string to get the next page of results if there are more results. (optional) 
-            var email = "email_example";  // string | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
-            var username = "username_example";  // string | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
-            var expand = "expand_example";  // string | Specify additional data to retrieve. Use \"organizations\" and/or \"identities\". (optional) 
+            var userId = "userId_example";  // string? | Filter the results by User ID. The query string should be comma separated and url encoded. (optional) 
+            var nextToken = "nextToken_example";  // string? | A string to get the next page of results if there are more results. (optional) 
+            var email = "email_example";  // string? | Filter the results by email address. The query string should be comma separated and url encoded. (optional) 
+            var username = "username_example";  // string? | Filter the results by username. The query string should be comma separated and url encoded. (optional) 
+            var phone = "phone_example";  // string? | Filter the results by phone. The query string should be comma separated and url encoded. (optional) 
+            var expand = "expand_example";  // string? | Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\". (optional) 
             var hasOrganization = true;  // bool? | Filter the results by if the user has at least one organization assigned. (optional) 
+            var activeSince = DateTime.Parse("2013-10-20T19:20:30+01:00");  // DateTimeOffset? | Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional) 
 
             try
             {
                 // Get users
-                UsersResponse result = apiInstance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization);
+                UsersResponse result = apiInstance.GetUsers(pageSize, userId, nextToken, email, username, expand, hasOrganization, phone, activeSince);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -907,7 +973,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get users
-    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
+    ApiResponse<UsersResponse> response = apiInstance.GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization, phone, activeSince);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -925,12 +991,14 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **userId** | **string** | Filter the results by User ID. The query string should be comma separated and url encoded. | [optional]  |
-| **nextToken** | **string** | A string to get the next page of results if there are more results. | [optional]  |
-| **email** | **string** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
-| **username** | **string** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. | [optional]  |
+| **userId** | **string?** | Filter the results by User ID. The query string should be comma separated and url encoded. | [optional]  |
+| **nextToken** | **string?** | A string to get the next page of results if there are more results. | [optional]  |
+| **email** | **string?** | Filter the results by email address. The query string should be comma separated and url encoded. | [optional]  |
+| **username** | **string?** | Filter the results by username. The query string should be comma separated and url encoded. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. | [optional]  |
 | **hasOrganization** | **bool?** | Filter the results by if the user has at least one organization assigned. | [optional]  |
+| **phone** | **string?** | Filter the results by phone. The query string should be comma separated and url encoded. | [optional]  |
+| **activeSince** | **DateTimeOffset?** | Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. | [optional]  |
 
 ### Return type
 
@@ -968,7 +1036,6 @@ Get a user’s MFA configuration.  <div>   <code>read:user_mfa</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -984,10 +1051,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
             try
@@ -1070,7 +1134,6 @@ Refreshes the user's claims and invalidates the current cache.  <div>   <code>up
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1086,10 +1149,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The id of the user whose claims needs to be updated.
 
             try
@@ -1171,7 +1231,6 @@ Reset a specific environment MFA factor for a user.  <div>   <code>delete:user_m
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1187,10 +1246,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
             var factorId = mfa_0193278a00ac29b3f6d4e4d462d55c47;  // string | The identifier for the MFA factor
 
@@ -1275,7 +1331,6 @@ Reset all environment MFA factors for a user.  <div>   <code>delete:user_mfa</co
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1291,10 +1346,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = kp_c3143a4b50ad43c88e541d9077681782;  // string | The identifier for the user
 
             try
@@ -1371,13 +1423,12 @@ catch (ApiException e)
 
 Set User password
 
-Set user password.  <div>   <code>update:user_passwords</code> </div> 
+Set user password.  Passwords cannot be set on a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.  <div>   <code>update:user_passwords</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1393,10 +1444,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The identifier for the user
             var setUserPasswordRequest = new SetUserPasswordRequest(); // SetUserPasswordRequest | Password details.
 
@@ -1474,13 +1522,12 @@ catch (ApiException e)
 
 Update user
 
-Update a user record.  <div>   <code>update:users</code> </div> 
+Update a user record.  When `given_name` or `family_name` is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.  <div>   <code>update:users</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1496,10 +1543,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var id = "id_example";  // string | The user's id.
             var updateUserRequest = new UpdateUserRequest(); // UpdateUserRequest | The user to update.
 
@@ -1583,7 +1627,6 @@ Update user feature flag override.  <div>   <code>update:user_feature_flags</cod
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1599,10 +1642,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The identifier for the user
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag
             var value = "value_example";  // string | Override value
@@ -1688,7 +1728,6 @@ Update property values.  <div>   <code>update:user_properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1704,10 +1743,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The identifier for the user
             var updateOrganizationPropertiesRequest = new UpdateOrganizationPropertiesRequest(); // UpdateOrganizationPropertiesRequest | Properties to update.
 
@@ -1791,7 +1827,6 @@ Update property value.  <div>   <code>update:user_properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1807,13 +1842,10 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new UsersApi(httpClient, config, httpClientHandler);
+            var apiInstance = new UsersApi(config);
             var userId = "userId_example";  // string | The identifier for the user
             var propertyKey = "propertyKey_example";  // string | The identifier for the property
-            var value = "value_example";  // string | The new property value
+            var value = "value_example";  // string | The new property value. Send an empty string to unset the property, so it reads back as not set.
 
             try
             {
@@ -1858,7 +1890,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **userId** | **string** | The identifier for the user |  |
 | **propertyKey** | **string** | The identifier for the property |  |
-| **value** | **string** | The new property value |  |
+| **value** | **string** | The new property value. Send an empty string to unset the property, so it reads back as not set. |  |
 
 ### Return type
 

@@ -49,7 +49,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
             get { return BackingStore?.Get<bool?>("is_prorate"); }
             set { BackingStore?.Set("is_prorate", value); }
         }
-        /// <summary>The code of the billing plan the new agreement will be based on</summary>
+        /// <summary>The code of the billing plan the new agreement will be based on. The plan can be in a different billing group from the customer&apos;s current agreement, but it must match the customer type (organization or user).</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? PlanCode
@@ -65,6 +65,18 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
             set { BackingStore?.Set("plan_code", value); }
         }
 #endif
+        /// <summary>Published version number to assign. Omit it to assign the latest version. Posting the customer&apos;s current plan_code does not move them onto a newer version. Name a different published version to do that. Unknown versions, and versions that were never published, return PLAN_VERSION_NOT_FOUND.</summary>
+        public int? PlanVersion
+        {
+            get { return BackingStore?.Get<int?>("plan_version"); }
+            set { BackingStore?.Set("plan_version", value); }
+        }
+        /// <summary>When true, the new agreement starts paid even if the plan has a trial. Omit it, or send false, to apply the plan&apos;s trial. A repeat trial is not refused unless this is true. Self-serve portal signups are separate and do not start a second trial.</summary>
+        public bool? SkipTrial
+        {
+            get { return BackingStore?.Get<bool?>("skip_trial"); }
+            set { BackingStore?.Set("skip_trial", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.AgreementsPostRequestBody"/> and sets the default values.
         /// </summary>
@@ -95,6 +107,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
                 { "is_invoice_now", n => { IsInvoiceNow = n.GetBoolValue(); } },
                 { "is_prorate", n => { IsProrate = n.GetBoolValue(); } },
                 { "plan_code", n => { PlanCode = n.GetStringValue(); } },
+                { "plan_version", n => { PlanVersion = n.GetIntValue(); } },
+                { "skip_trial", n => { SkipTrial = n.GetBoolValue(); } },
             };
         }
         /// <summary>
@@ -108,6 +122,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements
             writer.WriteBoolValue("is_invoice_now", IsInvoiceNow);
             writer.WriteBoolValue("is_prorate", IsProrate);
             writer.WriteStringValue("plan_code", PlanCode);
+            writer.WriteIntValue("plan_version", PlanVersion);
+            writer.WriteBoolValue("skip_trial", SkipTrial);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -26,227 +26,199 @@ using OpenAPIDateConverter = Kinde.Api.Client.OpenAPIDateConverter;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// SAML connection options (e.g., Cloudflare SAML).
+    /// Azure AD connection options.
     /// </summary>
     [DataContract(Name = "ReplaceConnection_request_options_oneOf_1")]
     public partial class ReplaceConnectionRequestOptionsOneOf1 : IEquatable<ReplaceConnectionRequestOptionsOneOf1>
     {
         /// <summary>
-        /// Algorithm used to sign SAML requests.
+        /// Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.
         /// </summary>
-        /// <value>Algorithm used to sign SAML requests.</value>
+        /// <value>Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum SignRequestAlgorithmEnum
+        public enum SsoButtonDisplayEnum
         {
             /// <summary>
-            /// Enum SHA256 for value: RSA-SHA256
+            /// Enum Auto for value: auto
             /// </summary>
-            [EnumMember(Value = "RSA-SHA256")]
-            SHA256 = 1,
+            [EnumMember(Value = "auto")]
+            Auto = 1,
 
             /// <summary>
-            /// Enum SHA1 for value: RSA-SHA1
+            /// Enum Show for value: show
             /// </summary>
-            [EnumMember(Value = "RSA-SHA1")]
-            SHA1 = 2
+            [EnumMember(Value = "show")]
+            Show = 2,
+
+            /// <summary>
+            /// Enum Hide for value: hide
+            /// </summary>
+            [EnumMember(Value = "hide")]
+            Hide = 3
         }
 
 
         /// <summary>
-        /// Algorithm used to sign SAML requests.
+        /// Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.
         /// </summary>
-        /// <value>Algorithm used to sign SAML requests.</value>
-        /// <example>RSA-SHA256</example>
-        [DataMember(Name = "sign_request_algorithm", EmitDefaultValue = false)]
-        public SignRequestAlgorithmEnum? SignRequestAlgorithm { get; set; }
+        /// <value>Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.</value>
+        /// <example>auto</example>
+        [DataMember(Name = "sso_button_display", EmitDefaultValue = false)]
+        public SsoButtonDisplayEnum? SsoButtonDisplay { get; set; }
         /// <summary>
-        /// Protocol binding used to send SAML requests.
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.
         /// </summary>
-        /// <value>Protocol binding used to send SAML requests.</value>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum ProtocolBindingEnum
+        public enum TrustModeEnum
         {
             /// <summary>
-            /// Enum REDIRECT for value: HTTP-REDIRECT
+            /// Enum None for value: none
             /// </summary>
-            [EnumMember(Value = "HTTP-REDIRECT")]
-            REDIRECT = 1,
+            [EnumMember(Value = "none")]
+            None = 1,
 
             /// <summary>
-            /// Enum POST for value: HTTP-POST
+            /// Enum Validate for value: validate
             /// </summary>
-            [EnumMember(Value = "HTTP-POST")]
-            POST = 2
+            [EnumMember(Value = "validate")]
+            Validate = 2,
+
+            /// <summary>
+            /// Enum Trust for value: trust
+            /// </summary>
+            [EnumMember(Value = "trust")]
+            Trust = 3
         }
 
 
         /// <summary>
-        /// Protocol binding used to send SAML requests.
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.
         /// </summary>
-        /// <value>Protocol binding used to send SAML requests.</value>
-        /// <example>HTTP-REDIRECT</example>
-        [DataMember(Name = "protocol_binding", EmitDefaultValue = false)]
-        public ProtocolBindingEnum? ProtocolBinding { get; set; }
-        /// <summary>
-        /// Format for the Name ID used to identify users in SAML responses.
-        /// </summary>
-        /// <value>Format for the Name ID used to identify users in SAML responses.</value>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum NameIdFormatEnum
-        {
-            /// <summary>
-            /// Enum Persistent for value: Persistent
-            /// </summary>
-            [EnumMember(Value = "Persistent")]
-            Persistent = 1,
-
-            /// <summary>
-            /// Enum Transient for value: Transient
-            /// </summary>
-            [EnumMember(Value = "Transient")]
-            Transient = 2,
-
-            /// <summary>
-            /// Enum EmailAddress for value: Email address
-            /// </summary>
-            [EnumMember(Value = "Email address")]
-            EmailAddress = 3,
-
-            /// <summary>
-            /// Enum Unspecified for value: Unspecified
-            /// </summary>
-            [EnumMember(Value = "Unspecified")]
-            Unspecified = 4
-        }
-
-
-        /// <summary>
-        /// Format for the Name ID used to identify users in SAML responses.
-        /// </summary>
-        /// <value>Format for the Name ID used to identify users in SAML responses.</value>
-        /// <example>Persistent</example>
-        [DataMember(Name = "name_id_format", EmitDefaultValue = false)]
-        public NameIdFormatEnum? NameIdFormat { get; set; }
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.</value>
+        /// <example>validate</example>
+        [DataMember(Name = "trust_mode", EmitDefaultValue = false)]
+        public TrustModeEnum? TrustMode { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplaceConnectionRequestOptionsOneOf1" /> class.
         /// </summary>
-        /// <param name="homeRealmDomains">List of domains to restrict authentication..</param>
-        /// <param name="samlEntityId">SAML Entity ID..</param>
-        /// <param name="samlIdpMetadataUrl">URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided..</param>
-        /// <param name="samlIdpMetadataXml">Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set..</param>
-        /// <param name="signRequestAlgorithm">Algorithm used to sign SAML requests..</param>
-        /// <param name="protocolBinding">Protocol binding used to send SAML requests..</param>
-        /// <param name="nameIdFormat">Format for the Name ID used to identify users in SAML responses..</param>
-        /// <param name="samlEmailKeyAttr">Attribute key for the user&#39;s email..</param>
-        /// <param name="samlUserIdKeyAttr">Attribute key for the user&#39;s ID..</param>
-        /// <param name="samlFirstNameKeyAttr">Attribute key for the user&#39;s first name..</param>
-        /// <param name="samlLastNameKeyAttr">Attribute key for the user&#39;s last name..</param>
-        /// <param name="isCreateMissingUser">Create user if they don&#39;t exist..</param>
-        /// <param name="isForceShowSsoButton">Force showing the SSO button for this connection..</param>
+        /// <param name="clientId">Client ID..</param>
+        /// <param name="clientSecret">Client secret..</param>
+        /// <param name="homeRealmDomains">List of domains to limit authentication..</param>
+        /// <param name="entraIdDomain">Domain for Entra ID..</param>
+        /// <param name="isUseCommonEndpoint">Use https://login.windows.net/common instead of a default endpoint..</param>
+        /// <param name="isSyncUserProfileOnLogin">Sync user profile data with IDP..</param>
+        /// <param name="isRetrieveProviderUserGroups">Include user group info from MS Entra ID..</param>
+        /// <param name="isExtendedAttributesRequired">Include additional user profile information..</param>
+        /// <param name="isCreateMissingUser">Create a user record in Kinde if the user signing in does not exist..</param>
+        /// <param name="isForceShowSsoButton">Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent..</param>
+        /// <param name="ssoButtonDisplay">Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. \&quot;auto\&quot; shows the button unless a home realm domain is set, \&quot;show\&quot; always shows it, \&quot;hide\&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent..</param>
         /// <param name="upstreamParams">Additional upstream parameters to pass to the identity provider..</param>
-        /// <param name="samlSigningCertificate">Certificate for signing SAML requests..</param>
-        /// <param name="samlSigningPrivateKey">Private key associated with the signing certificate..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
-        /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public ReplaceConnectionRequestOptionsOneOf1(List<string> homeRealmDomains = default(List<string>), string samlEntityId = default(string), string samlIdpMetadataUrl = default(string), string samlIdpMetadataXml = default(string), SignRequestAlgorithmEnum? signRequestAlgorithm = default(SignRequestAlgorithmEnum?), ProtocolBindingEnum? protocolBinding = default(ProtocolBindingEnum?), NameIdFormatEnum? nameIdFormat = default(NameIdFormatEnum?), string samlEmailKeyAttr = default(string), string samlUserIdKeyAttr = default(string), string samlFirstNameKeyAttr = default(string), string samlLastNameKeyAttr = default(string), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), string samlSigningCertificate = default(string), string samlSigningPrivateKey = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        /// <param name="isTrusted">Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate..</param>
+        /// <param name="trustMode">How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately..</param>
+        /// <param name="isAutoJoinOrganizationEnabled">Users automatically join the organization that owns this connection when they sign in through it. Stored on any enterprise connection, but only takes effect once the connection has an owning organization. When omitted, the current value is kept..</param>
+        /// <param name="isPasskeyAllowed">Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. When omitted, the current value is kept..</param>
+        public ReplaceConnectionRequestOptionsOneOf1(string clientId = default(string), string clientSecret = default(string), List<string> homeRealmDomains = default(List<string>), string entraIdDomain = default(string), bool isUseCommonEndpoint = default(bool), bool isSyncUserProfileOnLogin = default(bool), bool isRetrieveProviderUserGroups = default(bool), bool isExtendedAttributesRequired = default(bool), bool isCreateMissingUser = default(bool), bool isForceShowSsoButton = default(bool), SsoButtonDisplayEnum? ssoButtonDisplay = default(SsoButtonDisplayEnum?), Dictionary<string, Object> upstreamParams = default(Dictionary<string, Object>), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool), TrustModeEnum? trustMode = default(TrustModeEnum?), bool isAutoJoinOrganizationEnabled = default(bool), bool isPasskeyAllowed = default(bool))
         {
+            this.ClientId = clientId;
+            this.ClientSecret = clientSecret;
             this.HomeRealmDomains = homeRealmDomains;
-            this.SamlEntityId = samlEntityId;
-            this.SamlIdpMetadataUrl = samlIdpMetadataUrl;
-            this.SamlIdpMetadataXml = samlIdpMetadataXml;
-            this.SignRequestAlgorithm = signRequestAlgorithm;
-            this.ProtocolBinding = protocolBinding;
-            this.NameIdFormat = nameIdFormat;
-            this.SamlEmailKeyAttr = samlEmailKeyAttr;
-            this.SamlUserIdKeyAttr = samlUserIdKeyAttr;
-            this.SamlFirstNameKeyAttr = samlFirstNameKeyAttr;
-            this.SamlLastNameKeyAttr = samlLastNameKeyAttr;
+            this.EntraIdDomain = entraIdDomain;
+            this.IsUseCommonEndpoint = isUseCommonEndpoint;
+            this.IsSyncUserProfileOnLogin = isSyncUserProfileOnLogin;
+            this.IsRetrieveProviderUserGroups = isRetrieveProviderUserGroups;
+            this.IsExtendedAttributesRequired = isExtendedAttributesRequired;
             this.IsCreateMissingUser = isCreateMissingUser;
             this.IsForceShowSsoButton = isForceShowSsoButton;
+            this.SsoButtonDisplay = ssoButtonDisplay;
             this.UpstreamParams = upstreamParams;
-            this.SamlSigningCertificate = samlSigningCertificate;
-            this.SamlSigningPrivateKey = samlSigningPrivateKey;
             this.IsUseCustomDomain = isUseCustomDomain;
             this.IsTrusted = isTrusted;
+            this.TrustMode = trustMode;
+            this.IsAutoJoinOrganizationEnabled = isAutoJoinOrganizationEnabled;
+            this.IsPasskeyAllowed = isPasskeyAllowed;
         }
 
         /// <summary>
-        /// List of domains to restrict authentication.
+        /// Client ID.
         /// </summary>
-        /// <value>List of domains to restrict authentication.</value>
+        /// <value>Client ID.</value>
+        /// <example>hji7db2146af332akfldfded22</example>
+        [DataMember(Name = "client_id", EmitDefaultValue = false)]
+        public string ClientId { get; set; }
+
+        /// <summary>
+        /// Client secret.
+        /// </summary>
+        /// <value>Client secret.</value>
+        /// <example>19fkjdalg521l23fassf3039d4ae18b</example>
+        [DataMember(Name = "client_secret", EmitDefaultValue = false)]
+        public string ClientSecret { get; set; }
+
+        /// <summary>
+        /// List of domains to limit authentication.
+        /// </summary>
+        /// <value>List of domains to limit authentication.</value>
         /// <example>[&quot;@kinde.com&quot;,&quot;@kinde.io&quot;]</example>
         [DataMember(Name = "home_realm_domains", EmitDefaultValue = false)]
         public List<string> HomeRealmDomains { get; set; }
 
         /// <summary>
-        /// SAML Entity ID.
+        /// Domain for Entra ID.
         /// </summary>
-        /// <value>SAML Entity ID.</value>
-        /// <example>https://kinde.com</example>
-        [DataMember(Name = "saml_entity_id", EmitDefaultValue = false)]
-        public string SamlEntityId { get; set; }
+        /// <value>Domain for Entra ID.</value>
+        /// <example>kinde.com</example>
+        [DataMember(Name = "entra_id_domain", EmitDefaultValue = false)]
+        public string EntraIdDomain { get; set; }
 
         /// <summary>
-        /// URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided.
+        /// Use https://login.windows.net/common instead of a default endpoint.
         /// </summary>
-        /// <value>URL for the IdP metadata. Optional if saml_idp_metadata_xml is provided.</value>
-        /// <example>https://kinde.com/saml/metadata</example>
-        [DataMember(Name = "saml_idp_metadata_url", EmitDefaultValue = false)]
-        public string SamlIdpMetadataUrl { get; set; }
+        /// <value>Use https://login.windows.net/common instead of a default endpoint.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_use_common_endpoint", EmitDefaultValue = true)]
+        public bool IsUseCommonEndpoint { get; set; }
 
         /// <summary>
-        /// Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set.
+        /// Sync user profile data with IDP.
         /// </summary>
-        /// <value>Raw IdP metadata XML. Use when the IdP does not host a metadata URL (e.g. Google Workspace). Takes precedence over saml_idp_metadata_url when both are set.</value>
-        [DataMember(Name = "saml_idp_metadata_xml", EmitDefaultValue = false)]
-        public string SamlIdpMetadataXml { get; set; }
+        /// <value>Sync user profile data with IDP.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_sync_user_profile_on_login", EmitDefaultValue = true)]
+        public bool IsSyncUserProfileOnLogin { get; set; }
 
         /// <summary>
-        /// Attribute key for the user&#39;s email.
+        /// Include user group info from MS Entra ID.
         /// </summary>
-        /// <value>Attribute key for the user&#39;s email.</value>
-        /// <example>email</example>
-        [DataMember(Name = "saml_email_key_attr", EmitDefaultValue = false)]
-        public string SamlEmailKeyAttr { get; set; }
+        /// <value>Include user group info from MS Entra ID.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_retrieve_provider_user_groups", EmitDefaultValue = true)]
+        public bool IsRetrieveProviderUserGroups { get; set; }
 
         /// <summary>
-        /// Attribute key for the user&#39;s ID.
+        /// Include additional user profile information.
         /// </summary>
-        /// <value>Attribute key for the user&#39;s ID.</value>
-        /// <example>user_id</example>
-        [DataMember(Name = "saml_user_id_key_attr", EmitDefaultValue = false)]
-        public string SamlUserIdKeyAttr { get; set; }
+        /// <value>Include additional user profile information.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_extended_attributes_required", EmitDefaultValue = true)]
+        public bool IsExtendedAttributesRequired { get; set; }
 
         /// <summary>
-        /// Attribute key for the user&#39;s first name.
+        /// Create a user record in Kinde if the user signing in does not exist.
         /// </summary>
-        /// <value>Attribute key for the user&#39;s first name.</value>
-        /// <example>given_name</example>
-        [DataMember(Name = "saml_first_name_key_attr", EmitDefaultValue = false)]
-        public string SamlFirstNameKeyAttr { get; set; }
-
-        /// <summary>
-        /// Attribute key for the user&#39;s last name.
-        /// </summary>
-        /// <value>Attribute key for the user&#39;s last name.</value>
-        /// <example>family_name</example>
-        [DataMember(Name = "saml_last_name_key_attr", EmitDefaultValue = false)]
-        public string SamlLastNameKeyAttr { get; set; }
-
-        /// <summary>
-        /// Create user if they don&#39;t exist.
-        /// </summary>
-        /// <value>Create user if they don&#39;t exist.</value>
+        /// <value>Create a user record in Kinde if the user signing in does not exist.</value>
         /// <example>true</example>
         [DataMember(Name = "is_create_missing_user", EmitDefaultValue = true)]
         public bool IsCreateMissingUser { get; set; }
 
         /// <summary>
-        /// Force showing the SSO button for this connection.
+        /// Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent.
         /// </summary>
-        /// <value>Force showing the SSO button for this connection.</value>
+        /// <value>Deprecated - Use &#39;sso_button_display&#39; instead. True maps to \&quot;show\&quot;, false maps to \&quot;auto\&quot;. Ignored when sso_button_display is also sent.</value>
         /// <example>false</example>
         [DataMember(Name = "is_force_show_sso_button", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsForceShowSsoButton { get; set; }
 
         /// <summary>
@@ -258,20 +230,6 @@ namespace Kinde.Api.Model
         public Dictionary<string, Object> UpstreamParams { get; set; }
 
         /// <summary>
-        /// Certificate for signing SAML requests.
-        /// </summary>
-        /// <value>Certificate for signing SAML requests.</value>
-        [DataMember(Name = "saml_signing_certificate", EmitDefaultValue = false)]
-        public string SamlSigningCertificate { get; set; }
-
-        /// <summary>
-        /// Private key associated with the signing certificate.
-        /// </summary>
-        /// <value>Private key associated with the signing certificate.</value>
-        [DataMember(Name = "saml_signing_private_key", EmitDefaultValue = false)]
-        public string SamlSigningPrivateKey { get; set; }
-
-        /// <summary>
         /// Use custom domain callback URL.
         /// </summary>
         /// <value>Use custom domain callback URL.</value>
@@ -280,12 +238,29 @@ namespace Kinde.Api.Model
         public bool IsUseCustomDomain { get; set; }
 
         /// <summary>
-        /// Trust this connection for account merging.
+        /// Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.
         /// </summary>
-        /// <value>Trust this connection for account merging.</value>
+        /// <value>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</value>
         /// <example>true</example>
         [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsTrusted { get; set; }
+
+        /// <summary>
+        /// Users automatically join the organization that owns this connection when they sign in through it. Stored on any enterprise connection, but only takes effect once the connection has an owning organization. When omitted, the current value is kept.
+        /// </summary>
+        /// <value>Users automatically join the organization that owns this connection when they sign in through it. Stored on any enterprise connection, but only takes effect once the connection has an owning organization. When omitted, the current value is kept.</value>
+        /// <example>true</example>
+        [DataMember(Name = "is_auto_join_organization_enabled", EmitDefaultValue = true)]
+        public bool IsAutoJoinOrganizationEnabled { get; set; }
+
+        /// <summary>
+        /// Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. When omitted, the current value is kept.
+        /// </summary>
+        /// <value>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&#39;s passkeys in Kinde as well. When omitted, the current value is kept.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_passkey_allowed", EmitDefaultValue = true)]
+        public bool IsPasskeyAllowed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -295,24 +270,23 @@ namespace Kinde.Api.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ReplaceConnectionRequestOptionsOneOf1 {\n");
+            sb.Append("  ClientId: ").Append(ClientId).Append("\n");
+            sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
             sb.Append("  HomeRealmDomains: ").Append(HomeRealmDomains).Append("\n");
-            sb.Append("  SamlEntityId: ").Append(SamlEntityId).Append("\n");
-            sb.Append("  SamlIdpMetadataUrl: ").Append(SamlIdpMetadataUrl).Append("\n");
-            sb.Append("  SamlIdpMetadataXml: ").Append(SamlIdpMetadataXml).Append("\n");
-            sb.Append("  SignRequestAlgorithm: ").Append(SignRequestAlgorithm).Append("\n");
-            sb.Append("  ProtocolBinding: ").Append(ProtocolBinding).Append("\n");
-            sb.Append("  NameIdFormat: ").Append(NameIdFormat).Append("\n");
-            sb.Append("  SamlEmailKeyAttr: ").Append(SamlEmailKeyAttr).Append("\n");
-            sb.Append("  SamlUserIdKeyAttr: ").Append(SamlUserIdKeyAttr).Append("\n");
-            sb.Append("  SamlFirstNameKeyAttr: ").Append(SamlFirstNameKeyAttr).Append("\n");
-            sb.Append("  SamlLastNameKeyAttr: ").Append(SamlLastNameKeyAttr).Append("\n");
+            sb.Append("  EntraIdDomain: ").Append(EntraIdDomain).Append("\n");
+            sb.Append("  IsUseCommonEndpoint: ").Append(IsUseCommonEndpoint).Append("\n");
+            sb.Append("  IsSyncUserProfileOnLogin: ").Append(IsSyncUserProfileOnLogin).Append("\n");
+            sb.Append("  IsRetrieveProviderUserGroups: ").Append(IsRetrieveProviderUserGroups).Append("\n");
+            sb.Append("  IsExtendedAttributesRequired: ").Append(IsExtendedAttributesRequired).Append("\n");
             sb.Append("  IsCreateMissingUser: ").Append(IsCreateMissingUser).Append("\n");
             sb.Append("  IsForceShowSsoButton: ").Append(IsForceShowSsoButton).Append("\n");
+            sb.Append("  SsoButtonDisplay: ").Append(SsoButtonDisplay).Append("\n");
             sb.Append("  UpstreamParams: ").Append(UpstreamParams).Append("\n");
-            sb.Append("  SamlSigningCertificate: ").Append(SamlSigningCertificate).Append("\n");
-            sb.Append("  SamlSigningPrivateKey: ").Append(SamlSigningPrivateKey).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
             sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
+            sb.Append("  TrustMode: ").Append(TrustMode).Append("\n");
+            sb.Append("  IsAutoJoinOrganizationEnabled: ").Append(IsAutoJoinOrganizationEnabled).Append("\n");
+            sb.Append("  IsPasskeyAllowed: ").Append(IsPasskeyAllowed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -349,57 +323,41 @@ namespace Kinde.Api.Model
             }
             return 
                 (
+                    this.ClientId == input.ClientId ||
+                    (this.ClientId != null &&
+                    this.ClientId.Equals(input.ClientId))
+                ) && 
+                (
+                    this.ClientSecret == input.ClientSecret ||
+                    (this.ClientSecret != null &&
+                    this.ClientSecret.Equals(input.ClientSecret))
+                ) && 
+                (
                     this.HomeRealmDomains == input.HomeRealmDomains ||
                     this.HomeRealmDomains != null &&
                     input.HomeRealmDomains != null &&
                     this.HomeRealmDomains.SequenceEqual(input.HomeRealmDomains)
                 ) && 
                 (
-                    this.SamlEntityId == input.SamlEntityId ||
-                    (this.SamlEntityId != null &&
-                    this.SamlEntityId.Equals(input.SamlEntityId))
+                    this.EntraIdDomain == input.EntraIdDomain ||
+                    (this.EntraIdDomain != null &&
+                    this.EntraIdDomain.Equals(input.EntraIdDomain))
                 ) && 
                 (
-                    this.SamlIdpMetadataUrl == input.SamlIdpMetadataUrl ||
-                    (this.SamlIdpMetadataUrl != null &&
-                    this.SamlIdpMetadataUrl.Equals(input.SamlIdpMetadataUrl))
-                ) &&
-                (
-                    this.SamlIdpMetadataXml == input.SamlIdpMetadataXml ||
-                    (this.SamlIdpMetadataXml != null &&
-                    this.SamlIdpMetadataXml.Equals(input.SamlIdpMetadataXml))
-                ) &&
-                (
-                    this.SignRequestAlgorithm == input.SignRequestAlgorithm ||
-                    this.SignRequestAlgorithm.Equals(input.SignRequestAlgorithm)
+                    this.IsUseCommonEndpoint == input.IsUseCommonEndpoint ||
+                    this.IsUseCommonEndpoint.Equals(input.IsUseCommonEndpoint)
                 ) && 
                 (
-                    this.ProtocolBinding == input.ProtocolBinding ||
-                    this.ProtocolBinding.Equals(input.ProtocolBinding)
+                    this.IsSyncUserProfileOnLogin == input.IsSyncUserProfileOnLogin ||
+                    this.IsSyncUserProfileOnLogin.Equals(input.IsSyncUserProfileOnLogin)
                 ) && 
                 (
-                    this.NameIdFormat == input.NameIdFormat ||
-                    this.NameIdFormat.Equals(input.NameIdFormat)
+                    this.IsRetrieveProviderUserGroups == input.IsRetrieveProviderUserGroups ||
+                    this.IsRetrieveProviderUserGroups.Equals(input.IsRetrieveProviderUserGroups)
                 ) && 
                 (
-                    this.SamlEmailKeyAttr == input.SamlEmailKeyAttr ||
-                    (this.SamlEmailKeyAttr != null &&
-                    this.SamlEmailKeyAttr.Equals(input.SamlEmailKeyAttr))
-                ) && 
-                (
-                    this.SamlUserIdKeyAttr == input.SamlUserIdKeyAttr ||
-                    (this.SamlUserIdKeyAttr != null &&
-                    this.SamlUserIdKeyAttr.Equals(input.SamlUserIdKeyAttr))
-                ) && 
-                (
-                    this.SamlFirstNameKeyAttr == input.SamlFirstNameKeyAttr ||
-                    (this.SamlFirstNameKeyAttr != null &&
-                    this.SamlFirstNameKeyAttr.Equals(input.SamlFirstNameKeyAttr))
-                ) && 
-                (
-                    this.SamlLastNameKeyAttr == input.SamlLastNameKeyAttr ||
-                    (this.SamlLastNameKeyAttr != null &&
-                    this.SamlLastNameKeyAttr.Equals(input.SamlLastNameKeyAttr))
+                    this.IsExtendedAttributesRequired == input.IsExtendedAttributesRequired ||
+                    this.IsExtendedAttributesRequired.Equals(input.IsExtendedAttributesRequired)
                 ) && 
                 (
                     this.IsCreateMissingUser == input.IsCreateMissingUser ||
@@ -410,20 +368,14 @@ namespace Kinde.Api.Model
                     this.IsForceShowSsoButton.Equals(input.IsForceShowSsoButton)
                 ) && 
                 (
+                    this.SsoButtonDisplay == input.SsoButtonDisplay ||
+                    this.SsoButtonDisplay.Equals(input.SsoButtonDisplay)
+                ) && 
+                (
                     this.UpstreamParams == input.UpstreamParams ||
                     this.UpstreamParams != null &&
                     input.UpstreamParams != null &&
                     this.UpstreamParams.SequenceEqual(input.UpstreamParams)
-                ) && 
-                (
-                    this.SamlSigningCertificate == input.SamlSigningCertificate ||
-                    (this.SamlSigningCertificate != null &&
-                    this.SamlSigningCertificate.Equals(input.SamlSigningCertificate))
-                ) && 
-                (
-                    this.SamlSigningPrivateKey == input.SamlSigningPrivateKey ||
-                    (this.SamlSigningPrivateKey != null &&
-                    this.SamlSigningPrivateKey.Equals(input.SamlSigningPrivateKey))
                 ) && 
                 (
                     this.IsUseCustomDomain == input.IsUseCustomDomain ||
@@ -432,6 +384,18 @@ namespace Kinde.Api.Model
                 (
                     this.IsTrusted == input.IsTrusted ||
                     this.IsTrusted.Equals(input.IsTrusted)
+                ) && 
+                (
+                    this.TrustMode == input.TrustMode ||
+                    this.TrustMode.Equals(input.TrustMode)
+                ) && 
+                (
+                    this.IsAutoJoinOrganizationEnabled == input.IsAutoJoinOrganizationEnabled ||
+                    this.IsAutoJoinOrganizationEnabled.Equals(input.IsAutoJoinOrganizationEnabled)
+                ) && 
+                (
+                    this.IsPasskeyAllowed == input.IsPasskeyAllowed ||
+                    this.IsPasskeyAllowed.Equals(input.IsPasskeyAllowed)
                 );
         }
 
@@ -444,57 +408,38 @@ namespace Kinde.Api.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                if (this.ClientId != null)
+                {
+                    hashCode = (hashCode * 59) + this.ClientId.GetHashCode();
+                }
+                if (this.ClientSecret != null)
+                {
+                    hashCode = (hashCode * 59) + this.ClientSecret.GetHashCode();
+                }
                 if (this.HomeRealmDomains != null)
                 {
                     hashCode = (hashCode * 59) + this.HomeRealmDomains.GetHashCode();
                 }
-                if (this.SamlEntityId != null)
+                if (this.EntraIdDomain != null)
                 {
-                    hashCode = (hashCode * 59) + this.SamlEntityId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EntraIdDomain.GetHashCode();
                 }
-                if (this.SamlIdpMetadataUrl != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlIdpMetadataUrl.GetHashCode();
-                }
-                if (this.SamlIdpMetadataXml != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlIdpMetadataXml.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.SignRequestAlgorithm.GetHashCode();
-                hashCode = (hashCode * 59) + this.ProtocolBinding.GetHashCode();
-                hashCode = (hashCode * 59) + this.NameIdFormat.GetHashCode();
-                if (this.SamlEmailKeyAttr != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlEmailKeyAttr.GetHashCode();
-                }
-                if (this.SamlUserIdKeyAttr != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlUserIdKeyAttr.GetHashCode();
-                }
-                if (this.SamlFirstNameKeyAttr != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlFirstNameKeyAttr.GetHashCode();
-                }
-                if (this.SamlLastNameKeyAttr != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlLastNameKeyAttr.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.IsUseCommonEndpoint.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsSyncUserProfileOnLogin.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsRetrieveProviderUserGroups.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsExtendedAttributesRequired.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsCreateMissingUser.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsForceShowSsoButton.GetHashCode();
+                hashCode = (hashCode * 59) + this.SsoButtonDisplay.GetHashCode();
                 if (this.UpstreamParams != null)
                 {
                     hashCode = (hashCode * 59) + this.UpstreamParams.GetHashCode();
                 }
-                if (this.SamlSigningCertificate != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlSigningCertificate.GetHashCode();
-                }
-                if (this.SamlSigningPrivateKey != null)
-                {
-                    hashCode = (hashCode * 59) + this.SamlSigningPrivateKey.GetHashCode();
-                }
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
+                hashCode = (hashCode * 59) + this.TrustMode.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAutoJoinOrganizationEnabled.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsPasskeyAllowed.GetHashCode();
                 return hashCode;
             }
         }

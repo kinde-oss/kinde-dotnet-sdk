@@ -81,6 +81,7 @@ namespace Kinde.Api.Model
         /// <param name="loginUri">The default login route for resolving session issues..</param>
         /// <param name="homepageUri">The homepage link to your application..</param>
         /// <param name="hasCancelButton">Whether the application has a cancel button to allow users to exit the auth flow [Beta]..</param>
+        /// <param name="isAccessControlEnabled">Whether role-based access control is enforced for the application. Always false for application types that do not support connections. .</param>
         /// <param name="isAllowFacelessAuth">Bypass Kinde&#39;s sign up and sign in screens and use your own design..</param>
         /// <param name="isAskForName">Show fields to collect name details from users signing up with email or phone..</param>
         /// <param name="hasMarketingConsent">Show a marketing consent checkbox on the sign-up page..</param>
@@ -88,7 +89,7 @@ namespace Kinde.Api.Model
         /// <param name="hasRegisterLinkOnSignInPage">Allow users to switch to the register page from the sign-in page..</param>
         /// <param name="hasSignInWithSsoButton">When home realm discovery is configured, users see a button to prompt them to use their work email..</param>
         /// <param name="useGravatarFallback">Use a backup image if a profile picture is not available..</param>
-        public GetApplicationResponseApplication(string id = default(string), string name = default(string), TypeEnum? type = default(TypeEnum?), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string), bool hasCancelButton = default(bool), bool isAllowFacelessAuth = default(bool), bool isAskForName = default(bool), bool hasMarketingConsent = default(bool), bool hasSignInLinkOnSignUpPage = default(bool), bool hasRegisterLinkOnSignInPage = default(bool), bool hasSignInWithSsoButton = default(bool), bool useGravatarFallback = default(bool))
+        public GetApplicationResponseApplication(string id = default(string), string name = default(string), TypeEnum? type = default(TypeEnum?), string clientId = default(string), string clientSecret = default(string), string loginUri = default(string), string homepageUri = default(string), bool hasCancelButton = default(bool), bool isAccessControlEnabled = default(bool), bool isAllowFacelessAuth = default(bool), bool isAskForName = default(bool), bool hasMarketingConsent = default(bool), bool hasSignInLinkOnSignUpPage = default(bool), bool hasRegisterLinkOnSignInPage = default(bool), bool hasSignInWithSsoButton = default(bool), bool useGravatarFallback = default(bool))
         {
             this.Id = id;
             this.Name = name;
@@ -98,6 +99,7 @@ namespace Kinde.Api.Model
             this.LoginUri = loginUri;
             this.HomepageUri = homepageUri;
             this.HasCancelButton = hasCancelButton;
+            this.IsAccessControlEnabled = isAccessControlEnabled;
             this.IsAllowFacelessAuth = isAllowFacelessAuth;
             this.IsAskForName = isAskForName;
             this.HasMarketingConsent = hasMarketingConsent;
@@ -164,9 +166,18 @@ namespace Kinde.Api.Model
         public bool HasCancelButton { get; set; }
 
         /// <summary>
+        /// Whether role-based access control is enforced for the application. Always false for application types that do not support connections. 
+        /// </summary>
+        /// <value>Whether role-based access control is enforced for the application. Always false for application types that do not support connections. </value>
+        /// <example>false</example>
+        [DataMember(Name = "is_access_control_enabled", EmitDefaultValue = true)]
+        public bool IsAccessControlEnabled { get; set; }
+
+        /// <summary>
         /// Bypass Kinde&#39;s sign up and sign in screens and use your own design.
         /// </summary>
         /// <value>Bypass Kinde&#39;s sign up and sign in screens and use your own design.</value>
+        /// <example>false</example>
         [DataMember(Name = "is_allow_faceless_auth", EmitDefaultValue = true)]
         public bool IsAllowFacelessAuth { get; set; }
 
@@ -174,6 +185,7 @@ namespace Kinde.Api.Model
         /// Show fields to collect name details from users signing up with email or phone.
         /// </summary>
         /// <value>Show fields to collect name details from users signing up with email or phone.</value>
+        /// <example>true</example>
         [DataMember(Name = "is_ask_for_name", EmitDefaultValue = true)]
         public bool IsAskForName { get; set; }
 
@@ -181,6 +193,7 @@ namespace Kinde.Api.Model
         /// Show a marketing consent checkbox on the sign-up page.
         /// </summary>
         /// <value>Show a marketing consent checkbox on the sign-up page.</value>
+        /// <example>false</example>
         [DataMember(Name = "has_marketing_consent", EmitDefaultValue = true)]
         public bool HasMarketingConsent { get; set; }
 
@@ -188,6 +201,7 @@ namespace Kinde.Api.Model
         /// Allow users to switch to the login page from the sign-up page.
         /// </summary>
         /// <value>Allow users to switch to the login page from the sign-up page.</value>
+        /// <example>true</example>
         [DataMember(Name = "has_sign_in_link_on_sign_up_page", EmitDefaultValue = true)]
         public bool HasSignInLinkOnSignUpPage { get; set; }
 
@@ -195,6 +209,7 @@ namespace Kinde.Api.Model
         /// Allow users to switch to the register page from the sign-in page.
         /// </summary>
         /// <value>Allow users to switch to the register page from the sign-in page.</value>
+        /// <example>true</example>
         [DataMember(Name = "has_register_link_on_sign_in_page", EmitDefaultValue = true)]
         public bool HasRegisterLinkOnSignInPage { get; set; }
 
@@ -202,6 +217,7 @@ namespace Kinde.Api.Model
         /// When home realm discovery is configured, users see a button to prompt them to use their work email.
         /// </summary>
         /// <value>When home realm discovery is configured, users see a button to prompt them to use their work email.</value>
+        /// <example>false</example>
         [DataMember(Name = "has_sign_in_with_sso_button", EmitDefaultValue = true)]
         public bool HasSignInWithSsoButton { get; set; }
 
@@ -209,6 +225,7 @@ namespace Kinde.Api.Model
         /// Use a backup image if a profile picture is not available.
         /// </summary>
         /// <value>Use a backup image if a profile picture is not available.</value>
+        /// <example>true</example>
         [DataMember(Name = "use_gravatar_fallback", EmitDefaultValue = true)]
         public bool UseGravatarFallback { get; set; }
 
@@ -228,6 +245,7 @@ namespace Kinde.Api.Model
             sb.Append("  LoginUri: ").Append(LoginUri).Append("\n");
             sb.Append("  HomepageUri: ").Append(HomepageUri).Append("\n");
             sb.Append("  HasCancelButton: ").Append(HasCancelButton).Append("\n");
+            sb.Append("  IsAccessControlEnabled: ").Append(IsAccessControlEnabled).Append("\n");
             sb.Append("  IsAllowFacelessAuth: ").Append(IsAllowFacelessAuth).Append("\n");
             sb.Append("  IsAskForName: ").Append(IsAskForName).Append("\n");
             sb.Append("  HasMarketingConsent: ").Append(HasMarketingConsent).Append("\n");
@@ -307,31 +325,35 @@ namespace Kinde.Api.Model
                 (
                     this.HasCancelButton == input.HasCancelButton ||
                     this.HasCancelButton.Equals(input.HasCancelButton)
-                ) &&
+                ) && 
+                (
+                    this.IsAccessControlEnabled == input.IsAccessControlEnabled ||
+                    this.IsAccessControlEnabled.Equals(input.IsAccessControlEnabled)
+                ) && 
                 (
                     this.IsAllowFacelessAuth == input.IsAllowFacelessAuth ||
                     this.IsAllowFacelessAuth.Equals(input.IsAllowFacelessAuth)
-                ) &&
+                ) && 
                 (
                     this.IsAskForName == input.IsAskForName ||
                     this.IsAskForName.Equals(input.IsAskForName)
-                ) &&
+                ) && 
                 (
                     this.HasMarketingConsent == input.HasMarketingConsent ||
                     this.HasMarketingConsent.Equals(input.HasMarketingConsent)
-                ) &&
+                ) && 
                 (
                     this.HasSignInLinkOnSignUpPage == input.HasSignInLinkOnSignUpPage ||
                     this.HasSignInLinkOnSignUpPage.Equals(input.HasSignInLinkOnSignUpPage)
-                ) &&
+                ) && 
                 (
                     this.HasRegisterLinkOnSignInPage == input.HasRegisterLinkOnSignInPage ||
                     this.HasRegisterLinkOnSignInPage.Equals(input.HasRegisterLinkOnSignInPage)
-                ) &&
+                ) && 
                 (
                     this.HasSignInWithSsoButton == input.HasSignInWithSsoButton ||
                     this.HasSignInWithSsoButton.Equals(input.HasSignInWithSsoButton)
-                ) &&
+                ) && 
                 (
                     this.UseGravatarFallback == input.UseGravatarFallback ||
                     this.UseGravatarFallback.Equals(input.UseGravatarFallback)
@@ -373,6 +395,7 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.HomepageUri.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.HasCancelButton.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAccessControlEnabled.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsAllowFacelessAuth.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsAskForName.GetHashCode();
                 hashCode = (hashCode * 59) + this.HasMarketingConsent.GetHashCode();

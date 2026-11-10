@@ -123,7 +123,7 @@ namespace Kinde.Api.Model
                     this.Message == input.Message ||
                     (this.Message != null &&
                     this.Message.Equals(input.Message))
-                ) &&
+                ) && 
                 (
                     this.DirectoryId == input.DirectoryId ||
                     (this.DirectoryId != null &&

@@ -61,6 +61,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item
             set { BackingStore?.Set("homepage_uri", value); }
         }
 #endif
+        /// <summary>Whether role-based access control is enforced for the application. At least one allowed role must be configured before enabling.</summary>
+        public bool? IsAccessControlEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_access_control_enabled"); }
+            set { BackingStore?.Set("is_access_control_enabled", value); }
+        }
         /// <summary>Bypass Kinde&apos;s sign up and sign in screens and use your own design.</summary>
         public bool? IsAllowFacelessAuth
         {
@@ -190,6 +196,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item
                 { "has_sign_in_link_on_sign_up_page", n => { HasSignInLinkOnSignUpPage = n.GetBoolValue(); } },
                 { "has_sign_in_with_sso_button", n => { HasSignInWithSsoButton = n.GetBoolValue(); } },
                 { "homepage_uri", n => { HomepageUri = n.GetStringValue(); } },
+                { "is_access_control_enabled", n => { IsAccessControlEnabled = n.GetBoolValue(); } },
                 { "is_allow_faceless_auth", n => { IsAllowFacelessAuth = n.GetBoolValue(); } },
                 { "is_ask_for_name", n => { IsAskForName = n.GetBoolValue(); } },
                 { "language_key", n => { LanguageKey = n.GetStringValue(); } },
@@ -212,6 +219,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item
             writer.WriteBoolValue("has_sign_in_link_on_sign_up_page", HasSignInLinkOnSignUpPage);
             writer.WriteBoolValue("has_sign_in_with_sso_button", HasSignInWithSsoButton);
             writer.WriteStringValue("homepage_uri", HomepageUri);
+            writer.WriteBoolValue("is_access_control_enabled", IsAccessControlEnabled);
             writer.WriteBoolValue("is_allow_faceless_auth", IsAllowFacelessAuth);
             writer.WriteBoolValue("is_ask_for_name", IsAskForName);
             writer.WriteStringValue("language_key", LanguageKey);

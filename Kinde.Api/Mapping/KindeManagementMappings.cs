@@ -31,14 +31,16 @@ namespace Kinde.Api.Mapping
 
         /// <summary>
         /// Kiota names the nested object <c>ConnectionProp</c>; the SDK model names it
-        /// <c>VarConnection</c>.
+        /// <c>VarConnection</c>. List items arrive flat, so their fields are read from <c>AdditionalData</c>.
         /// </summary>
         private static void RegisterConnections(KindeMappingRegistry registry)
         {
             registry.Convert<KiotaModels.Connection, Connection>((source, mapper) => new Connection(
                 source.Code,
                 source.Message,
-                mapper.Map<ConnectionConnection>(source.ConnectionProp)));
+                source.ConnectionProp is not null
+                    ? mapper.Map<ConnectionConnection>(source.ConnectionProp)
+                    : ReadFlatConnection(source.AdditionalData)));
 
             registry.Convert<Connection, KiotaModels.Connection>((source, mapper) =>
             {
@@ -62,43 +64,18 @@ namespace Kinde.Api.Mapping
 
                 return destination;
             });
+        }
 
-            registry.Convert<KiotaModels.Connection_list_item, Connection>(source => new Connection(
-                null,
-                null,
-                new ConnectionConnection(source.Id, source.Name, source.DisplayName, source.Strategy)));
+        private static ConnectionConnection ReadFlatConnection(IDictionary<string, object> additionalData)
+        {
+            var id = ReadString(additionalData, "id");
+            var name = ReadString(additionalData, "name");
+            var displayName = ReadString(additionalData, "display_name");
+            var strategy = ReadString(additionalData, "strategy");
 
-            registry.Convert<Connection, KiotaModels.Connection_list_item>(source =>
-            {
-                var destination = new KiotaModels.Connection_list_item();
-                var connection = source.VarConnection;
-                if (connection == null)
-                {
-                    return destination;
-                }
-
-                if (connection.Id != null)
-                {
-                    destination.Id = connection.Id;
-                }
-
-                if (connection.Name != null)
-                {
-                    destination.Name = connection.Name;
-                }
-
-                if (connection.DisplayName != null)
-                {
-                    destination.DisplayName = connection.DisplayName;
-                }
-
-                if (connection.Strategy != null)
-                {
-                    destination.Strategy = connection.Strategy;
-                }
-
-                return destination;
-            });
+            return id is null && name is null && displayName is null && strategy is null
+                ? null
+                : new ConnectionConnection(id, name, displayName, strategy);
         }
 
         /// <summary>
@@ -151,23 +128,22 @@ namespace Kinde.Api.Mapping
                     var destination = new PutConnection.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options();
                     switch (source.ActualInstance)
                     {
-                        case CreateConnectionRequestOptionsOneOf variant:
+                        case ReplaceConnectionRequestOptionsOneOf variant:
                             destination.WithConnectionPutRequestBodyOptionsMember1 =
                                 mapper.Map<PutConnection.WithConnection_PutRequestBody_optionsMember1>(variant);
                             break;
-                        case ReplaceConnectionRequestOptionsOneOf variant:
+                        case ReplaceConnectionRequestOptionsOneOf1 variant:
                             destination.WithConnectionPutRequestBodyOptionsMember2 =
                                 mapper.Map<PutConnection.WithConnection_PutRequestBody_optionsMember2>(variant);
                             break;
-                        case ReplaceConnectionRequestOptionsOneOf1 variant:
+                        case ReplaceConnectionRequestOptionsOneOf2 variant:
                             destination.WithConnectionPutRequestBodyOptionsMember3 =
                                 mapper.Map<PutConnection.WithConnection_PutRequestBody_optionsMember3>(variant);
                             break;
                         default:
                             throw new ArgumentException(
                                 $"Unsupported ReplaceConnectionRequestOptions variant: {source.ActualInstance.GetType().FullName}. "
-                                + "Expected CreateConnectionRequestOptionsOneOf, ReplaceConnectionRequestOptionsOneOf, "
-                                + "or ReplaceConnectionRequestOptionsOneOf1.",
+                                + "Expected ReplaceConnectionRequestOptionsOneOf, OneOf1, or OneOf2.",
                                 nameof(source));
                     }
 
@@ -185,7 +161,7 @@ namespace Kinde.Api.Mapping
                     var destination = new PutConnection.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options();
                     switch (source.ActualInstance)
                     {
-                        case CreateConnectionRequestOptionsOneOf variant:
+                        case ReplaceConnectionRequestOptionsOneOf variant:
                             destination.WithConnectionPatchRequestBodyOptionsMember1 =
                                 mapper.Map<PutConnection.WithConnection_PatchRequestBody_optionsMember1>(variant);
                             break;
@@ -200,7 +176,7 @@ namespace Kinde.Api.Mapping
                         default:
                             throw new ArgumentException(
                                 $"Unsupported UpdateConnectionRequestOptions variant: {source.ActualInstance.GetType().FullName}. "
-                                + "Expected CreateConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf, "
+                                + "Expected ReplaceConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf, "
                                 + "or UpdateConnectionRequestOptionsOneOf1.",
                                 nameof(source));
                     }
@@ -222,11 +198,11 @@ namespace Kinde.Api.Mapping
                 .BridgeEnums<CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum,
                     PostConnections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm>()
 
-                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum,
+                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf2.NameIdFormatEnum,
                     PutConnection.WithConnection_PutRequestBody_optionsMember3_name_id_format>()
-                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum,
+                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf2.ProtocolBindingEnum,
                     PutConnection.WithConnection_PutRequestBody_optionsMember3_protocol_binding>()
-                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum,
+                .BridgeEnums<ReplaceConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum,
                     PutConnection.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm>()
 
                 .BridgeEnums<UpdateConnectionRequestOptionsOneOf1.NameIdFormatEnum,

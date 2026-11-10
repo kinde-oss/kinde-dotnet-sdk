@@ -3,6 +3,7 @@
 using Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements;
 using Kinde.Api.Kiota.Management.Api.V1.Billing.Entitlements;
 using Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage;
+using Kinde.Api.Kiota.Management.Api.V1.Billing.One_time_purchases;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing
         public global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder Meter_usage
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The one_time_purchases property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Billing.One_time_purchases.One_time_purchasesRequestBuilder One_time_purchases
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Billing.One_time_purchases.One_time_purchasesRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Billing.BillingRequestBuilder"/> and sets the default values.

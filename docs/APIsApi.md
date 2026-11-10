@@ -8,9 +8,10 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**AddAPIScope**](APIsApi.md#addapiscope) | **POST** /api/v1/apis/{api_id}/scopes | Create API scope |
 | [**AddAPIs**](APIsApi.md#addapis) | **POST** /api/v1/apis | Create API |
 | [**DeleteAPI**](APIsApi.md#deleteapi) | **DELETE** /api/v1/apis/{api_id} | Delete API |
-| [**DeleteAPIAppliationScope**](APIsApi.md#deleteapiappliationscope) | **DELETE** /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id} | Delete API application scope |
+| [**DeleteAPIApplicationScope**](APIsApi.md#deleteapiapplicationscope) | **DELETE** /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id} | Delete API application scope |
 | [**DeleteAPIScope**](APIsApi.md#deleteapiscope) | **DELETE** /api/v1/apis/{api_id}/scopes/{scope_id} | Delete API scope |
 | [**GetAPI**](APIsApi.md#getapi) | **GET** /api/v1/apis/{api_id} | Get API |
+| [**GetAPIApplicationScopes**](APIsApi.md#getapiapplicationscopes) | **GET** /api/v1/apis/{api_id}/applications/{application_id}/scopes | Get API application scopes |
 | [**GetAPIScope**](APIsApi.md#getapiscope) | **GET** /api/v1/apis/{api_id}/scopes/{scope_id} | Get API scope |
 | [**GetAPIScopes**](APIsApi.md#getapiscopes) | **GET** /api/v1/apis/{api_id}/scopes | Get API scopes |
 | [**GetAPIs**](APIsApi.md#getapis) | **GET** /api/v1/apis | Get APIs |
@@ -29,7 +30,6 @@ Add a scope to an API application.  <div>   <code>create:api_application_scopes<
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -45,10 +45,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var applicationId = 7643b487c97545aab79257fd13a1085a;  // string | Application ID
             var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
@@ -130,7 +127,6 @@ Create a new API scope.  <div>   <code>create:api_scopes</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -146,10 +142,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var addAPIScopeRequest = new AddAPIScopeRequest(); // AddAPIScopeRequest | 
 
@@ -233,7 +226,6 @@ Register a new API. For more information read [Register and manage APIs](https:/
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -249,10 +241,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var addAPIsRequest = new AddAPIsRequest(); // AddAPIsRequest | 
 
             try
@@ -334,7 +323,6 @@ Delete an API you previously created.  <div>   <code>delete:apis</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -350,10 +338,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
 
             try
@@ -423,26 +408,25 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="deleteapiappliationscope"></a>
-# **DeleteAPIAppliationScope**
-> void DeleteAPIAppliationScope (string apiId, string applicationId, string scopeId)
+<a id="deleteapiapplicationscope"></a>
+# **DeleteAPIApplicationScope**
+> void DeleteAPIApplicationScope (string apiId, string applicationId, string scopeId)
 
 Delete API application scope
 
-Delete an API application scope you previously created.  <div>   <code>delete:apis_application_scopes</code> </div> 
+Delete an API application scope you previously created.  <div>   <code>delete:api_application_scopes</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
 namespace Example
 {
-    public class DeleteAPIAppliationScopeExample
+    public class DeleteAPIApplicationScopeExample
     {
         public static void Main()
         {
@@ -451,10 +435,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var applicationId = 7643b487c97545aab79257fd13a1085a;  // string | Application ID
             var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
@@ -462,11 +443,11 @@ namespace Example
             try
             {
                 // Delete API application scope
-                apiInstance.DeleteAPIAppliationScope(apiId, applicationId, scopeId);
+                apiInstance.DeleteAPIApplicationScope(apiId, applicationId, scopeId);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling APIsApi.DeleteAPIAppliationScope: " + e.Message);
+                Debug.Print("Exception when calling APIsApi.DeleteAPIApplicationScope: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -475,18 +456,18 @@ namespace Example
 }
 ```
 
-#### Using the DeleteAPIAppliationScopeWithHttpInfo variant
+#### Using the DeleteAPIApplicationScopeWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Delete API application scope
-    apiInstance.DeleteAPIAppliationScopeWithHttpInfo(apiId, applicationId, scopeId);
+    apiInstance.DeleteAPIApplicationScopeWithHttpInfo(apiId, applicationId, scopeId);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling APIsApi.DeleteAPIAppliationScopeWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling APIsApi.DeleteAPIApplicationScopeWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -530,13 +511,12 @@ void (empty response body)
 
 Delete API scope
 
-Delete an API scope you previously created.  <div>   <code>delete:apis_scopes</code> </div> 
+Delete an API scope you previously created.  <div>   <code>delete:api_scopes</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -552,10 +532,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
 
@@ -635,7 +612,6 @@ Retrieve API details by ID.  <div>   <code>read:apis</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -651,10 +627,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
 
             try
@@ -724,6 +697,105 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getapiapplicationscopes"></a>
+# **GetAPIApplicationScopes**
+> GetApiApplicationScopesResponse GetAPIApplicationScopes (string apiId, string applicationId)
+
+Get API application scopes
+
+Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  <div>   <code>read:api_application_scopes</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetAPIApplicationScopesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new APIsApi(config);
+            var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
+            var applicationId = 7643b487c97545aab79257fd13a1085a;  // string | Application ID
+
+            try
+            {
+                // Get API application scopes
+                GetApiApplicationScopesResponse result = apiInstance.GetAPIApplicationScopes(apiId, applicationId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling APIsApi.GetAPIApplicationScopes: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetAPIApplicationScopesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get API application scopes
+    ApiResponse<GetApiApplicationScopesResponse> response = apiInstance.GetAPIApplicationScopesWithHttpInfo(apiId, applicationId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling APIsApi.GetAPIApplicationScopesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **apiId** | **string** | API ID |  |
+| **applicationId** | **string** | Application ID |  |
+
+### Return type
+
+[**GetApiApplicationScopesResponse**](GetApiApplicationScopesResponse.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | API application scopes successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="getapiscope"></a>
 # **GetAPIScope**
 > GetApiScopeResponse GetAPIScope (string apiId, string scopeId)
@@ -736,7 +808,6 @@ Retrieve API scope by API ID.  <div>   <code>read:api_scopes</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -752,10 +823,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
 
@@ -839,7 +907,6 @@ Retrieve API scopes by API ID.  <div>   <code>read:api_scopes</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -855,10 +922,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
 
             try
@@ -930,7 +994,7 @@ catch (ApiException e)
 
 <a id="getapis"></a>
 # **GetAPIs**
-> GetApisResponse GetAPIs (string expand = null)
+> GetApisResponse GetAPIs (string? expand = null)
 
 Get APIs
 
@@ -940,7 +1004,6 @@ Returns a list of your APIs. The APIs are returned sorted by name.  <div>   <cod
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -956,11 +1019,8 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
-            var expand = "scopes";  // string | Specify additional data to retrieve. Use \"scopes\". (optional) 
+            var apiInstance = new APIsApi(config);
+            var expand = "scopes";  // string? | Additional data to include in the response. Allowed value: \"scopes\". (optional) 
 
             try
             {
@@ -1003,7 +1063,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **expand** | **string** | Specify additional data to retrieve. Use \&quot;scopes\&quot;. | [optional]  |
+| **expand** | **string?** | Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. | [optional]  |
 
 ### Return type
 
@@ -1041,7 +1101,6 @@ Authorize applications to be allowed to request access tokens for an API  <div> 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1057,10 +1116,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 7ccd126599aa422a771abcb341596881;  // string | The API's ID.
             var updateAPIApplicationsRequest = new UpdateAPIApplicationsRequest(); // UpdateAPIApplicationsRequest | The applications you want to authorize.
 
@@ -1144,7 +1200,6 @@ Update an API scope.  <div>   <code>update:api_scopes</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -1160,10 +1215,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new APIsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new APIsApi(config);
             var apiId = 838f208d006a482dbd8cdb79a9889f68;  // string | API ID
             var scopeId = api_scope_019391daf58d87d8a7213419c016ac95;  // string | Scope ID
             var updateAPIScopeRequest = new UpdateAPIScopeRequest(); // UpdateAPIScopeRequest | 

@@ -80,7 +80,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateUserIdentityRequest" /> class.
         /// </summary>
-        /// <param name="value">The email address, social identity, or username of the user..</param>
+        /// <param name="value">The identity value, which depends on the type.  - &#x60;email&#x60;: the email address. - &#x60;username&#x60;: the username. - &#x60;phone&#x60;: the phone number, with &#x60;phone_country_id&#x60;. - &#x60;social&#x60;: the user&#39;s ID with the social provider. - &#x60;enterprise&#x60;: an email-formatted value that is compared, ignoring case, with what the identity provider sends at sign-in. For Microsoft Entra ID OAuth 2.0 connections, use the user principal name (UPN), which can differ from the user&#39;s mailbox address. A connection owned by an organization also matches the email address Entra sends, for users who are already members of that organization. For Microsoft Entra ID WS-Federation connections, use the email address Entra sends for the user, or their UPN if it sends none. For other enterprise connections, use the email the user signs in with, or the email the identity provider returns. .</param>
         /// <param name="type">The identity type.</param>
         /// <param name="phoneCountryId">The country code for the phone number, only required when identity type is &#39;phone&#39;..</param>
         /// <param name="connectionId">The social or enterprise connection ID, only required when identity type is &#39;social&#39; or &#39;enterprise&#39;..</param>
@@ -93,9 +93,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The email address, social identity, or username of the user.
+        /// The identity value, which depends on the type.  - &#x60;email&#x60;: the email address. - &#x60;username&#x60;: the username. - &#x60;phone&#x60;: the phone number, with &#x60;phone_country_id&#x60;. - &#x60;social&#x60;: the user&#39;s ID with the social provider. - &#x60;enterprise&#x60;: an email-formatted value that is compared, ignoring case, with what the identity provider sends at sign-in. For Microsoft Entra ID OAuth 2.0 connections, use the user principal name (UPN), which can differ from the user&#39;s mailbox address. A connection owned by an organization also matches the email address Entra sends, for users who are already members of that organization. For Microsoft Entra ID WS-Federation connections, use the email address Entra sends for the user, or their UPN if it sends none. For other enterprise connections, use the email the user signs in with, or the email the identity provider returns. 
         /// </summary>
-        /// <value>The email address, social identity, or username of the user.</value>
+        /// <value>The identity value, which depends on the type.  - &#x60;email&#x60;: the email address. - &#x60;username&#x60;: the username. - &#x60;phone&#x60;: the phone number, with &#x60;phone_country_id&#x60;. - &#x60;social&#x60;: the user&#39;s ID with the social provider. - &#x60;enterprise&#x60;: an email-formatted value that is compared, ignoring case, with what the identity provider sends at sign-in. For Microsoft Entra ID OAuth 2.0 connections, use the user principal name (UPN), which can differ from the user&#39;s mailbox address. A connection owned by an organization also matches the email address Entra sends, for users who are already members of that organization. For Microsoft Entra ID WS-Federation connections, use the email address Entra sends for the user, or their UPN if it sends none. For other enterprise connections, use the email the user signs in with, or the email the identity provider returns. </value>
         /// <example>sally@example.com</example>
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public string Value { get; set; }

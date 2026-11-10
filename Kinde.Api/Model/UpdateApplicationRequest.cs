@@ -47,7 +47,8 @@ namespace Kinde.Api.Model
         /// <param name="hasRegisterLinkOnSignInPage">Allow users to switch to the register page from the sign-in page..</param>
         /// <param name="hasSignInWithSsoButton">When home realm discovery is configured, users see a button to prompt them to use their work email..</param>
         /// <param name="useGravatarFallback">Use a backup image if a profile picture is not available..</param>
-        public UpdateApplicationRequest(string name = default(string), string languageKey = default(string), List<string> logoutUris = default(List<string>), List<string> redirectUris = default(List<string>), string loginUri = default(string), string homepageUri = default(string), bool isAllowFacelessAuth = default(bool), bool isAskForName = default(bool), bool hasMarketingConsent = default(bool), bool hasSignInLinkOnSignUpPage = default(bool), bool hasRegisterLinkOnSignInPage = default(bool), bool hasSignInWithSsoButton = default(bool), bool useGravatarFallback = default(bool))
+        /// <param name="isAccessControlEnabled">Whether role-based access control is enforced for the application. At least one allowed role must be configured before enabling..</param>
+        public UpdateApplicationRequest(string name = default(string), string languageKey = default(string), List<string> logoutUris = default(List<string>), List<string> redirectUris = default(List<string>), string loginUri = default(string), string homepageUri = default(string), bool isAllowFacelessAuth = default(bool), bool isAskForName = default(bool), bool hasMarketingConsent = default(bool), bool hasSignInLinkOnSignUpPage = default(bool), bool hasRegisterLinkOnSignInPage = default(bool), bool hasSignInWithSsoButton = default(bool), bool useGravatarFallback = default(bool), bool isAccessControlEnabled = default(bool))
         {
             this.Name = name;
             this.LanguageKey = languageKey;
@@ -62,6 +63,7 @@ namespace Kinde.Api.Model
             this.HasRegisterLinkOnSignInPage = hasRegisterLinkOnSignInPage;
             this.HasSignInWithSsoButton = hasSignInWithSsoButton;
             this.UseGravatarFallback = useGravatarFallback;
+            this.IsAccessControlEnabled = isAccessControlEnabled;
         }
 
         /// <summary>
@@ -156,6 +158,13 @@ namespace Kinde.Api.Model
         public bool UseGravatarFallback { get; set; }
 
         /// <summary>
+        /// Whether role-based access control is enforced for the application. At least one allowed role must be configured before enabling.
+        /// </summary>
+        /// <value>Whether role-based access control is enforced for the application. At least one allowed role must be configured before enabling.</value>
+        [DataMember(Name = "is_access_control_enabled", EmitDefaultValue = true)]
+        public bool IsAccessControlEnabled { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -176,6 +185,7 @@ namespace Kinde.Api.Model
             sb.Append("  HasRegisterLinkOnSignInPage: ").Append(HasRegisterLinkOnSignInPage).Append("\n");
             sb.Append("  HasSignInWithSsoButton: ").Append(HasSignInWithSsoButton).Append("\n");
             sb.Append("  UseGravatarFallback: ").Append(UseGravatarFallback).Append("\n");
+            sb.Append("  IsAccessControlEnabled: ").Append(IsAccessControlEnabled).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -242,34 +252,38 @@ namespace Kinde.Api.Model
                     this.HomepageUri == input.HomepageUri ||
                     (this.HomepageUri != null &&
                     this.HomepageUri.Equals(input.HomepageUri))
-                ) &&
+                ) && 
                 (
                     this.IsAllowFacelessAuth == input.IsAllowFacelessAuth ||
                     this.IsAllowFacelessAuth.Equals(input.IsAllowFacelessAuth)
-                ) &&
+                ) && 
                 (
                     this.IsAskForName == input.IsAskForName ||
                     this.IsAskForName.Equals(input.IsAskForName)
-                ) &&
+                ) && 
                 (
                     this.HasMarketingConsent == input.HasMarketingConsent ||
                     this.HasMarketingConsent.Equals(input.HasMarketingConsent)
-                ) &&
+                ) && 
                 (
                     this.HasSignInLinkOnSignUpPage == input.HasSignInLinkOnSignUpPage ||
                     this.HasSignInLinkOnSignUpPage.Equals(input.HasSignInLinkOnSignUpPage)
-                ) &&
+                ) && 
                 (
                     this.HasRegisterLinkOnSignInPage == input.HasRegisterLinkOnSignInPage ||
                     this.HasRegisterLinkOnSignInPage.Equals(input.HasRegisterLinkOnSignInPage)
-                ) &&
+                ) && 
                 (
                     this.HasSignInWithSsoButton == input.HasSignInWithSsoButton ||
                     this.HasSignInWithSsoButton.Equals(input.HasSignInWithSsoButton)
-                ) &&
+                ) && 
                 (
                     this.UseGravatarFallback == input.UseGravatarFallback ||
                     this.UseGravatarFallback.Equals(input.UseGravatarFallback)
+                ) && 
+                (
+                    this.IsAccessControlEnabled == input.IsAccessControlEnabled ||
+                    this.IsAccessControlEnabled.Equals(input.IsAccessControlEnabled)
                 );
         }
 
@@ -313,6 +327,7 @@ namespace Kinde.Api.Model
                 hashCode = (hashCode * 59) + this.HasRegisterLinkOnSignInPage.GetHashCode();
                 hashCode = (hashCode * 59) + this.HasSignInWithSsoButton.GetHashCode();
                 hashCode = (hashCode * 59) + this.UseGravatarFallback.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsAccessControlEnabled.GetHashCode();
                 return hashCode;
             }
         }

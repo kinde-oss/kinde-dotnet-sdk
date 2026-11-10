@@ -32,14 +32,50 @@ namespace Kinde.Api.Model
     public partial class CreateMeterUsageRecordResponse : IEquatable<CreateMeterUsageRecordResponse>
     {
         /// <summary>
+        /// Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant. 
+        /// </summary>
+        /// <value>Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant. </value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ExpirationPolicyCodeEnum
+        {
+            /// <summary>
+            /// Enum None for value: none
+            /// </summary>
+            [EnumMember(Value = "none")]
+            None = 1,
+
+            /// <summary>
+            /// Enum EndOfCurrentBillingCycle for value: end_of_current_billing_cycle
+            /// </summary>
+            [EnumMember(Value = "end_of_current_billing_cycle")]
+            EndOfCurrentBillingCycle = 2
+        }
+
+
+        /// <summary>
+        /// Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant. 
+        /// </summary>
+        /// <value>Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant. </value>
+        /// <example>none</example>
+        [DataMember(Name = "expiration_policy_code", EmitDefaultValue = false)]
+        public ExpirationPolicyCodeEnum? ExpirationPolicyCode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreateMeterUsageRecordResponse" /> class.
         /// </summary>
         /// <param name="message">Response message..</param>
         /// <param name="code">Response code..</param>
-        public CreateMeterUsageRecordResponse(string message = default(string), string code = default(string))
+        /// <param name="id">The friendly id of the created meter usage record.</param>
+        /// <param name="unitsGranted">Units currently granted for this agreement and feature. For one-time features this is the sum of current paid purchases. For plan-metered entitlements this is the entitlement or plan limit. Omitted when there is no current grant, and when the grant is unlimited (any current one-time purchase has a null unit grant, or the entitlement has no numeric cap). An unlimited one-time grant still returns expiration_policy_code. .</param>
+        /// <param name="expirationPolicyCode">Expiration policy of the latest current one-time purchase of this feature. Omitted for plan-metered entitlements and when there is no current one-time grant. .</param>
+        /// <param name="currentUsage">Usage against the current grant after this record is included. For end_of_current_billing_cycle one-time features and plan-metered entitlements this is the current billing cycle running total (resets each cycle). For none it is the ingest-order lifetime total for this agreement and feature, including records reported before the first paid purchase. Absolute replaces that total; delta adds to it. meter_usage_timestamp does not change the arithmetic. Omitted when there is no current grant. .</param>
+        public CreateMeterUsageRecordResponse(string message = default(string), string code = default(string), string id = default(string), int unitsGranted = default(int), ExpirationPolicyCodeEnum? expirationPolicyCode = default(ExpirationPolicyCodeEnum?), int currentUsage = default(int))
         {
             this.Message = message;
             this.Code = code;
+            this.Id = id;
+            this.UnitsGranted = unitsGranted;
+            this.ExpirationPolicyCode = expirationPolicyCode;
+            this.CurrentUsage = currentUsage;
         }
 
         /// <summary>
@@ -59,6 +95,30 @@ namespace Kinde.Api.Model
         public string Code { get; set; }
 
         /// <summary>
+        /// The friendly id of the created meter usage record
+        /// </summary>
+        /// <value>The friendly id of the created meter usage record</value>
+        /// <example>kbmu_0195ac80a14e8d71f42b98e75d3c61ad</example>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Units currently granted for this agreement and feature. For one-time features this is the sum of current paid purchases. For plan-metered entitlements this is the entitlement or plan limit. Omitted when there is no current grant, and when the grant is unlimited (any current one-time purchase has a null unit grant, or the entitlement has no numeric cap). An unlimited one-time grant still returns expiration_policy_code. 
+        /// </summary>
+        /// <value>Units currently granted for this agreement and feature. For one-time features this is the sum of current paid purchases. For plan-metered entitlements this is the entitlement or plan limit. Omitted when there is no current grant, and when the grant is unlimited (any current one-time purchase has a null unit grant, or the entitlement has no numeric cap). An unlimited one-time grant still returns expiration_policy_code. </value>
+        /// <example>4800</example>
+        [DataMember(Name = "units_granted", EmitDefaultValue = false)]
+        public int UnitsGranted { get; set; }
+
+        /// <summary>
+        /// Usage against the current grant after this record is included. For end_of_current_billing_cycle one-time features and plan-metered entitlements this is the current billing cycle running total (resets each cycle). For none it is the ingest-order lifetime total for this agreement and feature, including records reported before the first paid purchase. Absolute replaces that total; delta adds to it. meter_usage_timestamp does not change the arithmetic. Omitted when there is no current grant. 
+        /// </summary>
+        /// <value>Usage against the current grant after this record is included. For end_of_current_billing_cycle one-time features and plan-metered entitlements this is the current billing cycle running total (resets each cycle). For none it is the ingest-order lifetime total for this agreement and feature, including records reported before the first paid purchase. Absolute replaces that total; delta adds to it. meter_usage_timestamp does not change the arithmetic. Omitted when there is no current grant. </value>
+        /// <example>50</example>
+        [DataMember(Name = "current_usage", EmitDefaultValue = false)]
+        public int CurrentUsage { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -68,6 +128,10 @@ namespace Kinde.Api.Model
             sb.Append("class CreateMeterUsageRecordResponse {\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  UnitsGranted: ").Append(UnitsGranted).Append("\n");
+            sb.Append("  ExpirationPolicyCode: ").Append(ExpirationPolicyCode).Append("\n");
+            sb.Append("  CurrentUsage: ").Append(CurrentUsage).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,6 +176,23 @@ namespace Kinde.Api.Model
                     this.Code == input.Code ||
                     (this.Code != null &&
                     this.Code.Equals(input.Code))
+                ) && 
+                (
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) && 
+                (
+                    this.UnitsGranted == input.UnitsGranted ||
+                    this.UnitsGranted.Equals(input.UnitsGranted)
+                ) && 
+                (
+                    this.ExpirationPolicyCode == input.ExpirationPolicyCode ||
+                    this.ExpirationPolicyCode.Equals(input.ExpirationPolicyCode)
+                ) && 
+                (
+                    this.CurrentUsage == input.CurrentUsage ||
+                    this.CurrentUsage.Equals(input.CurrentUsage)
                 );
         }
 
@@ -132,6 +213,13 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 }
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.UnitsGranted.GetHashCode();
+                hashCode = (hashCode * 59) + this.ExpirationPolicyCode.GetHashCode();
+                hashCode = (hashCode * 59) + this.CurrentUsage.GetHashCode();
                 return hashCode;
             }
         }

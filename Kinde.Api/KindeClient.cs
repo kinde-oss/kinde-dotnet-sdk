@@ -5,6 +5,7 @@ using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
 using Kinde.Api.Model;
+using OrganizationPermission = Kinde.Api.Models.User.OrganizationPermission;
 using Kinde.Api.Auth;
 using Kinde.Api.Accounts;
 using Microsoft.Extensions.Logging;

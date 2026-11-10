@@ -34,8 +34,8 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateUserRequest" /> class.
         /// </summary>
-        /// <param name="givenName">User&#39;s first name..</param>
-        /// <param name="familyName">User&#39;s last name..</param>
+        /// <param name="givenName">User&#39;s first name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. .</param>
+        /// <param name="familyName">User&#39;s last name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. .</param>
         /// <param name="picture">The user&#39;s profile picture..</param>
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="isPasswordResetRequested">Prompt the user to change their password on next sign in..</param>
@@ -51,16 +51,16 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// User&#39;s first name.
+        /// User&#39;s first name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. 
         /// </summary>
-        /// <value>User&#39;s first name.</value>
+        /// <value>User&#39;s first name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. </value>
         [DataMember(Name = "given_name", EmitDefaultValue = false)]
         public string GivenName { get; set; }
 
         /// <summary>
-        /// User&#39;s last name.
+        /// User&#39;s last name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. 
         /// </summary>
-        /// <value>User&#39;s last name.</value>
+        /// <value>User&#39;s last name. If the user is the owner of a family billing customer, this update is also propagated to the corresponding billing customer details. </value>
         [DataMember(Name = "family_name", EmitDefaultValue = false)]
         public string FamilyName { get; set; }
 

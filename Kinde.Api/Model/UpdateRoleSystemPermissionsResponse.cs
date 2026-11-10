@@ -34,10 +34,10 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateRoleSystemPermissionsResponse" /> class.
         /// </summary>
-        /// <param name="code">Response code..</param>
-        /// <param name="message">Response message..</param>
-        /// <param name="systemPermissionsAdded">The system permission IDs that were added to the role..</param>
-        /// <param name="systemPermissionsRemoved">The system permission IDs that were removed from the role..</param>
+        /// <param name="code">code.</param>
+        /// <param name="message">message.</param>
+        /// <param name="systemPermissionsAdded">systemPermissionsAdded.</param>
+        /// <param name="systemPermissionsRemoved">systemPermissionsRemoved.</param>
         public UpdateRoleSystemPermissionsResponse(string code = default(string), string message = default(string), List<string> systemPermissionsAdded = default(List<string>), List<string> systemPermissionsRemoved = default(List<string>))
         {
             this.Code = code;
@@ -47,30 +47,26 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Response code.
+        /// Gets or Sets Code
         /// </summary>
-        /// <value>Response code.</value>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 
         /// <summary>
-        /// Response message.
+        /// Gets or Sets Message
         /// </summary>
-        /// <value>Response message.</value>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
         /// <summary>
-        /// The system permission IDs that were added to the role.
+        /// Gets or Sets SystemPermissionsAdded
         /// </summary>
-        /// <value>The system permission IDs that were added to the role.</value>
         [DataMember(Name = "system_permissions_added", EmitDefaultValue = false)]
         public List<string> SystemPermissionsAdded { get; set; }
 
         /// <summary>
-        /// The system permission IDs that were removed from the role.
+        /// Gets or Sets SystemPermissionsRemoved
         /// </summary>
-        /// <value>The system permission IDs that were removed from the role.</value>
         [DataMember(Name = "system_permissions_removed", EmitDefaultValue = false)]
         public List<string> SystemPermissionsRemoved { get; set; }
 
@@ -177,3 +173,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

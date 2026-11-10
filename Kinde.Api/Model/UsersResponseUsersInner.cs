@@ -44,14 +44,14 @@ namespace Kinde.Api.Model
         /// <param name="isSuspended">Whether the user is currently suspended or not..</param>
         /// <param name="picture">User&#39;s profile picture URL..</param>
         /// <param name="totalSignIns">Total number of user sign ins..</param>
-        /// <param name="failedSignIns">Number of consecutive failed user sign ins..</param>
+        /// <param name="failedSignIns">Total number of failed user sign-in attempts..</param>
         /// <param name="lastSignedIn">Last sign in date in ISO 8601 format..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format..</param>
         /// <param name="lastOrganizationSignIns">Array of organization sign-in information for the user..</param>
         /// <param name="organizations">Array of organizations a user belongs to..</param>
         /// <param name="identities">Array of identities belonging to the user..</param>
         /// <param name="billing">billing.</param>
-        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<UsersResponseUsersInnerLastOrganizationSignInsInner> lastOrganizationSignIns = default(List<UsersResponseUsersInnerLastOrganizationSignInsInner>), List<string> organizations = default(List<string>), List<UserIdentitiesInner> identities = default(List<UserIdentitiesInner>), UsersResponseUsersInnerBilling billing = default(UsersResponseUsersInnerBilling))
+        public UsersResponseUsersInner(string id = default(string), string providedId = default(string), string email = default(string), string phone = default(string), string username = default(string), string lastName = default(string), string firstName = default(string), bool isSuspended = default(bool), string picture = default(string), int? totalSignIns = default(int?), int? failedSignIns = default(int?), string lastSignedIn = default(string), string createdOn = default(string), List<UsersResponseUsersInnerLastOrganizationSignInsInner> lastOrganizationSignIns = default(List<UsersResponseUsersInnerLastOrganizationSignInsInner>), List<string> organizations = default(List<string>), List<UsersResponseUsersInnerIdentitiesInner> identities = default(List<UsersResponseUsersInnerIdentitiesInner>), UsersResponseUsersInnerBilling billing = default(UsersResponseUsersInnerBilling))
         {
             this.Id = id;
             this.ProvidedId = providedId;
@@ -143,9 +143,9 @@ namespace Kinde.Api.Model
         public int? TotalSignIns { get; set; }
 
         /// <summary>
-        /// Number of consecutive failed user sign ins.
+        /// Total number of failed user sign-in attempts.
         /// </summary>
-        /// <value>Number of consecutive failed user sign ins.</value>
+        /// <value>Total number of failed user sign-in attempts.</value>
         [DataMember(Name = "failed_sign_ins", EmitDefaultValue = true)]
         public int? FailedSignIns { get; set; }
 
@@ -182,7 +182,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>Array of identities belonging to the user.</value>
         [DataMember(Name = "identities", EmitDefaultValue = false)]
-        public List<UserIdentitiesInner> Identities { get; set; }
+        public List<UsersResponseUsersInnerIdentitiesInner> Identities { get; set; }
 
         /// <summary>
         /// Gets or Sets Billing

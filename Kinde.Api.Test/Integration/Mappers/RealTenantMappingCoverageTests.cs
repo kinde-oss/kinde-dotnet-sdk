@@ -284,15 +284,8 @@ namespace Kinde.Api.Test.Integration.Mappers
             }
         }
 
-        // Kiota members the SDK carries under another name or nesting, bridged by an explicit converter:
-        // the flat connection-list item is folded into Connection.VarConnection.
-        private static readonly Dictionary<string, string> RenamedMembers = new Dictionary<string, string>
-        {
-            ["Connection_list_item.Id"] = "VarConnection.Id",
-            ["Connection_list_item.Name"] = "VarConnection.Name",
-            ["Connection_list_item.DisplayName"] = "VarConnection.DisplayName",
-            ["Connection_list_item.Strategy"] = "VarConnection.Strategy",
-        };
+        // Kiota members the SDK carries under another name or nesting. Key: "<Kiota type>.<member>", value: the SDK member path.
+        private static readonly Dictionary<string, string> RenamedMembers = new Dictionary<string, string>();
 
         private static object ResolvePath(object root, string path)
         {

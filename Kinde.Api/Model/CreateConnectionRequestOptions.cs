@@ -27,7 +27,7 @@ using System.Reflection;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// CreateConnectionRequestOptions
+    /// Connection options for the strategy. For SAML and Microsoft Entra ID (OAuth 2.0) strategies, an option not listed for the strategy is rejected with INVALID_OPTIONS.
     /// </summary>
     [JsonConverter(typeof(CreateConnectionRequestOptionsJsonConverter))]
     [DataContract(Name = "CreateConnection_request_options")]

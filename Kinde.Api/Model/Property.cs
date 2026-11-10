@@ -40,7 +40,10 @@ namespace Kinde.Api.Model
         /// <param name="isPrivate">isPrivate.</param>
         /// <param name="description">description.</param>
         /// <param name="isKindeProperty">isKindeProperty.</param>
-        public Property(string id = default(string), string key = default(string), string name = default(string), bool isPrivate = default(bool), string description = default(string), bool isKindeProperty = default(bool))
+        /// <param name="type">The property type, for example &#x60;single_line_text&#x60;, &#x60;multi_line_text&#x60; or &#x60;boolean&#x60;..</param>
+        /// <param name="context">What the property applies to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications..</param>
+        /// <param name="categoryId">The ID of the category the property belongs to..</param>
+        public Property(string id = default(string), string key = default(string), string name = default(string), bool isPrivate = default(bool), string description = default(string), bool isKindeProperty = default(bool), string type = default(string), string context = default(string), string categoryId = default(string))
         {
             this.Id = id;
             this.Key = key;
@@ -48,6 +51,9 @@ namespace Kinde.Api.Model
             this.IsPrivate = isPrivate;
             this.Description = description;
             this.IsKindeProperty = isKindeProperty;
+            this.Type = type;
+            this.Context = context;
+            this.CategoryId = categoryId;
         }
 
         /// <summary>
@@ -87,6 +93,30 @@ namespace Kinde.Api.Model
         public bool IsKindeProperty { get; set; }
 
         /// <summary>
+        /// The property type, for example &#x60;single_line_text&#x60;, &#x60;multi_line_text&#x60; or &#x60;boolean&#x60;.
+        /// </summary>
+        /// <value>The property type, for example &#x60;single_line_text&#x60;, &#x60;multi_line_text&#x60; or &#x60;boolean&#x60;.</value>
+        /// <example>single_line_text</example>
+        [DataMember(Name = "type", EmitDefaultValue = true)]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// What the property applies to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications.
+        /// </summary>
+        /// <value>What the property applies to, &#x60;usr&#x60; for users, &#x60;org&#x60; for organizations or &#x60;app&#x60; for applications.</value>
+        /// <example>usr</example>
+        [DataMember(Name = "context", EmitDefaultValue = true)]
+        public string Context { get; set; }
+
+        /// <summary>
+        /// The ID of the category the property belongs to.
+        /// </summary>
+        /// <value>The ID of the category the property belongs to.</value>
+        /// <example>cat_0192b1941f125645fa15bf28a662a0b3</example>
+        [DataMember(Name = "category_id", EmitDefaultValue = true)]
+        public string CategoryId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -100,6 +130,9 @@ namespace Kinde.Api.Model
             sb.Append("  IsPrivate: ").Append(IsPrivate).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  IsKindeProperty: ").Append(IsKindeProperty).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Context: ").Append(Context).Append("\n");
+            sb.Append("  CategoryId: ").Append(CategoryId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -162,6 +195,21 @@ namespace Kinde.Api.Model
                 (
                     this.IsKindeProperty == input.IsKindeProperty ||
                     this.IsKindeProperty.Equals(input.IsKindeProperty)
+                ) && 
+                (
+                    this.Type == input.Type ||
+                    (this.Type != null &&
+                    this.Type.Equals(input.Type))
+                ) && 
+                (
+                    this.Context == input.Context ||
+                    (this.Context != null &&
+                    this.Context.Equals(input.Context))
+                ) && 
+                (
+                    this.CategoryId == input.CategoryId ||
+                    (this.CategoryId != null &&
+                    this.CategoryId.Equals(input.CategoryId))
                 );
         }
 
@@ -192,6 +240,18 @@ namespace Kinde.Api.Model
                     hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.IsKindeProperty.GetHashCode();
+                if (this.Type != null)
+                {
+                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                }
+                if (this.Context != null)
+                {
+                    hashCode = (hashCode * 59) + this.Context.GetHashCode();
+                }
+                if (this.CategoryId != null)
+                {
+                    hashCode = (hashCode * 59) + this.CategoryId.GetHashCode();
+                }
                 return hashCode;
             }
         }

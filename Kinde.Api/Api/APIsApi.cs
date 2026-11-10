@@ -127,6 +127,31 @@ namespace Kinde.Api.Api
         /// Delete API application scope
         /// </summary>
         /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        void DeleteAPIApplicationScope(string apiId, string applicationId, string scopeId);
+
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteAPIApplicationScopeWithHttpInfo(string apiId, string applicationId, string scopeId);
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
         /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -134,6 +159,7 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">Application ID</param>
         /// <param name="scopeId">Scope ID</param>
         /// <returns></returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         void DeleteAPIAppliationScope(string apiId, string applicationId, string scopeId);
 
         /// <summary>
@@ -147,12 +173,13 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">Application ID</param>
         /// <param name="scopeId">Scope ID</param>
         /// <returns>ApiResponse of Object(void)</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         ApiResponse<Object> DeleteAPIAppliationScopeWithHttpInfo(string apiId, string applicationId, string scopeId);
         /// <summary>
         /// Delete API scope
         /// </summary>
         /// <remarks>
-        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -164,7 +191,7 @@ namespace Kinde.Api.Api
         /// Delete API scope
         /// </summary>
         /// <remarks>
-        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -192,6 +219,29 @@ namespace Kinde.Api.Api
         /// <param name="apiId">The API&#39;s ID.</param>
         /// <returns>ApiResponse of GetApiResponse</returns>
         ApiResponse<GetApiResponse> GetAPIWithHttpInfo(string apiId);
+        /// <summary>
+        /// Get API application scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <returns>GetApiApplicationScopesResponse</returns>
+        GetApiApplicationScopesResponse GetAPIApplicationScopes(string apiId, string applicationId);
+
+        /// <summary>
+        /// Get API application scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <returns>ApiResponse of GetApiApplicationScopesResponse</returns>
+        ApiResponse<GetApiApplicationScopesResponse> GetAPIApplicationScopesWithHttpInfo(string apiId, string applicationId);
         /// <summary>
         /// Get API scope
         /// </summary>
@@ -240,10 +290,10 @@ namespace Kinde.Api.Api
         /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
         GetApisResponse GetAPIs(string expand = default(string));
 
@@ -251,10 +301,10 @@ namespace Kinde.Api.Api
         /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
         ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string expand = default(string));
         /// <summary>
@@ -416,6 +466,33 @@ namespace Kinde.Api.Api
         /// Delete API application scope
         /// </summary>
         /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task DeleteAPIApplicationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
+        /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteAPIApplicationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete API application scope
+        /// </summary>
+        /// <remarks>
         /// Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -424,6 +501,7 @@ namespace Kinde.Api.Api
         /// <param name="scopeId">Scope ID</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         System.Threading.Tasks.Task DeleteAPIAppliationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
@@ -438,12 +516,13 @@ namespace Kinde.Api.Api
         /// <param name="scopeId">Scope ID</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteAPIAppliationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete API scope
         /// </summary>
         /// <remarks>
-        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -456,7 +535,7 @@ namespace Kinde.Api.Api
         /// Delete API scope
         /// </summary>
         /// <remarks>
-        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -487,6 +566,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApiResponse>> GetAPIWithHttpInfoAsync(string apiId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get API application scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiApplicationScopesResponse</returns>
+        System.Threading.Tasks.Task<GetApiApplicationScopesResponse> GetAPIApplicationScopesAsync(string apiId, string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get API application scopes
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiApplicationScopesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApiApplicationScopesResponse>> GetAPIApplicationScopesWithHttpInfoAsync(string apiId, string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get API scope
         /// </summary>
@@ -539,10 +643,10 @@ namespace Kinde.Api.Api
         /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
         System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -551,10 +655,10 @@ namespace Kinde.Api.Api
         /// Get APIs
         /// </summary>
         /// <remarks>
-        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -677,23 +781,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -707,13 +811,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -729,33 +832,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -772,17 +865,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="APIsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -806,7 +894,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public APIsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -821,10 +908,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="APIsApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public APIsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1204,6 +1292,89 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns></returns>
+        public void DeleteAPIApplicationScope(string apiId, string applicationId, string scopeId)
+        {
+            DeleteAPIApplicationScopeWithHttpInfo(apiId, applicationId, scopeId);
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Kinde.Api.Client.ApiResponse<Object> DeleteAPIApplicationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteAPIApplicationScopeWithHttpInfoAsync(apiId, applicationId, scopeId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task DeleteAPIApplicationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await DeleteAPIApplicationScopeWithHttpInfoAsync(apiId, applicationId, scopeId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="scopeId">Scope ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteAPIApplicationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->DeleteAPIApplicationScope");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->DeleteAPIApplicationScope");
+
+            // verify the required parameter 'scopeId' is set
+            if (scopeId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'scopeId' when calling APIsApi->DeleteAPIApplicationScope");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                await KiotaClient.Api.V1.Apis[apiId].Applications[applicationId].Scopes[scopeId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                return new Kinde.Api.Client.ApiResponse<Object>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    (Object)null
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteAPIApplicationScope: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Delete API application scope Delete an API application scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_application_scopes&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1211,6 +1382,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="applicationId">Application ID</param>
         /// <param name="scopeId">Scope ID</param>
         /// <returns></returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         public void DeleteAPIAppliationScope(string apiId, string applicationId, string scopeId)
         {
             DeleteAPIAppliationScopeWithHttpInfo(apiId, applicationId, scopeId);
@@ -1224,6 +1396,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="applicationId">Application ID</param>
         /// <param name="scopeId">Scope ID</param>
         /// <returns>ApiResponse of Object(void)</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         public Kinde.Api.Client.ApiResponse<Object> DeleteAPIAppliationScopeWithHttpInfo(string apiId, string applicationId, string scopeId)
         {
             // ===== Kiota Implementation =====
@@ -1239,6 +1412,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="scopeId">Scope ID</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         public async System.Threading.Tasks.Task DeleteAPIAppliationScopeAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await DeleteAPIAppliationScopeWithHttpInfoAsync(apiId, applicationId, scopeId, cancellationToken).ConfigureAwait(false);
@@ -1253,6 +1427,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="scopeId">Scope ID</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
+        [Obsolete("Misspelled in earlier versions of the API description. Use DeleteAPIApplicationScope.")]
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<Object>> DeleteAPIAppliationScopeWithHttpInfoAsync(string apiId, string applicationId, string scopeId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'apiId' is set
@@ -1287,7 +1462,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -1299,7 +1474,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -1312,7 +1487,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -1325,7 +1500,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:apis_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete API scope Delete an API scope you previously created.  &lt;div&gt;   &lt;code&gt;delete:api_scopes&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="apiId">API ID</param>
@@ -1428,6 +1603,84 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPI: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get API application scopes Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <returns>GetApiApplicationScopesResponse</returns>
+        public GetApiApplicationScopesResponse GetAPIApplicationScopes(string apiId, string applicationId)
+        {
+            Kinde.Api.Client.ApiResponse<GetApiApplicationScopesResponse> localVarResponse = GetAPIApplicationScopesWithHttpInfo(apiId, applicationId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API application scopes Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <returns>ApiResponse of GetApiApplicationScopesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApiApplicationScopesResponse> GetAPIApplicationScopesWithHttpInfo(string apiId, string applicationId)
+        {
+            // ===== Kiota Implementation =====
+            return GetAPIApplicationScopesWithHttpInfoAsync(apiId, applicationId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get API application scopes Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApiApplicationScopesResponse</returns>
+        public async System.Threading.Tasks.Task<GetApiApplicationScopesResponse> GetAPIApplicationScopesAsync(string apiId, string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApiApplicationScopesResponse> localVarResponse = await GetAPIApplicationScopesWithHttpInfoAsync(apiId, applicationId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get API application scopes Retrieve the scopes of an API that an application has been granted. The application must be authorized to use the API.  &lt;div&gt;   &lt;code&gt;read:api_application_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="apiId">API ID</param>
+        /// <param name="applicationId">Application ID</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApiApplicationScopesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApiApplicationScopesResponse>> GetAPIApplicationScopesWithHttpInfoAsync(string apiId, string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'apiId' is set
+            if (apiId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'apiId' when calling APIsApi->GetAPIApplicationScopes");
+
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling APIsApi->GetAPIApplicationScopes");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Apis[apiId].Applications[applicationId].Scopes.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApiApplicationScopesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApiApplicationScopesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetAPIApplicationScopes: {ex.Message}", ex);
             }
         }
 
@@ -1580,10 +1833,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <returns>GetApisResponse</returns>
         public GetApisResponse GetAPIs(string expand = default(string))
         {
@@ -1592,10 +1845,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetApisResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetApisResponse> GetAPIsWithHttpInfo(string expand = default(string))
         {
@@ -1604,10 +1857,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetApisResponse</returns>
         public async System.Threading.Tasks.Task<GetApisResponse> GetAPIsAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1617,10 +1870,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt; 
+        /// Get APIs Returns a list of your APIs. The APIs are returned sorted by name.  &lt;div&gt;   &lt;code&gt;read:apis&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;scopes\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;scopes\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetApisResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApisResponse>> GetAPIsWithHttpInfoAsync(string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))

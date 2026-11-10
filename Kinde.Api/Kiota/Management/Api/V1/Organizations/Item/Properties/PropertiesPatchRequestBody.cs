@@ -21,7 +21,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>Property keys and values</summary>
+        /// <summary>Property keys and values. Set a value to an empty string or null to unset it.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody_properties? Properties

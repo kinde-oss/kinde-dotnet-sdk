@@ -37,7 +37,7 @@ namespace Kinde.Api.Api
         /// Add role scope
         /// </summary>
         /// <remarks>
-        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -49,7 +49,7 @@ namespace Kinde.Api.Api
         /// Add role scope
         /// </summary>
         /// <remarks>
-        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -102,7 +102,7 @@ namespace Kinde.Api.Api
         /// Delete role scope
         /// </summary>
         /// <remarks>
-        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -114,7 +114,7 @@ namespace Kinde.Api.Api
         /// Delete role scope
         /// </summary>
         /// <remarks>
-        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -173,7 +173,7 @@ namespace Kinde.Api.Api
         /// Get role scopes
         /// </summary>
         /// <remarks>
-        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -184,7 +184,7 @@ namespace Kinde.Api.Api
         /// Get role scopes
         /// </summary>
         /// <remarks>
-        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -194,7 +194,7 @@ namespace Kinde.Api.Api
         /// Get role system permissions
         /// </summary>
         /// <remarks>
-        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -208,7 +208,7 @@ namespace Kinde.Api.Api
         /// Get role system permissions
         /// </summary>
         /// <remarks>
-        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -218,10 +218,35 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of RoleSystemPermissionsResponse</returns>
         ApiResponse<RoleSystemPermissionsResponse> GetRoleSystemPermissionsWithHttpInfo(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         /// <summary>
+        /// List role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetRoleUsersResponse</returns>
+        GetRoleUsersResponse GetRoleUsers(string roleId, int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// List role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetRoleUsersResponse</returns>
+        ApiResponse<GetRoleUsersResponse> GetRoleUsersWithHttpInfo(string roleId, int? pageSize = default(int?), string nextToken = default(string));
+        /// <summary>
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -234,7 +259,7 @@ namespace Kinde.Api.Api
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -246,7 +271,7 @@ namespace Kinde.Api.Api
         /// List system permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -259,7 +284,7 @@ namespace Kinde.Api.Api
         /// List system permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -317,7 +342,7 @@ namespace Kinde.Api.Api
         /// Update role system permissions
         /// </summary>
         /// <remarks>
-        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -329,7 +354,7 @@ namespace Kinde.Api.Api
         /// Update role system permissions
         /// </summary>
         /// <remarks>
-        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -372,7 +397,7 @@ namespace Kinde.Api.Api
         /// Add role scope
         /// </summary>
         /// <remarks>
-        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -385,7 +410,7 @@ namespace Kinde.Api.Api
         /// Add role scope
         /// </summary>
         /// <remarks>
-        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -443,7 +468,7 @@ namespace Kinde.Api.Api
         /// Delete role scope
         /// </summary>
         /// <remarks>
-        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -456,7 +481,7 @@ namespace Kinde.Api.Api
         /// Delete role scope
         /// </summary>
         /// <remarks>
-        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -520,7 +545,7 @@ namespace Kinde.Api.Api
         /// Get role scopes
         /// </summary>
         /// <remarks>
-        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -532,7 +557,7 @@ namespace Kinde.Api.Api
         /// Get role scopes
         /// </summary>
         /// <remarks>
-        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -543,7 +568,7 @@ namespace Kinde.Api.Api
         /// Get role system permissions
         /// </summary>
         /// <remarks>
-        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -558,7 +583,7 @@ namespace Kinde.Api.Api
         /// Get role system permissions
         /// </summary>
         /// <remarks>
-        /// Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -569,10 +594,37 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (RoleSystemPermissionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<RoleSystemPermissionsResponse>> GetRoleSystemPermissionsWithHttpInfoAsync(string roleId, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// List role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetRoleUsersResponse</returns>
+        System.Threading.Tasks.Task<GetRoleUsersResponse> GetRoleUsersAsync(string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetRoleUsersResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetRoleUsersResponse>> GetRoleUsersWithHttpInfoAsync(string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -586,7 +638,7 @@ namespace Kinde.Api.Api
         /// List roles
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -599,7 +651,7 @@ namespace Kinde.Api.Api
         /// List system permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -613,7 +665,7 @@ namespace Kinde.Api.Api
         /// List system permissions
         /// </summary>
         /// <remarks>
-        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -676,7 +728,7 @@ namespace Kinde.Api.Api
         /// Update role system permissions
         /// </summary>
         /// <remarks>
-        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -689,7 +741,7 @@ namespace Kinde.Api.Api
         /// Update role system permissions
         /// </summary>
         /// <remarks>
-        /// Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -789,23 +841,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -819,13 +871,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -841,33 +892,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -884,17 +925,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RolesApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="RolesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -918,7 +954,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public RolesApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -933,10 +968,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RolesApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public RolesApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1009,7 +1045,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1022,7 +1058,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1078,7 +1114,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1092,7 +1128,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;create:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Add role scope Add scope to role.  &lt;div&gt;   &lt;code&gt;update:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1343,7 +1379,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1356,7 +1392,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1411,7 +1447,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1425,7 +1461,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role scope Delete scope from role.  &lt;div&gt;   &lt;code&gt;delete:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1714,7 +1750,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1726,7 +1762,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1776,7 +1812,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1789,7 +1825,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_scopes&lt;/code&gt; &lt;/div&gt; 
+        /// Get role scopes Get scopes for a role.  &lt;div&gt;   &lt;code&gt;read:role_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role id.</param>
@@ -1822,7 +1858,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get role system permissions Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -1837,7 +1873,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get role system permissions Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -1902,7 +1938,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get role system permissions Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -1918,7 +1954,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get role system permissions Get system permissions for a role. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Get role system permissions Get system permissions for a role.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The role&#39;s public id.</param>
@@ -1984,7 +2020,87 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
+        /// List role users Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetRoleUsersResponse</returns>
+        public GetRoleUsersResponse GetRoleUsers(string roleId, int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetRoleUsersResponse> localVarResponse = GetRoleUsersWithHttpInfo(roleId, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List role users Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetRoleUsersResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetRoleUsersResponse> GetRoleUsersWithHttpInfo(string roleId, int? pageSize = default(int?), string nextToken = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetRoleUsersWithHttpInfoAsync(roleId, pageSize, nextToken).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// List role users Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetRoleUsersResponse</returns>
+        public async System.Threading.Tasks.Task<GetRoleUsersResponse> GetRoleUsersAsync(string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetRoleUsersResponse> localVarResponse = await GetRoleUsersWithHttpInfoAsync(roleId, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List role users Get users that have a given role, across all organizations. Each user entry includes the organization codes where they hold that role.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetRoleUsersResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetRoleUsersResponse>> GetRoleUsersWithHttpInfoAsync(string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling RolesApi->GetRoleUsers");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Roles[roleId].Users.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetRoleUsersResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetRoleUsersResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetRoleUsers: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List roles The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -1998,7 +2114,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// List roles The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2056,7 +2172,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// List roles The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2071,7 +2187,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List roles The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt; 
+        /// List roles The returned list can be sorted by role name or role key in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  &lt;div&gt;   &lt;code&gt;read:roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2114,7 +2230,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2128,7 +2244,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2187,7 +2303,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2202,7 +2318,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// List system permissions The returned list can be sorted by system permission name or ID in ascending or descending order. The number of records to return at a time can also be controlled using the &#x60;page_size&#x60; query string parameter.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;read:system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="sort">Field and order to sort the result by. (optional)</param>
@@ -2508,7 +2624,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -2521,7 +2637,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -2578,7 +2694,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>
@@ -2592,7 +2708,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update role system permissions Update role system permissions. System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
+        /// Update role system permissions Update role system permissions.  System permissions control what organization users can do in the self-serve portal.  &lt;div&gt;   &lt;code&gt;update:role_system_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="roleId">The identifier for the role.</param>

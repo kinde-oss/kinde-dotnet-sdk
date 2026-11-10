@@ -59,7 +59,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody_type?>("type"); }
             set { BackingStore?.Set("type", value); }
         }
-        /// <summary>The email address, social identity, or username of the user.</summary>
+        /// <summary>The identity value, which depends on the type.- `email`: the email address.- `username`: the username.- `phone`: the phone number, with `phone_country_id`.- `social`: the user&apos;s ID with the social provider.- `enterprise`: an email-formatted value that is compared, ignoring case, with what the identity provider sends at sign-in. For Microsoft Entra ID OAuth 2.0 connections, use the user principal name (UPN), which can differ from the user&apos;s mailbox address. A connection owned by an organization also matches the email address Entra sends, for users who are already members of that organization. For Microsoft Entra ID WS-Federation connections, use the email address Entra sends for the user, or their UPN if it sends none. For other enterprise connections, use the email the user signs in with, or the email the identity provider returns.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Value

@@ -46,7 +46,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
 
                 var mockResponse = new CreateMeterUsageRecordResponse();
                 mockHandler.AddResponse("POST", "/api/v1/billing/meter_usage", mockResponse);
-                var request = new CreateMeterUsageRecordRequest(customerAgreementId: "test-customer_agreement_id", billingFeatureCode: "test-billing_feature_code", meterValue: "test-meter_value");
+                var request = new CreateMeterUsageRecordRequest(customerAgreementId: "test-customer_agreement_id", billingFeatureCode: "test-billing_feature_code", meterValue: 1);
 
                 var api = CreateApi((client, config) => new BillingMeterUsageApi(client, config));
 
@@ -79,7 +79,7 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             // Act & Assert
             try
             {
-                var request = new CreateMeterUsageRecordRequest(customerAgreementId: "test-customer_agreement_id", billingFeatureCode: "test-billing_feature_code", meterValue: "test-meter_value");
+                var request = new CreateMeterUsageRecordRequest(customerAgreementId: "test-customer_agreement_id", billingFeatureCode: "test-billing_feature_code", meterValue: 1);
 
                 var api = CreateApi((client, config) => new BillingMeterUsageApi(client, config));
 

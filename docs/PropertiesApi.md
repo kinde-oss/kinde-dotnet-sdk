@@ -21,7 +21,6 @@ Create property.  <div>   <code>create:properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -37,10 +36,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertiesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertiesApi(config);
             var createPropertyRequest = new CreatePropertyRequest(); // CreatePropertyRequest | Property details.
 
             try
@@ -122,7 +118,6 @@ Delete property.  <div>   <code>delete:properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -138,10 +133,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertiesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertiesApi(config);
             var propertyId = "propertyId_example";  // string | The unique identifier for the property.
 
             try
@@ -213,7 +205,7 @@ catch (ApiException e)
 
 <a id="getproperties"></a>
 # **GetProperties**
-> GetPropertiesResponse GetProperties (int? pageSize = null, string startingAfter = null, string endingBefore = null, string context = null)
+> GetPropertiesResponse GetProperties (int? pageSize = null, string? startingAfter = null, string? endingBefore = null, string? context = null)
 
 List properties
 
@@ -223,7 +215,6 @@ Returns a list of properties  <div>   <code>read:properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -239,14 +230,11 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertiesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertiesApi(config);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var startingAfter = "startingAfter_example";  // string | The ID of the property to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the property to end before. (optional) 
-            var context = "usr";  // string | Filter results by user,  organization or application context (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the property to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the property to end before. (optional) 
+            var context = "usr";  // string? | Filter results by user,  organization or application context (optional) 
 
             try
             {
@@ -290,9 +278,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **startingAfter** | **string** | The ID of the property to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the property to end before. | [optional]  |
-| **context** | **string** | Filter results by user,  organization or application context | [optional]  |
+| **startingAfter** | **string?** | The ID of the property to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the property to end before. | [optional]  |
+| **context** | **string?** | Filter results by user,  organization or application context | [optional]  |
 
 ### Return type
 
@@ -330,7 +318,6 @@ Update property.  <div>   <code>update:properties</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -346,10 +333,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertiesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertiesApi(config);
             var propertyId = "propertyId_example";  // string | The unique identifier for the property.
             var updatePropertyRequest = new UpdatePropertyRequest(); // UpdatePropertyRequest | The fields of the property to update.
 

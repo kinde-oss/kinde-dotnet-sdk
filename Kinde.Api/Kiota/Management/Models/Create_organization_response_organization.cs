@@ -19,6 +19,22 @@ namespace Kinde.Api.Kiota.Management.Models
             get { return BackingStore.Get<IDictionary<string, object>>("AdditionalData") ?? new Dictionary<string, object>(); }
             set { BackingStore.Set("AdditionalData", value); }
         }
+        /// <summary>The billing agreement id if the organization was created with is_create_billing_customer as true</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? AgreementId
+        {
+            get { return BackingStore?.Get<string?>("agreement_id"); }
+            set { BackingStore?.Set("agreement_id", value); }
+        }
+#nullable restore
+#else
+        public string AgreementId
+        {
+            get { return BackingStore?.Get<string>("agreement_id"); }
+            set { BackingStore?.Set("agreement_id", value); }
+        }
+#endif
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
         /// <summary>The billing customer id if the organization was created with the is_create_billing_customer as true</summary>
@@ -53,6 +69,44 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("code", value); }
         }
 #endif
+        /// <summary>The published version&apos;s code. This can differ from billing_plan_code on the request after a draft edit.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? PlanCode
+        {
+            get { return BackingStore?.Get<string?>("plan_code"); }
+            set { BackingStore?.Set("plan_code", value); }
+        }
+#nullable restore
+#else
+        public string PlanCode
+        {
+            get { return BackingStore?.Get<string>("plan_code"); }
+            set { BackingStore?.Set("plan_code", value); }
+        }
+#endif
+        /// <summary>The published version&apos;s name. A draft rename is not returned.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? PlanName
+        {
+            get { return BackingStore?.Get<string?>("plan_name"); }
+            set { BackingStore?.Set("plan_name", value); }
+        }
+#nullable restore
+#else
+        public string PlanName
+        {
+            get { return BackingStore?.Get<string>("plan_name"); }
+            set { BackingStore?.Set("plan_name", value); }
+        }
+#endif
+        /// <summary>The published version number assigned with that agreement</summary>
+        public int? PlanVersion
+        {
+            get { return BackingStore?.Get<int?>("plan_version"); }
+            set { BackingStore?.Set("plan_version", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Create_organization_response_organization"/> and sets the default values.
         /// </summary>
@@ -79,8 +133,12 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "agreement_id", n => { AgreementId = n.GetStringValue(); } },
                 { "billing_customer_id", n => { BillingCustomerId = n.GetStringValue(); } },
                 { "code", n => { Code = n.GetStringValue(); } },
+                { "plan_code", n => { PlanCode = n.GetStringValue(); } },
+                { "plan_name", n => { PlanName = n.GetStringValue(); } },
+                { "plan_version", n => { PlanVersion = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -90,8 +148,12 @@ namespace Kinde.Api.Kiota.Management.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("agreement_id", AgreementId);
             writer.WriteStringValue("billing_customer_id", BillingCustomerId);
             writer.WriteStringValue("code", Code);
+            writer.WriteStringValue("plan_code", PlanCode);
+            writer.WriteStringValue("plan_name", PlanName);
+            writer.WriteIntValue("plan_version", PlanVersion);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

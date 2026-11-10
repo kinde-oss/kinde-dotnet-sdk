@@ -22,7 +22,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public Meter_usageRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/meter_usage", pathParameters)
+        public Meter_usageRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/meter_usage{?all_cycles*,ending_before*,page_size*,starting_after*}", pathParameters)
         {
         }
         /// <summary>
@@ -30,11 +30,38 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public Meter_usageRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/meter_usage", rawUrl)
+        public Meter_usageRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/billing/meter_usage{?all_cycles*,ending_before*,page_size*,starting_after*}", rawUrl)
         {
         }
         /// <summary>
-        /// Create a new meter usage record&lt;div&gt;  &lt;code&gt;create:meter_usage&lt;/code&gt;&lt;/div&gt;
+        /// Returns meter usage records for one billing agreement and feature.By default only records in the customer&apos;s current billing cycleare returned. Pass `all_cycles=true` to page every record forthat meter.The response includes the same grant snapshot as POST(`units_granted`, `current_usage`, and`expiration_policy_code` when the grant is a one-timepurchase). `current_usage` is the grant-relative runningtotal after every accepted record — not the page sum. Fornever-expires one-time features that is the lifetime total(ingest-order absolute/delta). For cycle-end one-timefeatures and plan-metered entitlements that is the currentbilling cycle total. Grant fields are omitted when there isno current grant. `units_granted` is also omitted when thegrant is unlimited; an unlimited one-time grant stillreturns `expiration_policy_code`. `customer_agreement_id`and `feature_code` are on the response, not repeated on eachrecord.&lt;div&gt;  &lt;code&gt;read:meter_usage&lt;/code&gt;&lt;/div&gt;
+        /// </summary>
+        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 400 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 403 status code</exception>
+        /// <exception cref="global::Kinde.Api.Kiota.Management.Models.Error_response">When receiving a 429 status code</exception>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response?> GetAsync(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder.Meter_usageRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response> GetAsync(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder.Meter_usageRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+                { "403", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+                { "429", global::Kinde.Api.Kiota.Management.Models.Error_response.CreateFromDiscriminatorValue },
+            };
+            return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// Create a new meter usage record against a billing agreementand feature.Metered one-time features can receive usage after the customerhas completed their first purchase of that feature.`meter_type_code` chooses how this record updates the runningtotal. The caller is responsible for sending the correct typeand value. `meter_usage_timestamp` is stored on the record(and, for plan-metered entitlements, sent to the billingprovider). It does not choose a billing cycle, does notinsert the record in timestamp order, and does not changethe running-total arithmetic.Running-total rules:- `absolute` (default): replaces the running total with  `meter_value`.- `delta`: adds `meter_value` to the last calculated running  total.Which running total is updated:- Plan-metered entitlements, and one-time features that expire  at the end of the current billing cycle: the current  billing cycle total. A new cycle starts at 0.- One-time features that never expire: a lifetime total for  that agreement and feature. Every accepted record updates  it, including records whose `meter_usage_timestamp` is  before the first paid purchase. This total does not reset  when the billing cycle rolls.The response includes the created record `id` and a grantsnapshot (`units_granted`, `current_usage`, and`expiration_policy_code` when the grant is a one-timepurchase) so the caller can tell whether usage has exceededthe grant without a follow-up GET. `current_usage` is thatgrant-relative running total after this record. Grant fieldsare omitted when there is no current grant. `units_granted`is also omitted when the grant is unlimited; an unlimitedone-time grant still returns `expiration_policy_code`.&lt;div&gt;  &lt;code&gt;create:meter_usage&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response"/></returns>
         /// <param name="body">The request body</param>
@@ -63,7 +90,26 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Create a new meter usage record&lt;div&gt;  &lt;code&gt;create:meter_usage&lt;/code&gt;&lt;/div&gt;
+        /// Returns meter usage records for one billing agreement and feature.By default only records in the customer&apos;s current billing cycleare returned. Pass `all_cycles=true` to page every record forthat meter.The response includes the same grant snapshot as POST(`units_granted`, `current_usage`, and`expiration_policy_code` when the grant is a one-timepurchase). `current_usage` is the grant-relative runningtotal after every accepted record — not the page sum. Fornever-expires one-time features that is the lifetime total(ingest-order absolute/delta). For cycle-end one-timefeatures and plan-metered entitlements that is the currentbilling cycle total. Grant fields are omitted when there isno current grant. `units_granted` is also omitted when thegrant is unlimited; an unlimited one-time grant stillreturns `expiration_policy_code`. `customer_agreement_id`and `feature_code` are on the response, not repeated on eachrecord.&lt;div&gt;  &lt;code&gt;read:meter_usage&lt;/code&gt;&lt;/div&gt;
+        /// </summary>
+        /// <returns>A <see cref="RequestInformation"/></returns>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder.Meter_usageRequestBuilderGetQueryParameters>>? requestConfiguration = default)
+        {
+#nullable restore
+#else
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder.Meter_usageRequestBuilderGetQueryParameters>> requestConfiguration = default)
+        {
+#endif
+            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/v1/billing/meter_usage?customer_agreement_id={customer_agreement_id}&feature_code={feature_code}{&all_cycles*,ending_before*,page_size*,starting_after*}", PathParameters);
+            requestInfo.Configure(requestConfiguration);
+            requestInfo.Headers.TryAdd("Accept", "application/json, application/json;charset=utf-8");
+            return requestInfo;
+        }
+        /// <summary>
+        /// Create a new meter usage record against a billing agreementand feature.Metered one-time features can receive usage after the customerhas completed their first purchase of that feature.`meter_type_code` chooses how this record updates the runningtotal. The caller is responsible for sending the correct typeand value. `meter_usage_timestamp` is stored on the record(and, for plan-metered entitlements, sent to the billingprovider). It does not choose a billing cycle, does notinsert the record in timestamp order, and does not changethe running-total arithmetic.Running-total rules:- `absolute` (default): replaces the running total with  `meter_value`.- `delta`: adds `meter_value` to the last calculated running  total.Which running total is updated:- Plan-metered entitlements, and one-time features that expire  at the end of the current billing cycle: the current  billing cycle total. A new cycle starts at 0.- One-time features that never expire: a lifetime total for  that agreement and feature. Every accepted record updates  it, including records whose `meter_usage_timestamp` is  before the first paid purchase. This total does not reset  when the billing cycle rolls.The response includes the created record `id` and a grantsnapshot (`units_granted`, `current_usage`, and`expiration_policy_code` when the grant is a one-timepurchase) so the caller can tell whether usage has exceededthe grant without a follow-up GET. `current_usage` is thatgrant-relative running total after this record. Grant fieldsare omitted when there is no current grant. `units_granted`is also omitted when the grant is unlimited; an unlimitedone-time grant still returns `expiration_policy_code`.&lt;div&gt;  &lt;code&gt;create:meter_usage&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -92,6 +138,59 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage
         public global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder WithUrl(string rawUrl)
         {
             return new global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usageRequestBuilder(rawUrl, RequestAdapter);
+        }
+        /// <summary>
+        /// Returns meter usage records for one billing agreement and feature.By default only records in the customer&apos;s current billing cycleare returned. Pass `all_cycles=true` to page every record forthat meter.The response includes the same grant snapshot as POST(`units_granted`, `current_usage`, and`expiration_policy_code` when the grant is a one-timepurchase). `current_usage` is the grant-relative runningtotal after every accepted record — not the page sum. Fornever-expires one-time features that is the lifetime total(ingest-order absolute/delta). For cycle-end one-timefeatures and plan-metered entitlements that is the currentbilling cycle total. Grant fields are omitted when there isno current grant. `units_granted` is also omitted when thegrant is unlimited; an unlimited one-time grant stillreturns `expiration_policy_code`. `customer_agreement_id`and `feature_code` are on the response, not repeated on eachrecord.&lt;div&gt;  &lt;code&gt;read:meter_usage&lt;/code&gt;&lt;/div&gt;
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        public partial class Meter_usageRequestBuilderGetQueryParameters 
+        {
+            /// <summary>When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.</summary>
+            [QueryParameter("all_cycles")]
+            public bool? AllCycles { get; set; }
+            /// <summary>The billing agreement to retrieve meter usage for</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("customer_agreement_id")]
+            public string? CustomerAgreementId { get; set; }
+#nullable restore
+#else
+            [QueryParameter("customer_agreement_id")]
+            public string CustomerAgreementId { get; set; }
+#endif
+            /// <summary>The ID of the meter usage record to end before.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("ending_before")]
+            public string? EndingBefore { get; set; }
+#nullable restore
+#else
+            [QueryParameter("ending_before")]
+            public string EndingBefore { get; set; }
+#endif
+            /// <summary>The feature code to retrieve meter usage for</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("feature_code")]
+            public string? FeatureCode { get; set; }
+#nullable restore
+#else
+            [QueryParameter("feature_code")]
+            public string FeatureCode { get; set; }
+#endif
+            /// <summary>Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.</summary>
+            [QueryParameter("page_size")]
+            public int? PageSize { get; set; }
+            /// <summary>The ID of the meter usage record to start after.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("starting_after")]
+            public string? StartingAfter { get; set; }
+#nullable restore
+#else
+            [QueryParameter("starting_after")]
+            public string StartingAfter { get; set; }
+#endif
         }
     }
 }

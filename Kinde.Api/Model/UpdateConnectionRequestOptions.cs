@@ -27,7 +27,7 @@ using System.Reflection;
 namespace Kinde.Api.Model
 {
     /// <summary>
-    /// UpdateConnectionRequestOptions
+    /// Connection options for the strategy. For SAML and Microsoft Entra ID (OAuth 2.0) strategies, an option not listed for the strategy is rejected with INVALID_OPTIONS.
     /// </summary>
     [JsonConverter(typeof(UpdateConnectionRequestOptionsJsonConverter))]
     [DataContract(Name = "UpdateConnection_request_options")]
@@ -35,10 +35,10 @@ namespace Kinde.Api.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateConnectionRequestOptions" /> class
-        /// with the <see cref="CreateConnectionRequestOptionsOneOf" /> class
+        /// with the <see cref="ReplaceConnectionRequestOptionsOneOf" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of CreateConnectionRequestOptionsOneOf.</param>
-        public UpdateConnectionRequestOptions(CreateConnectionRequestOptionsOneOf actualInstance)
+        /// <param name="actualInstance">An instance of ReplaceConnectionRequestOptionsOneOf.</param>
+        public UpdateConnectionRequestOptions(ReplaceConnectionRequestOptionsOneOf actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -83,7 +83,7 @@ namespace Kinde.Api.Model
             }
             set
             {
-                if (value.GetType() == typeof(CreateConnectionRequestOptionsOneOf))
+                if (value.GetType() == typeof(ReplaceConnectionRequestOptionsOneOf))
                 {
                     this._actualInstance = value;
                 }
@@ -97,19 +97,19 @@ namespace Kinde.Api.Model
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: CreateConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf1");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: ReplaceConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf, UpdateConnectionRequestOptionsOneOf1");
                 }
             }
         }
 
         /// <summary>
-        /// Get the actual instance of `CreateConnectionRequestOptionsOneOf`. If the actual instance is not `CreateConnectionRequestOptionsOneOf`,
+        /// Get the actual instance of `ReplaceConnectionRequestOptionsOneOf`. If the actual instance is not `ReplaceConnectionRequestOptionsOneOf`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of CreateConnectionRequestOptionsOneOf</returns>
-        public CreateConnectionRequestOptionsOneOf GetCreateConnectionRequestOptionsOneOf()
+        /// <returns>An instance of ReplaceConnectionRequestOptionsOneOf</returns>
+        public ReplaceConnectionRequestOptionsOneOf GetReplaceConnectionRequestOptionsOneOf()
         {
-            return (CreateConnectionRequestOptionsOneOf)this.ActualInstance;
+            return (ReplaceConnectionRequestOptionsOneOf)this.ActualInstance;
         }
 
         /// <summary>
@@ -173,21 +173,21 @@ namespace Kinde.Api.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(CreateConnectionRequestOptionsOneOf).GetProperty("AdditionalProperties") == null)
+                if (typeof(ReplaceConnectionRequestOptionsOneOf).GetProperty("AdditionalProperties") == null)
                 {
-                    newUpdateConnectionRequestOptions = new UpdateConnectionRequestOptions(JsonConvert.DeserializeObject<CreateConnectionRequestOptionsOneOf>(jsonString, UpdateConnectionRequestOptions.SerializerSettings));
+                    newUpdateConnectionRequestOptions = new UpdateConnectionRequestOptions(JsonConvert.DeserializeObject<ReplaceConnectionRequestOptionsOneOf>(jsonString, UpdateConnectionRequestOptions.SerializerSettings));
                 }
                 else
                 {
-                    newUpdateConnectionRequestOptions = new UpdateConnectionRequestOptions(JsonConvert.DeserializeObject<CreateConnectionRequestOptionsOneOf>(jsonString, UpdateConnectionRequestOptions.AdditionalPropertiesSerializerSettings));
+                    newUpdateConnectionRequestOptions = new UpdateConnectionRequestOptions(JsonConvert.DeserializeObject<ReplaceConnectionRequestOptionsOneOf>(jsonString, UpdateConnectionRequestOptions.AdditionalPropertiesSerializerSettings));
                 }
-                matchedTypes.Add("CreateConnectionRequestOptionsOneOf");
+                matchedTypes.Add("ReplaceConnectionRequestOptionsOneOf");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into CreateConnectionRequestOptionsOneOf: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into ReplaceConnectionRequestOptionsOneOf: {1}", jsonString, exception.ToString()));
             }
 
             try

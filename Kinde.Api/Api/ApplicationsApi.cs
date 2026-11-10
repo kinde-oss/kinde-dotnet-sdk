@@ -34,6 +34,29 @@ namespace Kinde.Api.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// Add application access role
+        /// </summary>
+        /// <remarks>
+        /// Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse AddApplicationAccessRole(string applicationId, string roleId);
+
+        /// <summary>
+        /// Add application access role
+        /// </summary>
+        /// <remarks>
+        /// Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> AddApplicationAccessRoleWithHttpInfo(string applicationId, string roleId);
+        /// <summary>
         /// Create application
         /// </summary>
         /// <remarks>
@@ -55,6 +78,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of CreateApplicationResponse</returns>
         ApiResponse<CreateApplicationResponse> CreateApplicationWithHttpInfo(CreateApplicationRequest createApplicationRequest);
         /// <summary>
+        /// Register a native app
+        /// </summary>
+        /// <remarks>
+        /// Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <returns>CreateApplicationNativeApp201Response</returns>
+        CreateApplicationNativeApp201Response CreateApplicationNativeApp(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest);
+
+        /// <summary>
+        /// Register a native app
+        /// </summary>
+        /// <remarks>
+        /// Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <returns>ApiResponse of CreateApplicationNativeApp201Response</returns>
+        ApiResponse<CreateApplicationNativeApp201Response> CreateApplicationNativeAppWithHttpInfo(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest);
+        /// <summary>
         /// Delete application
         /// </summary>
         /// <remarks>
@@ -75,6 +121,29 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier for the application.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteApplicationWithHttpInfo(string applicationId);
+        /// <summary>
+        /// Remove a native app
+        /// </summary>
+        /// <remarks>
+        /// Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteApplicationNativeApp(string applicationId, int nativeAppId);
+
+        /// <summary>
+        /// Remove a native app
+        /// </summary>
+        /// <remarks>
+        /// Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteApplicationNativeAppWithHttpInfo(string applicationId, int nativeAppId);
         /// <summary>
         /// Enable connection
         /// </summary>
@@ -120,6 +189,33 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApplicationResponse</returns>
         ApiResponse<GetApplicationResponse> GetApplicationWithHttpInfo(string applicationId);
         /// <summary>
+        /// Get application access roles
+        /// </summary>
+        /// <remarks>
+        /// Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <returns>GetApplicationAccessRolesResponse</returns>
+        GetApplicationAccessRolesResponse GetApplicationAccessRoles(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string));
+
+        /// <summary>
+        /// Get application access roles
+        /// </summary>
+        /// <remarks>
+        /// Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <returns>ApiResponse of GetApplicationAccessRolesResponse</returns>
+        ApiResponse<GetApplicationAccessRolesResponse> GetApplicationAccessRolesWithHttpInfo(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string));
+        /// <summary>
         /// Get connections
         /// </summary>
         /// <remarks>
@@ -140,6 +236,27 @@ namespace Kinde.Api.Api
         /// <param name="applicationId">The identifier/client ID for the application.</param>
         /// <returns>ApiResponse of GetConnectionsResponse</returns>
         ApiResponse<GetConnectionsResponse> GetApplicationConnectionsWithHttpInfo(string applicationId);
+        /// <summary>
+        /// List native apps
+        /// </summary>
+        /// <remarks>
+        /// Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <returns>GetApplicationNativeApps200Response</returns>
+        GetApplicationNativeApps200Response GetApplicationNativeApps(string applicationId);
+
+        /// <summary>
+        /// List native apps
+        /// </summary>
+        /// <remarks>
+        /// Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <returns>ApiResponse of GetApplicationNativeApps200Response</returns>
+        ApiResponse<GetApplicationNativeApps200Response> GetApplicationNativeAppsWithHttpInfo(string applicationId);
         /// <summary>
         /// Get property values
         /// </summary>
@@ -187,6 +304,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetApplicationsResponse</returns>
         ApiResponse<GetApplicationsResponse> GetApplicationsWithHttpInfo(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         /// <summary>
+        /// Remove application access role
+        /// </summary>
+        /// <remarks>
+        /// Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RemoveApplicationAccessRole(string applicationId, string roleId);
+
+        /// <summary>
+        /// Remove application access role
+        /// </summary>
+        /// <remarks>
+        /// Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RemoveApplicationAccessRoleWithHttpInfo(string applicationId, string roleId);
+        /// <summary>
         /// Remove connection
         /// </summary>
         /// <remarks>
@@ -232,6 +372,29 @@ namespace Kinde.Api.Api
         /// <param name="updateApplicationRequest">Application details. (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdateApplicationWithHttpInfo(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest));
+        /// <summary>
+        /// Turn native sign-in on or off
+        /// </summary>
+        /// <remarks>
+        /// Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateApplicationNativeSignIn(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest);
+
+        /// <summary>
+        /// Turn native sign-in on or off
+        /// </summary>
+        /// <remarks>
+        /// Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateApplicationNativeSignInWithHttpInfo(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest);
         /// <summary>
         /// Update application tokens
         /// </summary>
@@ -290,6 +453,31 @@ namespace Kinde.Api.Api
     {
         #region Asynchronous Operations
         /// <summary>
+        /// Add application access role
+        /// </summary>
+        /// <remarks>
+        /// Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> AddApplicationAccessRoleAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Add application access role
+        /// </summary>
+        /// <remarks>
+        /// Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> AddApplicationAccessRoleWithHttpInfoAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Create application
         /// </summary>
         /// <remarks>
@@ -313,6 +501,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (CreateApplicationResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateApplicationResponse>> CreateApplicationWithHttpInfoAsync(CreateApplicationRequest createApplicationRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Register a native app
+        /// </summary>
+        /// <remarks>
+        /// Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateApplicationNativeApp201Response</returns>
+        System.Threading.Tasks.Task<CreateApplicationNativeApp201Response> CreateApplicationNativeAppAsync(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Register a native app
+        /// </summary>
+        /// <remarks>
+        /// Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateApplicationNativeApp201Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateApplicationNativeApp201Response>> CreateApplicationNativeAppWithHttpInfoAsync(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Delete application
         /// </summary>
         /// <remarks>
@@ -335,6 +548,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Remove a native app
+        /// </summary>
+        /// <remarks>
+        /// Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteApplicationNativeAppAsync(string applicationId, int nativeAppId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Remove a native app
+        /// </summary>
+        /// <remarks>
+        /// Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteApplicationNativeAppWithHttpInfoAsync(string applicationId, int nativeAppId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Enable connection
         /// </summary>
@@ -384,6 +622,35 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetApplicationResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApplicationResponse>> GetApplicationWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get application access roles
+        /// </summary>
+        /// <remarks>
+        /// Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApplicationAccessRolesResponse</returns>
+        System.Threading.Tasks.Task<GetApplicationAccessRolesResponse> GetApplicationAccessRolesAsync(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get application access roles
+        /// </summary>
+        /// <remarks>
+        /// Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApplicationAccessRolesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApplicationAccessRolesResponse>> GetApplicationAccessRolesWithHttpInfoAsync(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get connections
         /// </summary>
         /// <remarks>
@@ -406,6 +673,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetConnectionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetConnectionsResponse>> GetApplicationConnectionsWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// List native apps
+        /// </summary>
+        /// <remarks>
+        /// Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApplicationNativeApps200Response</returns>
+        System.Threading.Tasks.Task<GetApplicationNativeApps200Response> GetApplicationNativeAppsAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List native apps
+        /// </summary>
+        /// <remarks>
+        /// Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApplicationNativeApps200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetApplicationNativeApps200Response>> GetApplicationNativeAppsWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get property values
         /// </summary>
@@ -457,6 +747,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetApplicationsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetApplicationsResponse>> GetApplicationsWithHttpInfoAsync(string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Remove application access role
+        /// </summary>
+        /// <remarks>
+        /// Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RemoveApplicationAccessRoleAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Remove application access role
+        /// </summary>
+        /// <remarks>
+        /// Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RemoveApplicationAccessRoleWithHttpInfoAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Remove connection
         /// </summary>
         /// <remarks>
@@ -506,6 +821,31 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdateApplicationWithHttpInfoAsync(string applicationId, UpdateApplicationRequest updateApplicationRequest = default(UpdateApplicationRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Turn native sign-in on or off
+        /// </summary>
+        /// <remarks>
+        /// Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateApplicationNativeSignInAsync(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Turn native sign-in on or off
+        /// </summary>
+        /// <remarks>
+        /// Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateApplicationNativeSignInWithHttpInfoAsync(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update application tokens
         /// </summary>
@@ -625,23 +965,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -655,13 +995,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -677,33 +1016,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -720,17 +1049,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -754,7 +1078,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public ApplicationsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -769,10 +1092,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationsApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public ApplicationsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -842,6 +1166,84 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                 return _exceptionFactory;
             }
             set { _exceptionFactory = value; }
+        }
+
+        /// <summary>
+        /// Add application access role Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse AddApplicationAccessRole(string applicationId, string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = AddApplicationAccessRoleWithHttpInfo(applicationId, roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add application access role Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> AddApplicationAccessRoleWithHttpInfo(string applicationId, string roleId)
+        {
+            // ===== Kiota Implementation =====
+            return AddApplicationAccessRoleWithHttpInfoAsync(applicationId, roleId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Add application access role Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> AddApplicationAccessRoleAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await AddApplicationAccessRoleWithHttpInfoAsync(applicationId, roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Add application access role Add a role to the set configured as allowed to access an application. Adding a role does not enable role-based access control for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> AddApplicationAccessRoleWithHttpInfoAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->AddApplicationAccessRole");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling ApplicationsApi->AddApplicationAccessRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Access_roles[roleId].PostAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling AddApplicationAccessRole: {ex.Message}", ex);
+            }
         }
 
         /// <summary>
@@ -956,6 +1358,87 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Register a native app Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <returns>CreateApplicationNativeApp201Response</returns>
+        public CreateApplicationNativeApp201Response CreateApplicationNativeApp(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateApplicationNativeApp201Response> localVarResponse = CreateApplicationNativeAppWithHttpInfo(applicationId, createApplicationNativeAppRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Register a native app Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <returns>ApiResponse of CreateApplicationNativeApp201Response</returns>
+        public Kinde.Api.Client.ApiResponse<CreateApplicationNativeApp201Response> CreateApplicationNativeAppWithHttpInfo(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateApplicationNativeAppWithHttpInfoAsync(applicationId, createApplicationNativeAppRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Register a native app Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateApplicationNativeApp201Response</returns>
+        public async System.Threading.Tasks.Task<CreateApplicationNativeApp201Response> CreateApplicationNativeAppAsync(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateApplicationNativeApp201Response> localVarResponse = await CreateApplicationNativeAppWithHttpInfoAsync(applicationId, createApplicationNativeAppRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Register a native app Registers an Android app (package name and SHA-256 signing-certificate fingerprints) or an iOS app (Team ID and bundle ID) for an application, so it can use passkeys for the domain without a browser.  By default an application can register up to 10 native apps, iOS and Android together. Registering more returns &#x60;NATIVE_APP_LIMIT_REACHED&#x60;.  &lt;div&gt;   &lt;code&gt;create:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="createApplicationNativeAppRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateApplicationNativeApp201Response)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateApplicationNativeApp201Response>> CreateApplicationNativeAppWithHttpInfoAsync(string applicationId, CreateApplicationNativeAppRequest createApplicationNativeAppRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->CreateApplicationNativeApp");
+
+            // verify the required parameter 'createApplicationNativeAppRequest' is set
+            if (createApplicationNativeAppRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createApplicationNativeAppRequest' when calling ApplicationsApi->CreateApplicationNativeApp");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsPostRequestBody>(createApplicationNativeAppRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Native_apps.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateApplicationNativeApp201Response>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateApplicationNativeApp201Response>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateApplicationNativeApp: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Delete application Delete a client / application.  &lt;div&gt;   &lt;code&gt;delete:applications&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1059,6 +1542,80 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteApplication: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Remove a native app Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteApplicationNativeApp(string applicationId, int nativeAppId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteApplicationNativeAppWithHttpInfo(applicationId, nativeAppId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove a native app Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteApplicationNativeAppWithHttpInfo(string applicationId, int nativeAppId)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteApplicationNativeAppWithHttpInfoAsync(applicationId, nativeAppId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Remove a native app Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteApplicationNativeAppAsync(string applicationId, int nativeAppId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteApplicationNativeAppWithHttpInfoAsync(applicationId, nativeAppId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove a native app Removes a registered native app from an application.  &lt;div&gt;   &lt;code&gt;delete:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="nativeAppId">The identifier of the native app.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteApplicationNativeAppWithHttpInfoAsync(string applicationId, int nativeAppId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->DeleteApplicationNativeApp");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Native_apps[nativeAppId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteApplicationNativeApp: {ex.Message}", ex);
             }
         }
 
@@ -1287,6 +1844,91 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Get application access roles Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <returns>GetApplicationAccessRolesResponse</returns>
+        public GetApplicationAccessRolesResponse GetApplicationAccessRoles(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetApplicationAccessRolesResponse> localVarResponse = GetApplicationAccessRolesWithHttpInfo(applicationId, pageSize, startingAfter, endingBefore);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get application access roles Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <returns>ApiResponse of GetApplicationAccessRolesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetApplicationAccessRolesResponse> GetApplicationAccessRolesWithHttpInfo(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetApplicationAccessRolesWithHttpInfoAsync(applicationId, pageSize, startingAfter, endingBefore).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get application access roles Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApplicationAccessRolesResponse</returns>
+        public async System.Threading.Tasks.Task<GetApplicationAccessRolesResponse> GetApplicationAccessRolesAsync(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApplicationAccessRolesResponse> localVarResponse = await GetApplicationAccessRolesWithHttpInfoAsync(applicationId, pageSize, startingAfter, endingBefore, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get application access roles Gets the roles configured as allowed to access an application. These roles are enforced only when role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;read:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="startingAfter">The ID of the role to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the role to end before. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApplicationAccessRolesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationAccessRolesResponse>> GetApplicationAccessRolesWithHttpInfoAsync(string applicationId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplicationAccessRoles");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Access_roles.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.StartingAfter = startingAfter;
+                    config.QueryParameters.EndingBefore = endingBefore;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApplicationAccessRolesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApplicationAccessRolesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetApplicationAccessRoles: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Get connections Gets all connections for an application.  &lt;div&gt;   &lt;code&gt;read:application_connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1390,6 +2032,76 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetApplicationConnections: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List native apps Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <returns>GetApplicationNativeApps200Response</returns>
+        public GetApplicationNativeApps200Response GetApplicationNativeApps(string applicationId)
+        {
+            Kinde.Api.Client.ApiResponse<GetApplicationNativeApps200Response> localVarResponse = GetApplicationNativeAppsWithHttpInfo(applicationId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List native apps Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <returns>ApiResponse of GetApplicationNativeApps200Response</returns>
+        public Kinde.Api.Client.ApiResponse<GetApplicationNativeApps200Response> GetApplicationNativeAppsWithHttpInfo(string applicationId)
+        {
+            // ===== Kiota Implementation =====
+            return GetApplicationNativeAppsWithHttpInfoAsync(applicationId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// List native apps Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetApplicationNativeApps200Response</returns>
+        public async System.Threading.Tasks.Task<GetApplicationNativeApps200Response> GetApplicationNativeAppsAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetApplicationNativeApps200Response> localVarResponse = await GetApplicationNativeAppsWithHttpInfoAsync(applicationId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List native apps Returns the iOS and Android apps registered for an application, and whether native (browserless) passkey sign-in is enabled for it. Registered Android apps are listed in the domain&#39;s &#x60;/.well-known/assetlinks.json&#x60; and iOS apps in its &#x60;/.well-known/apple-app-site-association&#x60;.  &lt;div&gt;   &lt;code&gt;read:application_native_apps&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetApplicationNativeApps200Response)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetApplicationNativeApps200Response>> GetApplicationNativeAppsWithHttpInfoAsync(string applicationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->GetApplicationNativeApps");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Native_apps.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetApplicationNativeApps200Response>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetApplicationNativeApps200Response>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetApplicationNativeApps: {ex.Message}", ex);
             }
         }
 
@@ -1631,6 +2343,84 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Remove application access role Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RemoveApplicationAccessRole(string applicationId, string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RemoveApplicationAccessRoleWithHttpInfo(applicationId, roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove application access role Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RemoveApplicationAccessRoleWithHttpInfo(string applicationId, string roleId)
+        {
+            // ===== Kiota Implementation =====
+            return RemoveApplicationAccessRoleWithHttpInfoAsync(applicationId, roleId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Remove application access role Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RemoveApplicationAccessRoleAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RemoveApplicationAccessRoleWithHttpInfoAsync(applicationId, roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Remove application access role Remove a role from the set that is allowed to access an application. Removing a role does not change whether role-based access control is enabled for the application.  &lt;div&gt;   &lt;code&gt;update:applications&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The identifier/client ID for the application.</param>
+        /// <param name="roleId">The identifier for the role.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RemoveApplicationAccessRoleWithHttpInfoAsync(string applicationId, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->RemoveApplicationAccessRole");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling ApplicationsApi->RemoveApplicationAccessRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Access_roles[roleId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RemoveApplicationAccessRole: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Remove connection Turn off an auth connection for an application  &lt;div&gt;   &lt;code&gt;delete:application_connections&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1860,6 +2650,87 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateApplication: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Turn native sign-in on or off Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateApplicationNativeSignIn(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateApplicationNativeSignInWithHttpInfo(applicationId, updateApplicationNativeSignInRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Turn native sign-in on or off Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateApplicationNativeSignInWithHttpInfo(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest)
+        {
+            // ===== Kiota Implementation =====
+            return UpdateApplicationNativeSignInWithHttpInfoAsync(applicationId, updateApplicationNativeSignInRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Turn native sign-in on or off Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateApplicationNativeSignInAsync(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateApplicationNativeSignInWithHttpInfoAsync(applicationId, updateApplicationNativeSignInRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Turn native sign-in on or off Enables or disables native (browserless) passkey sign-in through the authorization challenge endpoint, sets which passkeys it accepts, and whether native passkey sign-ins skip MFA. Only available for front-end and mobile (public) applications. Omitted fields are left unchanged.  &lt;div&gt;   &lt;code&gt;update:application_native_apps&lt;/code&gt; &lt;/div&gt;  A request that sends &#x60;is_passkey_mfa_exempt&#x60;, whatever its value, also requires the &#x60;update:mfa&#x60; and &#x60;update:organization_mfa&#x60; scopes. 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="applicationId">The application&#39;s ID / client ID.</param>
+        /// <param name="updateApplicationNativeSignInRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateApplicationNativeSignInWithHttpInfoAsync(string applicationId, UpdateApplicationNativeSignInRequest updateApplicationNativeSignInRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'applicationId' is set
+            if (applicationId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'applicationId' when calling ApplicationsApi->UpdateApplicationNativeSignIn");
+
+            // verify the required parameter 'updateApplicationNativeSignInRequest' is set
+            if (updateApplicationNativeSignInRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'updateApplicationNativeSignInRequest' when calling ApplicationsApi->UpdateApplicationNativeSignIn");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Applications.Item.Native_sign_in.Native_sign_inPutRequestBody>(updateApplicationNativeSignInRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Applications[applicationId].Native_sign_in.PutAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateApplicationNativeSignIn: {ex.Message}", ex);
             }
         }
 

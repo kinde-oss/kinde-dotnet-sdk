@@ -5,6 +5,7 @@ using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Feature_flags;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Logos;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Passkey;
+using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles;
 using Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Sessions;
@@ -47,6 +48,11 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item
         public global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Passkey.PasskeyRequestBuilder Passkey
         {
             get => new global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Passkey.PasskeyRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The permissions property</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.PermissionsRequestBuilder Permissions
+        {
+            get => new global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.PermissionsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The properties property</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesRequestBuilder Properties

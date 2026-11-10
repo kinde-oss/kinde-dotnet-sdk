@@ -53,7 +53,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
             set { BackingStore?.Set("permissions", value); }
         }
 #endif
-        /// <summary>Role keys to assign to the user.</summary>
+        /// <summary>Role keys to assign to the user. Business-wide role keys, or this organization&apos;s own role keys while organization-managed roles are available on the business&apos;s plan; any other key fails the request with `INVALID_ROLES`.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<string>? Roles

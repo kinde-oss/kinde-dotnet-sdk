@@ -37,11 +37,13 @@ namespace Kinde.Api.Model
         /// <param name="name">The permission&#39;s name..</param>
         /// <param name="description">The permission&#39;s description..</param>
         /// <param name="key">The permission identifier to use in code..</param>
-        public CreatePermissionRequest(string name = default(string), string description = default(string), string key = default(string))
+        /// <param name="isOrganizationRoleAssignable">Whether organizations can put this permission into roles of their own (organization-managed roles, Scale plan). Turning this off removes the permission from every organization-managed role that holds it..</param>
+        public CreatePermissionRequest(string name = default(string), string description = default(string), string key = default(string), bool isOrganizationRoleAssignable = default(bool))
         {
             this.Name = name;
             this.Description = description;
             this.Key = key;
+            this.IsOrganizationRoleAssignable = isOrganizationRoleAssignable;
         }
 
         /// <summary>
@@ -66,6 +68,13 @@ namespace Kinde.Api.Model
         public string Key { get; set; }
 
         /// <summary>
+        /// Whether organizations can put this permission into roles of their own (organization-managed roles, Scale plan). Turning this off removes the permission from every organization-managed role that holds it.
+        /// </summary>
+        /// <value>Whether organizations can put this permission into roles of their own (organization-managed roles, Scale plan). Turning this off removes the permission from every organization-managed role that holds it.</value>
+        [DataMember(Name = "is_organization_role_assignable", EmitDefaultValue = true)]
+        public bool IsOrganizationRoleAssignable { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -76,6 +85,7 @@ namespace Kinde.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  Key: ").Append(Key).Append("\n");
+            sb.Append("  IsOrganizationRoleAssignable: ").Append(IsOrganizationRoleAssignable).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -125,6 +135,10 @@ namespace Kinde.Api.Model
                     this.Key == input.Key ||
                     (this.Key != null &&
                     this.Key.Equals(input.Key))
+                ) && 
+                (
+                    this.IsOrganizationRoleAssignable == input.IsOrganizationRoleAssignable ||
+                    this.IsOrganizationRoleAssignable.Equals(input.IsOrganizationRoleAssignable)
                 );
         }
 
@@ -149,6 +163,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Key.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsOrganizationRoleAssignable.GetHashCode();
                 return hashCode;
             }
         }

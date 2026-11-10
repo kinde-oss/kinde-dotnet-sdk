@@ -17,12 +17,13 @@ Name | Type | Description | Notes
 **LinkColorDark** | **string** | The organization&#39;s brand settings - dark mode link color. | [optional] 
 **ThemeCode** | **string** | The organization&#39;s brand settings - theme/mode &#39;light&#39; | &#39;dark&#39; | &#39;user_preference&#39;. | [optional] 
 **Handle** | **string** | A unique handle for the organization - can be used for dynamic callback urls. | [optional] 
-**IsAllowRegistrations** | **bool** | If users become members of this organization when the org code is supplied during authentication. | [optional] 
+**IsAllowRegistrations** | **bool** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead. | [optional] 
+**IsAutoMembershipEnabled** | **bool** | If users become members of this organization when the org code is supplied during authentication. | [optional] 
 **SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
 **SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
-**IsCreateBillingCustomer** | **bool** | If a billing customer is also created for this organization | [optional] 
-**BillingEmail** | **string** | The email address used for billing purposes for the organization | [optional] 
-**BillingPlanCode** | **string** | The billing plan to put the customer on. If not specified, the default plan is used | [optional] 
+**IsCreateBillingCustomer** | **bool** | If an organization billing customer is also created for this organization | [optional] 
+**BillingEmail** | **string** | The email address used for billing purposes for the organization. Required when is_create_billing_customer is true | [optional] 
+**BillingPlanCode** | **string** | Code of a published organization billing plan to assign to the new billing customer. If omitted, the default organization plan is used. User plans and unpublished plans are rejected.  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

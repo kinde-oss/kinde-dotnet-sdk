@@ -37,6 +37,34 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("code", value); }
         }
 #endif
+        /// <summary>The published version&apos;s name</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Name
+        {
+            get { return BackingStore?.Get<string?>("name"); }
+            set { BackingStore?.Set("name", value); }
+        }
+#nullable restore
+#else
+        public string Name
+        {
+            get { return BackingStore?.Get<string>("name"); }
+            set { BackingStore?.Set("name", value); }
+        }
+#endif
+        /// <summary>Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version.</summary>
+        public bool? PlanIsLatest
+        {
+            get { return BackingStore?.Get<bool?>("plan_is_latest"); }
+            set { BackingStore?.Set("plan_is_latest", value); }
+        }
+        /// <summary>Published version number on this agreement. Null when the agreement has no plan version.</summary>
+        public int? PlanVersion
+        {
+            get { return BackingStore?.Get<int?>("plan_version"); }
+            set { BackingStore?.Set("plan_version", value); }
+        }
         /// <summary>The subscribed_on property</summary>
         public DateTimeOffset? SubscribedOn
         {
@@ -70,6 +98,9 @@ namespace Kinde.Api.Kiota.Management.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "code", n => { Code = n.GetStringValue(); } },
+                { "name", n => { Name = n.GetStringValue(); } },
+                { "plan_is_latest", n => { PlanIsLatest = n.GetBoolValue(); } },
+                { "plan_version", n => { PlanVersion = n.GetIntValue(); } },
                 { "subscribed_on", n => { SubscribedOn = n.GetDateTimeOffsetValue(); } },
             };
         }
@@ -81,6 +112,9 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("code", Code);
+            writer.WriteStringValue("name", Name);
+            writer.WriteBoolValue("plan_is_latest", PlanIsLatest);
+            writer.WriteIntValue("plan_version", PlanVersion);
             writer.WriteDateTimeOffsetValue("subscribed_on", SubscribedOn);
             writer.WriteAdditionalData(AdditionalData);
         }

@@ -110,3 +110,32 @@ kiota generate \
 ```
 
 > `--clean-output` removes old generated files to prevent stale or conflicting code.
+
+
+---
+
+## 7. Regenerating the SDK from the hosted specs
+
+Always generate from the hosted specs, never from a copy in the repo. `api/openapi.yaml` is only a reference copy of
+`https://api-spec.kinde.com/kinde-management-api-spec.yaml`; refresh it from that URL when you regenerate.
+
+| What | How | Output |
+|------|-----|--------|
+| Kiota clients | `./generate-all-apis.sh` (or `scripts/generate-kiota-clients.sh --management` / `--accounts`) | `Kinde.Api/Kiota/Management`, `Kinde.Api/Kiota/Accounts` |
+| OpenAPI models | `./generate-api-backup.sh` | `Kinde.Api/Model` (the API classes are written to `generated-api-files/` for inspection only) |
+
+`kiota-lock.json` records the spec URL a client was generated from; check that it is the hosted URL.
+
+The scripts regenerate the clients, but several things in the SDK are maintained by hand and are not reproduced by them.
+After regenerating, review each of these:
+
+- **Wrapper classes (`Kinde.Api/Api`)** wrap the Kiota clients and map with `IKindeMapper`. New operations in the spec need
+  a wrapper method added by hand, following an existing one.
+- **Nullable request flags.** Optional `bool`/`int` properties on request models were made nullable with
+  `EmitDefaultValue = false` by hand (so an unset flag is not sent as `false`). Raw generator output reverts them.
+- **Explicit mapper conversions** (`Kinde.Api/Mapping/KindeManagementMappings.cs`): the converters, including the `oneOf`
+  connection-option switches, must follow the order of the variants in the spec. A renumbered variant compiles but throws
+  at runtime, so the tests pin each one.
+- **`ManagementMappingManifest`** in the tests lists every Kiota/SDK type pair; add the pairs for new types.
+- **Spec gaps.** `GET /connections` and its organization and application variants return flat items, but the hosted spec types
+  them as the wrapped `connection`. The mapper reads the flat fields from `AdditionalData`. If the spec is fixed, this can go.

@@ -10,7 +10,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="getconnectedappauthurl"></a>
 # **GetConnectedAppAuthUrl**
-> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string userId = null, string orgCode = null, string overrideCallbackUrl = null)
+> ConnectedAppsAuthUrl GetConnectedAppAuthUrl (string keyCodeRef, string? userId = null, string? orgCode = null, string? overrideCallbackUrl = null)
 
 Get Connected App URL
 
@@ -20,7 +20,6 @@ Get a URL that authenticates and authorizes a user to a third-party connected ap
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -36,14 +35,11 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectedAppsApi(config);
             var keyCodeRef = "keyCodeRef_example";  // string | The unique key code reference of the connected app to authenticate against.
-            var userId = "userId_example";  // string | The id of the user that needs to authenticate to the third-party connected app. (optional) 
-            var orgCode = "orgCode_example";  // string | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
-            var overrideCallbackUrl = "overrideCallbackUrl_example";  // string | A URL that overrides the default callback URL setup in your connected app configuration (optional) 
+            var userId = "userId_example";  // string? | The id of the user that needs to authenticate to the third-party connected app. (optional) 
+            var orgCode = "orgCode_example";  // string? | The code of the Kinde organization that needs to authenticate to the third-party connected app. (optional) 
+            var overrideCallbackUrl = "overrideCallbackUrl_example";  // string? | A URL that overrides the default callback URL setup in your connected app configuration (optional) 
 
             try
             {
@@ -87,9 +83,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **keyCodeRef** | **string** | The unique key code reference of the connected app to authenticate against. |  |
-| **userId** | **string** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
-| **orgCode** | **string** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
-| **overrideCallbackUrl** | **string** | A URL that overrides the default callback URL setup in your connected app configuration | [optional]  |
+| **userId** | **string?** | The id of the user that needs to authenticate to the third-party connected app. | [optional]  |
+| **orgCode** | **string?** | The code of the Kinde organization that needs to authenticate to the third-party connected app. | [optional]  |
+| **overrideCallbackUrl** | **string?** | A URL that overrides the default callback URL setup in your connected app configuration | [optional]  |
 
 ### Return type
 
@@ -128,7 +124,6 @@ Get an access token that can be used to call the third-party provider linked to 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -144,10 +139,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectedAppsApi(config);
             var sessionId = "sessionId_example";  // string | The unique sesssion id representing the login session of a user.
 
             try
@@ -229,7 +221,6 @@ Revoke the tokens linked to the connected app session.  <div>   <code>create:con
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -245,10 +236,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ConnectedAppsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new ConnectedAppsApi(config);
             var sessionId = "sessionId_example";  // string | The unique sesssion id representing the login session of a user.
 
             try

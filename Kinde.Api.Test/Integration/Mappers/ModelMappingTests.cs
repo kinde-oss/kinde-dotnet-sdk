@@ -792,14 +792,14 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         [Fact]
         public void ReplaceConnectionRequest_SamlOptions_MapsToMember3AndIncludesEnums()
         {
-            var saml = new ReplaceConnectionRequestOptionsOneOf1
+            var saml = new ReplaceConnectionRequestOptionsOneOf2
             {
                 SamlEntityId = "https://example.okta.com/saml/metadata",
                 SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
                 SamlIdpMetadataXml = "<EntityDescriptor>metadata</EntityDescriptor>",
-                NameIdFormat = ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum.Persistent,
-                ProtocolBinding = ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum.REDIRECT,
-                SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA1,
+                NameIdFormat = ReplaceConnectionRequestOptionsOneOf2.NameIdFormatEnum.Persistent,
+                ProtocolBinding = ReplaceConnectionRequestOptionsOneOf2.ProtocolBindingEnum.REDIRECT,
+                SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA1,
             };
             var request = new ReplaceConnectionRequest(
                 displayName: "Okta SAML",
@@ -824,6 +824,46 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA1\"", json);
             Assert.Equal("<EntityDescriptor>metadata</EntityDescriptor>", member3.SamlIdpMetadataXml);
             Assert.Contains("\"saml_idp_metadata_xml\":\"\\u003CEntityDescriptor\\u003Emetadata\\u003C/EntityDescriptor\\u003E\"", json);
+        }
+
+        [Fact]
+        public void ReplaceConnectionRequest_EveryVariant_MapsToItsOwnMember()
+        {
+            var first = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>(
+                new ReplaceConnectionRequest
+                {
+                    Options = new ReplaceConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf { ClientId = "client_1", ClientSecret = "secret_1" }),
+                });
+            Assert.Equal("client_1", first.Options.WithConnectionPutRequestBodyOptionsMember1.ClientId);
+            Assert.Null(first.Options.WithConnectionPutRequestBodyOptionsMember2);
+            Assert.Null(first.Options.WithConnectionPutRequestBodyOptionsMember3);
+
+            var second = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>(
+                new ReplaceConnectionRequest
+                {
+                    Options = new ReplaceConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf1 { ClientId = "client_2", EntraIdDomain = "contoso.onmicrosoft.com" }),
+                });
+            Assert.Equal("client_2", second.Options.WithConnectionPutRequestBodyOptionsMember2.ClientId);
+            Assert.Equal("contoso.onmicrosoft.com", second.Options.WithConnectionPutRequestBodyOptionsMember2.EntraIdDomain);
+            Assert.Null(second.Options.WithConnectionPutRequestBodyOptionsMember1);
+            Assert.Null(second.Options.WithConnectionPutRequestBodyOptionsMember3);
+        }
+
+        [Fact]
+        public void UpdateConnectionRequest_FirstVariant_MapsToMember1()
+        {
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>(
+                new UpdateConnectionRequest
+                {
+                    Options = new UpdateConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf { ClientId = "client_1", ClientSecret = "secret_1" }),
+                });
+
+            Assert.Equal("client_1", kiota.Options.WithConnectionPatchRequestBodyOptionsMember1.ClientId);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember3);
         }
 
         [Fact]

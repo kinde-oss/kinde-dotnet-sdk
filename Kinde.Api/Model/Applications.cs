@@ -34,9 +34,9 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Applications" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        /// <param name="type">type.</param>
+        /// <param name="id">The application&#39;s ID, which is also its client ID..</param>
+        /// <param name="name">The application&#39;s name..</param>
+        /// <param name="type">The display name of the application type. GET /api/v1/applications/{application_id} returns the type&#39;s code instead, for example &#x60;m2m&#x60;..</param>
         public Applications(string id = default(string), string name = default(string), string type = default(string))
         {
             this.Id = id;
@@ -45,20 +45,26 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Gets or Sets Id
+        /// The application&#39;s ID, which is also its client ID.
         /// </summary>
+        /// <value>The application&#39;s ID, which is also its client ID.</value>
+        /// <example>3b0b5c6c8fcc464fab397f4969b5f482</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// The application&#39;s name.
         /// </summary>
+        /// <value>The application&#39;s name.</value>
+        /// <example>My M2M app</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Type
+        /// The display name of the application type. GET /api/v1/applications/{application_id} returns the type&#39;s code instead, for example &#x60;m2m&#x60;.
         /// </summary>
+        /// <value>The display name of the application type. GET /api/v1/applications/{application_id} returns the type&#39;s code instead, for example &#x60;m2m&#x60;.</value>
+        /// <example>Machine to machine (M2M)</example>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public string Type { get; set; }
 

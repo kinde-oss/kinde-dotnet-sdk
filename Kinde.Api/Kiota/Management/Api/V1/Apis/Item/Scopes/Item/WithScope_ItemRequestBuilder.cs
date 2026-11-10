@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.Item
         {
         }
         /// <summary>
-        /// Delete an API scope you previously created.&lt;div&gt;  &lt;code&gt;delete:apis_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Delete an API scope you previously created.&lt;div&gt;  &lt;code&gt;delete:api_scopes&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="Stream"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -117,7 +117,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.Item
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete an API scope you previously created.&lt;div&gt;  &lt;code&gt;delete:apis_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Delete an API scope you previously created.&lt;div&gt;  &lt;code&gt;delete:api_scopes&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

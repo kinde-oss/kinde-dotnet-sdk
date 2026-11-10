@@ -511,5 +511,455 @@ namespace Kinde.Api.Test.Integration.Kiota
         }
 
         #endregion
+
+        #region Newer management operations
+
+        private const string SuccessJson = """{ "code": "OK", "message": "Success" }""";
+
+        private CapturedRequest SingleRequest() => Assert.Single(_mockHandler.CapturedRequests);
+
+        private static string UnescapedPathAndQuery(CapturedRequest request) => Uri.UnescapeDataString(request.Path);
+
+        [Fact]
+        public async Task GetOrganizationRoles_SendsSortAndPaging_AndMapsRoles()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organizations/org_123/roles", """
+                {
+                  "code": "OK", "message": "Success", "has_more": true, "next_token": "next_1",
+                  "roles": [
+                    {
+                      "id": "role_1", "key": "billing_approver", "name": "Billing approver",
+                      "description": "Can approve invoices.", "created_on": "2025-01-02T03:04:05Z",
+                      "permissions": [ { "id": "perm_1", "key": "approve:invoices", "name": "Approve invoices" } ]
+                    }
+                  ]
+                }
+                """);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration)
+                .GetOrganizationRolesAsync("org_123", sort: "name_asc", pageSize: 5, nextToken: "tok_1");
+
+            var request = SingleRequest();
+            var url = UnescapedPathAndQuery(request);
+            Assert.Equal("GET", request.Method);
+            Assert.StartsWith("/api/v1/organizations/org_123/roles?", url);
+            Assert.Contains("sort=name_asc", url);
+            Assert.Contains("page_size=5", url);
+            Assert.Contains("next_token=tok_1", url);
+
+            Assert.Equal("OK", response.Code);
+            Assert.True(response.HasMore);
+            Assert.Equal("next_1", response.NextToken);
+            var role = Assert.Single(response.Roles);
+            Assert.Equal("role_1", role.Id);
+            Assert.Equal("billing_approver", role.Key);
+            Assert.Equal("Billing approver", role.Name);
+            Assert.Equal("Can approve invoices.", role.Description);
+            Assert.Equal(new DateTimeOffset(2025, 1, 2, 3, 4, 5, TimeSpan.Zero), role.CreatedOn);
+            Assert.Equal("approve:invoices", Assert.Single(role.Permissions).Key);
+        }
+
+        [Fact]
+        public async Task GetOrganizationPermissions_MapsPermissions()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organizations/org_123/permissions", """
+                {
+                  "code": "OK", "message": "Success", "has_more": false,
+                  "permissions": [ { "id": "perm_1", "key": "approve:invoices", "name": "Approve invoices", "description": "Approve." } ]
+                }
+                """);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).GetOrganizationPermissionsAsync("org_123");
+
+            var permission = Assert.Single(response.Permissions);
+            Assert.Equal("perm_1", permission.Id);
+            Assert.Equal("approve:invoices", permission.Key);
+            Assert.Equal("Approve invoices", permission.Name);
+            Assert.Equal("Approve.", permission.Description);
+        }
+
+        [Fact]
+        public async Task CreateOrganizationRole_SendsBody_AndMapsResponse()
+        {
+            _mockHandler.AddRawJsonResponse(
+                "POST",
+                "/api/v1/organizations/org_123/roles",
+                """{ "code": "ROLE_CREATED", "message": "Role created", "role": { "id": "role_9" } }""",
+                HttpStatusCode.Created);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).CreateOrganizationRoleAsync(
+                "org_123",
+                new CreateOrganizationRoleRequest(name: "Billing approver", description: "Can approve invoices.", key: "billing_approver"));
+
+            var request = SingleRequest();
+            Assert.Equal("POST", request.Method);
+            using var body = JsonDocument.Parse(request.Body);
+            Assert.Equal("billing_approver", body.RootElement.GetProperty("key").GetString());
+            Assert.Equal("Billing approver", body.RootElement.GetProperty("name").GetString());
+            Assert.Equal("ROLE_CREATED", response.Code);
+            Assert.Equal("role_9", response.Role.Id);
+        }
+
+        [Fact]
+        public async Task UpdateOrganizationPermission_SendsPatchBody()
+        {
+            _mockHandler.AddRawJsonResponse("PATCH", "/api/v1/organizations/org_123/permissions/perm_1", SuccessJson);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).UpdateOrganizationPermissionAsync(
+                "org_123", "perm_1", new UpdateOrganizationPermissionRequest { Name = "Approve all invoices" });
+
+            var request = SingleRequest();
+            Assert.Equal("PATCH", request.Method);
+            using var body = JsonDocument.Parse(request.Body);
+            Assert.Equal("Approve all invoices", body.RootElement.GetProperty("name").GetString());
+            Assert.Equal("OK", response.Code);
+        }
+
+        [Fact]
+        public async Task DeleteOrganizationRole_UsesBothPathSegments()
+        {
+            _mockHandler.AddRawJsonResponse("DELETE", "/api/v1/organizations/org_123/roles/role_1", SuccessJson);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).DeleteOrganizationRoleAsync("org_123", "role_1");
+
+            Assert.Equal("DELETE", SingleRequest().Method);
+            Assert.Equal("Success", response.Message);
+        }
+
+        [Fact]
+        public async Task GetOrganizationInvites_UsesTheSingularOrganizationPath()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organization/org_123/invites", """
+                { "code": "OK", "message": "Success", "has_more": false, "invites": [] }
+                """);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration)
+                .GetOrganizationInvitesAsync("org_123", sort: "created_on_desc", includeRevoked: true);
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.StartsWith("/api/v1/organization/org_123/invites?", url);
+            Assert.Contains("sort=created_on_desc", url);
+            Assert.Contains("include_revoked=true", url);
+            Assert.Equal("OK", response.Code);
+        }
+
+        [Fact]
+        public async Task DeleteApplicationNativeApp_SendsTheIntegerIdAsAPathSegment()
+        {
+            _mockHandler.AddRawJsonResponse("DELETE", "/api/v1/applications/app_123/native_apps/42", SuccessJson);
+
+            var response = await new ApplicationsApi(_httpClient, _configuration).DeleteApplicationNativeAppAsync("app_123", 42);
+
+            Assert.Equal("DELETE", SingleRequest().Method);
+            Assert.Equal("OK", response.Code);
+        }
+
+        [Fact]
+        public async Task GetApplicationNativeApps_MapsTheInlineResponse()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/applications/app_123/native_apps", """
+                {
+                  "code": "OK", "message": "Success",
+                  "native_sign_in": { "is_enabled": true, "passkey_requirement": "device_bound", "is_passkey_mfa_exempt": true },
+                  "native_apps": [ { "id": 7, "platform": "android", "package_name": "com.example.app", "sha256_cert_fingerprints": [ "AA:BB" ] } ]
+                }
+                """);
+
+            var response = await new ApplicationsApi(_httpClient, _configuration).GetApplicationNativeAppsAsync("app_123");
+
+            Assert.True(response.NativeSignIn.IsEnabled);
+            Assert.True(response.NativeSignIn.IsPasskeyMfaExempt);
+            Assert.Equal(GetApplicationNativeApps200ResponseNativeSignIn.PasskeyRequirementEnum.DeviceBound, response.NativeSignIn.PasskeyRequirement);
+            var app = Assert.Single(response.NativeApps);
+            Assert.Equal(7, app.Id);
+            Assert.Equal(ApplicationNativeApp.PlatformEnum.Android, app.Platform);
+            Assert.Equal("com.example.app", app.PackageName);
+            Assert.Equal("AA:BB", Assert.Single(app.Sha256CertFingerprints));
+        }
+
+        [Fact]
+        public async Task CreateApplicationNativeApp_SendsThePlatform_AndMapsTheCreatedApp()
+        {
+            _mockHandler.AddRawJsonResponse(
+                "POST",
+                "/api/v1/applications/app_123/native_apps",
+                """
+                { "code": "OK", "message": "Created", "native_app": { "id": 8, "platform": "ios", "team_id": "TEAM1", "bundle_id": "com.example.app" } }
+                """,
+                HttpStatusCode.Created);
+
+            var response = await new ApplicationsApi(_httpClient, _configuration).CreateApplicationNativeAppAsync(
+                "app_123",
+                new CreateApplicationNativeAppRequest(CreateApplicationNativeAppRequest.PlatformEnum.Ios, teamId: "TEAM1", bundleId: "com.example.app"));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            Assert.Equal("ios", body.RootElement.GetProperty("platform").GetString());
+            Assert.Equal("TEAM1", body.RootElement.GetProperty("team_id").GetString());
+            Assert.Equal(ApplicationNativeApp.PlatformEnum.Ios, response.NativeApp.Platform);
+            Assert.Equal("com.example.app", response.NativeApp.BundleId);
+        }
+
+        [Fact]
+        public async Task GetApplicationAccessRoles_MapsRoles()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/applications/app_123/access_roles", """
+                { "code": "OK", "message": "Success", "has_more": false, "roles": [ { "id": "r1", "key": "admin", "name": "Administrator" } ] }
+                """);
+
+            var response = await new ApplicationsApi(_httpClient, _configuration).GetApplicationAccessRolesAsync("app_123", pageSize: 10);
+
+            Assert.Contains("page_size=10", UnescapedPathAndQuery(SingleRequest()));
+            var role = Assert.Single(response.Roles);
+            Assert.Equal("admin", role.Key);
+            Assert.Equal("Administrator", role.Name);
+        }
+
+        [Fact]
+        public async Task GetOrganizationMfa_MapsEnabledFactorsAndTheInlineFields()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organizations/org_123/mfa", """
+                {
+                  "code": "OK", "message": "Success", "is_mfa_enforced": true, "is_recovery_codes_enabled": true,
+                  "enabled_factors": [ "mfa:email", "mfa:authenticator_app" ],
+                  "exempt_enterprise_connections": [ "conn_1" ]
+                }
+                """);
+
+            var response = await new OrganizationsApi(_httpClient, _configuration).GetOrganizationMFAAsync("org_123");
+
+            Assert.True(response.IsMfaEnforced);
+            Assert.True(response.IsRecoveryCodesEnabled);
+            Assert.Equal(
+                new[] { GetOrganizationMFA200Response.EnabledFactorsEnum.Email, GetOrganizationMFA200Response.EnabledFactorsEnum.AuthenticatorApp },
+                response.EnabledFactors);
+            Assert.Equal("conn_1", Assert.Single(response.ExemptEnterpriseConnections));
+        }
+
+        [Fact]
+        public async Task GetBillingOneTimePurchases_NewApiClass_SendsQuery_AndMapsPurchases()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/billing/one_time_purchases", """
+                {
+                  "code": "OK", "message": "Success", "has_more": false,
+                  "one_time_purchases": [
+                    { "id": "otp_1", "agreement_id": "agr_1", "feature_code": "seats", "feature_name": "Seats", "units_granted": 10,
+                      "amount": 12.5, "currency_code": "usd", "purchased_on": "2025-01-02T03:04:05Z", "expires_on": null,
+                      "is_metered": true, "expiration_policy_code": "end_of_current_billing_cycle" }
+                  ],
+                  "feature_totals": []
+                }
+                """);
+
+            var response = await new BillingOneTimePurchasesApi(_httpClient, _configuration)
+                .GetBillingOneTimePurchasesAsync("cust_1", pageSize: 2, featureTotals: true);
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.StartsWith("/api/v1/billing/one_time_purchases?", url);
+            Assert.Contains("customer_id=cust_1", url);
+            Assert.Contains("page_size=2", url);
+            Assert.Contains("feature_totals=true", url);
+
+            var purchase = Assert.Single(response.OneTimePurchases);
+            Assert.Equal("otp_1", purchase.Id);
+            Assert.Equal(10, purchase.UnitsGranted);
+            Assert.Equal(12.5m, purchase.Amount);
+            Assert.Equal(new DateTimeOffset(2025, 1, 2, 3, 4, 5, TimeSpan.Zero), purchase.PurchasedOn);
+            Assert.Null(purchase.ExpiresOn);
+            Assert.True(purchase.IsMetered);
+            Assert.Equal(
+                GetBillingOneTimePurchasesResponseOneTimePurchasesInner.ExpirationPolicyCodeEnum.EndOfCurrentBillingCycle,
+                purchase.ExpirationPolicyCode);
+        }
+
+        [Fact]
+        public async Task GetBillingMeterUsage_SendsRequiredQuery()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/billing/meter_usage", """
+                { "code": "OK", "message": "Success", "has_more": false, "meter_usages": [] }
+                """);
+
+            var response = await new BillingMeterUsageApi(_httpClient, _configuration)
+                .GetBillingMeterUsageAsync("agr_1", "seats", allCycles: true);
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("customer_agreement_id=agr_1", url);
+            Assert.Contains("feature_code=seats", url);
+            Assert.Contains("all_cycles=true", url);
+            Assert.Equal("OK", response.Code);
+        }
+
+        [Fact]
+        public async Task DeleteBillingAgreement_SendsTheCancellationChoice()
+        {
+            _mockHandler.AddRawJsonResponse("DELETE", "/api/v1/billing/agreements/agr_1", """
+                { "code": "OK", "message": "Cancellation scheduled", "cancels_on": "2025-02-01T00:00:00Z" }
+                """);
+
+            var response = await new BillingAgreementsApi(_httpClient, _configuration).DeleteBillingAgreementAsync("agr_1", cancelAt: "immediately");
+
+            Assert.Contains("cancel_at=immediately", UnescapedPathAndQuery(SingleRequest()));
+            Assert.Equal(new DateTimeOffset(2025, 2, 1, 0, 0, 0, TimeSpan.Zero), response.CancelsOn);
+        }
+
+        [Fact]
+        public async Task GetUsers_SendsPhoneAndActiveSince()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/users", """{ "code": "OK", "message": "Success", "users": [] }""");
+
+            await new UsersApi(_httpClient, _configuration).GetUsersAsync(
+                phone: "+15551234567", activeSince: new DateTimeOffset(2025, 1, 2, 3, 4, 5, TimeSpan.Zero));
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("phone=+15551234567", url);
+            Assert.Contains("active_since=2025-01-02T03:04:05", url);
+        }
+
+        [Fact]
+        public async Task GetUsers_KeepsEveryExistingPositionalArgumentWorking()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/users", """{ "code": "OK", "message": "Success", "users": [] }""");
+
+            await new UsersApi(_httpClient, _configuration).GetUsersAsync(10, "kp_1", "tok", "a@b.com", "ann", "organizations", true);
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("expand=organizations", url);
+            Assert.Contains("has_organization=true", url);
+            Assert.DoesNotContain("phone=", url);
+        }
+
+        [Fact]
+        public async Task SearchUsers_SendsApiScopes()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/search/users", """{ "code": "OK", "message": "Success", "results": [] }""");
+
+            await new SearchApi(_httpClient, _configuration).SearchUsersAsync(query: "ann", apiScopes: "read:users");
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("query=ann", url);
+            Assert.Contains("api_scopes=read:users", url);
+        }
+
+        [Fact]
+        public async Task GetOrganization_SendsExpand()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/organization", SuccessJson);
+
+            await new OrganizationsApi(_httpClient, _configuration).GetOrganizationAsync("org_123", expand: "billing");
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("code=org_123", url);
+            Assert.Contains("expand=billing", url);
+        }
+
+        [Fact]
+        public async Task GetOrganization_WithoutCode_FailsBeforeCallingTheApi()
+        {
+            var exception = await Assert.ThrowsAsync<ApiException>(
+                () => new OrganizationsApi(_httpClient, _configuration).GetOrganizationAsync(null));
+
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Empty(_mockHandler.CapturedRequests);
+        }
+
+        [Fact]
+        public async Task DeleteAPIApplicationScope_AndItsMisspelledLegacyName_CallTheSameRoute()
+        {
+            const string path = "/api/v1/apis/api_1/applications/app_1/scopes/scope_1";
+            _mockHandler.AddEmptyResponse("DELETE", path, HttpStatusCode.OK);
+            var api = new APIsApi(_httpClient, _configuration);
+
+            await api.DeleteAPIApplicationScopeAsync("api_1", "app_1", "scope_1");
+#pragma warning disable CS0618
+            await api.DeleteAPIAppliationScopeAsync("api_1", "app_1", "scope_1");
+#pragma warning restore CS0618
+
+            Assert.Equal(2, _mockHandler.CapturedRequests.Count);
+            Assert.All(_mockHandler.CapturedRequests, request =>
+            {
+                Assert.Equal("DELETE", request.Method);
+                Assert.Equal(path, request.Path);
+            });
+        }
+
+        [Fact]
+        public async Task GetIdentities_SendsFilters_AndMapsIdentities()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/identities", """
+                {
+                  "code": "OK", "message": "Success",
+                  "identities": [
+                    { "id": "idn_1", "type": "email", "is_confirmed": true, "created_on": "2025-01-02T03:04:05Z",
+                      "last_login_on": "2025-01-03T03:04:05Z", "total_logins": 3, "name": "a@b.com", "email": "a@b.com",
+                      "connection_id": "conn_1", "is_primary": true, "user_id": "kp_1" }
+                  ]
+                }
+                """);
+
+            var response = await new IdentitiesApi(_httpClient, _configuration).GetIdentitiesAsync(email: "a@b.com", connectionId: "conn_1");
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("email=a@b.com", url);
+            Assert.Contains("connection_id=conn_1", url);
+            var identity = Assert.Single(response.Identities);
+            Assert.Equal("idn_1", identity.Id);
+            Assert.Equal("email", identity.Type);
+            Assert.True(identity.IsConfirmed);
+            Assert.Equal(3, identity.TotalLogins);
+            Assert.Equal("kp_1", identity.UserId);
+        }
+
+        [Fact]
+        public async Task CreateUserBillingCustomer_SendsBody_AndMapsTheNestedCustomer()
+        {
+            _mockHandler.AddRawJsonResponse("POST", "/api/v1/users/kp_1/billing_customer", """
+                {
+                  "code": "OK", "message": "Success",
+                  "billing_customer": { "id": "bc_1", "agreement_id": "agr_1", "plan_version": 2, "plan_code": "pro", "plan_name": "Pro" }
+                }
+                """);
+
+            var response = await new UsersApi(_httpClient, _configuration).CreateUserBillingCustomerAsync(
+                "kp_1", new CreateUserBillingCustomerRequest(orgCode: "org_123", billingEmail: "a@b.com", billingPlanCode: "pro"));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            Assert.Equal("org_123", body.RootElement.GetProperty("org_code").GetString());
+            Assert.Equal("pro", body.RootElement.GetProperty("billing_plan_code").GetString());
+            Assert.Equal("bc_1", response.BillingCustomer.Id);
+            Assert.Equal(2, response.BillingCustomer.PlanVersion);
+            Assert.Equal("Pro", response.BillingCustomer.PlanName);
+        }
+
+        [Fact]
+        public async Task RotateDirectorySecret_MapsTheDirectory()
+        {
+            _mockHandler.AddRawJsonResponse("POST", "/api/v1/directories/dir_1/rotate_secret", """
+                {
+                  "code": "DIRECTORY_SECRET_ROTATED", "message": "rotated",
+                  "directory": { "id": "dir_1", "directory_name": "Okta", "secret_token": "new_secret", "created_on": "2025-01-02T03:04:05Z" }
+                }
+                """);
+
+            var response = await new DirectoriesApi(_httpClient, _configuration).RotateDirectorySecretAsync("dir_1");
+
+            Assert.Equal("POST", SingleRequest().Method);
+            Assert.Equal("DIRECTORY_SECRET_ROTATED", response.Code);
+            Assert.Equal("dir_1", response.Directory.Id);
+            Assert.Equal("new_secret", response.Directory.SecretToken);
+        }
+
+        [Fact]
+        public async Task GetApiKeys_SendsFilters()
+        {
+            _mockHandler.AddRawJsonResponse("GET", "/api/v1/api_keys", """{ "code": "OK", "message": "Success", "api_keys": [], "has_more": false }""");
+
+            var keys = await new ApiKeysApi(_httpClient, _configuration).GetApiKeysAsync(keyType: "organization", status: "active");
+
+            var url = UnescapedPathAndQuery(SingleRequest());
+            Assert.Contains("key_type=organization", url);
+            Assert.Contains("status=active", url);
+            Assert.Equal("OK", keys.Code);
+        }
+
+        #endregion
     }
 }

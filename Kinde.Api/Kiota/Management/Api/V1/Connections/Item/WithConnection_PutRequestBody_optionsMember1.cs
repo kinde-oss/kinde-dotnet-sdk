@@ -54,7 +54,14 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("client_secret", value); }
         }
 #endif
-        /// <summary>Trust this connection for account merging.</summary>
+        /// <summary>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. When omitted, the current value is kept.</summary>
+        public bool? IsPasskeyAllowed
+        {
+            get { return BackingStore?.Get<bool?>("is_passkey_allowed"); }
+            set { BackingStore?.Set("is_passkey_allowed", value); }
+        }
+        /// <summary>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</summary>
+        [Obsolete("")]
         public bool? IsTrusted
         {
             get { return BackingStore?.Get<bool?>("is_trusted"); }
@@ -65,6 +72,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
         {
             get { return BackingStore?.Get<bool?>("is_use_custom_domain"); }
             set { BackingStore?.Set("is_use_custom_domain", value); }
+        }
+        /// <summary>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1_trust_mode? TrustMode
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1_trust_mode?>("trust_mode"); }
+            set { BackingStore?.Set("trust_mode", value); }
         }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1"/> and sets the default values.
@@ -94,8 +107,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             {
                 { "client_id", n => { ClientId = n.GetStringValue(); } },
                 { "client_secret", n => { ClientSecret = n.GetStringValue(); } },
+                { "is_passkey_allowed", n => { IsPasskeyAllowed = n.GetBoolValue(); } },
                 { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
                 { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
+                { "trust_mode", n => { TrustMode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1_trust_mode>(); } },
             };
         }
         /// <summary>
@@ -107,8 +122,10 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("client_id", ClientId);
             writer.WriteStringValue("client_secret", ClientSecret);
+            writer.WriteBoolValue("is_passkey_allowed", IsPasskeyAllowed);
             writer.WriteBoolValue("is_trusted", IsTrusted);
             writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1_trust_mode>("trust_mode", TrustMode);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

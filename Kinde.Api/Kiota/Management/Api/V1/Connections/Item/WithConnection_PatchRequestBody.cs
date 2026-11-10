@@ -69,7 +69,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("name", value); }
         }
 #endif
-        /// <summary>The options property</summary>
+        /// <summary>Connection options for the strategy. For SAML and Microsoft Entra ID (OAuth 2.0) strategies, an option not listed for the strategy is rejected with INVALID_OPTIONS.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options? Options
@@ -83,6 +83,22 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>("options"); }
             set { BackingStore?.Set("options", value); }
+        }
+#endif
+        /// <summary>Enterprise connections only - the code for the organization that manages this connection. Omit to leave ownership unchanged, or send an empty string to clear it.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? OrganizationCode
+        {
+            get { return BackingStore?.Get<string?>("organization_code"); }
+            set { BackingStore?.Set("organization_code", value); }
+        }
+#nullable restore
+#else
+        public string OrganizationCode
+        {
+            get { return BackingStore?.Get<string>("organization_code"); }
+            set { BackingStore?.Set("organization_code", value); }
         }
 #endif
         /// <summary>
@@ -115,6 +131,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "enabled_applications", n => { EnabledApplications = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "options", n => { Options = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options.CreateFromDiscriminatorValue); } },
+                { "organization_code", n => { OrganizationCode = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -128,6 +145,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteCollectionOfPrimitiveValues<string>("enabled_applications", EnabledApplications);
             writer.WriteStringValue("name", Name);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options>("options", Options);
+            writer.WriteStringValue("organization_code", OrganizationCode);
             writer.WriteAdditionalData(AdditionalData);
         }
         /// <summary>

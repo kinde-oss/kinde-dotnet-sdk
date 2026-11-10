@@ -36,12 +36,12 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="id">The unique ID for the identity.</param>
         /// <param name="type">The type of identity.</param>
-        /// <param name="isConfirmed">Whether the identity is confirmed.</param>
+        /// <param name="isConfirmed">Whether the identity is confirmed. Null for identity types that do not record confirmation, such as username..</param>
         /// <param name="createdOn">Date of user creation in ISO 8601 format.</param>
-        /// <param name="lastLoginOn">Date of last login in ISO 8601 format.</param>
+        /// <param name="lastLoginOn">Date of last login in ISO 8601 format. Null if the identity has never been used to sign in..</param>
         /// <param name="totalLogins">totalLogins.</param>
         /// <param name="name">The value of the identity.</param>
-        /// <param name="email">The associated email of the identity.</param>
+        /// <param name="email">The associated email of the identity. Null for phone and username identities..</param>
         /// <param name="connectionId">The social or enterprise connection ID associated with the identity. Null for email, phone, username, and passkey identities..</param>
         /// <param name="isPrimary">Whether the identity is the primary identity for the user.</param>
         public Identity(string id = default(string), string type = default(string), bool? isConfirmed = default(bool?), string createdOn = default(string), string lastLoginOn = default(string), int totalLogins = default(int), string name = default(string), string email = default(string), string connectionId = default(string), bool? isPrimary = default(bool?))
@@ -75,11 +75,11 @@ namespace Kinde.Api.Model
         public string Type { get; set; }
 
         /// <summary>
-        /// Whether the identity is confirmed
+        /// Whether the identity is confirmed. Null for identity types that do not record confirmation, such as username.
         /// </summary>
-        /// <value>Whether the identity is confirmed</value>
+        /// <value>Whether the identity is confirmed. Null for identity types that do not record confirmation, such as username.</value>
         /// <example>true</example>
-        [DataMember(Name = "is_confirmed", EmitDefaultValue = false)]
+        [DataMember(Name = "is_confirmed", EmitDefaultValue = true)]
         public bool? IsConfirmed { get; set; }
 
         /// <summary>
@@ -91,11 +91,11 @@ namespace Kinde.Api.Model
         public string CreatedOn { get; set; }
 
         /// <summary>
-        /// Date of last login in ISO 8601 format
+        /// Date of last login in ISO 8601 format. Null if the identity has never been used to sign in.
         /// </summary>
-        /// <value>Date of last login in ISO 8601 format</value>
+        /// <value>Date of last login in ISO 8601 format. Null if the identity has never been used to sign in.</value>
         /// <example>2025-01-05T00:00:00Z</example>
-        [DataMember(Name = "last_login_on", EmitDefaultValue = false)]
+        [DataMember(Name = "last_login_on", EmitDefaultValue = true)]
         public string LastLoginOn { get; set; }
 
         /// <summary>
@@ -114,11 +114,11 @@ namespace Kinde.Api.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// The associated email of the identity
+        /// The associated email of the identity. Null for phone and username identities.
         /// </summary>
-        /// <value>The associated email of the identity</value>
+        /// <value>The associated email of the identity. Null for phone and username identities.</value>
         /// <example>sally@example.com</example>
-        [DataMember(Name = "email", EmitDefaultValue = false)]
+        [DataMember(Name = "email", EmitDefaultValue = true)]
         public string Email { get; set; }
 
         /// <summary>
@@ -202,7 +202,8 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.IsConfirmed == input.IsConfirmed ||
-                    this.IsConfirmed.Equals(input.IsConfirmed)
+                    (this.IsConfirmed != null &&
+                    this.IsConfirmed.Equals(input.IsConfirmed))
                 ) && 
                 (
                     this.CreatedOn == input.CreatedOn ||
@@ -257,7 +258,10 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.IsConfirmed.GetHashCode();
+                if (this.IsConfirmed != null)
+                {
+                    hashCode = (hashCode * 59) + this.IsConfirmed.GetHashCode();
+                }
                 if (this.CreatedOn != null)
                 {
                     hashCode = (hashCode * 59) + this.CreatedOn.GetHashCode();

@@ -32,9 +32,9 @@ namespace Kinde.Api.Model
     public partial class SetUserPasswordRequest : IEquatable<SetUserPasswordRequest>
     {
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum HashingMethodEnum
         {
@@ -57,17 +57,41 @@ namespace Kinde.Api.Model
             Md5 = 3,
 
             /// <summary>
+            /// Enum Sha256 for value: sha256
+            /// </summary>
+            [EnumMember(Value = "sha256")]
+            Sha256 = 4,
+
+            /// <summary>
             /// Enum Wordpress for value: wordpress
             /// </summary>
             [EnumMember(Value = "wordpress")]
-            Wordpress = 4
+            Wordpress = 5,
+
+            /// <summary>
+            /// Enum Pbkdf2 for value: pbkdf2
+            /// </summary>
+            [EnumMember(Value = "pbkdf2")]
+            Pbkdf2 = 6,
+
+            /// <summary>
+            /// Enum FirebaseScrypt for value: firebase-scrypt
+            /// </summary>
+            [EnumMember(Value = "firebase-scrypt")]
+            FirebaseScrypt = 7,
+
+            /// <summary>
+            /// Enum AspnetIdentityV2 for value: aspnet-identity-v2
+            /// </summary>
+            [EnumMember(Value = "aspnet-identity-v2")]
+            AspnetIdentityV2 = 8
         }
 
 
         /// <summary>
-        /// The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.
+        /// The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.
         /// </summary>
-        /// <value>The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt.</value>
+        /// <value>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</value>
         [DataMember(Name = "hashing_method", EmitDefaultValue = false)]
         public HashingMethodEnum? HashingMethod { get; set; }
         /// <summary>
@@ -105,14 +129,18 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SetUserPasswordRequest" /> class.
         /// </summary>
-        /// <param name="hashedPassword">The hashed password. (required).</param>
-        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user&#39;s password. Default is bcrypt..</param>
-        /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt..</param>
+        /// <param name="hashedPassword">The hashed password. For aspnet-identity-v2, provide the base64-encoded AspNetUsers.PasswordHash value as-is. (required).</param>
+        /// <param name="hashingMethod">The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt..</param>
+        /// <param name="salt">Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt. Required for firebase-scrypt; provide the base64-encoded per-user salt. Not used for aspnet-identity-v2 (the salt is embedded in the hash); do not provide salt, salt_position, iterations, or variant with aspnet-identity-v2..</param>
         /// <param name="saltPosition">Position of salt in password string. Not required for bcrypt..</param>
-        /// <param name="iterations">The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor)..</param>
-        /// <param name="variant">The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512)..</param>
+        /// <param name="iterations">The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor). Rejected for firebase-scrypt..</param>
+        /// <param name="variant">The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512). Rejected for firebase-scrypt..</param>
+        /// <param name="signerKey">The base64-encoded signer key from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods..</param>
+        /// <param name="saltSeparator">The base64-encoded salt separator from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods..</param>
+        /// <param name="rounds">The scrypt rounds from the Firebase project&#39;s password hash parameters (1-16). Required for firebase-scrypt; rejected for other hashing methods..</param>
+        /// <param name="memCost">The scrypt memory cost from the Firebase project&#39;s password hash parameters (1-20). Required for firebase-scrypt; rejected for other hashing methods..</param>
         /// <param name="isTemporaryPassword">The user will be prompted to set a new password after entering this one..</param>
-        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), int? iterations = default(int?), string variant = default(string), bool? isTemporaryPassword = default(bool?))
+        public SetUserPasswordRequest(string hashedPassword = default(string), HashingMethodEnum? hashingMethod = default(HashingMethodEnum?), string salt = default(string), SaltPositionEnum? saltPosition = default(SaltPositionEnum?), int? iterations = default(int?), string variant = default(string), string signerKey = default(string), string saltSeparator = default(string), int rounds = default(int), int memCost = default(int), bool? isTemporaryPassword = default(bool?))
         {
             // to ensure "hashedPassword" is required (not null)
             if (hashedPassword == null)
@@ -125,36 +153,68 @@ namespace Kinde.Api.Model
             this.SaltPosition = saltPosition;
             this.Iterations = iterations;
             this.Variant = variant;
+            this.SignerKey = signerKey;
+            this.SaltSeparator = saltSeparator;
+            this.Rounds = rounds;
+            this.MemCost = memCost;
             this.IsTemporaryPassword = isTemporaryPassword;
         }
 
         /// <summary>
-        /// The hashed password.
+        /// The hashed password. For aspnet-identity-v2, provide the base64-encoded AspNetUsers.PasswordHash value as-is.
         /// </summary>
-        /// <value>The hashed password.</value>
+        /// <value>The hashed password. For aspnet-identity-v2, provide the base64-encoded AspNetUsers.PasswordHash value as-is.</value>
         [DataMember(Name = "hashed_password", IsRequired = true, EmitDefaultValue = true)]
         public string HashedPassword { get; set; }
 
         /// <summary>
-        /// Extra characters added to passwords to make them stronger. Not required for bcrypt.
+        /// Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt. Required for firebase-scrypt; provide the base64-encoded per-user salt. Not used for aspnet-identity-v2 (the salt is embedded in the hash); do not provide salt, salt_position, iterations, or variant with aspnet-identity-v2.
         /// </summary>
-        /// <value>Extra characters added to passwords to make them stronger. Not required for bcrypt.</value>
+        /// <value>Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt. Required for firebase-scrypt; provide the base64-encoded per-user salt. Not used for aspnet-identity-v2 (the salt is embedded in the hash); do not provide salt, salt_position, iterations, or variant with aspnet-identity-v2.</value>
         [DataMember(Name = "salt", EmitDefaultValue = false)]
         public string Salt { get; set; }
 
         /// <summary>
-        /// The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).
+        /// The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor). Rejected for firebase-scrypt.
         /// </summary>
-        /// <value>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).</value>
+        /// <value>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor). Rejected for firebase-scrypt.</value>
         [DataMember(Name = "iterations", EmitDefaultValue = false)]
         public int? Iterations { get; set; }
 
         /// <summary>
-        /// The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).
+        /// The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512). Rejected for firebase-scrypt.
         /// </summary>
-        /// <value>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).</value>
+        /// <value>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512). Rejected for firebase-scrypt.</value>
         [DataMember(Name = "variant", EmitDefaultValue = false)]
         public string Variant { get; set; }
+
+        /// <summary>
+        /// The base64-encoded signer key from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.
+        /// </summary>
+        /// <value>The base64-encoded signer key from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.</value>
+        [DataMember(Name = "signer_key", EmitDefaultValue = false)]
+        public string SignerKey { get; set; }
+
+        /// <summary>
+        /// The base64-encoded salt separator from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.
+        /// </summary>
+        /// <value>The base64-encoded salt separator from the Firebase project&#39;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.</value>
+        [DataMember(Name = "salt_separator", EmitDefaultValue = false)]
+        public string SaltSeparator { get; set; }
+
+        /// <summary>
+        /// The scrypt rounds from the Firebase project&#39;s password hash parameters (1-16). Required for firebase-scrypt; rejected for other hashing methods.
+        /// </summary>
+        /// <value>The scrypt rounds from the Firebase project&#39;s password hash parameters (1-16). Required for firebase-scrypt; rejected for other hashing methods.</value>
+        [DataMember(Name = "rounds", EmitDefaultValue = false)]
+        public int Rounds { get; set; }
+
+        /// <summary>
+        /// The scrypt memory cost from the Firebase project&#39;s password hash parameters (1-20). Required for firebase-scrypt; rejected for other hashing methods.
+        /// </summary>
+        /// <value>The scrypt memory cost from the Firebase project&#39;s password hash parameters (1-20). Required for firebase-scrypt; rejected for other hashing methods.</value>
+        [DataMember(Name = "mem_cost", EmitDefaultValue = false)]
+        public int MemCost { get; set; }
 
         /// <summary>
         /// The user will be prompted to set a new password after entering this one.
@@ -177,6 +237,10 @@ namespace Kinde.Api.Model
             sb.Append("  SaltPosition: ").Append(SaltPosition).Append("\n");
             sb.Append("  Iterations: ").Append(Iterations).Append("\n");
             sb.Append("  Variant: ").Append(Variant).Append("\n");
+            sb.Append("  SignerKey: ").Append(SignerKey).Append("\n");
+            sb.Append("  SaltSeparator: ").Append(SaltSeparator).Append("\n");
+            sb.Append("  Rounds: ").Append(Rounds).Append("\n");
+            sb.Append("  MemCost: ").Append(MemCost).Append("\n");
             sb.Append("  IsTemporaryPassword: ").Append(IsTemporaryPassword).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -230,16 +294,34 @@ namespace Kinde.Api.Model
                 (
                     this.SaltPosition == input.SaltPosition ||
                     this.SaltPosition.Equals(input.SaltPosition)
-                ) &&
+                ) && 
                 (
                     this.Iterations == input.Iterations ||
                     this.Iterations.Equals(input.Iterations)
-                ) &&
+                ) && 
                 (
                     this.Variant == input.Variant ||
                     (this.Variant != null &&
                     this.Variant.Equals(input.Variant))
-                ) &&
+                ) && 
+                (
+                    this.SignerKey == input.SignerKey ||
+                    (this.SignerKey != null &&
+                    this.SignerKey.Equals(input.SignerKey))
+                ) && 
+                (
+                    this.SaltSeparator == input.SaltSeparator ||
+                    (this.SaltSeparator != null &&
+                    this.SaltSeparator.Equals(input.SaltSeparator))
+                ) && 
+                (
+                    this.Rounds == input.Rounds ||
+                    this.Rounds.Equals(input.Rounds)
+                ) && 
+                (
+                    this.MemCost == input.MemCost ||
+                    this.MemCost.Equals(input.MemCost)
+                ) && 
                 (
                     this.IsTemporaryPassword == input.IsTemporaryPassword ||
                     this.IsTemporaryPassword.Equals(input.IsTemporaryPassword)
@@ -270,6 +352,16 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Variant.GetHashCode();
                 }
+                if (this.SignerKey != null)
+                {
+                    hashCode = (hashCode * 59) + this.SignerKey.GetHashCode();
+                }
+                if (this.SaltSeparator != null)
+                {
+                    hashCode = (hashCode * 59) + this.SaltSeparator.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Rounds.GetHashCode();
+                hashCode = (hashCode * 59) + this.MemCost.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTemporaryPassword.GetHashCode();
                 return hashCode;
             }

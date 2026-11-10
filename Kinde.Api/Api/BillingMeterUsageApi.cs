@@ -37,7 +37,7 @@ namespace Kinde.Api.Api
         /// Create meter usage record
         /// </summary>
         /// <remarks>
-        /// Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -48,12 +48,43 @@ namespace Kinde.Api.Api
         /// Create meter usage record
         /// </summary>
         /// <remarks>
-        /// Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
         /// <returns>ApiResponse of CreateMeterUsageRecordResponse</returns>
         ApiResponse<CreateMeterUsageRecordResponse> CreateMeterUsageRecordWithHttpInfo(CreateMeterUsageRecordRequest createMeterUsageRecordRequest);
+        /// <summary>
+        /// Get billing meter usage
+        /// </summary>
+        /// <remarks>
+        /// Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <returns>GetBillingMeterUsageResponse</returns>
+        GetBillingMeterUsageResponse GetBillingMeterUsage(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?));
+
+        /// <summary>
+        /// Get billing meter usage
+        /// </summary>
+        /// <remarks>
+        /// Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <returns>ApiResponse of GetBillingMeterUsageResponse</returns>
+        ApiResponse<GetBillingMeterUsageResponse> GetBillingMeterUsageWithHttpInfo(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?));
         #endregion Synchronous Operations
     }
 
@@ -67,7 +98,7 @@ namespace Kinde.Api.Api
         /// Create meter usage record
         /// </summary>
         /// <remarks>
-        /// Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -79,13 +110,46 @@ namespace Kinde.Api.Api
         /// Create meter usage record
         /// </summary>
         /// <remarks>
-        /// Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateMeterUsageRecordResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateMeterUsageRecordResponse>> CreateMeterUsageRecordWithHttpInfoAsync(CreateMeterUsageRecordRequest createMeterUsageRecordRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get billing meter usage
+        /// </summary>
+        /// <remarks>
+        /// Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetBillingMeterUsageResponse</returns>
+        System.Threading.Tasks.Task<GetBillingMeterUsageResponse> GetBillingMeterUsageAsync(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get billing meter usage
+        /// </summary>
+        /// <remarks>
+        /// Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetBillingMeterUsageResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetBillingMeterUsageResponse>> GetBillingMeterUsageWithHttpInfoAsync(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -153,23 +217,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -183,13 +247,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -205,33 +268,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -248,17 +301,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -282,7 +330,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public BillingMeterUsageApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -297,10 +344,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BillingMeterUsageApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingMeterUsageApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -373,7 +421,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create meter usage record Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create meter usage record Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -385,7 +433,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create meter usage record Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create meter usage record Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -435,7 +483,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create meter usage record Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create meter usage record Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -448,7 +496,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create meter usage record Create a new meter usage record  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// Create meter usage record Create a new meter usage record against a billing agreement and feature.  Metered one-time features can receive usage after the customer has completed their first purchase of that feature.  &#x60;meter_type_code&#x60; chooses how this record updates the running total. The caller is responsible for sending the correct type and value. &#x60;meter_usage_timestamp&#x60; is stored on the record (and, for plan-metered entitlements, sent to the billing provider). It does not choose a billing cycle, does not insert the record in timestamp order, and does not change the running-total arithmetic.  Running-total rules:  - &#x60;absolute&#x60; (default): replaces the running total with   &#x60;meter_value&#x60;. - &#x60;delta&#x60;: adds &#x60;meter_value&#x60; to the last calculated running   total.  Which running total is updated:  - Plan-metered entitlements, and one-time features that expire   at the end of the current billing cycle: the current   billing cycle total. A new cycle starts at 0. - One-time features that never expire: a lifetime total for   that agreement and feature. Every accepted record updates   it, including records whose &#x60;meter_usage_timestamp&#x60; is   before the first paid purchase. This total does not reset   when the billing cycle rolls.  The response includes the created record &#x60;id&#x60; and a grant snapshot (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase) so the caller can tell whether usage has exceeded the grant without a follow-up GET. &#x60;current_usage&#x60; is that grant-relative running total after this record. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;.  &lt;div&gt;   &lt;code&gt;create:meter_usage&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createMeterUsageRecordRequest">Meter usage record</param>
@@ -480,6 +528,106 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateMeterUsageRecord: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get billing meter usage Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <returns>GetBillingMeterUsageResponse</returns>
+        public GetBillingMeterUsageResponse GetBillingMeterUsage(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?))
+        {
+            Kinde.Api.Client.ApiResponse<GetBillingMeterUsageResponse> localVarResponse = GetBillingMeterUsageWithHttpInfo(customerAgreementId, featureCode, pageSize, startingAfter, endingBefore, allCycles);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get billing meter usage Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <returns>ApiResponse of GetBillingMeterUsageResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetBillingMeterUsageResponse> GetBillingMeterUsageWithHttpInfo(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?))
+        {
+            // ===== Kiota Implementation =====
+            return GetBillingMeterUsageWithHttpInfoAsync(customerAgreementId, featureCode, pageSize, startingAfter, endingBefore, allCycles).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get billing meter usage Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetBillingMeterUsageResponse</returns>
+        public async System.Threading.Tasks.Task<GetBillingMeterUsageResponse> GetBillingMeterUsageAsync(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetBillingMeterUsageResponse> localVarResponse = await GetBillingMeterUsageWithHttpInfoAsync(customerAgreementId, featureCode, pageSize, startingAfter, endingBefore, allCycles, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get billing meter usage Returns meter usage records for one billing agreement and feature.  By default only records in the customer&#39;s current billing cycle are returned. Pass &#x60;all_cycles&#x3D;true&#x60; to page every record for that meter.  The response includes the same grant snapshot as POST (&#x60;units_granted&#x60;, &#x60;current_usage&#x60;, and &#x60;expiration_policy_code&#x60; when the grant is a one-time purchase). &#x60;current_usage&#x60; is the grant-relative running total after every accepted record — not the page sum. For never-expires one-time features that is the lifetime total (ingest-order absolute/delta). For cycle-end one-time features and plan-metered entitlements that is the current billing cycle total. Grant fields are omitted when there is no current grant. &#x60;units_granted&#x60; is also omitted when the grant is unlimited; an unlimited one-time grant still returns &#x60;expiration_policy_code&#x60;. &#x60;customer_agreement_id&#x60; and &#x60;feature_code&#x60; are on the response, not repeated on each record.  &lt;div&gt;   &lt;code&gt;read:meter_usage&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="customerAgreementId">The billing agreement to retrieve meter usage for</param>
+        /// <param name="featureCode">The feature code to retrieve meter usage for</param>
+        /// <param name="pageSize">Number of results per page. Defaults to the API page size limit if parameter not sent. Must be between 1 and that limit.  (optional, default to 500)</param>
+        /// <param name="startingAfter">The ID of the meter usage record to start after. (optional)</param>
+        /// <param name="endingBefore">The ID of the meter usage record to end before. (optional)</param>
+        /// <param name="allCycles">When true, include usage records from every billing cycle. Defaults to false (current cycle only). The grant snapshot stays grant-relative and is not the listed page.  (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetBillingMeterUsageResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetBillingMeterUsageResponse>> GetBillingMeterUsageWithHttpInfoAsync(string customerAgreementId, string featureCode, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), bool? allCycles = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'customerAgreementId' is set
+            if (customerAgreementId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'customerAgreementId' when calling BillingMeterUsageApi->GetBillingMeterUsage");
+
+            // verify the required parameter 'featureCode' is set
+            if (featureCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'featureCode' when calling BillingMeterUsageApi->GetBillingMeterUsage");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Billing.Meter_usage.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.StartingAfter = startingAfter;
+                    config.QueryParameters.EndingBefore = endingBefore;
+                    config.QueryParameters.CustomerAgreementId = customerAgreementId;
+                    config.QueryParameters.FeatureCode = featureCode;
+                    config.QueryParameters.AllCycles = allCycles;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetBillingMeterUsageResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetBillingMeterUsageResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetBillingMeterUsage: {ex.Message}", ex);
             }
         }
 

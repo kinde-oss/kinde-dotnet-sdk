@@ -35,10 +35,16 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="GetBillingEntitlementsResponsePlansInner" /> class.
         /// </summary>
         /// <param name="code">The plan code the billing customer is subscribed to.</param>
+        /// <param name="name">The published version&#39;s name.</param>
+        /// <param name="planVersion">Published version number on this agreement. Null when the agreement has no plan version. .</param>
+        /// <param name="planIsLatest">Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. .</param>
         /// <param name="subscribedOn">subscribedOn.</param>
-        public GetBillingEntitlementsResponsePlansInner(string code = default(string), DateTimeOffset subscribedOn = default(DateTimeOffset))
+        public GetBillingEntitlementsResponsePlansInner(string code = default(string), string name = default(string), int? planVersion = default(int?), bool? planIsLatest = default(bool?), DateTimeOffset subscribedOn = default(DateTimeOffset))
         {
             this.Code = code;
+            this.Name = name;
+            this.PlanVersion = planVersion;
+            this.PlanIsLatest = planIsLatest;
             this.SubscribedOn = subscribedOn;
         }
 
@@ -48,6 +54,30 @@ namespace Kinde.Api.Model
         /// <value>The plan code the billing customer is subscribed to</value>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
+
+        /// <summary>
+        /// The published version&#39;s name
+        /// </summary>
+        /// <value>The published version&#39;s name</value>
+        /// <example>Pro</example>
+        [DataMember(Name = "name", EmitDefaultValue = true)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Published version number on this agreement. Null when the agreement has no plan version. 
+        /// </summary>
+        /// <value>Published version number on this agreement. Null when the agreement has no plan version. </value>
+        /// <example>2</example>
+        [DataMember(Name = "plan_version", EmitDefaultValue = true)]
+        public int? PlanVersion { get; set; }
+
+        /// <summary>
+        /// Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. 
+        /// </summary>
+        /// <value>Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version. </value>
+        /// <example>true</example>
+        [DataMember(Name = "plan_is_latest", EmitDefaultValue = true)]
+        public bool? PlanIsLatest { get; set; }
 
         /// <summary>
         /// Gets or Sets SubscribedOn
@@ -65,6 +95,9 @@ namespace Kinde.Api.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class GetBillingEntitlementsResponsePlansInner {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PlanVersion: ").Append(PlanVersion).Append("\n");
+            sb.Append("  PlanIsLatest: ").Append(PlanIsLatest).Append("\n");
             sb.Append("  SubscribedOn: ").Append(SubscribedOn).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,6 +140,21 @@ namespace Kinde.Api.Model
                     this.Code.Equals(input.Code))
                 ) && 
                 (
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
+                ) && 
+                (
+                    this.PlanVersion == input.PlanVersion ||
+                    (this.PlanVersion != null &&
+                    this.PlanVersion.Equals(input.PlanVersion))
+                ) && 
+                (
+                    this.PlanIsLatest == input.PlanIsLatest ||
+                    (this.PlanIsLatest != null &&
+                    this.PlanIsLatest.Equals(input.PlanIsLatest))
+                ) && 
+                (
                     this.SubscribedOn == input.SubscribedOn ||
                     (this.SubscribedOn != null &&
                     this.SubscribedOn.Equals(input.SubscribedOn))
@@ -125,6 +173,18 @@ namespace Kinde.Api.Model
                 if (this.Code != null)
                 {
                     hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
+                if (this.PlanVersion != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanVersion.GetHashCode();
+                }
+                if (this.PlanIsLatest != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanIsLatest.GetHashCode();
                 }
                 if (this.SubscribedOn != null)
                 {

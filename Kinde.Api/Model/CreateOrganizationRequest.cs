@@ -82,9 +82,9 @@ namespace Kinde.Api.Model
         /// <param name="isAutoMembershipEnabled">If users become members of this organization when the org code is supplied during authentication..</param>
         /// <param name="senderName">The name of the organization that will be used in emails.</param>
         /// <param name="senderEmail">The email address that will be used in emails. Requires custom SMTP to be set up..</param>
-        /// <param name="isCreateBillingCustomer">If a billing customer is also created for this organization.</param>
-        /// <param name="billingEmail">The email address used for billing purposes for the organization.</param>
-        /// <param name="billingPlanCode">The billing plan to put the customer on. If not specified, the default plan is used.</param>
+        /// <param name="isCreateBillingCustomer">If an organization billing customer is also created for this organization.</param>
+        /// <param name="billingEmail">The email address used for billing purposes for the organization. Required when is_create_billing_customer is true.</param>
+        /// <param name="billingPlanCode">Code of a published organization billing plan to assign to the new billing customer. If omitted, the default organization plan is used. User plans and unpublished plans are rejected. .</param>
         public CreateOrganizationRequest(string name = default(string), Dictionary<string, InnerEnum> featureFlags = default(Dictionary<string, InnerEnum>), string externalId = default(string), string backgroundColor = default(string), string buttonColor = default(string), string buttonTextColor = default(string), string linkColor = default(string), string backgroundColorDark = default(string), string buttonColorDark = default(string), string buttonTextColorDark = default(string), string linkColorDark = default(string), string themeCode = default(string), string handle = default(string), bool? isAllowRegistrations = default(bool?), bool? isAutoMembershipEnabled = default(bool?), string senderName = default(string), string senderEmail = default(string), bool? isCreateBillingCustomer = default(bool?), string billingEmail = default(string), string billingPlanCode = default(string))
         {
             // to ensure "name" is required (not null)
@@ -242,25 +242,25 @@ namespace Kinde.Api.Model
         public string SenderEmail { get; set; }
 
         /// <summary>
-        /// If a billing customer is also created for this organization
+        /// If an organization billing customer is also created for this organization
         /// </summary>
-        /// <value>If a billing customer is also created for this organization</value>
+        /// <value>If an organization billing customer is also created for this organization</value>
         /// <example>false</example>
         [DataMember(Name = "is_create_billing_customer", EmitDefaultValue = false)]
         public bool? IsCreateBillingCustomer { get; set; }
 
         /// <summary>
-        /// The email address used for billing purposes for the organization
+        /// The email address used for billing purposes for the organization. Required when is_create_billing_customer is true
         /// </summary>
-        /// <value>The email address used for billing purposes for the organization</value>
+        /// <value>The email address used for billing purposes for the organization. Required when is_create_billing_customer is true</value>
         /// <example>billing@acmecorp.com</example>
         [DataMember(Name = "billing_email", EmitDefaultValue = false)]
         public string BillingEmail { get; set; }
 
         /// <summary>
-        /// The billing plan to put the customer on. If not specified, the default plan is used
+        /// Code of a published organization billing plan to assign to the new billing customer. If omitted, the default organization plan is used. User plans and unpublished plans are rejected. 
         /// </summary>
-        /// <value>The billing plan to put the customer on. If not specified, the default plan is used</value>
+        /// <value>Code of a published organization billing plan to assign to the new billing customer. If omitted, the default organization plan is used. User plans and unpublished plans are rejected. </value>
         /// <example>pro</example>
         [DataMember(Name = "billing_plan_code", EmitDefaultValue = false)]
         public string BillingPlanCode { get; set; }

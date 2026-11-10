@@ -39,13 +39,15 @@ namespace Kinde.Api.Model
         /// <param name="usersAdded">usersAdded.</param>
         /// <param name="usersUpdated">usersUpdated.</param>
         /// <param name="usersRemoved">usersRemoved.</param>
-        public UpdateOrganizationUsersResponse(string message = default(string), string code = default(string), List<string> usersAdded = default(List<string>), List<string> usersUpdated = default(List<string>), List<string> usersRemoved = default(List<string>))
+        /// <param name="usersBlocked">Users that were not added because directory sync manages them in another organization. A directory-managed user belongs only to the organization their directory owns..</param>
+        public UpdateOrganizationUsersResponse(string message = default(string), string code = default(string), List<string> usersAdded = default(List<string>), List<string> usersUpdated = default(List<string>), List<string> usersRemoved = default(List<string>), List<string> usersBlocked = default(List<string>))
         {
             this.Message = message;
             this.Code = code;
             this.UsersAdded = usersAdded;
             this.UsersUpdated = usersUpdated;
             this.UsersRemoved = usersRemoved;
+            this.UsersBlocked = usersBlocked;
         }
 
         /// <summary>
@@ -81,6 +83,13 @@ namespace Kinde.Api.Model
         public List<string> UsersRemoved { get; set; }
 
         /// <summary>
+        /// Users that were not added because directory sync manages them in another organization. A directory-managed user belongs only to the organization their directory owns.
+        /// </summary>
+        /// <value>Users that were not added because directory sync manages them in another organization. A directory-managed user belongs only to the organization their directory owns.</value>
+        [DataMember(Name = "users_blocked", EmitDefaultValue = false)]
+        public List<string> UsersBlocked { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -93,6 +102,7 @@ namespace Kinde.Api.Model
             sb.Append("  UsersAdded: ").Append(UsersAdded).Append("\n");
             sb.Append("  UsersUpdated: ").Append(UsersUpdated).Append("\n");
             sb.Append("  UsersRemoved: ").Append(UsersRemoved).Append("\n");
+            sb.Append("  UsersBlocked: ").Append(UsersBlocked).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -155,6 +165,12 @@ namespace Kinde.Api.Model
                     this.UsersRemoved != null &&
                     input.UsersRemoved != null &&
                     this.UsersRemoved.SequenceEqual(input.UsersRemoved)
+                ) && 
+                (
+                    this.UsersBlocked == input.UsersBlocked ||
+                    this.UsersBlocked != null &&
+                    input.UsersBlocked != null &&
+                    this.UsersBlocked.SequenceEqual(input.UsersBlocked)
                 );
         }
 
@@ -186,6 +202,10 @@ namespace Kinde.Api.Model
                 if (this.UsersRemoved != null)
                 {
                     hashCode = (hashCode * 59) + this.UsersRemoved.GetHashCode();
+                }
+                if (this.UsersBlocked != null)
+                {
+                    hashCode = (hashCode * 59) + this.UsersBlocked.GetHashCode();
                 }
                 return hashCode;
             }

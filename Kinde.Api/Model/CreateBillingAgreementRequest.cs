@@ -40,10 +40,12 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateBillingAgreementRequest" /> class.
         /// </summary>
         /// <param name="customerId">The ID of the billing customer to create a new agreement for (required).</param>
-        /// <param name="planCode">The code of the billing plan the new agreement will be based on (required).</param>
+        /// <param name="planCode">The code of the billing plan the new agreement will be based on. The plan can be in a different billing group from the customer&#39;s current agreement, but it must match the customer type (organization or user). (required).</param>
+        /// <param name="planVersion">Published version number to assign. Omit it to assign the latest version. Posting the customer&#39;s current plan_code does not move them onto a newer version. Name a different published version to do that. Unknown versions, and versions that were never published, return PLAN_VERSION_NOT_FOUND. .</param>
         /// <param name="isInvoiceNow">Generate a final invoice for any un-invoiced metered usage..</param>
         /// <param name="isProrate">Generate a proration invoice item that credits remaining unused features..</param>
-        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string), bool? isInvoiceNow = default(bool?), bool? isProrate = default(bool?))
+        /// <param name="skipTrial">When true, the new agreement starts paid even if the plan has a trial. Omit it, or send false, to apply the plan&#39;s trial. A repeat trial is not refused unless this is true. Self-serve portal signups are separate and do not start a second trial. .</param>
+        public CreateBillingAgreementRequest(string customerId = default(string), string planCode = default(string), int? planVersion = default(int?), bool? isInvoiceNow = default(bool?), bool? isProrate = default(bool?), bool skipTrial = default(bool))
         {
             // to ensure "customerId" is required (not null)
             if (customerId == null)
@@ -57,8 +59,10 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("planCode is a required property for CreateBillingAgreementRequest and cannot be null");
             }
             this.PlanCode = planCode;
+            this.PlanVersion = planVersion;
             this.IsInvoiceNow = isInvoiceNow;
             this.IsProrate = isProrate;
+            this.SkipTrial = skipTrial;
         }
 
         /// <summary>
@@ -70,12 +74,20 @@ namespace Kinde.Api.Model
         public string CustomerId { get; set; }
 
         /// <summary>
-        /// The code of the billing plan the new agreement will be based on
+        /// The code of the billing plan the new agreement will be based on. The plan can be in a different billing group from the customer&#39;s current agreement, but it must match the customer type (organization or user).
         /// </summary>
-        /// <value>The code of the billing plan the new agreement will be based on</value>
+        /// <value>The code of the billing plan the new agreement will be based on. The plan can be in a different billing group from the customer&#39;s current agreement, but it must match the customer type (organization or user).</value>
         /// <example>pro</example>
         [DataMember(Name = "plan_code", IsRequired = true, EmitDefaultValue = true)]
         public string PlanCode { get; set; }
+
+        /// <summary>
+        /// Published version number to assign. Omit it to assign the latest version. Posting the customer&#39;s current plan_code does not move them onto a newer version. Name a different published version to do that. Unknown versions, and versions that were never published, return PLAN_VERSION_NOT_FOUND. 
+        /// </summary>
+        /// <value>Published version number to assign. Omit it to assign the latest version. Posting the customer&#39;s current plan_code does not move them onto a newer version. Name a different published version to do that. Unknown versions, and versions that were never published, return PLAN_VERSION_NOT_FOUND. </value>
+        /// <example>2</example>
+        [DataMember(Name = "plan_version", EmitDefaultValue = true)]
+        public int? PlanVersion { get; set; }
 
         /// <summary>
         /// Generate a final invoice for any un-invoiced metered usage.
@@ -94,6 +106,14 @@ namespace Kinde.Api.Model
         public bool? IsProrate { get; set; }
 
         /// <summary>
+        /// When true, the new agreement starts paid even if the plan has a trial. Omit it, or send false, to apply the plan&#39;s trial. A repeat trial is not refused unless this is true. Self-serve portal signups are separate and do not start a second trial. 
+        /// </summary>
+        /// <value>When true, the new agreement starts paid even if the plan has a trial. Omit it, or send false, to apply the plan&#39;s trial. A repeat trial is not refused unless this is true. Self-serve portal signups are separate and do not start a second trial. </value>
+        /// <example>false</example>
+        [DataMember(Name = "skip_trial", EmitDefaultValue = true)]
+        public bool SkipTrial { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -103,8 +123,10 @@ namespace Kinde.Api.Model
             sb.Append("class CreateBillingAgreementRequest {\n");
             sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
             sb.Append("  PlanCode: ").Append(PlanCode).Append("\n");
+            sb.Append("  PlanVersion: ").Append(PlanVersion).Append("\n");
             sb.Append("  IsInvoiceNow: ").Append(IsInvoiceNow).Append("\n");
             sb.Append("  IsProrate: ").Append(IsProrate).Append("\n");
+            sb.Append("  SkipTrial: ").Append(SkipTrial).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -151,12 +173,21 @@ namespace Kinde.Api.Model
                     this.PlanCode.Equals(input.PlanCode))
                 ) && 
                 (
+                    this.PlanVersion == input.PlanVersion ||
+                    (this.PlanVersion != null &&
+                    this.PlanVersion.Equals(input.PlanVersion))
+                ) && 
+                (
                     this.IsInvoiceNow == input.IsInvoiceNow ||
                     this.IsInvoiceNow.Equals(input.IsInvoiceNow)
                 ) && 
                 (
                     this.IsProrate == input.IsProrate ||
                     this.IsProrate.Equals(input.IsProrate)
+                ) && 
+                (
+                    this.SkipTrial == input.SkipTrial ||
+                    this.SkipTrial.Equals(input.SkipTrial)
                 );
         }
 
@@ -177,8 +208,13 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.PlanCode.GetHashCode();
                 }
+                if (this.PlanVersion != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanVersion.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.IsInvoiceNow.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsProrate.GetHashCode();
+                hashCode = (hashCode * 59) + this.SkipTrial.GetHashCode();
                 return hashCode;
             }
         }

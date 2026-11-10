@@ -53,9 +53,35 @@ if [ -d "/usr/local/Cellar/dotnet@8" ]; then
 fi
 export PATH="${HOME}/.dotnet/tools:${PATH}"
 
-# API Configuration
+# API Configuration. Always generate from the hosted specs, never from a copy in the repo.
 MANAGEMENT_API_SPEC_URL="https://api-spec.kinde.com/kinde-management-api-spec.yaml"
 ACCOUNTS_API_SPEC_URL="https://api-spec.kinde.com/kinde-frontend-api-spec.yaml"
+
+GENERATE_MANAGEMENT=true
+GENERATE_ACCOUNTS=true
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --management)
+            GENERATE_MANAGEMENT=true
+            GENERATE_ACCOUNTS=false
+            shift
+            ;;
+        --accounts)
+            GENERATE_MANAGEMENT=false
+            GENERATE_ACCOUNTS=true
+            shift
+            ;;
+        --help|-h)
+            echo "Usage: $0 [--management | --accounts]"
+            exit 0
+            ;;
+        *)
+            print_error "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
 
 # Output directories
 KIOTA_OUTPUT_DIR="${REPO_ROOT}/Kinde.Api/Kiota"
@@ -80,20 +106,22 @@ check_kiota() {
 cleanup_previous() {
     print_status "Cleaning up previous Kiota generation..."
     
-    if [ -d "${MANAGEMENT_OUTPUT_DIR}" ]; then
-        rm -rf "${MANAGEMENT_OUTPUT_DIR}"
-        print_status "Removed ${MANAGEMENT_OUTPUT_DIR}"
+    if [ "${GENERATE_MANAGEMENT}" = true ]; then
+        if [ -d "${MANAGEMENT_OUTPUT_DIR}" ]; then
+            rm -rf "${MANAGEMENT_OUTPUT_DIR}"
+            print_status "Removed ${MANAGEMENT_OUTPUT_DIR}"
+        fi
+        mkdir -p "${MANAGEMENT_OUTPUT_DIR}"
     fi
-    
-    if [ -d "${ACCOUNTS_OUTPUT_DIR}" ]; then
-        rm -rf "${ACCOUNTS_OUTPUT_DIR}"
-        print_status "Removed ${ACCOUNTS_OUTPUT_DIR}"
+
+    if [ "${GENERATE_ACCOUNTS}" = true ]; then
+        if [ -d "${ACCOUNTS_OUTPUT_DIR}" ]; then
+            rm -rf "${ACCOUNTS_OUTPUT_DIR}"
+            print_status "Removed ${ACCOUNTS_OUTPUT_DIR}"
+        fi
+        mkdir -p "${ACCOUNTS_OUTPUT_DIR}"
     fi
-    
-    # Create output directories
-    mkdir -p "${MANAGEMENT_OUTPUT_DIR}"
-    mkdir -p "${ACCOUNTS_OUTPUT_DIR}"
-    
+
     print_success "Cleanup complete"
 }
 
@@ -180,8 +208,12 @@ main() {
     
     check_kiota
     cleanup_previous
-    generate_management_api
-    generate_accounts_api
+    if [ "${GENERATE_MANAGEMENT}" = true ]; then
+        generate_management_api
+    fi
+    if [ "${GENERATE_ACCOUNTS}" = true ]; then
+        generate_accounts_api
+    fi
     count_files
     
     echo ""

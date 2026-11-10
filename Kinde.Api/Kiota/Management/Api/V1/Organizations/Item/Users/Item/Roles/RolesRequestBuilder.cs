@@ -65,7 +65,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_roles_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_roles_response.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Add role to an organization user.&lt;div&gt;  &lt;code&gt;create:organization_user_roles&lt;/code&gt;&lt;/div&gt;
+        /// Add role to an organization user.Roles cannot be added to users in organizations managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;create:organization_user_roles&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -104,7 +104,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles
             return requestInfo;
         }
         /// <summary>
-        /// Add role to an organization user.&lt;div&gt;  &lt;code&gt;create:organization_user_roles&lt;/code&gt;&lt;/div&gt;
+        /// Add role to an organization user.Roles cannot be added to users in organizations managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;create:organization_user_roles&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
