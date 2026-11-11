@@ -179,12 +179,11 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>Reads the entries of a dictionary source, generic or not.</summary>
-        private static bool TryGetEntries(object source, out IEnumerable<KeyValuePair<object, object>> entries)
+        internal static bool TryGetEntries(object source, out IEnumerable<KeyValuePair<object, object>> entries)
         {
             if (source is IDictionary dictionary)
             {
-                entries = dictionary.Cast<DictionaryEntry>()
-                    .Select(entry => new KeyValuePair<object, object>(entry.Key, entry.Value));
+                entries = ReadEntries(dictionary);
                 return true;
             }
 
@@ -210,6 +209,20 @@ namespace Kinde.Api.Mapping
                     keyProperty.GetValue(pair),
                     valueProperty.GetValue(pair)));
             return true;
+        }
+
+        /// <summary>
+        /// Walks the dictionary enumerator. Enumerating an <see cref="IDictionary"/> as a plain
+        /// <see cref="IEnumerable"/> yields key/value pairs for <c>Dictionary&lt;,&gt;</c>, not
+        /// <see cref="DictionaryEntry"/> values.
+        /// </summary>
+        private static IEnumerable<KeyValuePair<object, object>> ReadEntries(IDictionary dictionary)
+        {
+            var enumerator = dictionary.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                yield return new KeyValuePair<object, object>(enumerator.Key, enumerator.Value);
+            }
         }
 
         private bool TryMapEnumerable(object source, Type destinationType, out object result)

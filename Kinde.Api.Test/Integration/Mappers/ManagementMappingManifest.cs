@@ -1,577 +1,201 @@
-// Every Kiota/SDK type pair the mapper carries. Add a pair here when a wrapper starts mapping a new type.
+// The Kiota/SDK type pairs the mapper carries, found by reflection so a regeneration cannot leave one untested.
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Kiota.Abstractions.Serialization;
 
 namespace Kinde.Api.Test.Integration.Mappers
 {
     internal static class ManagementMappingManifest
     {
-        internal static IEnumerable<(Type Source, Type Destination)> Pairs => new[]
+        private const string KiotaNamespace = "Kinde.Api.Kiota.Management";
+
+        /// <summary>
+        /// Pairs whose names and shapes give nothing to match on. Everything else is discovered.
+        /// </summary>
+        private static readonly (Type Kiota, Type Sdk)[] ExplicitPairs =
         {
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Add_organization_users_response), typeof(global::Kinde.Api.Model.AddOrganizationUsersResponse)),
-            (typeof(global::Kinde.Api.Model.AddOrganizationUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Add_organization_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Add_role_scope_response), typeof(global::Kinde.Api.Model.AddRoleScopeResponse)),
-            (typeof(global::Kinde.Api.Model.AddRoleScopeResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Add_role_scope_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Applications), typeof(global::Kinde.Api.Model.Applications)),
-            (typeof(global::Kinde.Api.Model.Applications), typeof(global::Kinde.Api.Kiota.Management.Models.Applications)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Authorize_app_api_response), typeof(global::Kinde.Api.Model.AuthorizeAppApiResponse)),
-            (typeof(global::Kinde.Api.Model.AuthorizeAppApiResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Authorize_app_api_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Category), typeof(global::Kinde.Api.Model.Category)),
-            (typeof(global::Kinde.Api.Model.Category), typeof(global::Kinde.Api.Kiota.Management.Models.Category)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Connected_apps_access_token), typeof(global::Kinde.Api.Model.ConnectedAppsAccessToken)),
-            (typeof(global::Kinde.Api.Model.ConnectedAppsAccessToken), typeof(global::Kinde.Api.Kiota.Management.Models.Connected_apps_access_token)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Connected_apps_auth_url), typeof(global::Kinde.Api.Model.ConnectedAppsAuthUrl)),
-            (typeof(global::Kinde.Api.Model.ConnectedAppsAuthUrl), typeof(global::Kinde.Api.Kiota.Management.Models.Connected_apps_auth_url)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Connection), typeof(global::Kinde.Api.Model.Connection)),
-            (typeof(global::Kinde.Api.Model.Connection), typeof(global::Kinde.Api.Kiota.Management.Models.Connection)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Connection_connection), typeof(global::Kinde.Api.Model.ConnectionConnection)),
-            (typeof(global::Kinde.Api.Model.ConnectionConnection), typeof(global::Kinde.Api.Kiota.Management.Models.Connection_connection)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_key_response), typeof(global::Kinde.Api.Model.CreateApiKeyResponse)),
-            (typeof(global::Kinde.Api.Model.CreateApiKeyResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_key_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_key_response_api_key), typeof(global::Kinde.Api.Model.CreateApiKeyResponseApiKey)),
-            (typeof(global::Kinde.Api.Model.CreateApiKeyResponseApiKey), typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_key_response_api_key)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_scopes_response), typeof(global::Kinde.Api.Model.CreateApiScopesResponse)),
-            (typeof(global::Kinde.Api.Model.CreateApiScopesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_scopes_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_scopes_response_scope), typeof(global::Kinde.Api.Model.CreateApiScopesResponseScope)),
-            (typeof(global::Kinde.Api.Model.CreateApiScopesResponseScope), typeof(global::Kinde.Api.Kiota.Management.Models.Create_api_scopes_response_scope)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_apis_response), typeof(global::Kinde.Api.Model.CreateApisResponse)),
-            (typeof(global::Kinde.Api.Model.CreateApisResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_apis_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_apis_response_api), typeof(global::Kinde.Api.Model.CreateApisResponseApi)),
-            (typeof(global::Kinde.Api.Model.CreateApisResponseApi), typeof(global::Kinde.Api.Kiota.Management.Models.Create_apis_response_api)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_application_response), typeof(global::Kinde.Api.Model.CreateApplicationResponse)),
-            (typeof(global::Kinde.Api.Model.CreateApplicationResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_application_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_application_response_application), typeof(global::Kinde.Api.Model.CreateApplicationResponseApplication)),
-            (typeof(global::Kinde.Api.Model.CreateApplicationResponseApplication), typeof(global::Kinde.Api.Kiota.Management.Models.Create_application_response_application)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_category_response), typeof(global::Kinde.Api.Model.CreateCategoryResponse)),
-            (typeof(global::Kinde.Api.Model.CreateCategoryResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_category_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_category_response_category), typeof(global::Kinde.Api.Model.CreateCategoryResponseCategory)),
-            (typeof(global::Kinde.Api.Model.CreateCategoryResponseCategory), typeof(global::Kinde.Api.Kiota.Management.Models.Create_category_response_category)),
-            (typeof(global::Kinde.Api.Model.CreateCategoryRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Property_categories.Property_categoriesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Property_categories.Property_categoriesPostRequestBody), typeof(global::Kinde.Api.Model.CreateCategoryRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateCategoryRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Property_categories.Item.WithCategory_PutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Property_categories.Item.WithCategory_PutRequestBody), typeof(global::Kinde.Api.Model.UpdateCategoryRequest)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf2.NameIdFormatEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_name_id_format)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf2.ProtocolBindingEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_protocol_binding)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3_sign_request_algorithm)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf2.NameIdFormatEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf2.ProtocolBindingEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_protocol_binding)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf1.NameIdFormatEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3_name_id_format)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf1.ProtocolBindingEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3_protocol_binding)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3_sign_request_algorithm)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_connection_response), typeof(global::Kinde.Api.Model.CreateConnectionResponse)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_connection_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_connection_response_connection), typeof(global::Kinde.Api.Model.CreateConnectionResponseConnection)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionResponseConnection), typeof(global::Kinde.Api.Kiota.Management.Models.Create_connection_response_connection)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember1), typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf1), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember2), typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf1)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf2), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody_optionsMember3), typeof(global::Kinde.Api.Model.CreateConnectionRequestOptionsOneOf2)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequestOptions), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody.ConnectionsPostRequestBody_options)),
-            (typeof(global::Kinde.Api.Model.CreateConnectionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.ConnectionsPostRequestBody)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember1), typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf1), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember2), typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf1)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf2), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3), typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf2)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptions), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody.WithConnection_PutRequestBody_options)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody)),
-            (typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember1), typeof(global::Kinde.Api.Model.ReplaceConnectionRequestOptionsOneOf)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember2), typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf1), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody_optionsMember3), typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptionsOneOf1)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequestOptions), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody.WithConnection_PatchRequestBody_options)),
-            (typeof(global::Kinde.Api.Model.UpdateConnectionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_environment_variable_response), typeof(global::Kinde.Api.Model.CreateEnvironmentVariableResponse)),
-            (typeof(global::Kinde.Api.Model.CreateEnvironmentVariableResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_environment_variable_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_environment_variable_response_environment_variable), typeof(global::Kinde.Api.Model.CreateEnvironmentVariableResponseEnvironmentVariable)),
-            (typeof(global::Kinde.Api.Model.CreateEnvironmentVariableResponseEnvironmentVariable), typeof(global::Kinde.Api.Kiota.Management.Models.Create_environment_variable_response_environment_variable)),
-            (typeof(global::Kinde.Api.Model.CreateEnvironmentVariableRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Environment_variables.Environment_variablesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Environment_variables.Environment_variablesPostRequestBody), typeof(global::Kinde.Api.Model.CreateEnvironmentVariableRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateEnvironmentVariableRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Environment_variables.Item.WithVariable_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Environment_variables.Item.WithVariable_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateEnvironmentVariableRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_identity_response), typeof(global::Kinde.Api.Model.CreateIdentityResponse)),
-            (typeof(global::Kinde.Api.Model.CreateIdentityResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_identity_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_identity_response_identity), typeof(global::Kinde.Api.Model.CreateIdentityResponseIdentity)),
-            (typeof(global::Kinde.Api.Model.CreateIdentityResponseIdentity), typeof(global::Kinde.Api.Kiota.Management.Models.Create_identity_response_identity)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response), typeof(global::Kinde.Api.Model.CreateMeterUsageRecordResponse)),
-            (typeof(global::Kinde.Api.Model.CreateMeterUsageRecordResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_meter_usage_record_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_response), typeof(global::Kinde.Api.Model.CreateOrganizationResponse)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_response_organization), typeof(global::Kinde.Api.Model.CreateOrganizationResponseOrganization)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationResponseOrganization), typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_response_organization)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_property_response), typeof(global::Kinde.Api.Model.CreatePropertyResponse)),
-            (typeof(global::Kinde.Api.Model.CreatePropertyResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_property_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_property_response_property), typeof(global::Kinde.Api.Model.CreatePropertyResponseProperty)),
-            (typeof(global::Kinde.Api.Model.CreatePropertyResponseProperty), typeof(global::Kinde.Api.Kiota.Management.Models.Create_property_response_property)),
-            (typeof(global::Kinde.Api.Model.CreatePropertyRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Properties.PropertiesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Properties.PropertiesPostRequestBody), typeof(global::Kinde.Api.Model.CreatePropertyRequest)),
-            (typeof(global::Kinde.Api.Model.UpdatePropertyRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Properties.Item.WithProperty_PutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Properties.Item.WithProperty_PutRequestBody), typeof(global::Kinde.Api.Model.UpdatePropertyRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_roles_response), typeof(global::Kinde.Api.Model.CreateRolesResponse)),
-            (typeof(global::Kinde.Api.Model.CreateRolesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_roles_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_roles_response_role), typeof(global::Kinde.Api.Model.CreateRolesResponseRole)),
-            (typeof(global::Kinde.Api.Model.CreateRolesResponseRole), typeof(global::Kinde.Api.Kiota.Management.Models.Create_roles_response_role)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_subscriber_success_response), typeof(global::Kinde.Api.Model.CreateSubscriberSuccessResponse)),
-            (typeof(global::Kinde.Api.Model.CreateSubscriberSuccessResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_subscriber_success_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_subscriber_success_response_subscriber), typeof(global::Kinde.Api.Model.CreateSubscriberSuccessResponseSubscriber)),
-            (typeof(global::Kinde.Api.Model.CreateSubscriberSuccessResponseSubscriber), typeof(global::Kinde.Api.Kiota.Management.Models.Create_subscriber_success_response_subscriber)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_user_response), typeof(global::Kinde.Api.Model.CreateUserResponse)),
-            (typeof(global::Kinde.Api.Model.CreateUserResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_user_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_webhook_response), typeof(global::Kinde.Api.Model.CreateWebhookResponse)),
-            (typeof(global::Kinde.Api.Model.CreateWebhookResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_webhook_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_webhook_response_webhook), typeof(global::Kinde.Api.Model.CreateWebhookResponseWebhook)),
-            (typeof(global::Kinde.Api.Model.CreateWebhookResponseWebhook), typeof(global::Kinde.Api.Kiota.Management.Models.Create_webhook_response_webhook)),
-            (typeof(global::Kinde.Api.Model.CreateWebHookRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Webhooks.WebhooksPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Webhooks.WebhooksPostRequestBody), typeof(global::Kinde.Api.Model.CreateWebHookRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateWebHookRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Webhooks.Item.WithWebhook_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Webhooks.Item.WithWebhook_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateWebHookRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Delete_api_response), typeof(global::Kinde.Api.Model.DeleteApiResponse)),
-            (typeof(global::Kinde.Api.Model.DeleteApiResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Delete_api_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Delete_environment_variable_response), typeof(global::Kinde.Api.Model.DeleteEnvironmentVariableResponse)),
-            (typeof(global::Kinde.Api.Model.DeleteEnvironmentVariableResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Delete_environment_variable_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Delete_role_scope_response), typeof(global::Kinde.Api.Model.DeleteRoleScopeResponse)),
-            (typeof(global::Kinde.Api.Model.DeleteRoleScopeResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Delete_role_scope_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Delete_webhook_response), typeof(global::Kinde.Api.Model.DeleteWebhookResponse)),
-            (typeof(global::Kinde.Api.Model.DeleteWebhookResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Delete_webhook_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Environment_variable), typeof(global::Kinde.Api.Model.EnvironmentVariable)),
-            (typeof(global::Kinde.Api.Model.EnvironmentVariable), typeof(global::Kinde.Api.Kiota.Management.Models.Environment_variable)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Error), typeof(global::Kinde.Api.Model.Error)),
-            (typeof(global::Kinde.Api.Model.Error), typeof(global::Kinde.Api.Kiota.Management.Models.Error)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Error_response), typeof(global::Kinde.Api.Model.ErrorResponse)),
-            (typeof(global::Kinde.Api.Model.ErrorResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Error_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Event_type), typeof(global::Kinde.Api.Model.EventType)),
-            (typeof(global::Kinde.Api.Model.EventType), typeof(global::Kinde.Api.Kiota.Management.Models.Event_type)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_key_response), typeof(global::Kinde.Api.Model.GetApiKeyResponse)),
-            (typeof(global::Kinde.Api.Model.GetApiKeyResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_key_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_key_response_api_key), typeof(global::Kinde.Api.Model.GetApiKeyResponseApiKey)),
-            (typeof(global::Kinde.Api.Model.GetApiKeyResponseApiKey), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_key_response_api_key)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_keys_response), typeof(global::Kinde.Api.Model.GetApiKeysResponse)),
-            (typeof(global::Kinde.Api.Model.GetApiKeysResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_keys_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_keys_response_api_keys), typeof(global::Kinde.Api.Model.GetApiKeysResponseApiKeysInner)),
-            (typeof(global::Kinde.Api.Model.GetApiKeysResponseApiKeysInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_keys_response_api_keys)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response), typeof(global::Kinde.Api.Model.GetApiResponse)),
-            (typeof(global::Kinde.Api.Model.GetApiResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api), typeof(global::Kinde.Api.Model.GetApiResponseApi)),
-            (typeof(global::Kinde.Api.Model.GetApiResponseApi), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api_applications), typeof(global::Kinde.Api.Model.GetApiResponseApiApplicationsInner)),
-            (typeof(global::Kinde.Api.Model.GetApiResponseApiApplicationsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api_applications)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api_scopes), typeof(global::Kinde.Api.Model.GetApiResponseApiScopesInner)),
-            (typeof(global::Kinde.Api.Model.GetApiResponseApiScopesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_response_api_scopes)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scope_response), typeof(global::Kinde.Api.Model.GetApiScopeResponse)),
-            (typeof(global::Kinde.Api.Model.GetApiScopeResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scope_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scope_response_scope), typeof(global::Kinde.Api.Model.GetApiScopesResponseScopesInner)),
-            (typeof(global::Kinde.Api.Model.GetApiScopesResponseScopesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scope_response_scope)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scopes_response), typeof(global::Kinde.Api.Model.GetApiScopesResponse)),
-            (typeof(global::Kinde.Api.Model.GetApiScopesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scopes_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scopes_response_scopes), typeof(global::Kinde.Api.Model.GetApiScopesResponseScopesInner)),
-            (typeof(global::Kinde.Api.Model.GetApiScopesResponseScopesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_scopes_response_scopes)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response), typeof(global::Kinde.Api.Model.GetApisResponse)),
-            (typeof(global::Kinde.Api.Model.GetApisResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response_apis), typeof(global::Kinde.Api.Model.GetApisResponseApisInner)),
-            (typeof(global::Kinde.Api.Model.GetApisResponseApisInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response_apis)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response_apis_scopes), typeof(global::Kinde.Api.Model.GetApisResponseApisInnerScopesInner)),
-            (typeof(global::Kinde.Api.Model.GetApisResponseApisInnerScopesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_apis_response_apis_scopes)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_application_response), typeof(global::Kinde.Api.Model.GetApplicationResponse)),
-            (typeof(global::Kinde.Api.Model.GetApplicationResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_application_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_application_response_application), typeof(global::Kinde.Api.Model.GetApplicationResponseApplication)),
-            (typeof(global::Kinde.Api.Model.GetApplicationResponseApplication), typeof(global::Kinde.Api.Kiota.Management.Models.Get_application_response_application)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_applications_response), typeof(global::Kinde.Api.Model.GetApplicationsResponse)),
-            (typeof(global::Kinde.Api.Model.GetApplicationsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_applications_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response), typeof(global::Kinde.Api.Model.GetBillingAgreementsResponse)),
-            (typeof(global::Kinde.Api.Model.GetBillingAgreementsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements), typeof(global::Kinde.Api.Model.GetBillingAgreementsResponseAgreementsInner)),
-            (typeof(global::Kinde.Api.Model.GetBillingAgreementsResponseAgreementsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements), typeof(global::Kinde.Api.Model.GetBillingAgreementsResponseAgreementsInnerEntitlementsInner)),
-            (typeof(global::Kinde.Api.Model.GetBillingAgreementsResponseAgreementsInnerEntitlementsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response), typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponse)),
-            (typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response_entitlements), typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponseEntitlementsInner)),
-            (typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponseEntitlementsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response_entitlements)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response_plans), typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponsePlansInner)),
-            (typeof(global::Kinde.Api.Model.GetBillingEntitlementsResponsePlansInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_entitlements_response_plans)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_business_response), typeof(global::Kinde.Api.Model.GetBusinessResponse)),
-            (typeof(global::Kinde.Api.Model.GetBusinessResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_business_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_business_response_business), typeof(global::Kinde.Api.Model.GetBusinessResponseBusiness)),
-            (typeof(global::Kinde.Api.Model.GetBusinessResponseBusiness), typeof(global::Kinde.Api.Kiota.Management.Models.Get_business_response_business)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_categories_response), typeof(global::Kinde.Api.Model.GetCategoriesResponse)),
-            (typeof(global::Kinde.Api.Model.GetCategoriesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_categories_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_connections_response), typeof(global::Kinde.Api.Model.GetConnectionsResponse)),
-            (typeof(global::Kinde.Api.Model.GetConnectionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_connections_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_feature_flags_response), typeof(global::Kinde.Api.Model.GetEnvironmentFeatureFlagsResponse)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentFeatureFlagsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_feature_flags_response)),
-            (typeof(global::Kinde.Api.Model.CreateFeatureFlagRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Feature_flagsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Feature_flagsPostRequestBody), typeof(global::Kinde.Api.Model.CreateFeatureFlagRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response), typeof(global::Kinde.Api.Model.GetEnvironmentResponse)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironment)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironment), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_background_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_background_color)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_link_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_link_color)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_button_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_button_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_button_text_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_button_text_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_link_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_response_environment_background_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_variable_response), typeof(global::Kinde.Api.Model.GetEnvironmentVariableResponse)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentVariableResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_variable_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_variables_response), typeof(global::Kinde.Api.Model.GetEnvironmentVariablesResponse)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentVariablesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_environment_variables_response)),
-            (typeof(global::Kinde.Api.Model.UpdateEnvironementFeatureFlagOverrideRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.EnvironmentNamespace.Feature_flags.Item.WithFeature_flag_keyPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.EnvironmentNamespace.Feature_flags.Item.WithFeature_flag_keyPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateEnvironementFeatureFlagOverrideRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_response), typeof(global::Kinde.Api.Model.GetEventResponse)),
-            (typeof(global::Kinde.Api.Model.GetEventResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_response_event), typeof(global::Kinde.Api.Model.GetEventResponseEvent)),
-            (typeof(global::Kinde.Api.Model.GetEventResponseEvent), typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_response_event)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_types_response), typeof(global::Kinde.Api.Model.GetEventTypesResponse)),
-            (typeof(global::Kinde.Api.Model.GetEventTypesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_event_types_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_identities_response), typeof(global::Kinde.Api.Model.GetIdentitiesResponse)),
-            (typeof(global::Kinde.Api.Model.GetIdentitiesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_identities_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_industries_response), typeof(global::Kinde.Api.Model.GetIndustriesResponse)),
-            (typeof(global::Kinde.Api.Model.GetIndustriesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_industries_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_industries_response_industries), typeof(global::Kinde.Api.Model.GetIndustriesResponseIndustriesInner)),
-            (typeof(global::Kinde.Api.Model.GetIndustriesResponseIndustriesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_industries_response_industries)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_feature_flags_response), typeof(global::Kinde.Api.Model.GetOrganizationFeatureFlagsResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationFeatureFlagsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_feature_flags_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_background_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor)),
-            (typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_background_color)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_button_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_button_text_color), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentBackgroundColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_link_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_background_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_button_text_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_button_color_dark), typeof(global::Kinde.Api.Model.GetEnvironmentResponseEnvironmentLinkColor)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response), typeof(global::Kinde.Api.Model.GetOrganizationResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_billing), typeof(global::Kinde.Api.Model.GetOrganizationResponseBilling)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationResponseBilling), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_billing)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_billing_agreements), typeof(global::Kinde.Api.Model.GetOrganizationResponseBillingAgreementsInner)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationResponseBillingAgreementsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_response_billing_agreements)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_users_response), typeof(global::Kinde.Api.Model.GetOrganizationUsersResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_response), typeof(global::Kinde.Api.Model.GetOrganizationsResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_permissions_response), typeof(global::Kinde.Api.Model.GetOrganizationsUserPermissionsResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationsUserPermissionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_permissions_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_roles_response), typeof(global::Kinde.Api.Model.GetOrganizationsUserRolesResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationsUserRolesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organizations_user_roles_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_permissions_response), typeof(global::Kinde.Api.Model.GetPermissionsResponse)),
-            (typeof(global::Kinde.Api.Model.GetPermissionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_permissions_response)),
-            (typeof(global::Kinde.Api.Model.CreatePermissionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Permissions.PermissionsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Permissions.PermissionsPostRequestBody), typeof(global::Kinde.Api.Model.CreatePermissionRequest)),
-            (typeof(global::Kinde.Api.Model.CreatePermissionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Permissions.Item.WithPermission_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Permissions.Item.WithPermission_PatchRequestBody), typeof(global::Kinde.Api.Model.CreatePermissionRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_properties_response), typeof(global::Kinde.Api.Model.GetPropertiesResponse)),
-            (typeof(global::Kinde.Api.Model.GetPropertiesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_properties_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_property_values_response), typeof(global::Kinde.Api.Model.GetPropertyValuesResponse)),
-            (typeof(global::Kinde.Api.Model.GetPropertyValuesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_property_values_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_response), typeof(global::Kinde.Api.Model.GetRoleResponse)),
-            (typeof(global::Kinde.Api.Model.GetRoleResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_response_role), typeof(global::Kinde.Api.Model.GetRoleResponseRole)),
-            (typeof(global::Kinde.Api.Model.GetRoleResponseRole), typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_response_role)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_roles_response), typeof(global::Kinde.Api.Model.GetRolesResponse)),
-            (typeof(global::Kinde.Api.Model.GetRolesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_roles_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_subscriber_response), typeof(global::Kinde.Api.Model.GetSubscriberResponse)),
-            (typeof(global::Kinde.Api.Model.GetSubscriberResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_subscriber_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_subscribers_response), typeof(global::Kinde.Api.Model.GetSubscribersResponse)),
-            (typeof(global::Kinde.Api.Model.GetSubscribersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_subscribers_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_timezones_response), typeof(global::Kinde.Api.Model.GetTimezonesResponse)),
-            (typeof(global::Kinde.Api.Model.GetTimezonesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_timezones_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_timezones_response_timezones), typeof(global::Kinde.Api.Model.GetTimezonesResponseTimezonesInner)),
-            (typeof(global::Kinde.Api.Model.GetTimezonesResponseTimezonesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_timezones_response_timezones)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_mfa_response), typeof(global::Kinde.Api.Model.GetUserMfaResponse)),
-            (typeof(global::Kinde.Api.Model.GetUserMfaResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_mfa_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_mfa_response_mfa), typeof(global::Kinde.Api.Model.GetUserMfaResponseMfa)),
-            (typeof(global::Kinde.Api.Model.GetUserMfaResponseMfa), typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_mfa_response_mfa)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_sessions_response), typeof(global::Kinde.Api.Model.GetUserSessionsResponse)),
-            (typeof(global::Kinde.Api.Model.GetUserSessionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_sessions_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_sessions_response_sessions), typeof(global::Kinde.Api.Model.GetUserSessionsResponseSessionsInner)),
-            (typeof(global::Kinde.Api.Model.GetUserSessionsResponseSessionsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_user_sessions_response_sessions)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_webhooks_response), typeof(global::Kinde.Api.Model.GetWebhooksResponse)),
-            (typeof(global::Kinde.Api.Model.GetWebhooksResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_webhooks_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Identity), typeof(global::Kinde.Api.Model.Identity)),
-            (typeof(global::Kinde.Api.Model.Identity), typeof(global::Kinde.Api.Kiota.Management.Models.Identity)),
-            (typeof(global::Kinde.Api.Model.UpdateIdentityRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Identities.Item.WithIdentity_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Identities.Item.WithIdentity_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateIdentityRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Logout_redirect_urls), typeof(global::Kinde.Api.Model.LogoutRedirectUrls)),
-            (typeof(global::Kinde.Api.Model.LogoutRedirectUrls), typeof(global::Kinde.Api.Kiota.Management.Models.Logout_redirect_urls)),
-            (typeof(global::Kinde.Api.Model.ReplaceLogoutRedirectURLsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls.Auth_logout_urlsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls.Auth_logout_urlsPostRequestBody), typeof(global::Kinde.Api.Model.ReplaceLogoutRedirectURLsRequest)),
-            (typeof(global::Kinde.Api.Model.ReplaceLogoutRedirectURLsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls.Auth_logout_urlsPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_logout_urls.Auth_logout_urlsPutRequestBody), typeof(global::Kinde.Api.Model.ReplaceLogoutRedirectURLsRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Not_found_response), typeof(global::Kinde.Api.Model.NotFoundResponse)),
-            (typeof(global::Kinde.Api.Model.NotFoundResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Not_found_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Not_found_response_errors), typeof(global::Kinde.Api.Model.NotFoundResponseErrors)),
-            (typeof(global::Kinde.Api.Model.NotFoundResponseErrors), typeof(global::Kinde.Api.Kiota.Management.Models.Not_found_response_errors)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_item_schema), typeof(global::Kinde.Api.Model.OrganizationItemSchema)),
-            (typeof(global::Kinde.Api.Model.OrganizationItemSchema), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_item_schema)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user), typeof(global::Kinde.Api.Model.OrganizationUser)),
-            (typeof(global::Kinde.Api.Model.OrganizationUser), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_permission), typeof(global::Kinde.Api.Model.OrganizationUserPermission)),
-            (typeof(global::Kinde.Api.Model.OrganizationUserPermission), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_permission)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_permission_roles), typeof(global::Kinde.Api.Model.OrganizationUserPermissionRolesInner)),
-            (typeof(global::Kinde.Api.Model.OrganizationUserPermissionRolesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_permission_roles)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_role), typeof(global::Kinde.Api.Model.OrganizationUserRole)),
-            (typeof(global::Kinde.Api.Model.OrganizationUserRole), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_user_role)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Permissions), typeof(global::Kinde.Api.Model.Permissions)),
-            (typeof(global::Kinde.Api.Model.Permissions), typeof(global::Kinde.Api.Kiota.Management.Models.Permissions)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Property), typeof(global::Kinde.Api.Model.Property)),
-            (typeof(global::Kinde.Api.Model.Property), typeof(global::Kinde.Api.Kiota.Management.Models.Property)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Property_value), typeof(global::Kinde.Api.Model.PropertyValue)),
-            (typeof(global::Kinde.Api.Model.PropertyValue), typeof(global::Kinde.Api.Kiota.Management.Models.Property_value)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Read_env_logo_response), typeof(global::Kinde.Api.Model.ReadEnvLogoResponse)),
-            (typeof(global::Kinde.Api.Model.ReadEnvLogoResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Read_env_logo_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Read_env_logo_response_logos), typeof(global::Kinde.Api.Model.ReadEnvLogoResponseLogosInner)),
-            (typeof(global::Kinde.Api.Model.ReadEnvLogoResponseLogosInner), typeof(global::Kinde.Api.Kiota.Management.Models.Read_env_logo_response_logos)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Read_logo_response), typeof(global::Kinde.Api.Model.ReadLogoResponse)),
-            (typeof(global::Kinde.Api.Model.ReadLogoResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Read_logo_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Read_logo_response_logos), typeof(global::Kinde.Api.Model.ReadLogoResponseLogosInner)),
-            (typeof(global::Kinde.Api.Model.ReadLogoResponseLogosInner), typeof(global::Kinde.Api.Kiota.Management.Models.Read_logo_response_logos)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Redirect_callback_urls), typeof(global::Kinde.Api.Model.RedirectCallbackUrls)),
-            (typeof(global::Kinde.Api.Model.RedirectCallbackUrls), typeof(global::Kinde.Api.Kiota.Management.Models.Redirect_callback_urls)),
-            (typeof(global::Kinde.Api.Model.ReplaceRedirectCallbackURLsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls.Auth_redirect_urlsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls.Auth_redirect_urlsPostRequestBody), typeof(global::Kinde.Api.Model.ReplaceRedirectCallbackURLsRequest)),
-            (typeof(global::Kinde.Api.Model.ReplaceRedirectCallbackURLsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls.Auth_redirect_urlsPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls.Auth_redirect_urlsPutRequestBody), typeof(global::Kinde.Api.Model.ReplaceRedirectCallbackURLsRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Role_permissions_response), typeof(global::Kinde.Api.Model.RolePermissionsResponse)),
-            (typeof(global::Kinde.Api.Model.RolePermissionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Role_permissions_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Role_scopes_response), typeof(global::Kinde.Api.Model.RoleScopesResponse)),
-            (typeof(global::Kinde.Api.Model.RoleScopesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Role_scopes_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Roles), typeof(global::Kinde.Api.Model.Roles)),
-            (typeof(global::Kinde.Api.Model.Roles), typeof(global::Kinde.Api.Kiota.Management.Models.Roles)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Rotate_api_key_response), typeof(global::Kinde.Api.Model.RotateApiKeyResponse)),
-            (typeof(global::Kinde.Api.Model.RotateApiKeyResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Rotate_api_key_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Rotate_api_key_response_api_key), typeof(global::Kinde.Api.Model.RotateApiKeyResponseApiKey)),
-            (typeof(global::Kinde.Api.Model.RotateApiKeyResponseApiKey), typeof(global::Kinde.Api.Kiota.Management.Models.Rotate_api_key_response_api_key)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Scopes), typeof(global::Kinde.Api.Model.Scopes)),
-            (typeof(global::Kinde.Api.Model.Scopes), typeof(global::Kinde.Api.Kiota.Management.Models.Scopes)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response), typeof(global::Kinde.Api.Model.SearchUsersResponse)),
-            (typeof(global::Kinde.Api.Model.SearchUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results), typeof(global::Kinde.Api.Model.SearchUsersResponseResultsInner)),
-            (typeof(global::Kinde.Api.Model.SearchUsersResponseResultsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results_api_scopes), typeof(global::Kinde.Api.Model.SearchUsersResponseResultsInnerApiScopesInner)),
-            (typeof(global::Kinde.Api.Model.SearchUsersResponseResultsInnerApiScopesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results_api_scopes)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results_identities), typeof(global::Kinde.Api.Model.UserIdentitiesInner)),
-            (typeof(global::Kinde.Api.Model.UserIdentitiesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Search_users_response_results_identities)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_directory_response), typeof(global::Kinde.Api.Model.CreateDirectoryResponse)),
-            (typeof(global::Kinde.Api.Model.CreateDirectoryResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_directory_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Delete_directory_response), typeof(global::Kinde.Api.Model.DeleteDirectoryResponse)),
-            (typeof(global::Kinde.Api.Model.DeleteDirectoryResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Delete_directory_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_directory_response), typeof(global::Kinde.Api.Model.UpdateDirectoryResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateDirectoryResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_directory_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_directories_response), typeof(global::Kinde.Api.Model.GetDirectoriesResponse)),
-            (typeof(global::Kinde.Api.Model.GetDirectoriesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_directories_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_directory_response), typeof(global::Kinde.Api.Model.GetDirectoryResponse)),
-            (typeof(global::Kinde.Api.Model.GetDirectoryResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_directory_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.DirectoryObject), typeof(global::Kinde.Api.Model.Directory)),
-            (typeof(global::Kinde.Api.Model.Directory), typeof(global::Kinde.Api.Kiota.Management.Models.DirectoryObject)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response), typeof(global::Kinde.Api.Model.CreateOrganizationInviteResponse)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationInviteResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response_invite), typeof(global::Kinde.Api.Model.CreateOrganizationInviteResponseInvite)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationInviteResponseInvite), typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response_invite)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invite_response), typeof(global::Kinde.Api.Model.GetOrganizationInviteResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationInviteResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invite_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invites_response), typeof(global::Kinde.Api.Model.GetOrganizationInvitesResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationInvitesResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invites_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invite_response_roles), typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_invite_response_roles)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response_invite_roles), typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Create_organization_invite_response_invite_roles)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_invite_roles), typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationInviteResponseRolesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_invite_roles)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_invite), typeof(global::Kinde.Api.Model.OrganizationInvite)),
-            (typeof(global::Kinde.Api.Model.OrganizationInvite), typeof(global::Kinde.Api.Kiota.Management.Models.Organization_invite)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_users_response), typeof(global::Kinde.Api.Model.GetOrganizationRoleUsersResponse)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationRoleUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_users_response_users), typeof(global::Kinde.Api.Model.GetOrganizationRoleUsersResponseUsersInner)),
-            (typeof(global::Kinde.Api.Model.GetOrganizationRoleUsersResponseUsersInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_users_response_users)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_users_response), typeof(global::Kinde.Api.Model.GetRoleUsersResponse)),
-            (typeof(global::Kinde.Api.Model.GetRoleUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_users_response_users), typeof(global::Kinde.Api.Model.GetRoleUsersResponseUsersInner)),
-            (typeof(global::Kinde.Api.Model.GetRoleUsersResponseUsersInner), typeof(global::Kinde.Api.Kiota.Management.Models.Get_role_users_response_users)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Subscriber), typeof(global::Kinde.Api.Model.Subscriber)),
-            (typeof(global::Kinde.Api.Model.Subscriber), typeof(global::Kinde.Api.Kiota.Management.Models.Subscriber)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Subscribers_subscriber), typeof(global::Kinde.Api.Model.SubscribersSubscriber)),
-            (typeof(global::Kinde.Api.Model.SubscribersSubscriber), typeof(global::Kinde.Api.Kiota.Management.Models.Subscribers_subscriber)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Success_response), typeof(global::Kinde.Api.Model.SuccessResponse)),
-            (typeof(global::Kinde.Api.Model.SuccessResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Success_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_environment_variable_response), typeof(global::Kinde.Api.Model.UpdateEnvironmentVariableResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateEnvironmentVariableResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_environment_variable_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_organization_users_response), typeof(global::Kinde.Api.Model.UpdateOrganizationUsersResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationUsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_organization_users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_role_permissions_response), typeof(global::Kinde.Api.Model.UpdateRolePermissionsResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateRolePermissionsResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_role_permissions_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_user_response), typeof(global::Kinde.Api.Model.UpdateUserResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateUserResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_user_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_webhook_response), typeof(global::Kinde.Api.Model.UpdateWebhookResponse)),
-            (typeof(global::Kinde.Api.Model.UpdateWebhookResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Update_webhook_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Update_webhook_response_webhook), typeof(global::Kinde.Api.Model.UpdateWebhookResponseWebhook)),
-            (typeof(global::Kinde.Api.Model.UpdateWebhookResponseWebhook), typeof(global::Kinde.Api.Kiota.Management.Models.Update_webhook_response_webhook)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.User), typeof(global::Kinde.Api.Model.User)),
-            (typeof(global::Kinde.Api.Model.User), typeof(global::Kinde.Api.Kiota.Management.Models.User)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.User_billing), typeof(global::Kinde.Api.Model.UserBilling)),
-            (typeof(global::Kinde.Api.Model.UserBilling), typeof(global::Kinde.Api.Kiota.Management.Models.User_billing)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.User_identities), typeof(global::Kinde.Api.Model.UserIdentitiesInner)),
-            (typeof(global::Kinde.Api.Model.UserIdentitiesInner), typeof(global::Kinde.Api.Kiota.Management.Models.User_identities)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.User_identity), typeof(global::Kinde.Api.Model.UserIdentity)),
-            (typeof(global::Kinde.Api.Model.UserIdentity), typeof(global::Kinde.Api.Kiota.Management.Models.User_identity)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.User_identity_result), typeof(global::Kinde.Api.Model.UserIdentityResult)),
-            (typeof(global::Kinde.Api.Model.UserIdentityResult), typeof(global::Kinde.Api.Kiota.Management.Models.User_identity_result)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response), typeof(global::Kinde.Api.Model.UsersResponse)),
-            (typeof(global::Kinde.Api.Model.UsersResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users), typeof(global::Kinde.Api.Model.UsersResponseUsersInner)),
-            (typeof(global::Kinde.Api.Model.UsersResponseUsersInner), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_billing), typeof(global::Kinde.Api.Model.UsersResponseUsersInnerBilling)),
-            (typeof(global::Kinde.Api.Model.UsersResponseUsersInnerBilling), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_billing)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_billing), typeof(global::Kinde.Api.Model.UserBilling)),
-            (typeof(global::Kinde.Api.Model.UserBilling), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_billing)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_identities), typeof(global::Kinde.Api.Model.UserIdentitiesInner)),
-            (typeof(global::Kinde.Api.Model.UserIdentitiesInner), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_identities)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins), typeof(global::Kinde.Api.Model.UsersResponseUsersInnerLastOrganizationSignInsInner)),
-            (typeof(global::Kinde.Api.Model.UsersResponseUsersInnerLastOrganizationSignInsInner), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users_last_organization_sign_ins)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Verify_api_key_response), typeof(global::Kinde.Api.Model.VerifyApiKeyResponse)),
-            (typeof(global::Kinde.Api.Model.VerifyApiKeyResponse), typeof(global::Kinde.Api.Kiota.Management.Models.Verify_api_key_response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Webhook), typeof(global::Kinde.Api.Model.Webhook)),
-            (typeof(global::Kinde.Api.Model.Webhook), typeof(global::Kinde.Api.Kiota.Management.Models.Webhook)),
-            (typeof(global::Kinde.Api.Model.AddRoleScopeRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.ScopesPostRequestBody), typeof(global::Kinde.Api.Model.AddRoleScopeRequest)),
-            (typeof(global::Kinde.Api.Model.CreateRoleRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.RolesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.RolesPostRequestBody), typeof(global::Kinde.Api.Model.CreateRoleRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateRolesRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.WithRole_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.WithRole_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateRolesRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateRolePermissionsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateRolePermissionsRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateRolePermissionsRequestPermissionsInner), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody_permissions)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Permissions.PermissionsPatchRequestBody_permissions), typeof(global::Kinde.Api.Model.UpdateRolePermissionsRequestPermissionsInner)),
-            (typeof(global::Kinde.Api.Model.CreateApplicationRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.ApplicationsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.ApplicationsPostRequestBody), typeof(global::Kinde.Api.Model.CreateApplicationRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateApplicationRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Application_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Application_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateApplicationRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateApplicationTokensRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Tokens.TokensPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Tokens.TokensPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateApplicationTokensRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateApplicationsPropertyRequestValue), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody.WithProperty_keyPutRequestBody_value), typeof(global::Kinde.Api.Model.UpdateApplicationsPropertyRequestValue)),
-            (typeof(global::Kinde.Api.Model.UpdateApplicationsPropertyRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Properties.Item.WithProperty_keyPutRequestBody), typeof(global::Kinde.Api.Model.UpdateApplicationsPropertyRequest)),
-            (typeof(global::Kinde.Api.Model.CreateBillingAgreementRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.AgreementsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.AgreementsPostRequestBody), typeof(global::Kinde.Api.Model.CreateBillingAgreementRequest)),
-            (typeof(global::Kinde.Api.Model.CreateMeterUsageRecordRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Billing.Meter_usage.Meter_usagePostRequestBody), typeof(global::Kinde.Api.Model.CreateMeterUsageRecordRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateBusinessRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Business.BusinessPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Business.BusinessPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateBusinessRequest)),
-            (typeof(global::Kinde.Api.Model.ReplaceMFARequest.EnabledFactorsEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody_enabled_factors), typeof(global::Kinde.Api.Model.ReplaceMFARequest.EnabledFactorsEnum)),
-            (typeof(global::Kinde.Api.Model.ReplaceOrganizationMFARequest.EnabledFactorsEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors), typeof(global::Kinde.Api.Model.ReplaceOrganizationMFARequest.EnabledFactorsEnum)),
-            (typeof(global::Kinde.Api.Model.ReplaceMFARequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Mfa.MfaPutRequestBody), typeof(global::Kinde.Api.Model.ReplaceMFARequest)),
-            (typeof(global::Kinde.Api.Model.ReplaceOrganizationMFARequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody), typeof(global::Kinde.Api.Model.ReplaceOrganizationMFARequest)),
-            (typeof(global::Kinde.Api.Model.AddAPIScopeRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.ScopesPostRequestBody), typeof(global::Kinde.Api.Model.AddAPIScopeRequest)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationUserRoleRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Roles.RolesPostRequestBody), typeof(global::Kinde.Api.Model.CreateOrganizationUserRoleRequest)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationUserPermissionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.Item.Permissions.PermissionsPostRequestBody), typeof(global::Kinde.Api.Model.CreateOrganizationUserPermissionRequest)),
-            (typeof(global::Kinde.Api.Model.CreateDirectoryRequest.ProviderCodeEnum), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody_provider_code), typeof(global::Kinde.Api.Model.CreateDirectoryRequest.ProviderCodeEnum)),
-            (typeof(global::Kinde.Api.Model.CreateDirectoryRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.DirectoriesPostRequestBody), typeof(global::Kinde.Api.Model.CreateDirectoryRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateDirectoryRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Directories.Item.WithDirectory_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateDirectoryRequest)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationInviteRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.InvitesPostRequestBody), typeof(global::Kinde.Api.Model.CreateOrganizationInviteRequest)),
-            (typeof(global::Kinde.Api.Model.CreateUserRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody), typeof(global::Kinde.Api.Model.CreateUserRequest)),
-            (typeof(global::Kinde.Api.Model.CreateUserRequestProfile), typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_profile)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_profile), typeof(global::Kinde.Api.Model.CreateUserRequestProfile)),
-            (typeof(global::Kinde.Api.Model.CreateUserRequestIdentitiesInner), typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_identities)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_identities), typeof(global::Kinde.Api.Model.CreateUserRequestIdentitiesInner)),
-            (typeof(global::Kinde.Api.Model.CreateUserRequestIdentitiesInnerDetails), typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_identities_details)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPostRequestBody_identities_details), typeof(global::Kinde.Api.Model.CreateUserRequestIdentitiesInnerDetails)),
-            (typeof(global::Kinde.Api.Model.UpdateUserRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.User.UserPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateUserRequest)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody), typeof(global::Kinde.Api.Model.CreateOrganizationRequest)),
-            (typeof(global::Kinde.Api.Model.AddOrganizationUsersRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody), typeof(global::Kinde.Api.Model.AddOrganizationUsersRequest)),
-            (typeof(global::Kinde.Api.Model.AddOrganizationUsersRequestUsersInner), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody_users)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPostRequestBody_users), typeof(global::Kinde.Api.Model.AddOrganizationUsersRequestUsersInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users), typeof(global::Kinde.Api.Model.User)),
-            (typeof(global::Kinde.Api.Model.User), typeof(global::Kinde.Api.Kiota.Management.Models.Users_response_users)),
-            (typeof(global::Kinde.Api.Model.CreateApiKeyRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Api_keys.Api_keysPostRequestBody), typeof(global::Kinde.Api.Model.CreateApiKeyRequest)),
-            (typeof(global::Kinde.Api.Model.VerifyApiKeyRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Api_keys.Verify.VerifyPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Api_keys.Verify.VerifyPostRequestBody), typeof(global::Kinde.Api.Model.VerifyApiKeyRequest)),
-            (typeof(global::Kinde.Api.Model.AddAPIsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.ApisPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.ApisPostRequestBody), typeof(global::Kinde.Api.Model.AddAPIsRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateAPIApplicationsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateAPIApplicationsRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateAPIApplicationsRequestApplicationsInner), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody_applications)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Applications.ApplicationsPatchRequestBody_applications), typeof(global::Kinde.Api.Model.UpdateAPIApplicationsRequestApplicationsInner)),
-            (typeof(global::Kinde.Api.Model.UpdateAPIScopeRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.Item.WithScope_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Apis.Item.Scopes.Item.WithScope_PatchRequestBody), typeof(global::Kinde.Api.Model.UpdateAPIScopeRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.WithOrg_codePatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.WithOrg_codePatchRequestBody), typeof(global::Kinde.Api.Model.UpdateOrganizationRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationPropertiesRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.PropertiesPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateOrganizationPropertiesRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationSessionsRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Sessions.SessionsPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Sessions.SessionsPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateOrganizationSessionsRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationUsersRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateOrganizationUsersRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationUsersRequestUsersInner), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody_users)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users.UsersPatchRequestBody_users), typeof(global::Kinde.Api.Model.UpdateOrganizationUsersRequestUsersInner)),
-            (typeof(global::Kinde.Api.Model.CreateUserIdentityRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities.IdentitiesPostRequestBody), typeof(global::Kinde.Api.Model.CreateUserIdentityRequest)),
-            (typeof(global::Kinde.Api.Model.SetUserPasswordRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody), typeof(global::Kinde.Api.Model.SetUserPasswordRequest)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationPropertiesRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties.PropertiesPatchRequestBody)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties.PropertiesPatchRequestBody), typeof(global::Kinde.Api.Model.UpdateOrganizationPropertiesRequest)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Application_access_role), typeof(global::Kinde.Api.Model.ApplicationAccessRole)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Application_native_app), typeof(global::Kinde.Api.Model.ApplicationNativeApp)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_user_billing_customer_response), typeof(global::Kinde.Api.Model.CreateUserBillingCustomerResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Create_user_billing_customer_response_billing_customer), typeof(global::Kinde.Api.Model.CreateUserBillingCustomerResponseBillingCustomer)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_application_scopes_response), typeof(global::Kinde.Api.Model.GetApiApplicationScopesResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_api_application_scopes_response_scopes), typeof(global::Kinde.Api.Model.GetApiApplicationScopesResponseScopesInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_application_access_roles_response), typeof(global::Kinde.Api.Model.GetApplicationAccessRolesResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response), typeof(global::Kinde.Api.Model.GetBillingMeterUsageResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_meter_usage_response_meter_usages), typeof(global::Kinde.Api.Model.GetBillingMeterUsageResponseMeterUsagesInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_one_time_purchases_response), typeof(global::Kinde.Api.Model.GetBillingOneTimePurchasesResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_one_time_purchases_response_feature_totals), typeof(global::Kinde.Api.Model.GetBillingOneTimePurchasesResponseFeatureTotalsInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_billing_one_time_purchases_response_one_time_purchases), typeof(global::Kinde.Api.Model.GetBillingOneTimePurchasesResponseOneTimePurchasesInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_permissions_response), typeof(global::Kinde.Api.Model.GetOrganizationPermissionsResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_permission_response), typeof(global::Kinde.Api.Model.GetOrganizationPermissionResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_roles_response), typeof(global::Kinde.Api.Model.GetOrganizationRolesResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_active_users_count_response), typeof(global::Kinde.Api.Model.GetOrganizationRoleActiveUsersCountResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_response), typeof(global::Kinde.Api.Model.GetOrganizationRoleResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Get_organization_role_users_count_response), typeof(global::Kinde.Api.Model.GetOrganizationRoleUsersCountResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Identities_response), typeof(global::Kinde.Api.Model.IdentitiesResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Identities_response_identities), typeof(global::Kinde.Api.Model.IdentitiesResponseIdentitiesInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_permission), typeof(global::Kinde.Api.Model.OrganizationPermission)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_role), typeof(global::Kinde.Api.Model.OrganizationRole)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Organization_role_permissions), typeof(global::Kinde.Api.Model.OrganizationRolePermissionsInner)),
-            (typeof(global::Kinde.Api.Kiota.Management.Models.Rotate_directory_secret_response), typeof(global::Kinde.Api.Model.RotateDirectorySecretResponse)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsGetResponse), typeof(global::Kinde.Api.Model.GetApplicationNativeApps200Response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsGetResponse_native_sign_in), typeof(global::Kinde.Api.Model.GetApplicationNativeApps200ResponseNativeSignIn)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsPostResponse), typeof(global::Kinde.Api.Model.CreateApplicationNativeApp201Response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.Item.WithAgreement_DeleteResponse), typeof(global::Kinde.Api.Model.DeleteBillingAgreement200Response)),
-            (typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse), typeof(global::Kinde.Api.Model.GetOrganizationMFA200Response)),
-            (typeof(global::Kinde.Api.Model.CreateApplicationNativeAppRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsPostRequestBody)),
-            (typeof(global::Kinde.Api.Model.UpdateApplicationNativeSignInRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_sign_in.Native_sign_inPutRequestBody)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationPermissionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.PermissionsPostRequestBody)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationPermissionRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.Item.WithPermission_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Model.CreateOrganizationRoleRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody)),
-            (typeof(global::Kinde.Api.Model.UpdateOrganizationRoleRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.Item.WithRole_PatchRequestBody)),
-            (typeof(global::Kinde.Api.Model.CreateUserBillingCustomerRequest), typeof(global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Billing_customer.Billing_customerPostRequestBody)),
+            (typeof(Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsGetResponse), typeof(Kinde.Api.Model.GetApplicationNativeApps200Response)),
+            (typeof(Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Native_apps.Native_appsPostResponse), typeof(Kinde.Api.Model.CreateApplicationNativeApp201Response)),
+            (typeof(Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.Item.WithAgreement_DeleteResponse), typeof(Kinde.Api.Model.DeleteBillingAgreement200Response)),
+            (typeof(Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaGetResponse), typeof(Kinde.Api.Model.GetOrganizationMFA200Response)),
         };
+
+        /// <summary>
+        /// Models the wrappers expose that have no Kiota counterpart, because those operations
+        /// still go through the OpenAPI client.
+        /// </summary>
+        internal static readonly IReadOnlyCollection<Type> WithoutKiotaCounterpart = new[]
+        {
+            typeof(Kinde.Api.Model.GetPasskeyResponse),
+            typeof(Kinde.Api.Model.UpdatePasskeyResponse),
+            typeof(Kinde.Api.Model.GetOrganizationPasskeyResponse),
+            typeof(Kinde.Api.Model.UpdateOrganizationPasskeyResponse),
+        };
+
+        private static readonly Lazy<IReadOnlyList<(Type Source, Type Destination)>> Discovered =
+            new Lazy<IReadOnlyList<(Type, Type)>>(Discover);
+
+        internal static IEnumerable<(Type Source, Type Destination)> Pairs => Discovered.Value;
+
+        /// <summary>Every SDK model that appears in the signature of a wrapper operation.</summary>
+        internal static IEnumerable<Type> ModelsOnTheApiSurface()
+        {
+            var assembly = typeof(Kinde.Api.Model.SuccessResponse).Assembly;
+
+            return assembly.GetTypes()
+                .Where(type => type.IsInterface && type.Namespace == "Kinde.Api.Api" && type.Name.EndsWith("ApiAsync"))
+                .SelectMany(api => api.GetMethods())
+                .Where(method => method.Name.EndsWith("Async") && !method.Name.Contains("WithHttpInfo"))
+                .SelectMany(method => method.GetParameters().Select(parameter => parameter.ParameterType)
+                    .Append(method.ReturnType.IsGenericType ? method.ReturnType.GetGenericArguments()[0] : method.ReturnType))
+                .Select(ElementOf)
+                .Where(type => IsSdkModel(type) && type.IsClass)
+                .Distinct();
+        }
+
+        private static IReadOnlyList<(Type, Type)> Discover()
+        {
+            var assembly = typeof(Kinde.Api.Model.SuccessResponse).Assembly;
+            var types = assembly.GetTypes().Where(type => type.IsClass).ToList();
+            var kiotaModels = types.Where(type => IsKiotaModel(type)).ToList();
+            var sdkModels = types.Where(IsSdkModel).ToList();
+
+            var found = new HashSet<(Type Kiota, Type Sdk)>();
+
+            foreach (var kiota in kiotaModels.Where(type => !type.IsNested))
+            {
+                foreach (var sdk in sdkModels.Where(candidate => Normalize(candidate.Name) == Normalize(kiota.Name)))
+                {
+                    found.Add((kiota, sdk));
+                }
+            }
+
+            found.UnionWith(ExplicitPairs);
+
+            // A request body has no name in common with its SDK request, but it is built from the
+            // same schema, so the two carry the same set of members.
+            var sdkMembers = sdkModels
+                .Where(type => type.Name.Contains("Request"))
+                .ToDictionary(type => type, MemberNames);
+
+            foreach (var kiota in kiotaModels.Where(type => type.Name.Contains("RequestBody")))
+            {
+                var members = MemberNames(kiota);
+                if (members.Length == 0)
+                {
+                    continue;
+                }
+
+                foreach (var sdk in sdkMembers.Where(entry => entry.Value.SequenceEqual(members)))
+                {
+                    if (SameKinds(kiota, sdk.Key))
+                    {
+                        found.Add((kiota, sdk.Key));
+                    }
+                }
+            }
+
+            // The mapper follows members by name, so each pair brings its nested pairs with it.
+            var pending = new Queue<(Type Kiota, Type Sdk)>(found);
+            while (pending.Count > 0)
+            {
+                var (kiota, sdk) = pending.Dequeue();
+                var sdkProperties = sdk.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .GroupBy(property => property.Name, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+
+                foreach (var property in kiota.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                {
+                    if (!sdkProperties.TryGetValue(property.Name, out var counterpart))
+                    {
+                        continue;
+                    }
+
+                    var nestedKiota = ElementOf(property.PropertyType);
+                    var nestedSdk = ElementOf(counterpart.PropertyType);
+                    if (IsKiotaModel(nestedKiota) && IsSdkModel(nestedSdk) && found.Add((nestedKiota, nestedSdk)))
+                    {
+                        pending.Enqueue((nestedKiota, nestedSdk));
+                    }
+                }
+            }
+
+            // A request converter is written for one direction only: nothing maps a request back.
+            var registered = Kinde.Api.Mappers.KindeMapperConfiguration.CreateRegistry()
+                .RegisteredConversions.ToHashSet();
+
+            return found
+                .OrderBy(pair => pair.Kiota.FullName, StringComparer.Ordinal)
+                .ThenBy(pair => pair.Sdk.FullName, StringComparer.Ordinal)
+                .SelectMany(pair => registered.Contains((pair.Sdk, pair.Kiota)) && !registered.Contains((pair.Kiota, pair.Sdk))
+                    ? new[] { (pair.Sdk, pair.Kiota) }
+                    : new[] { (pair.Kiota, pair.Sdk), (pair.Sdk, pair.Kiota) })
+                .ToList();
+        }
+
+        private enum Kind { Simple, Collection, Complex }
+
+        /// <summary>
+        /// Two types built from one schema agree on the kind of every shared member, which keeps a
+        /// single-member body such as <c>{ value }</c> from pairing with an unrelated one.
+        /// </summary>
+        private static bool SameKinds(Type kiota, Type sdk)
+        {
+            var sdkProperties = sdk.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(property => property.GetIndexParameters().Length == 0)
+                .ToDictionary(property => Normalize(property.Name), property => property.PropertyType);
+
+            return kiota.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(property => property.Name != "AdditionalData" && property.Name != "BackingStore")
+                .All(property => KindOf(property.PropertyType) == KindOf(sdkProperties[Normalize(property.Name)]));
+        }
+
+        private static Kind KindOf(Type type)
+        {
+            type = Nullable.GetUnderlyingType(type) ?? type;
+
+            if (type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal)
+                || type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(Guid))
+            {
+                return Kind.Simple;
+            }
+
+            return typeof(IEnumerable).IsAssignableFrom(type) && !type.GetInterfaces().Any(
+                       candidate => candidate.IsGenericType && candidate.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                ? Kind.Collection
+                : Kind.Complex;
+        }
+
+        private static bool IsKiotaModel(Type type) =>
+            type.IsClass && type.Namespace != null && type.Namespace.StartsWith(KiotaNamespace, StringComparison.Ordinal)
+            && typeof(IParsable).IsAssignableFrom(type);
+
+        private static bool IsSdkModel(Type type) =>
+            type.IsClass && type.Namespace != null
+            && (type.Namespace == "Kinde.Api.Model" || type.Namespace.StartsWith("Kinde.Api.Models", StringComparison.Ordinal));
+
+        private static string Normalize(string name) => name.Replace("_", string.Empty).ToLowerInvariant();
+
+        private static string[] MemberNames(Type type) =>
+            type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(property => property.GetIndexParameters().Length == 0)
+                .Select(property => property.Name)
+                .Where(name => name != "AdditionalData" && name != "BackingStore")
+                .Select(Normalize)
+                .OrderBy(name => name, StringComparer.Ordinal)
+                .ToArray();
+
+        /// <summary>The model inside a nullable, list or dictionary type.</summary>
+        private static Type ElementOf(Type type)
+        {
+            type = Nullable.GetUnderlyingType(type) ?? type;
+
+            return type.IsGenericType && type != typeof(string) && typeof(IEnumerable).IsAssignableFrom(type)
+                ? type.GetGenericArguments().Last()
+                : type;
+        }
     }
 }

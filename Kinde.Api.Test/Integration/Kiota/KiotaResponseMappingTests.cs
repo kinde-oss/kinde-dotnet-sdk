@@ -961,5 +961,120 @@ namespace Kinde.Api.Test.Integration.Kiota
         }
 
         #endregion
+
+        #region Free-form request objects
+
+        [Fact]
+        public async Task UpdateUserProperties_SendsEveryProperty()
+        {
+            _mockHandler.AddRawJsonResponse("PATCH", "/api/v1/users/kp_1/properties", SuccessJson);
+
+            await new UsersApi(_httpClient, _configuration).UpdateUserPropertiesAsync(
+                "kp_1",
+                new UpdateOrganizationPropertiesRequest(new Dictionary<string, object>
+                {
+                    ["kp_usr_city"] = "Paris",
+                    ["kp_usr_vip"] = true,
+                    ["kp_usr_visits"] = 3,
+                    ["kp_usr_unset"] = "",
+                    ["kp_usr_null"] = null,
+                }));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            var properties = body.RootElement.GetProperty("properties");
+            Assert.Equal("Paris", properties.GetProperty("kp_usr_city").GetString());
+            Assert.True(properties.GetProperty("kp_usr_vip").GetBoolean());
+            Assert.Equal(3, properties.GetProperty("kp_usr_visits").GetInt32());
+            Assert.Equal(string.Empty, properties.GetProperty("kp_usr_unset").GetString());
+            Assert.Equal(JsonValueKind.Null, properties.GetProperty("kp_usr_null").ValueKind);
+        }
+
+        [Fact]
+        public async Task UpdateOrganizationProperties_SendsEveryProperty_FromAnAnonymousObject()
+        {
+            _mockHandler.AddRawJsonResponse("PATCH", "/api/v1/organizations/org_123/properties", SuccessJson);
+
+            await new OrganizationsApi(_httpClient, _configuration).UpdateOrganizationPropertiesAsync(
+                "org_123",
+                new UpdateOrganizationPropertiesRequest(new { kp_org_industry = "retail", kp_org_beta = false }));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            var properties = body.RootElement.GetProperty("properties");
+            Assert.Equal("retail", properties.GetProperty("kp_org_industry").GetString());
+            Assert.False(properties.GetProperty("kp_org_beta").GetBoolean());
+        }
+
+        [Fact]
+        public async Task UpdateUserProperties_FromAJsonElement_SendsEveryProperty()
+        {
+            _mockHandler.AddRawJsonResponse("PATCH", "/api/v1/users/kp_1/properties", SuccessJson);
+            using var document = JsonDocument.Parse("""{ "kp_usr_city": "Paris", "kp_usr_visits": 3 }""");
+
+            await new UsersApi(_httpClient, _configuration).UpdateUserPropertiesAsync(
+                "kp_1", new UpdateOrganizationPropertiesRequest(document.RootElement.Clone()));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            var properties = body.RootElement.GetProperty("properties");
+            Assert.Equal("Paris", properties.GetProperty("kp_usr_city").GetString());
+            Assert.Equal(3, properties.GetProperty("kp_usr_visits").GetInt32());
+        }
+
+        [Fact]
+        public async Task UpdateUserProperties_WithAValueThatIsNotAnObject_FailsInsteadOfSendingNothing()
+        {
+            await Assert.ThrowsAsync<KindeMappingException>(() =>
+                new UsersApi(_httpClient, _configuration).UpdateUserPropertiesAsync(
+                    "kp_1", new UpdateOrganizationPropertiesRequest("not an object")));
+
+            Assert.Empty(_mockHandler.CapturedRequests);
+        }
+
+        [Fact]
+        public async Task CreateConnection_SendsUpstreamParams()
+        {
+            _mockHandler.AddRawJsonResponse("POST", "/api/v1/connections", SuccessJson, HttpStatusCode.Created);
+
+            await new ConnectionsApi(_httpClient, _configuration).CreateConnectionAsync(
+                new CreateConnectionRequest(
+                    name: "entra-id",
+                    displayName: "Entra ID",
+                    strategy: CreateConnectionRequest.StrategyEnum.Oauth2microsoft,
+                    options: new CreateConnectionRequestOptions(new CreateConnectionRequestOptionsOneOf1
+                    {
+                        ClientId = "entra-client",
+                        UpstreamParams = new Dictionary<string, object>
+                        {
+                            ["prompt"] = new Dictionary<string, object> { ["value"] = "select_account" },
+                        },
+                    })));
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            var prompt = body.RootElement.GetProperty("options").GetProperty("upstream_params").GetProperty("prompt");
+            Assert.Equal("select_account", prompt.GetProperty("value").GetString());
+        }
+
+        [Fact]
+        public async Task CreateOrganization_SendsFeatureFlags()
+        {
+            _mockHandler.AddRawJsonResponse(
+                "POST", "/api/v1/organization", """{ "code": "ORGANIZATION_CREATED", "message": "Created" }""", HttpStatusCode.Created);
+
+            await new OrganizationsApi(_httpClient, _configuration).CreateOrganizationAsync(
+                new CreateOrganizationRequest(name: "Acme")
+                {
+                    FeatureFlags = new Dictionary<string, CreateOrganizationRequest.InnerEnum>
+                    {
+                        ["theme"] = CreateOrganizationRequest.InnerEnum.Str,
+                        ["is_dark"] = CreateOrganizationRequest.InnerEnum.Bool,
+                    },
+                });
+
+            using var body = JsonDocument.Parse(SingleRequest().Body);
+            var flags = body.RootElement.GetProperty("feature_flags");
+            Assert.Equal("str", flags.GetProperty("theme").GetString());
+            Assert.Equal("bool", flags.GetProperty("is_dark").GetString());
+        }
+
+        #endregion
     }
 }

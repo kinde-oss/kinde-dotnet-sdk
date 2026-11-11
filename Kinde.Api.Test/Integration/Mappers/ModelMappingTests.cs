@@ -73,6 +73,46 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Null(exception);
         }
 
+        /// <summary>
+        /// A wrapper operation whose request or response model has no Kiota counterpart would be
+        /// mapped by name alone, dropping any field the two disagree on without an error.
+        /// </summary>
+        [Fact]
+        public void EveryModelOnTheApiSurface_HasAKiotaCounterpart()
+        {
+            var paired = ManagementMappingManifest.Pairs
+                .SelectMany(pair => new[] { pair.Source, pair.Destination })
+                .ToHashSet();
+
+            var unpaired = ManagementMappingManifest.ModelsOnTheApiSurface()
+                .Where(type => !paired.Contains(type) && !ManagementMappingManifest.WithoutKiotaCounterpart.Contains(type))
+                .Select(type => type.Name)
+                .OrderBy(name => name)
+                .ToList();
+
+            Assert.True(
+                unpaired.Count == 0,
+                "No Kiota counterpart was found for: " + string.Join(", ", unpaired)
+                + ". Add the pair to ExplicitPairs in ManagementMappingManifest.");
+        }
+
+        [Fact]
+        public void ModelsListedAsWithoutAKiotaCounterpart_ReallyHaveNone()
+        {
+            var paired = ManagementMappingManifest.Pairs
+                .SelectMany(pair => new[] { pair.Source, pair.Destination })
+                .ToHashSet();
+
+            var nowPaired = ManagementMappingManifest.WithoutKiotaCounterpart
+                .Where(paired.Contains)
+                .Select(type => type.Name)
+                .ToList();
+
+            Assert.True(
+                nowPaired.Count == 0,
+                "These now have a Kiota counterpart; remove them from WithoutKiotaCounterpart: " + string.Join(", ", nowPaired));
+        }
+
         public static IEnumerable<object[]> AllDeclaredMappings() =>
             ManagementMappingManifest.Pairs
                 .Concat(AccountsMappingManifest.Pairs)
@@ -351,6 +391,16 @@ namespace Kinde.Api.Test.Integration.Mappers
 
             Assert.NotNull(result);
             Assert.Empty(result);
+        }
+
+        [Fact]
+        public void Mapping_PlainDictionarySource_CopiesEveryEntry()
+        {
+            var source = new Dictionary<string, string> { ["a"] = "1", ["b"] = "2" };
+
+            var result = _mapper.Map<Dictionary<string, string>>(source);
+
+            Assert.Equal(source, result);
         }
 
         /// <summary>

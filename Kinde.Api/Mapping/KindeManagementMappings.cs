@@ -1,6 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Kinde.Api.Model;
 using Microsoft.Kiota.Abstractions.Serialization;
 using KiotaModels = Kinde.Api.Kiota.Management.Models;
@@ -10,6 +15,8 @@ using AppProperties = Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Proper
 using Directories = Kinde.Api.Kiota.Management.Api.V1.Directories;
 using Mfa = Kinde.Api.Kiota.Management.Api.V1.Mfa;
 using OrgMfa = Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa;
+using OrgProperties = Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties;
+using UserProperties = Kinde.Api.Kiota.Management.Api.V1.Users.Item.Properties;
 
 namespace Kinde.Api.Mapping
 {
@@ -24,6 +31,7 @@ namespace Kinde.Api.Mapping
             RegisterConnectionOptions(registry);
             RegisterEnumBridges(registry);
             RegisterDynamicKeyedResponses(registry);
+            RegisterDynamicKeyedRequests(registry);
             RegisterPropertyValueUnion(registry);
             RegisterOrganization(registry);
             RegisterIgnoredMembers(registry);
@@ -257,6 +265,185 @@ namespace Kinde.Api.Mapping
         }
 
         /// <summary>
+        /// Free-form request objects. Kiota stores their entries in AdditionalData, which name
+        /// matching never fills, so without these the object is sent empty or not at all.
+        /// </summary>
+        private static void RegisterDynamicKeyedRequests(KindeMappingRegistry registry)
+        {
+            registry.Convert<UpdateOrganizationPropertiesRequest, OrgProperties.PropertiesPatchRequestBody>(
+                source =>
+                {
+                    var destination = new OrgProperties.PropertiesPatchRequestBody();
+                    if (source.Properties is not null)
+                    {
+                        destination.Properties = new OrgProperties.PropertiesPatchRequestBody_properties
+                        {
+                            AdditionalData = ToAdditionalData(source.Properties),
+                        };
+                    }
+
+                    return destination;
+                });
+
+            registry.Convert<UpdateOrganizationPropertiesRequest, UserProperties.PropertiesPatchRequestBody>(
+                source =>
+                {
+                    var destination = new UserProperties.PropertiesPatchRequestBody();
+                    if (source.Properties is not null)
+                    {
+                        destination.Properties = new UserProperties.PropertiesPatchRequestBody_properties
+                        {
+                            AdditionalData = ToAdditionalData(source.Properties),
+                        };
+                    }
+
+                    return destination;
+                });
+
+            registry.Convert<Dictionary<string, CreateOrganizationRequest.InnerEnum>,
+                Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody_feature_flags>(
+                source => new Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody_feature_flags
+                {
+                    AdditionalData = ToAdditionalData(source),
+                });
+
+            RegisterUpstreamParams<PostConnections.ConnectionsPostRequestBody_optionsMember2_upstream_params>(registry);
+            RegisterUpstreamParams<PostConnections.ConnectionsPostRequestBody_optionsMember3_upstream_params>(registry);
+            RegisterUpstreamParams<PutConnection.WithConnection_PutRequestBody_optionsMember2_upstream_params>(registry);
+            RegisterUpstreamParams<PutConnection.WithConnection_PutRequestBody_optionsMember3_upstream_params>(registry);
+            RegisterUpstreamParams<PutConnection.WithConnection_PatchRequestBody_optionsMember2_upstream_params>(registry);
+            RegisterUpstreamParams<PutConnection.WithConnection_PatchRequestBody_optionsMember3_upstream_params>(registry);
+        }
+
+        private static void RegisterUpstreamParams<TWrapper>(KindeMappingRegistry registry)
+            where TWrapper : IAdditionalDataHolder, new()
+        {
+            registry.Convert<Dictionary<string, object>, TWrapper>(
+                source => new TWrapper { AdditionalData = ToAdditionalData(source) });
+        }
+
+        /// <summary>
+        /// Turns a free-form object (a dictionary, an anonymous object, a Json.NET or System.Text.Json
+        /// value) into the entries of a Kiota additionalProperties wrapper. Nested values become
+        /// untyped nodes, which the Kiota JSON writer serializes as written.
+        /// </summary>
+        private static IDictionary<string, object> ToAdditionalData(object source)
+        {
+            if (ToUntyped(source, 0) is not UntypedObject members)
+            {
+                throw new KindeMappingException(
+                    $"Expected a set of key/value pairs but got '{source.GetType().FullName}'. "
+                    + "Pass a dictionary, an anonymous object or a JSON object.");
+            }
+
+            return members.GetValue().ToDictionary(entry => entry.Key, entry => (object)entry.Value);
+        }
+
+        /// <summary>How deep a free-form value may nest before it is taken to be a cycle.</summary>
+        private const int MaxFreeFormDepth = 32;
+
+        private static UntypedNode ToUntyped(object value, int depth)
+        {
+            if (depth > MaxFreeFormDepth)
+            {
+                throw new KindeMappingException(
+                    $"A free-form value nests deeper than {MaxFreeFormDepth} levels. It most likely refers back to itself.");
+            }
+
+            switch (value)
+            {
+                case null:
+                    return new UntypedNull();
+                case UntypedNode node:
+                    return node;
+                case string text:
+                    return new UntypedString(text);
+                case bool flag:
+                    return new UntypedBoolean(flag);
+                case byte or sbyte or short or ushort or int:
+                    return new UntypedInteger(System.Convert.ToInt32(value, CultureInfo.InvariantCulture));
+                case uint or long:
+                    return new UntypedLong(System.Convert.ToInt64(value, CultureInfo.InvariantCulture));
+                case ulong large:
+                    return large <= long.MaxValue
+                        ? new UntypedLong((long)large)
+                        : new UntypedDecimal(large);
+                case float number:
+                    return new UntypedFloat(number);
+                case double number:
+                    return new UntypedDouble(number);
+                case decimal number:
+                    return new UntypedDecimal(number);
+                case Enum member:
+                    return new UntypedString(KindeValueConverter.GetWireName(member) ?? member.ToString());
+                case DateTime moment:
+                    return new UntypedString(moment.ToString("o", CultureInfo.InvariantCulture));
+                case DateTimeOffset moment:
+                    return new UntypedString(moment.ToString("o", CultureInfo.InvariantCulture));
+                case JsonElement element:
+                    return FromJsonElement(element);
+                case JsonNode jsonNode:
+                    using (var document = JsonDocument.Parse(jsonNode.ToJsonString()))
+                    {
+                        return FromJsonElement(document.RootElement);
+                    }
+                case Newtonsoft.Json.Linq.JToken token:
+                    using (var document = JsonDocument.Parse(token.ToString(Newtonsoft.Json.Formatting.None)))
+                    {
+                        return FromJsonElement(document.RootElement);
+                    }
+                case Guid or TimeSpan or Uri or char:
+                    return new UntypedString(value.ToString());
+            }
+
+            if (KindeMapper.TryGetEntries(value, out var entries))
+            {
+                return new UntypedObject(entries.ToDictionary(
+                    entry => System.Convert.ToString(entry.Key, CultureInfo.InvariantCulture),
+                    entry => ToUntyped(entry.Value, depth + 1)));
+            }
+
+            if (value is IEnumerable items)
+            {
+                return new UntypedArray(items.Cast<object>().Select(item => ToUntyped(item, depth + 1)).ToList());
+            }
+
+            return new UntypedObject(value.GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(property => property.GetIndexParameters().Length == 0 && property.GetGetMethod() != null)
+                .ToDictionary(property => property.Name, property => ToUntyped(property.GetValue(value), depth + 1)));
+        }
+
+        private static UntypedNode FromJsonElement(JsonElement element)
+        {
+            switch (element.ValueKind)
+            {
+                case JsonValueKind.Object:
+                    return new UntypedObject(element.EnumerateObject()
+                        .ToDictionary(member => member.Name, member => FromJsonElement(member.Value)));
+                case JsonValueKind.Array:
+                    return new UntypedArray(element.EnumerateArray().Select(FromJsonElement).ToList());
+                case JsonValueKind.String:
+                    return new UntypedString(element.GetString());
+                case JsonValueKind.True:
+                    return new UntypedBoolean(true);
+                case JsonValueKind.False:
+                    return new UntypedBoolean(false);
+                case JsonValueKind.Number:
+                    if (element.TryGetInt32(out var integer))
+                    {
+                        return new UntypedInteger(integer);
+                    }
+
+                    return element.TryGetInt64(out var wide)
+                        ? new UntypedLong(wide)
+                        : new UntypedDouble(element.GetDouble());
+                default:
+                    return new UntypedNull();
+            }
+        }
+
+        /// <summary>
         /// An application property value is a <c>oneOf</c> of boolean and string.
         /// </summary>
         private static void RegisterPropertyValueUnion(KindeMappingRegistry registry)
@@ -355,7 +542,6 @@ namespace Kinde.Api.Mapping
                 .Ignore<CreateCategoryRequest, Kiota.Management.Api.V1.Property_categories.Property_categoriesPostRequestBody>("Context")
                 .Ignore<CreatePropertyRequest, Kiota.Management.Api.V1.Properties.PropertiesPostRequestBody>("Context", "Type")
                 .Ignore<CreateFeatureFlagRequest, Kiota.Management.Api.V1.Feature_flags.Feature_flagsPostRequestBody>("Type", "AllowOverrideLevel")
-                .Ignore<CreateOrganizationRequest, Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody>("FeatureFlags")
                 .Ignore<Kiota.Management.Api.V1.Organization.OrganizationPostRequestBody, CreateOrganizationRequest>("FeatureFlags");
         }
 
